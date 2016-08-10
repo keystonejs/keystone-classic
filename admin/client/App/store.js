@@ -46,9 +46,8 @@ store.subscribe(() => {
 	// Get all the necessary data
 	const state = store.getState();
 	const list = state.lists.currentList;
-	const items = state.lists.items;
 	// If we aren't on a list, or haven't loaded any items yet don't do anything
-	if (!list || items.count < 1) return;
+	if (!list) return;
 	const search = state.active.search;
 	const location = state.routing.locationBeforeTransitions;
 
@@ -80,6 +79,7 @@ store.subscribe(() => {
 	// parameter
 	// This check is important because updateQueryParams dispatches an action
 	// so this would be an endless loop if we didn't check this
+
 	if (page !== cachedPage
 		|| columns !== cachedColumns
 		|| sort !== cachedSort
@@ -126,6 +126,7 @@ function updateQueryParams (params, shouldReplace, location) {
 			delete newParams[i];
 		}
 	});
+
 	// If we want to replace in the history, dispatch the react-router-redux
 	// replace action with the new query
 	if (shouldReplace) {

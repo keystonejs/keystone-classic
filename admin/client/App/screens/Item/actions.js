@@ -23,15 +23,30 @@ export function selectItem (itemId) {
  */
 export function loadItemData () {
 	return (dispatch, getState) => {
+		// Hold on to the id of the item we currently want to load.
+		// Dispatch this reference to our redux store to hold on to as a 'loadingRef'.
+		const currentItemID = getState().item.id;
 		dispatch({
 			type: LOAD_DATA,
 		});
 		const state = getState();
 		const list = state.lists.currentList;
+
+		// const itemID = state.item.id;
 		// Load a specific item with the utils/List.js helper
 		list.loadItem(state.item.id, { drilldown: true }, (err, itemData) => {
+
+			// Once this async request has fired this callback, check that
+			// the item id referenced by thisLoadRef is the same id
+			// referenced by loadingRef in the redux store.
+
+			// If it is, then this is the latest request, and it is safe to resolve it normally.
+			// If it is not the same id however,
+			// this means that this request is NOT the latest fired request,
+			// and so we'll bail out of it early.
+
+			if (getState().item.id !== currentItemID) return;
 			if (err || !itemData) {
-				console.log('Error loading item data', err);
 				dispatch(dataLoadingError(err));
 			} else {
 				dispatch(dataLoaded(itemData));
@@ -48,6 +63,7 @@ export function loadItemData () {
 export function dataLoaded (data) {
 	return {
 		type: DATA_LOADING_SUCCESS,
+		loadingRef: null,
 		data,
 	};
 }
@@ -61,6 +77,7 @@ export function dataLoaded (data) {
 export function dataLoadingError (err) {
 	return {
 		type: DATA_LOADING_ERROR,
+		loadingRef: null,
 		error: err,
 	};
 }
@@ -84,7 +101,6 @@ export function deleteItem (id, router) {
 			// TODO Proper error handling
 			if (err) {
 				alert('Error deleting item, please try again!');
-				console.log(err);
 			} else {
 				dispatch({
 					type: DELETE_ITEM,

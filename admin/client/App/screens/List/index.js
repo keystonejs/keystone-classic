@@ -97,6 +97,7 @@ const ListView = React.createClass({
 		// We've opened a new list from the client side routing, so initialize
 		// again with the new list id
 		if (nextProps.params.listId !== this.props.params.listId) {
+			this.setState({ searchString: '' });
 			this.initializeList(nextProps.params.listId);
 			this.loadItems();
 		}
@@ -183,7 +184,9 @@ const ListView = React.createClass({
 		}
 	},
 	handlePageSelect (i) {
-		this.props.dispatch(setCurrentPage(i));
+		// If the current page index is the same as the index we are intending to pass to redux, bail out.
+		if (i === this.props.lists.page.index) return;
+		return this.props.dispatch(setCurrentPage(i));
 	},
 	toggleManageMode (filter = !this.state.manageMode) {
 		this.setState({
@@ -232,8 +235,22 @@ const ListView = React.createClass({
 		});
 		return (
 			<InputGroup.Section grow className="ListHeader__search">
-				<FormInput ref="listSearchInput" value={this.state.searchString} onChange={this.updateSearch} onKeyUp={this.handleSearchKey} placeholder="Search" className="ListHeader__searchbar-input" />
-				<button ref="listSearchClear" type="button" title="Clear search query" onClick={this.handleSearchClear} disabled={!this.state.searchString.length} className={searchClearIcon} />
+				<FormInput
+					ref="listSearchInput"
+					value={this.state.searchString}
+					onChange={this.updateSearch}
+					onKeyUp={this.handleSearchKey}
+					placeholder="Search"
+					className="ListHeader__searchbar-input"
+				/>
+				<button
+					ref="listSearchClear"
+					type="button"
+					title="Clear search query"
+					onClick={this.handleSearchClear}
+					disabled={!this.state.searchString.length}
+					className={searchClearIcon}
+				/>
 			</InputGroup.Section>
 		);
 	},
