@@ -57,10 +57,7 @@ cloudinaryimages.prototype.getFolder = function () {
 		if (typeof this.options.folder === 'string') {
 			folder = this.options.folder;
 		} else {
-			var folderList = keystone.get('cloudinary prefix') ? [keystone.get('cloudinary prefix')] : [];
-			folderList.push(this.list.path);
-			folderList.push(this.path);
-			folder = folderList.join('/');
+			folder = this.list.path + '/' + this.path;
 		}
 	}
 
