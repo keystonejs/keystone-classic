@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
-import { InputGroup } from 'elemental';
-import { Button, InlineGroup as Group, InlineGroupSection as Section, FormInput } from '../../../elemental';
+import { Button, InlineGroup as Group, InlineGroupSection as Section } from '../../../elemental';
 
 function ListManagement ({
 	checkedItemCount,
