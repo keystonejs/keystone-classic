@@ -5,6 +5,7 @@ import { Button } from '../../../admin/client/App/elemental';
 import Lightbox from '../../components/Lightbox';
 import cloudinaryResize from '../../../admin/client/utils/cloudinaryResize';
 import Thumbnail from './CloudinaryImagesThumbnail';
+import HiddenFileInput from '../../components/HiddenFileInput';
 import FileChangeMessage from '../../components/FileChangeMessage';
 
 const SUPPORTED_TYPES = ['image/*', 'application/pdf', 'application/postscript'];
@@ -43,14 +44,11 @@ module.exports = Field.create({
 	// HELPERS
 	// ==============================
 
-	changeImage () {
-		this.fileFieldNode().click();
-	},
-	fileFieldNode () {
-		return this.refs.fileField;
+	triggerFileBrowser () {
+		this.refs.fileInput.clickDomNode();
 	},
 	hasFiles () {
-		return this.refs.fileField && this.fileFieldNode().value;
+		return this.refs.fileInput && this.refs.fileInput.hasValue();
 	},
 	openLightbox (index) {
 		event.preventDefault();
@@ -113,7 +111,7 @@ module.exports = Field.create({
 		return count;
 	},
 	clearFiles () {
-		this.fileFieldNode().value = '';
+		this.refs.fileInput.clearValue();
 
 		this.setState({
 			thumbnails: this.state.thumbnails.filter(function (thumb) {
@@ -158,15 +156,12 @@ module.exports = Field.create({
 		if (!this.shouldRenderField()) return null;
 
 		return (
-			<input
+			<HiddenFileInput
 				accept={SUPPORTED_TYPES.join()}
-				ref="fileField"
-				type="file"
+				ref="fileInput"
 				name={this.getInputName(this.props.paths.upload)}
 				multiple
-				className="field-upload"
 				onChange={this.uploadFile}
-				tabIndex="-1"
 			/>
 		);
 	},
@@ -224,7 +219,7 @@ module.exports = Field.create({
 
 		return (
 			<div style={toolbarStyles}>
-				<Button onClick={this.changeImage} style={uploadButtonStyles}>
+				<Button onClick={this.triggerFileBrowser} style={uploadButtonStyles}>
 					Upload Images
 				</Button>
 				{this.hasFiles() && (
@@ -262,7 +257,6 @@ module.exports = Field.create({
 
 		return (
 			<input
-				className="field-uploads"
 				name={this.getInputName(this.props.paths.uploads)}
 				ref="uploads"
 				type="hidden"
