@@ -57,10 +57,7 @@ cloudinaryimages.prototype.getFolder = function () {
 		if (typeof this.options.folder === 'string') {
 			folder = this.options.folder;
 		} else {
-			var folderList = keystone.get('cloudinary prefix') ? [keystone.get('cloudinary prefix')] : [];
-			folderList.push(this.list.path);
-			folderList.push(this.path);
-			folder = folderList.join('/');
+			folder = this.list.path + '/' + this.path;
 		}
 	}
 
@@ -242,24 +239,30 @@ cloudinaryimages.prototype.updateItem = function (item, data, callback) {
 		values = [values];
 	}
 
-	// Precalc these options, it's inefficient when not uploading images but
-	// avoids recalculating them on each iteration in the map below
-	// TODO: is this worth optimising?
-	var tagPrefix = keystone.get('cloudinary prefix') || '';
-	var uploadOptions = {
-		tags: [],
-	};
-	if (tagPrefix.length) {
-		uploadOptions.tags.push(tagPrefix);
-		tagPrefix += '_';
-	}
-	uploadOptions.tags.push(tagPrefix + field.list.path + '_' + field.path);
-	if (keystone.get('env') !== 'production') {
-		uploadOptions.tags.push(tagPrefix + 'dev');
-	}
-	var folder = this.getFolder();
-	if (folder) {
-		uploadOptions.folder = folder;
+	// We cache options to avoid recalculating them on each iteration in the map below
+	var cachedUploadOptions;
+	function getUploadOptions () {
+		if (cachedUploadOptions) {
+			return cachedUploadOptions;
+		}
+		var tagPrefix = keystone.get('cloudinary prefix') || '';
+		var uploadOptions = {
+			tags: [],
+		};
+		if (tagPrefix.length) {
+			uploadOptions.tags.push(tagPrefix);
+			tagPrefix += '_';
+		}
+		uploadOptions.tags.push(tagPrefix + field.list.path + '_' + field.path);
+		if (keystone.get('env') !== 'production') {
+			uploadOptions.tags.push(tagPrefix + 'dev');
+		}
+		var folder = this.getFolder();
+		if (folder) {
+			uploadOptions.folder = folder;
+		}
+		cachedUploadOptions = uploadOptions;
+		return uploadOptions;
 	}
 
 	async.map(values, function (value, next) {
@@ -293,6 +296,7 @@ cloudinaryimages.prototype.updateItem = function (item, data, callback) {
 			}
 		} else if (typeof value === 'object' && value.path) {
 			// File provided - upload it
+			var uploadOptions = getUploadOptions();
 			// NOTE: field.options.publicID has been deprecated (tbc)
 			if (field.options.filenameAsPublicID && value.originalname && typeof value.originalname === 'string') {
 				uploadOptions = assign({}, uploadOptions, {
