@@ -317,6 +317,15 @@ exports.testFieldType = function (List) {
 			});
 		});
 
+		it('should invalidate password longer than 256 characters', function (done) {
+			List.fields.password.validateInput({
+				password: 'CheckOutThisRidiculouslyLongPasswordLoremipsumdolorsitametconsecteturadipiscingelitPraesentetnibhpretiumvestibulumdoloratsuscipitmiClassaptenttacitisociosquadlitoratorquentperconubianostraperinceptoshimenaeosIntegerquisduinonnuncegestaspretiumeuetanteInplaceratacmisitametsollicitudin',
+			}, function (result) {
+				demand(result).be.false();
+				done();
+			});
+		});
+
 		it('should invalidate password with no digits when digits are required', function (done) {
 			List.fields.digitChar.validateInput({
 				digitChar: 'nodigits',
