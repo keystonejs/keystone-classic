@@ -13,7 +13,7 @@ import { Button } from '../../../admin/client/App/elemental';
 import ImageThumbnail from '../../components/ImageThumbnail';
 import FileChangeMessage from '../../components/FileChangeMessage';
 import HiddenFileInput from '../../components/HiddenFileInput';
-import Lightbox from '../../components/Lightbox';
+import Lightbox from 'react-images';
 
 const SUPPORTED_TYPES = ['image/*', 'application/pdf', 'application/postscript'];
 const SUPPORTED_REGEX = new RegExp(/^image\/|application\/pdf|application\/postscript/g);
@@ -185,9 +185,9 @@ module.exports = Field.create({
 		return (
 			<Lightbox
 				images={[this.getImageSource(600)]}
-				initialImage={0}
+				currentImage={0}
 				isOpen={this.state.lightboxIsVisible}
-				onCancel={this.closeLightbox}
+				onClose={this.closeLightbox}
 			/>
 		);
 	},

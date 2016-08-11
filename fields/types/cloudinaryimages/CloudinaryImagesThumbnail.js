@@ -50,7 +50,7 @@ function CloudinaryImagesThumbnail ({
 
 CloudinaryImagesThumbnail.propTypes = {
 	imageSourceLarge: PropTypes.string,
-	imageSourceSmall: PropTypes.string,
+	imageSourceSmall: PropTypes.string.isRequired,
 	isDeleted: PropTypes.bool,
 	isQueued: PropTypes.bool,
 	openLightbox: PropTypes.func.isRequired,

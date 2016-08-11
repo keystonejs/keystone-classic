@@ -2,7 +2,7 @@ import React, { cloneElement } from 'react';
 import Field from '../Field';
 import { FormField, FormNote } from 'elemental';
 import { Button } from '../../../admin/client/App/elemental';
-import Lightbox from '../../components/Lightbox';
+import Lightbox from 'react-images';
 import cloudinaryResize from '../../../admin/client/utils/cloudinaryResize';
 import Thumbnail from './CloudinaryImagesThumbnail';
 import HiddenFileInput from '../../components/HiddenFileInput';
@@ -50,7 +50,7 @@ module.exports = Field.create({
 	hasFiles () {
 		return this.refs.fileInput && this.refs.fileInput.hasValue();
 	},
-	openLightbox (index) {
+	openLightbox (event, index) {
 		event.preventDefault();
 		this.setState({
 			lightboxIsVisible: true,
@@ -61,6 +61,16 @@ module.exports = Field.create({
 		this.setState({
 			lightboxIsVisible: false,
 			lightboxImageIndex: null,
+		});
+	},
+	lightboxPrevious () {
+		this.setState({
+			lightboxImageIndex: this.state.lightboxImageIndex - 1,
+		});
+	},
+	lightboxNext () {
+		this.setState({
+			lightboxImageIndex: this.state.lightboxImageIndex + 1,
 		});
 	},
 
@@ -94,7 +104,7 @@ module.exports = Field.create({
 		thumbs.push(
 			<Thumbnail
 				key={i}
-				openLightbox={this.openLightbox.bind(this, i)}
+				openLightbox={(e) => this.openLightbox(e, i)}
 				shouldRenderActionButton={this.shouldRenderField()}
 				toggleDelete={this.removeThumbnail.bind(this, i)}
 				{...args}
@@ -169,18 +179,22 @@ module.exports = Field.create({
 		const { value } = this.props;
 		if (!value || !value.length) return;
 
-		const images = value.map(image => cloudinaryResize(image.public_id, {
-			...RESIZE_DEFAULTS,
-			height: 600,
-			width: 900,
+		const images = value.map(image => ({
+			src: cloudinaryResize(image.public_id, {
+				...RESIZE_DEFAULTS,
+				height: 600,
+				width: 900,
+			}),
 		}));
 
 		return (
 			<Lightbox
 				images={images}
-				initialImage={this.state.lightboxImageIndex}
+				currentImage={this.state.lightboxImageIndex}
 				isOpen={this.state.lightboxIsVisible}
-				onCancel={this.closeLightbox}
+				onClickPrev={this.lightboxPrevious}
+				onClickNext={this.lightboxNext}
+				onClose={this.closeLightbox}
 			/>
 		);
 	},
