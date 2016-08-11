@@ -1,6 +1,9 @@
 // ==============================
-// Button Group
+// Inline Group
 // ==============================
+
+// Takes only FormInput and Button as children, rendering them as a
+// tidy inline array
 
 import { borderLeftRadius, borderRightRadius } from '../../../utils/css';
 import theme from '../../../theme';

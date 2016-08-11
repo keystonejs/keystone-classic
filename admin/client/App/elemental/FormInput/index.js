@@ -1,27 +1,21 @@
-import classnames from 'classnames';
-import React, { Component, PropTypes } from 'react';
-import { StyleSheet, css } from 'aphrodite/no-important';
+import React, { PropTypes } from 'react';
+import { css, StyleSheet } from 'aphrodite/no-important';
 import styles from './styles';
+import concatClassnames from '../../../utils/concatClassnames';
 
 const classes = StyleSheet.create(styles);
 
-class FormInput extends Component {
-	render () {
-		const { formFieldId, formLayout } = this.context;
-		const { className, id } = this.props;
-		let consumedProps = Object.assign({}, this.props);
-		consumedProps.id = id || formFieldId;
+function FormInput ({ className, id, ...props }, { formFieldId, formLayout }) {
+	props.id = id || formFieldId;
+	props.className = css(
+		classes.FormInput,
+		formLayout ? classes['FormInput--form-layout-' + formLayout] : null,
+		...concatClassnames(className)
+	);
 
-		consumedProps.className = classnames(
-			css(classes.FormInput), {
-				[css(classes['FormInput--form-layout-' + formLayout])]: formLayout,
-			}, className
-		);
-
-		return (
-			<input {...consumedProps} />
-		);
-	}
+	return (
+		<input {...props} />
+	);
 };
 
 

@@ -1,6 +1,7 @@
 import { css, StyleSheet } from 'aphrodite/no-important';
 import React, { PropTypes } from 'react';
 import styles from './styles';
+import concatClassnames from '../../../utils/concatClassnames';
 
 const commonClasses = StyleSheet.create(styles.common);
 const stylesheetCache = {};
@@ -28,13 +29,6 @@ function Button ({
 	variant,
 	...props,
 }) {
-	// Support Arrays of Classnames
-	//
-	// force classname prop into an array (possibly of arrays) then flatten.
-	// this array of objects is spread into the `css` function
-	const classNameArray = [className].reduce((a, b) => {
-		return a.concat(b);
-	}, []);
 
 	// get the styles
 	const variantClasses = getStyleSheet(variant, color);
@@ -42,10 +36,10 @@ function Button ({
 		commonClasses.base,
 		commonClasses[size],
 		variantClasses.base,
-		active ? variantClasses.active : null,
 		block ? commonClasses.block : null,
 		disabled ? commonClasses.disabled : null,
-		...classNameArray
+		active ? variantClasses.active : null,
+		...concatClassnames(className)
 	);
 
 	// return an anchor or button
