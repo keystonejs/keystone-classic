@@ -8,6 +8,12 @@ exports.initList = function (List) {
 			type: PasswordType,
 			min: 6,
 		},
+
+		maxFalse: {
+			type: PasswordType,
+			max: false,
+		},
+
 		digitChar: {
 			type: PasswordType,
 			complexity: {
@@ -199,6 +205,15 @@ exports.testFieldType = function (List) {
 				password_confirm: null,
 			}, function (result) {
 				demand(result).be.false();
+				done();
+			});
+		});
+
+		it('should validate password longer than 256 characters when max is set to false', function (done) {
+			List.fields.maxFalse.validateInput({
+				password: 'CheckOutThisRidiculouslyLongPasswordLoremipsumdolorsitametconsecteturadipiscingelitPraesentetnibhpretiumvestibulumdoloratsuscipitmiClassaptenttacitisociosquadlitoratorquentperconubianostraperinceptoshimenaeosIntegerquisduinonnuncegestaspretiumeuetanteInplaceratacmisitametsollicitudin',
+			}, function (result) {
+				demand(result).be.true();
 				done();
 			});
 		});
