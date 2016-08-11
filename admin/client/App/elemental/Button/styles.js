@@ -117,9 +117,10 @@ function buttonFillVariant (textColor, bgColor) {
 // TODO: This is pretty hacky, needs to be consolidated with the Variant() method
 // above (needs more theme variables to be implemented though)
 function buttonFillDefault () {
+	const borderColor = theme.input.border.color;
 	const hoverStyles = {
 		...gradientVertical('#fff', '#eee'),
-		borderColor: `${darken(theme.input.border.color, 5)} ${darken(theme.input.border.color, 5)} ${darken(theme.input.border.color, 10)}`,
+		borderColor: `${darken(borderColor, 5)} ${darken(borderColor, 5)} ${darken(borderColor, 10)}`,
 		boxShadow: '0 1px 0 rgba(0,0,0,0.1)',
 		color: theme.color.text,
 	};
@@ -131,15 +132,14 @@ function buttonFillDefault () {
 	};
 	const activeStyles = {
 		background: '#e6e6e6',
-		borderColor: darken(theme.input.border.color, 10),
+		borderColor: darken(borderColor, 10),
 		boxShadow: 'inset 0 1px 2px rgba(0, 0, 0, 0.1)',
 		color: theme.color.text,
 	};
 	return {
 		base: {
 			...gradientVertical('#fafafa', '#eaeaea'),
-			'border': `1px solid ${theme.input.border.color}`,
-			'borderColor': `${theme.input.border.color} ${darken(theme.input.border.color, 6)} ${darken(theme.input.border.color, 12)}`,
+			'borderColor': `${borderColor} ${darken(borderColor, 6)} ${darken(borderColor, 12)}`,
 			'color': theme.color.text,
 			'textShadow': '0 1px 0 white',
 
@@ -147,7 +147,19 @@ function buttonFillDefault () {
 			':focus': focusStyles,
 			':active': activeStyles,
 		},
-		active: activeStyles,
+
+		// gross hack
+		active: {
+			...activeStyles,
+
+			':hover': activeStyles,
+			':focus': {
+				...activeStyles,
+				...focusStyles,
+				boxShadow: `0 0 0 3px ${fade(theme.color.primary, 10)}, inset 0 1px 2px rgba(0, 0, 0, 0.1)`,
+			},
+			':active': activeStyles,
+		},
 	};
 }
 exports.fill = (color) => {
