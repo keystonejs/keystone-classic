@@ -219,7 +219,13 @@ cloudinaryimages.prototype.inputIsValid = function (data) { // eslint-disable-li
 /**
  * Updates the value for this field in the item from a data object
  */
-cloudinaryimages.prototype.updateItem = function (item, data, callback) {
+cloudinaryimages.prototype.updateItem = function (item, data, files, callback) {
+	if (typeof files === 'function') {
+		callback = files;
+		files = {};
+	} else if (!files) {
+		files = {};
+	}
 
 	var cloudinary = require('cloudinary');
 	var field = this;
@@ -266,26 +272,30 @@ cloudinaryimages.prototype.updateItem = function (item, data, callback) {
 	}
 
 	async.map(values, function (value, next) {
-		// TODO: Do we actually want to support JSON encoded data here? Seems messy
 
-		// When the value is a string, it may be JSON serialised data. If so, parse
-		// it. Otherwiser, we assume it's base64 data or a remote URL and upload it
-		// to cloudinary as a file path. More logic could be added here to
-		// detect/prevent invalid uploads (as per cloudinaryimage field)
+		// When the value is a string, it may be JSON serialised data.
+		if (typeof value === 'string'
+			&& value.charAt(0) === '{'
+			&& value.charAt(value.length - 1) === '}'
+		) {
+			try {
+				value = JSON.parse(value);
+			} catch (e) { /* value isn't JSON */ }
+		}
+
 		if (typeof value === 'string') {
-			if (value.charAt(0) === '{' && value.charAt(value.length - 1) === '}') {
-				try {
-					value = JSON.parse(value);
-				} catch (e) {
-					// value isn't JSON
-				}
-			} else {
+			// detect file upload (field value must be a reference to a field in the
+			// uploaded files object provided by multer)
+			if (value.substr(0, 7) === 'upload:') {
+				var uploadFieldPath = value.substr(7);
+				value = files[uploadFieldPath];
+			}
+			// detect a URL or Base64 Data
+			else if (/^(data:[a-z\/]+;base64)|(https?\:\/\/)/.test(value)) {
 				value = { path: value };
 			}
 		}
-		if (typeof value === 'object' && value.uploadFromKey) {
-			value = data[value.uploadFromKey];
-		}
+
 		if (typeof value === 'object' && 'public_id' in value) {
 			// Cloudinary Image data provided
 			if (value.public_id) {

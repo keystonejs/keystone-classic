@@ -361,6 +361,7 @@ cloudinaryimage.prototype.updateItem = function (item, data, files, callback) {
 		else if (/^(data:[a-z\/]+;base64)|(https?\:\/\/)/.test(value)) {
 			value = { path: value };
 		}
+		// TODO: The value won't be processed, we should probably return an error
 	}
 
 	// if an object with a path has been provided, upload the value in the path
