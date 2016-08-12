@@ -162,7 +162,7 @@ module.exports = Field.create({
 		// the upload field. If the file is being deleted, we submit that.
 		if (this.state.userSelectedFile || this.state.action) {
 			const value = this.state.userSelectedFile
-				? `upload:${this.state.uploadFieldPath}`
+				? `upload:${this.getInputName(this.state.uploadFieldPath)}`
 				: (this.state.action === 'delete' ? 'remove' : '');
 			return (
 				<input
