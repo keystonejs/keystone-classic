@@ -1,4 +1,7 @@
 var express = require('express');
+var helmet = require('helmet');
+var app = express();
+app.use(helmet());
 
 module.exports = function bindStaticMiddleware (keystone, app) {
 	// the static option can be a single path, or array of paths
