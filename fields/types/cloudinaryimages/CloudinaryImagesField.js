@@ -15,6 +15,12 @@ const RESIZE_DEFAULTS = {
 	format: 'jpg',
 };
 
+let uploadInc = 1000;
+
+const buildInitialState = (props) => ({
+	uploadFieldPath: `CloudinaryImages-${props.path}-${++uploadInc}`,
+});
+
 module.exports = Field.create({
 	displayName: 'CloudinaryImagesField',
 	statics: {
@@ -169,7 +175,7 @@ module.exports = Field.create({
 			<HiddenFileInput
 				accept={SUPPORTED_TYPES.join()}
 				ref="fileInput"
-				name={this.getInputName(this.props.paths.upload)}
+				name={this.state.uploadFieldPath}
 				multiple
 				onChange={this.uploadFile}
 			/>
@@ -246,33 +252,13 @@ module.exports = Field.create({
 			</div>
 		);
 	},
-	renderFieldAction () {
-		if (!this.shouldRenderField()) return null;
-
-		var value = '';
-		var remove = [];
-		this.state.thumbnails.forEach((thumb) => {
-			if (thumb && thumb.props.isDeleted) remove.push(thumb.props.public_id);
-		});
-		if (remove.length) value = 'remove:' + remove.join(',');
-
-		return (
-			<input
-				className="field-action"
-				name={this.getInputName(this.props.paths.action)}
-				ref="action"
-				type="hidden"
-				value={value}
-			/>
-		);
-	},
 	renderUploadsField () {
-		if (!this.shouldRenderField()) return null;
+		if (!this.shouldRenderField() || !this.hasFiles()) return null;
 
 		return (
 			<input
-				name={this.getInputName(this.props.paths.uploads)}
-				ref="uploads"
+				name={this.getInputName(this.props.paths.action)}
+				value={`upload:${this.state.uploadFieldPath}`}
 				type="hidden"
 			/>
 		);
@@ -283,12 +269,11 @@ module.exports = Field.create({
 
 		return (
 			<FormField label={label} className="field-type-cloudinaryimages" htmlFor={path}>
-				{this.renderFieldAction()}
-				{this.renderUploadsField()}
-				{this.renderFileField()}
 				<div>
 					{thumbnails}
 				</div>
+				{this.renderFileField()}
+				{this.renderUploadsField()}
 				{this.renderToolbar()}
 				{!!note && <FormNote note={note} />}
 				{this.renderLightbox()}
