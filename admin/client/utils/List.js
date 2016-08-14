@@ -127,7 +127,7 @@ List.prototype.updateItem = function (id, formData, callback) {
 		headers: Keystone.csrf.header,
 		body: formData,
 	}, (err, resp, data) => {
-		if (err) callback(err);
+		if (err) return callback(err);
 		if (resp.statusCode === 200) {
 			callback(null, data);
 		} else {
