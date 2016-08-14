@@ -98,6 +98,7 @@ module.exports = Field.create({
 		return (
 			<Thumbnail
 				key={`thumbnail-${index}`}
+				inputName={this.getInputName(this.props.path)}
 				openLightbox={(e) => this.openLightbox(e, index)}
 				shouldRenderActionButton={this.shouldRenderField()}
 				toggleDelete={this.removeImage.bind(this, index)}
@@ -159,7 +160,7 @@ module.exports = Field.create({
 	// RENDERERS
 	// ==============================
 
-	renderFileField () {
+	renderFileInput () {
 		if (!this.shouldRenderField()) return null;
 
 		return (
@@ -169,6 +170,17 @@ module.exports = Field.create({
 				name={this.state.uploadFieldPath}
 				multiple
 				onChange={this.uploadFile}
+			/>
+		);
+	},
+	renderUploadInput () {
+		if (!this.shouldRenderField() || !this.hasFiles()) return null;
+
+		return (
+			<input
+				name={this.getInputName(this.props.path)}
+				value={`upload:${this.state.uploadFieldPath}`}
+				type="hidden"
 			/>
 		);
 	},
@@ -243,17 +255,6 @@ module.exports = Field.create({
 			</div>
 		);
 	},
-	renderUploadsField () {
-		if (!this.shouldRenderField() || !this.hasFiles()) return null;
-
-		return (
-			<input
-				name={this.getInputName(this.props.paths.action)}
-				value={`upload:${this.state.uploadFieldPath}`}
-				type="hidden"
-			/>
-		);
-	},
 	renderUI () {
 		const { label, note, path } = this.props;
 		const { thumbnails } = this.state;
@@ -263,8 +264,8 @@ module.exports = Field.create({
 				<div>
 					{thumbnails}
 				</div>
-				{this.renderFileField()}
-				{this.renderUploadsField()}
+				{this.renderUploadInput()}
+				{this.renderFileInput()}
 				{this.renderToolbar()}
 				{!!note && <FormNote note={note} />}
 				{this.renderLightbox()}

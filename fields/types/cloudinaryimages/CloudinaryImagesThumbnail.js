@@ -6,10 +6,12 @@ function CloudinaryImagesThumbnail ({
 	isDeleted,
 	imageSourceLarge,
 	imageSourceSmall,
+	inputName,
 	isQueued,
 	openLightbox,
 	shouldRenderActionButton,
 	toggleDelete,
+	value,
 	...props,
 }) {
 	// render icon feedback for intent
@@ -22,6 +24,10 @@ function CloudinaryImagesThumbnail ({
 		<Button variant="link" color={isDeleted ? 'default' : 'cancel'} block onClick={toggleDelete}>
 			{isDeleted ? 'Undo' : 'Remove'}
 		</Button>
+	) : null;
+
+	const input = (!isQueued && !isDeleted && value) ? (
+		<input type="hidden" name={inputName} value={JSON.stringify(value)} />
 	) : null;
 
 	// provide gutter for the images
@@ -43,6 +49,7 @@ function CloudinaryImagesThumbnail ({
 				<img src={imageSourceSmall} style={{ height: 90 }} />
 			</ImageThumbnail>
 			{actionButton}
+			{input}
 		</div>
 	);
 
