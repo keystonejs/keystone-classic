@@ -271,40 +271,44 @@ cloudinaryimages.prototype.updateItem = function (item, data, files, callback) {
 		return uploadOptions;
 	}
 
-	async.map(values, function (value, next) {
-
+	// Preprocess values to deserialise JSON, detect mappings to uploaded files
+	// and flatten out arrays
+	values = values.map(function (value) {
 		// When the value is a string, it may be JSON serialised data.
 		if (typeof value === 'string'
 			&& value.charAt(0) === '{'
 			&& value.charAt(value.length - 1) === '}'
 		) {
 			try {
-				value = JSON.parse(value);
+				return JSON.parse(value);
 			} catch (e) { /* value isn't JSON */ }
 		}
-
 		if (typeof value === 'string') {
 			// detect file upload (field value must be a reference to a field in the
 			// uploaded files object provided by multer)
 			if (value.substr(0, 7) === 'upload:') {
 				var uploadFieldPath = value.substr(7);
-				value = files[uploadFieldPath];
+				return files[uploadFieldPath];
 			}
 			// detect a URL or Base64 Data
 			else if (/^(data:[a-z\/]+;base64)|(https?\:\/\/)/.test(value)) {
-				value = { path: value };
+				return { path: value };
 			}
-			// TODO: We should really also support deleting images from cloudinary,
-			// see the CloudinaryImageType field for reference
 		}
+		return value;
+	});
+	values = _.flatten(values);
 
+	async.map(values, function (value, next) {
 		if (typeof value === 'object' && 'public_id' in value) {
 			// Cloudinary Image data provided
 			if (value.public_id) {
+				// Default the object with empty values
 				var v = assign(getEmptyValue(), value);
 				return next(null, v);
 			} else {
-				return next(null);
+				// public_id is falsy, remove the value
+				return next();
 			}
 		} else if (typeof value === 'object' && value.path) {
 			// File provided - upload it
@@ -325,6 +329,8 @@ cloudinaryimages.prototype.updateItem = function (item, data, files, callback) {
 			}, uploadOptions);
 		} else {
 			// Nothing to do
+			// TODO: We should really also support deleting images from cloudinary,
+			// see the CloudinaryImageType field for reference
 			return next();
 		}
 	}, function (err, result) {
