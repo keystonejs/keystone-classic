@@ -294,6 +294,8 @@ cloudinaryimages.prototype.updateItem = function (item, data, files, callback) {
 			else if (/^(data:[a-z\/]+;base64)|(https?\:\/\/)/.test(value)) {
 				value = { path: value };
 			}
+			// TODO: We should really also support deleting images from cloudinary,
+			// see the CloudinaryImageType field for reference
 		}
 
 		if (typeof value === 'object' && 'public_id' in value) {

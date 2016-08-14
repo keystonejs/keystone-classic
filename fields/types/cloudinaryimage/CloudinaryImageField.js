@@ -1,6 +1,6 @@
 /*
 TODO: CloudinaryImageType actally supports 'remove' and 'reset' actions, but
-this field will only submit `""` when 'remove' is clicked. @Joss we need to
+this field will only submit `""` when 'remove' is clicked. @jossmac we need to
 work out whether we're going to support deleting through the UI.
 */
 
