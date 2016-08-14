@@ -9,7 +9,6 @@ import classnames from 'classnames';
 import numeral from 'numeral';
 import {
 	BlankState,
-	Button,
 	Container,
 	FormInput,
 	InputGroup,
@@ -19,6 +18,7 @@ import {
 import { connect } from 'react-redux';
 
 import { GlyphButton, ResponsiveText } from '../../elemental';
+import ListManagement from './components/ListManagement';
 
 import ConfirmationDialog from '../../shared/ConfirmationDialog';
 import CreateForm from '../../shared/CreateForm';
@@ -285,77 +285,21 @@ const ListView = React.createClass({
 		);
 	},
 	renderManagement () {
-		// WIP: Management mode currently under development, so the UI is disabled
-		// unless the KEYSTONE_DEV environment variable is set
-		if (!Keystone.devMode) return;
-
 		const { checkedItems, manageMode } = this.state;
-		const pageSize = this.props.lists.page.size;
-		const items = this.props.items;
-		const list = this.props.currentList;
-		if (!items.count || (list.nodelete && list.noedit)) return;
+		const { currentList } = this.props;
 
-		const checkedItemCount = Object.keys(checkedItems).length;
-		const buttonNoteStyles = { color: '#999', fontWeight: 'normal' };
-		const groupStyles = { marginBottom: 0 };
-
-		// action buttons
-		const actionUpdateButton = !list.noedit ? (
-			<InputGroup.Section>
-				<Button onClick={this.toggleUpdateModal} disabled={!checkedItemCount}>Update</Button>
-			</InputGroup.Section>
-		) : null;
-		const actionDeleteButton = !list.nodelete ? (
-			<InputGroup.Section>
-				<Button onClick={this.massDelete} disabled={!checkedItemCount}>Delete</Button>
-			</InputGroup.Section>
-		) : null;
-		const actionButtons = manageMode ? (
-			<InputGroup.Section>
-				<InputGroup style={groupStyles} contiguous>
-					{actionUpdateButton}
-					{actionDeleteButton}
-				</InputGroup>
-			</InputGroup.Section>
-		) : null;
-
-		// select buttons
-		const selectAllButton = items.count > pageSize ? (
-			<InputGroup.Section>
-				<Button onClick={() => this.handleManagementSelect('all')} title="Select all rows (including those not visible)">All <small style={buttonNoteStyles}>({items.count})</small></Button>
-			</InputGroup.Section>
-		) : null;
-		const selectButtons = manageMode ? (
-			<InputGroup.Section>
-				<InputGroup style={groupStyles} contiguous>
-					{selectAllButton}
-					<InputGroup.Section>
-						<Button onClick={() => this.handleManagementSelect('visible')} title="Select all rows">{items.count > pageSize ? 'Page' : 'All'} <small style={buttonNoteStyles}>({items.results.length})</small></Button>
-					</InputGroup.Section>
-					<InputGroup.Section>
-						<Button onClick={() => this.handleManagementSelect('none')} title="Deselect all rows">None</Button>
-					</InputGroup.Section>
-				</InputGroup>
-			</InputGroup.Section>
-		) : null;
-
-		// selected count text
-		const selectedCountText = manageMode ? (
-			<InputGroup.Section grow>
-				<span style={{ color: '#666', display: 'inline-block', lineHeight: '2.4em', margin: 1 }}>{checkedItemCount} selected</span>
-			</InputGroup.Section>
-		) : null;
-
-		// put it all together
 		return (
-			<InputGroup style={{ float: 'left', marginRight: '.75em', marginBottom: 0 }}>
-				<InputGroup.Section>
-					<Button isActive={manageMode} onClick={() => this.toggleManageMode(!manageMode)}>Manage</Button>
-				</InputGroup.Section>
-				{selectButtons}
-				{actionButtons}
-				{selectedCountText}
-			</InputGroup>
+			<ListManagement
+				checkedItemCount={Object.keys(checkedItems).length}
+				handleDelete={this.massDelete}
+				handleSelect={this.handleManagementSelect}
+				handleToggle={() => this.toggleManageMode(!manageMode)}
+				isOpen={manageMode}
+				itemCount={this.props.items.count}
+				itemsPerPage={this.props.lists.page.size}
+				nodelete={currentList.nodelete}
+				noedit={currentList.noedit}
+			/>
 		);
 	},
 	renderPagination () {

@@ -4,12 +4,12 @@ import { Button, FormField, FormInput, FormNote } from 'elemental';
 import FileChangeMessage from '../../components/FileChangeMessage';
 import HiddenFileInput from '../../components/HiddenFileInput';
 
-let uploadInc = 0;
+let uploadInc = 1000;
 
 const buildInitialState = (props) => ({
 	action: null,
 	removeExisting: false,
-	uploadFieldPath: `${props.path}-${++uploadInc}`,
+	uploadFieldPath: `File-${props.path}-${++uploadInc}`,
 	userSelectedFile: null,
 });
 
@@ -194,7 +194,7 @@ module.exports = Field.create({
 							{buttons}
 							<HiddenFileInput
 								key={this.state.uploadFieldPath}
-								name={this.getInputName(this.state.uploadFieldPath)}
+								name={this.state.uploadFieldPath}
 								onChange={this.handleFileChange}
 								ref="fileInput"
 							/>
