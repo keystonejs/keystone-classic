@@ -1,3 +1,4 @@
+import async from 'async';
 import React, { cloneElement } from 'react';
 import Field from '../Field';
 import { FormField, FormNote } from 'elemental';
@@ -27,23 +28,21 @@ module.exports = Field.create({
 		type: 'CloudinaryImages',
 	},
 	getInitialState () {
-		const thumbnails = [];
-
-		this.props.value.forEach((item) => {
-			this.pushThumbnail({
-				imageSourceSmall: cloudinaryResize(item.public_id, {
+		const thumbnails = this.props.value.map((img, i) => {
+			return this.getThumbnail({
+				value: img,
+				imageSourceSmall: cloudinaryResize(img.public_id, {
 					...RESIZE_DEFAULTS,
 					height: 90,
 				}),
-				imageSourceLarge: cloudinaryResize(item.public_id, {
+				imageSourceLarge: cloudinaryResize(img.public_id, {
 					...RESIZE_DEFAULTS,
 					height: 600,
 					width: 900,
 				}),
-			}, thumbnails);
+			}, i);
 		});
-
-		return { thumbnails: thumbnails };
+		return { ...buildInitialState(this.props), thumbnails };
 	},
 
 	// ==============================
@@ -84,36 +83,25 @@ module.exports = Field.create({
 	// METHODS
 	// ==============================
 
-	removeThumbnail (i) {
-		const newThumbnails = this.state.thumbnails;
-		const target = newThumbnails[i];
+	removeImage (index) {
+		const newThumbnails = [...this.state.thumbnails];
+		const target = newThumbnails[index];
 
-		// if the image is just in the queue (and not uploaded yet)
-		// remove it from the array
-		if (target.props.isQueued) {
-			newThumbnails.splice(i, 1);
-
-		// React > 0.14 the props object is frozen
-		// https://facebook.github.io/react/blog/2015/10/07/react-v0.14.html#breaking-changes
-		// Using splice + clone to toggle target thumb props
-		} else {
-			newThumbnails.splice(i, 1, cloneElement(target, {
-				isDeleted: !target.props.isDeleted,
-			}));
-		}
+		// Use splice + clone to toggle the isDeleted prop
+		newThumbnails.splice(index, 1, cloneElement(target, {
+			isDeleted: !target.props.isDeleted,
+		}));
 
 		this.setState({ thumbnails: newThumbnails });
 	},
-	pushThumbnail (args, thumbs = this.state.thumbnails) {
-		const i = thumbs.length;
-
-		thumbs.push(
+	getThumbnail (props, index) {
+		return (
 			<Thumbnail
-				key={i}
-				openLightbox={(e) => this.openLightbox(e, i)}
+				key={`thumbnail-${index}`}
+				openLightbox={(e) => this.openLightbox(e, index)}
 				shouldRenderActionButton={this.shouldRenderField()}
-				toggleDelete={this.removeThumbnail.bind(this, i)}
-				{...args}
+				toggleDelete={this.removeImage.bind(this, index)}
+				{...props}
 			/>
 		);
 	},
@@ -139,29 +127,32 @@ module.exports = Field.create({
 		if (!window.FileReader) {
 			return alert('File reader not supported by browser.');
 		}
-		const files = event.target.files;
 
-		// FileList not a real Array; forEach not supported
-		for (let i = 0; i < files.length; i++) {
-			const reader = new FileReader();
-			const f = files[i];
-
+		// FileList not a real Array; process it into one and check the types
+		const files = [];
+		for (let i = 0; i < event.target.files.length; i++) {
+			const f = event.target.files[i];
 			if (!f.type.match(SUPPORTED_REGEX)) {
 				return alert('Unsupported file type. Supported formats are: GIF, PNG, JPG, BMP, ICO, PDF, TIFF, EPS, PSD, SVG');
 			}
+			files.push(f);
+		}
 
-			// TODO use `onloadstart` + `onloadend` to display a loading indicator
-			// for each thumbnail when applicable
-
-			reader.readAsDataURL(f);
+		let index = this.state.thumbnails.length;
+		async.mapSeries(files, (file, callback) => {
+			const reader = new FileReader();
+			reader.readAsDataURL(file);
 			reader.onload = (e) => {
-				this.pushThumbnail({
+				callback(null, this.getThumbnail({
 					isQueued: true,
 					imageSourceSmall: e.target.result,
-				});
-				this.forceUpdate();
+				}, index++));
 			};
-		}
+		}, (err, thumbnails) => {
+			this.setState({
+				thumbnails: [...this.state.thumbnails, ...thumbnails],
+			});
+		});
 	},
 
 	// ==============================
