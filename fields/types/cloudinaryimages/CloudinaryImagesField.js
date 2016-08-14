@@ -1,3 +1,10 @@
+/*
+TODO: This component manages thumbnails using some wacky internal state.
+It works, but would really benefit from a cleanup/rewrite. It may not behave
+as expected in different situations (i.e. does not report updated value
+to props.onChange correctly as the user interacts with it)
+*/
+
 import _ from 'lodash';
 import async from 'async';
 import React, { cloneElement } from 'react';
@@ -31,10 +38,7 @@ module.exports = Field.create({
 		// Reset the thumbnails and upload ID when the item value changes
 		// TODO: We should add a check for a new item ID in the store
 		const value = _.map(this.props.value, 'public_id').join();
-		console.log('receiving props.');
-		console.log('old value:', value);
 		const nextValue = _.map(nextProps.value, 'public_id').join();
-		console.log('next value:', nextValue);
 		if (value !== nextValue) {
 			this.setState(this.buildInitialState(nextProps));
 		}
@@ -187,16 +191,28 @@ module.exports = Field.create({
 			/>
 		);
 	},
-	renderUploadInput () {
-		if (!this.shouldRenderField() || !this.hasFiles()) return null;
+	renderValueInput () {
+		if (!this.shouldRenderField()) return null;
 
-		return (
-			<input
-				name={this.getInputName(this.props.path)}
-				value={`upload:${this.state.uploadFieldPath}`}
-				type="hidden"
-			/>
-		);
+		// This renders an input with either the upload field reference, or an
+		// empty value to reset the field if all images have been removed
+		if (this.hasFiles()) {
+			return (
+				<input
+					name={this.getInputName(this.props.path)}
+					value={`upload:${this.state.uploadFieldPath}`}
+					type="hidden"
+				/>
+			);
+		} else if (this.getCount('isDeleted') === this.props.value.length) {
+			return (
+				<input
+					name={this.getInputName(this.props.path)}
+					value=""
+					type="hidden"
+				/>
+			);
+		}
 	},
 	renderLightbox () {
 		const { value } = this.props;
@@ -278,7 +294,7 @@ module.exports = Field.create({
 				<div>
 					{thumbnails}
 				</div>
-				{this.renderUploadInput()}
+				{this.renderValueInput()}
 				{this.renderFileInput()}
 				{this.renderToolbar()}
 				{!!note && <FormNote note={note} />}
