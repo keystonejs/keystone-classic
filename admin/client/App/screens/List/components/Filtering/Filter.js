@@ -58,7 +58,6 @@ class Filter extends Component {
 					onClear={this.removeFilter}
 					type="primary"
 					id={filterId}
-					showClearButton
 				/>
 				<Popout isOpen={this.state.isOpen} onCancel={this.close} relativeToID={filterId}>
 					<form onSubmit={this.updateFilter}>

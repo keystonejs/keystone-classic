@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import assign from 'object-assign';
 import Popout from '../../../shared/Popout';
 import PopoutList from '../../../shared/Popout/PopoutList';
-import { Checkbox, Form, FormField, InputGroup, SegmentedControl } from 'elemental';
+import { Checkbox, Form, FormField, SegmentedControl } from 'elemental';
 import ListHeaderButton from './ListHeaderButton';
 
 import { downloadItems } from '../actions';
@@ -13,7 +13,9 @@ const FORMAT_OPTIONS = [
 
 var ListDownloadForm = React.createClass({
 	propTypes: {
-		className: React.PropTypes.string.isRequired,
+		activeColumns: PropTypes.array,
+		dispatch: PropTypes.func.isRequired,
+		list: PropTypes.object,
 	},
 	getInitialState () {
 		return {
@@ -102,7 +104,7 @@ var ListDownloadForm = React.createClass({
 		const { useCurrentColumns } = this.state;
 
 		return (
-			<InputGroup.Section className={this.props.className}>
+			<div>
 				<ListHeaderButton
 					active={this.state.isOpen}
 					id="listHeaderDownloadButton"
@@ -129,7 +131,7 @@ var ListDownloadForm = React.createClass({
 						secondaryButtonAction={() => this.togglePopout(false)}
 						secondaryButtonLabel="Cancel" />
 				</Popout>
-			</InputGroup.Section>
+			</div>
 		);
 	},
 });
