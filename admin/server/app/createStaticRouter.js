@@ -11,12 +11,12 @@ var express = require('express');
 var less = require('less-middleware');
 var path = require('path');
 var str = require('string-to-stream');
-var compose = require('../../../fields/utils/compose').default;
+var compose = require('../../../fields/utils/compose');
 
 function buildFieldTypesStream (next) {
 	return (fieldTypes) => {
 		var types = Object.keys(fieldTypes);
-		let sections = { Columns: {}, Fields: {}, Filters: {} };
+		var sections = { Columns: {}, Fields: {}, Filters: {} };
 		['Column', 'Field', 'Filter'].forEach(i => {
 			types.forEach(type => {
 				sections[i + 's'][type] = '../../fields/types/' + type + '/' + fieldTypes[type] + i;
@@ -30,8 +30,9 @@ function buildFieldTypesStream (next) {
 	};
 }
 
-function finalFieldsSrcStream (sections = { Columns: {}, Fields: {}, Filters: {} }) {
-	let src = '';
+function finalFieldsSrcStream (sections) {
+	sections = sections || { Columns: {}, Fields: {}, Filters: {} };
+	var src = '';
 	Object.keys(sections).forEach(section => {
 		src += 'module.exports.' + section + ' = {\n';
 		Object.keys(sections[section]).forEach(type => {

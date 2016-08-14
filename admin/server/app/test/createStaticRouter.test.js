@@ -4,7 +4,7 @@ import request from 'supertest';
 import path from 'path';
 import demand from 'must';
 
-describe.only('createStaticRouter', () => {
+describe('createStaticRouter', () => {
 	let keystone = {
 		get (confKey) {
 			switch (confKey) {
@@ -18,7 +18,7 @@ describe.only('createStaticRouter', () => {
 		fieldTypes: { boolean: 'Boolean' },
 	};
 
-	it.skip('given no config, it should serve `FieldTypes` bundle normally', done => {
+	it('given no config, it should serve `FieldTypes` bundle normally', done => {
 		const router = createStaticRouter(keystone);
 		const app = express();
 		app.use(router);

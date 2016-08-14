@@ -9,9 +9,10 @@
  * (...args) => f(g(h(...args))).
  */
 
-export default function compose (...funcs) {
+module.exports = function compose () {
+	var funcs = Array.prototype.slice.call(arguments);
 	if (funcs.length === 0) {
-		return arg => arg;
+		return function (arg) { return arg; };
 	}
 
 	if (funcs.length === 1) {
@@ -20,5 +21,10 @@ export default function compose (...funcs) {
 
 	const last = funcs[funcs.length - 1];
 	const rest = funcs.slice(0, -1);
-	return (...args) => rest.reduceRight((composed, f) => f(composed), last(...args));
-}
+	return function () {
+		var args = Array.prototype.slice.call(arguments);
+		return rest.reduceRight(function (composed, f) {
+			return f(composed);
+		}, last.apply(null, args));
+	};
+};
