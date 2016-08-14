@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import async from 'async';
 import React, { cloneElement } from 'react';
 import Field from '../Field';
@@ -18,17 +19,29 @@ const RESIZE_DEFAULTS = {
 
 let uploadInc = 1000;
 
-const buildInitialState = (props) => ({
-	uploadFieldPath: `CloudinaryImages-${props.path}-${++uploadInc}`,
-});
-
 module.exports = Field.create({
 	displayName: 'CloudinaryImagesField',
 	statics: {
 		type: 'CloudinaryImages',
 	},
 	getInitialState () {
-		const thumbnails = this.props.value.map((img, i) => {
+		return this.buildInitialState(this.props);
+	},
+	componentWillUpdate (nextProps) {
+		// Reset the thumbnails and upload ID when the item value changes
+		// TODO: We should add a check for a new item ID in the store
+		const value = _.map(this.props.value, 'public_id').join();
+		console.log('receiving props.');
+		console.log('old value:', value);
+		const nextValue = _.map(nextProps.value, 'public_id').join();
+		console.log('next value:', nextValue);
+		if (value !== nextValue) {
+			this.setState(this.buildInitialState(nextProps));
+		}
+	},
+	buildInitialState (props) {
+		const uploadFieldPath = `CloudinaryImages-${props.path}-${++uploadInc}`;
+		const thumbnails = props.value.map((img, index) => {
 			return this.getThumbnail({
 				value: img,
 				imageSourceSmall: cloudinaryResize(img.public_id, {
@@ -40,9 +53,21 @@ module.exports = Field.create({
 					height: 600,
 					width: 900,
 				}),
-			}, i);
+			}, index);
 		});
-		return { ...buildInitialState(this.props), thumbnails };
+		return { thumbnails, uploadFieldPath };
+	},
+	getThumbnail (props, index) {
+		return (
+			<Thumbnail
+				key={`thumbnail-${index}`}
+				inputName={this.getInputName(this.props.path)}
+				openLightbox={(e) => this.openLightbox(e, index)}
+				shouldRenderActionButton={this.shouldRenderField()}
+				toggleDelete={this.removeImage.bind(this, index)}
+				{...props}
+			/>
+		);
 	},
 
 	// ==============================
@@ -93,18 +118,6 @@ module.exports = Field.create({
 		}));
 
 		this.setState({ thumbnails: newThumbnails });
-	},
-	getThumbnail (props, index) {
-		return (
-			<Thumbnail
-				key={`thumbnail-${index}`}
-				inputName={this.getInputName(this.props.path)}
-				openLightbox={(e) => this.openLightbox(e, index)}
-				shouldRenderActionButton={this.shouldRenderField()}
-				toggleDelete={this.removeImage.bind(this, index)}
-				{...props}
-			/>
-		);
 	},
 	getCount (key) {
 		var count = 0;
@@ -166,10 +179,11 @@ module.exports = Field.create({
 		return (
 			<HiddenFileInput
 				accept={SUPPORTED_TYPES.join()}
-				ref="fileInput"
-				name={this.state.uploadFieldPath}
+				key={this.state.uploadFieldPath}
 				multiple
+				name={this.state.uploadFieldPath}
 				onChange={this.uploadFile}
+				ref="fileInput"
 			/>
 		);
 	},
