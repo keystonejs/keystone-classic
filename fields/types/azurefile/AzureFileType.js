@@ -1,9 +1,12 @@
 /**
 Deprecated.
 
-This FieldType will be removed shortly in favour of the new generic File type,
-in conjunction with the Azure storage adapter.
+Using this field will now throw an error, and this code will be removed soon.
+
+See https://github.com/keystonejs/keystone/wiki/File-Fields-Upgrade-Guide
 */
+
+/* eslint-disable */
 
 var _ = require('lodash');
 var FieldType = require('../Type');
@@ -12,8 +15,6 @@ var keystone = require('../../../');
 var util = require('util');
 var utils = require('keystone-utils');
 
-var loggedWarning = false;
-
 /**
  * AzureFile FieldType Constructor
  * @extends Field
@@ -21,11 +22,8 @@ var loggedWarning = false;
  */
 function azurefile (list, path, options) {
 
-	if (!loggedWarning) {
-		loggedWarning = true;
-		console.warn('The AzureFile field type has been deprecated and will be removed '
-			+ 'very soon. Please see https://github.com/keystonejs/keystone/issues/3228');
-	}
+	throw new Error('The AzureFile field type has been removed. Please use File instead.'
+		+ '\n\nSee https://github.com/keystonejs/keystone/wiki/File-Fields-Upgrade-Guide\n');
 
 	grappling.mixin(this).allowHooks('pre:upload');
 
