@@ -18,11 +18,11 @@ import Lightbox from 'react-images';
 const SUPPORTED_TYPES = ['image/*', 'application/pdf', 'application/postscript'];
 const SUPPORTED_REGEX = new RegExp(/^image\/|application\/pdf|application\/postscript/g);
 
-let uploadInc = 0;
+let uploadInc = 1000;
 
 const buildInitialState = (props) => ({
 	removeExisting: false,
-	uploadFieldPath: `${props.path}-${++uploadInc}`,
+	uploadFieldPath: `CloudinaryImage-${props.path}-${++uploadInc}`,
 	userSelectedFile: null,
 });
 
