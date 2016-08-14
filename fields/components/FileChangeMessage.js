@@ -3,17 +3,17 @@ import { FormInput } from 'elemental';
 import { fade } from '../../admin/client/utils/color';
 import theme from '../../admin/client/theme';
 
-function FileChangeMessage ({ style, type, ...props }) {
+function FileChangeMessage ({ style, color, ...props }) {
 	const styles = {
 		marginRight: 10,
 		minWidth: 0,
 		...style,
 	};
 
-	if (type === 'danger' || type === 'success') {
-		styles.backgroundColor = fade(theme.color[type], 10);
-		styles.borderColor = fade(theme.color[type], 30);
-		styles.color = theme.color[type];
+	if (color !== 'default') {
+		styles.backgroundColor = fade(theme.color[color], 10);
+		styles.borderColor = fade(theme.color[color], 30);
+		styles.color = theme.color[color];
 	}
 
 	return (
@@ -26,10 +26,10 @@ function FileChangeMessage ({ style, type, ...props }) {
 };
 
 FileChangeMessage.propTypes = {
-	type: PropTypes.oneOf(['danger', 'default', 'success']),
+	color: PropTypes.oneOf(['danger', 'default', 'success']),
 };
 FileChangeMessage.defaultProps = {
-	type: 'default',
+	color: 'default',
 };
 
 module.exports = FileChangeMessage;

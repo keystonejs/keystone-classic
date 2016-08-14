@@ -1,3 +1,9 @@
+/*
+TODO: CloudinaryImageType actally supports 'remove' and 'reset' actions, but
+this field will only submit `""` when 'remove' is clicked. @jossmac we need to
+work out whether we're going to support deleting through the UI.
+*/
+
 import React, { PropTypes } from 'react';
 import Field from '../Field';
 import { FormField, FormInput, FormNote } from 'elemental';
@@ -7,13 +13,16 @@ import { Button } from '../../../admin/client/App/elemental';
 import ImageThumbnail from '../../components/ImageThumbnail';
 import FileChangeMessage from '../../components/FileChangeMessage';
 import HiddenFileInput from '../../components/HiddenFileInput';
-import Lightbox from '../../components/Lightbox';
+import Lightbox from 'react-images';
 
 const SUPPORTED_TYPES = ['image/*', 'application/pdf', 'application/postscript'];
+const SUPPORTED_REGEX = new RegExp(/^image\/|application\/pdf|application\/postscript/g);
 
-const buildInitialState = () => ({
-	action: '',
+let uploadInc = 1000;
+
+const buildInitialState = (props) => ({
 	removeExisting: false,
+	uploadFieldPath: `CloudinaryImage-${props.path}-${++uploadInc}`,
 	userSelectedFile: null,
 });
 
@@ -23,10 +32,6 @@ module.exports = Field.create({
 		label: PropTypes.string,
 		note: PropTypes.string,
 		path: PropTypes.string.isRequired,
-		paths: PropTypes.shape({
-			action: PropTypes.string.isRequired,
-			upload: PropTypes.string.isRequired,
-		}).isRequired,
 		value: PropTypes.shape({
 			format: PropTypes.string,
 			height: PropTypes.number,
@@ -44,7 +49,20 @@ module.exports = Field.create({
 		type: 'CloudinaryImage',
 	},
 	getInitialState () {
-		return buildInitialState();
+		return buildInitialState(this.props);
+	},
+	componentWillReceiveProps (nextProps) {
+		// console.log('CloudinaryImageField nextProps:', nextProps);
+	},
+	componentWillUpdate (nextProps) {
+		// Reset the action state when the value changes
+		// TODO: We should add a check for a new item ID in the store
+		if (this.props.value.public_id !== nextProps.value.public_id) {
+			this.setState({
+				removeExisting: false,
+				userSelectedFile: null,
+			});
+		}
 	},
 
 	// ==============================
@@ -68,6 +86,7 @@ module.exports = Field.create({
 			: `${public_id}.${format} (${width}×${height})`;
 	},
 	getImageSource (height = 90) {
+		// TODO: This lets really wide images break the layout
 		let src;
 		if (this.hasLocal()) {
 			src = this.state.dataUri;
@@ -118,6 +137,10 @@ module.exports = Field.create({
 		var file = e.target.files[0];
 		if (!file) return;
 
+		if (!file.type.match(SUPPORTED_REGEX)) {
+			return alert('Unsupported file type. Supported formats are: GIF, PNG, JPG, BMP, ICO, PDF, TIFF, EPS, PSD, SVG');
+		}
+
 		reader.readAsDataURL(file);
 
 		reader.onloadstart = () => {
@@ -143,13 +166,12 @@ module.exports = Field.create({
 			state.userSelectedFile = null;
 		} else if (this.hasExisting()) {
 			state.removeExisting = true;
-			state.action = 'reset';
 		}
 
 		this.setState(state);
 	},
 	undoRemove () {
-		this.setState(buildInitialState());
+		this.setState(buildInitialState(this.props));
 	},
 
 	// ==============================
@@ -163,9 +185,9 @@ module.exports = Field.create({
 		return (
 			<Lightbox
 				images={[this.getImageSource(600)]}
-				initialImage={0}
+				currentImage={0}
 				isOpen={this.state.lightboxIsVisible}
-				onCancel={this.closeLightbox}
+				onClose={this.closeLightbox}
 			/>
 		);
 	},
@@ -208,19 +230,13 @@ module.exports = Field.create({
 	renderChangeMessage () {
 		if (this.state.userSelectedFile) {
 			return (
-				<FileChangeMessage type="success">
+				<FileChangeMessage color="success">
 					Save to Upload
-				</FileChangeMessage>
-			);
-		} else if (this.state.origin === 'cloudinary') {
-			return (
-				<FileChangeMessage type="success">
-					Selected from Cloudinary
 				</FileChangeMessage>
 			);
 		} else if (this.state.removeExisting) {
 			return (
-				<FileChangeMessage type="danger">
+				<FileChangeMessage color="danger">
 					Save to Remove
 				</FileChangeMessage>
 			);
@@ -250,13 +266,45 @@ module.exports = Field.create({
 				<Button onClick={this.triggerFileBrowser}>
 					{this.hasImage() ? 'Change' : 'Upload'} Image
 				</Button>
-				{this.hasImage() && this.renderClearButton()}
+				{this.hasImage() ? this.renderClearButton() : null}
 			</div>
 		);
 	},
 
+	renderFileInput () {
+		if (!this.shouldRenderField()) return null;
+
+		return (
+			<HiddenFileInput
+				accept={SUPPORTED_TYPES.join()}
+				ref="fileInput"
+				name={this.state.uploadFieldPath}
+				onChange={this.handleImageChange}
+			/>
+		);
+	},
+
+	renderActionInput () {
+		if (!this.shouldRenderField()) return null;
+
+		if (this.state.userSelectedFile || this.state.removeExisting) {
+			const value = this.state.userSelectedFile
+				? `upload:${this.state.uploadFieldPath}`
+				: '';
+			return (
+				<input
+					name={this.getInputName(this.props.path)}
+					type="hidden"
+					value={value}
+				/>
+			);
+		} else {
+			return null;
+		}
+	},
+
 	renderUI () {
-		const { label, note, path, paths } = this.props;
+		const { label, note, path } = this.props;
 
 		const imageContainer = (
 			<div style={this.hasImage() ? { marginBottom: '1em' } : null}>
@@ -269,29 +317,14 @@ module.exports = Field.create({
 			? this.renderImageToolbar()
 			: <FormInput noedit>no image</FormInput>;
 
-		const hiddenInputs = this.shouldRenderField() && (
-			<div>
-				<HiddenFileInput
-					accept={SUPPORTED_TYPES.join()}
-					ref="fileInput"
-					name={this.getInputName(paths.upload)}
-					onChange={this.handleImageChange}
-				/>
-				<input
-					name={this.getInputName(paths.action)}
-					type="hidden"
-					value={this.state.action}
-				/>
-			</div>
-		);
-
 		return (
 			<FormField label={label} className="field-type-cloudinaryimage" htmlFor={path}>
 				{imageContainer}
 				{toolbar}
 				{!!note && <FormNote note={note} />}
 				{this.renderLightbox()}
-				{hiddenInputs}
+				{this.renderFileInput()}
+				{this.renderActionInput()}
 			</FormField>
 		);
 	},
