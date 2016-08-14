@@ -1,11 +1,12 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
-import Transition from 'react-addons-css-transition-group';
+import Transition
+	from 'react-addons-css-transition-group';
 import classnames from 'classnames';
 import ListFiltersAddForm from './ListFiltersAddForm';
 import Popout from '../../../../shared/Popout';
 import PopoutList from '../../../../shared/Popout/PopoutList';
-import { FormField, FormInput, InputGroup } from 'elemental';
+import { FormField, FormInput } from 'elemental';
 import ListHeaderButton from '../ListHeaderButton';
 
 import { setFilter } from '../../actions';
@@ -13,7 +14,6 @@ import { setFilter } from '../../actions';
 var ListFiltersAdd = React.createClass({
 	displayName: 'ListFiltersAdd',
 	propTypes: {
-		className: React.PropTypes.string.isRequired,
 		maxHeight: React.PropTypes.number,
 	},
 	getDefaultProps () {
@@ -126,7 +126,7 @@ var ListFiltersAdd = React.createClass({
 		});
 
 		return (
-			<InputGroup.Section className={this.props.className}>
+			<div>
 				<ListHeaderButton
 					active={this.state.isOpen}
 					id="listHeaderFilterButton"
@@ -140,11 +140,18 @@ var ListFiltersAdd = React.createClass({
 						leftIcon={selectedField ? 'chevron-left' : null}
 						title={selectedField ? selectedField.label : 'Filter'}
 						transitionDirection={selectedField ? 'next' : 'prev'} />
-					<Transition style={popoutBodyStyle} className={popoutPanesClassname} transitionName={selectedField ? 'Popout__pane-next' : 'Popout__pane-prev'} component="div">
+					<Transition
+						className={popoutPanesClassname}
+						component="div"
+						style={popoutBodyStyle}
+						transitionName={selectedField ? 'Popout__pane-next' : 'Popout__pane-prev'}
+						transitionEnterTimeout={360}
+						transitionLeaveTimeout={360}
+						>
 						{selectedField ? this.renderForm() : this.renderList()}
 					</Transition>
 				</Popout>
-			</InputGroup.Section>
+			</div>
 		);
 	},
 });
