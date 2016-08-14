@@ -263,7 +263,7 @@ cloudinaryimages.prototype.updateItem = function (item, data, files, callback) {
 		if (keystone.get('env') !== 'production') {
 			uploadOptions.tags.push(tagPrefix + 'dev');
 		}
-		var folder = this.getFolder();
+		var folder = field.getFolder();
 		if (folder) {
 			uploadOptions.folder = folder;
 		}
