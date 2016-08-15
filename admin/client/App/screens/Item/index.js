@@ -75,7 +75,7 @@ var ItemView = React.createClass({
 	renderRelationships () {
 		const { relationships } = this.props.currentList;
 		const keys = Object.keys(relationships);
-		if (!keys.length) return;
+		if (!keys.length) return null;
 		return (
 			<div className="Relationships">
 				<Container>

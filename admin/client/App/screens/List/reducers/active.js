@@ -29,11 +29,13 @@ const initialState = {
 function active (state = initialState, action) {
 	switch (action.type) {
 		case SET_ACTIVE_LIST:
+
+			//prevent SET_ACTIVE_LIST from nuking the search state pulled in from the query string
 			return assign({}, state, {
 				id: action.id,
 				columns: action.list.expandColumns(action.list.defaultColumns),
 				filters: [],
-				search: '',
+				search: ((typeof state.id !="undefined")&&(state.id!=action.id)) ? '':state.search,
 				sort: action.list.expandSort(action.list.defaultSort),
 			});
 		case SET_ACTIVE_SEARCH:
