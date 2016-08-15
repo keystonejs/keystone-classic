@@ -4,29 +4,33 @@
  */
 
 import React from 'react';
-// import { findDOMNode } from 'react-dom'; // TODO re-implement focus when ready
+import { findDOMNode } from 'react-dom';
+import classnames from 'classnames';
 import numeral from 'numeral';
 import {
 	BlankState,
 	Container,
+	FormInput,
+	InputGroup,
 	Pagination,
 	Spinner,
 } from 'elemental';
 import { connect } from 'react-redux';
 
-import { GlyphButton } from '../../elemental';
-
-import ListFilters from './components/Filtering/ListFilters';
-import ListHeaderTitle from './components/ListHeaderTitle';
-import ListHeaderToolbar from './components/ListHeaderToolbar';
+import { GlyphButton, ResponsiveText } from '../../elemental';
 import ListManagement from './components/ListManagement';
 
 import ConfirmationDialog from '../../shared/ConfirmationDialog';
 import CreateForm from '../../shared/CreateForm';
 import FlashMessages from '../../shared/FlashMessages';
 import ItemsTable from './components/ItemsTable/ItemsTable';
+import ListColumnsForm from './components/ListColumnsForm';
+import ListDownloadForm from './components/ListDownloadForm';
+import ListFilters from './components/Filtering/ListFilters';
+import ListFiltersAdd from './components/Filtering/ListFiltersAdd';
+import ListSort from './components/ListSort';
 import UpdateForm from './components/UpdateForm';
-import { plural as pluralize } from '../../../utils/string';
+import { plural } from '../../../utils/string';
 import { listsByPath } from '../../../utils/lists';
 
 import {
@@ -42,6 +46,27 @@ import {
 import {
 	deleteItem,
 } from '../Item/actions';
+
+function CreateButton ({ listName, onClick, ...props }) {
+	return (
+		<GlyphButton
+			block
+			color="success"
+			data-e2e-list-create-button="header"
+			glyph="plus"
+			onClick={onClick}
+			position="left"
+			title={`Create ${listName}`}
+			{...props}
+		>
+			<ResponsiveText
+				visibleSM="Create"
+				visibleMD="Create"
+				visibleLG={`Create ${listName}`}
+			/>
+		</GlyphButton>
+	);
+};
 
 const ListView = React.createClass({
 	contextTypes: {
@@ -63,10 +88,14 @@ const ListView = React.createClass({
 	componentDidMount () {
 		// When we directly navigate to a list without coming from another client
 		// side routed page before, we need to initialize the list and parse
-		// possibly specified query parameters
-		this.initializeList(this.props.params.listId);
+		// possibly specified query parameter
+		// parse query params first to get them into state
 		this.parseQueryParams();
-		this.loadItems();
+		this.initializeList(this.props.params.listId);
+		// suppress extraneous loadItems call when changing state via query params
+		if (Object.keys(this.props.location.query).length < 1) {
+			this.loadItems();
+		}
 	},
 	componentWillReceiveProps (nextProps) {
 		// We've opened a new list from the client side routing, so initialize
@@ -150,9 +179,7 @@ const ListView = React.createClass({
 	handleSearchClear () {
 		this.props.dispatch(setActiveSearch(''));
 		this.setState({ searchString: '' });
-
-		// TODO re-implement focus when ready
-		// findDOMNode(this.refs.listSearchInput).focus();
+		findDOMNode(this.refs.listSearchInput).focus();
 	},
 	handleSearchKey (e) {
 		// clear on esc
@@ -183,7 +210,7 @@ const ListView = React.createClass({
 	massDelete () {
 		const { checkedItems } = this.state;
 		const list = this.props.currentList;
-		const itemCount = pluralize(checkedItems, ('* ' + list.singular.toLowerCase()), ('* ' + list.plural.toLowerCase()));
+		const itemCount = plural(checkedItems, ('* ' + list.singular.toLowerCase()), ('* ' + list.plural.toLowerCase()));
 		const itemIds = Object.keys(checkedItems);
 
 		this.setState({
@@ -204,6 +231,50 @@ const ListView = React.createClass({
 		if (selection === 'none') this.uncheckAllTableItems();
 		if (selection === 'visible') this.checkAllTableItems();
 		return false;
+	},
+	renderSearch () {
+		var searchClearIcon = classnames('ListHeader__search__icon octicon', {
+			'is-search octicon-search': !this.state.searchString.length,
+			'is-clear octicon-x': this.state.searchString.length,
+		});
+		return (
+			<InputGroup.Section grow className="ListHeader__search">
+				<FormInput
+					ref="listSearchInput"
+					value={this.state.searchString}
+					onChange={this.updateSearch}
+					onKeyUp={this.handleSearchKey}
+					placeholder="Search"
+					className="ListHeader__searchbar-input"
+				/>
+				<button
+					ref="listSearchClear"
+					type="button"
+					title="Clear search query"
+					onClick={this.handleSearchClear}
+					disabled={!this.state.searchString.length}
+					className={searchClearIcon}
+				/>
+			</InputGroup.Section>
+		);
+	},
+	renderCreateButton () {
+		const { autocreate, nocreate, singular } = this.props.currentList;
+
+		if (nocreate) return null;
+
+		const onClick = autocreate
+			? this.createAutocreate
+			: this.openCreateModal;
+
+		return (
+			<InputGroup.Section className="ListHeader__create">
+				<CreateButton
+					listName={singular}
+					onClick={onClick}
+				/>
+			</InputGroup.Section>
+		);
 	},
 	renderConfirmationDialog () {
 		const props = this.state.confirmationDialog;
@@ -245,6 +316,7 @@ const ListView = React.createClass({
 
 		return (
 			<Pagination
+				className="ListHeader__pagination"
 				currentPage={currentPage}
 				onPageSelect={this.handlePageSelect}
 				pageSize={pageSize}
@@ -258,56 +330,62 @@ const ListView = React.createClass({
 	},
 	renderHeader () {
 		const items = this.props.items;
-		const { autocreate, nocreate, plural, singular } = this.props.currentList;
-
+		const list = this.props.currentList;
 		return (
-			<Container style={{ paddingTop: '2em' }}>
-				<ListHeaderTitle
-					activeSort={this.props.active.sort}
-					availableColumns={this.props.currentList.columns}
-					handleSortSelect={this.handleSortSelect}
-					title={`
-						${numeral(items.count).format()}
-						${pluralize(items.count, ' ' + singular, ' ' + plural)}
-					`}
-				/>
-				<ListHeaderToolbar
-					// common
-					dispatch={this.props.dispatch}
-					list={listsByPath[this.props.params.listId]}
-
-					// expand
-					expandIsActive={!this.state.constrainTableWidth}
-					expandOnClick={this.toggleTableWidth}
-
-					// create
-					createIsAvailable={!nocreate}
-					createListName={singular}
-					createOnClick={autocreate
-						? this.createAutocreate
-						: this.openCreateModal}
-
-					// search
-					searchHandleChange={this.updateSearch}
-					searchHandleClear={this.handleSearchClear}
-					searchHandleKeyup={this.handleSearchKey}
-					searchValue={this.state.searchString}
-
-					// filters
-					filtersActive={this.props.active.filters}
-					filtersAvailable={this.props.currentList.columns.filter((col) => (
-						col.field && col.field.hasFilterMethod) || col.type === 'heading'
-					)}
-
-					// columns
-					columnsActive={this.props.active.columns}
-					columnsAvailable={this.props.currentList.columns}
-				/>
-				<ListFilters
-					dispatch={this.props.dispatch}
-					filters={this.props.active.filters}
-				/>
-			</Container>
+			<div className="ListHeader">
+				<Container>
+					<h2 className="ListHeader__title">
+						{numeral(items.count).format()}
+						{plural(items.count, ' ' + list.singular, ' ' + list.plural)}
+						<ListSort
+							activeSort={this.props.active.sort}
+							availableColumns={this.props.currentList.columns}
+							handleSortSelect={this.handleSortSelect}
+						/>
+					</h2>
+					<InputGroup className="ListHeader__bar">
+						{this.renderSearch()}
+						<ListFiltersAdd
+							dispatch={this.props.dispatch}
+							activeFilters={this.props.active.filters}
+							availableFilters={this.props.currentList.columns.filter((col) => (
+								col.field && col.field.hasFilterMethod) || col.type === 'heading'
+							)}
+							className="ListHeader__filter"
+						/>
+						<ListColumnsForm
+							availableColumns={this.props.currentList.columns}
+							activeColumns={this.props.active.columns}
+							dispatch={this.props.dispatch}
+							className="ListHeader__columns"
+						/>
+						<ListDownloadForm
+							dispatch={this.props.dispatch}
+							activeColumns={this.props.active.columns}
+							list={listsByPath[this.props.params.listId]}
+							className="ListHeader__download"
+						/>
+						<InputGroup.Section className="ListHeader__expand">
+							<GlyphButton
+								active={!this.state.constrainTableWidth}
+								glyph="mirror"
+								onClick={this.toggleTableWidth}
+								title="Expand table width"
+							/>
+						</InputGroup.Section>
+						{this.renderCreateButton()}
+					</InputGroup>
+					<ListFilters
+						dispatch={this.props.dispatch}
+						filters={this.props.active.filters}
+					/>
+					<div style={{ height: 35, marginBottom: '1em' }}>
+						{this.renderManagement()}
+						{this.renderPagination()}
+						<span style={{ clear: 'both', display: 'table' }} />
+					</div>
+				</Container>
+			</div>
 		);
 	},
 
@@ -448,13 +526,6 @@ const ListView = React.createClass({
 		return (
 			<div>
 				{this.renderHeader()}
-				<Container>
-					<div style={{ height: 35, marginBottom: '1em', marginTop: '1em' }}>
-						{this.renderManagement()}
-						{this.renderPagination()}
-						<span style={{ clear: 'both', display: 'table' }} />
-					</div>
-				</Container>
 				<Container style={containerStyle}>
 					{(this.props.error) ? (
 						<FlashMessages
@@ -496,7 +567,7 @@ const ListView = React.createClass({
 		if (this.props.items.results.length) return null;
 		let matching = this.props.active.search;
 		if (this.props.active.filters.length) {
-			matching += (matching ? ' and ' : '') + pluralize(this.props.active.filters.length, '* filter', '* filters');
+			matching += (matching ? ' and ' : '') + plural(this.props.active.filters.length, '* filter', '* filters');
 		}
 		matching = matching ? ' found matching ' + matching : '.';
 		return (
