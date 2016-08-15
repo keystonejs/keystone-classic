@@ -89,12 +89,12 @@ const ListView = React.createClass({
 		// When we directly navigate to a list without coming from another client
 		// side routed page before, we need to initialize the list and parse
 		// possibly specified query parameter
-		//parse query params first to get them into state
+		// parse query params first to get them into state
 		this.parseQueryParams();
-	  this.initializeList(this.props.params.listId);
-		//suppress extraneous loadItems call when changing state via query params
-    if(Object.keys(this.props.location.query).length<1) {
-		 this.loadItems();
+		this.initializeList(this.props.params.listId);
+		// suppress extraneous loadItems call when changing state via query params
+		if (Object.keys(this.props.location.query).length < 1) {
+			this.loadItems();
 		}
 	},
 	componentWillReceiveProps (nextProps) {

@@ -15,7 +15,7 @@ function ListManagement ({
 }) {
 	// do not render if there's no results
 	// or if edit/delete unavailable on the list
-	//this will blow up the componenet render without returning a hard null
+	// this will blow up the componenet render without returning a hard null
 	if (!itemCount || (nodelete && noedit)) return null;
 
 	const buttonNoteStyles = { color: '#999', fontWeight: 'normal' };
