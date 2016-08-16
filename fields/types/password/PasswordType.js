@@ -43,6 +43,9 @@ function password (list, path, options) {
 			}
 		}
 	}
+	if (this.options.max <= this.options.min) {
+		throw new Error('FieldType.Password: options - min must be set at a lower value than max.');
+	}
 }
 password.properName = 'Password';
 util.inherits(password, FieldType);
@@ -150,7 +153,7 @@ password.prototype.validateInput = function (data, callback) {
 	var detail = '';
 	var result = true;
 	var min = this.options.min;
-	var max = this.options.max || 256;
+	var max = this.options.max || 72;
 	var complexity = this.options.complexity;
 	var confirmValue = this.getValueFromData(data, '_confirm');
 	var passwordValue = this.getValueFromData(data);
