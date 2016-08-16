@@ -5,7 +5,7 @@ module.exports = function CloudinaryImageMultipleType(config) {
 		selector: '.field-type-cloudinaryimages[for="' + config.fieldName + '"]',
 		elements: {
 			label: '.FormLabel',
-			button: '.images-toolbar',
+			button: 'button[data-e2e-upload-button]',
 		},
 		commands: [{
 			assertUI: function() {

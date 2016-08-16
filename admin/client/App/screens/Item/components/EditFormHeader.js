@@ -130,7 +130,7 @@ var Header = React.createClass({
 			props.onClick = () => { this.toggleCreate(true); };
 		}
 		return (
-			<GlyphButton color="success" glyph="plus" position="left" {...props}>
+			<GlyphButton data-e2e-item-create-button="true" color="success" glyph="plus" position="left" {...props}>
 				<ResponsiveText hiddenXS={`New ${singular}`} visibleXS="Create" />
 			</GlyphButton>
 		);

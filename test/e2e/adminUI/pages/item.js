@@ -6,12 +6,11 @@ var ColorList = require('./lists/color');
 var DateArrayList = require('./lists/dateArray');
 var DateList = require('./lists/date');
 var DatetimeList = require('./lists/datetime');
+var FileList = require('./lists/file');
 var GeoPointList = require('./lists/geoPoint');
 var EmailList = require('./lists/email');
 var HtmlList = require('./lists/html');
 var KeyList = require('./lists/key');
-var LocalFileList = require('./lists/localFile');
-var LocalFileMultipleList = require('./lists/localFileMultiple');
 var LocationList = require('./lists/location');
 var MarkdownList = require('./lists/markdown');
 var MoneyList = require('./lists/money');
@@ -53,11 +52,10 @@ module.exports = {
 				dateList: new DateList(),
 				datetimeList: new DatetimeList(),
 				emailList: new EmailList(),
+				fileList: new FileList(),
 				geopointList: new GeoPointList(),
 				htmlList: new HtmlList(),
 				keyList: new KeyList(),
-				localfileList: new LocalFileList(),
-				localfilemultipleList: new LocalFileMultipleList(),
 				locationList: new LocationList(),
 				markdownList: new MarkdownList(),
 				moneyList: new MoneyList(),
