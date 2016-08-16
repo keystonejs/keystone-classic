@@ -103,9 +103,9 @@ module.exports = {
 		//
 		// PAGE LEVEL ELEMENTS
 		//
-		listBreadcrumb: '.e2e-editform-header-back',
+		listBreadcrumb: 'a[data-e2e-editform-header-back="true"]',
 		searchInputIcon: '.EditForm__header__search input[class="FormInput EditForm__header__search-input"]',
-		newItemButton: '.Toolbar__section button[class="Button Button--success"]',
+		newItemButton: '.Toolbar__section button[data-e2e-list-create-button="header"]',
 
 		flashMessage: '.Alert--success',
 		flashError: '.Alert--danger',

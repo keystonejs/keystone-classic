@@ -1,6 +1,14 @@
 var keystone = require('../../../../index.js');
 var Types = keystone.Field.Types;
 
+var storage = new keystone.Storage({
+	adapter: keystone.Storage.Adapters.FS,
+	fs: {
+		path: keystone.expandPath('./uploads'), // required; path where the files should be stored
+		publicPath: '/public/uploads', // path where files will be served
+	}
+});
+
 var LocalFileMultiple = new keystone.List('LocalFileMultiple', {
 	autokey: {
 		path: 'key',
@@ -18,12 +26,12 @@ LocalFileMultiple.add({
 		index: true,
 	},
 	fieldA: {
-		type: Types.LocalFiles,
-		dest: '/files/',
+		type: Types.File,
+		storage: storage,
 	},
 	fieldB: {
-		type: Types.LocalFiles,
-		dest: '/files/',
+		type: Types.File,
+		storage: storage,
 	},
 });
 
