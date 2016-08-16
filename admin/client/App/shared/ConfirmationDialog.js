@@ -28,9 +28,7 @@ class ConfirmationDialog extends Component {
 				onCancel={onCancel}
 				width={400}
 			>
-				<ModalBody dangerouslySetInnerHTML={this.getBodyHtml()}>
-					<span />
-				</ModalBody>
+				<ModalBody dangerouslySetInnerHTML={this.getBodyHtml()} />
 				<ModalFooter>
 					<Button autoFocus size="sm" type={confirmationType} onClick={onConfirmation}>
 						{confirmationLabel}
