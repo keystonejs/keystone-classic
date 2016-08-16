@@ -1,4 +1,6 @@
 var React = require('react');
+
+import _ from 'lodash';
 import { findDOMNode } from 'react-dom';
 
 var Button = require('elemental').Button;
@@ -85,7 +87,7 @@ module.exports = {
 		const value = this.processInputValue ? this.processInputValue(item.value) : item.value;
 		return (
 			<FormField key={item.key}>
-				<Input ref={'item_' + (index + 1)} name={this.props.path} value={value} onChange={this.updateItem.bind(this, item)} onKeyDown={this.addItemOnEnter} autoComplete="off" />
+				<Input ref={'item_' + (index + 1)} name={this.getInputName(this.props.path)} value={value} onChange={this.updateItem.bind(this, item)} onKeyDown={this.addItemOnEnter} autoComplete="off" />
 				<Button type="link-cancel" onClick={this.removeItem.bind(this, item)} className="keystone-relational-button">
 					<span className="octicon octicon-x" />
 				</Button>

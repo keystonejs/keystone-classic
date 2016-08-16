@@ -62,7 +62,7 @@ module.exports = Field.create({
 					<FormInput
 						autoFocus
 						autoComplete="off"
-						name={paths.first}
+						name={this.getInputName(paths.first)}
 						onChange={this.changeFirst}
 						placeholder="First name"
 						value={value.first}
@@ -71,7 +71,7 @@ module.exports = Field.create({
 				<FormField width="one-half">
 					<FormInput
 						autoComplete="off"
-						name={paths.last}
+						name={this.getInputName(paths.last)}
 						onChange={this.changeLast}
 						placeholder="Last name"
 						value={value.last}

@@ -54,9 +54,8 @@ util.inherits(password, FieldType);
  *
  * @api public
  */
-password.prototype.addToSchema = function () {
+password.prototype.addToSchema = function (schema) {
 	var field = this;
-	var schema = this.list.schema;
 	var needs_hashing = '__' + field.path + '_needs_hashing';
 
 	this.paths = {

@@ -103,7 +103,7 @@ module.exports = {
 		//
 		// PAGE LEVEL ELEMENTS
 		//
-		listBreadcrumb: '.EditForm__header__back',
+		listBreadcrumb: '.e2e-editform-header-back',
 		searchInputIcon: '.EditForm__header__search input[class="FormInput EditForm__header__search-input"]',
 		newItemButton: '.Toolbar__section button[class="Button Button--success"]',
 
@@ -150,6 +150,50 @@ module.exports = {
 		//
 		// PAGE LEVEL COMMANDS
 		//
+		assertUIVisible: function (config) {
+			var list = config.listName.toLowerCase() + 'List';
+			var tasks = [];
+			var form = this.section.form;
+			config.fields.forEach( function(field) {
+				var task = form.section[list].section[field]
+					.assertUIVisible(config.args);
+				tasks.push(task);
+			});
+			return tasks;
+		},
+		assertUINotVisible: function (config) {
+			var list = config.listName.toLowerCase() + 'List';
+			var tasks = [];
+			var form = this.section.form;
+			config.fields.forEach( function(field) {
+				var task = form.section[list].section[field]
+					.assertUIVisible(config.args);
+				tasks.push(task);
+			});
+			return tasks;
+		},
+		assertUIPresent: function (config) {
+			var list = config.listName.toLowerCase() + 'List';
+			var tasks = [];
+			var form = this.section.form;
+			config.fields.forEach( function(field) {
+				var task = form.section[list].section[field]
+					.assertUIPresent(config.args);
+				tasks.push(task);
+			});
+			return tasks;
+		},
+		assertUINotNotPresent: function (config) {
+			var list = config.listName.toLowerCase() + 'List';
+			var tasks = [];
+			var form = this.section.form;
+			config.fields.forEach( function(field) {
+				var task = form.section[list].section[field]
+					.assertUINotPresent(config.args);
+				tasks.push(task);
+			});
+			return tasks;
+		},
 		assertUI: function (config) {
 			var list = config.listName.toLowerCase() + 'List';
 			var tasks = [];

@@ -8,7 +8,7 @@ module.exports = {
 		browser.listPage.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 
-		browser.initialFormPage.assertUI({
+		browser.initialFormPage.assertUIVisible({
 			listName: 'Location',
 			fields: ['name', 'fieldA'],
 			args: { 'showMore': false },
@@ -16,7 +16,7 @@ module.exports = {
 
 		browser.initialFormPage.section.form.section.locationList.section.fieldA.showMore();
 
-		browser.initialFormPage.assertUI({
+		browser.initialFormPage.assertUIVisible({
 			listName: 'Location',
 			fields: ['name', 'fieldA'],
 			args: { 'showMore': true },
@@ -90,18 +90,18 @@ module.exports = {
 		})
 	},
 	'Location field should show correctly in the edit form': function(browser) {
-		browser.itemPage.assertUI({
+		browser.itemPage.assertUIVisible({
 			listName: 'Location',
 			fields: ['fieldA'],
 			args: { 'showMore': true },
 		});
-		browser.itemPage.assertUI({
+		browser.itemPage.assertUIVisible({
 			listName: 'Location',
 			fields: ['fieldB'],
 			args: { 'showMore': false },
 		});
 		browser.itemPage.section.form.section.locationList.section.fieldB.showMore();
-		browser.itemPage.assertUI({
+		browser.itemPage.assertUIVisible({
 			listName: 'Location',
 			fields: ['fieldB'],
 			args: { 'showMore': true },

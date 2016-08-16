@@ -1,6 +1,21 @@
 # Text Field
 
 Stores a `String` in the model.
+Displayed as a text field in the Admin UI.
+
+```js
+	{ type: Types.Text }
+```
+
+## Options
+
+`min` `Number` - sets the minimum character length of the field
+
+`max` `Number` - sets the maximum character length of the field
+
+```js
+{ type: Types.Text, min: 10, max: 2000 }
+```
 
 ## Methods
 

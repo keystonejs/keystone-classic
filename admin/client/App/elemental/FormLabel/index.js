@@ -27,7 +27,10 @@ FormLabel.contextTypes = {
 	formFieldId: PropTypes.string,
 };
 FormLabel.propTypes = {
-	component: PropTypes.node,
+	component: PropTypes.oneOfType([
+		PropTypes.string,
+		PropTypes.func,
+	]),
 };
 FormLabel.defaultProps = {
 	component: 'label',

@@ -48,10 +48,10 @@ module.exports = Field.create({
 		return (
 			<InputGroup>
 				<InputGroup.Section grow>
-					<FormInput type="password" name={this.props.path} placeholder="New password" ref="focusTarget" value={this.state.password} onChange={this.valueChanged.bind(this, 'password')} autoComplete="off" />
+					<FormInput type="password" name={this.getInputName(this.props.path)} placeholder="New password" ref="focusTarget" value={this.state.password} onChange={this.valueChanged.bind(this, 'password')} autoComplete="off" />
 				</InputGroup.Section>
 				<InputGroup.Section grow>
-					<FormInput type="password" name={this.props.paths.confirm} placeholder="Confirm new password" value={this.state.confirm} onChange={this.valueChanged.bind(this, 'confirm')} autoComplete="off" />
+					<FormInput type="password" name={this.getInputName(this.props.paths.confirm)} placeholder="Confirm new password" value={this.state.confirm} onChange={this.valueChanged.bind(this, 'confirm')} autoComplete="off" />
 				</InputGroup.Section>
 				{this.state.passwordIsSet ? <InputGroup.Section><Button onClick={this.onCancel}>Cancel</Button></InputGroup.Section> : null}
 			</InputGroup>

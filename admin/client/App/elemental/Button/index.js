@@ -1,6 +1,7 @@
-import { StyleSheet, css } from 'aphrodite/no-important';
+import { css, StyleSheet } from 'aphrodite/no-important';
 import React, { PropTypes } from 'react';
 import styles from './styles';
+import concatClassnames from '../../../utils/concatClassnames';
 
 const commonClasses = StyleSheet.create(styles.common);
 const stylesheetCache = {};
@@ -12,35 +13,35 @@ function getStyleSheet (variant, color) {
 	}
 	return stylesheetCache[cacheKey];
 }
-const truthy = i => i;
-function cssClassNames (arr) {
-	return css.apply(undefined, arr.filter(truthy));
-}
 
 const BUTTON_SIZES = ['large', 'medium', 'small', 'xsmall'];
 const BUTTON_VARIANTS = ['fill', 'hollow', 'link'];
 const BUTTON_COLORS = ['default', 'primary', 'success', 'warning', 'danger', 'cancel', 'delete'];
 
 function Button ({
+	active,
+	block,
+	className,
 	color,
 	component,
-	isActive,
-	isBlock,
-	isDisabled,
+	disabled,
 	size,
 	variant,
 	...props,
 }) {
+
 	// get the styles
 	const variantClasses = getStyleSheet(variant, color);
-	props.className = cssClassNames([
+	props.className = css(
 		commonClasses.base,
 		commonClasses[size],
 		variantClasses.base,
-		isActive ? variantClasses.active : null,
-		isBlock ? commonClasses.block : null,
-		isDisabled ? commonClasses.disabled : null,
-	]);
+		block ? commonClasses.block : null,
+		disabled ? commonClasses.disabled : null,
+		active ? variantClasses.active : null,
+		...concatClassnames(className)
+	);
+
 	// return an anchor or button
 	if (!component) {
 		component = props.href ? 'a' : 'button';
@@ -49,19 +50,29 @@ function Button ({
 	if (component === 'button' && !props.type) {
 		props.type = 'button';
 	}
-	if (isDisabled) {
-		props.disabled = 'disabled';
-	}
+
 	return React.createElement(component, props);
 };
 
+const classNameShape = {
+	_definition: PropTypes.object,
+	_name: PropTypes.string,
+};
+
 Button.propTypes = {
+	active: PropTypes.bool,
+	block: PropTypes.bool,
+	className: PropTypes.oneOfType([
+		PropTypes.arrayOf(PropTypes.shape(classNameShape)),
+		PropTypes.shape(classNameShape),
+	]),
 	color: PropTypes.oneOf(BUTTON_COLORS),
-	component: PropTypes.element,
+	component: PropTypes.oneOfType([
+		PropTypes.func,
+		PropTypes.string,
+	]),
+	disabled: PropTypes.bool,
 	href: PropTypes.string,
-	isActive: PropTypes.bool,
-	isBlock: PropTypes.bool,
-	isDisabled: PropTypes.bool,
 	size: PropTypes.oneOf(BUTTON_SIZES),
 	variant: PropTypes.oneOf(BUTTON_VARIANTS),
 };

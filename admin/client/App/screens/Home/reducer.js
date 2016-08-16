@@ -24,7 +24,6 @@ function home (state = initialState, action) {
 				error: null,
 			});
 		case COUNTS_LOADING_ERROR:
-			console.log(action.error);
 			return assign({}, state, {
 				loading: false,
 				error: action.error,

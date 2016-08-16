@@ -76,7 +76,7 @@ const ColorField = Field.create({
 					<InputGroup.Section grow>
 						<FormInput
 							autoComplete="off"
-							name={this.props.path}
+							name={this.getInputName(this.props.path)}
 							onChange={this.valueChanged}
 							ref="field"
 							value={this.props.value}

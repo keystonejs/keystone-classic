@@ -3,15 +3,13 @@ import assign from 'object-assign';
 
 import Popout from '../../../shared/Popout';
 import PopoutList from '../../../shared/Popout/PopoutList';
-import { Button, InputGroup, FormField, FormInput } from 'elemental';
+import { FormField, FormInput } from 'elemental';
+import ListHeaderButton from './ListHeaderButton';
 
 import { setActiveColumns } from '../actions';
 
 var ListColumnsForm = React.createClass({
 	displayName: 'ListColumnsForm',
-	propTypes: {
-		className: React.PropTypes.string.isRequired,
-	},
 	getInitialState () {
 		return {
 			selectedColumns: {},
@@ -84,12 +82,14 @@ var ListColumnsForm = React.createClass({
 	},
 	render () {
 		return (
-			<InputGroup.Section className={this.props.className}>
-				<Button id="listHeaderColumnButton" isActive={this.state.isOpen} onClick={() => this.togglePopout(!this.state.isOpen)}>
-					<span className={this.props.className + '__icon octicon octicon-list-unordered'} />
-					<span className={this.props.className + '__label'}>Columns</span>
-					<span className="disclosure-arrow" />
-				</Button>
+			<div>
+				<ListHeaderButton
+					active={this.state.isOpen}
+					id="listHeaderColumnButton"
+					glyph="list-unordered"
+					label="Columns"
+					onClick={() => this.togglePopout(!this.state.isOpen)}
+				/>
 				<Popout isOpen={this.state.isOpen} onCancel={() => this.togglePopout(false)} relativeToID="listHeaderColumnButton">
 					<Popout.Header title="Columns" />
 					<Popout.Body scrollable>
@@ -106,7 +106,7 @@ var ListColumnsForm = React.createClass({
 						secondaryButtonAction={() => this.togglePopout(false)}
 						secondaryButtonLabel="Cancel" />
 				</Popout>
-			</InputGroup.Section>
+			</div>
 		);
 	},
 });

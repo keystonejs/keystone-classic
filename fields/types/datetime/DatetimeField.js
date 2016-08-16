@@ -104,22 +104,22 @@ module.exports = Field.create({
 			input = (
 				<InputGroup>
 					<InputGroup.Section grow>
-						<DateInput ref="dateInput" name={this.props.paths.date} value={this.state.dateValue} format={this.dateInputFormat} onChange={this.dateChanged} />
+						<DateInput ref="dateInput" name={this.getInputName(this.props.paths.date)} value={this.state.dateValue} format={this.dateInputFormat} onChange={this.dateChanged} />
 					</InputGroup.Section>
 					<InputGroup.Section grow>
-						<FormInput name={this.props.paths.time} value={this.state.timeValue} placeholder="HH:MM:SS am/pm" onChange={this.timeChanged} autoComplete="off" />
+						<FormInput name={this.getInputName(this.props.paths.time)} value={this.state.timeValue} placeholder="HH:MM:SS am/pm" onChange={this.timeChanged} autoComplete="off" />
 					</InputGroup.Section>
 					<InputGroup.Section>
 						<Button onClick={this.setNow}>Now</Button>
 					</InputGroup.Section>
-					<input type="hidden" name={this.props.paths.tzOffset} value={this.state.tzOffsetValue} />
+					<input type="hidden" name={this.getInputName(this.props.paths.tzOffset)} value={this.state.tzOffsetValue} />
 				</InputGroup>
 			);
 		} else {
 			input = <FormInput noedit>{this.format(this.props.value, this.props.formatString)}</FormInput>;
 		}
 		return (
-			<FormField label={this.props.label} className="field-type-datetime" htmlFor={this.props.path}>
+			<FormField label={this.props.label} className="field-type-datetime" htmlFor={this.getInputName(this.props.path)}>
 				{input}
 				{this.renderNote()}
 			</FormField>

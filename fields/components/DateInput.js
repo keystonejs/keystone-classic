@@ -14,7 +14,7 @@ module.exports = React.createClass({
 		name: React.PropTypes.string,
 		onChange: React.PropTypes.func.isRequired,
 		path: React.PropTypes.string,
-		value: React.PropTypes.string.isRequired,
+		value: React.PropTypes.string,
 	},
 	getDefaultProps () {
 		return {

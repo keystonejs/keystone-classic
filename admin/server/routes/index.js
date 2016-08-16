@@ -71,7 +71,7 @@ module.exports = function IndexRoute (req, res) {
 	if (cloudinaryConfig) {
 		var cloudinary = require('cloudinary');
 		var cloudinaryUpload = cloudinary.uploader.direct_upload();
-		keystone.cloudinary = {
+		keystoneData.cloudinary = {
 			cloud_name: keystone.get('cloudinary config').cloud_name,
 			api_key: keystone.get('cloudinary config').api_key,
 			timestamp: cloudinaryUpload.hidden_fields.timestamp,

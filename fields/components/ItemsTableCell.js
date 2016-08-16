@@ -1,21 +1,10 @@
 import React from 'react';
+import classnames from 'classnames';
 
-var ItemsTableCell = React.createClass({
-	displayName: 'ItemsTableCell',
-	propTypes: {
-		className: React.PropTypes.string,
-	},
-	getDefaultProps () {
-		return {
-			className: '',
-		};
-	},
-	render () {
-		const className = `ItemList__col ${this.props.className}`;
-		return (
-			<td {...this.props} className={className} />
-		);
-	},
-});
+function ItemsTableCell ({ className, ...props }) {
+	props.className = classnames('ItemList__col', className);
+
+	return <td {...props} />;
+};
 
 module.exports = ItemsTableCell;

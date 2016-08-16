@@ -1,25 +1,44 @@
-import classnames from 'classnames';
 import React, { Component, PropTypes } from 'react';
-import { StyleSheet, css } from 'aphrodite/no-important';
+import { css, StyleSheet } from 'aphrodite/no-important';
 import styles from './styles';
+import concatClassnames from '../../../utils/concatClassnames';
 
 const classes = StyleSheet.create(styles);
 
 class FormInput extends Component {
-	render () {
-		const { formFieldId, formLayout } = this.context;
-		const { className, id } = this.props;
-		let consumedProps = Object.assign({}, this.props);
-		consumedProps.id = id || formFieldId;
+	constructor () {
+		super();
 
-		consumedProps.className = classnames(
-			css(classes.FormInput), {
-				[css(classes['FormInput--form-layout-' + formLayout])]: formLayout,
-			}, className
+		this.focusInput = this.focusInput.bind(this);
+	}
+	componentWillReceiveProps (nextProps) {
+		if (nextProps.focusInput && !this.props.focusInput) {
+			this.focusInput();
+		}
+	}
+	focusInput () {
+		this.target.focus();
+	}
+	render () {
+		// NOTE `focusInput` is declared to remove it from `props`, though never used
+		const {
+			className,
+			id,
+			focusInput, // eslint-disable-line no-unused-vars
+			...props,
+		} = this.props;
+		const { formFieldId, formLayout } = this.context;
+		props.id = id || formFieldId;
+		props.className = css(
+			classes.FormInput,
+			formLayout ? classes['FormInput--form-layout-' + formLayout] : null,
+			...concatClassnames(className)
 		);
 
+		const setRef = (n) => (this.target = n);
+
 		return (
-			<input {...consumedProps} />
+			<input ref={setRef} {...props} />
 		);
 	}
 };
