@@ -1,11 +1,11 @@
 var utils = require('../../../utils');
 
 module.exports = function CloudinaryImageType(config) {
-	var self = {
+	return {
 		selector: '.field-type-cloudinaryimage[for="' + config.fieldName + '"]',
 		elements: {
 			label: '.FormLabel',
-			button: '.image-toolbar .Button--default',
+			button: '.image-toolbar button',
 		},
 		commands: [{
 			assertUI: function() {
@@ -19,6 +19,4 @@ module.exports = function CloudinaryImageType(config) {
 			},
 		}],
 	};
-
-	return self;
 };

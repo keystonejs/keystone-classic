@@ -1,6 +1,7 @@
 var fieldTests = require('./commonFieldTestUtils.js');
 
 module.exports = {
+	'@disabled': true, // TODO:  https://github.com/keystonejs/keystone/issues/3330
 	before: fieldTests.before,
 	after: fieldTests.after,
 	'Datetime field should show correctly in the initial modal': function (browser) {

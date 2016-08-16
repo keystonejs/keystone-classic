@@ -38,11 +38,10 @@ module.exports = {
 		dateListSubmenu: '.secondary-navbar [data-list-path="dates"]',
 		datetimeListSubmenu: '.secondary-navbar [data-list-path="datetimes"]',
 		emailListSubmenu: '.secondary-navbar [data-list-path="emails"]',
+		fileListSubmenu: '.secondary-navbar [data-list-path="files"]',
 		geopointListSubmenu: '.secondary-navbar [data-list-path="geo-points"]',
 		htmlListSubmenu: '.secondary-navbar [data-list-path="htmls"]',
 		keyListSubmenu: '.secondary-navbar [data-list-path="keys"]',
-		localfileListSubmenu: '.secondary-navbar [data-list-path="local-files"]',
-		localfilemultipleListSubmenu: '.secondary-navbar [data-list-path="local-file-multiples"]',
 		locationListSubmenu: '.secondary-navbar [data-list-path="locations"]',
 		markdownListSubmenu: '.secondary-navbar [data-list-path="markdowns"]',
 		moneyListSubmenu: '.secondary-navbar [data-list-path="money"]',
@@ -93,11 +92,11 @@ module.exports = {
 		},
 		waitForSigninScreen: function() {
 			return this
-				.waitForElementVisible('@signinScreen');
+				.waitForElementVisible('@signinScreen', 20000);
 		},
 		waitForHomeScreen: function() {
 			return this
-				.waitForElementVisible('@homeScreen');
+				.waitForElementVisible('@homeScreen', 20000);
 		},
 		waitForInitialFormScreen: function() {
 			return this

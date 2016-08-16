@@ -45,7 +45,7 @@ module.exports = {
 	//},
 	'List screen must have a create list item button': function (browser) {
 		browser.listPage
-			.expect.element('@createFirstItemButton').to.be.visible;
+			.expect.element('@createMoreItemsButton').to.be.visible;
 	},
 	'List screen must have a pagination count': function (browser) {
 		browser.listPage

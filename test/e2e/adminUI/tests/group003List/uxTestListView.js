@@ -20,9 +20,9 @@ module.exports = {
 	'List view should allow users to create a new list item': function (browser) {
 		browser.app
 			.click('@fieldListsMenu')
-			.waitForElementVisible('@listScreen')
+			.waitForListScreen()
 			.click('@nameListSubmenu')
-			.waitForElementVisible('@listScreen');
+			.waitForListScreen();
 
 		browser.listPage
 			.click('@createFirstItemButton');
@@ -43,13 +43,13 @@ module.exports = {
 			.click('@createButton');
 
 		browser.app
-			.waitForElementVisible('@itemScreen');
+			.waitForItemScreen();
 
 		browser.app
 			.click('@fieldListsMenu')
-			.waitForElementVisible('@listScreen')
+			.waitForListScreen()
 			.click('@nameListSubmenu')
-			.waitForElementVisible('@listScreen');
+			.waitForListScreen();
 
 		browser.listPage
 			.expect.element('@paginationCount').text.to.equal('Showing 1 Name');
@@ -60,9 +60,9 @@ module.exports = {
 	'List view should allow users to create more new list items': function (browser) {
 		browser.app
 			.click('@fieldListsMenu')
-			.waitForElementVisible('@listScreen')
+			.waitForListScreen()
 			.click('@nameListSubmenu')
-			.waitForElementVisible('@listScreen');
+			.waitForListScreen();
 
 		browser.listPage
 			.click('@createMoreItemsButton');
@@ -83,13 +83,13 @@ module.exports = {
 			.click('@createButton');
 
 		browser.app
-			.waitForElementVisible('@itemScreen');
+			.waitForItemScreen();
 
 		browser.app
 			.click('@fieldListsMenu')
-			.waitForElementVisible('@listScreen')
+			.waitForListScreen()
 			.click('@nameListSubmenu')
-			.waitForElementVisible('@listScreen');
+			.waitForListScreen();
 
 		browser.listPage
 			.expect.element('@paginationCount').text.to.equal('Showing 2 Names');
@@ -103,47 +103,47 @@ module.exports = {
 	'List view should allow users to browse an item by clicking the item name': function (browser) {
 		browser.app
 			.click('@fieldListsMenu')
-			.waitForElementVisible('@listScreen')
+			.waitForListScreen()
 			.click('@nameListSubmenu')
-			.waitForElementVisible('@listScreen');
+			.waitForListScreen();
 
 		browser.listPage
 			.click('@firstItemNameValue');
 
 		browser.app
-			.waitForElementVisible('@itemScreen');
+			.waitForItemScreen();
 	},
 	'List view should allow users to browse back to list view from an item view by using the crum links': function (browser) {
 		browser.app
 			.click('@fieldListsMenu')
-			.waitForElementVisible('@listScreen')
+			.waitForListScreen()
 			.click('@nameListSubmenu')
-			.waitForElementVisible('@listScreen');
+			.waitForListScreen();
 
 		browser.listPage
 			.click('@firstItemNameValue');
 
 		browser.app
-			.waitForElementVisible('@itemScreen');
+			.waitForItemScreen();
 
 		browser.itemPage
 			.click('@listBreadcrumb');
 
 		browser.app
-			.waitForElementVisible('@listScreen');
+			.waitForListScreen();
 	},
 	'List view should allow users to search for items': function (browser) {
 		browser.app
 			.click('@fieldListsMenu')
-			.waitForElementVisible('@listScreen')
+			.waitForListScreen()
 			.click('@nameListSubmenu')
-			.waitForElementVisible('@listScreen');
+			.waitForListScreen();
 
 		browser.listPage
 			.setValue('@searchInputField', 'Name Field Test 2');
 
 		browser.app
-			.waitForElementVisible('@listScreen');
+			.waitForListScreen();
 
 		browser.listPage
 			.expect.element('@paginationCount').text.to.equal('Showing 1 Name');
@@ -156,7 +156,7 @@ module.exports = {
 			.click('@searchInputFieldClearIcon');
 
 		browser.app
-			.waitForElementVisible('@listScreen');
+			.waitForListScreen();
 
 		browser.listPage
 			.expect.element('@paginationCount').text.to.equal('Showing 2 Names');
@@ -178,7 +178,7 @@ module.exports = {
 			.click('@deleteButton');
 
 		browser.app
-			.waitForElementVisible('@listScreen');
+			.waitForListScreen();
 
 		browser.listPage
 			.expect.element('@paginationCount').text.to.equal('Showing 1 Name');
@@ -189,9 +189,9 @@ module.exports = {
 	'List view should allow users to delete last item': function (browser) {
 		browser.app
 			.click('@fieldListsMenu')
-			.waitForElementVisible('@listScreen')
+			.waitForListScreen()
 			.click('@nameListSubmenu')
-			.waitForElementVisible('@listScreen');
+			.waitForListScreen();
 
 		browser.listPage
 			.click('@firstItemDeleteIcon');
@@ -203,7 +203,7 @@ module.exports = {
 			.click('@deleteButton');
 
 		browser.app
-			.waitForElementVisible('@listScreen');
+			.waitForListScreen();
 
 		browser.listPage
 			.expect.element('@noItemsFoundNoText').text.to.equal('No names found…');

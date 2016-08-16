@@ -13,7 +13,7 @@ module.exports = {
 
 		browser.signinPage.signin();
 
-		browser.app.waitForElementVisible('@homeScreen');
+		browser.app.waitForHomeScreen();
 
 		browser.app.click('@accessMenu').waitForListScreen();
 

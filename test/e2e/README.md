@@ -25,9 +25,6 @@ with a real keystone app server.
                     uiTest<test-name>           => UI test suite
                     uxTest<test-name>           => UX/functional test suite
 
-        bin                                     => any required e2e binaries
-           selenium-server-standalone-x.y.z.jar => selenium driver for local testing
-
         drivers
             <browser drivers>                   => all required browser drivers
             
@@ -47,6 +44,7 @@ update the test suite so that any broken tests pass again.  You can run any of t
 from keystone's root directory:
 
     Pre-requisites:
+        - Make sure that you have a Java JDK installed.  Minimum version is 7.
         - Make sure that you have Firefox(or Chrome) installed.  Firefox is the default browser used.
           Using Chrome requires specifying a different --env parameter (see below).  For any tests below
           you may replace the "--env default" parameter with one of the following:
