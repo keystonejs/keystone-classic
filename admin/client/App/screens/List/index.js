@@ -286,7 +286,6 @@ const ListView = React.createClass({
 					createOnClick={autocreate
 						? this.createAutocreate
 						: this.openCreateModal}
-					data-e2e-list-create-button="header"
 
 					// search
 					searchHandleChange={this.updateSearch}
