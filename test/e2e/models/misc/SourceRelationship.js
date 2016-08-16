@@ -12,9 +12,14 @@ SourceRelationship.add({
 		type: Types.Relationship, 
 		ref: 'TargetRelationship'
 	},
+	fieldB: { 
+		type: Types.Relationship, 
+		ref: 'TargetRelationship',
+		many: true
+	},
 });
 
 SourceRelationship.register();
-SourceRelationship.defaultColumns = 'name, fieldA';
+SourceRelationship.defaultColumns = 'name, fieldA, fieldB';
 
 module.exports = SourceRelationship;
