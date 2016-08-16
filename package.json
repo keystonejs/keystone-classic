@@ -120,7 +120,7 @@
     "supertest": "1.2.0",
     "uglify-js": "2.7.1",
     "updtr": "0.2.1",
-    "watch": "0.19.1"
+    "watch": "0.19.2"
   },
   "browserify": {
     "transform": [
