@@ -10,6 +10,48 @@ import { Button, FormField, FormInput, FormNote } from 'elemental';
 import FileChangeMessage from '../../components/FileChangeMessage';
 import HiddenFileInput from '../../components/HiddenFileInput';
 
+const FileThumb = ({ url }) => {
+	const isPicture = url && url.match(/\.(jpeg|jpg|gif|png)$/i) != null;
+	if (!isPicture) {
+		// TODO generic icons
+		return false;
+	}
+	return (
+		<div style={{ width: 150, marginRight: 10, flexShrink: 0 }}>
+			<img style={{ width: '100%', height: '100%' }} src={url}/>
+		</div>
+	);
+};
+
+const FileDom = ({ url, filename }) => {
+	return (
+		<div style={{ display: 'flex' }}>
+			<FileThumb {...{ url }}/>
+			<div style={{
+				display: 'flex',
+				flexDirection: 'column',
+				justifyContent: 'flex-end',
+				alignItems: 'flex-start',
+				minHeight: 100,
+				width: '100%',
+			}}>
+				<FileChangeMessage>
+					{url ? (
+						<a href={url}>{filename}</a>
+					) : (
+						filename
+					)}
+				</FileChangeMessage>
+				{url && (
+					<span style={{ fontSize: 10 }}>
+						url: {url}
+					</span>
+				)}
+			</div>
+		</div>
+	);
+};
+
 let uploadInc = 1000;
 
 const buildInitialState = (props) => ({
@@ -66,9 +108,11 @@ module.exports = Field.create({
 		return this.props.value && !!this.props.value.filename;
 	},
 	getFilename () {
-		return this.state.userSelectedFile
-			? this.state.userSelectedFile.name
-			: this.props.value && this.props.value.filename;
+		const { value } = this.props;
+		const { userSelectedFile } = this.state;
+		return userSelectedFile
+			? userSelectedFile.name
+			: value && (value.originalname || value.filename);
 	},
 
 	// ==============================
@@ -119,14 +163,16 @@ module.exports = Field.create({
 	// ==============================
 
 	renderFileNameAndChangeMessage () {
-		const href = this.props.value ? this.props.value.url : undefined;
+		const { value } = this.props;
+		let url;
+		let filename;
+		if (this.hasFile() && !this.state.removeExisting) {
+			url = value && value.url;
+			filename = this.getFilename();
+		}
 		return (
 			<div>
-				{(this.hasFile() && !this.state.removeExisting) ? (
-					<FileChangeMessage href={href} target="_blank">
-						{this.getFilename()}
-					</FileChangeMessage>
-				) : null}
+				{filename && <FileDom {...{ url, filename }}/>}
 				{this.renderChangeMessage()}
 			</div>
 		);
