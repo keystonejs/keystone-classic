@@ -1,11 +1,11 @@
 var utils = require('../../../utils');
 
-module.exports = function LocalFileMultipleType(config) {
-	var self = {
-		selector: '.field-type-localfiles[for="' + config.fieldName + '"]',
+module.exports = function FileType(config) {
+	return {
+		selector: '[data-field-name=' + config.fieldName + '][data-field-type=file]',
 		elements: {
 			label: '.FormLabel',
-			button: '.files-toolbar .Button--default',
+			button: '.Button.Button--default',
 		},
 		commands: [{
 			assertUI: function() {
@@ -19,6 +19,4 @@ module.exports = function LocalFileMultipleType(config) {
 			},
 		}],
 	};
-
-	return self;
 };

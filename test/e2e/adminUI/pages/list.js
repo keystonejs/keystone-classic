@@ -17,7 +17,7 @@ module.exports = {
 		columnDropdown: '#listHeaderColumnButton',
 		downloadDropdown: '#listHeaderDownloadButton',
 		expandTableIcon: 'div.InputGroup_section:nth-child(5) > button:nth-child(1)',
-		createFirstItemButton: '.Button',
+		createFirstItemButton: 'button[data-e2e-list-create-button="no-results"]',
 		createMoreItemsButton: '.Button--success',
 		paginationCount: '.Pagination__count',
 		firstColumnHeader: {

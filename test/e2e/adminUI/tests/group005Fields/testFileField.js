@@ -3,13 +3,13 @@ var fieldTests = require('./commonFieldTestUtils.js');
 module.exports = {
 	before: fieldTests.before,
 	after: fieldTests.after,
-	'LocalFileMultiple field should show correctly in the initial modal': function (browser) {
-		browser.app.openFieldList('LocalFileMultiple');
+	'File field should show correctly in the initial modal': function (browser) {
+		browser.app.openFieldList('File');
 		browser.listPage.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 
 		browser.initialFormPage.assertUI({
-			listName: 'LocalFileMultiple',
+			listName: 'File',
 			fields: ['name']
 		});
 	},
@@ -17,35 +17,35 @@ module.exports = {
 		browser.initialFormPage.cancel();
 		browser.app.waitForListScreen();
 	},
-	'LocalFileMultiple field can be filled via the initial modal': function(browser) {
-		browser.app.openFieldList('LocalFileMultiple');
+	'File field can be filled via the initial modal': function(browser) {
+		browser.app.openFieldList('File');
 		browser.listPage.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 		browser.initialFormPage.fillInputs({
-			listName: 'LocalFileMultiple',
+			listName: 'File',
 			fields: {
-				'name': {value: 'LocalFileMultiple Field Test 1'},
+				'name': {value: 'File Field Test 1'},
 			}
 		});
 		browser.initialFormPage.assertInputs({
-			listName: 'LocalFileMultiple',
+			listName: 'File',
 			fields: {
-				'name': {value: 'LocalFileMultiple Field Test 1'},
+				'name': {value: 'File Field Test 1'},
 			}
 		});
 		browser.initialFormPage.save();
 		browser.app.waitForItemScreen();
 
 		browser.itemPage.assertInputs({
-			listName: 'LocalFileMultiple',
+			listName: 'File',
 			fields: {
-				'name': {value: 'LocalFileMultiple Field Test 1'},
+				'name': {value: 'File Field Test 1'},
 			}
 		})
 	},
-	'LocalFileMultiple field should show correctly in the edit form': function(browser) {
+	'File field should show correctly in the edit form': function(browser) {
 		browser.itemPage.assertUI({
-			listName: 'LocalFileMultiple',
+			listName: 'File',
 			fields: ['fieldA', 'fieldB']
 		});
 	},
