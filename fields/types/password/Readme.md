@@ -38,7 +38,7 @@ Allows to set complexity requirements:
 
 `max` `Number`
 
-Sets the maximum password length; defaults to 256.
+Sets the maximum password length; defaults to 72.
 
 Can be set to `false` to disable the max length.
 

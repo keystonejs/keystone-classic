@@ -166,7 +166,7 @@ password.prototype.validateInput = function (data, callback) {
 		detail += 'password must be longer than ' + min + ' characters\n';
 	}
 
-	if (typeof passwordValue === 'string' && passwordValue.length > max) {
+	if (max && typeof passwordValue === 'string' && passwordValue.length > max) {
 		detail += 'password must not be longer than ' + max + ' characters\n';
 	}
 
