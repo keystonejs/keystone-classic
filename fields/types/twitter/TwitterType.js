@@ -8,18 +8,14 @@ var util = require('util');
  * @extends Field
  * @api public
  */
-function url (list, path, options) {
+function twitter (list, path, options) {
 	this._nativeType = String;
 	this._underscoreMethods = ['format'];
 	url.super_.call(this, list, path, options);
 }
-url.properName = 'Url';
+url.properName = 'Twitter';
 util.inherits(url, FieldType);
 
-
-// TODO: is it worth adding URL specific validation logic? it would have to be
-// robust so as to not trigger invalid cases on valid input, might be so
-// flexible that it's not worth adding.
 url.prototype.validateInput = TextType.prototype.validateInput;
 url.prototype.validateRequiredInput = TextType.prototype.validateRequiredInput;
 

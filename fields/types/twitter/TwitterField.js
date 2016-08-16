@@ -3,9 +3,9 @@ import Field from '../Field';
 import { Button, FormInput } from 'elemental';
 
 module.exports = Field.create({
-	displayName: 'URLField',
+	displayName: 'TwitterField',
 	statics: {
-		type: 'Url',
+		type: 'Twitter',
 	},
 	openValue () {
 		var href = this.props.value;

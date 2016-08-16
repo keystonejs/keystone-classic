@@ -2,8 +2,8 @@ import React from 'react';
 import ItemsTableCell from '../../components/ItemsTableCell';
 import ItemsTableValue from '../../components/ItemsTableValue';
 
-var UrlColumn = React.createClass({
-	displayName: 'UrlColumn',
+var TwitterColumn = React.createClass({
+	displayName: 'TwitterColumn',
 	propTypes: {
 		col: React.PropTypes.object,
 		data: React.PropTypes.object,
