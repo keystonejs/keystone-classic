@@ -103,7 +103,7 @@ module.exports = {
 		//
 		listBreadcrumb: 'a[data-e2e-editform-header-back="true"]',
 		searchInputIcon: '.EditForm__header__search input[class="FormInput EditForm__header__search-input"]',
-		newItemButton: '.Toolbar__section button[data-e2e-list-create-button="header"]',
+		newItemButton: '.Toolbar__section button[data-e2e-item-create-button="true"]',
 
 		flashMessage: '.Alert--success',
 		flashError: '.Alert--danger',

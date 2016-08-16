@@ -92,11 +92,11 @@ module.exports = {
 		},
 		waitForSigninScreen: function() {
 			return this
-				.waitForElementVisible('@signinScreen');
+				.waitForElementVisible('@signinScreen', 20000);
 		},
 		waitForHomeScreen: function() {
 			return this
-				.waitForElementVisible('@homeScreen');
+				.waitForElementVisible('@homeScreen', 20000);
 		},
 		waitForInitialFormScreen: function() {
 			return this
