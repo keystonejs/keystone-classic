@@ -17,7 +17,12 @@ module.exports = function IndexRoute (req, res) {
 		return _.pick(list, ['key', 'label', 'path']);
 	});
 
-	var backUrl = keystone.get('back url') || keystone.get('back url') === undefined ? keystone.get('back url') : '/';
+	var backUrl = keystone.get('back url');
+	if (backUrl === undefined) {
+		// backUrl can be falsy, to disable the link altogether
+		// but if it's undefined, default it to "/"
+		backUrl = '/';
+	}
 
 	var keystoneData = {
 		adminPath: '/' + keystone.get('admin path'),
