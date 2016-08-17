@@ -45,17 +45,25 @@ var PrimaryNavigation = React.createClass({
 			</PrimaryNavItem>
 		);
 	},
+	// Render the back button
+	renderBackButton () {
+		if (!Keystone.backUrl) return null;
+
+		return (
+			<PrimaryNavItem
+				label="octicon-globe"
+				href={Keystone.backUrl}
+				title={'Front page - ' + this.props.brand}
+			>
+				<span className="octicon octicon-globe" />
+			</PrimaryNavItem>
+		);
+	},
 	// Render the link to the webpage
 	renderFrontLink () {
 		return (
 			<ul className="app-nav app-nav--primary app-nav--right">
-				<PrimaryNavItem
-					label="octicon-globe"
-					href={Keystone.backUrl}
-					title={'Front page - ' + this.props.brand}
-				>
-					<span className="octicon octicon-globe" />
-				</PrimaryNavItem>
+				{this.renderBackButton()}
 				{this.renderSignout()}
 			</ul>
 		);
