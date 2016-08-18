@@ -1,7 +1,7 @@
 import assign from 'object-assign';
 import { replace } from 'react-router-redux';
 import { takeLatest } from 'redux-saga';
-import { fork, select, put } from 'redux-saga/effects';
+import { fork, select, put, take } from 'redux-saga/effects';
 
 import {
 	SET_ACTIVE_SEARCH,
@@ -11,6 +11,7 @@ import {
 	ADD_FILTER,
 	CLEAR_FILTER,
 	CLEAR_ALL_FILTERS,
+	INITIAL_LIST_LOAD,
 } from '../screens/List/constants';
 import {
 	loadItems,
@@ -97,6 +98,8 @@ function updateQueryParams (params, location) {
 }
 
 function * rootSaga () {
+	yield take(INITIAL_LIST_LOAD);
+	yield put(loadItems());
 	yield fork(takeLatest, SET_ACTIVE_SEARCH, updateParams);
 	yield fork(takeLatest, SET_ACTIVE_SORT, updateParams);
 	yield fork(takeLatest, SET_ACTIVE_COLUMNS, updateParams);
@@ -104,7 +107,6 @@ function * rootSaga () {
 	yield fork(takeLatest, ADD_FILTER, startLoadingItems);
 	yield fork(takeLatest, CLEAR_FILTER, startLoadingItems);
 	yield fork(takeLatest, CLEAR_ALL_FILTERS, startLoadingItems);
-	// TODO Move list loading logic here
 }
 
 export default rootSaga;
