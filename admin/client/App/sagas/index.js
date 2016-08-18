@@ -8,6 +8,9 @@ import {
 	SET_ACTIVE_SORT,
 	SET_ACTIVE_COLUMNS,
 	SET_CURRENT_PAGE,
+	ADD_FILTER,
+	CLEAR_FILTER,
+	CLEAR_ALL_FILTERS,
 } from '../screens/List/constants';
 import {
 	loadItems,
@@ -40,6 +43,10 @@ function * updateParams () {
 		pathname: location.pathname,
 		query: newParams,
 	}));
+	yield put(loadItems());
+}
+
+function * startLoadingItems () {
 	yield put(loadItems());
 }
 
@@ -94,6 +101,9 @@ function * rootSaga () {
 	yield fork(takeLatest, SET_ACTIVE_SORT, updateParams);
 	yield fork(takeLatest, SET_ACTIVE_COLUMNS, updateParams);
 	yield fork(takeLatest, SET_CURRENT_PAGE, updateParams);
+	yield fork(takeLatest, ADD_FILTER, startLoadingItems);
+	yield fork(takeLatest, CLEAR_FILTER, startLoadingItems);
+	yield fork(takeLatest, CLEAR_ALL_FILTERS, startLoadingItems);
 	// TODO Move list loading logic here
 }
 
