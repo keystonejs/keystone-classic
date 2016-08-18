@@ -1,6 +1,6 @@
 import assign from 'object-assign';
 import { replace } from 'react-router-redux';
-import { takeLatest } from 'redux-saga';
+import { takeLatest, delay } from 'redux-saga';
 import { fork, select, put, take } from 'redux-saga/effects';
 
 import {
@@ -49,6 +49,14 @@ function * updateParams () {
 
 function * startLoadingItems () {
 	yield put(loadItems());
+}
+
+function * debouncedSearch () {
+	const searchString = yield select((state) => state.active.search);
+	if (searchString) {
+		yield delay(500);
+	}
+	yield updateParams();
 }
 
 /**
@@ -100,7 +108,7 @@ function updateQueryParams (params, location) {
 function * rootSaga () {
 	yield take(INITIAL_LIST_LOAD);
 	yield put(loadItems());
-	yield fork(takeLatest, SET_ACTIVE_SEARCH, updateParams);
+	yield fork(takeLatest, SET_ACTIVE_SEARCH, debouncedSearch);
 	yield fork(takeLatest, SET_ACTIVE_SORT, updateParams);
 	yield fork(takeLatest, SET_ACTIVE_COLUMNS, updateParams);
 	yield fork(takeLatest, SET_CURRENT_PAGE, updateParams);
