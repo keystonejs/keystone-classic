@@ -1,4 +1,4 @@
-import { StyleSheet } from 'aphrodite';
+import { StyleSheet } from 'aphrodite/no-important';
 import React, { PropTypes } from 'react';
 import {
 	GlyphButton,
