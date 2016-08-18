@@ -5,40 +5,40 @@ module.exports = {
 	after: fieldTests.after,
 	'DateArray field should show correctly in the initial modal': function (browser) {
 		browser.app.openFieldList('DateArray');
-		browser.listPage.createFirstItem();
+		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 
-		browser.initialFormPage.assertUI({
+		browser.initialFormScreen.assertUI({
 			listName: 'DateArray',
 			fields: ['name']
 		});
 	},
 	'restoring test state': function(browser) {
-		browser.initialFormPage.cancel();
+		browser.initialFormScreen.cancel();
 		browser.app.waitForListScreen();
 	},
 	'DateArray field can be filled via the initial modal': function(browser) {
 		browser.app.openFieldList('DateArray');
-		browser.listPage.createFirstItem();
+		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
-		browser.initialFormPage.fillInputs({
+		browser.initialFormScreen.fillInputs({
 			listName: 'DateArray',
 			fields: {
 				'name': {value: 'DateArray Field Test 1'},
 			}
 		});
 		/* TODO Pending fix of timezone issues which are causing Travis CI to fail
-		browser.initialFormPage.assertInputs({
+		browser.initialFormScreen.assertInputs({
 			listName: 'DateArray',
 			fields: {
 				'name': {value: 'DateArray Field Test 1'},
 			}
 		});
 		*/
-		browser.initialFormPage.save();
+		browser.initialFormScreen.save();
 		browser.app.waitForItemScreen();
 		/* TODO Pending fix of timezone issues which are causing Travis CI to fail
-		browser.itemPage.assertInputs({
+		browser.itemScreen.assertInputs({
 			listName: 'DateArray',
 			fields: {
 				'name': {value: 'DateArray Field Test 1'},
@@ -47,38 +47,38 @@ module.exports = {
 		*/
 	},
 	'DateArray field should show correctly in the edit form': function(browser) {
-		browser.itemPage.assertUI({
+		browser.itemScreen.assertUI({
 			listName: 'DateArray',
 			fields: ['fieldA', 'fieldB']
 		});
-		browser.itemPage.section.form.section.datearrayList.section.fieldA.addDate();
-		browser.itemPage.assertUI({
+		browser.itemScreen.section.form.section.datearrayList.section.fieldA.addDate();
+		browser.itemScreen.assertUI({
 			listName: 'DateArray',
 			fields: ['fieldA'],
 			args: {'dateInputs': ['date1']}
 		});
-		browser.itemPage.section.form.section.datearrayList.section.fieldA.addDate();
-		browser.itemPage.assertUI({
+		browser.itemScreen.section.form.section.datearrayList.section.fieldA.addDate();
+		browser.itemScreen.assertUI({
 			listName: 'DateArray',
 			fields: ['fieldA'],
 			args: {'dateInputs': ['date1', 'date2']}
 		});
-		browser.itemPage.section.form.section.datearrayList.section.fieldB.addDate();
-		browser.itemPage.section.form.section.datearrayList.section.fieldB.addDate();
-		browser.itemPage.assertUI({
+		browser.itemScreen.section.form.section.datearrayList.section.fieldB.addDate();
+		browser.itemScreen.section.form.section.datearrayList.section.fieldB.addDate();
+		browser.itemScreen.assertUI({
 			listName: 'DateArray',
 			fields: ['fieldB'],
 			args: {'dateInputs': ['date1', 'date2']}
 		});
 	},
 	'DateArray field can be filled via the edit form': function(browser) {
-		browser.itemPage.fillInputs({
+		browser.itemScreen.fillInputs({
 			listName: 'DateArray',
 			fields: {
 				'fieldA': {date1: '2016-01-01', date2: '2016-01-02'}
 			}
 		});
-		browser.itemPage.fillInputs({
+		browser.itemScreen.fillInputs({
 			listName: 'DateArray',
 			fields: {
 				'fieldB': {date1: '2016-01-03', date2: '2016-01-04'}
@@ -89,11 +89,11 @@ module.exports = {
 			document.activeElement.blur();
 		});
 
-		browser.itemPage.save();
+		browser.itemScreen.save();
 		browser.app.waitForItemScreen();
-		browser.itemPage.assertFlashMessage('Your changes have been saved successfully');
+		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
 		/* TODO Pending fix of timezone issues which are causing Travis CI to fail
-		browser.itemPage.assertInputs({
+		browser.itemScreen.assertInputs({
 			listName: 'DateArray',
 			fields: {
 				'name': {value: 'DateArray Field Test 1'},

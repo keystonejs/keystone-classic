@@ -4,24 +4,25 @@
 module.exports = {
 	before: function (browser) {
 		browser.app = browser.page.app();
-		browser.signinPage = browser.page.signin();
-		browser.listPage = browser.page.list();
-		browser.itemPage = browser.page.item();
-		browser.initialFormPage = browser.page.initialForm();
-		browser.deleteConfirmationPage = browser.page.deleteConfirmation();
-		browser.resetConfirmationPage = browser.page.resetConfirmation();
+		browser.signinScreen = browser.page.signin();
+		browser.listScreen = browser.page.list();
+		browser.itemScreen = browser.page.item();
+		browser.initialFormScreen = browser.page.initialForm();
+		browser.deleteConfirmationScreen = browser.page.deleteConfirmation();
+		browser.resetConfirmationScreen = browser.page.resetConfirmation();
 
-		browser.app.navigate();
+		browser.app
+			.gotoHomeScreen()
+			.waitForSigninScreen();
 
-		browser.app.waitForSigninScreen();
+		browser.signinScreen.signin();
 
-		browser.signinPage.signin();
+		browser.app
+			.waitForHomeScreen()
+			.click('@accessMenu')
+			.waitForListScreen();
 
-		browser.app.waitForHomeScreen();
-
-		browser.app.click('@accessMenu').waitForListScreen();
-
-		browser.listPage.click('@secondItemLink');
+		browser.listScreen.click('@secondItemLink');
 
 		browser.app.waitForItemScreen();
 	},
@@ -30,68 +31,68 @@ module.exports = {
 		browser.end();
 	},
 	'Item screen should allow creating an item of the same type': function (browser) {
-		browser.itemPage.new();
+		browser.itemScreen.new();
 
 		browser.app.waitForInitialFormScreen();
 
-		browser.initialFormPage.fillInputs({
+		browser.initialFormScreen.fillInputs({
 			listName: 'User',
 			fields: {
 				'name': {firstName: 'First 1', lastName: 'Last 1'},
 			},
 		});
-		browser.initialFormPage.assertInputs({
+		browser.initialFormScreen.assertInputs({
 			listName: 'User',
 			fields: {
 				'name': {firstName: 'First 1', lastName: 'Last 1'},
 			},
 		});
-		browser.initialFormPage.save();
+		browser.initialFormScreen.save();
 		browser.app.waitForItemScreen();
 
 	},
 	'Item screen should allow saving an item without changes': function (browser) {
-		browser.itemPage.save();
+		browser.itemScreen.save();
 
-		browser.itemPage.assertFlashMessage('Your changes have been saved successfully');
+		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
 	},
 	'Item screen should allow saving an item with changes': function (browser) {
-		browser.itemPage.fillInputs({
+		browser.itemScreen.fillInputs({
 			listName: 'User',
 			fields: {
 				'name': {firstName: 'First 2', lastName: 'Last 2'},
 			},
 		});
-		browser.itemPage.assertInputs({
+		browser.itemScreen.assertInputs({
 			listName: 'User',
 			fields: {
 				'name': {firstName: 'First 2', lastName: 'Last 2'},
 			},
 		});
-		browser.itemPage.save();
+		browser.itemScreen.save();
 		browser.app.waitForItemScreen();
-		browser.itemPage.assertFlashMessage('Your changes have been saved successfully');
+		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
 	},
 	'Item screen should allow resetting an item with changes': function (browser) {
-		browser.itemPage.fillInputs({
+		browser.itemScreen.fillInputs({
 			listName: 'User',
 			fields: {
 				'name': {firstName: 'First 3', lastName: 'Last 3'},
 			},
 		});
-		browser.itemPage.assertInputs({
+		browser.itemScreen.assertInputs({
 			listName: 'User',
 			fields: {
 				'name': {firstName: 'First 3', lastName: 'Last 3'},
 			},
 		});
 
-		browser.itemPage.reset();
+		browser.itemScreen.reset();
 		browser.app.waitForResetConfirmationScreen();
-		browser.resetConfirmationPage.reset();
+		browser.resetConfirmationScreen.reset();
 		browser.app.waitForItemScreen();
 
-		browser.itemPage.assertInputs({
+		browser.itemScreen.assertInputs({
 			listName: 'User',
 			fields: {
 				'name': {firstName: 'First 2', lastName: 'Last 2'},
@@ -99,9 +100,9 @@ module.exports = {
 		});
 	},
 	'Item screen should allow deleting an item': function (browser) {
-		browser.itemPage.delete();
+		browser.itemScreen.delete();
 		browser.app.waitForDeleteConfirmationScreen();
-		browser.deleteConfirmationPage.delete();
+		browser.deleteConfirmationScreen.delete();
 		browser.app.waitForListScreen();
 	},
 };

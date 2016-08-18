@@ -7,6 +7,7 @@ var keystone = require('../../../..');
 module.exports = {
 	url: 'http://' + keystone.get('host') + ':' + keystone.get('port') + '/keystone/',
 	pause: 1000,
+	defaultWaitForTimeout: 60000,
 	elements: {
 		// ADMIN UI APP SCREENS
 		signinScreen: '#signin-view',
@@ -67,56 +68,60 @@ module.exports = {
 		targetrelationshipListSubmenu: '.secondary-navbar [data-list-path="target-relationships"]',
 	},
 	commands: [{
+		gotoHomeScreen: function() {
+			return this
+				.navigate();		// navigate to the configure Url
+		},
 		openMiscList: function(list) {
 			var list = list.toLowerCase() + 'List';
 			var listSubmenu = '@' + list + 'Submenu';
 			return this.click('@miscListsMenu')
-				.waitForElementVisible('@listScreen')
+				.waitForListScreen()
 				.click(listSubmenu)
-				.waitForElementVisible('@listScreen');
+				.waitForListScreen();
 		},
 		openFieldList: function(field) {
 				var list = field.toLowerCase() + 'List';
 				var listSubmenu = '@' + list + 'Submenu';
 				return this.click('@fieldListsMenu')
-					.waitForElementVisible('@listScreen')
+					.waitForListScreen()
 					.click(listSubmenu)
-					.waitForElementVisible('@listScreen');
+					.waitForListScreen();
 		},
 		signout: function() {
 			this.api.pause(500);
 			return this
 				.waitForElementVisible('@logoutIcon')
 				.click('@logoutIconLink')
-				.waitForElementVisible('@signinScreen');
+				.waitForSigninScreen();
 		},
-		waitForSigninScreen: function() {
+		waitForSigninScreen: function(timeout) {
 			return this
-				.waitForElementVisible('@signinScreen', 20000);
+				.waitForElementVisible('@signinScreen', timeout || this.defaultWaitForTimeout);
 		},
-		waitForHomeScreen: function() {
+		waitForHomeScreen: function(timeout) {
 			return this
-				.waitForElementVisible('@homeScreen', 20000);
+				.waitForElementVisible('@homeScreen', timeout || this.defaultWaitForTimeout);
 		},
-		waitForInitialFormScreen: function() {
+		waitForInitialFormScreen: function(timeout) {
 			return this
-				.waitForElementVisible('@initialFormScreen');
+				.waitForElementVisible('@initialFormScreen', timeout || this.defaultWaitForTimeout);
 		},
-		waitForDeleteConfirmationScreen: function() {
+		waitForDeleteConfirmationScreen: function(timeout) {
 			return this
-				.waitForElementVisible('@deleteConfirmationScreen');
+				.waitForElementVisible('@deleteConfirmationScreen', timeout || this.defaultWaitForTimeout);
 		},
-		waitForResetConfirmationScreen: function() {
+		waitForResetConfirmationScreen: function(timeout) {
 			return this
-				.waitForElementVisible('@resetConfirmationScreen');
+				.waitForElementVisible('@resetConfirmationScreen', timeout || this.defaultWaitForTimeout);
 		},
-		waitForListScreen: function() {
+		waitForListScreen: function(timeout) {
 			return this
-				.waitForElementVisible('@listScreen');
+				.waitForElementVisible('@listScreen', timeout || this.defaultWaitForTimeout);
 		},
-		waitForItemScreen: function() {
+		waitForItemScreen: function(timeout) {
 			return this
-				.waitForElementVisible('@itemScreen');
+				.waitForElementVisible('@itemScreen', timeout || this.defaultWaitForTimeout);
 		},
 	}],
 };

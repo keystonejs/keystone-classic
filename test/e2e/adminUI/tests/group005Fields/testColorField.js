@@ -5,40 +5,40 @@ module.exports = {
 	after: fieldTests.after,
 	'Color field should show correctly in the initial modal': function (browser) {
 		browser.app.openFieldList('Color');
-		browser.listPage.createFirstItem();
+		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 
-		browser.initialFormPage.assertUI({
+		browser.initialFormScreen.assertUI({
 			listName: 'Color',
 			fields: ['name', 'fieldA']
 		});
 	},
 	'restoring test state': function(browser) {
-		browser.initialFormPage.cancel();
+		browser.initialFormScreen.cancel();
 		browser.app.waitForListScreen();
 	},
 	'Color field can be filled via the initial modal': function(browser) {
 		browser.app.openFieldList('Color');
-		browser.listPage.createFirstItem();
+		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
-		browser.initialFormPage.fillInputs({
+		browser.initialFormScreen.fillInputs({
 			listName: 'Color',
 			fields: {
 				'name': {value: 'Color Field Test 1'},
 				'fieldA': {value: '#002147'},
 			}
 		});
-		browser.initialFormPage.assertInputs({
+		browser.initialFormScreen.assertInputs({
 			listName: 'Color',
 			fields: {
 				'name': {value: 'Color Field Test 1'},
 				'fieldA': {value: '#002147'},
 			}
 		});
-		browser.initialFormPage.save();
+		browser.initialFormScreen.save();
 		browser.app.waitForItemScreen();
 
-		browser.itemPage.assertInputs({
+		browser.itemScreen.assertInputs({
 			listName: 'Color',
 			fields: {
 				'name': {value: 'Color Field Test 1'},
@@ -47,22 +47,22 @@ module.exports = {
 		})
 	},
 	'Color field should show correctly in the edit form': function(browser) {
-		browser.itemPage.assertUI({
+		browser.itemScreen.assertUI({
 			listName: 'Color',
 			fields: ['fieldA', 'fieldB']
 		});
 	},
 	'Color field can be filled via the edit form': function(browser) {
-		browser.itemPage.fillInputs({
+		browser.itemScreen.fillInputs({
 			listName: 'Color',
 			fields: {
 				'fieldB': {value: '#f8e71c'}
 			}
 		});
-		browser.itemPage.save();
+		browser.itemScreen.save();
 		browser.app.waitForItemScreen();
-		browser.itemPage.assertFlashMessage('Your changes have been saved successfully');
-		browser.itemPage.assertInputs({
+		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
+		browser.itemScreen.assertInputs({
 			listName: 'Color',
 			fields: {
 				'name': {value: 'Color Field Test 1'},

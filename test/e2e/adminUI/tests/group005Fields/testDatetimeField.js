@@ -6,23 +6,23 @@ module.exports = {
 	after: fieldTests.after,
 	'Datetime field should show correctly in the initial modal': function (browser) {
 		browser.app.openFieldList('Datetime');
-		browser.listPage.createFirstItem();
+		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 
-		browser.initialFormPage.assertUI({
+		browser.initialFormScreen.assertUI({
 			listName: 'Datetime',
 			fields: ['name', 'fieldA']
 		});
 	},
 	'restoring test state': function(browser) {
-		browser.initialFormPage.cancel();
+		browser.initialFormScreen.cancel();
 		browser.app.waitForListScreen();
 	},
 	'Datetime field can be filled via the initial modal': function(browser) {
 		browser.app.openFieldList('Datetime');
-		browser.listPage.createFirstItem();
+		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
-		browser.initialFormPage.fillInputs({
+		browser.initialFormScreen.fillInputs({
 			listName: 'Datetime',
 			fields: {
 				'name': {value: 'Datetime Field Test 1'},
@@ -30,7 +30,7 @@ module.exports = {
 			}
 		});
 		/* TODO Pending fix of timezone issues which are causing Travis CI to fail
-		browser.initialFormPage.assertInputs({
+		browser.initialFormScreen.assertInputs({
 			listName: 'Datetime',
 			fields: {
 				'name': {value: 'Datetime Field Test 1'},
@@ -38,10 +38,10 @@ module.exports = {
 			}
 		});
 		*/
-		browser.initialFormPage.save();
+		browser.initialFormScreen.save();
 		browser.app.waitForItemScreen();
 		/* TODO Pending fix of timezone issues which are causing Travis CI to fail
-		browser.itemPage.assertInputs({
+		browser.itemScreen.assertInputs({
 			listName: 'Datetime',
 			fields: {
 				'name': {value: 'Datetime Field Test 1'},
@@ -51,23 +51,23 @@ module.exports = {
 		*/
 	},
 	'Datetime field should show correctly in the edit form': function(browser) {
-		browser.itemPage.assertUI({
+		browser.itemScreen.assertUI({
 			listName: 'Datetime',
 			fields: ['fieldA', 'fieldB']
 		});
 	},
 	'Datetime field can be filled via the edit form': function(browser) {
-		browser.itemPage.fillInputs({
+		browser.itemScreen.fillInputs({
 			listName: 'Datetime',
 			fields: {
 				'fieldB': {date: '2016-01-02', time: '12:00:00 am'}
 			}
 		});
-		browser.itemPage.save();
+		browser.itemScreen.save();
 		browser.app.waitForItemScreen();
-		browser.itemPage.assertFlashMessage('Your changes have been saved successfully');
+		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
 		/* TODO Pending fix of timezone issues which are causing Travis CI to fail
-		browser.itemPage.assertInputs({
+		browser.itemScreen.assertInputs({
 			listName: 'Datetime',
 			fields: {
 				'name': {value: 'Datetime Field Test 1'},
