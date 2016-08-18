@@ -7,6 +7,7 @@ var keystone = require('../../../..');
 module.exports = {
 	url: 'http://' + keystone.get('host') + ':' + keystone.get('port') + '/keystone/',
 	pause: 1000,
+	defaultWaitForTimeout: 60000,
 	elements: {
 		// ADMIN UI APP SCREENS
 		signinScreen: '#signin-view',
@@ -94,33 +95,33 @@ module.exports = {
 				.click('@logoutIconLink')
 				.waitForSigninScreen();
 		},
-		waitForSigninScreen: function() {
+		waitForSigninScreen: function(timeout) {
 			return this
-				.waitForElementVisible('@signinScreen', 60000);
+				.waitForElementVisible('@signinScreen', timeout || this.defaultWaitForTimeout);
 		},
-		waitForHomeScreen: function() {
+		waitForHomeScreen: function(timeout) {
 			return this
-				.waitForElementVisible('@homeScreen', 60000);
+				.waitForElementVisible('@homeScreen', timeout || this.defaultWaitForTimeout);
 		},
-		waitForInitialFormScreen: function() {
+		waitForInitialFormScreen: function(timeout) {
 			return this
-				.waitForElementVisible('@initialFormScreen');
+				.waitForElementVisible('@initialFormScreen', timeout || this.defaultWaitForTimeout);
 		},
-		waitForDeleteConfirmationScreen: function() {
+		waitForDeleteConfirmationScreen: function(timeout) {
 			return this
-				.waitForElementVisible('@deleteConfirmationScreen');
+				.waitForElementVisible('@deleteConfirmationScreen', timeout || this.defaultWaitForTimeout);
 		},
-		waitForResetConfirmationScreen: function() {
+		waitForResetConfirmationScreen: function(timeout) {
 			return this
-				.waitForElementVisible('@resetConfirmationScreen');
+				.waitForElementVisible('@resetConfirmationScreen', timeout || this.defaultWaitForTimeout);
 		},
-		waitForListScreen: function() {
+		waitForListScreen: function(timeout) {
 			return this
-				.waitForElementVisible('@listScreen', 60000);
+				.waitForElementVisible('@listScreen', timeout || this.defaultWaitForTimeout);
 		},
-		waitForItemScreen: function() {
+		waitForItemScreen: function(timeout) {
 			return this
-				.waitForElementVisible('@itemScreen', 60000);
+				.waitForElementVisible('@itemScreen', timeout || this.defaultWaitForTimeout);
 		},
 	}],
 };
