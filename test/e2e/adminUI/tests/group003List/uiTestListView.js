@@ -1,17 +1,19 @@
 module.exports = {
 	before: function (browser) {
 		browser.app = browser.page.app();
-		browser.signinPage = browser.page.signin();
-		browser.listPage = browser.page.list();
-		browser.itemPage = browser.page.item();
-		browser.initialFormPage = browser.page.initialForm();
-		browser.deleteConfirmationPage = browser.page.deleteConfirmation();
+		browser.signinScreen = browser.page.signin();
+		browser.listScreen = browser.page.list();
+		browser.itemScreen = browser.page.item();
+		browser.initialFormScreen = browser.page.initialForm();
+		browser.deleteConfirmationScreen = browser.page.deleteConfirmation();
 
-		browser.app.navigate();
-		browser.app.waitForElementVisible('@signinScreen');
+		browser.app
+			.gotoHomeScreen()
+			.waitForSigninScreen();
 
-		browser.signinPage.signin();
-		browser.app.waitForElementVisible('@homeScreen');
+		browser.signinScreen.signin();
+
+		browser.app.waitForHomeScreen();
 	},
 	after: function (browser) {
 		browser.app.signout();
@@ -20,21 +22,21 @@ module.exports = {
 	'List screen must have a search bar': function (browser) {
 		browser.app
 			.click('@accessMenu')
-			.waitForElementVisible('@listScreen');
+			.waitForListScreen();
 
-		browser.listPage
+		browser.listScreen
 			.expect.element('@searchInputField').to.be.visible;
 	},
 	'List screen must have a filter input': function (browser) {
-		browser.listPage
+		browser.listScreen
 			.expect.element('@filterDropdown').to.be.visible;
 	},
 	'List screen must have a column input': function (browser) {
-		browser.listPage
+		browser.listScreen
 			.expect.element('@columnDropdown').to.be.visible;
 	},
 	'List screen must have a download input': function (browser) {
-		browser.listPage
+		browser.listScreen
 			.expect.element('@downloadDropdown').to.be.visible;
 	},
 	// TODO:  For some reason the expand table width input control does not show in saucelabs' Firefox 44...why?
@@ -44,85 +46,85 @@ module.exports = {
 	//			      .to.be.visible;
 	//},
 	'List screen must have a create list item button': function (browser) {
-		browser.listPage
+		browser.listScreen
 			.expect.element('@createMoreItemsButton').to.be.visible;
 	},
 	'List screen must have a pagination count': function (browser) {
-		browser.listPage
+		browser.listScreen
 			.expect.element('@paginationCount').to.be.visible;
 	},
 	'List screen must have a name column header': function (browser) {
-		browser.listPage
+		browser.listScreen
 			.expect.element('@firstColumnHeader').to.be.visible;
 
-		browser.listPage
+		browser.listScreen
 			.expect.element('@firstColumnHeader').text.to.equal('Name');
 	},
 	'List screen must have an email column header': function (browser) {
-		browser.listPage
+		browser.listScreen
 			.expect.element('@secondColumnHeader').to.be.visible;
 
-		browser.listPage
+		browser.listScreen
 			.expect.element('@secondColumnHeader').text.to.equal('Email');
 	},
 	'List screen must have an Is Admin column header': function (browser) {
-		browser.listPage
+		browser.listScreen
 			.expect.element('@thirdColumnHeader').to.be.visible;
 
-		browser.listPage
+		browser.listScreen
 			.expect.element('@thirdColumnHeader').text.to.equal('Is Admin');
 	},
 	'List screen items must a delete icon': function (browser) {
-		browser.listPage
+		browser.listScreen
 			.expect.element('@firstItemDeleteIcon').to.be.visible;
-		browser.listPage
+		browser.listScreen
 			.expect.element('@secondItemDeleteIcon').to.be.visible;
 	},
 	'List screen user item must have a name value': function (browser) {
-		browser.listPage
+		browser.listScreen
 			.expect.element('@firstItemFirstColumnValue').to.be.visible;
 
-		browser.listPage
+		browser.listScreen
 			.expect.element('@firstItemFirstColumnValue').text.to.equal('e2e member');
 
-		browser.listPage
+		browser.listScreen
 			.expect.element('@secondItemFirstColumnValue').to.be.visible;
 
-		browser.listPage
+		browser.listScreen
 			.expect.element('@secondItemFirstColumnValue').text.to.equal('e2e user');
 	},
 	'List screen user item must have a value in the email column': function (browser) {
-		browser.listPage
+		browser.listScreen
 			.expect.element('@firstItemSecondColumnValue').to.be.visible;
 
-		browser.listPage
+		browser.listScreen
 			.expect.element('@firstItemSecondColumnValue').text.to.equal('member@test.e2e');
 
-		browser.listPage
+		browser.listScreen
 			.expect.element('@secondItemSecondColumnValue').to.be.visible;
 
-		browser.listPage
+		browser.listScreen
 			.expect.element('@secondItemSecondColumnValue').text.to.equal('user@test.e2e');
 	},
 	'List screen user item must have a value in the Is Admin column': function (browser) {
-		browser.listPage
+		browser.listScreen
 			.expect.element('@firstItemThirdColumnValue').to.be.visible;
 
-		browser.listPage
+		browser.listScreen
 			.expect.element('@secondItemThirdColumnValue').to.be.visible;
 	},
 	'List screen user item must be an Admin and not a Member': function (browser) {
-		browser.listPage
+		browser.listScreen
 			.expect.element('@secondUserItemIsAdmin').to.be.visible;
 
-		browser.listPage
+		browser.listScreen
 			.expect.element('@secondUserItemIsNotMember').to.be.visible;
 	},
 	'List screen member item must be a Member and not an Admin': function (browser) {
-		browser.listPage
+		browser.listScreen
 			.expect.element('@firstUserItemIsMember').to.be.visible;
 
-		browser.listPage
+		browser.listScreen
 			.expect.element('@firstUserItemIsNotAdmin').to.be.visible;
 	},
 };

@@ -5,38 +5,38 @@ module.exports = {
 	after: fieldTests.after,
 	'File field should show correctly in the initial modal': function (browser) {
 		browser.app.openFieldList('File');
-		browser.listPage.createFirstItem();
+		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 
-		browser.initialFormPage.assertUI({
+		browser.initialFormScreen.assertUI({
 			listName: 'File',
 			fields: ['name']
 		});
 	},
 	'restoring test state': function(browser) {
-		browser.initialFormPage.cancel();
+		browser.initialFormScreen.cancel();
 		browser.app.waitForListScreen();
 	},
 	'File field can be filled via the initial modal': function(browser) {
 		browser.app.openFieldList('File');
-		browser.listPage.createFirstItem();
+		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
-		browser.initialFormPage.fillInputs({
+		browser.initialFormScreen.fillInputs({
 			listName: 'File',
 			fields: {
 				'name': {value: 'File Field Test 1'},
 			}
 		});
-		browser.initialFormPage.assertInputs({
+		browser.initialFormScreen.assertInputs({
 			listName: 'File',
 			fields: {
 				'name': {value: 'File Field Test 1'},
 			}
 		});
-		browser.initialFormPage.save();
+		browser.initialFormScreen.save();
 		browser.app.waitForItemScreen();
 
-		browser.itemPage.assertInputs({
+		browser.itemScreen.assertInputs({
 			listName: 'File',
 			fields: {
 				'name': {value: 'File Field Test 1'},
@@ -44,7 +44,7 @@ module.exports = {
 		})
 	},
 	'File field should show correctly in the edit form': function(browser) {
-		browser.itemPage.assertUI({
+		browser.itemScreen.assertUI({
 			listName: 'File',
 			fields: ['fieldA', 'fieldB']
 		});

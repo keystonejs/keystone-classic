@@ -5,39 +5,39 @@ module.exports = {
 	after: fieldTests.after,
 	'Location field should show correctly in the initial modal': function (browser) {
 		browser.app.openFieldList('Location');
-		browser.listPage.createFirstItem();
+		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 
-		browser.initialFormPage.assertUIVisible({
+		browser.initialFormScreen.assertUIVisible({
 			listName: 'Location',
 			fields: ['name', 'fieldA'],
 			args: { 'showMore': false },
 		});
 
-		browser.initialFormPage.showMoreFields({
+		browser.initialFormScreen.showMoreFields({
 			listName: 'Location',
 			fields: ['fieldA'],
 		});
 
-		browser.initialFormPage.assertUIVisible({
+		browser.initialFormScreen.assertUIVisible({
 			listName: 'Location',
 			fields: ['name', 'fieldA'],
 			args: { 'showMore': true },
 		});
 	},
 	'restoring test state': function(browser) {
-		browser.initialFormPage.cancel();
+		browser.initialFormScreen.cancel();
 		browser.app.waitForListScreen();
 	},
 	'Location field can be filled via the initial modal': function(browser) {
 		browser.app.openFieldList('Location');
-		browser.listPage.createFirstItem();
+		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
-		browser.initialFormPage.showMoreFields({
+		browser.initialFormScreen.showMoreFields({
 			listName: 'Location',
 			fields: ['fieldA'],
 		});
-		browser.initialFormPage.fillInputs({
+		browser.initialFormScreen.fillInputs({
 			listName: 'Location',
 			fields: {
 				'name': {value: 'Location Field Test 1'},
@@ -55,7 +55,7 @@ module.exports = {
 				},
 			}
 		});
-		browser.initialFormPage.assertInputs({
+		browser.initialFormScreen.assertInputs({
 			listName: 'Location',
 			fields: {
 				'name': {value: 'Location Field Test 1'},
@@ -73,10 +73,10 @@ module.exports = {
 				},
 			}
 		});
-		browser.initialFormPage.save();
+		browser.initialFormScreen.save();
 		browser.app.waitForItemScreen();
 
-		browser.itemPage.assertInputs({
+		browser.itemScreen.assertInputs({
 			listName: 'Location',
 			fields: {
 				'name': {value: 'Location Field Test 1'},
@@ -96,28 +96,28 @@ module.exports = {
 		})
 	},
 	'Location field should show correctly in the edit form': function(browser) {
-		browser.itemPage.assertUIVisible({
+		browser.itemScreen.assertUIVisible({
 			listName: 'Location',
 			fields: ['fieldA'],
 			args: { 'showMore': true },
 		});
-		browser.itemPage.assertUIVisible({
+		browser.itemScreen.assertUIVisible({
 			listName: 'Location',
 			fields: ['fieldB'],
 			args: { 'showMore': false },
 		});
-		browser.itemPage.showMoreFields({
+		browser.itemScreen.showMoreFields({
 			listName: 'Location',
 			fields: ['fieldB'],
 		});
-		browser.itemPage.assertUIVisible({
+		browser.itemScreen.assertUIVisible({
 			listName: 'Location',
 			fields: ['fieldB'],
 			args: { 'showMore': true },
 		});
 	},
 	'Location field can be filled via the edit form': function(browser) {
-		browser.itemPage.fillInputs({
+		browser.itemScreen.fillInputs({
 			listName: 'Location',
 			fields: {
 				'fieldB': {
@@ -134,10 +134,10 @@ module.exports = {
 				},
 			}
 		});
-		browser.itemPage.save();
+		browser.itemScreen.save();
 		browser.app.waitForItemScreen();
-		browser.itemPage.assertFlashMessage('Your changes have been saved successfully');
-		browser.itemPage.assertInputs({
+		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
+		browser.itemScreen.assertInputs({
 			listName: 'Location',
 			fields: {
 				'name': {value: 'Location Field Test 1'},

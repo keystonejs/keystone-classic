@@ -5,37 +5,37 @@ module.exports = {
 	after: fieldTests.after,
 	'NumberArray field should show correctly in the initial modal': function (browser) {
 		browser.app.openFieldList('NumberArray');
-		browser.listPage.createFirstItem();
+		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 
-		browser.initialFormPage.assertUI({
+		browser.initialFormScreen.assertUI({
 			listName: 'NumberArray',
 			fields: ['name']
 		});
 	},
 	'restoring test state': function(browser) {
-		browser.initialFormPage.cancel();
+		browser.initialFormScreen.cancel();
 		browser.app.waitForListScreen();
 	},
 	'NumberArray field can be filled via the initial modal': function(browser) {
 		browser.app.openFieldList('NumberArray');
-		browser.listPage.createFirstItem();
+		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
-		browser.initialFormPage.fillInputs({
+		browser.initialFormScreen.fillInputs({
 			listName: 'NumberArray',
 			fields: {
 				'name': {value: 'NumberArray Field Test 1'},
 			}
 		});
-		 browser.initialFormPage.assertInputs({
+		 browser.initialFormScreen.assertInputs({
 			 listName: 'NumberArray',
 			 fields: {
 			 	'name': {value: 'NumberArray Field Test 1'},
 			 }
 		 });
-		browser.initialFormPage.save();
+		browser.initialFormScreen.save();
 		browser.app.waitForItemScreen();
-		 browser.itemPage.assertInputs({
+		 browser.itemScreen.assertInputs({
 			 listName: 'NumberArray',
 			 fields: {
 			 	'name': {value: 'NumberArray Field Test 1'},
@@ -43,47 +43,47 @@ module.exports = {
 		 })
 	},
 	'NumberArray field should show correctly in the edit form': function(browser) {
-		browser.itemPage.assertUI({
+		browser.itemScreen.assertUI({
 			listName: 'NumberArray',
 			fields: ['fieldA', 'fieldB']
 		});
-		browser.itemPage.section.form.section.numberarrayList.section.fieldA.addNumber();
-		browser.itemPage.assertUI({
+		browser.itemScreen.section.form.section.numberarrayList.section.fieldA.addNumber();
+		browser.itemScreen.assertUI({
 			listName: 'NumberArray',
 			fields: ['fieldA'],
 			args: {'numberInputs': ['number1']}
 		});
-		browser.itemPage.section.form.section.numberarrayList.section.fieldA.addNumber();
-		browser.itemPage.assertUI({
+		browser.itemScreen.section.form.section.numberarrayList.section.fieldA.addNumber();
+		browser.itemScreen.assertUI({
 			listName: 'NumberArray',
 			fields: ['fieldA'],
 			args: {'numberInputs': ['number1', 'number2']}
 		});
-		browser.itemPage.section.form.section.numberarrayList.section.fieldB.addNumber();
-		browser.itemPage.section.form.section.numberarrayList.section.fieldB.addNumber();
-		browser.itemPage.assertUI({
+		browser.itemScreen.section.form.section.numberarrayList.section.fieldB.addNumber();
+		browser.itemScreen.section.form.section.numberarrayList.section.fieldB.addNumber();
+		browser.itemScreen.assertUI({
 			listName: 'NumberArray',
 			fields: ['fieldB'],
 			args: {'numberInputs': ['number1', 'number2']}
 		});
 	},
 	'NumberArray field can be filled via the edit form': function(browser) {
-		browser.itemPage.fillInputs({
+		browser.itemScreen.fillInputs({
 			listName: 'NumberArray',
 			fields: {
 				'fieldA': {number1: '1', number2: '2'}
 			}
 		});
-		browser.itemPage.fillInputs({
+		browser.itemScreen.fillInputs({
 			listName: 'NumberArray',
 			fields: {
 				'fieldB': {number1: '3', number2: '4'}
 			}
 		});
-		browser.itemPage.save();
+		browser.itemScreen.save();
 		browser.app.waitForItemScreen();
-		browser.itemPage.assertFlashMessage('Your changes have been saved successfully');
-		browser.itemPage.assertInputs({
+		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
+		browser.itemScreen.assertInputs({
 			listName: 'NumberArray',
 		 	fields: {
 		 		'name': {value: 'NumberArray Field Test 1'},

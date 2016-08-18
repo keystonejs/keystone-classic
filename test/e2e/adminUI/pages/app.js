@@ -67,36 +67,40 @@ module.exports = {
 		targetrelationshipListSubmenu: '.secondary-navbar [data-list-path="target-relationships"]',
 	},
 	commands: [{
+		gotoHomeScreen: function() {
+			return this
+				.navigate();		// navigate to the configure Url
+		},
 		openMiscList: function(list) {
 			var list = list.toLowerCase() + 'List';
 			var listSubmenu = '@' + list + 'Submenu';
 			return this.click('@miscListsMenu')
-				.waitForElementVisible('@listScreen')
+				.waitForListScreen()
 				.click(listSubmenu)
-				.waitForElementVisible('@listScreen');
+				.waitForListScreen();
 		},
 		openFieldList: function(field) {
 				var list = field.toLowerCase() + 'List';
 				var listSubmenu = '@' + list + 'Submenu';
 				return this.click('@fieldListsMenu')
-					.waitForElementVisible('@listScreen')
+					.waitForListScreen()
 					.click(listSubmenu)
-					.waitForElementVisible('@listScreen');
+					.waitForListScreen();
 		},
 		signout: function() {
 			this.api.pause(500);
 			return this
 				.waitForElementVisible('@logoutIcon')
 				.click('@logoutIconLink')
-				.waitForElementVisible('@signinScreen');
+				.waitForSigninScreen();
 		},
 		waitForSigninScreen: function() {
 			return this
-				.waitForElementVisible('@signinScreen', 20000);
+				.waitForElementVisible('@signinScreen', 60000);
 		},
 		waitForHomeScreen: function() {
 			return this
-				.waitForElementVisible('@homeScreen', 20000);
+				.waitForElementVisible('@homeScreen', 60000);
 		},
 		waitForInitialFormScreen: function() {
 			return this
@@ -112,11 +116,11 @@ module.exports = {
 		},
 		waitForListScreen: function() {
 			return this
-				.waitForElementVisible('@listScreen');
+				.waitForElementVisible('@listScreen', 60000);
 		},
 		waitForItemScreen: function() {
 			return this
-				.waitForElementVisible('@itemScreen');
+				.waitForElementVisible('@itemScreen', 60000);
 		},
 	}],
 };
