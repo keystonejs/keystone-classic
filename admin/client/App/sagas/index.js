@@ -20,28 +20,11 @@ function * updateParams () {
 	const location = yield select((state) => state.routing.locationBeforeTransitions);
 	let page = yield select((state) => state.lists.page.index);
 
-	// Formatting
+	// Get the data into the right format, set the defaults
 	let sort = activeState.sort.rawInput;
-	let columns = activeState.columns;
-	let search = activeState.search;
-	// Make the column data ready to be turned into a URL
-	if (columns) {
-		// Turns [{ path: 'someColumn' }, { path: 'someOtherColumn' }]
-		// into ['someColumn', 'someOtherColumn']
-		columns = columns.map((column) => column.path);
-		// Turns that array into 'someColumn,someOtherColumn'
-		if (Array.isArray(columns)) columns = columns.join(',');
-		// If that is the same as the default columns, don't set the query param
-		if (columns === currentList.defaultColumnPaths) columns = undefined;
-	}
-
-	// TODO: Starting or clearing a search pushes a new history state, but updating
-	// the current search replaces it for nicer history navigation support
-
-	// Sorting
 	if (sort === currentList.defaultSort) sort = undefined;
-
-	// Pagination
+	let columns = stringifyColumns(activeState.columns, currentList.defaultColumnPaths);
+	let search = activeState.search;
 	if (page === 1) page = undefined;
 
 	const newParams = updateQueryParams({
@@ -51,12 +34,35 @@ function * updateParams () {
 		search,
 	}, location);
 
+	// TODO: Starting or clearing a search pushes a new history state, but updating
+	// the current search replaces it for nicer history navigation support
 	yield put(replace({
 		pathname: location.pathname,
 		query: newParams,
 	}));
-
 	yield put(loadItems());
+}
+
+/**
+ * Stringify the columns array from the state
+ *
+ * @param  {Array}  columns            The columns from the active state
+ * @param  {String} defaultColumnPaths The default column paths of the current list
+ *
+ * @return {String}                    The column array, stringified
+ */
+function stringifyColumns (columns, defaultColumnPaths) {
+	if (!columns) {
+		return;
+	}
+	// Turns [{ path: 'someColumn' }, { path: 'someOtherColumn' }]
+	// into ['someColumn', 'someOtherColumn']
+	let columnString = columns.map((column) => column.path);
+	// Turns that array into 'someColumn,someOtherColumn'
+	if (Array.isArray(columnString)) columnString = columnString.join(',');
+	// If that is the same as the default columns, don't set the query param
+	if (columnString === defaultColumnPaths) columnString = undefined;
+	return columnString;
 }
 
 /**
