@@ -29,6 +29,7 @@ module.exports = [
 	'react-dnd-html5-backend',
 	'react-dnd',
 	'react-dom',
+	'react-images',
 	'react-redux',
 	'react-router-redux',
 	'react-router',
