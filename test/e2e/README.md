@@ -27,7 +27,7 @@ with a real keystone app server.
 
         drivers
             <browser drivers>                   => all required browser drivers
-            
+
         updates                                 => all schema update/migration files
            0.0.1-updates-e2e.js                 => keystone updates
 
@@ -45,14 +45,22 @@ from keystone's root directory:
 
     Pre-requisites:
         - Make sure that you have a Java JDK installed.  Minimum version is 7.
-        - Make sure that you have Firefox(or Chrome) installed.  Firefox is the default browser used.
+        - Make sure that you have Firefox (or Chrome) installed.  Firefox is the default browser used.
           Using Chrome requires specifying a different --env parameter (see below).  For any tests below
           you may replace the "--env default" parameter with one of the following:
-          
+
             --env chrome, if you are on a linux 64-bit system
             --env chrome-linux32, if you are on a linux 32-bit system
             --env chrome-mac32, if you are on a mac system
             --env chrome-win32, if you are on a windows system
+
+           You'll also have to download the chrome drivers from http://www.seleniumhq.org/download/
+           Once you have downloaded them, you need to save these as:
+
+            test/e2e/drivers/chrome/linux64/chromedriver, if you are on a linux 64-bit system
+            test/e2e/drivers/chrome/linux32/chromedriver, if you are on a linux 32-bit system
+            test/e2e/drivers/chrome/mac32/chromedriver, if you are on a mac system
+            test/e2e/drivers/chrome/win32/chromedriver, if you are on a windows system
 
           For browser compatibility, see http://www.seleniumhq.org/about/platforms.jsp#browsers
 
@@ -69,28 +77,28 @@ from keystone's root directory:
     Running in your local environment using all defaults (good to do before doing a commit):
 
         npm run test-e2e
-        
+
     If the above npm run command does not work for you then there are some issues with selenium and some platforms.
     Try the following instead:
-    
+
         npm run test-e2e-bg
 
     If you are in active development and just want to run a single group in your local environment:
 
         node test/e2e/server.js --env default --config ./test/e2e/adminUI/nightwatch.json --group test/e2e/adminUI/tests/<group>
-        
-        or, if the above doesn't work in your platform try: 
-        
-        node test/e2e/server.js --env default --selenium-in-background --config ./test/e2e/adminUI/nightwatch-no-process.json --group test/e2e/adminUI/tests/<group> 
+
+        or, if the above doesn't work in your platform try:
+
+        node test/e2e/server.js --env default --selenium-in-background --config ./test/e2e/adminUI/nightwatch-no-process.json --group test/e2e/adminUI/tests/<group>
 
     Running a single test in your local environment:
 
         node test/e2e/server.js --env default --config ./test/e2e/adminUI/nightwatch.json --test test/e2e/adminUI/tests/<group>/<test>
-        
-        or, if the above doesn't work in your platform try: 
-        
-        node test/e2e/server.js --env default --selenium-in-background --config ./test/e2e/adminUI/nightwatch-no-process.json --test test/e2e/adminUI/tests/<group>/<test> 
-        
+
+        or, if the above doesn't work in your platform try:
+
+        node test/e2e/server.js --env default --selenium-in-background --config ./test/e2e/adminUI/nightwatch-no-process.json --test test/e2e/adminUI/tests/<group>/<test>
+
 
     Travis builds will run:
 
