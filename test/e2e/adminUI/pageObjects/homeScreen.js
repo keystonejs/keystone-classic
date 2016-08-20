@@ -35,4 +35,4 @@ module.exports = {
 		fieldsGroup: fieldsdashboardGroup,
 		otherGroup: otherdashboardGroup,
 	},
-}
+};

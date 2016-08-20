@@ -2,9 +2,9 @@ module.exports = {
 	before: function (browser) {
 		browser.app = browser.page.app();
 		browser.signinScreen = browser.page.signin();
-		browser.homeScreen = browser.page.home();
+		browser.homeScreen = browser.page.homeScreen();
 		browser.initialFormScreen = browser.page.initialForm();
-		browser.listScreen = browser.page.list();
+		browser.listScreen = browser.page.listScreen();
 		browser.deleteConfirmationScreen = browser.page.deleteConfirmation();
 
 		browser.app

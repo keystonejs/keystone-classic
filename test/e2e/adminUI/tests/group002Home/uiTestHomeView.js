@@ -2,7 +2,7 @@ module.exports = {
 	before: function (browser) {
 		browser.app = browser.page.app();
 		browser.signinScreen = browser.page.signin();
-		browser.homeScreen = browser.page.home();
+		browser.homeScreen = browser.page.homeScreen();
 
 		browser.app
 			.gotoHomeScreen()

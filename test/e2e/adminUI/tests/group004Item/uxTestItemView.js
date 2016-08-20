@@ -5,8 +5,8 @@ module.exports = {
 	before: function (browser) {
 		browser.app = browser.page.app();
 		browser.signinScreen = browser.page.signin();
-		browser.listScreen = browser.page.list();
-		browser.itemScreen = browser.page.item();
+		browser.listScreen = browser.page.listScreen();
+		browser.itemScreen = browser.page.itemScreen();
 		browser.initialFormScreen = browser.page.initialForm();
 		browser.deleteConfirmationScreen = browser.page.deleteConfirmation();
 		browser.resetConfirmationScreen = browser.page.resetConfirmation();
