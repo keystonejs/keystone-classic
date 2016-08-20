@@ -3,14 +3,6 @@ import webpack from 'webpack';
 
 let config = {
 	entry: {
-		// admin ui bundle
-		// admin: path.resolve(__dirname, './admin/client/index'),
-		// fields/filters bundle
-		// fields: [
-		// 	path.resolve(__dirname, './admin/client/fields'),
-		// 	path.resolve(__dirname, './admin/client/filters'),
-		// ],
-		// packages bundle
 		admin: `${__dirname}/admin/client/App`,
 		signin: `${__dirname}/admin/client/Signin`,
 		explorer: `${__dirname}/fields/explorer`,
@@ -18,13 +10,14 @@ let config = {
 	output: {
 		filename: '[name].js',
 		path: path.resolve(__dirname, './admin/public/js'),
-		// NOTE: hardcoding keystone
+		// NOTE: we're hardcoding /keystone in the bundle
 		publicPath: '/keystone/js/',
 		pathinfo: true,
 	},
 	module: {
 		loaders: [
 			{
+				// Auto-chunk Fields for dynamic loading
 				test: /fields\/.*(Field|Column|Filter)\.jsx?$/i,
 				loader: 'react-proxy',
 				exclude: [
@@ -42,10 +35,7 @@ let config = {
 					`${__dirname}/admin/public/js/`,
 				],
 			},
-			{
-				test: /\.css$/,
-				loaders: ['style', 'css'],
-			},
+			{ test: /\.css$/, loaders: ['style', 'css'] },
 			{ test: /\.json$/, loader: 'json' },
 			{ test: /\.md$/, loader: 'raw' },
 		],
@@ -72,24 +62,6 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 function createProdConfig (config) {
-	let plugins = [
-		...config.plugins,
-		// TODO doesn't do anything right now
-		new webpack.optimize.MinChunkSizePlugin({ minChunkSize: 14000 }),
-		new webpack.optimize.UglifyJsPlugin({
-			compress: {
-				warnings: false,
-			},
-			mangle: true,
-			output: {
-				comments: false,
-				screw_ie8: true,
-				semicolons: false,
-			},
-		}),
-		new webpack.optimize.OccurenceOrderPlugin(),
-		new webpack.optimize.DedupePlugin(),
-	];
 	return {
 		...config,
 		entry: {
@@ -100,7 +72,23 @@ function createProdConfig (config) {
 			...config.output,
 			pathinfo: false,
 		},
-		plugins,
+		plugins: [
+			...config.plugins,
+			// TODO doesn't do anything right now
+			new webpack.optimize.MinChunkSizePlugin({ minChunkSize: 14000 }),
+			new webpack.optimize.UglifyJsPlugin({
+				compress: {
+					// Comment this if you want to verify the uglification
+					warnings: false,
+				},
+				output: {
+					screw_ie8: true,
+					semicolons: false,
+				},
+			}),
+			new webpack.optimize.OccurenceOrderPlugin(),
+			new webpack.optimize.DedupePlugin(),
+		],
 	};
 }
 
