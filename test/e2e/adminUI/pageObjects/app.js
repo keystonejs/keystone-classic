@@ -7,7 +7,6 @@ var keystone = require('../../../..');
 module.exports = {
 	url: 'http://' + keystone.get('host') + ':' + keystone.get('port') + '/keystone/',
 	pause: 1000,
-	defaultWaitForTimeout: 60000,
 	elements: {
 		// ADMIN UI APP SCREENS
 		signinScreen: '#signin-view',

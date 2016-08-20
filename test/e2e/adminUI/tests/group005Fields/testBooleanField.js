@@ -1,4 +1,5 @@
 var fieldTests = require('./commonFieldTestUtils.js');
+var BooleanModelTestConfig = require('../../../modelTestConfig/booleanModel');
 
 module.exports = {
 	before: fieldTests.before,
@@ -9,7 +10,7 @@ module.exports = {
 		browser.app.waitForInitialFormScreen();
 
 		browser.initialFormScreen.assertUIVisible({
-			listName: 'Boolean',
+			listModelTestConfig: BooleanModelTestConfig,
 			fields: ['name', 'fieldA']
 		});
 	},
@@ -22,7 +23,7 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 		browser.initialFormScreen.fillInputs({
-			listName: 'Boolean',
+			listModelTestConfig: BooleanModelTestConfig,
 			fields: {
 				'name': {value: 'Boolean Field Test 1'},
 				'fieldA': {value: 'true'},
@@ -30,7 +31,7 @@ module.exports = {
 			}
 		});
 		browser.initialFormScreen.assertInputs({
-			listName: 'Boolean',
+			listModelTestConfig: BooleanModelTestConfig,
 			fields: {
 				'name': {value: 'Boolean Field Test 1'},
 				'fieldA': {value: 'true'},
@@ -40,7 +41,7 @@ module.exports = {
 		browser.app.waitForItemScreen();
 
 		browser.itemScreen.assertInputs({
-			listName: 'Boolean',
+			listModelTestConfig: BooleanModelTestConfig,
 			fields: {
 				'name': {value: 'Boolean Field Test 1'},
 				'fieldA': {value: 'true'},
@@ -49,21 +50,19 @@ module.exports = {
 	},
 	'Boolean field should show correctly in the edit form': function(browser) {
 		browser.itemScreen.assertUIVisible({
-			listName: 'Boolean',
+			listModelTestConfig: BooleanModelTestConfig,
 			fields: ['fieldA', 'fieldB']
 		});
 	},
 	'Boolean field should have its default value if hidden': function(browser) {
-		// The hidden boolean field fieldC should have its default value true, meaning that fieldD should be visible.
-		// This used not to be correct as per issue https://github.com/keystonejs/keystone/issues/3029
 		browser.itemScreen.assertUIVisible({
-			listName: 'Boolean',
+			listModelTestConfig: BooleanModelTestConfig,
 			fields: ['fieldD'],
 		});
 	},
 	'Boolean field can be filled via the edit form': function(browser) {
 		browser.itemScreen.fillInputs({
-			listName: 'Boolean',
+			listModelTestConfig: BooleanModelTestConfig,
 			fields: {
 				'fieldB': {value: 'false'}
 			}
@@ -72,7 +71,7 @@ module.exports = {
 		browser.app.waitForItemScreen();
 		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
 		browser.itemScreen.assertInputs({
-			listName: 'Boolean',
+			listModelTestConfig: BooleanModelTestConfig,
 			fields: {
 				'name': {value: 'Boolean Field Test 1'},
 				'fieldA': {value: 'true'},
