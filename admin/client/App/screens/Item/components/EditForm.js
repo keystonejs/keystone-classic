@@ -89,7 +89,7 @@ var EditForm = React.createClass({
 		const confirmationDialog = (
 			<ConfirmationDialog
 				isOpen
-				body={`Reset your changes to <strong>${this.props.data.name}</strong>?`}
+				body={<p>Reset your changes to <strong>{this.props.data.name}</strong>?</p>}
 				confirmationLabel="Reset"
 				onCancel={this.removeConfirmationDialog}
 				onConfirmation={this.handleReset}
@@ -108,7 +108,7 @@ var EditForm = React.createClass({
 		const confirmationDialog = (
 			<ConfirmationDialog
 				isOpen
-				body={`Are you sure you want to delete <strong>${this.props.data.name}?</strong><br /><br />This cannot be undone.`}
+				body={<p>Are you sure you want to delete <strong>{this.props.data.name}?</strong><br /><br />This cannot be undone.</p>}
 				confirmationLabel="Delete"
 				onCancel={this.removeConfirmationDialog}
 				onConfirmation={this.handleDelete}
