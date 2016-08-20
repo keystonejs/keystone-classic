@@ -10,13 +10,14 @@ var express = require('express');
 var less = require('less-middleware');
 var path = require('path');
 
-module.exports = function createStaticRouter (keystone) {
+module.exports = function createStaticRouter (options) {
+	var adminPath = options.adminPath || '/';
+	var customStylesPath = options.customStylesPath || '';
 	var router = express.Router();
 
 	/* Prepare LESS options */
 	var elementalPath = path.join(path.dirname(require.resolve('elemental')), '..');
 	var reactSelectPath = path.join(path.dirname(require.resolve('react-select')), '..');
-	var customStylesPath = keystone.getPath('adminui custom styles') || '';
 
 	var lessOptions = {
 		render: {
@@ -24,7 +25,7 @@ module.exports = function createStaticRouter (keystone) {
 				elementalPath: JSON.stringify(elementalPath),
 				reactSelectPath: JSON.stringify(reactSelectPath),
 				customStylesPath: JSON.stringify(customStylesPath),
-				adminPath: JSON.stringify(keystone.get('admin path')),
+				adminPath: JSON.stringify(adminPath),
 			},
 		},
 	};

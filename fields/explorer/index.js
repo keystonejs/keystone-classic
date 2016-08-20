@@ -13,7 +13,7 @@ const Types = {
 	DateArray: require('../types/datearray/test/explorer'),
 	Datetime: require('../types/datetime/test/explorer'),
 	Email: require('../types/email/test/explorer'),
-	Geopoint: require('../types/geopoint/test/explorer'),
+	GeoPoint: require('../types/geopoint/test/explorer'),
 	Html: require('../types/html/test/explorer'),
 	Key: require('../types/key/test/explorer'),
 	Location: require('../types/location/test/explorer'),
@@ -31,17 +31,19 @@ const Types = {
 	Url: require('../types/url/test/explorer'),
 };
 
-function generateNavSections (arr) {
+function generateNavSections (obj) {
 	const navSections = {};
-	arr.forEach((t) => {
+	const keys = Object.keys(obj);
+	keys.forEach(k => {
+		const t = Types[k];
 		if (!navSections[t.section]) navSections[t.section] = [];
+		navSections[t.section].push(k);
 	});
-	arr.forEach(t => navSections[t.section].push(t.Field.type));
 
 	return navSections;
 }
 
-const navSections = generateNavSections(Object.keys(Types).map(i => Types[i]));
+const navSections = generateNavSections(Types);
 
 class App extends Component {
 	constructor () {

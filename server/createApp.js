@@ -48,7 +48,13 @@ module.exports = function createApp (keystone, express) {
 	// unless the headless option is set (which disables the Admin UI),
 	// bind the Admin UI's Static Router for public resources
 	if (!keystone.get('headless')) {
-		app.use('/' + keystone.get('admin path'), require('../admin/server').createStaticRouter(keystone));
+		var createStaticRouter = require('../admin/server').createStaticRouter;
+		var adminPath = keystone.get('admin path');
+		var customStylesPath = keystone.getPath('adminui custom styles');
+		app.use('/' + adminPath, createStaticRouter({
+			adminPath: adminPath,
+			customStylesPath: customStylesPath,
+		}));
 	}
 
 	require('./bindLessMiddleware')(keystone, app);
