@@ -1,4 +1,5 @@
 var fieldTests = require('./commonFieldTestUtils.js');
+var NameModelTestConfig = require('../../../modelTestConfig/nameModel');
 
 module.exports = {
 	before: fieldTests.before,
@@ -8,8 +9,8 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 
-		browser.initialFormScreen.assertUI({
-			listName: 'Name',
+		browser.initialFormScreen.assertUIVisible({
+			listModelTestConfig: NameModelTestConfig,
 			fields: ['name', 'fieldA']
 		});
 	},
@@ -22,14 +23,14 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 		browser.initialFormScreen.fillInputs({
-			listName: 'Name',
+			listModelTestConfig: NameModelTestConfig,
 			fields: {
 				'name': {value: 'Name Field Test 1'},
 				'fieldA': {firstName: 'First 1', lastName: 'Last 1'},
 			}
 		});
 		browser.initialFormScreen.assertInputs({
-			listName: 'Name',
+			listModelTestConfig: NameModelTestConfig,
 			fields: {
 				'name': {value: 'Name Field Test 1'},
 				'fieldA': {firstName: 'First 1', lastName: 'Last 1'},
@@ -39,7 +40,7 @@ module.exports = {
 		browser.app.waitForItemScreen();
 
 		browser.itemScreen.assertInputs({
-			listName: 'Name',
+			listModelTestConfig: NameModelTestConfig,
 			fields: {
 				'name': {value: 'Name Field Test 1'},
 				'fieldA': {firstName: 'First 1', lastName: 'Last 1'},
@@ -47,14 +48,14 @@ module.exports = {
 		})
 	},
 	'Name field should show correctly in the edit form': function(browser) {
-		browser.itemScreen.assertUI({
-			listName: 'Name',
+		browser.itemScreen.assertUIVisible({
+			listModelTestConfig: NameModelTestConfig,
 			fields: ['fieldA', 'fieldB']
 		});
 	},
 	'Name field can be filled via the edit form': function(browser) {
 		browser.itemScreen.fillInputs({
-			listName: 'Name',
+			listModelTestConfig: NameModelTestConfig,
 			fields: {
 				'fieldB': {firstName: 'First 2', lastName: 'Last 2'}
 			}
@@ -63,7 +64,7 @@ module.exports = {
 		browser.app.waitForItemScreen();
 		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
 		browser.itemScreen.assertInputs({
-			listName: 'Name',
+			listModelTestConfig: NameModelTestConfig,
 			fields: {
 				'name': {value: 'Name Field Test 1'},
 				'fieldA': {firstName: 'First 1', lastName: 'Last 1'},
