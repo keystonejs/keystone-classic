@@ -1,6 +1,6 @@
 module.exports = {
-	Field: require('../NumberarrayField'),
-	Filter: require('../NumberarrayFilter'),
+	Field: require('../NumberArrayField'),
+	Filter: require('../NumberArrayFilter'),
 	section: 'Number',
 	spec: {
 		label: 'Numberarray',
