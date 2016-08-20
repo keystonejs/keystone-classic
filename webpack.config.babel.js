@@ -26,7 +26,12 @@ let config = {
 			{
 				test: /fields\/.*(Field|Column|Filter)\.jsx?$/i,
 				loader: 'react-proxy',
-				exclude: /fields\/types\/Field\.js/,
+				exclude: [
+					// The field decorator
+					/fields\/types\/Field\.js/,
+					// Fields using the Array mixin (doesn't like proxy)
+					/Array/,
+				],
 			},
 			{ test: /\.jsx?$/, loader: 'babel', exclude: /node_modules/ },
 		],
