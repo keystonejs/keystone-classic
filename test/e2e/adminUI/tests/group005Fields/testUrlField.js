@@ -1,4 +1,5 @@
 var fieldTests = require('./commonFieldTestUtils.js');
+var UrlModelTestConfig = require('../../../modelTestConfig/urlModel');
 
 module.exports = {
 	before: fieldTests.before,
@@ -8,8 +9,8 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 
-		browser.initialFormScreen.assertUI({
-			listName: 'Url',
+		browser.initialFormScreen.assertUIVisible({
+			listModelTestConfig: UrlModelTestConfig,
 			fields: ['name', 'fieldA']
 		});
 	},
@@ -22,14 +23,14 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 		browser.initialFormScreen.fillInputs({
-			listName: 'Url',
+			listModelTestConfig: UrlModelTestConfig,
 			fields: {
 				'name': {value: 'Url Field Test 1'},
 				'fieldA': {value: 'http://www.example1.com'},
 			}
 		});
 		browser.initialFormScreen.assertInputs({
-			listName: 'Url',
+			listModelTestConfig: UrlModelTestConfig,
 			fields: {
 				'name': {value: 'Url Field Test 1'},
 				'fieldA': {value: 'http://www.example1.com'},
@@ -39,7 +40,7 @@ module.exports = {
 		browser.app.waitForItemScreen();
 
 		browser.itemScreen.assertInputs({
-			listName: 'Url',
+			listModelTestConfig: UrlModelTestConfig,
 			fields: {
 				'name': {value: 'Url Field Test 1'},
 				'fieldA': {value: 'http://www.example1.com'},
@@ -47,14 +48,14 @@ module.exports = {
 		})
 	},
 	'Url field should show correctly in the edit form': function(browser) {
-		browser.itemScreen.assertUI({
-			listName: 'Url',
+		browser.itemScreen.assertUIVisible({
+			listModelTestConfig: UrlModelTestConfig,
 			fields: ['fieldA', 'fieldB']
 		});
 	},
 	'Url field can be filled via the edit form': function(browser) {
 		browser.itemScreen.fillInputs({
-			listName: 'Url',
+			listModelTestConfig: UrlModelTestConfig,
 			fields: {
 				'fieldB': {value: 'http://www.example2.com'}
 			}
@@ -63,7 +64,7 @@ module.exports = {
 		browser.app.waitForItemScreen();
 		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
 		browser.itemScreen.assertInputs({
-			listName: 'Url',
+			listModelTestConfig: UrlModelTestConfig,
 			fields: {
 				'name': {value: 'Url Field Test 1'},
 				'fieldA': {value: 'http://www.example1.com'},
