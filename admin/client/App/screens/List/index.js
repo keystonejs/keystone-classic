@@ -37,6 +37,7 @@ import {
 	setCurrentPage,
 	selectList,
 	loadItems,
+	loadInitialItems,
 } from './actions';
 
 import {
@@ -55,7 +56,6 @@ const ListView = React.createClass({
 			checkedItems: {},
 			constrainTableWidth: true,
 			manageMode: false,
-			searchString: '',
 			showCreateForm: this.props.location.search === '?create' || Keystone.createFormErrors,
 			showUpdateForm: false,
 		};
@@ -64,24 +64,17 @@ const ListView = React.createClass({
 		// When we directly navigate to a list without coming from another client
 		// side routed page before, we need to initialize the list and parse
 		// possibly specified query parameters
-		this.initializeList(this.props.params.listId);
+		this.props.dispatch(selectList(this.props.params.listId));
 		this.parseQueryParams();
-		this.loadItems();
+		this.props.dispatch(loadInitialItems());
 	},
 	componentWillReceiveProps (nextProps) {
 		// We've opened a new list from the client side routing, so initialize
 		// again with the new list id
 		if (nextProps.params.listId !== this.props.params.listId) {
-			this.setState({ searchString: '' });
-			this.initializeList(nextProps.params.listId);
-			this.loadItems();
+			this.props.dispatch(selectList(nextProps.params.listId));
+			this.props.dispatch(loadItems());
 		}
-	},
-	initializeList (listId) {
-		this.props.dispatch(selectList(listId));
-	},
-	loadItems () {
-		this.props.dispatch(loadItems());
 	},
 	/**
 	 * Parse the current query parameters and change the state accordingly
@@ -99,9 +92,6 @@ const ListView = React.createClass({
 					break;
 				case 'search':
 					// Fill the search input field with the current search
-					this.setState({
-						searchString: query[key],
-					});
 					this.props.dispatch(setActiveSearch(query[key]));
 					break;
 				case 'sort':
@@ -137,19 +127,10 @@ const ListView = React.createClass({
 		});
 	},
 	updateSearch (e) {
-		clearTimeout(this._searchTimeout);
-		this.setState({
-			searchString: e.target.value,
-		});
-		var delay = e.target.value.length > 1 ? 150 : 0;
-		this._searchTimeout = setTimeout(() => {
-			delete this._searchTimeout;
-			this.props.dispatch(setActiveSearch(this.state.searchString));
-		}, delay);
+		this.props.dispatch(setActiveSearch(e.target.value));
 	},
 	handleSearchClear () {
 		this.props.dispatch(setActiveSearch(''));
-		this.setState({ searchString: '' });
 
 		// TODO re-implement focus when ready
 		// findDOMNode(this.refs.listSearchInput).focus();
@@ -291,7 +272,7 @@ const ListView = React.createClass({
 					searchHandleChange={this.updateSearch}
 					searchHandleClear={this.handleSearchClear}
 					searchHandleKeyup={this.handleSearchKey}
-					searchValue={this.state.searchString}
+					searchValue={this.props.active.search}
 
 					// filters
 					filtersActive={this.props.active.filters}
