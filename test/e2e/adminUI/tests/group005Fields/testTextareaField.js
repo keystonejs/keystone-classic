@@ -1,4 +1,5 @@
 var fieldTests = require('./commonFieldTestUtils.js');
+var TextareaModelTestConfig = require('../../../modelTestConfig/textareaModel');
 
 module.exports = {
 	before: fieldTests.before,
@@ -8,8 +9,8 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 
-		browser.initialFormScreen.assertUI({
-			listName: 'Textarea',
+		browser.initialFormScreen.assertUIVisible({
+			listModelTestConfig: TextareaModelTestConfig,
 			fields: ['name', 'fieldA']
 		});
 	},
@@ -22,14 +23,14 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 		browser.initialFormScreen.fillInputs({
-			listName: 'Textarea',
+			listModelTestConfig: TextareaModelTestConfig,
 			fields: {
 				'name': {value: 'Textarea Field Test 1'},
 				'fieldA': {value: 'Some test text for field A'},
 			}
 		});
 		browser.initialFormScreen.assertInputs({
-			listName: 'Textarea',
+			listModelTestConfig: TextareaModelTestConfig,
 			fields: {
 				'name': {value: 'Textarea Field Test 1'},
 				'fieldA': {value: 'Some test text for field A'},
@@ -39,7 +40,7 @@ module.exports = {
 		browser.app.waitForItemScreen();
 
 		browser.itemScreen.assertInputs({
-			listName: 'Textarea',
+			listModelTestConfig: TextareaModelTestConfig,
 			fields: {
 				'name': {value: 'Textarea Field Test 1'},
 				'fieldA': {value: 'Some test text for field A'},
@@ -47,14 +48,14 @@ module.exports = {
 		})
 	},
 	'Textarea field should show correctly in the edit form': function(browser) {
-		browser.itemScreen.assertUI({
-			listName: 'Textarea',
+		browser.itemScreen.assertUIVisible({
+			listModelTestConfig: TextareaModelTestConfig,
 			fields: ['fieldA', 'fieldB']
 		});
 	},
 	'Textarea field can be filled via the edit form': function(browser) {
 		browser.itemScreen.fillInputs({
-			listName: 'Textarea',
+			listModelTestConfig: TextareaModelTestConfig,
 			fields: {
 				'fieldB': {value: 'Some test text for field B'}
 			}
@@ -63,7 +64,7 @@ module.exports = {
 		browser.app.waitForItemScreen();
 		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
 		browser.itemScreen.assertInputs({
-			listName: 'Textarea',
+			listModelTestConfig: TextareaModelTestConfig,
 			fields: {
 				'name': {value: 'Textarea Field Test 1'},
 				'fieldA': {value: 'Some test text for field A'},
