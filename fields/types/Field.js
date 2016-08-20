@@ -64,14 +64,18 @@ var Base = module.exports.Base = {
 		return <FormNote note={this.props.note} />;
 	},
 	renderField () {
-		var props = Object.assign(this.props.inputProps, {
-			autoComplete: 'off',
-			name: this.getInputName(this.props.path),
-			onChange: this.valueChanged,
-			ref: 'focusTarget',
-			value: this.props.value,
-		});
-		return <FormInput {...props} />;
+		const { autoFocus, value, inputProps } = this.props;
+		return (
+			<FormInput {...{
+				...inputProps,
+				autoFocus,
+				autoComplete: 'off',
+				name: this.getInputName(this.props.path),
+				onChange: this.valueChanged,
+				ref: 'focusTarget',
+				value,
+			}} />
+		);
 	},
 	renderValue () {
 		return <FormInput noedit>{this.props.value}</FormInput>;
