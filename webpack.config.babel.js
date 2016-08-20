@@ -33,8 +33,21 @@ let config = {
 					/Array/,
 				],
 			},
-			{ test: /\.jsx?$/, loader: 'babel', exclude: /node_modules/ },
+			{
+				test: /\.jsx?$/,
+				loader: 'babel',
+				exclude: [
+					/node_modules/,
+					`${__dirname}/admin/public/js/`,
+				],
+			},
 		],
+	},
+	// Externally loaded dependencies
+	externals: {
+		jquery: 'jQuery',
+		codemirror: 'CodeMirror',
+		tinymce: 'tinymce',
 	},
 	plugins: [
 		new webpack.DefinePlugin({
