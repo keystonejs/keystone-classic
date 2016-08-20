@@ -8,13 +8,6 @@ See https://github.com/keystonejs/keystone/wiki/File-Fields-Upgrade-Guide
 
 /* eslint-disable */
 
-var _ = require('lodash');
-var FieldType = require('../Type');
-var grappling = require('grappling-hook');
-var keystone = require('../../../');
-var util = require('util');
-var utils = require('keystone-utils');
-
 /**
  * AzureFile FieldType Constructor
  * @extends Field
@@ -24,6 +17,8 @@ function azurefile (list, path, options) {
 
 	throw new Error('The AzureFile field type has been removed. Please use File instead.'
 		+ '\n\nSee https://github.com/keystonejs/keystone/wiki/File-Fields-Upgrade-Guide\n');
+
+	/*
 
 	grappling.mixin(this).allowHooks('pre:upload');
 
@@ -61,6 +56,8 @@ function azurefile (list, path, options) {
 	if (options.pre && options.pre.upload) {
 		this.pre('upload', options.pre.upload);
 	}
+
+	*/
 
 }
 azurefile.properName = 'AzureFile';

@@ -1,3 +1,9 @@
+/**
+TODO:
+- Format size of stored file (if present) using bytes package?
+- Display file type icon? (see LocalFileField)
+*/
+
 import Field from '../Field';
 import React, { PropTypes } from 'react';
 import { Button, FormField, FormInput, FormNote } from 'elemental';

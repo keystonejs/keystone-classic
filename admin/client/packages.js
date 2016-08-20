@@ -10,7 +10,6 @@ module.exports = [
 	'aphrodite/no-important',
 	'async',
 	'blacklist',
-	'bytes',
 	'classnames',
 	'display-name',
 	'elemental',
