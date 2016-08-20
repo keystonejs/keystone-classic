@@ -41,12 +41,15 @@ let config = {
 					`${__dirname}/admin/public/js/`,
 				],
 			},
+			{
+				test: /\.css$/,
+				loaders: ['style', 'css'],
+			},
 		],
 	},
 	// Externally loaded dependencies
 	externals: {
 		jquery: 'jQuery',
-		codemirror: 'CodeMirror',
 		tinymce: 'tinymce',
 	},
 	plugins: [
