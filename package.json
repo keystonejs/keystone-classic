@@ -84,7 +84,7 @@
     "react-images": "0.4.11",
     "react-markdown": "2.4.2",
     "react-redux": "4.4.5",
-    "react-router": "2.6.1",
+    "react-router": "2.7.0",
     "react-router-redux": "4.0.5",
     "react-select": "1.0.0-beta14",
     "redux": "3.5.2",
