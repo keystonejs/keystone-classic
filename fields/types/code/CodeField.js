@@ -1,15 +1,9 @@
-import _ from 'lodash';
 import CodeMirror from 'codemirror';
 import Field from '../Field';
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import { FormInput } from '../../../admin/client/App/elemental';
 import classnames from 'classnames';
-
-/**
- * TODO:
- * - Remove dependency on lodash
- */
 import 'codemirror/lib/codemirror.css';
 
 // See CodeMirror docs for API:
@@ -31,10 +25,11 @@ module.exports = Field.create({
 			return;
 		}
 
-		var options = _.defaults({}, this.props.editor, {
+		var options = {
 			lineNumbers: true,
 			readOnly: this.shouldRenderField() ? false : true,
-		});
+			...this.props.editor,
+		};
 
 		this.codeMirror = CodeMirror.fromTextArea(findDOMNode(this.refs.codemirror), options);
 		this.codeMirror.setSize(null, this.props.height);
