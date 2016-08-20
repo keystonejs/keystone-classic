@@ -34,6 +34,7 @@ module.exports = [
 	'react-router',
 	'react-select',
 	'react',
+	'redux-saga',
 	'redux-thunk',
 	'redux',
 	'vkey',
