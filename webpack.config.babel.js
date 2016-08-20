@@ -31,7 +31,7 @@ let config = {
 		}),
 		// Only bundle locales we use with moment
 		new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
-		new webpack.optimize.CommonsChunkPlugin('packages', 'packages.js'),
+		new webpack.optimize.CommonsChunkPlugin('common', 'common.js'),
 	],
 };
 
