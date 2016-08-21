@@ -1,10 +1,10 @@
-var TextType = require('../fieldTestObjects/textField');
-var NumberType = require('../fieldTestObjects/numberField');
+var TextField = require('../fieldTestObjects/textField');
+var NumberField = require('../fieldTestObjects/numberField');
 
 module.exports = function NumberModel (config) {
 	return {
-		name: new TextType({fieldName: 'name'}),
-		fieldA: new NumberType({fieldName: 'fieldA'}),
-		fieldB: new NumberType({fieldName: 'fieldB'}),
+		name: new TextField({fieldName: 'name'}),
+		fieldA: new NumberField({fieldName: 'fieldA'}),
+		fieldB: new NumberField({fieldName: 'fieldB'}),
 	};
 };
