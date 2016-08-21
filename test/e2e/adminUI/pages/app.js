@@ -97,31 +97,31 @@ module.exports = {
 		},
 		waitForSigninScreen: function(timeout) {
 			return this
-				.waitForElementVisible('@signinScreen', timeout || this.defaultWaitForTimeout);
+				.waitForElementVisible('@signinScreen', timeout || this.api.globals.waitForConditionTimeout);
 		},
 		waitForHomeScreen: function(timeout) {
 			return this
-				.waitForElementVisible('@homeScreen', timeout || this.defaultWaitForTimeout);
+				.waitForElementVisible('@homeScreen', timeout || this.api.globals.waitForConditionTimeout);
 		},
 		waitForInitialFormScreen: function(timeout) {
 			return this
-				.waitForElementVisible('@initialFormScreen', timeout || this.defaultWaitForTimeout);
+				.waitForElementVisible('@initialFormScreen', timeout || this.api.globals.waitForConditionTimeout);
 		},
 		waitForDeleteConfirmationScreen: function(timeout) {
 			return this
-				.waitForElementVisible('@deleteConfirmationScreen', timeout || this.defaultWaitForTimeout);
+				.waitForElementVisible('@deleteConfirmationScreen', timeout || this.api.globals.waitForConditionTimeout);
 		},
 		waitForResetConfirmationScreen: function(timeout) {
 			return this
-				.waitForElementVisible('@resetConfirmationScreen', timeout || this.defaultWaitForTimeout);
+				.waitForElementVisible('@resetConfirmationScreen', timeout || this.api.globals.waitForConditionTimeout);
 		},
 		waitForListScreen: function(timeout) {
 			return this
-				.waitForElementVisible('@listScreen', timeout || this.defaultWaitForTimeout);
+				.waitForElementVisible('@listScreen', timeout || this.api.globals.waitForConditionTimeout);
 		},
 		waitForItemScreen: function(timeout) {
 			return this
-				.waitForElementVisible('@itemScreen', timeout || this.defaultWaitForTimeout);
+				.waitForElementVisible('@itemScreen', timeout || this.api.globals.waitForConditionTimeout);
 		},
 	}],
 };
