@@ -37,15 +37,15 @@ const PopoutHeader = React.createClass({
 			<div className="Popout__header">
 				<Transition
 					transitionName="react-transitiongroup-fade"
-					transitionEnterTimeout={200}
-					transitionLeaveTimeout={200}
+					transitionEnterTimeout={190}
+					transitionLeaveTimeout={190}
 				>
 					{headerButton}
 				</Transition>
 				<Transition
 					transitionName={'Popout__pane-' + this.props.transitionDirection}
-					transitionEnterTimeout={360}
-					transitionLeaveTimeout={360}
+					transitionEnterTimeout={350}
+					transitionLeaveTimeout={350}
 				>
 					{headerTitle}
 				</Transition>
