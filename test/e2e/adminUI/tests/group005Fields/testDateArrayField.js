@@ -1,4 +1,5 @@
 var fieldTests = require('./commonFieldTestUtils.js');
+var DateArrayModelTestConfig = require('../../../modelTestConfig/dateArrayModel');
 
 module.exports = {
 	before: fieldTests.before,
@@ -8,8 +9,8 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 
-		browser.initialFormScreen.assertUI({
-			listName: 'DateArray',
+		browser.initialFormScreen.assertUIVisible({
+			modelTestConfig: DateArrayModelTestConfig,
 			fields: ['name']
 		});
 	},
@@ -22,14 +23,14 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 		browser.initialFormScreen.fillInputs({
-			listName: 'DateArray',
+			modelTestConfig: DateArrayModelTestConfig,
 			fields: {
 				'name': {value: 'DateArray Field Test 1'},
 			}
 		});
 		/* TODO Pending fix of timezone issues which are causing Travis CI to fail
 		browser.initialFormScreen.assertInputs({
-			listName: 'DateArray',
+			modelTestConfig: DateArrayModelTestConfig,
 			fields: {
 				'name': {value: 'DateArray Field Test 1'},
 			}
@@ -39,7 +40,7 @@ module.exports = {
 		browser.app.waitForItemScreen();
 		/* TODO Pending fix of timezone issues which are causing Travis CI to fail
 		browser.itemScreen.assertInputs({
-			listName: 'DateArray',
+			modelTestConfig: DateArrayModelTestConfig,
 			fields: {
 				'name': {value: 'DateArray Field Test 1'},
 			}
@@ -47,44 +48,44 @@ module.exports = {
 		*/
 	},
 	'DateArray field should show correctly in the edit form': function(browser) {
-		browser.itemScreen.assertUI({
-			listName: 'DateArray',
+		browser.itemScreen.assertUIVisible({
+			modelTestConfig: DateArrayModelTestConfig,
 			fields: ['fieldA', 'fieldB']
 		});
 		browser.itemScreen.section.form.section.datearrayList.section.fieldA.addDate();
-		browser.itemScreen.assertUI({
-			listName: 'DateArray',
+		browser.itemScreen.assertUIVisible({
+			modelTestConfig: DateArrayModelTestConfig,
 			fields: ['fieldA'],
 			args: {'dateInputs': ['date1']}
 		});
 		browser.itemScreen.section.form.section.datearrayList.section.fieldA.addDate();
-		browser.itemScreen.assertUI({
-			listName: 'DateArray',
+		browser.itemScreen.assertUIVisible({
+			modelTestConfig: DateArrayModelTestConfig,
 			fields: ['fieldA'],
 			args: {'dateInputs': ['date1', 'date2']}
 		});
 		browser.itemScreen.section.form.section.datearrayList.section.fieldB.addDate();
 		browser.itemScreen.section.form.section.datearrayList.section.fieldB.addDate();
-		browser.itemScreen.assertUI({
-			listName: 'DateArray',
+		browser.itemScreen.assertUIVisible({
+			modelTestConfig: DateArrayModelTestConfig,
 			fields: ['fieldB'],
 			args: {'dateInputs': ['date1', 'date2']}
 		});
 	},
 	'DateArray field can be filled via the edit form': function(browser) {
 		browser.itemScreen.fillInputs({
-			listName: 'DateArray',
+			modelTestConfig: DateArrayModelTestConfig,
 			fields: {
 				'fieldA': {date1: '2016-01-01', date2: '2016-01-02'}
 			}
 		});
 		browser.itemScreen.fillInputs({
-			listName: 'DateArray',
+			modelTestConfig: DateArrayModelTestConfig,
 			fields: {
 				'fieldB': {date1: '2016-01-03', date2: '2016-01-04'}
 			}
 		});
-		// Drop focus on the date field so the popup disappears. 
+		// Drop focus on the date field so the popup disappears.
 		browser.execute(function() {
 			document.activeElement.blur();
 		});
@@ -94,7 +95,7 @@ module.exports = {
 		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
 		/* TODO Pending fix of timezone issues which are causing Travis CI to fail
 		browser.itemScreen.assertInputs({
-			listName: 'DateArray',
+			modelTestConfig: DateArrayModelTestConfig,
 			fields: {
 				'name': {value: 'DateArray Field Test 1'},
 				'fieldA': {date1: '2016-01-01', date2: '2016-01-02'},
