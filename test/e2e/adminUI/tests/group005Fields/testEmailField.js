@@ -1,4 +1,5 @@
 var fieldTests = require('./commonFieldTestUtils.js');
+var EmailModelTestConfig = require('../../../modelTestConfig/emailModel');
 
 module.exports = {
 	before: fieldTests.before,
@@ -8,8 +9,8 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 
-		browser.initialFormScreen.assertUI({
-			listName: 'Email',
+		browser.initialFormScreen.assertUIVisible({
+			modelTestConfig: EmailModelTestConfig,
 			fields: ['name', 'fieldA']
 		});
 	},
@@ -22,14 +23,14 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 		browser.initialFormScreen.fillInputs({
-			listName: 'Email',
+			modelTestConfig: EmailModelTestConfig,
 			fields: {
 				'name': {value: 'Email Field Test 1'},
 				'fieldA': {value: 'user@example1.com'},
 			}
 		});
 		browser.initialFormScreen.assertInputs({
-			listName: 'Email',
+			modelTestConfig: EmailModelTestConfig,
 			fields: {
 				'name': {value: 'Email Field Test 1'},
 				'fieldA': {value: 'user@example1.com'},
@@ -39,7 +40,7 @@ module.exports = {
 		browser.app.waitForItemScreen();
 
 		browser.itemScreen.assertInputs({
-			listName: 'Email',
+			modelTestConfig: EmailModelTestConfig,
 			fields: {
 				'name': {value: 'Email Field Test 1'},
 				'fieldA': {value: 'user@example1.com'},
@@ -47,14 +48,14 @@ module.exports = {
 		})
 	},
 	'Email field should show correctly in the edit form': function(browser) {
-		browser.itemScreen.assertUI({
-			listName: 'Email',
+		browser.itemScreen.assertUIVisible({
+			modelTestConfig: EmailModelTestConfig,
 			fields: ['fieldA', 'fieldB']
 		});
 	},
 	'Email field can be filled via the edit form': function(browser) {
 		browser.itemScreen.fillInputs({
-			listName: 'Email',
+			modelTestConfig: EmailModelTestConfig,
 			fields: {
 				'fieldB': {value: 'user@example2.com'}
 			}
@@ -63,7 +64,7 @@ module.exports = {
 		browser.app.waitForItemScreen();
 		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
 		browser.itemScreen.assertInputs({
-			listName: 'Email',
+			modelTestConfig: EmailModelTestConfig,
 			fields: {
 				'name': {value: 'Email Field Test 1'},
 				'fieldA': {value: 'user@example1.com'},
