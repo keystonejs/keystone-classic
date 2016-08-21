@@ -10,7 +10,7 @@ module.exports = {
 		browser.app.waitForInitialFormScreen();
 
 		browser.initialFormScreen.assertUIVisible({
-			listModelTestConfig: TextareaModelTestConfig,
+			modelTestConfig: TextareaModelTestConfig,
 			fields: ['name', 'fieldA']
 		});
 	},
@@ -23,14 +23,14 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 		browser.initialFormScreen.fillInputs({
-			listModelTestConfig: TextareaModelTestConfig,
+			modelTestConfig: TextareaModelTestConfig,
 			fields: {
 				'name': {value: 'Textarea Field Test 1'},
 				'fieldA': {value: 'Some test text for field A'},
 			}
 		});
 		browser.initialFormScreen.assertInputs({
-			listModelTestConfig: TextareaModelTestConfig,
+			modelTestConfig: TextareaModelTestConfig,
 			fields: {
 				'name': {value: 'Textarea Field Test 1'},
 				'fieldA': {value: 'Some test text for field A'},
@@ -40,7 +40,7 @@ module.exports = {
 		browser.app.waitForItemScreen();
 
 		browser.itemScreen.assertInputs({
-			listModelTestConfig: TextareaModelTestConfig,
+			modelTestConfig: TextareaModelTestConfig,
 			fields: {
 				'name': {value: 'Textarea Field Test 1'},
 				'fieldA': {value: 'Some test text for field A'},
@@ -49,13 +49,13 @@ module.exports = {
 	},
 	'Textarea field should show correctly in the edit form': function(browser) {
 		browser.itemScreen.assertUIVisible({
-			listModelTestConfig: TextareaModelTestConfig,
+			modelTestConfig: TextareaModelTestConfig,
 			fields: ['fieldA', 'fieldB']
 		});
 	},
 	'Textarea field can be filled via the edit form': function(browser) {
 		browser.itemScreen.fillInputs({
-			listModelTestConfig: TextareaModelTestConfig,
+			modelTestConfig: TextareaModelTestConfig,
 			fields: {
 				'fieldB': {value: 'Some test text for field B'}
 			}
@@ -64,7 +64,7 @@ module.exports = {
 		browser.app.waitForItemScreen();
 		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
 		browser.itemScreen.assertInputs({
-			listModelTestConfig: TextareaModelTestConfig,
+			modelTestConfig: TextareaModelTestConfig,
 			fields: {
 				'name': {value: 'Textarea Field Test 1'},
 				'fieldA': {value: 'Some test text for field A'},

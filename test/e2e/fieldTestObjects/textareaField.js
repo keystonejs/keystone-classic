@@ -1,6 +1,6 @@
 var utils = require('../utils');
 
-module.exports = function TextareaType(config) {
+module.exports = function TextareaField(config) {
 	var selectElem = function(elem) {
 		return self.selector + ' ' + self.elements[elem];
 	};

@@ -10,7 +10,7 @@ module.exports = {
 		browser.app.waitForInitialFormScreen();
 
 		browser.initialFormScreen.assertUIVisible({
-			listModelTestConfig: UrlModelTestConfig,
+			modelTestConfig: UrlModelTestConfig,
 			fields: ['name', 'fieldA']
 		});
 	},
@@ -23,14 +23,14 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 		browser.initialFormScreen.fillInputs({
-			listModelTestConfig: UrlModelTestConfig,
+			modelTestConfig: UrlModelTestConfig,
 			fields: {
 				'name': {value: 'Url Field Test 1'},
 				'fieldA': {value: 'http://www.example1.com'},
 			}
 		});
 		browser.initialFormScreen.assertInputs({
-			listModelTestConfig: UrlModelTestConfig,
+			modelTestConfig: UrlModelTestConfig,
 			fields: {
 				'name': {value: 'Url Field Test 1'},
 				'fieldA': {value: 'http://www.example1.com'},
@@ -40,7 +40,7 @@ module.exports = {
 		browser.app.waitForItemScreen();
 
 		browser.itemScreen.assertInputs({
-			listModelTestConfig: UrlModelTestConfig,
+			modelTestConfig: UrlModelTestConfig,
 			fields: {
 				'name': {value: 'Url Field Test 1'},
 				'fieldA': {value: 'http://www.example1.com'},
@@ -49,13 +49,13 @@ module.exports = {
 	},
 	'Url field should show correctly in the edit form': function(browser) {
 		browser.itemScreen.assertUIVisible({
-			listModelTestConfig: UrlModelTestConfig,
+			modelTestConfig: UrlModelTestConfig,
 			fields: ['fieldA', 'fieldB']
 		});
 	},
 	'Url field can be filled via the edit form': function(browser) {
 		browser.itemScreen.fillInputs({
-			listModelTestConfig: UrlModelTestConfig,
+			modelTestConfig: UrlModelTestConfig,
 			fields: {
 				'fieldB': {value: 'http://www.example2.com'}
 			}
@@ -64,7 +64,7 @@ module.exports = {
 		browser.app.waitForItemScreen();
 		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
 		browser.itemScreen.assertInputs({
-			listModelTestConfig: UrlModelTestConfig,
+			modelTestConfig: UrlModelTestConfig,
 			fields: {
 				'name': {value: 'Url Field Test 1'},
 				'fieldA': {value: 'http://www.example1.com'},

@@ -1,6 +1,6 @@
 var utils = require('../utils');
 
-module.exports = function NameType(config) {
+module.exports = function NameField(config) {
 	var selectElem = function(elem) {
 		return self.selector + ' ' + self.elements[elem];
 	};

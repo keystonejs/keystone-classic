@@ -1,6 +1,6 @@
 var utils = require('../utils');
 
-module.exports = function FieldTestObject (config) {
+module.exports = function BooleanField (config) {
 	var selectElem = function(elem) {
 		return self.selector + ' ' + self.elements[elem];
 	};

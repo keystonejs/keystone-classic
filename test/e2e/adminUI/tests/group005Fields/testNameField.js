@@ -10,7 +10,7 @@ module.exports = {
 		browser.app.waitForInitialFormScreen();
 
 		browser.initialFormScreen.assertUIVisible({
-			listModelTestConfig: NameModelTestConfig,
+			modelTestConfig: NameModelTestConfig,
 			fields: ['name', 'fieldA']
 		});
 	},
@@ -23,14 +23,14 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 		browser.initialFormScreen.fillInputs({
-			listModelTestConfig: NameModelTestConfig,
+			modelTestConfig: NameModelTestConfig,
 			fields: {
 				'name': {value: 'Name Field Test 1'},
 				'fieldA': {firstName: 'First 1', lastName: 'Last 1'},
 			}
 		});
 		browser.initialFormScreen.assertInputs({
-			listModelTestConfig: NameModelTestConfig,
+			modelTestConfig: NameModelTestConfig,
 			fields: {
 				'name': {value: 'Name Field Test 1'},
 				'fieldA': {firstName: 'First 1', lastName: 'Last 1'},
@@ -40,7 +40,7 @@ module.exports = {
 		browser.app.waitForItemScreen();
 
 		browser.itemScreen.assertInputs({
-			listModelTestConfig: NameModelTestConfig,
+			modelTestConfig: NameModelTestConfig,
 			fields: {
 				'name': {value: 'Name Field Test 1'},
 				'fieldA': {firstName: 'First 1', lastName: 'Last 1'},
@@ -49,13 +49,13 @@ module.exports = {
 	},
 	'Name field should show correctly in the edit form': function(browser) {
 		browser.itemScreen.assertUIVisible({
-			listModelTestConfig: NameModelTestConfig,
+			modelTestConfig: NameModelTestConfig,
 			fields: ['fieldA', 'fieldB']
 		});
 	},
 	'Name field can be filled via the edit form': function(browser) {
 		browser.itemScreen.fillInputs({
-			listModelTestConfig: NameModelTestConfig,
+			modelTestConfig: NameModelTestConfig,
 			fields: {
 				'fieldB': {firstName: 'First 2', lastName: 'Last 2'}
 			}
@@ -64,7 +64,7 @@ module.exports = {
 		browser.app.waitForItemScreen();
 		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
 		browser.itemScreen.assertInputs({
-			listModelTestConfig: NameModelTestConfig,
+			modelTestConfig: NameModelTestConfig,
 			fields: {
 				'name': {value: 'Name Field Test 1'},
 				'fieldA': {firstName: 'First 1', lastName: 'Last 1'},

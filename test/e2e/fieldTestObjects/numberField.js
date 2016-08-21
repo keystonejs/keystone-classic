@@ -1,6 +1,6 @@
 var utils = require('../utils');
 
-module.exports = function NumberType(config) {
+module.exports = function NumberField(config) {
 	var selectElem = function(elem) {
 		return self.selector + ' ' + self.elements[elem];
 	};
@@ -51,7 +51,7 @@ module.exports = function NumberType(config) {
 					.getValue(selectElem('value'), function (result) {
 						browser.api.assert.equal(result.state, "success");
 						browser.api.assert.equal(result.value, input.value);
-					}.bind(browser));
+					});
 			},
 		},
 	};

@@ -1,6 +1,6 @@
 var utils = require('../utils');
 
-module.exports = function UrlType(config) {
+module.exports = function UrlField(config) {
 	var selectElem = function(elem) {
 		return self.selector + ' ' + self.elements[elem];
 	};

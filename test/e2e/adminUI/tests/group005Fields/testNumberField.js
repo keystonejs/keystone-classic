@@ -10,7 +10,7 @@ module.exports = {
 		browser.app.waitForInitialFormScreen();
 
 		browser.initialFormScreen.assertUIVisible({
-			listModelTestConfig: NumberModelTestConfig,
+			modelTestConfig: NumberModelTestConfig,
 			fields: ['name', 'fieldA']
 		});
 	},
@@ -23,14 +23,14 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 		browser.initialFormScreen.fillInputs({
-			listModelTestConfig: NumberModelTestConfig,
+			modelTestConfig: NumberModelTestConfig,
 			fields: {
 				'name': {value: 'Number Field Test 1'},
 				'fieldA': {value: '1'},
 			}
 		});
 		browser.initialFormScreen.assertInputs({
-			listModelTestConfig: NumberModelTestConfig,
+			modelTestConfig: NumberModelTestConfig,
 			fields: {
 				'name': {value: 'Number Field Test 1'},
 				'fieldA': {value: '1'},
@@ -40,7 +40,7 @@ module.exports = {
 		browser.app.waitForItemScreen();
 
 		browser.itemScreen.assertInputs({
-			listModelTestConfig: NumberModelTestConfig,
+			modelTestConfig: NumberModelTestConfig,
 			fields: {
 				'name': {value: 'Number Field Test 1'},
 				'fieldA': {value: '1'},
@@ -49,13 +49,13 @@ module.exports = {
 	},
 	'Number field should show correctly in the edit form': function(browser) {
 		browser.itemScreen.assertUIVisible({
-			listModelTestConfig: NumberModelTestConfig,
+			modelTestConfig: NumberModelTestConfig,
 			fields: ['fieldA', 'fieldB']
 		});
 	},
 	'Number field can be filled via the edit form': function(browser) {
 		browser.itemScreen.fillInputs({
-			listModelTestConfig: NumberModelTestConfig,
+			modelTestConfig: NumberModelTestConfig,
 			fields: {
 				'fieldB': {value: '2'}
 			}
@@ -64,7 +64,7 @@ module.exports = {
 		browser.app.waitForItemScreen();
 		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
 		browser.itemScreen.assertInputs({
-			listModelTestConfig: NumberModelTestConfig,
+			modelTestConfig: NumberModelTestConfig,
 			fields: {
 				'name': {value: 'Number Field Test 1'},
 				'fieldA': {value: '1'},
