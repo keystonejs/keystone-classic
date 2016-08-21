@@ -1,4 +1,5 @@
 var fieldTests = require('./commonFieldTestUtils.js');
+var NumberModelTestConfig = require('../../../modelTestConfig/numberModel');
 
 module.exports = {
 	before: fieldTests.before,
@@ -8,8 +9,8 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 
-		browser.initialFormScreen.assertUI({
-			listName: 'Number',
+		browser.initialFormScreen.assertUIVisible({
+			listModelTestConfig: NumberModelTestConfig,
 			fields: ['name', 'fieldA']
 		});
 	},
@@ -22,14 +23,14 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 		browser.initialFormScreen.fillInputs({
-			listName: 'Number',
+			listModelTestConfig: NumberModelTestConfig,
 			fields: {
 				'name': {value: 'Number Field Test 1'},
 				'fieldA': {value: '1'},
 			}
 		});
 		browser.initialFormScreen.assertInputs({
-			listName: 'Number',
+			listModelTestConfig: NumberModelTestConfig,
 			fields: {
 				'name': {value: 'Number Field Test 1'},
 				'fieldA': {value: '1'},
@@ -39,7 +40,7 @@ module.exports = {
 		browser.app.waitForItemScreen();
 
 		browser.itemScreen.assertInputs({
-			listName: 'Number',
+			listModelTestConfig: NumberModelTestConfig,
 			fields: {
 				'name': {value: 'Number Field Test 1'},
 				'fieldA': {value: '1'},
@@ -47,14 +48,14 @@ module.exports = {
 		})
 	},
 	'Number field should show correctly in the edit form': function(browser) {
-		browser.itemScreen.assertUI({
-			listName: 'Number',
+		browser.itemScreen.assertUIVisible({
+			listModelTestConfig: NumberModelTestConfig,
 			fields: ['fieldA', 'fieldB']
 		});
 	},
 	'Number field can be filled via the edit form': function(browser) {
 		browser.itemScreen.fillInputs({
-			listName: 'Number',
+			listModelTestConfig: NumberModelTestConfig,
 			fields: {
 				'fieldB': {value: '2'}
 			}
@@ -63,7 +64,7 @@ module.exports = {
 		browser.app.waitForItemScreen();
 		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
 		browser.itemScreen.assertInputs({
-			listName: 'Number',
+			listModelTestConfig: NumberModelTestConfig,
 			fields: {
 				'name': {value: 'Number Field Test 1'},
 				'fieldA': {value: '1'},
