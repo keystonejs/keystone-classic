@@ -18,7 +18,8 @@ let config = {
 		loaders: [
 			{
 				// Auto-chunk Fields for dynamic loading
-				test: /fields\/.*(Field|Column|Filter)\.jsx?$/i,
+				// We cannot chunk Filter due to .getDefaultValue()
+				test: /fields\/.*(Field|Column)\.jsx?$/i,
 				loader: 'react-proxy',
 				exclude: [
 					// The field decorator
