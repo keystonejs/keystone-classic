@@ -60,5 +60,6 @@ module.exports = function BooleanField (config) {
 			},
 		},
 	};
+
 	return self;
 };

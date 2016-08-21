@@ -1,4 +1,5 @@
 var fieldTests = require('./commonFieldTestUtils.js');
+var SelectModelTestConfig = require('../../../modelTestConfig/selectModel');
 
 module.exports = {
 	before: fieldTests.before,
@@ -8,8 +9,8 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 
-		browser.initialFormScreen.assertUI({
-			listName: 'Select',
+		browser.initialFormScreen.assertUIVisible({
+			modelTestConfig: SelectModelTestConfig,
 			fields: ['name', 'fieldA'],
 			args: {'editForm': false}, // To check for @value instead of @button
 		});
@@ -23,14 +24,14 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 		browser.initialFormScreen.fillInputs({
-			listName: 'Select',
+			modelTestConfig: SelectModelTestConfig,
 			fields: {
 				'name': {value: 'Select Field Test 1'},
 				'fieldA': {value: 'One'},
 			}
 		});
 		browser.initialFormScreen.assertInputs({
-			listName: 'Select',
+			modelTestConfig: SelectModelTestConfig,
 			fields: {
 				'name': {value: 'Select Field Test 1'},
 				'fieldA': {value: 'One'},
@@ -40,7 +41,7 @@ module.exports = {
 		browser.app.waitForItemScreen();
 
 		browser.itemScreen.assertInputs({
-			listName: 'Select',
+			modelTestConfig: SelectModelTestConfig,
 			fields: {
 				'name': {value: 'Select Field Test 1'},
 				'fieldA': {value: 'One'},
@@ -48,15 +49,15 @@ module.exports = {
 		})
 	},
 	'Select field should show correctly in the edit form': function(browser) {
-		browser.itemScreen.assertUI({
-			listName: 'Select',
+		browser.itemScreen.assertUIVisible({
+			modelTestConfig: SelectModelTestConfig,
 			fields: ['fieldA', 'fieldB'],
 			args: {'editForm': true},
 		});
 	},
 	'Select field can be filled via the edit form': function(browser) {
 		browser.itemScreen.fillInputs({
-			listName: 'Select',
+			modelTestConfig: SelectModelTestConfig,
 			fields: {
 				'fieldB': {value: 'Two'}
 			}
@@ -65,7 +66,7 @@ module.exports = {
 		browser.app.waitForItemScreen();
 		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
 		browser.itemScreen.assertInputs({
-			listName: 'Select',
+			modelTestConfig: SelectModelTestConfig,
 			fields: {
 				'name': {value: 'Select Field Test 1'},
 				'fieldA': {value: 'One'},
