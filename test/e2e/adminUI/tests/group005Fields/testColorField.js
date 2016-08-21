@@ -1,4 +1,5 @@
 var fieldTests = require('./commonFieldTestUtils.js');
+var ColorModelTestConfig = require('../../../modelTestConfig/colorModel');
 
 module.exports = {
 	before: fieldTests.before,
@@ -8,8 +9,8 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 
-		browser.initialFormScreen.assertUI({
-			listName: 'Color',
+		browser.initialFormScreen.assertUIVisible({
+			modelTestConfig: ColorModelTestConfig,
 			fields: ['name', 'fieldA']
 		});
 	},
@@ -22,14 +23,14 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 		browser.initialFormScreen.fillInputs({
-			listName: 'Color',
+			modelTestConfig: ColorModelTestConfig,
 			fields: {
 				'name': {value: 'Color Field Test 1'},
 				'fieldA': {value: '#002147'},
 			}
 		});
 		browser.initialFormScreen.assertInputs({
-			listName: 'Color',
+			modelTestConfig: ColorModelTestConfig,
 			fields: {
 				'name': {value: 'Color Field Test 1'},
 				'fieldA': {value: '#002147'},
@@ -39,7 +40,7 @@ module.exports = {
 		browser.app.waitForItemScreen();
 
 		browser.itemScreen.assertInputs({
-			listName: 'Color',
+			modelTestConfig: ColorModelTestConfig,
 			fields: {
 				'name': {value: 'Color Field Test 1'},
 				'fieldA': {value: '#002147'},
@@ -47,14 +48,14 @@ module.exports = {
 		})
 	},
 	'Color field should show correctly in the edit form': function(browser) {
-		browser.itemScreen.assertUI({
-			listName: 'Color',
+		browser.itemScreen.assertUIVisible({
+			modelTestConfig: ColorModelTestConfig,
 			fields: ['fieldA', 'fieldB']
 		});
 	},
 	'Color field can be filled via the edit form': function(browser) {
 		browser.itemScreen.fillInputs({
-			listName: 'Color',
+			modelTestConfig: ColorModelTestConfig,
 			fields: {
 				'fieldB': {value: '#f8e71c'}
 			}
@@ -63,7 +64,7 @@ module.exports = {
 		browser.app.waitForItemScreen();
 		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
 		browser.itemScreen.assertInputs({
-			listName: 'Color',
+			modelTestConfig: ColorModelTestConfig,
 			fields: {
 				'name': {value: 'Color Field Test 1'},
 				'fieldA': {value: '#002147'},
