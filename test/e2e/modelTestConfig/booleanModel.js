@@ -1,7 +1,7 @@
 var TextField = require('../fieldTestObjects/textField');
 var BooleanField = require('../fieldTestObjects/booleanField');
 
-module.exports = function ModelTestConfig(config) {
+module.exports = function BooleanModel (config) {
 	return {
 		name: new TextField({fieldName: 'name'}),
 		fieldA: new BooleanField({fieldName: 'fieldA'}),
