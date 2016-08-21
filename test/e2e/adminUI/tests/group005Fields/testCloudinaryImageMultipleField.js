@@ -1,4 +1,5 @@
 var fieldTests = require('./commonFieldTestUtils.js');
+var CloudinaryImageMultipleModelTestConfig = require('../../../modelTestConfig/cloudinaryImageMultipleModel');
 
 module.exports = {
 	before: fieldTests.before,
@@ -8,8 +9,8 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 
-		browser.initialFormScreen.assertUI({
-			listName: 'CloudinaryImageMultiple',
+		browser.initialFormScreen.assertUIVisible({
+			modelTestConfig: CloudinaryImageMultipleModelTestConfig,
 			fields: ['name']
 		});
 	},
@@ -22,13 +23,13 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 		browser.initialFormScreen.fillInputs({
-			listName: 'CloudinaryImageMultiple',
+			modelTestConfig: CloudinaryImageMultipleModelTestConfig,
 			fields: {
 				'name': {value: 'CloudinaryImageMultiple Field Test 1'},
 			}
 		});
 		browser.initialFormScreen.assertInputs({
-			listName: 'CloudinaryImageMultiple',
+			modelTestConfig: CloudinaryImageMultipleModelTestConfig,
 			fields: {
 				'name': {value: 'CloudinaryImageMultiple Field Test 1'},
 			}
@@ -37,15 +38,15 @@ module.exports = {
 		browser.app.waitForItemScreen();
 
 		browser.itemScreen.assertInputs({
-			listName: 'CloudinaryImageMultiple',
+			modelTestConfig: CloudinaryImageMultipleModelTestConfig,
 			fields: {
 				'name': {value: 'CloudinaryImageMultiple Field Test 1'},
 			}
 		})
 	},
 	'CloudinaryImageMultiple field should show correctly in the edit form': function(browser) {
-		browser.itemScreen.assertUI({
-			listName: 'CloudinaryImageMultiple',
+		browser.itemScreen.assertUIVisible({
+			modelTestConfig: CloudinaryImageMultipleModelTestConfig,
 			fields: ['fieldA', 'fieldB']
 		});
 	},
