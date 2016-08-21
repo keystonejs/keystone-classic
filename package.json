@@ -106,7 +106,7 @@
     "enzyme": "2.4.1",
     "eslint": "2.13.1",
     "eslint-config-keystone": "2.4.0",
-    "eslint-plugin-react": "5.2.2",
+    "eslint-plugin-react": "6.1.0",
     "istanbul": "0.4.4",
     "mocha": "3.0.2",
     "must": "0.13.2",
