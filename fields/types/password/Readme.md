@@ -38,7 +38,7 @@ Allows to set complexity requirements:
 
 `max` `Number`
 
-Sets the maximum password length; defaults to 72, in accordance with [bcrypt](https://www.npmjs.com/package/bcrypt-nodejs), which truncates the password to the first 72 bytes.
+Sets the maximum password length; defaults to 72, in accordance with [bcrypt](https://www.google.com/search?q=bcrypt+max+length), which truncates the password to the first 72 bytes.
 
 Can be set to `false` to disable the max length.
 
