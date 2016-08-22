@@ -28,7 +28,7 @@ module.exports = Field.create({
 	addItem () {
 		const value = this.props.value.slice();
 		value.push({
-			_id: generateId(),
+			id: generateId(),
 			_isNew: true,
 		});
 		this.props.onChange({
@@ -81,12 +81,12 @@ module.exports = Field.create({
 		return (
 			<div>
 				{this.props.value.map((value, index) => (
-					<div key={`item${value._id}`} style={{
+					<div key={`item${value.id}`} style={{
 						borderTop: '2px solid #eee',
 						paddingTop: 15,
 					}}>
 						{!value._isNew ? (
-							<input type="hidden" name={`${this.props.path}[${index}][id]`} value={value._id} />
+							<input type="hidden" name={`${this.props.path}[${index}][id]`} value={value.id} />
 						) : null}
 						{this.renderFieldsForItem(index, value)}
 						<div style={{ textAlign: 'right', paddingBottom: 10 }}>

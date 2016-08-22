@@ -178,6 +178,7 @@ list.prototype.getData = function (item) {
 	var fieldsArray = this.fieldsArray;
 	return items.map(function (i) {
 		var result = {};
+		result.id = i.id;
 		for (var field of fieldsArray) {
 			result[field.path] = field.getData(i);
 		}
