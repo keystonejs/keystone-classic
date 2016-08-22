@@ -147,7 +147,7 @@
     "prepublish": "sh postinstall-build.sh",
     "postinstall": "sh postinstall-build.sh",
     "clean-build": "rm admin/public/js/*.js || true",
-    "build": "npm run clean-build && NODE_ENV=production webpack --bail",
+    "build": "npm run clean-build && env NODE_ENV=production webpack --bail",
     "build-dev": "webpack --bail",
     "build-dev-watch": "webpack --watch",
     "pretest": "npm run lint && node test/pretest.js",
