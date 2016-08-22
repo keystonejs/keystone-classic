@@ -8,6 +8,12 @@ exports.initList = function (List) {
 			type: PasswordType,
 			min: 6,
 		},
+
+		maxFalse: {
+			type: PasswordType,
+			max: false,
+		},
+
 		digitChar: {
 			type: PasswordType,
 			complexity: {
@@ -203,6 +209,15 @@ exports.testFieldType = function (List) {
 			});
 		});
 
+		it('should validate password longer than 72 characters when max is set to false', function (done) {
+			List.fields.maxFalse.validateInput({
+				password: 'CheckOutThisRidiculouslyLongPasswordLoremipsumdolorsitametconsecteturadipiscingelitPraesentetnibhpretiumvestibulumdoloratsuscipitmiClassaptenttacitisociosquadlitoratorquentperconubianostraperinceptoshimenaeosIntegerquisduinonnuncegestaspretiumeuetanteInplaceratacmisitametsollicitudin',
+			}, function (result) {
+				demand(result).be.true();
+				done();
+			});
+		});
+
 		it('should validate password with at least one digit when digits are required', function (done) {
 			List.fields.digitChar.validateInput({
 				digitChar: 'digits123',
@@ -311,6 +326,15 @@ exports.testFieldType = function (List) {
 		it('should invalidate password shorter than min characters', function (done) {
 			List.fields.minChar.validateInput({
 				minChar: '1234',
+			}, function (result) {
+				demand(result).be.false();
+				done();
+			});
+		});
+
+		it('should invalidate password longer than 72 characters', function (done) {
+			List.fields.password.validateInput({
+				password: 'CheckOutThisRidiculouslyLongPasswordLoremipsumdolorsitametconsecteturadipiscingelitPraesentetnibhpretiumvestibulumdoloratsuscipitmiClassaptenttacitisociosquadlitoratorquentperconubianostraperinceptoshimenaeosIntegerquisduinonnuncegestaspretiumeuetanteInplaceratacmisitametsollicitudin',
 			}, function (result) {
 				demand(result).be.false();
 				done();
@@ -547,6 +571,23 @@ exports.testFieldType = function (List) {
 				});
 			} catch (err) {
 				demand(err.message).eql('FieldType.Password: options.complexity - Value must be boolean.');
+				done();
+			}
+		});
+	});
+
+	describe('max less than min', function () {
+		it('should throw an error when max value is set lower than min', function (done) {
+			try {
+				List.add({
+					minmax: {
+						type: PasswordType,
+						min: 20,
+						max: 12,
+					},
+				});
+			} catch (err) {
+				demand(err.message).eql('FieldType.Password: options - min must be set at a lower value than max.');
 				done();
 			}
 		});

@@ -30,13 +30,23 @@ Allows to set complexity requirements:
 * `lowChar` `Boolean` - when set to `true`, requires at least one lower case character
 * `upperChar` `Boolean` - when set to `true`, requires at least one upper case character
 
+### Example
+
 ```js
 { type: Types.Password, complexity: { digitChar: true, asciiChar: true } }
 ```
 
+`max` `Number`
+
+Sets the maximum password length; defaults to 72, in accordance with [bcrypt](https://www.google.com/search?q=bcrypt+max+length), which truncates the password to the first 72 bytes.
+
+Can be set to `false` to disable the max length.
+
+> Note: Disabling `max` or setting its value to >72 does not override the bcrypt specification.
+
 `min` `Number`
 
-Defines the minimum password length.
+Defines the minimum password length; disabled by default.
 
 ## Underscore methods
 
