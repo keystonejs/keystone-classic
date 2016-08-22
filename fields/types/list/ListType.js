@@ -159,6 +159,18 @@ list.prototype.validateRequiredInput = function (item, data, callback) {
 	utils.defer(callback, result);
 };
 
+list.prototype.getData = function (item) {
+	var items = item.get(this.path);
+	var fieldsArray = this.fieldsArray;
+	return items.map(function (i) {
+		var result = {};
+		for (var field of fieldsArray) {
+			result[field.path] = field.getData(i);
+		}
+		return result;
+	});
+};
+
 /**
  * Updates the value for this field in the item from a data object.
  * If the data object does not contain the value, then the value is set to empty array.
