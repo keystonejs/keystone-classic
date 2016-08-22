@@ -1,3 +1,4 @@
+var async = require('async');
 var FieldType = require('../Type');
 var util = require('util');
 var utils = require('keystone-utils');
@@ -43,7 +44,7 @@ function validateFieldType (field, path, type) {
  *
  * @api public
  */
-list.prototype.addToSchema = function () {
+list.prototype.addToSchema = function (schema) {
 	var field = this;
 	var mongoose = this.list.keystone.mongoose;
 
@@ -100,15 +101,16 @@ list.prototype.addToSchema = function () {
 				+ field.list.key + '.' + field.path + ' is a reserved path'
 			);
 		}
-		fields[path] = createField(path, fieldsSpec[path]);
-		fieldsArray.push(path);
+		var newField = createField(path, fieldsSpec[path]);
+		fields[path] = newField;
+		fieldsArray.push(newField);
 	});
 
 	if (this.options.decorateSchema) {
 		this.options.decorateSchema(itemSchema);
 	}
 
-	this.list.schema.add(this._path.addTo({}, [itemSchema]));
+	schema.add(this._path.addTo({}, [itemSchema]));
 	this.bindUnderscoreMethods();
 };
 
@@ -117,9 +119,9 @@ list.prototype.addToSchema = function () {
  */
 list.prototype.getProperties = function (item, separator) {
 	var fields = {};
-	this.fieldsArray.forEach(function (path) {
-		fields[path] = this.fields[path].getOptions();
-	}, this);
+	this.fieldsArray.forEach(function (field) {
+		fields[field.path] = field.getOptions();
+	});
 	return {
 		fields: fields,
 	};
@@ -164,6 +166,18 @@ list.prototype.getData = function (item) {
 	var fieldsArray = this.fieldsArray;
 	return items.map(function (i) {
 		var result = {};
+		fieldsArray.forEach(function (field) {
+			result[field.path] = field.getData(i);
+		});
+		return result;
+	});
+};
+
+list.prototype.getData = function (item) {
+	var items = item.get(this.path);
+	var fieldsArray = this.fieldsArray;
+	return items.map(function (i) {
+		var result = {};
 		for (var field of fieldsArray) {
 			result[field.path] = field.getData(i);
 		}
@@ -176,22 +190,37 @@ list.prototype.getData = function (item) {
  * If the data object does not contain the value, then the value is set to empty array.
  */
 list.prototype.updateItem = function (item, data, callback) {
-	var value = this.getValueFromData(data);
+	var field = this;
+	var values = this.getValueFromData(data);
 	// Don't update the value when it is undefined
-	if (value === undefined) {
+	if (values === undefined) {
 		return utils.defer(callback);
 	}
 	// Reset the value when null or an empty string is provided
-	if (value === null || value === '') {
-		value = [];
+	if (values === null || values === '') {
+		values = [];
 	}
 	// Wrap non-array values in an array
-	if (!Array.isArray(value)) {
-		value = [value];
+	if (!Array.isArray(values)) {
+		values = [values];
 	}
-	// TODO - actually loop over fields, using updateItem()
-	item.set(this.path, value);
-	utils.defer(callback);
+	// NOTE - this method will overwrite the entire array, which is less specific
+	// than it could be. Concurrent saves could lead to race conditions, but we
+	// can make it more clever in a future release; this is otherwise the most
+	// resiliant update method that can be implemented without a lot of complexity
+	var listArray = item.get(this.path);
+	async.map(values, function (value, next) {
+		var newItem = listArray.create();
+		async.forEach(field.fieldsArray, function (nestedField, done) {
+			nestedField.updateItem(newItem, value, done);
+		}, function (err) {
+			next(err, newItem);
+		});
+	}, function (err, updatedValues) {
+		if (err) return callback(err);
+		item.set(field.path, updatedValues);
+		callback();
+	});
 };
 
 /* Export Field Type */
