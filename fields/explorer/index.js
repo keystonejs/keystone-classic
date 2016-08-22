@@ -63,7 +63,7 @@ class App extends Component {
 						{params.type
 							? <Link to="/" className="fx-sidebar__header__link">Field Types</Link>
 							: 'Ready'}
-						<div className="fx-sidebar__header__border"></div>
+						<div className="fx-sidebar__header__border" />
 					</div>
 					{Object.keys(navSections).sort().map(section => {
 						let currentSection;

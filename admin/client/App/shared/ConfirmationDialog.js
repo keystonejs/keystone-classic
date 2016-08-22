@@ -6,11 +6,6 @@ import React, { Component, PropTypes } from 'react';
 import { Modal, ModalBody, ModalFooter, Button } from 'elemental';
 
 class ConfirmationDialog extends Component {
-	getBodyHtml () {
-		return {
-			__html: this.props.body,
-		};
-	}
 	render () {
 		const {
 			cancelLabel,
@@ -28,7 +23,7 @@ class ConfirmationDialog extends Component {
 				onCancel={onCancel}
 				width={400}
 			>
-				<ModalBody dangerouslySetInnerHTML={this.getBodyHtml()} />
+				<ModalBody>{this.props.body || <span />}</ModalBody>
 				<ModalFooter>
 					<Button autoFocus size="sm" type={confirmationType} onClick={onConfirmation}>
 						{confirmationLabel}

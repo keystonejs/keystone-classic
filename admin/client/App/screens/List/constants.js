@@ -1,6 +1,7 @@
 // General
 export const SELECT_LIST = 'app/List/SELECT_LIST';
 export const SET_CURRENT_PAGE = 'app/List/SET_CURRENT_PAGE';
+export const INITIAL_LIST_LOAD = 'app/List/INITIAL_LIST_LOAD';
 // Items
 export const LOAD_ITEMS = 'app/List/LOAD_ITEMS';
 export const ITEMS_LOADED = 'app/List/ITEMS_LOADED';

@@ -7,7 +7,6 @@ import {
 	SET_ACTIVE_COLUMNS,
 	SET_ACTIVE_LIST,
 } from '../constants';
-import { setCurrentPage, loadItems } from '../actions';
 
 /**
  * Active actions
@@ -55,41 +54,27 @@ export function setActiveList (list, id) {
  * Filtering actions
  */
 function addFilter (filter) {
-	// TODO Make this a pure function again, find better way to call loadItems()
-	// after each filtering change!
-	return (dispatch) => {
-		dispatch({
-			type: ADD_FILTER,
-			filter,
-		});
-		dispatch(loadItems());
+	return {
+		type: ADD_FILTER,
+		filter,
 	};
 }
 
 export function clearFilter (path) {
-	// TODO Make this a pure function again, find better way to call loadItems()
-	// after each filtering change!
-	return (dispatch) => {
-		dispatch({
-			type: CLEAR_FILTER,
-			path,
-		});
-		dispatch(loadItems());
+	return {
+		type: CLEAR_FILTER,
+		path,
 	};
 }
 
 export function clearAllFilters () {
-	// TODO Make this a pure function again, find better way to call loadItems()
-	// after each filtering change!
-	return (dispatch) => {
-		dispatch({
-			type: CLEAR_ALL_FILTERS,
-		});
-		dispatch(loadItems());
+	return {
+		type: CLEAR_ALL_FILTERS,
 	};
 }
 
 export function setFilter (path, value) {
+	// TODO Get rid of this action, just use addFilter
 	return (dispatch, getState) => {
 		const state = getState();
 		const activeFilters = state.active.filters;
@@ -112,7 +97,5 @@ export function setFilter (path, value) {
 			};
 		}
 		dispatch(addFilter(filter));
-		dispatch(loadItems());
-		dispatch(setCurrentPage(1));
 	};
 }

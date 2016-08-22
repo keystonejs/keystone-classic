@@ -1,6 +1,7 @@
 import {
 	SELECT_LIST,
 	SET_CURRENT_PAGE,
+	INITIAL_LIST_LOAD,
 } from '../constants';
 
 import { setActiveList } from './active';
@@ -18,6 +19,12 @@ export function selectList (id) {
 			id,
 		});
 		dispatch(setActiveList(getState().lists.data[id], id));
+	};
+}
+
+export function loadInitialItems () {
+	return {
+		type: INITIAL_LIST_LOAD,
 	};
 }
 

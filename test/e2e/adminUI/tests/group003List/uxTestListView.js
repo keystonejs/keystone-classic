@@ -1,17 +1,19 @@
 module.exports = {
 	before: function (browser) {
 		browser.app = browser.page.app();
-		browser.signinPage = browser.page.signin();
-		browser.listPage = browser.page.list();
-		browser.itemPage = browser.page.item();
-		browser.initialFormPage = browser.page.initialForm();
-		browser.deleteConfirmationPage = browser.page.deleteConfirmation();
+		browser.signinScreen = browser.page.signin();
+		browser.listScreen = browser.page.list();
+		browser.itemScreen = browser.page.item();
+		browser.initialFormScreen = browser.page.initialForm();
+		browser.deleteConfirmationScreen = browser.page.deleteConfirmation();
 
-		browser.app.navigate();
-		browser.app.waitForElementVisible('@signinScreen');
+		browser.app
+			.gotoHomeScreen()
+			.waitForSigninScreen();
 
-		browser.signinPage.signin();
-		browser.app.waitForElementVisible('@homeScreen');
+		browser.signinScreen.signin();
+
+		browser.app.waitForHomeScreen();
 	},
 	after: function (browser) {
 		browser.app.signout();
@@ -24,22 +26,22 @@ module.exports = {
 			.click('@nameListSubmenu')
 			.waitForListScreen();
 
-		browser.listPage
+		browser.listScreen
 			.click('@createFirstItemButton');
 
 		browser.app
-			.waitForElementVisible('@initialFormScreen');
+			.waitForInitialFormScreen();
 
-		browser.initialFormPage.section.form.section.nameList.section.name
+		browser.initialFormScreen.section.form.section.nameList.section.name
 			.fillInput({value: 'Name Field Test 1'});
 
-		browser.initialFormPage.section.form.section.nameList.section.name
+		browser.initialFormScreen.section.form.section.nameList.section.name
 			.assertInput({value: 'Name Field Test 1'});
 
-		browser.initialFormPage.section.form.section.nameList.section.fieldA
+		browser.initialFormScreen.section.form.section.nameList.section.fieldA
 			.fillInput({firstName: 'First 1', lastName: 'Last 1'});
 
-		browser.initialFormPage.section.form
+		browser.initialFormScreen.section.form
 			.click('@createButton');
 
 		browser.app
@@ -51,10 +53,10 @@ module.exports = {
 			.click('@nameListSubmenu')
 			.waitForListScreen();
 
-		browser.listPage
+		browser.listScreen
 			.expect.element('@paginationCount').text.to.equal('Showing 1 Name');
 
-		browser.listPage
+		browser.listScreen
 			.expect.element('@firstItemNameValue').text.to.equal('Name Field Test 1');
 	},
 	'List view should allow users to create more new list items': function (browser) {
@@ -64,22 +66,22 @@ module.exports = {
 			.click('@nameListSubmenu')
 			.waitForListScreen();
 
-		browser.listPage
+		browser.listScreen
 			.click('@createMoreItemsButton');
 
 		browser.app
-			.waitForElementVisible('@initialFormScreen');
+			.waitForInitialFormScreen();
 
-		browser.initialFormPage.section.form.section.nameList.section.name
+		browser.initialFormScreen.section.form.section.nameList.section.name
 			.fillInput({value: 'Name Field Test 2'});
 
-		browser.initialFormPage.section.form.section.nameList.section.name
+		browser.initialFormScreen.section.form.section.nameList.section.name
 			.assertInput({value: 'Name Field Test 2'});
 
-		browser.initialFormPage.section.form.section.nameList.section.fieldA
+		browser.initialFormScreen.section.form.section.nameList.section.fieldA
 			.fillInput({firstName: 'First 2', lastName: 'Last 2'});
 
-		browser.initialFormPage.section.form
+		browser.initialFormScreen.section.form
 			.click('@createButton');
 
 		browser.app
@@ -91,13 +93,13 @@ module.exports = {
 			.click('@nameListSubmenu')
 			.waitForListScreen();
 
-		browser.listPage
+		browser.listScreen
 			.expect.element('@paginationCount').text.to.equal('Showing 2 Names');
 
-		browser.listPage
+		browser.listScreen
 			.expect.element('@firstItemNameValue').text.to.equal('Name Field Test 1');
 
-		browser.listPage
+		browser.listScreen
 			.expect.element('@secondItemNameValue').text.to.equal('Name Field Test 2');
 	},
 	'List view should allow users to browse an item by clicking the item name': function (browser) {
@@ -107,7 +109,7 @@ module.exports = {
 			.click('@nameListSubmenu')
 			.waitForListScreen();
 
-		browser.listPage
+		browser.listScreen
 			.click('@firstItemNameValue');
 
 		browser.app
@@ -120,13 +122,13 @@ module.exports = {
 			.click('@nameListSubmenu')
 			.waitForListScreen();
 
-		browser.listPage
+		browser.listScreen
 			.click('@firstItemNameValue');
 
 		browser.app
 			.waitForItemScreen();
 
-		browser.itemPage
+		browser.itemScreen
 			.click('@listBreadcrumb');
 
 		browser.app
@@ -139,51 +141,51 @@ module.exports = {
 			.click('@nameListSubmenu')
 			.waitForListScreen();
 
-		browser.listPage
+		browser.listScreen
 			.setValue('@searchInputField', 'Name Field Test 2');
 
 		browser.app
 			.waitForListScreen();
 
-		browser.listPage
+		browser.listScreen
 			.expect.element('@paginationCount').text.to.equal('Showing 1 Name');
 
-		browser.listPage
+		browser.listScreen
 			.expect.element('@firstItemNameValue').text.to.equal('Name Field Test 2');
 	},
 	'List view should allow users to clear search filter': function (browser) {
-		browser.listPage
+		browser.listScreen
 			.click('@searchInputFieldClearIcon');
 
 		browser.app
 			.waitForListScreen();
 
-		browser.listPage
+		browser.listScreen
 			.expect.element('@paginationCount').text.to.equal('Showing 2 Names');
 
-		browser.listPage
+		browser.listScreen
 			.expect.element('@firstItemNameValue').text.to.equal('Name Field Test 1');
 
-		browser.listPage
+		browser.listScreen
 			.expect.element('@secondItemNameValue').text.to.equal('Name Field Test 2');
 	},
 	'List view should allow users to delete items': function (browser) {
-		browser.listPage
+		browser.listScreen
 			.click('@firstItemDeleteIcon');
 
 		browser.app
-			.waitForElementVisible('@deleteConfirmationScreen');
+			.waitForDeleteConfirmationScreen();
 
-		browser.deleteConfirmationPage
+		browser.deleteConfirmationScreen
 			.click('@deleteButton');
 
 		browser.app
 			.waitForListScreen();
 
-		browser.listPage
+		browser.listScreen
 			.expect.element('@paginationCount').text.to.equal('Showing 1 Name');
 
-		browser.listPage
+		browser.listScreen
 			.expect.element('@firstItemNameValue').text.to.equal('Name Field Test 2');
 	},
 	'List view should allow users to delete last item': function (browser) {
@@ -193,19 +195,19 @@ module.exports = {
 			.click('@nameListSubmenu')
 			.waitForListScreen();
 
-		browser.listPage
+		browser.listScreen
 			.click('@firstItemDeleteIcon');
 
 		browser.app
-			.waitForElementVisible('@deleteConfirmationScreen');
+			.waitForDeleteConfirmationScreen();
 
-		browser.deleteConfirmationPage
+		browser.deleteConfirmationScreen
 			.click('@deleteButton');
 
 		browser.app
 			.waitForListScreen();
 
-		browser.listPage
+		browser.listScreen
 			.expect.element('@noItemsFoundNoText').text.to.equal('No names found…');
 	},
 

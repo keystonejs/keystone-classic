@@ -8,15 +8,6 @@ See https://github.com/keystonejs/keystone/wiki/File-Fields-Upgrade-Guide
 
 /* eslint-disable */
 
-var _ = require('lodash');
-var assign = require('object-assign');
-var FieldType = require('../Type');
-var grappling = require('grappling-hook');
-var keystone = require('../../../');
-var moment = require('moment');
-var util = require('util');
-var utils = require('keystone-utils');
-
 var loggedWarning = false;
 
 /**
@@ -29,6 +20,7 @@ function s3file (list, path, options) {
 	throw new Error('The S3File field type has been removed. Please use File instead.'
 		+ '\n\nSee https://github.com/keystonejs/keystone/wiki/File-Fields-Upgrade-Guide\n');
 
+	/*
 	grappling.mixin(this).allowHooks('pre:upload');
 
 	this._underscoreMethods = ['format', 'uploadFile'];
@@ -56,6 +48,7 @@ function s3file (list, path, options) {
 	if (options.pre && options.pre.upload) {
 		this.pre('upload', options.pre.upload);
 	}
+	*/
 
 }
 s3file.properName = 'S3File';

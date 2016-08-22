@@ -8,19 +8,6 @@ See https://github.com/keystonejs/keystone/wiki/File-Fields-Upgrade-Guide
 
 /* eslint-disable */
 
-var _ = require('lodash');
-var async = require('async');
-var FieldType = require('../Type');
-var fs = require('fs-extra');
-var grappling = require('grappling-hook');
-var keystone = require('../../../');
-var moment = require('moment');
-var path = require('path');
-var util = require('util');
-var utils = require('keystone-utils');
-
-var loggedWarning = false;
-
 /**
  * localfiles FieldType Constructor
  * @extends Field
@@ -31,6 +18,7 @@ function localfiles (list, path, options) {
 	throw new Error('The LocalFiles field type has been removed. Please use File instead.'
 		+ '\n\nSee https://github.com/keystonejs/keystone/wiki/File-Fields-Upgrade-Guide\n');
 
+	/*
 	grappling.mixin(this).allowHooks('move');
 	this._underscoreMethods = ['format', 'uploadFiles'];
 	this._fixedSize = 'full';
@@ -64,6 +52,7 @@ function localfiles (list, path, options) {
 	if (options.post && options.post.move) {
 		this.post('move', options.post.move);
 	}
+	*/
 }
 localfiles.properName = 'LocalFiles';
 util.inherits(localfiles, FieldType);

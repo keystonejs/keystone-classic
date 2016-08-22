@@ -1,17 +1,17 @@
 module.exports = {
 	before: function (browser) {
 		browser.app = browser.page.app();
-		browser.signinPage = browser.page.signin();
-		browser.listPage = browser.page.list();
-		browser.itemPage = browser.page.item();
-		browser.initialFormPage = browser.page.initialForm();
-		browser.deleteConfirmation = browser.page.deleteConfirmation();
+		browser.signinScreen = browser.page.signin();
+		browser.listScreen = browser.page.list();
+		browser.itemScreen = browser.page.item();
+		browser.initialFormScreen = browser.page.initialForm();
+		browser.deleteConfirmationScreen = browser.page.deleteConfirmation();
 
-		browser.app.navigate();
+		browser.app.gotoHomeScreen();
 		browser.app.waitForSigninScreen();
 
-		browser.signinPage.signin();
-		browser.app.waitForElementVisible('@homeScreen');
+		browser.signinScreen.signin();
+		browser.app.waitForHomeScreen();
 	},
 	after: function (browser) {
 		browser.app.signout();
@@ -22,24 +22,24 @@ module.exports = {
 		// Add new text item
 
 		browser.app.openMiscList('DateFieldMap');
-		browser.listPage.createFirstItem();
+		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 
-		browser.initialFormPage.fillInputs({
+		browser.initialFormScreen.fillInputs({
 			listName: 'DateFieldMap',
 			fields: {
 				'datefield': {value: '2016-01-01'},
 			}
 		});
-		browser.initialFormPage.save();
+		browser.initialFormScreen.save();
 		browser.app.waitForItemScreen();
 
-		browser.itemPage.back();
+		browser.itemScreen.back();
 
 
 		// The following command fails, because there is no link to follow. This is a bug. 
 		// If you remove the map from test/e2e/models/misc/DateFieldMap.js then the command works.
-		browser.listPage.navigateToFirstItem();
+		browser.listScreen.navigateToFirstItem();
 
 	}
 };
