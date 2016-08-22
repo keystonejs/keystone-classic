@@ -7,11 +7,10 @@ var DateArrayList = require('./lists/dateArray');
 var DateList = require('./lists/date');
 var DatetimeList = require('./lists/datetime');
 var EmailList = require('./lists/email');
+var FileList = require('./lists/file');
 var GeoPointList = require('./lists/geoPoint');
 var HtmlList = require('./lists/html');
 var KeyList = require('./lists/key');
-var LocalFileList = require('./lists/localFile');
-var LocalFileMultipleList = require('./lists/localFileMultiple');
 var LocationList = require('./lists/location');
 var MarkdownList = require('./lists/markdown');
 var MoneyList = require('./lists/money');
@@ -52,12 +51,11 @@ module.exports = {
 				datearrayList: new DateArrayList(),
 				dateList: new DateList(),
 				datetimeList: new DatetimeList(),
+				fileList: new FileList(),
 				htmlList: new HtmlList(),
 				emailList: new EmailList(),
 				geopointList: new GeoPointList(),
 				keyList: new KeyList(),
-				localfileList: new LocalFileList(),
-				localfilemultipleList: new LocalFileMultipleList(),
 				locationList: new LocationList(),
 				markdownList: new MarkdownList(),
 				moneyList: new MoneyList(),
@@ -166,14 +164,23 @@ module.exports = {
 			return this.section.form
 				.click('@cancelButton');
 		},
+		showMoreFields: function (config) {
+			var list = config.listName.toLowerCase() + 'List';
+			var tasks = [];
+			var form = this.section.form;
+			config.fields.forEach( function(field) {
+				var task = form.section[list].section[field].showMoreFields(config.args);
+				tasks.push(task);
+			});
+			return tasks;
+		},
 		fillInputs: function (config) {
 			var list = config.listName.toLowerCase() + 'List';
 			var tasks = [];
 			var form = this.section.form;
 			var fields = Object.keys(config.fields);
 			fields.forEach( function(field) {
-				var task = form.section[list].section[field]
-					.fillInput(config.fields[field]);
+				var task = form.section[list].section[field].fillInput(config.fields[field]);
 				tasks.push(task);
 			});
 			return tasks;
@@ -188,8 +195,7 @@ module.exports = {
 			var form = this.section.form;
 			var fields = Object.keys(config.fields);
 			fields.forEach( function(field) {
-				var task = form.section[list].section[field]
-					.assertInput(config.fields[field]);
+				var task = form.section[list].section[field].assertInput(config.fields[field]);
 				tasks.push(task);
 			});
 			return tasks;

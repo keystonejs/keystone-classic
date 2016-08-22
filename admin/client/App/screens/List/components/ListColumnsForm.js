@@ -3,16 +3,13 @@ import assign from 'object-assign';
 
 import Popout from '../../../shared/Popout';
 import PopoutList from '../../../shared/Popout/PopoutList';
-import { InputGroup, FormField, FormInput } from 'elemental';
+import { FormField, FormInput } from 'elemental';
 import ListHeaderButton from './ListHeaderButton';
 
 import { setActiveColumns } from '../actions';
 
 var ListColumnsForm = React.createClass({
 	displayName: 'ListColumnsForm',
-	propTypes: {
-		className: React.PropTypes.string.isRequired,
-	},
 	getInitialState () {
 		return {
 			selectedColumns: {},
@@ -85,7 +82,7 @@ var ListColumnsForm = React.createClass({
 	},
 	render () {
 		return (
-			<InputGroup.Section className={this.props.className}>
+			<div>
 				<ListHeaderButton
 					active={this.state.isOpen}
 					id="listHeaderColumnButton"
@@ -109,7 +106,7 @@ var ListColumnsForm = React.createClass({
 						secondaryButtonAction={() => this.togglePopout(false)}
 						secondaryButtonLabel="Cancel" />
 				</Popout>
-			</InputGroup.Section>
+			</div>
 		);
 	},
 });

@@ -4,11 +4,13 @@ module.exports = {
 		browser.signinScreen = browser.page.signin();
 		browser.homeScreen = browser.page.home();
 
-		browser.app.navigate();
-		browser.app.waitForElementVisible('@signinScreen');
+		browser.app
+			.gotoHomeScreen()
+			.waitForSigninScreen();
 
 		browser.signinScreen.signin();
-		browser.app.waitForElementVisible('@homeScreen');
+
+		browser.app.waitForHomeScreen();
 	},
 	after: function (browser) {
 		browser.app.signout();

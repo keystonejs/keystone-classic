@@ -4,7 +4,6 @@
  */
 
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import assign from 'object-assign';
 import AlertMessages from './AlertMessages';
 import { Fields } from 'FieldTypes';
@@ -40,24 +39,6 @@ const CreateForm = React.createClass({
 			values: values,
 			alerts: {},
 		};
-	},
-	componentDidMount () {
-		this.focusTarget();
-	},
-	componentDidUpdate (prevProps) {
-		// If we just opened the modal an animation is playing
-		if (this.props.isOpen !== prevProps.isOpen) {
-			// focus the focusTarget after the animation has started
-			setTimeout(() => {
-				this.focusTarget();
-			}, 0);
-		}
-	},
-	// Focus the first input field
-	focusTarget () {
-		if (this.refs.focusTarget) {
-			findDOMNode(this.refs.focusTarget).focus();
-		}
 	},
 	// Handle input change events
 	handleChange (event) {
@@ -123,13 +104,13 @@ const CreateForm = React.createClass({
 		var form = [];
 		var list = this.props.list;
 		var nameField = this.props.list.nameField;
-		var focusRef;
+		var focusWasSet;
 
 		// If the name field is an initial one, we need to render a proper
 		// input for it
 		if (list.nameIsInitial) {
 			var nameFieldProps = this.getFieldProps(nameField);
-			nameFieldProps.ref = focusRef = 'focusTarget';
+			nameFieldProps.autoFocus = focusWasSet = true;
 			if (nameField.type === 'text') {
 				nameFieldProps.className = 'item-name-field';
 				nameFieldProps.placeholder = nameField.label;
@@ -152,8 +133,8 @@ const CreateForm = React.createClass({
 			// If there was no focusRef set previously, set the current field to
 			// be the one to be focussed. Generally the first input field, if
 			// there's an initial name field that takes precedence.
-			if (!focusRef) {
-				fieldProps.ref = focusRef = 'focusTarget';
+			if (!focusWasSet) {
+				fieldProps.autoFocus = focusWasSet = true;
 			}
 			form.push(React.createElement(Fields[field.type], fieldProps));
 		});

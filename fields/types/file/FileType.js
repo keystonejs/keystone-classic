@@ -143,6 +143,15 @@ file.prototype.updateItem = function (item, data, files, callback) {
 
 	var value = this.getValueFromData(data);
 
+	// If no value was provided, check the `files` object
+	if (value === undefined) {
+		var fileUploadValue = this.getValueFromData(files);
+		// Ensure a file was actually uploaded
+		if (fileUploadValue && fileUploadValue.path) {
+			value = fileUploadValue;
+		}
+	}
+
 	// Ignore undefined values
 	if (value === undefined) {
 		return utils.defer(callback);

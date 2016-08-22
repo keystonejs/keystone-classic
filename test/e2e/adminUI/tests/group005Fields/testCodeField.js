@@ -5,40 +5,40 @@ module.exports = {
 	after: fieldTests.after,
 	'Code field should show correctly in the initial modal': function (browser) {
 		browser.app.openFieldList('Code');
-		browser.listPage.createFirstItem();
+		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 
-		browser.initialFormPage.assertUI({
+		browser.initialFormScreen.assertUI({
 			listName: 'Code',
 			fields: ['name', 'fieldA']
 		});
 	},
 	'restoring test state': function(browser) {
-		browser.initialFormPage.cancel();
+		browser.initialFormScreen.cancel();
 		browser.app.waitForListScreen();
 	},
 	'Code field can be filled via the initial modal': function(browser) {
 		browser.app.openFieldList('Code');
-		browser.listPage.createFirstItem();
+		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
-		browser.initialFormPage.fillInputs({
+		browser.initialFormScreen.fillInputs({
 			listName: 'Code',
 			fields: {
 				'name': {value: 'Code Field Test 1'},
 				'fieldA': {value: 'Some test code for field A'},
 			}
 		});
-		browser.initialFormPage.assertInputs({
+		browser.initialFormScreen.assertInputs({
 			listName: 'Code',
 			fields: {
 				'name': {value: 'Code Field Test 1'},
 				'fieldA': {value: 'Some test code for field A'},
 			}
 		});
-		browser.initialFormPage.save();
+		browser.initialFormScreen.save();
 		browser.app.waitForItemScreen();
 
-		browser.itemPage.assertInputs({
+		browser.itemScreen.assertInputs({
 			listName: 'Code',
 			fields: {
 				'name': {value: 'Code Field Test 1'},
@@ -47,22 +47,22 @@ module.exports = {
 		})
 	},
 	'Code field should show correctly in the edit form': function(browser) {
-		browser.itemPage.assertUI({
+		browser.itemScreen.assertUI({
 			listName: 'Code',
 			fields: ['fieldA', 'fieldB']
 		});
 	},
 	'Code field can be filled via the edit form': function(browser) {
-		browser.itemPage.fillInputs({
+		browser.itemScreen.fillInputs({
 			listName: 'Code',
 			fields: {
 				'fieldB': {value: 'Some test code for field B'}
 			}
 		});
-		browser.itemPage.save();
+		browser.itemScreen.save();
 		browser.app.waitForItemScreen();
-		browser.itemPage.assertFlashMessage('Your changes have been saved successfully');
-		browser.itemPage.assertInputs({
+		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
+		browser.itemScreen.assertInputs({
 			listName: 'Code',
 			fields: {
 				'name': {value: 'Code Field Test 1'},
@@ -72,7 +72,7 @@ module.exports = {
 		})
 	},
 	'restoring test state': function(browser) {
-		browser.initialFormPage.cancel();
+		browser.initialFormScreen.cancel();
 		browser.app.waitForListScreen();
 	},
 };
