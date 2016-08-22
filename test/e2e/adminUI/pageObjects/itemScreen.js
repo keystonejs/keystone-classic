@@ -134,6 +134,19 @@ module.exports = {
 				}
 			});
 		},
+		clickUI: function (config) {
+			var form = this.section.form;
+			form.section['list'] = new config.modelTestConfig();
+			var browser = this;
+			return Object.keys(config.fields).forEach(function (field) {
+				var fieldTestObject = form.section['list'][field];
+				if (fieldTestObject.commands.hasOwnProperty('clickUI')) {
+					fieldTestObject.commands.clickUI(browser, config.fields[field]);
+				} else {
+					console.log('Not calling clickUI() in ' + field + ' field test object -- function not defined');
+				}
+			});
+		},
 		fillInputs: function (config) {
 			var form = this.section.form;
 			form.section['list'] = new config.modelTestConfig();

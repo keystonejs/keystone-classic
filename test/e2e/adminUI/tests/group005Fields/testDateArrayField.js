@@ -52,20 +52,40 @@ module.exports = {
 			modelTestConfig: DateArrayModelTestConfig,
 			fields: ['fieldA', 'fieldB']
 		});
-		browser.itemScreen.section.form.section.datearrayList.section.fieldA.addDate();
+		browser.initialFormScreen.clickUI({
+			modelTestConfig: DateArrayModelTestConfig,
+			fields: {
+				'fieldA': {'button': 'addButton'},
+			}
+		});
 		browser.itemScreen.assertUIVisible({
 			modelTestConfig: DateArrayModelTestConfig,
 			fields: ['fieldA'],
 			args: {'dateInputs': ['date1']}
 		});
-		browser.itemScreen.section.form.section.datearrayList.section.fieldA.addDate();
+		browser.initialFormScreen.clickUI({
+			modelTestConfig: DateArrayModelTestConfig,
+			fields: {
+				'fieldA': {'button': 'addButton'},
+			}
+		});
 		browser.itemScreen.assertUIVisible({
 			modelTestConfig: DateArrayModelTestConfig,
 			fields: ['fieldA'],
 			args: {'dateInputs': ['date1', 'date2']}
 		});
-		browser.itemScreen.section.form.section.datearrayList.section.fieldB.addDate();
-		browser.itemScreen.section.form.section.datearrayList.section.fieldB.addDate();
+		browser.initialFormScreen.clickUI({
+			modelTestConfig: DateArrayModelTestConfig,
+			fields: {
+				'fieldB': {'button': 'addButton'},
+			}
+		});
+		browser.initialFormScreen.clickUI({
+			modelTestConfig: DateArrayModelTestConfig,
+			fields: {
+				'fieldB': {'button': 'addButton'},
+			}
+		});
 		browser.itemScreen.assertUIVisible({
 			modelTestConfig: DateArrayModelTestConfig,
 			fields: ['fieldB'],

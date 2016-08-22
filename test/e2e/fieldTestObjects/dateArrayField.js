@@ -1,6 +1,6 @@
 var utils = require('../utils');
 
-module.exports = function DateArrayType(config) {
+module.exports = function DateArrayField (config) {
 	var selectElem = function(elem) {
 		return self.selector + ' ' + self.elements[elem];
 	};
@@ -51,8 +51,6 @@ module.exports = function DateArrayType(config) {
 				browser
 					.expect.element(selectElem('label')).to.be.present;
 				browser
-					.expect.element(selectElem('label')).text.to.equal(utils.titlecase(config.fieldName));
-				browser
 					.expect.element(selectElem('addButton')).to.be.present;
 				if (args !== undefined && args.dateInputs !== undefined) {
 					args.dateInputs.forEach(function(dateInput) {
@@ -67,8 +65,6 @@ module.exports = function DateArrayType(config) {
 				browser
 					.expect.element(selectElem('label')).to.not.be.present;
 				browser
-					.expect.element(selectElem('label')).text.to.equal(utils.titlecase(config.fieldName));
-				browser
 					.expect.element(selectElem('addButton')).to.not.be.present;
 				if (args !== undefined && args.dateInputs !== undefined) {
 					args.dateInputs.forEach(function(dateInput) {
@@ -79,16 +75,22 @@ module.exports = function DateArrayType(config) {
 					});
 				}
 			},
+			clickUI: function(browser, ui) {
+				var clickables = Object.keys(ui);
+				clickables.forEach(function(clickable) {
+					browser.click(selectElem(ui[clickable]));
+				});
+			},
 			fillInput: function(browser, input) {
-				dateInputs = Object.keys(input);
+				var dateInputs = Object.keys(input);
 				dateInputs.forEach(function(dateInput) {
 					browser
-						.clearValue(selectElem('') + dateInput)
-						.setValue(selectElem('') + dateInput, input[dateInput]);
+						.clearValue(selectElem(dateInput))
+						.setValue(selectElem(dateInput), input[dateInput]);
 				});
 			},
 			assertInput: function(browser, input) {
-				dateInputs = Object.keys(input);
+				var dateInputs = Object.keys(input);
 				dateInputs.forEach(function(dateInput) {
 					browser
 						.getValue(selectElem(dateInput), function (result) {
@@ -97,9 +99,6 @@ module.exports = function DateArrayType(config) {
 						});
 				});
 			},
-			addDate: function(browser) {
-				browser.click(selectElem('addButton'));
-			}
 		},
 	};
 
