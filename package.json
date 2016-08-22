@@ -109,6 +109,7 @@
     "eslint-config-keystone": "2.4.0",
     "eslint-plugin-react": "5.2.2",
     "istanbul": "0.4.4",
+    "keystone-email": "1.0.0",
     "mocha": "3.0.2",
     "must": "0.13.2",
     "nightwatch": "0.9.7",
