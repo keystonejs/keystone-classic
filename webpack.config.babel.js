@@ -1,6 +1,8 @@
 import path from 'path';
 import webpack from 'webpack';
 
+const destDir = path.join(__dirname, 'admin', 'public', 'js');
+
 let config = {
 	entry: {
 		admin: `${__dirname}/admin/client/App`,
@@ -9,7 +11,7 @@ let config = {
 	},
 	output: {
 		filename: '[name].js',
-		path: path.resolve(__dirname, './admin/public/js'),
+		path: destDir,
 		// NOTE: we're hardcoding /keystone in the bundle
 		publicPath: '/keystone/js/',
 		pathinfo: true,
@@ -31,9 +33,10 @@ let config = {
 			{
 				test: /\.jsx?$/,
 				loader: 'babel',
+				include: [__dirname],
 				exclude: [
-					/node_modules/,
-					`${__dirname}/admin/public/js/`,
+					path.join(__dirname, 'node_modules'),
+					destDir,
 				],
 			},
 			{ test: /\.css$/, loaders: ['style', 'css'] },
