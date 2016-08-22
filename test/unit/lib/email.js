@@ -2,7 +2,7 @@ var demand = require('must');
 var proxyquire = require('proxyquire');
 var sinon = require('sinon');
 
-describe.only('Email', function () {
+describe('Email', function () {
 	/**
 	 * SETUP
 	 */
@@ -40,13 +40,14 @@ describe.only('Email', function () {
 	it('should allow a string to be passed in as the template name', function () {
 		var templateName = 'templatename';
 		Email(templateName);
+		demand(keystoneEmail.calledOnce).true();
 		demand(keystoneEmail.getCall(0).args[0]).eql(templateName);
-		demand(keystoneEmail.getCall(0).args[1].templateName).eql(templateName);
 	});
 
 	it('should pass on the options passed in', function () {
 		var options = { some: 'options' };
 		Email(options);
+		demand(keystoneEmail.calledOnce).true();
 		demand(keystoneEmail.getCall(0).args[1]).eql(options);
 	});
 });
