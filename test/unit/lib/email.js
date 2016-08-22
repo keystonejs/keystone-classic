@@ -1,8 +1,6 @@
 var demand = require('must');
 var proxyquire = require('proxyquire');
 var sinon = require('sinon');
-var demandSinon = require('must-sinon');
-demandSinon(demand);
 
 describe.only('Email', function () {
 	/**

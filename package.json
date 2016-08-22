@@ -111,7 +111,6 @@
     "istanbul": "0.4.4",
     "mocha": "3.0.2",
     "must": "0.13.2",
-    "must-sinon": "0.0.0",
     "nightwatch": "0.9.7",
     "proxyquire": "^1.7.10",
     "react-addons-test-utils": "^15.3.0",
