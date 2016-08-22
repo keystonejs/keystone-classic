@@ -11,18 +11,28 @@ function newItem(value) {
 module.exports = {
 	getInitialState: function() {
 		return {
-			values: this.props.value.map(newItem)
+			values: this.ensureArray(this.props.value).map(newItem)
 		};
 	},
 	
 	componentWillReceiveProps: function(nextProps) {
-		if (nextProps.value.join('|') !== _.pluck(this.state.values, 'value').join('|')) {
+		var nextValue = this.ensureArray(nextProps.value);
+		if (nextValue.join('|') !== _.pluck(this.state.values, 'value').join('|')) {
 			this.setState({
-				values: nextProps.value.map(newItem)
+				values: nextValue.map(newItem)
 			});
 		}
 	},
-	
+
+	ensureArray: function(value) {
+		if (Array.isArray(value)) {
+			return value;
+		} else if (value != undefined && value != null) {
+			return [value];
+		}
+		return [];
+	},
+
 	addItem: function() {
 		var newValues = this.state.values.concat(newItem(''));
 		this.setState({
