@@ -25,21 +25,15 @@ if [ ! -e $canary ] || \
 			babel-preset-react \
 			babel-preset-stage-2 \
 			codemirror \
-			core-assert \
 			css-loader \
 			json-loader \
 			raw-loader \
-			react \
-			react-addons-test-utils \
-			react-addons-css-transition-group \
 			react-alt-text \
 			react-color \
 			react-day-picker \
 			react-dnd \
 			react-dnd-html5-backend \
-			react-dom \
 			react-domify \
-			react-engine \
 			react-images \
 			react-markdown \
 			react-proxy-loader \
@@ -50,7 +44,6 @@ if [ ! -e $canary ] || \
 			redux-saga \
 			redux-thunk \
 			style-loader \
-			superagent \
 			webpack
 	fi
 	npm run build
