@@ -18,6 +18,11 @@
       "webdriver.ie.driver": ""
     }
   },
+  "test_workers": {
+    "enabled": true,
+    "workers": 8
+  },
+  "live_output": true,
   "test_settings": {
     "default": {
       "launch_url": "http://localhost",

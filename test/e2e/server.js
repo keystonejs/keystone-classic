@@ -196,6 +196,7 @@ function runKeystone(cb) {
 function start() {
 	var runTests = process.argv.indexOf('--notest') === -1;
 	var dropDB = process.argv.indexOf('--nodrop') === -1;
+	var runKS = process.argv.indexOf('--nokeystone') === -1;
 	var runSelenium = !(process.argv.indexOf('--selenium-in-background') === -1);
 
 	async.series([
@@ -209,7 +210,11 @@ function start() {
 		},
 
 		function (cb) {
-			runKeystone(cb);
+			if (runKS) {
+				runKeystone(cb);
+			} else {
+				cb();
+			}
 		},
 
 		function (cb) {
