@@ -1,27 +1,35 @@
 import React, { Component, PropTypes } from 'react';
 
+/*
+	Expose internal ref to parent
+	=============================
+
+	Field.create({
+		triggerFileBrowser () {
+			this.refs.fileInput.clickDomNode();
+		},
+		render () {
+			<HiddenFileInput ref="fileInput" />
+		}
+	});
+*/
+
 class HiddenFileInput extends Component {
 	constructor () {
 		super();
 
+		this.clearValue = this.clearValue.bind(this);
 		this.clickDomNode = this.clickDomNode.bind(this);
+		this.hasValue = this.hasValue.bind(this);
+	}
+	clearValue () {
+		this.target.value = '';
 	}
 	clickDomNode () {
-		/*
-			Expose internal ref to parent
-			=============================
-
-			Field.create({
-				triggerFileBrowser () {
-					this.refs.fileInput.clickDomNode();
-				},
-				render () {
-					<HiddenFileInput ref="fileInput" />
-				}
-			});
-		*/
-
 		this.target.click();
+	}
+	hasValue () {
+		return !!this.target.value;
 	}
 	render () {
 		const { style, ...props } = this.props;

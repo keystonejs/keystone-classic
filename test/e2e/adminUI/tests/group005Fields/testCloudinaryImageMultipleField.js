@@ -5,38 +5,38 @@ module.exports = {
 	after: fieldTests.after,
 	'CloudinaryImageMultiple field should show correctly in the initial modal': function (browser) {
 		browser.app.openFieldList('CloudinaryImageMultiple');
-		browser.listPage.createFirstItem();
+		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 
-		browser.initialFormPage.assertUI({
+		browser.initialFormScreen.assertUI({
 			listName: 'CloudinaryImageMultiple',
 			fields: ['name']
 		});
 	},
 	'restoring test state': function(browser) {
-		browser.initialFormPage.cancel();
+		browser.initialFormScreen.cancel();
 		browser.app.waitForListScreen();
 	},
 	'CloudinaryImageMultiple field can be filled via the initial modal': function(browser) {
 		browser.app.openFieldList('CloudinaryImageMultiple');
-		browser.listPage.createFirstItem();
+		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
-		browser.initialFormPage.fillInputs({
+		browser.initialFormScreen.fillInputs({
 			listName: 'CloudinaryImageMultiple',
 			fields: {
 				'name': {value: 'CloudinaryImageMultiple Field Test 1'},
 			}
 		});
-		browser.initialFormPage.assertInputs({
+		browser.initialFormScreen.assertInputs({
 			listName: 'CloudinaryImageMultiple',
 			fields: {
 				'name': {value: 'CloudinaryImageMultiple Field Test 1'},
 			}
 		});
-		browser.initialFormPage.save();
+		browser.initialFormScreen.save();
 		browser.app.waitForItemScreen();
 
-		browser.itemPage.assertInputs({
+		browser.itemScreen.assertInputs({
 			listName: 'CloudinaryImageMultiple',
 			fields: {
 				'name': {value: 'CloudinaryImageMultiple Field Test 1'},
@@ -44,7 +44,7 @@ module.exports = {
 		})
 	},
 	'CloudinaryImageMultiple field should show correctly in the edit form': function(browser) {
-		browser.itemPage.assertUI({
+		browser.itemScreen.assertUI({
 			listName: 'CloudinaryImageMultiple',
 			fields: ['fieldA', 'fieldB']
 		});

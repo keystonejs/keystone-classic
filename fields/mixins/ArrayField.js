@@ -1,4 +1,6 @@
 var React = require('react');
+
+import _ from 'lodash';
 import { findDOMNode } from 'react-dom';
 
 var Button = require('elemental').Button;

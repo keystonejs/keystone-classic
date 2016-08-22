@@ -1,5 +1,7 @@
 module.exports = {
+	Alert: require('./Alert'),
 	Button: require('./Button'),
+	Container: require('./Container'),
 	DropdownButton: require('./DropdownButton'),
 	Form: require('./Form'),
 	FormField: require('./FormField'),
@@ -8,8 +10,10 @@ module.exports = {
 	FormNote: require('./FormNote'),
 	Glyph: require('./Glyph'),
 	GlyphButton: require('./GlyphButton'),
+	InlineGroup: require('./InlineGroup'),
+	InlineGroupSection: require('./InlineGroupSection'),
 	LoadingButton: require('./LoadingButton'),
+	ResponsiveText: require('./ResponsiveText'),
 	ScreenReaderOnly: require('./ScreenReaderOnly'),
 	Spinner: require('./Spinner'),
-	ResponsiveText: require('./ResponsiveText'),
 };

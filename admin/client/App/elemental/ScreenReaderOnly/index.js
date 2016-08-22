@@ -1,15 +1,14 @@
 import React from 'react';
-import { StyleSheet } from 'aphrodite/no-important';
-import cssClassNames from '../../../utils/cssClassNames';
+import { css, StyleSheet } from 'aphrodite/no-important';
 
 function ScreenReaderOnly ({ className, ...props }) {
-	props.className = cssClassNames([classes.hidden], className);
+	props.className = css(classes.srOnly, className);
 
 	return <span {...props} />;
 };
 
 const classes = StyleSheet.create({
-	hidden: {
+	srOnly: {
 		border: 0,
 		clip: 'rect(0,0,0,0)',
 		height: 1,

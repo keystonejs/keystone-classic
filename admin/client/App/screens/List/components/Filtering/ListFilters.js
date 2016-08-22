@@ -31,8 +31,14 @@ const ListFilters = ({ dispatch, filters }) => {
 			/>
 		);
 	}
+
+	const styles = {
+		marginBottom: '1em',
+		marginTop: '1em',
+	};
+
 	return (
-		<div className="ListFilters mb-2">
+		<div style={styles}>
 			{currentFilters}
 		</div>
 	);

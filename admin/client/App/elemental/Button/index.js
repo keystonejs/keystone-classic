@@ -1,7 +1,7 @@
-import { StyleSheet } from 'aphrodite/no-important';
+import { css, StyleSheet } from 'aphrodite/no-important';
 import React, { PropTypes } from 'react';
-import cssClassNames from '../../../utils/cssClassNames';
 import styles from './styles';
+import concatClassnames from '../../../utils/concatClassnames';
 
 const commonClasses = StyleSheet.create(styles.common);
 const stylesheetCache = {};
@@ -21,6 +21,7 @@ const BUTTON_COLORS = ['default', 'primary', 'success', 'warning', 'danger', 'ca
 function Button ({
 	active,
 	block,
+	className,
 	color,
 	component,
 	disabled,
@@ -28,16 +29,19 @@ function Button ({
 	variant,
 	...props,
 }) {
+
 	// get the styles
 	const variantClasses = getStyleSheet(variant, color);
-	props.className = cssClassNames([
+	props.className = css(
 		commonClasses.base,
 		commonClasses[size],
 		variantClasses.base,
-		active ? variantClasses.active : null,
 		block ? commonClasses.block : null,
 		disabled ? commonClasses.disabled : null,
-	]);
+		active ? variantClasses.active : null,
+		...concatClassnames(className)
+	);
+
 	// return an anchor or button
 	if (!component) {
 		component = props.href ? 'a' : 'button';
@@ -50,13 +54,22 @@ function Button ({
 	return React.createElement(component, props);
 };
 
+const classNameShape = {
+	_definition: PropTypes.object,
+	_name: PropTypes.string,
+};
+
 Button.propTypes = {
 	active: PropTypes.bool,
 	block: PropTypes.bool,
+	className: PropTypes.oneOfType([
+		PropTypes.arrayOf(PropTypes.shape(classNameShape)),
+		PropTypes.shape(classNameShape),
+	]),
 	color: PropTypes.oneOf(BUTTON_COLORS),
 	component: PropTypes.oneOfType([
-		PropTypes.string,
 		PropTypes.func,
+		PropTypes.string,
 	]),
 	disabled: PropTypes.bool,
 	href: PropTypes.string,

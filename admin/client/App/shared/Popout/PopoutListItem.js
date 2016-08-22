@@ -38,7 +38,7 @@ var PopoutListItem = React.createClass({
 		const itemClassname = classnames('PopoutList__item', {
 			'is-selected': this.props.isSelected,
 		});
-		const props = blacklist(this.props, 'className', 'icon', 'isSelected', 'label');
+		const props = blacklist(this.props, 'className', 'icon', 'iconHover', 'isSelected', 'label');
 		return (
 			<button
 				type="button"

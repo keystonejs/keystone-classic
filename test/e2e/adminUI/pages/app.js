@@ -7,6 +7,7 @@ var keystone = require('../../../..');
 module.exports = {
 	url: 'http://' + keystone.get('host') + ':' + keystone.get('port') + '/keystone/',
 	pause: 1000,
+	defaultWaitForTimeout: 60000,
 	elements: {
 		// ADMIN UI APP SCREENS
 		signinScreen: '#signin-view',
@@ -38,11 +39,10 @@ module.exports = {
 		dateListSubmenu: '.secondary-navbar [data-list-path="dates"]',
 		datetimeListSubmenu: '.secondary-navbar [data-list-path="datetimes"]',
 		emailListSubmenu: '.secondary-navbar [data-list-path="emails"]',
+		fileListSubmenu: '.secondary-navbar [data-list-path="files"]',
 		geopointListSubmenu: '.secondary-navbar [data-list-path="geo-points"]',
 		htmlListSubmenu: '.secondary-navbar [data-list-path="htmls"]',
 		keyListSubmenu: '.secondary-navbar [data-list-path="keys"]',
-		localfileListSubmenu: '.secondary-navbar [data-list-path="local-files"]',
-		localfilemultipleListSubmenu: '.secondary-navbar [data-list-path="local-file-multiples"]',
 		locationListSubmenu: '.secondary-navbar [data-list-path="locations"]',
 		markdownListSubmenu: '.secondary-navbar [data-list-path="markdowns"]',
 		moneyListSubmenu: '.secondary-navbar [data-list-path="money"]',
@@ -68,56 +68,60 @@ module.exports = {
 		targetrelationshipListSubmenu: '.secondary-navbar [data-list-path="target-relationships"]',
 	},
 	commands: [{
+		gotoHomeScreen: function() {
+			return this
+				.navigate();		// navigate to the configure Url
+		},
 		openMiscList: function(list) {
 			var list = list.toLowerCase() + 'List';
 			var listSubmenu = '@' + list + 'Submenu';
 			return this.click('@miscListsMenu')
-				.waitForElementVisible('@listScreen')
+				.waitForListScreen()
 				.click(listSubmenu)
-				.waitForElementVisible('@listScreen');
+				.waitForListScreen();
 		},
 		openFieldList: function(field) {
 				var list = field.toLowerCase() + 'List';
 				var listSubmenu = '@' + list + 'Submenu';
 				return this.click('@fieldListsMenu')
-					.waitForElementVisible('@listScreen')
+					.waitForListScreen()
 					.click(listSubmenu)
-					.waitForElementVisible('@listScreen');
+					.waitForListScreen();
 		},
 		signout: function() {
 			this.api.pause(500);
 			return this
 				.waitForElementVisible('@logoutIcon')
 				.click('@logoutIconLink')
-				.waitForElementVisible('@signinScreen');
+				.waitForSigninScreen();
 		},
-		waitForSigninScreen: function() {
+		waitForSigninScreen: function(timeout) {
 			return this
-				.waitForElementVisible('@signinScreen');
+				.waitForElementVisible('@signinScreen', timeout || this.api.globals.waitForConditionTimeout);
 		},
-		waitForHomeScreen: function() {
+		waitForHomeScreen: function(timeout) {
 			return this
-				.waitForElementVisible('@homeScreen');
+				.waitForElementVisible('@homeScreen', timeout || this.api.globals.waitForConditionTimeout);
 		},
-		waitForInitialFormScreen: function() {
+		waitForInitialFormScreen: function(timeout) {
 			return this
-				.waitForElementVisible('@initialFormScreen');
+				.waitForElementVisible('@initialFormScreen', timeout || this.api.globals.waitForConditionTimeout);
 		},
-		waitForDeleteConfirmationScreen: function() {
+		waitForDeleteConfirmationScreen: function(timeout) {
 			return this
-				.waitForElementVisible('@deleteConfirmationScreen');
+				.waitForElementVisible('@deleteConfirmationScreen', timeout || this.api.globals.waitForConditionTimeout);
 		},
-		waitForResetConfirmationScreen: function() {
+		waitForResetConfirmationScreen: function(timeout) {
 			return this
-				.waitForElementVisible('@resetConfirmationScreen');
+				.waitForElementVisible('@resetConfirmationScreen', timeout || this.api.globals.waitForConditionTimeout);
 		},
-		waitForListScreen: function() {
+		waitForListScreen: function(timeout) {
 			return this
-				.waitForElementVisible('@listScreen');
+				.waitForElementVisible('@listScreen', timeout || this.api.globals.waitForConditionTimeout);
 		},
-		waitForItemScreen: function() {
+		waitForItemScreen: function(timeout) {
 			return this
-				.waitForElementVisible('@itemScreen');
+				.waitForElementVisible('@itemScreen', timeout || this.api.globals.waitForConditionTimeout);
 		},
 	}],
 };

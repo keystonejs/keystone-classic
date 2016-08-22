@@ -65,6 +65,7 @@ module.exports = function (req, res) {
 			res.logError('admin/server/api/list/get', 'database error finding items', err);
 			return res.apiError('database error', err);
 		}
+
 		return res.json({
 			results: includeResults
 				? items.map(function (item) {

@@ -57,10 +57,7 @@ cloudinaryimages.prototype.getFolder = function () {
 		if (typeof this.options.folder === 'string') {
 			folder = this.options.folder;
 		} else {
-			var folderList = keystone.get('cloudinary prefix') ? [keystone.get('cloudinary prefix')] : [];
-			folderList.push(this.list.path);
-			folderList.push(this.path);
-			folder = folderList.join('/');
+			folder = this.list.path + '/' + this.path;
 		}
 	}
 
@@ -222,14 +219,20 @@ cloudinaryimages.prototype.inputIsValid = function (data) { // eslint-disable-li
 /**
  * Updates the value for this field in the item from a data object
  */
-cloudinaryimages.prototype.updateItem = function (item, data, callback) {
+cloudinaryimages.prototype.updateItem = function (item, data, files, callback) {
+	if (typeof files === 'function') {
+		callback = files;
+		files = {};
+	} else if (!files) {
+		files = {};
+	}
 
 	var cloudinary = require('cloudinary');
 	var field = this;
 	var values = this.getValueFromData(data);
 
 	// Early exit path: reset value when falsy, or bail if no value was provided
-	if (!values || values === 'null') {
+	if (!values) {
 		if (values !== undefined) {
 			item.set(field.path, []);
 		}
@@ -242,55 +245,74 @@ cloudinaryimages.prototype.updateItem = function (item, data, callback) {
 		values = [values];
 	}
 
-	// Precalc these options, it's inefficient when not uploading images but
-	// avoids recalculating them on each iteration in the map below
-	// TODO: is this worth optimising?
-	var tagPrefix = keystone.get('cloudinary prefix') || '';
-	var uploadOptions = {
-		tags: [],
-	};
-	if (tagPrefix.length) {
-		uploadOptions.tags.push(tagPrefix);
-		tagPrefix += '_';
-	}
-	uploadOptions.tags.push(tagPrefix + field.list.path + '_' + field.path);
-	if (keystone.get('env') !== 'production') {
-		uploadOptions.tags.push(tagPrefix + 'dev');
-	}
-	var folder = this.getFolder();
-	if (folder) {
-		uploadOptions.folder = folder;
+	// We cache options to avoid recalculating them on each iteration in the map below
+	var cachedUploadOptions;
+	function getUploadOptions () {
+		if (cachedUploadOptions) {
+			return cachedUploadOptions;
+		}
+		var tagPrefix = keystone.get('cloudinary prefix') || '';
+		var uploadOptions = {
+			tags: [],
+		};
+		if (tagPrefix.length) {
+			uploadOptions.tags.push(tagPrefix);
+			tagPrefix += '_';
+		}
+		uploadOptions.tags.push(tagPrefix + field.list.path + '_' + field.path);
+		if (keystone.get('env') !== 'production') {
+			uploadOptions.tags.push(tagPrefix + 'dev');
+		}
+		var folder = field.getFolder();
+		if (folder) {
+			uploadOptions.folder = folder;
+		}
+		cachedUploadOptions = uploadOptions;
+		return uploadOptions;
 	}
 
-	async.map(values, function (value, next) {
-		// When the value is a string, it may be JSON serialised data. If so, parse
-		// it. Otherwiser, we assume it's base64 data or a remote URL and upload it
-		// to cloudinary as a file path. More logic could be added here to
-		// detect/prevent invalid uploads (as per cloudinaryimage field)
+	// Preprocess values to deserialise JSON, detect mappings to uploaded files
+	// and flatten out arrays
+	values = values.map(function (value) {
+		// When the value is a string, it may be JSON serialised data.
+		if (typeof value === 'string'
+			&& value.charAt(0) === '{'
+			&& value.charAt(value.length - 1) === '}'
+		) {
+			try {
+				return JSON.parse(value);
+			} catch (e) { /* value isn't JSON */ }
+		}
 		if (typeof value === 'string') {
-			if (value.charAt(0) === '{' && value.charAt(value.length - 1) === '}') {
-				try {
-					value = JSON.parse(value);
-				} catch (e) {
-					// value isn't JSON
-				}
-			} else {
-				value = { path: value };
+			// detect file upload (field value must be a reference to a field in the
+			// uploaded files object provided by multer)
+			if (value.substr(0, 7) === 'upload:') {
+				var uploadFieldPath = value.substr(7);
+				return files[uploadFieldPath];
+			}
+			// detect a URL or Base64 Data
+			else if (/^(data:[a-z\/]+;base64)|(https?\:\/\/)/.test(value)) {
+				return { path: value };
 			}
 		}
-		if (typeof value === 'object' && value.uploadFromKey) {
-			value = data[value.uploadFromKey];
-		}
+		return value;
+	});
+	values = _.flatten(values);
+
+	async.map(values, function (value, next) {
 		if (typeof value === 'object' && 'public_id' in value) {
 			// Cloudinary Image data provided
 			if (value.public_id) {
+				// Default the object with empty values
 				var v = assign(getEmptyValue(), value);
 				return next(null, v);
 			} else {
-				return next(null);
+				// public_id is falsy, remove the value
+				return next();
 			}
 		} else if (typeof value === 'object' && value.path) {
 			// File provided - upload it
+			var uploadOptions = getUploadOptions();
 			// NOTE: field.options.publicID has been deprecated (tbc)
 			if (field.options.filenameAsPublicID && value.originalname && typeof value.originalname === 'string') {
 				uploadOptions = assign({}, uploadOptions, {
@@ -307,6 +329,8 @@ cloudinaryimages.prototype.updateItem = function (item, data, callback) {
 			}, uploadOptions);
 		} else {
 			// Nothing to do
+			// TODO: We should really also support deleting images from cloudinary,
+			// see the CloudinaryImageType field for reference
 			return next();
 		}
 	}, function (err, result) {

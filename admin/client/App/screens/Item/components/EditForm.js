@@ -38,6 +38,15 @@ function getNameFromData (data) {
 	return data;
 }
 
+function smoothScrollTop () {
+	if (document.body.scrollTop || document.documentElement.scrollTop) {
+		window.scrollBy(0, -50);
+		var timeOut = setTimeout(smoothScrollTop, 20);
+	}	else {
+		clearTimeout(timeOut);
+	}
+}
+
 var EditForm = React.createClass({
 	displayName: 'EditForm',
 	propTypes: {
@@ -80,7 +89,7 @@ var EditForm = React.createClass({
 		const confirmationDialog = (
 			<ConfirmationDialog
 				isOpen
-				body={`Reset your changes to <strong>${this.props.data.name}</strong>?`}
+				body={<p>Reset your changes to <strong>{this.props.data.name}</strong>?</p>}
 				confirmationLabel="Reset"
 				onCancel={this.removeConfirmationDialog}
 				onConfirmation={this.handleReset}
@@ -99,7 +108,7 @@ var EditForm = React.createClass({
 		const confirmationDialog = (
 			<ConfirmationDialog
 				isOpen
-				body={`Are you sure you want to delete <strong>${this.props.data.name}?</strong><br /><br />This cannot be undone.`}
+				body={<p>Are you sure you want to delete <strong>{this.props.data.name}?</strong><br /><br />This cannot be undone.</p>}
 				confirmationLabel="Delete"
 				onCancel={this.removeConfirmationDialog}
 				onConfirmation={this.handleDelete}
@@ -131,8 +140,7 @@ var EditForm = React.createClass({
 		});
 
 		list.updateItem(data.id, formData, (err, data) => {
-			// TODO: implement smooth scolling
-			scrollTo(0, 0); // Scroll to top
+			smoothScrollTop();
 			if (err) {
 				this.setState({
 					alerts: {
@@ -164,19 +172,13 @@ var EditForm = React.createClass({
 			return (
 				<div className={className}>
 					<AltText
-						component="span"
-						modifiedLabel="ID:"
-						modifiedValue={null}
-						normalLabel={`${upcase(list.autokey.path)}: `}
-						normalValue={null}
+						modified="ID:"
+						normal={`${upcase(list.autokey.path)}: `}
 						title="Press <alt> to reveal the ID"
 						className="EditForm__key-or-id__label" />
 					<AltText
-						component="span"
-						modifiedLabel=""
-						modifiedValue={<input ref="keyOrIdInput" onFocus={this.handleKeyFocus} value={this.props.data.id} className="EditForm__key-or-id__input" readOnly />}
-						normalLabel={null}
-						normalValue={<input ref="keyOrIdInput" onFocus={this.handleKeyFocus} value={this.props.data[list.autokey.path]} className="EditForm__key-or-id__input" readOnly />}
+						modified={<input ref="keyOrIdInput" onFocus={this.handleKeyFocus} value={this.props.data.id} className="EditForm__key-or-id__input" readOnly />}
+						normal={<input ref="keyOrIdInput" onFocus={this.handleKeyFocus} value={this.props.data[list.autokey.path]} className="EditForm__key-or-id__input" readOnly />}
 						title="Press <alt> to reveal the ID"
 						className="EditForm__key-or-id__field" />
 				</div>
@@ -270,17 +272,18 @@ var EditForm = React.createClass({
 						disabled={loading}
 						loading={loading}
 						onClick={this.updateItem}
+						data-button="update"
 					>
 						{loadingButtonText}
 					</LoadingButton>
-					<Button disabled={loading} onClick={this.confirmReset} variant="link" color="cancel">
+					<Button disabled={loading} onClick={this.confirmReset} variant="link" color="cancel" data-button="reset">
 						<ResponsiveText
 							hiddenXS="reset changes"
 							visibleXS="reset"
 						/>
 					</Button>
 					{!this.props.list.nodelete && (
-						<Button disabled={loading} onClick={this.confirmDelete} variant="link" color="delete" style={styles.deleteButton}>
+						<Button disabled={loading} onClick={this.confirmDelete} variant="link" color="delete" style={styles.deleteButton} data-button="delete">
 							<ResponsiveText
 								hiddenXS={`delete ${this.props.list.singular.toLowerCase()}`}
 								visibleXS="delete"

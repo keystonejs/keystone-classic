@@ -1,8 +1,10 @@
-import { StyleSheet } from 'aphrodite/no-important';
+import { css, StyleSheet } from 'aphrodite/no-important';
 import React, { PropTypes } from 'react';
 import { Spinner } from '../../admin/client/App/elemental';
 import theme from '../../admin/client/theme';
-import cssClassNames from '../../admin/client/utils/cssClassNames';
+
+// FIXME static octicon classes leaning on Elemental to avoid duplicate
+// font and CSS; inflating the project size
 
 const ICON_MAP = {
 	loading: '',
@@ -12,7 +14,7 @@ const ICON_MAP = {
 
 function ImageThumbnail ({ children, className, component, mask, ...props }) {
 	const maskUI = mask ? (
-		<div className={cssClassNames([classes.mask], ICON_MAP[mask])}>
+		<div className={css(classes.mask) + ` ${ICON_MAP[mask]}`}>
 			{mask === 'loading'
 				? <Spinner color="inverted" />
 				: null}
@@ -20,10 +22,11 @@ function ImageThumbnail ({ children, className, component, mask, ...props }) {
 	) : null;
 
 	// apply hover and focus styles only when using an anchor
-	props.className = cssClassNames([
+	props.className = css(
 		classes.base,
 		component === 'a' ? classes.anchor : null,
-	], className);
+		className
+	);
 
 	// append the mask UI to children
 	props.children = [].concat(children, [maskUI]);

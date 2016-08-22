@@ -1,18 +1,12 @@
 /**
 Deprecated.
 
-This FieldType will be removed shortly in favour of the new generic File type,
-in conjunction with the S3 storage adapter.
+Using this field will now throw an error, and this code will be removed soon.
+
+See https://github.com/keystonejs/keystone/wiki/File-Fields-Upgrade-Guide
 */
 
-var _ = require('lodash');
-var assign = require('object-assign');
-var FieldType = require('../Type');
-var grappling = require('grappling-hook');
-var keystone = require('../../../');
-var moment = require('moment');
-var util = require('util');
-var utils = require('keystone-utils');
+/* eslint-disable */
 
 var loggedWarning = false;
 
@@ -23,12 +17,10 @@ var loggedWarning = false;
  */
 function s3file (list, path, options) {
 
-	if (!loggedWarning) {
-		loggedWarning = true;
-		console.warn('The S3FileType field type has been deprecated and will be removed '
-			+ 'very soon. Please see https://github.com/keystonejs/keystone/issues/3228');
-	}
+	throw new Error('The S3File field type has been removed. Please use File instead.'
+		+ '\n\nSee https://github.com/keystonejs/keystone/wiki/File-Fields-Upgrade-Guide\n');
 
+	/*
 	grappling.mixin(this).allowHooks('pre:upload');
 
 	this._underscoreMethods = ['format', 'uploadFile'];
@@ -56,6 +48,7 @@ function s3file (list, path, options) {
 	if (options.pre && options.pre.upload) {
 		this.pre('upload', options.pre.upload);
 	}
+	*/
 
 }
 s3file.properName = 'S3File';

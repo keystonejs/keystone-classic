@@ -1,3 +1,8 @@
+/*
+TODO: this file has been left as a reference for the new File type field.
+Some features here, including size formatting and icons, may be ported across.
+*/
+
 import _ from 'lodash';
 import bytes from 'bytes';
 import Field from '../Field';

@@ -56,7 +56,7 @@ exports.testFilters = function (List, filter) {
 			});
 		});
 
-		it('should find multiple matches', function (done) {
+		it.skip('should find multiple matches', function (done) {
 			filter({
 				single: {
 					value: [items.jed, items.max],

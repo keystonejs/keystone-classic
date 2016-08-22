@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import assign from 'object-assign';
 import Popout from '../../../shared/Popout';
 import PopoutList from '../../../shared/Popout/PopoutList';
-import { Checkbox, Form, FormField, InputGroup, SegmentedControl } from 'elemental';
+import { Checkbox, Form, FormField, SegmentedControl } from 'elemental';
 import ListHeaderButton from './ListHeaderButton';
 
 import { downloadItems } from '../actions';
@@ -13,7 +13,9 @@ const FORMAT_OPTIONS = [
 
 var ListDownloadForm = React.createClass({
 	propTypes: {
-		className: React.PropTypes.string.isRequired,
+		activeColumns: PropTypes.array,
+		dispatch: PropTypes.func.isRequired,
+		list: PropTypes.object,
 	},
 	getInitialState () {
 		return {
@@ -37,6 +39,11 @@ var ListDownloadForm = React.createClass({
 				field: this.props.list.fields[el.field],
 			} : el;
 		});
+	},
+	allColumnsSelected () {
+		const selectedColumns = Object.keys(this.state.selectedColumns).length;
+		const columnAmount = this.getListUIElements().filter((el) => el.type !== 'heading').length;
+		return selectedColumns === columnAmount;
 	},
 	togglePopout (visible) {
 		this.setState({
@@ -66,6 +73,29 @@ var ListDownloadForm = React.createClass({
 		};
 		this.setState(newState);
 	},
+	clickSelectAll () {
+		if (this.allColumnsSelected()) {
+			this.selectNoColumns();
+		} else {
+			this.selectAllColumns();
+		}
+	},
+	selectAllColumns () {
+		const newColumns = {};
+		this.getListUIElements().map((el) => {
+			if (el.type !== 'heading') {
+				newColumns[el.field.path] = true;
+			}
+		});
+		this.setState({
+			selectedColumns: newColumns,
+		});
+	},
+	selectNoColumns () {
+		this.setState({
+			selectedColumns: {},
+		});
+	},
 	handleDownloadRequest () {
 		this.props.dispatch(downloadItems(this.state.format, Object.keys(this.state.selectedColumns)));
 		this.togglePopout(false);
@@ -92,9 +122,17 @@ var ListDownloadForm = React.createClass({
 			);
 		});
 
+		const allColumnsSelected = this.allColumnsSelected();
+		const checkboxLabel = allColumnsSelected ? 'None' : 'All';
+
 		return (
-			<div style={{ borderTop: '1px dashed rgba(0,0,0,0.1)', marginTop: '1em', paddingTop: '1em' }}>
-				{possibleColumns}
+			<div>
+				<FormField label="Quick select:">
+					<Checkbox onChange={this.clickSelectAll} value label={checkboxLabel} checked={allColumnsSelected} />
+				</FormField>
+				<div style={{ borderTop: '1px dashed rgba(0,0,0,0.1)', marginTop: '1em', paddingTop: '1em' }}>
+					{possibleColumns}
+				</div>
 			</div>
 		);
 	},
@@ -102,7 +140,7 @@ var ListDownloadForm = React.createClass({
 		const { useCurrentColumns } = this.state;
 
 		return (
-			<InputGroup.Section className={this.props.className}>
+			<div>
 				<ListHeaderButton
 					active={this.state.isOpen}
 					id="listHeaderDownloadButton"
@@ -129,7 +167,7 @@ var ListDownloadForm = React.createClass({
 						secondaryButtonAction={() => this.togglePopout(false)}
 						secondaryButtonLabel="Cancel" />
 				</Popout>
-			</InputGroup.Section>
+			</div>
 		);
 	},
 });

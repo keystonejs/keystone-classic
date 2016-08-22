@@ -95,7 +95,6 @@ export function reorderItems (item, prevSortOrder, newSortOrder, goToPage) {
 			}, (err, items) => {
 				// If err, flash the row alert
 				if (err) {
-					console.log('ERROR', err);
 					dispatch(resetItems(item.id));
 					// return this.resetItems(this.findItemById[item.id]);
 				} else if (typeof items !== 'object' && items && items.results) {

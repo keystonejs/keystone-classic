@@ -1,16 +1,16 @@
 module.exports = {
 	before: function (browser) {
 		browser.app = browser.page.app();
-		browser.signinPage = browser.page.signin();
-		browser.listPage = browser.page.list();
-		browser.itemPage = browser.page.item();
-		browser.initialFormPage = browser.page.initialForm();
+		browser.signinScreen = browser.page.signin();
+		browser.listScreen = browser.page.list();
+		browser.itemScreen = browser.page.item();
+		browser.initialFormScreen = browser.page.initialForm();
 
-		browser.app.navigate();
-		browser.app.waitForElementVisible('@signinScreen');
+		browser.app.gotoHomeScreen();
+		browser.app.waitForSigninScreen();
 
-		browser.signinPage.signin();
-		browser.app.waitForElementVisible('@homeScreen');
+		browser.signinScreen.signin();
+		browser.app.waitForHomeScreen();
 	},
 	after: function (browser) {
 		browser.app.signout();
@@ -19,10 +19,10 @@ module.exports = {
 	'Demonstrate issue 2898': function(browser) {
 		// Create items
 		browser.app.openFieldList('Datetime');
-		browser.listPage.createFirstItem();
+		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 
-		browser.initialFormPage.fillInputs({
+		browser.initialFormScreen.fillInputs({
 			listName: 'Datetime',
 			fields: {
 				'name': {value: 'testing'},
@@ -30,10 +30,10 @@ module.exports = {
 			}
 		});
 
-		browser.initialFormPage.save();
+		browser.initialFormScreen.save();
 
 		// The following assertion passes where it should fail.
-		browser.itemPage.assertInputs({
+		browser.itemScreen.assertInputs({
 			listName: 'Datetime',
 			fields: {
 				'name': {value: 'testing'},
@@ -42,9 +42,9 @@ module.exports = {
 		});
 
 		// The following assertion fails where is should pass.
-		browser.initialFormPage.assertFlashError("Please enter a valid date and time in the Field A field");
+		browser.initialFormScreen.assertFlashError("Please enter a valid date and time in the Field A field");
 
-		browser.initialFormPage.cancel();
+		browser.initialFormScreen.cancel();
 
 	}
 };
