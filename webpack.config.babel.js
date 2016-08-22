@@ -21,11 +21,11 @@ let config = {
 			{
 				// Auto-chunk Fields for dynamic loading
 				// We cannot chunk Filter due to .getDefaultValue()
-				test: /fields\/.*(Field|Column)\.jsx?$/i,
+				test: /fields(\/|\\).*(Field|Column)\.jsx?$/i,
 				loader: 'react-proxy',
 				exclude: [
 					// The field decorator
-					/fields\/types\/Field\.js/,
+					path.join(__dirname, 'fields', 'types', 'Field.js'),
 					// Fields using the Array mixin (doesn't like proxy)
 					/Array/,
 				],
