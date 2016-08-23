@@ -1,4 +1,5 @@
 var fieldTests = require('./commonFieldTestUtils.js');
+var TextArrayModelTestConfig = require('../../../modelTestConfig/textArrayModel');
 
 module.exports = {
 	before: fieldTests.before,
@@ -8,9 +9,9 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 
-		browser.initialFormScreen.assertUI({
-			listName: 'TextArray',
-			fields: ['name']
+		browser.initialFormScreen.assertUIVisible({
+			modelTestConfig: TextArrayModelTestConfig,
+			fields: [{name: 'name'}]
 		});
 	},
 	'restoring test state': function(browser) {
@@ -22,13 +23,13 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 		browser.initialFormScreen.fillInputs({
-			listName: 'TextArray',
+			modelTestConfig: TextArrayModelTestConfig,
 			fields: {
 				'name': {value: 'TextArray Field Test 1'},
 			}
 		});
 		browser.initialFormScreen.assertInputs({
-			listName: 'TextArray',
+			modelTestConfig: TextArrayModelTestConfig,
 			fields: {
 				'name': {value: 'TextArray Field Test 1'},
 			}
@@ -36,46 +37,72 @@ module.exports = {
 		browser.initialFormScreen.save();
 		browser.app.waitForItemScreen();
 		browser.itemScreen.assertInputs({
-			listName: 'TextArray',
+			modelTestConfig: TextArrayModelTestConfig,
 			fields: {
 				'name': {value: 'TextArray Field Test 1'},
 			}
 		})
 	},
 	'TextArray field should show correctly in the edit form': function(browser) {
-		browser.itemScreen.assertUI({
-			listName: 'TextArray',
-			fields: ['fieldA', 'fieldB']
+		browser.itemScreen.assertUIVisible({
+			modelTestConfig: TextArrayModelTestConfig,
+			fields: [{name: 'fieldA'}, {name: 'fieldB'}]
 		});
-		browser.itemScreen.section.form.section.textarrayList.section.fieldA.addText();
-		browser.itemScreen.assertUI({
-			listName: 'TextArray',
-			fields: ['fieldA'],
-			args: {'textInputs': ['text1']}
+		browser.initialFormScreen.clickUI({
+			modelTestConfig: TextArrayModelTestConfig,
+			fields: {
+				'fieldA': {'button': 'addButton'},
+			}
 		});
-		browser.itemScreen.section.form.section.textarrayList.section.fieldA.addText();
-		browser.itemScreen.assertUI({
-			listName: 'TextArray',
-			fields: ['fieldA'],
-			args: {'textInputs': ['text1', 'text2']}
+		browser.itemScreen.assertUIVisible({
+			modelTestConfig: TextArrayModelTestConfig,
+			fields: [{
+				name: 'fieldA',
+				options: {'textInputs': ['text1']}
+			}],
 		});
-		browser.itemScreen.section.form.section.textarrayList.section.fieldB.addText();
-		browser.itemScreen.section.form.section.textarrayList.section.fieldB.addText();
-		browser.itemScreen.assertUI({
-			listName: 'TextArray',
-			fields: ['fieldB'],
-			args: {'textInputs': ['text1', 'text2']}
+		browser.initialFormScreen.clickUI({
+			modelTestConfig: TextArrayModelTestConfig,
+			fields: {
+				'fieldA': {'button': 'addButton'},
+			}
+		});
+		browser.itemScreen.assertUIVisible({
+			modelTestConfig: TextArrayModelTestConfig,
+			fields: [{
+				name: 'fieldA',
+				options: {'textInputs': ['text1', 'text2']}
+			}],
+		});
+		browser.initialFormScreen.clickUI({
+			modelTestConfig: TextArrayModelTestConfig,
+			fields: {
+				'fieldB': {'button': 'addButton'},
+			}
+		});
+		browser.initialFormScreen.clickUI({
+			modelTestConfig: TextArrayModelTestConfig,
+			fields: {
+				'fieldB': {'button': 'addButton'},
+			}
+		});
+		browser.itemScreen.assertUIVisible({
+			modelTestConfig: TextArrayModelTestConfig,
+			fields: [{
+				name: 'fieldB',
+				options:{'textInputs': ['text1', 'text2']}
+			}],
 		});
 	},
 	'TextArray field can be filled via the edit form': function(browser) {
 		browser.itemScreen.fillInputs({
-			listName: 'TextArray',
+			modelTestConfig: TextArrayModelTestConfig,
 			fields: {
 				'fieldA': {text1: 'Test text 1', text2: 'Test text 2'}
 			}
 		});
 		browser.itemScreen.fillInputs({
-			listName: 'TextArray',
+			modelTestConfig: TextArrayModelTestConfig,
 			fields: {
 				'fieldB': {text1: 'Test text 3', text2: 'Test text 4'}
 			}
@@ -84,7 +111,7 @@ module.exports = {
 		browser.app.waitForItemScreen();
 		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
 		browser.itemScreen.assertInputs({
-			listName: 'TextArray',
+			modelTestConfig: TextArrayModelTestConfig,
 			fields: {
 				'name': {value: 'TextArray Field Test 1'},
 				'fieldA': {text1: 'Test text 1', text2: 'Test text 2'},
