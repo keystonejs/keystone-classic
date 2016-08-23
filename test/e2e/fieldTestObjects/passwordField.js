@@ -63,8 +63,6 @@ module.exports = function PasswordType(config) {
 			assertUIPresent: function(browser, args) {
 				browser
 					.expect.element(selectElem('label')).to.be.present;
-				browser
-					.expect.element(selectElem('label')).text.to.equal(utils.titlecase(config.fieldName));
 				if (args.editForm){
 					// In the edit form, a "Set Password" button is shown, unless showPassword has been clicked
 					if (args.passwordShown) {
@@ -84,8 +82,6 @@ module.exports = function PasswordType(config) {
 			assertUINotPresent: function(browser, args) {
 				browser
 					.expect.element(selectElem('label')).to.not.be.present;
-				browser
-					.expect.element(selectElem('label')).text.to.equal(utils.titlecase(config.fieldName));
 				if (args.editForm){
 					// In the edit form, a "Set Password" button is shown, unless showPassword has been clicked
 					if (args.passwordShown) {

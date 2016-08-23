@@ -51,8 +51,6 @@ module.exports = function DatetimeField(config) {
 				browser
 					.expect.element(selectElem('label')).to.be.present;
 				browser
-					.expect.element(selectElem('label')).text.to.equal(utils.titlecase(config.fieldName));
-				browser
 					.expect.element(selectElem('nowButton')).to.be.present;
 				browser
 					.expect.element(selectElem('date')).to.be.present;
@@ -66,8 +64,6 @@ module.exports = function DatetimeField(config) {
 			assertUINotPresent: function(browser, args) {
 				browser
 					.expect.element(selectElem('label')).to.not.be.present;
-				browser
-					.expect.element(selectElem('label')).text.to.equal(utils.titlecase(config.fieldName));
 				browser
 					.expect.element(selectElem('nowButton')).to.not.be.present;
 				browser

@@ -36,8 +36,6 @@ module.exports = function geoPointField(config) {
 				browser
 					.expect.element(selectElem('label')).to.be.present;
 				browser
-					.expect.element(selectElem('label')).text.to.equal(utils.titlecase(config.fieldName));
-				browser
 					.expect.element(selectElem('valueLat')).to.be.present;
 				browser
 					.expect.element(selectElem('valueLng')).to.be.present;
