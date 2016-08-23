@@ -1,4 +1,5 @@
 var fieldTests = require('./commonFieldTestUtils.js');
+var MarkdownModelTestConfig = require('../../../modelTestConfig/markdownModel');
 
 module.exports = {
 	before: fieldTests.before,
@@ -8,8 +9,8 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 
-		browser.initialFormScreen.assertUI({
-			listName: 'Markdown',
+		browser.initialFormScreen.assertUIVisible({
+			modelTestConfig: MarkdownModelTestConfig,
 			fields: ['name', 'fieldA']
 		});
 	},
@@ -22,22 +23,27 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 		browser.initialFormScreen.fillInputs({
-			listName: 'Markdown',
+			modelTestConfig: MarkdownModelTestConfig,
 			fields: {
 				'name': {value: 'Markdown Field Test 1'},
 				'fieldA': {md: 'Some __test__ markdown for **field A**'},
 			}
 		});
 		browser.initialFormScreen.assertInputs({
-			listName: 'Markdown',
+			modelTestConfig: MarkdownModelTestConfig,
 			fields: {
 				'name': {value: 'Markdown Field Test 1'},
 				'fieldA': {md: 'Some __test__ markdown for **field A**'},
 			}
 		});
-		browser.initialFormScreen.section.form.section.markdownList.section.fieldA.togglePreview();
+		browser.initialFormScreen.clickUI({
+			modelTestConfig: MarkdownModelTestConfig,
+			fields: {
+				'fieldA': {'button': 'previewToggle'},
+			}
+		});
 		browser.initialFormScreen.assertInputs({
-			listName: 'Markdown',
+			modelTestConfig: MarkdownModelTestConfig,
 			fields: {
 				'name': {value: 'Markdown Field Test 1'},
 				'fieldA': {html: '<p>Some <strong>test</strong> markdown for <strong>field A</strong></p>\n'},
@@ -47,7 +53,7 @@ module.exports = {
 		browser.app.waitForItemScreen();
 
 		browser.itemScreen.assertInputs({
-			listName: 'Markdown',
+			modelTestConfig: MarkdownModelTestConfig,
 			fields: {
 				'name': {value: 'Markdown Field Test 1'},
 				'fieldA': {md: 'Some __test__ markdown for **field A**'},
@@ -55,14 +61,14 @@ module.exports = {
 		})
 	},
 	'Markdown field should show correctly in the edit form': function(browser) {
-		browser.itemScreen.assertUI({
-			listName: 'Markdown',
+		browser.itemScreen.assertUIVisible({
+			modelTestConfig: MarkdownModelTestConfig,
 			fields: ['fieldA', 'fieldB']
 		});
 	},
 	'Markdown field can be filled via the edit form': function(browser) {
 		browser.itemScreen.fillInputs({
-			listName: 'Markdown',
+			modelTestConfig: MarkdownModelTestConfig,
 			fields: {
 				'fieldB': {md: 'Some __test__ markdown for **field B**'}
 			}
@@ -71,7 +77,7 @@ module.exports = {
 		browser.app.waitForItemScreen();
 		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
 		browser.itemScreen.assertInputs({
-			listName: 'Markdown',
+			modelTestConfig: MarkdownModelTestConfig,
 			fields: {
 				'name': {value: 'Markdown Field Test 1'},
 				'fieldA': {md: 'Some __test__ markdown for **field A**'},
@@ -83,7 +89,7 @@ module.exports = {
 		browser.itemScreen.section.form.section.markdownList.section.fieldA.togglePreview();
 		browser.itemScreen.section.form.section.markdownList.section.fieldB.togglePreview();
 		browser.itemScreen.assertInputs({
-			listName: 'Markdown',
+			modelTestConfig: MarkdownModelTestConfig,
 			fields: {
 				'name': {value: 'Markdown Field Test 1'},
 				'fieldA': {html: '<p>Some <strong>test</strong> markdown for <strong>field A</strong></p>\n'},
