@@ -2,7 +2,7 @@ var FieldType = require('../Type');
 var numeral = require('numeral');
 var util = require('util');
 var utils = require('keystone-utils');
-
+var validation = require('./NumberValidation');
 
 /**
  * Number FieldType Constructor
@@ -17,6 +17,7 @@ function number (list, path, options) {
 	if (this.formatString && typeof this.formatString !== 'string') {
 		throw new Error('FieldType.Number: options.format must be a string.');
 	}
+	this._validation = options.validation;
 	number.super_.call(this, list, path, options);
 }
 number.properName = 'Number';
@@ -33,6 +34,11 @@ number.prototype.validateInput = function (data, callback) {
 			result = !isNaN(value);
 		}
 	}
+
+	if (this._validation) {
+		result = validation.validateNumber(value, this._validation, this);
+	}
+
 	utils.defer(callback, result);
 };
 
@@ -108,7 +114,12 @@ number.prototype.inputIsValid = function (data, required, item) {
 	}
 	if (value !== undefined && value !== '') {
 		var newValue = utils.number(value);
-		return (!isNaN(newValue));
+		if (isNaN(newValue)) {
+			this.options.invalidMessage = 'The value "' + value + '" is not a valid number.';
+			return false;
+		}
+		if (this._validation) return validation.validateNumber(value, this._validation, this);
+		return true;
 	} else {
 		return (required) ? false : true;
 	}
