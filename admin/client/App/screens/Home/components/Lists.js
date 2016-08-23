@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { plural } from '../../../../utils/string';
 import ListTile from './ListTile';
 
-class Lists extends React.Component {
+export class Lists extends React.Component {
 	render () {
 		return (
 			<div className="dashboard-group__lists">
@@ -14,7 +14,8 @@ class Lists extends React.Component {
 					// if an array is passed in the key is at list.key
 					const listKey = list.key || key;
 					const href = list.external ? list.path : `${Keystone.adminPath}/${list.path}`;
-					const isNoCreate = this.props.listsData[list.path].nocreate;
+					const listData = this.props.listsData[list.path];
+					const isNoCreate = listData ? listData.nocreate : false;
 					return (
 						<ListTile
 							key={list.path}
