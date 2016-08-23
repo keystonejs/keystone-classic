@@ -1,4 +1,5 @@
 var fieldTests = require('./commonFieldTestUtils.js');
+var GeoPointModelTestConfig = require('../../../modelTestConfig/geoPointModel');
 
 module.exports = {
 	before: fieldTests.before,
@@ -8,8 +9,8 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 
-		browser.initialFormScreen.assertUI({
-			listName: 'GeoPoint',
+		browser.initialFormScreen.assertUIVisible({
+			modelTestConfig: GeoPointModelTestConfig,
 			fields: ['name', 'fieldA']
 		});
 	},
@@ -22,14 +23,14 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 		browser.initialFormScreen.fillInputs({
-			listName: 'GeoPoint',
+			modelTestConfig: GeoPointModelTestConfig,
 			fields: {
 				'name': {value: 'GeoPoint Field Test 1'},
 				'fieldA': {lat: '123', lng: '456'},
 			}
 		});
 		browser.initialFormScreen.assertInputs({
-			listName: 'GeoPoint',
+			modelTestConfig: GeoPointModelTestConfig,
 			fields: {
 				'name': {value: 'GeoPoint Field Test 1'},
 				'fieldA': {lat: '123', lng: '456'},
@@ -39,7 +40,7 @@ module.exports = {
 		browser.app.waitForItemScreen();
 
 		browser.itemScreen.assertInputs({
-			listName: 'GeoPoint',
+			modelTestConfig: GeoPointModelTestConfig,
 			fields: {
 				'name': {value: 'GeoPoint Field Test 1'},
 				'fieldA': {lat: '123', lng: '456'},
@@ -47,14 +48,14 @@ module.exports = {
 		})
 	},
 	'GeoPoint field should show correctly in the edit form': function(browser) {
-		browser.itemScreen.assertUI({
-			listName: 'GeoPoint',
+		browser.itemScreen.assertUIVisible({
+			modelTestConfig: GeoPointModelTestConfig,
 			fields: ['fieldA', 'fieldB']
 		});
 	},
 	'GeoPoint field can be filled via the edit form': function(browser) {
 		browser.itemScreen.fillInputs({
-			listName: 'GeoPoint',
+			modelTestConfig: GeoPointModelTestConfig,
 			fields: {
 				'fieldB': {lat: '789', lng: '246'}
 			}
@@ -63,7 +64,7 @@ module.exports = {
 		browser.app.waitForItemScreen();
 		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
 		browser.itemScreen.assertInputs({
-			listName: 'GeoPoint',
+			modelTestConfig: GeoPointModelTestConfig,
 			fields: {
 				'name': {value: 'GeoPoint Field Test 1'},
 				'fieldA': {lat: '123', lng: '456'},
