@@ -1,18 +1,18 @@
 var demand = require('must');
-var UrlType = require('../UrlType');
+var TwitterType = require('../TwitterType');
 var TextType = require('../../text/TextType');
 
-function customFormat (url) {
-	return url.toUpperCase();
-}
+// function customFormat (url) {
+// 	return url.toUpperCase();
+// }
 
 exports.initList = function (List) {
 	List.add({
-		url: UrlType,
+		twitter: TwitterType,
 		nested: {
-			url: UrlType,
+			twitter: TwitterType,
 		},
-		customFormat: { type: UrlType, format: customFormat },
+		// customFormat: { type: UrlType, format: customFormat },
 	});
 };
 
@@ -20,68 +20,68 @@ exports.testFieldType = function (List) {
 	describe('updateItem', function () {
 		it('should update top level fields', function (done) {
 			var testItem = new List.model();
-			List.fields.url.updateItem(testItem, {
-				url: 'value',
+			List.fields.twitter.updateItem(testItem, {
+				twitter: 'value',
 			}, function () {
-				demand(testItem.url).be('value');
+				demand(testItem.twitter).be('value');
 				done();
 			});
 		});
 
 		it('should update nested fields', function (done) {
 			var testItem = new List.model();
-			List.fields['nested.url'].updateItem(testItem, {
+			List.fields['nested.twitter'].updateItem(testItem, {
 				nested: {
-					url: 'value',
+					twitter: 'value',
 				},
 			}, function () {
-				demand(testItem.nested.url).be('value');
+				demand(testItem.nested.twitter).be('value');
 				done();
 			});
 		});
 
 		it('should update nested fields with flat paths', function (done) {
 			var testItem = new List.model();
-			List.fields['nested.url'].updateItem(testItem, {
-				'nested.url': 'value',
+			List.fields['nested.twitter'].updateItem(testItem, {
+				'nested.twitter': 'value',
 			}, function () {
-				demand(testItem.nested.url).be('value');
+				demand(testItem.nested.twitter).be('value');
 				done();
 			});
 		});
 	});
 
 	it('should use the common text input validator', function () {
-		demand(List.fields.url.validateInput === TextType.prototype.validateInput);
+		demand(List.fields.twitter.validateInput === TextType.prototype.validateInput);
 	});
 
 	it('should use the common text required validator', function () {
-		demand(List.fields.url.validateRequiredInput === TextType.prototype.validateRequiredInput);
+		demand(List.fields.twitter.validateRequiredInput === TextType.prototype.validateRequiredInput);
 	});
 
 	it('should use the common text addFilterToQuery method', function () {
-		demand(List.fields.url.addFilterToQuery === TextType.prototype.addFilterToQuery);
+		demand(List.fields.twitter.addFilterToQuery === TextType.prototype.addFilterToQuery);
 	});
 
 	describe('format', function () {
 		it('should strip the protocol when formatting', function (done) {
 			var testItem = new List.model();
-			List.fields.url.updateItem(testItem, {
+			List.fields.twitter.updateItem(testItem, {
 				url: 'http://www.keystonejs.com',
 			}, function () {
-				demand(testItem._.url.format()).be('www.keystonejs.com');
+				demand(testItem._.twitter.format()).be('www.keystonejs.com');
 				done();
 			});
 		});
 
-		it('should call custom format methods', function (done) {
-			var testItem = new List.model();
-			List.fields.customFormat.updateItem(testItem, {
-				customFormat: 'http://www.keystonejs.com',
-			}, function () {
-				demand(testItem._.customFormat.format()).be('HTTP://WWW.KEYSTONEJS.COM');
-				done();
-			});
-		});
+		// it('should call custom format methods', function (done) {
+		// 	var testItem = new List.model();
+		// 	List.fields.customFormat.updateItem(testItem, {
+		// 		customFormat: 'http://www.keystonejs.com',
+		// 	}, function () {
+		// 		demand(testItem._.customFormat.format()).be('HTTP://WWW.KEYSTONEJS.COM');
+		// 		done();
+		// 	});
+		// });
 	});
 };

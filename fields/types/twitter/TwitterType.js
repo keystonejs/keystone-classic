@@ -4,36 +4,41 @@ var util = require('util');
 
 
 /**
- * URL FieldType Constructor
+ * Twitter FieldType Constructor
  * @extends Field
  * @api public
  */
 function twitter (list, path, options) {
 	this._nativeType = String;
 	this._underscoreMethods = ['format'];
-	url.super_.call(this, list, path, options);
+	twitter.super_.call(this, list, path, options);
 }
-url.properName = 'Twitter';
-util.inherits(url, FieldType);
+twitter.properName = 'Twitter';
+util.inherits(twitter, FieldType);
 
-url.prototype.validateInput = TextType.prototype.validateInput;
-url.prototype.validateRequiredInput = TextType.prototype.validateRequiredInput;
+twitter.prototype.validateRequiredInput = TextType.prototype.validateRequiredInput;
 
 /* Inherit from TextType prototype */
-url.prototype.addFilterToQuery = TextType.prototype.addFilterToQuery;
+twitter.prototype.addFilterToQuery = TextType.prototype.addFilterToQuery;
+
+twitter.prototype.validateInput = function (data, callback) {
+	var value = this.getValueFromData(data);
+	var result = value === undefined || value === null || typeof value === 'string';
+	utils.defer(callback, result);
+};
 
 /**
  * Formats the field value using either a supplied format function or default
  * which strips the leading protocol from the value for simpler display
  */
-url.prototype.format = function (item) {
-	var url = item.get(this.path) || '';
+twitter.prototype.format = function (item) {
+	var twitter = item.get(this.path) || '';
 	if (this.options.format === false) {
-		return url;
+		return twitter;
 	} else if (typeof this.options.format === 'function') {
-		return this.options.format(url);
+		return this.options.format(twitter);
 	} else {
-		return removeProtocolPrefix(url);
+		return removeProtocolPrefix(twitter);
 	}
 };
 
@@ -45,4 +50,4 @@ function removeProtocolPrefix (url) {
 }
 
 /* Export Field Type */
-module.exports = url;
+module.exports = twitter;

@@ -29,6 +29,7 @@ const Types = {
 	Textarea: require('../types/textarea/test/explorer'),
 	TextArray: require('../types/textarray/test/explorer'),
 	Url: require('../types/url/test/explorer'),
+	Twitter: require('../types/url/test/explorer'),
 };
 
 function generateNavSections (arr) {

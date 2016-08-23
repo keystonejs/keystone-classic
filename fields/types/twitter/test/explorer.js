@@ -1,11 +1,11 @@
 module.exports = {
-	Field: require('../UrlField'),
-	Filter: require('../UrlFilter'),
-	readme: require('fs').readFileSync('./fields/types/url/Readme.md', 'utf8'),
+	Field: require('../TwitterField'),
+	Filter: require('../TwitterFilter'),
+	readme: require('fs').readFileSync('./fields/types/twitter/Readme.md', 'utf8'),
 	section: 'Text',
 	spec: {
-		label: 'Url',
-		path: 'textarea',
+		label: 'Twitter',
+		path: 'twitter',
 		value: 'http://keystonejs.com',
 	},
 };
