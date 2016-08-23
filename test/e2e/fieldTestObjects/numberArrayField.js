@@ -97,9 +97,6 @@ module.exports = function NumberArrayField (config) {
 						});
 				});
 			},
-			addNumber: function() {
-				browser.click(selectElem('addButton'));
-			},
 		},
 	};
 
