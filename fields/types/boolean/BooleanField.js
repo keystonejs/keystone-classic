@@ -3,6 +3,8 @@ import Field from '../Field';
 import Checkbox from '../../components/Checkbox';
 import { FormField } from 'elemental';
 
+const NOOP = () => {};
+
 module.exports = Field.create({
 	displayName: 'BooleanField',
 	statics: {
@@ -43,7 +45,7 @@ module.exports = Field.create({
 						{this.renderFormInput()}
 						<Checkbox
 							checked={value}
-							onChange={this.shouldRenderField() && this.valueChanged}
+							onChange={(this.shouldRenderField() && this.valueChanged) || NOOP}
 							readonly={!this.shouldRenderField()}
 						/>
 						<span style={{ marginLeft: '.75em' }}>
