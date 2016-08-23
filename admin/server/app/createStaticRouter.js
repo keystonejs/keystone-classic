@@ -31,9 +31,37 @@ module.exports = function createStaticRouter (options) {
 	};
 
 	/* Configure router */
-	router.use('/styles', less(path.resolve(__dirname + '/../../public/styles'), lessOptions));
-	router.use('/styles/fonts', express.static(path.resolve(__dirname + '/../../public/js/lib/tinymce/skins/keystone/fonts')));
-	router.use(express.static(path.resolve(__dirname + '/../../public')));
+	router.use('/styles', less(path.join(__dirname, '..', '..', 'public', 'styles'), lessOptions));
+	router.use('/styles/fonts', express.static(path.join(__dirname, '..', '..', 'public', 'js', 'lib', 'tinymce', 'skins', 'keystone', 'fonts')));
+
+	if (true || options.hot) {
+		var webpack = require('webpack');
+		var webpackMW = require('webpack-dev-middleware');
+		var hotMW = require('webpack-hot-middleware');
+		require('babel-register');
+		var config = require('../../../webpack.config.babel').hot;
+		var compiler = webpack(config);
+
+		router.use(webpackMW(
+			compiler,
+			{
+				watchOptions: {
+					aggregateTimeout: 100,
+				},
+				publicPath: '/js/',
+				stats: {
+					cached: false,
+					colors: true,
+					progress: true,
+				},
+				headers: {
+					'Cache-Control': 'no-cache, no-store',
+				},
+			}
+		));
+		router.use(hotMW(compiler));
+	}
+	router.use(express.static(path.resolve(__dirname, '..', '..', 'public')));
 
 	return router;
 };
