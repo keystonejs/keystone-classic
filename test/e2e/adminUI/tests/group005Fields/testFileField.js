@@ -1,4 +1,5 @@
 var fieldTests = require('./commonFieldTestUtils.js');
+var FileModelTestConfig = require('../../../modelTestConfig/fileModel');
 
 module.exports = {
 	before: fieldTests.before,
@@ -8,8 +9,8 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 
-		browser.initialFormScreen.assertUI({
-			listName: 'File',
+		browser.initialFormScreen.assertUIVisible({
+			modelTestConfig: FileModelTestConfig,
 			fields: ['name']
 		});
 	},
@@ -22,13 +23,13 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 		browser.initialFormScreen.fillInputs({
-			listName: 'File',
+			modelTestConfig: FileModelTestConfig,
 			fields: {
 				'name': {value: 'File Field Test 1'},
 			}
 		});
 		browser.initialFormScreen.assertInputs({
-			listName: 'File',
+			modelTestConfig: FileModelTestConfig,
 			fields: {
 				'name': {value: 'File Field Test 1'},
 			}
@@ -37,15 +38,15 @@ module.exports = {
 		browser.app.waitForItemScreen();
 
 		browser.itemScreen.assertInputs({
-			listName: 'File',
+			modelTestConfig: FileModelTestConfig,
 			fields: {
 				'name': {value: 'File Field Test 1'},
 			}
 		})
 	},
 	'File field should show correctly in the edit form': function(browser) {
-		browser.itemScreen.assertUI({
-			listName: 'File',
+		browser.itemScreen.assertUIVisible({
+			modelTestConfig: FileModelTestConfig,
 			fields: ['fieldA', 'fieldB']
 		});
 	},
