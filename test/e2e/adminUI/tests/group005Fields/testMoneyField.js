@@ -1,4 +1,5 @@
 var fieldTests = require('./commonFieldTestUtils.js');
+var MoneyModelTestConfig = require('../../../modelTestConfig/moneyModel');
 
 module.exports = {
 	before: fieldTests.before,
@@ -8,8 +9,8 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 
-		browser.initialFormScreen.assertUI({
-			listName: 'Money',
+		browser.initialFormScreen.assertUIVisible({
+			modelTestConfig: MoneyModelTestConfig,
 			fields: ['name', 'fieldA']
 		});
 	},
@@ -22,14 +23,14 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 		browser.initialFormScreen.fillInputs({
-			listName: 'Money',
+			modelTestConfig: MoneyModelTestConfig,
 			fields: {
 				'name': {value: 'Money Field Test 1'},
 				'fieldA': {value: '1'},
 			}
 		});
 		browser.initialFormScreen.assertInputs({
-			listName: 'Money',
+			modelTestConfig: MoneyModelTestConfig,
 			fields: {
 				'name': {value: 'Money Field Test 1'},
 				'fieldA': {value: '1'},
@@ -39,7 +40,7 @@ module.exports = {
 		browser.app.waitForItemScreen();
 
 		browser.itemScreen.assertInputs({
-			listName: 'Money',
+			modelTestConfig: MoneyModelTestConfig,
 			fields: {
 				'name': {value: 'Money Field Test 1'},
 				'fieldA': {value: '1'},
@@ -47,14 +48,14 @@ module.exports = {
 		})
 	},
 	'Money field should show correctly in the edit form': function(browser) {
-		browser.itemScreen.assertUI({
-			listName: 'Money',
+		browser.itemScreen.assertUIVisible({
+			modelTestConfig: MoneyModelTestConfig,
 			fields: ['fieldA', 'fieldB']
 		});
 	},
 	'Money field can be filled via the edit form': function(browser) {
 		browser.itemScreen.fillInputs({
-			listName: 'Money',
+			modelTestConfig: MoneyModelTestConfig,
 			fields: {
 				'fieldB': {value: '2'}
 			}
@@ -63,7 +64,7 @@ module.exports = {
 		browser.app.waitForItemScreen();
 		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
 		browser.itemScreen.assertInputs({
-			listName: 'Money',
+			modelTestConfig: MoneyModelTestConfig,
 			fields: {
 				'name': {value: 'Money Field Test 1'},
 				'fieldA': {value: '1'},
