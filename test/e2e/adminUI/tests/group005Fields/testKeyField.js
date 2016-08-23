@@ -1,4 +1,5 @@
 var fieldTests = require('./commonFieldTestUtils.js');
+var KeyModelTestConfig = require('../../../modelTestConfig/keyModel');
 
 module.exports = {
 	before: fieldTests.before,
@@ -8,8 +9,8 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 
-		browser.initialFormScreen.assertUI({
-			listName: 'Key',
+		browser.initialFormScreen.assertUIVisible({
+			modelTestConfig: KeyModelTestConfig,
 			fields: ['name', 'fieldA']
 		});
 	},
@@ -22,14 +23,14 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 		browser.initialFormScreen.fillInputs({
-			listName: 'Key',
+			modelTestConfig: KeyModelTestConfig,
 			fields: {
 				'name': {value: 'Key Field Test 1'},
 				'fieldA': {value: 'A test key for field A'},
 			}
 		});
 		browser.initialFormScreen.assertInputs({
-			listName: 'Key',
+			modelTestConfig: KeyModelTestConfig,
 			fields: {
 				'name': {value: 'Key Field Test 1'},
 				'fieldA': {value: 'A test key for field A'},
@@ -39,7 +40,7 @@ module.exports = {
 		browser.app.waitForItemScreen();
 
 		browser.itemScreen.assertInputs({
-			listName: 'Key',
+			modelTestConfig: KeyModelTestConfig,
 			fields: {
 				'name': {value: 'Key Field Test 1'},
 				'fieldA': {value: 'a-test-key-for-field-a'},
@@ -47,14 +48,14 @@ module.exports = {
 		})
 	},
 	'Key field should show correctly in the edit form': function(browser) {
-		browser.itemScreen.assertUI({
-			listName: 'Key',
+		browser.itemScreen.assertUIVisible({
+			modelTestConfig: KeyModelTestConfig,
 			fields: ['fieldA', 'fieldB']
 		});
 	},
 	'Key field can be filled via the edit form': function(browser) {
 		browser.itemScreen.fillInputs({
-			listName: 'Key',
+			modelTestConfig: KeyModelTestConfig,
 			fields: {
 				'fieldB': {value: 'A test key for field B'}
 			}
@@ -63,7 +64,7 @@ module.exports = {
 		browser.app.waitForItemScreen();
 		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
 		browser.itemScreen.assertInputs({
-			listName: 'Key',
+			modelTestConfig: KeyModelTestConfig,
 			fields: {
 				'name': {value: 'Key Field Test 1'},
 				'fieldA': {value: 'a-test-key-for-field-a'},
