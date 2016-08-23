@@ -11,19 +11,29 @@ module.exports = {
 
 		browser.initialFormScreen.assertUIVisible({
 			modelTestConfig: LocationModelTestConfig,
-			fields: ['name', 'fieldA'],
-			args: { 'showMore': false },
+			fields: [
+				{name: 'name'},
+				{
+					name: 'fieldA',
+					options: {showMore: false}
+				}
+			],
 		});
 
 		browser.initialFormScreen.showMoreFields({
 			modelTestConfig: LocationModelTestConfig,
-			fields: ['fieldA'],
+			fields: [{name: 'fieldA'}],
 		});
 
 		browser.initialFormScreen.assertUIVisible({
 			modelTestConfig: LocationModelTestConfig,
-			fields: ['name', 'fieldA'],
-			args: { 'showMore': true },
+			fields: [
+				{name: 'name'},
+				{
+					name: 'fieldA',
+					options: {showMore: true}
+				}
+			],
 		});
 	},
 	'restoring test state': function(browser) {
@@ -36,7 +46,7 @@ module.exports = {
 		browser.app.waitForInitialFormScreen();
 		browser.initialFormScreen.showMoreFields({
 			modelTestConfig: LocationModelTestConfig,
-			fields: ['fieldA'],
+			fields: [{name: 'fieldA'}],
 		});
 		browser.initialFormScreen.fillInputs({
 			modelTestConfig: LocationModelTestConfig,
@@ -99,22 +109,33 @@ module.exports = {
 	'Location field should show correctly in the edit form': function(browser) {
 		browser.itemScreen.assertUIVisible({
 			modelTestConfig: LocationModelTestConfig,
-			fields: ['fieldA'],
-			args: { 'showMore': true },
-		});
-		browser.itemScreen.assertUIVisible({
-			modelTestConfig: LocationModelTestConfig,
-			fields: ['fieldB'],
-			args: { 'showMore': false },
+			fields: [
+				{
+					name: 'fieldA',
+					options: {showMore: true}
+				},
+				{
+					name: 'fieldB',
+					options: {showMore: false}
+				}
+			],
 		});
 		browser.itemScreen.showMoreFields({
 			modelTestConfig: LocationModelTestConfig,
-			fields: ['fieldB'],
+			fields: [{name: 'fieldB'}],
 		});
 		browser.itemScreen.assertUIVisible({
 			modelTestConfig: LocationModelTestConfig,
-			fields: ['fieldB'],
-			args: { 'showMore': true },
+			fields: [
+				{
+					name: 'fieldA',
+					options: {showMore: true}
+				},
+				{
+					name: 'fieldB',
+					options: {showMore: true}
+				}
+			],
 		});
 	},
 	'Location field can be filled via the edit form': function(browser) {

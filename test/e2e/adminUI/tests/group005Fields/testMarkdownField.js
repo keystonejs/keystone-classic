@@ -11,7 +11,7 @@ module.exports = {
 
 		browser.initialFormScreen.assertUIVisible({
 			modelTestConfig: MarkdownModelTestConfig,
-			fields: ['name', 'fieldA']
+			fields: [{name: 'name'}, {name: 'fieldA'}]
 		});
 	},
 	'restoring test state': function(browser) {
@@ -63,7 +63,7 @@ module.exports = {
 	'Markdown field should show correctly in the edit form': function(browser) {
 		browser.itemScreen.assertUIVisible({
 			modelTestConfig: MarkdownModelTestConfig,
-			fields: ['fieldA', 'fieldB']
+			fields: [{name: 'fieldA'}, {name: 'fieldB'}]
 		});
 	},
 	'Markdown field can be filled via the edit form': function(browser) {

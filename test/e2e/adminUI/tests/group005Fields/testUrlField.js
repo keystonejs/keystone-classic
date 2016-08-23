@@ -11,7 +11,7 @@ module.exports = {
 
 		browser.initialFormScreen.assertUIVisible({
 			modelTestConfig: UrlModelTestConfig,
-			fields: ['name', 'fieldA']
+			fields: [{name: 'name'}, {name: 'fieldA'}]
 		});
 	},
 	'restoring test state': function(browser) {
@@ -50,7 +50,7 @@ module.exports = {
 	'Url field should show correctly in the edit form': function(browser) {
 		browser.itemScreen.assertUIVisible({
 			modelTestConfig: UrlModelTestConfig,
-			fields: ['fieldA', 'fieldB']
+			fields: [{name: 'fieldA'}, {name: 'fieldB'}]
 		});
 	},
 	'Url field can be filled via the edit form': function(browser) {

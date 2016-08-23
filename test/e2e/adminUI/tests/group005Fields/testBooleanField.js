@@ -11,7 +11,7 @@ module.exports = {
 
 		browser.initialFormScreen.assertUIVisible({
 			modelTestConfig: BooleanModelTestConfig,
-			fields: ['name', 'fieldA']
+			fields: [{name: 'name'}, {name: 'fieldA'}]
 		});
 	},
 	'restoring test state': function(browser) {
@@ -51,13 +51,13 @@ module.exports = {
 	'Boolean field should show correctly in the edit form': function(browser) {
 		browser.itemScreen.assertUIVisible({
 			modelTestConfig: BooleanModelTestConfig,
-			fields: ['fieldA', 'fieldB']
+			fields: [{name: 'fieldA'}, {name: 'fieldB'}]
 		});
 	},
 	'Boolean field should have its default value if hidden': function(browser) {
 		browser.itemScreen.assertUIVisible({
 			modelTestConfig: BooleanModelTestConfig,
-			fields: ['fieldD'],
+			fields: [{name: 'fieldD'}],
 		});
 	},
 	'Boolean field can be filled via the edit form': function(browser) {

@@ -11,8 +11,15 @@ module.exports = {
 
 		browser.initialFormScreen.assertUIVisible({
 			modelTestConfig: PasswordModelTestConfig,
-			fields: ['name', 'fieldA'],
-			args: {'editForm': false}, // To check for @value instead of @button
+			fields: [
+				{
+					name: 'name'
+				},
+				{
+					name: 'fieldA',
+					options: {passwordShown: true}, // To check for @value instead of @button
+				}
+			],
 		});
 	},
 	'restoring test state': function(browser) {
@@ -57,8 +64,16 @@ module.exports = {
 	'Password field should show correctly in the edit form': function(browser) {
 		browser.itemScreen.assertUIVisible({
 			modelTestConfig: PasswordModelTestConfig,
-			fields: ['fieldA', 'fieldB'],
-			args: {'editForm': true, passwordShown: false}, // To check for @button instead of @value
+			fields: [
+				{
+					name: 'fieldA',
+					options: {passwordShown: false}, // To check for @button instead of @value
+				},
+				{
+					name: 'fieldB',
+					options: {passwordShown: false}, // To check for @button instead of @value
+				}
+			],
 		});
 	},
 	'Password field can be filled via the edit form': function(browser) {
@@ -70,8 +85,16 @@ module.exports = {
 		});
 		browser.itemScreen.assertUIVisible({
 			modelTestConfig: PasswordModelTestConfig,
-			fields: ['fieldB'],
-			args: {'editForm': true, passwordShown: true}, // To check for @button instead of @value
+			fields: [
+				{
+					name: 'fieldA',
+					options: {passwordShown: false}, // To check for @button instead of @value
+				},
+				{
+					name: 'fieldB',
+					options: {passwordShown: true}, // To check for @value instead of @button
+				}
+			],
 		});
 		browser.itemScreen.fillInputs({
 			modelTestConfig: PasswordModelTestConfig,

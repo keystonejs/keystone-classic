@@ -11,7 +11,7 @@ module.exports = {
 
 		browser.initialFormScreen.assertUIVisible({
 			modelTestConfig: CodeModelTestConfig,
-			fields: ['name', 'fieldA']
+			fields: [{name: 'name'}, {name: 'fieldA'}]
 		});
 	},
 	'restoring test state': function(browser) {
@@ -50,7 +50,7 @@ module.exports = {
 	'Code field should show correctly in the edit form': function(browser) {
 		browser.itemScreen.assertUIVisible({
 			modelTestConfig: CodeModelTestConfig,
-			fields: ['fieldA', 'fieldB']
+			fields: [{name: 'fieldA'}, {name: 'fieldB'}]
 		});
 	},
 	'Code field can be filled via the edit form': function(browser) {

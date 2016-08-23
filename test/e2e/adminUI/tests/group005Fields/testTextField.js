@@ -10,7 +10,7 @@ module.exports = {
 
 		browser.initialFormScreen.assertUI({
 			listName: 'Text',
-			fields: ['name', 'fieldA']
+			fields: [{name: 'name'}, {name: 'fieldA'}]
 		});
 	},
 	'restoring test state': function(browser) {
@@ -49,7 +49,7 @@ module.exports = {
 	'Text field should show correctly in the edit form': function(browser) {
 		browser.itemScreen.assertUI({
 			listName: 'Text',
-			fields: ['fieldA', 'fieldB']
+			fields: [{name: 'fieldA'}, {name: 'fieldB'}]
 		});
 	},
 	'Text field can be filled via the edit form': function(browser) {

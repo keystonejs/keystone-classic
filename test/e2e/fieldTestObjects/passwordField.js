@@ -24,20 +24,12 @@ module.exports = function PasswordType(config) {
 					.expect.element(selectElem('label')).to.be.visible;
 				browser
 					.expect.element(selectElem('label')).text.to.equal(utils.titlecase(config.fieldName));
-				if (args.editForm){
-					// In the edit form, a "Set Password" button is shown, unless showPassword has been clicked
-					if (args.passwordShown) {
-						browser
-							.expect.element(selectElem('value')).to.be.visible;
-					} else {
-						browser
-							.expect.element(selectElem('setPasswordButton')).to.be.visible;
-					}
-
-				} else {
-					// In the initial form, the input field is shown immediately.
+				if (args.passwordShown) {
 					browser
 						.expect.element(selectElem('value')).to.be.visible;
+				} else {
+					browser
+						.expect.element(selectElem('setPasswordButton')).to.be.visible;
 				}
 			},
 			assertUINotVisible: function(browser, args) {
@@ -45,56 +37,34 @@ module.exports = function PasswordType(config) {
 					.expect.element(selectElem('label')).to.not.be.visible;
 				browser
 					.expect.element(selectElem('label')).text.to.equal(utils.titlecase(config.fieldName));
-				if (args.editForm){
-					// In the edit form, a "Set Password" button is shown, unless showPassword has been clicked
-					if (args.passwordShown) {
-						browser
-							.expect.element(selectElem('value')).to.not.be.visible;
-					} else {
-						browser
-							.expect.element(selectElem('setPasswordButton')).to.not.be.visible;
-					}
-				} else {
-					// In the initial form, the input field is shown immediately.
+				if (args.passwordShown) {
 					browser
 						.expect.element(selectElem('value')).to.not.be.visible;
+				} else {
+					browser
+						.expect.element(selectElem('setPasswordButton')).to.not.be.visible;
 				}
 			},
 			assertUIPresent: function(browser, args) {
 				browser
 					.expect.element(selectElem('label')).to.be.present;
-				if (args.editForm){
-					// In the edit form, a "Set Password" button is shown, unless showPassword has been clicked
-					if (args.passwordShown) {
-						browser
-							.expect.element(selectElem('value')).to.be.present;
-					} else {
-						browser
-							.expect.element(selectElem('setPasswordButton')).to.be.present;
-					}
-
-				} else {
-					// In the initial form, the input field is shown immediately.
+				if (args.passwordShown) {
 					browser
 						.expect.element(selectElem('value')).to.be.present;
+				} else {
+					browser
+						.expect.element(selectElem('setPasswordButton')).to.be.present;
 				}
 			},
 			assertUINotPresent: function(browser, args) {
 				browser
 					.expect.element(selectElem('label')).to.not.be.present;
-				if (args.editForm){
-					// In the edit form, a "Set Password" button is shown, unless showPassword has been clicked
-					if (args.passwordShown) {
-						browser
-							.expect.element(selectElem('value')).to.not.be.present;
-					} else {
-						browser
-							.expect.element(selectElem('setPasswordButton')).to.not.be.present;
-					}
-				} else {
-					// In the initial form, the input field is shown immediately.
+				if (args.passwordShown) {
 					browser
 						.expect.element(selectElem('value')).to.not.be.present;
+				} else {
+					browser
+						.expect.element(selectElem('setPasswordButton')).to.not.be.present;
 				}
 			},
 			fillInput: function(browser, input) {

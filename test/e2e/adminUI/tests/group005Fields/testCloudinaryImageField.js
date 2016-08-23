@@ -11,7 +11,7 @@ module.exports = {
 
 		browser.initialFormScreen.assertUIVisible({
 			modelTestConfig: CloudinaryImageModelTestConfig,
-			fields: ['name']
+			fields: [{name: 'name'}]
 		});
 	},
 	'restoring test state': function(browser) {
@@ -47,7 +47,7 @@ module.exports = {
 	'CloudinaryImage field should show correctly in the edit form': function(browser) {
 		browser.itemScreen.assertUIVisible({
 			modelTestConfig: CloudinaryImageModelTestConfig,
-			fields: ['fieldA', 'fieldB']
+			fields: [{name: 'fieldA'}, {name: 'fieldB'}]
 		});
 	},
 };

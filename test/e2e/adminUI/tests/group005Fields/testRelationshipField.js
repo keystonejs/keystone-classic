@@ -11,7 +11,7 @@ module.exports = {
 
 		browser.initialFormScreen.assertUIVisible({
 			modelTestConfig: RelationshipModelTestConfig,
-			fields: ['name', 'fieldA']
+			fields: [{name: 'name'}, {name: 'fieldA'}]
 		});
 
 		browser.initialFormScreen.cancel();
@@ -49,7 +49,7 @@ module.exports = {
 	'Relationship field should show correctly in the edit form': function(browser) {
 		browser.itemScreen.assertUIVisible({
 			modelTestConfig: RelationshipModelTestConfig,
-			fields: ['fieldB']
+			fields: [{name: 'fieldB'}]
 		});
 	},
 	'Relationship field can be filled via the edit form': function(browser) {

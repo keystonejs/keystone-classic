@@ -11,7 +11,7 @@ module.exports = {
 
 		browser.initialFormScreen.assertUIVisible({
 			modelTestConfig: DateArrayModelTestConfig,
-			fields: ['name']
+			fields: [{name: 'name'}]
 		});
 	},
 	'restoring test state': function(browser) {
@@ -50,7 +50,7 @@ module.exports = {
 	'DateArray field should show correctly in the edit form': function(browser) {
 		browser.itemScreen.assertUIVisible({
 			modelTestConfig: DateArrayModelTestConfig,
-			fields: ['fieldA', 'fieldB']
+			fields: [{name: 'fieldA'}, {name: 'fieldB'}]
 		});
 		browser.initialFormScreen.clickUI({
 			modelTestConfig: DateArrayModelTestConfig,
@@ -60,8 +60,10 @@ module.exports = {
 		});
 		browser.itemScreen.assertUIVisible({
 			modelTestConfig: DateArrayModelTestConfig,
-			fields: ['fieldA'],
-			args: {'dateInputs': ['date1']}
+			fields: [{
+				name: 'fieldA',
+				options: {'dateInputs': ['date1']}
+			}],
 		});
 		browser.initialFormScreen.clickUI({
 			modelTestConfig: DateArrayModelTestConfig,
@@ -71,8 +73,10 @@ module.exports = {
 		});
 		browser.itemScreen.assertUIVisible({
 			modelTestConfig: DateArrayModelTestConfig,
-			fields: ['fieldA'],
-			args: {'dateInputs': ['date1', 'date2']}
+			fields: [{
+				name: 'fieldA',
+				options: {'dateInputs': ['date1', 'date2']}
+			}],
 		});
 		browser.initialFormScreen.clickUI({
 			modelTestConfig: DateArrayModelTestConfig,
@@ -88,8 +92,10 @@ module.exports = {
 		});
 		browser.itemScreen.assertUIVisible({
 			modelTestConfig: DateArrayModelTestConfig,
-			fields: ['fieldB'],
-			args: {'dateInputs': ['date1', 'date2']}
+			fields: [{
+				name: 'fieldB',
+				options: {'dateInputs': ['date1', 'date2']}
+			}],
 		});
 	},
 	'DateArray field can be filled via the edit form': function(browser) {

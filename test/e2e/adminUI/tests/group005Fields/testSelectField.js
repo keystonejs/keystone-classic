@@ -11,8 +11,13 @@ module.exports = {
 
 		browser.initialFormScreen.assertUIVisible({
 			modelTestConfig: SelectModelTestConfig,
-			fields: ['name', 'fieldA'],
-			args: {'editForm': false}, // To check for @value instead of @button
+			fields: [
+				{name: 'name'},
+				{
+					name: 'fieldA',
+					options: {'editForm': false}
+				}
+			],
 		});
 	},
 	'restoring test state': function(browser) {
@@ -51,8 +56,16 @@ module.exports = {
 	'Select field should show correctly in the edit form': function(browser) {
 		browser.itemScreen.assertUIVisible({
 			modelTestConfig: SelectModelTestConfig,
-			fields: ['fieldA', 'fieldB'],
-			args: {'editForm': true},
+			fields: [
+				{
+					name: 'fieldA',
+					options: {'editForm': true}
+				},
+				{
+					name: 'fieldB',
+					options: {'editForm': true}
+				}
+			],
 		});
 	},
 	'Select field can be filled via the edit form': function(browser) {

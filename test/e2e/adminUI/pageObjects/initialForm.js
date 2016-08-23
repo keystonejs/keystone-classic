@@ -32,11 +32,11 @@ module.exports = {
 			form.section['list'] = new config.modelTestConfig();
 			var browser = this;
 			return config.fields.forEach(function (field) {
-				var fieldTestObject = form.section['list'][field];
+				var fieldTestObject = form.section['list'][field.name];
 				if (fieldTestObject.commands.hasOwnProperty('assertUIVisible')) {
-					form.section['list'][field].commands.assertUIVisible(browser, config.args);
+					form.section['list'][field.name].commands.assertUIVisible(browser, field.options);
 				} else {
-					console.log('Not calling assertUIVisible() in ' + field + ' field test object -- function not defined');
+					console.log('Not calling assertUIVisible() in ' + field.name + ' field test object -- function not defined');
 				}
 			});
 		},
@@ -45,11 +45,11 @@ module.exports = {
 			form.section['list'] = new config.modelTestConfig();
 			var browser = this;
 			return config.fields.forEach(function (field) {
-				var fieldTestObject = form.section['list'][field];
+				var fieldTestObject = form.section['list'][field.name];
 				if (fieldTestObject.commands.hasOwnProperty('assertUINotVisible')) {
-					form.section['list'][field].commands.assertUINotVisible(browser, config.args);
+					form.section['list'][field.name].commands.assertUINotVisible(browser, field.options);
 				} else {
-					console.log('Not calling assertUINotVisible() in ' + field + ' field test object -- function not defined');
+					console.log('Not calling assertUINotVisible() in ' + field.name + ' field test object -- function not defined');
 				}
 			});
 		},
@@ -58,11 +58,11 @@ module.exports = {
 			form.section['list'] = new config.modelTestConfig();
 			var browser = this;
 			return config.fields.forEach(function (field) {
-				var fieldTestObject = form.section['list'][field];
+				var fieldTestObject = form.section['list'][field.name];
 				if (fieldTestObject.commands.hasOwnProperty('assertUIPresent')) {
-					form.section['list'][field].commands.assertUIPresent(browser, config.args);
+					form.section['list'][field.name].commands.assertUIPresent(browser, field.options);
 				} else {
-					console.log('Not calling assertUIPresent() in ' + field + ' field test object -- function not defined');
+					console.log('Not calling assertUIPresent() in ' + field.name + ' field test object -- function not defined');
 				}
 			});
 		},
@@ -71,11 +71,11 @@ module.exports = {
 			form.section['list'] = new config.modelTestConfig();
 			var browser = this;
 			return config.fields.forEach(function (field) {
-				var fieldTestObject = form.section['list'][field];
+				var fieldTestObject = form.section['list'][field.name];
 				if (fieldTestObject.commands.hasOwnProperty('assertUINotPresent')) {
-					form.section['list'][field].commands.assertUINotPresent(browser, config.args);
+					form.section['list'][field.name].commands.assertUINotPresent(browser, field.options);
 				} else {
-					console.log('Not calling assertUINotPresent() in ' + field + ' field test object -- function not defined');
+					console.log('Not calling assertUINotPresent() in ' + field.name + ' field test object -- function not defined');
 				}
 			});
 		},
@@ -84,11 +84,11 @@ module.exports = {
 			form.section['list'] = new config.modelTestConfig();
 			var browser = this;
 			return config.fields.forEach(function (field) {
-				var fieldTestObject = form.section['list'][field];
+				var fieldTestObject = form.section['list'][field.name];
 				if (fieldTestObject.commands.hasOwnProperty('showMoreFields')) {
-					form.section['list'][field].commands.showMoreFields(browser, config.args);
+					form.section['list'][field.name].commands.showMoreFields(browser, field.options);
 				} else {
-					console.log('Not calling showMoreFields() in ' + field + ' field test object -- function not defined');
+					console.log('Not calling showMoreFields() in ' + field.name + ' field test object -- function not defined');
 				}
 			});
 		},
