@@ -1,4 +1,5 @@
 var fieldTests = require('./commonFieldTestUtils.js');
+var TextModelTestConfig = require('../../../modelTestConfig/textModel');
 
 module.exports = {
 	before: fieldTests.before,
@@ -8,8 +9,8 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 
-		browser.initialFormScreen.assertUI({
-			listName: 'Text',
+		browser.initialFormScreen.assertUIVisible({
+			modelTestConfig: TextModelTestConfig,
 			fields: [{name: 'name'}, {name: 'fieldA'}]
 		});
 	},
@@ -22,14 +23,14 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 		browser.initialFormScreen.fillInputs({
-			listName: 'Text',
+			modelTestConfig: TextModelTestConfig,
 			fields: {
 				'name': {value: 'Text Field Test 1'},
 				'fieldA': {value: 'Some test text for field A'},
 			}
 		});
 		browser.initialFormScreen.assertInputs({
-			listName: 'Text',
+			modelTestConfig: TextModelTestConfig,
 			fields: {
 				'name': {value: 'Text Field Test 1'},
 				'fieldA': {value: 'Some test text for field A'},
@@ -39,7 +40,7 @@ module.exports = {
 		browser.app.waitForItemScreen();
 
 		browser.itemScreen.assertInputs({
-			listName: 'Text',
+			modelTestConfig: TextModelTestConfig,
 			fields: {
 				'name': {value: 'Text Field Test 1'},
 				'fieldA': {value: 'Some test text for field A'},
@@ -47,14 +48,14 @@ module.exports = {
 		})
 	},
 	'Text field should show correctly in the edit form': function(browser) {
-		browser.itemScreen.assertUI({
-			listName: 'Text',
+		browser.itemScreen.assertUIVisible({
+			modelTestConfig: TextModelTestConfig,
 			fields: [{name: 'fieldA'}, {name: 'fieldB'}]
 		});
 	},
 	'Text field can be filled via the edit form': function(browser) {
 		browser.itemScreen.fillInputs({
-			listName: 'Text',
+			modelTestConfig: TextModelTestConfig,
 			fields: {
 				'fieldB': {value: 'Some test text for field B'}
 			}
@@ -63,7 +64,7 @@ module.exports = {
 		browser.app.waitForItemScreen();
 		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
 		browser.itemScreen.assertInputs({
-			listName: 'Text',
+			modelTestConfig: TextModelTestConfig,
 			fields: {
 				'name': {value: 'Text Field Test 1'},
 				'fieldA': {value: 'Some test text for field A'},
