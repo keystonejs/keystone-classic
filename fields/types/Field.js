@@ -73,7 +73,7 @@ var Base = module.exports.Base = {
 				name: this.getInputName(this.props.path),
 				onChange: this.valueChanged,
 				ref: 'focusTarget',
-				value,
+				value: value || '',
 			}} />
 		);
 	},
