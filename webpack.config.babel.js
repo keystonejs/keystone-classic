@@ -9,6 +9,8 @@ export const dev = {
 		signin: `${__dirname}/admin/client/Signin`,
 		explorer: `${__dirname}/fields/explorer`,
 	},
+	// https://webpack.github.io/docs/configuration.html#devtool
+	devtool: 'eval',
 	output: {
 		path: destDir,
 		// NOTE: we're hardcoding /keystone in the bundle
@@ -71,6 +73,9 @@ export const prod = {
 		admin: dev.entry.admin,
 		signin: dev.entry.signin,
 	},
+	// Not sure if useful, gets quite big
+	// devtool: 'source-map',
+	devtool: undefined,
 	output: {
 		...dev.output,
 		pathinfo: false,
