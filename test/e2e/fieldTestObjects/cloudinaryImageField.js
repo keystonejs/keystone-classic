@@ -1,6 +1,6 @@
 var utils = require('../utils');
 
-module.exports = function CloudinaryImageType(config) {
+module.exports = function CloudinaryImageField(config) {
 	var selectElem = function(elem) {
 		return self.selector + ' ' + self.elements[elem];
 	};

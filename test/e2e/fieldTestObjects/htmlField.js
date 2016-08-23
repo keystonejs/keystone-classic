@@ -1,6 +1,6 @@
 var utils = require('../utils');
 
-module.exports = function HtmlType(config) {
+module.exports = function HtmlField(config) {
 	var selectElem = function(elem) {
 		return self.selector + ' ' + self.elements[elem];
 	};

@@ -1,6 +1,6 @@
 var utils = require('../utils');
 
-module.exports = function EmailType(config) {
+module.exports = function EmailField(config) {
 	var selectElem = function(elem) {
 		return self.selector + ' ' + self.elements[elem];
 	};

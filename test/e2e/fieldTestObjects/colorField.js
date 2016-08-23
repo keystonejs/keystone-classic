@@ -1,6 +1,6 @@
 var utils = require('../utils');
 
-module.exports = function ColorType(config) {
+module.exports = function ColorField(config) {
 	var selectElem = function(elem) {
 		return self.selector + ' ' + self.elements[elem];
 	};

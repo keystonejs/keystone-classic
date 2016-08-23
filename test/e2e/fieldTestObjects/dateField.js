@@ -1,6 +1,6 @@
 var utils = require('../utils');
 
-module.exports = function DateType(config) {
+module.exports = function DateField(config) {
 	var selectElem = function(elem) {
 		return self.selector + ' ' + self.elements[elem];
 	};
