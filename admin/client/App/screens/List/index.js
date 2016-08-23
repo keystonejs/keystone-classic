@@ -36,7 +36,6 @@ import {
 	setActiveSort,
 	setCurrentPage,
 	selectList,
-	loadItems,
 	loadInitialItems,
 } from './actions';
 
@@ -73,7 +72,6 @@ const ListView = React.createClass({
 		// again with the new list id
 		if (nextProps.params.listId !== this.props.params.listId) {
 			this.props.dispatch(selectList(nextProps.params.listId));
-			this.props.dispatch(loadItems());
 		}
 	},
 	/**
