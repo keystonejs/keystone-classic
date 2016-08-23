@@ -36,7 +36,7 @@ export function loadInitialItems () {
 export function setCurrentPage (index) {
 	return {
 		type: SET_CURRENT_PAGE,
-		index,
+		index: parseInt(index),
 	};
 }
 
