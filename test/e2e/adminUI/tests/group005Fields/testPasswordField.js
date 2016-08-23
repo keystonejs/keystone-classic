@@ -1,4 +1,5 @@
 var fieldTests = require('./commonFieldTestUtils.js');
+var PasswordModelTestConfig = require('../../../modelTestConfig/passwordModel');
 
 module.exports = {
 	before: fieldTests.before,
@@ -8,8 +9,8 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 
-		browser.initialFormScreen.assertUI({
-			listName: 'Password',
+		browser.initialFormScreen.assertUIVisible({
+			modelTestConfig: PasswordModelTestConfig,
 			fields: ['name', 'fieldA'],
 			args: {'editForm': false}, // To check for @value instead of @button
 		});
@@ -23,7 +24,7 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 		browser.initialFormScreen.fillInputs({
-			listName: 'Password',
+			modelTestConfig: PasswordModelTestConfig,
 			fields: {
 				'name': {value: 'Password Field Test 1'},
 				'fieldA': {value: 'password1', confirm: 'wrongPassword1'},
@@ -32,13 +33,13 @@ module.exports = {
 		browser.initialFormScreen.save();
 		browser.initialFormScreen.assertFlashError("Passwords must match");
 		browser.initialFormScreen.fillInputs({
-			listName: 'Password',
+			modelTestConfig: PasswordModelTestConfig,
 			fields: {
 				'fieldA': {value: 'password1', confirm: 'password1'},
 			}
 		});
 		browser.initialFormScreen.assertInputs({
-			listName: 'Password',
+			modelTestConfig: PasswordModelTestConfig,
 			fields: {
 				'name': {value: 'Password Field Test 1'},
 			}
@@ -47,23 +48,33 @@ module.exports = {
 		browser.app.waitForItemScreen();
 
 		browser.itemScreen.assertInputs({
-			listName: 'Password',
+			modelTestConfig: PasswordModelTestConfig,
 			fields: {
 				'name': {value: 'Password Field Test 1'},
 			}
 		})
 	},
 	'Password field should show correctly in the edit form': function(browser) {
-		browser.itemScreen.assertUI({
-			listName: 'Password',
+		browser.itemScreen.assertUIVisible({
+			modelTestConfig: PasswordModelTestConfig,
 			fields: ['fieldA', 'fieldB'],
-			args: {'editForm': true}, // To check for @button instead of @value
+			args: {'editForm': true, passwordShown: false}, // To check for @button instead of @value
 		});
 	},
 	'Password field can be filled via the edit form': function(browser) {
-		browser.itemScreen.section.form.section.passwordList.section.fieldB.clickSetPassword();
+		browser.initialFormScreen.clickUI({
+			modelTestConfig: PasswordModelTestConfig,
+			fields: {
+				'fieldB': {'button': 'setPasswordButton'},
+			}
+		});
+		browser.itemScreen.assertUIVisible({
+			modelTestConfig: PasswordModelTestConfig,
+			fields: ['fieldB'],
+			args: {'editForm': true, passwordShown: true}, // To check for @button instead of @value
+		});
 		browser.itemScreen.fillInputs({
-			listName: 'Password',
+			modelTestConfig: PasswordModelTestConfig,
 			fields: {
 				'fieldB': {value: 'password2', confirm: 'wrongPassword2'}
 			}
@@ -72,7 +83,7 @@ module.exports = {
 		browser.app.waitForItemScreen();
 		browser.itemScreen.assertFlashError('Passwords must match');
 		browser.itemScreen.fillInputs({
-			listName: 'Password',
+			modelTestConfig: PasswordModelTestConfig,
 			fields: {
 				'fieldB': {value: 'password2', confirm: 'password2'}
 			}
@@ -81,7 +92,7 @@ module.exports = {
 		browser.app.waitForItemScreen();
 		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
 		browser.itemScreen.assertInputs({
-			listName: 'Password',
+			modelTestConfig: PasswordModelTestConfig,
 			fields: {
 				'name': {value: 'Password Field Test 1'},
 			}
