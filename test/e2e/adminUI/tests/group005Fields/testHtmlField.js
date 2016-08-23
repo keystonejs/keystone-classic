@@ -1,4 +1,5 @@
 var fieldTests = require('./commonFieldTestUtils.js');
+var HtmlModelTestConfig = require('../../../modelTestConfig/htmlModel');
 
 module.exports = {
 	before: fieldTests.before,
@@ -8,8 +9,8 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 
-		browser.initialFormScreen.assertUI({
-			listName: 'Html',
+		browser.initialFormScreen.assertUIVisible({
+			modelTestConfig: HtmlModelTestConfig,
 			fields: ['name', 'fieldA']
 		});
 	},
@@ -22,14 +23,14 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 		browser.initialFormScreen.fillInputs({
-			listName: 'Html',
+			modelTestConfig: HtmlModelTestConfig,
 			fields: {
 				'name': {value: 'Html Field Test 1'},
 				'fieldA': {value: 'Some test html code for field A'},
 			}
 		});
 		browser.initialFormScreen.assertInputs({
-			listName: 'Html',
+			modelTestConfig: HtmlModelTestConfig,
 			fields: {
 				'name': {value: 'Html Field Test 1'},
 				'fieldA': {value: 'Some test html code for field A'},
@@ -39,7 +40,7 @@ module.exports = {
 		browser.app.waitForItemScreen();
 
 		browser.itemScreen.assertInputs({
-			listName: 'Html',
+			modelTestConfig: HtmlModelTestConfig,
 			fields: {
 				'name': {value: 'Html Field Test 1'},
 				'fieldA': {value: 'Some test html code for field A'},
@@ -47,14 +48,14 @@ module.exports = {
 		})
 	},
 	'Html field should show correctly in the edit form': function(browser) {
-		browser.itemScreen.assertUI({
-			listName: 'Html',
+		browser.itemScreen.assertUIVisible({
+			modelTestConfig: HtmlModelTestConfig,
 			fields: ['fieldA', 'fieldB']
 		});
 	},
 	'Html field can be filled via the edit form': function(browser) {
 		browser.itemScreen.fillInputs({
-			listName: 'Html',
+			modelTestConfig: HtmlModelTestConfig,
 			fields: {
 				'fieldB': {value: 'Some test html code for field B'}
 			}
@@ -63,7 +64,7 @@ module.exports = {
 		browser.app.waitForItemScreen();
 		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
 		browser.itemScreen.assertInputs({
-			listName: 'Html',
+			modelTestConfig: HtmlModelTestConfig,
 			fields: {
 				'name': {value: 'Html Field Test 1'},
 				'fieldA': {value: 'Some test html code for field A'},
