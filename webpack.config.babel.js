@@ -26,7 +26,6 @@ const babelLoader = {
 };
 
 const getBase = ({ adminPath = '/keystone', entry } = {}) => {
-	console.log(adminPath, entry)
 	return {
 		entry: entry || {
 			admin: `${__dirname}/admin/client/App`,
