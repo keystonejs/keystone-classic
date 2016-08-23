@@ -29,7 +29,7 @@ module.exports = Field.create({
 			<FormInput
 				name={this.getInputName(this.props.path)}
 				ref="focusTarget"
-				value={this.props.value}
+				value={this.props.value || ''}
 				onChange={this.valueChanged}
 				autoComplete="off"
 				type="url"

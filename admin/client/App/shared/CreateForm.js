@@ -114,7 +114,7 @@ const CreateForm = React.createClass({
 			if (nameField.type === 'text') {
 				nameFieldProps.className = 'item-name-field';
 				nameFieldProps.placeholder = nameField.label;
-				nameFieldProps.label = false;
+				nameFieldProps.label = '';
 			}
 			form.push(React.createElement(Fields[nameField.type], nameFieldProps));
 		}
