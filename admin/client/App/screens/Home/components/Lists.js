@@ -1,5 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
+import { connect } from 'react-redux';
 
 import { plural } from '../../../../utils/string';
 import ListTile from './ListTile';
@@ -12,12 +13,14 @@ class Lists extends React.Component {
 					// If an object is passed in the key is the index,
 					// if an array is passed in the key is at list.key
 					const listKey = list.key || key;
-					var href = list.external ? list.path : `${Keystone.adminPath}/${list.path}`;
+					const href = list.external ? list.path : `${Keystone.adminPath}/${list.path}`;
+					const isNoCreate = this.props.listsData[list.path].nocreate;
 					return (
 						<ListTile
 							key={list.path}
 							path={list.path}
 							label={list.label}
+							hideCreateButton={isNoCreate}
 							href={href}
 							count={plural(this.props.counts[listKey], '* Item', '* Items')}
 							spinner={this.props.spinner}
@@ -38,4 +41,8 @@ Lists.propTypes = {
 	spinner: React.PropTypes.node,
 };
 
-export default Lists;
+export default connect((state) => {
+	return {
+		listsData: state.lists.data,
+	};
+})(Lists);
