@@ -5,54 +5,70 @@ env:
   global:
     - KEYSTONE_PREBUILD_ADMIN=true
   matrix:
-    - JOB=e2e GROUP=group005Fields
-    - JOB=e2e GROUP=group004Item
-    - JOB=e2e GROUP=group003List
-    - JOB=e2e GROUP=group002Home
-    - JOB=e2e GROUP=group001Login
+    - JOB=lint-and-test-cov
 matrix:
   include:
     - node_js: '6'
-      script:
-        - npm run lint
-        - npm run test-cov
-      env:
-        - JOB=lint-and-test-cov
       addons:
-        sauce_connect: false
+        sauce_connect: true
+      script:
+        - npm run test-e2e-saucelabs-group
+      env:
+        - JOB=e2e GROUP=group005Fields
+    - node_js: '6'
+      addons:
+        sauce_connect: true
+      script:
+        - npm run test-e2e-saucelabs-group
+      env:
+        - JOB=e2e GROUP=group004Item
+    - node_js: '6'
+      addons:
+        sauce_connect: true
+      script:
+        - npm run test-e2e-saucelabs-group
+      env:
+        - JOB=e2e GROUP=group003List
+    - node_js: '6'
+      addons:
+        sauce_connect: true
+      script:
+        - npm run test-e2e-saucelabs-group
+      env:
+        - JOB=e2e GROUP=group002Home
+    - node_js: '6'
+      addons:
+        sauce_connect: true
+      script:
+        - npm run test-e2e-saucelabs-group
+      env:
+        - JOB=e2e GROUP=group001Login
     - node_js: '6'
       script:
         - npm run test-admin
       env:
         - JOB=unit_tests_node_6
-      addons:
-        sauce_connect: false
     - node_js: '5'
       script:
         - npm run test-admin
       env:
         - JOB=unit_tests_node_5
-      addons:
-        sauce_connect: false
     - node_js: '4'
       script:
         - npm run test-admin
       env:
         - JOB=unit_tests_node_4
-      addons:
-        sauce_connect: false
     - node_js: '0.12'
       script:
         - npm run test-admin
       env:
         - JOB=unit_tests_node_0.12
-      addons:
-        sauce_connect: false
 
 before_script:
 - sleep 15
 script:
-- npm run test-e2e-saucelabs-group
+- npm run lint
+- npm run test-cov
 sudo: required
 notifications:
   email:
@@ -72,4 +88,3 @@ addons:
     - mongodb-3.2-precise
     packages:
     - mongodb-org-server
-  sauce_connect: true
