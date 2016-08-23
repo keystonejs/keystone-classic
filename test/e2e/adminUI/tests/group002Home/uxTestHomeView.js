@@ -1,3 +1,5 @@
+var NameModelTestConfig = require('../../../modelTestConfig/nameModel');
+
 module.exports = {
 	before: function (browser) {
 		browser.app = browser.page.app();
@@ -62,16 +64,17 @@ module.exports = {
 		browser.homeScreen.section.fieldsGroup.section.names
 			.click('@plusIconLink');
 
-		browser.initialFormScreen.section.form
-			.waitForElementVisible('@createButton');
+		browser.app.waitForInitialFormScreen();
 
-		browser.initialFormScreen.section.form.section.nameList.section.name
-			.fillInput({value: 'Name Field Test'});
-		browser.initialFormScreen.section.form.section.nameList.section.fieldA
-			.fillInput({firstName: 'First', lastName: 'Last'});
+		browser.initialFormScreen.fillInputs({
+			modelTestConfig: NameModelTestConfig,
+			fields: {
+				'name': {value: 'Name Field Test'},
+				'fieldA': {firstName: 'First', lastName: 'Last'},
+			}
+		});
 
-		browser.initialFormScreen.section.form
-			.click('@createButton');
+		browser.initialFormScreen.save();
 
 		browser.app
 			.waitForItemScreen()
