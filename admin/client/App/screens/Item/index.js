@@ -26,6 +26,8 @@ import {
 	selectList,
 } from '../List/actions';
 
+const ESC_KEY_CODE = 27;
+
 var ItemView = React.createClass({
 	displayName: 'ItemView',
 	contextTypes: {
@@ -58,18 +60,26 @@ var ItemView = React.createClass({
 	// Called when a new item is created
 	onCreate (item) {
 		// Hide the create form
-		this.setState({
-			createIsOpen: false,
-		});
+		this.toggleCreateModal(false);
 		// Redirect to newly created item path
 		const list = this.props.currentList;
 		this.context.router.push(`${Keystone.adminPath}/${list.path}/${item.id}`);
 	},
 	// Open and close the create new item modal
-	toggleCreate (visible) {
+	toggleCreateModal (visible) {
+		if (visible) {
+			document.body.addEventListener('keyup', this.handleKeyPress, false);
+		} else {
+			document.body.removeEventListener('keyup', this.handleKeyPress, false);
+		}
 		this.setState({
 			createIsOpen: visible,
 		});
+	},
+	handleKeyPress (evt) {
+		if (evt.which === ESC_KEY_CODE) {
+			this.toggleCreateModal(false);
+		}
 	},
 	// Render this items relationships
 	renderRelationships () {
@@ -145,12 +155,12 @@ var ItemView = React.createClass({
 							<EditFormHeader
 								list={this.props.currentList}
 								data={this.props.data}
-								toggleCreate={this.toggleCreate}
+								toggleCreate={this.toggleCreateModal}
 							/>
 							<CreateForm
 								list={this.props.currentList}
 								isOpen={this.state.createIsOpen}
-								onCancel={() => this.toggleCreate(false)}
+								onCancel={() => this.toggleCreateModal(false)}
 								onCreate={(item) => this.onCreate(item)}
 							/>
 							<EditForm

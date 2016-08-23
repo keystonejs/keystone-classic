@@ -44,11 +44,17 @@ import {
 	deleteItem,
 } from '../Item/actions';
 
+const ESC_KEY_CODE = 27;
+
 const ListView = React.createClass({
 	contextTypes: {
 		router: React.PropTypes.object.isRequired,
 	},
 	getInitialState () {
+		const showCreateForm = this.props.location.search === '?create' || Keystone.createFormErrors;
+		if (showCreateForm) {
+			document.body.addEventListener('keyup', this.handleKeyPress, false);
+		}
 		return {
 			confirmationDialog: {
 				isOpen: false,
@@ -56,7 +62,7 @@ const ListView = React.createClass({
 			checkedItems: {},
 			constrainTableWidth: true,
 			manageMode: false,
-			showCreateForm: this.props.location.search === '?create' || Keystone.createFormErrors,
+			showCreateForm: showCreateForm,
 			showUpdateForm: false,
 		};
 	},
@@ -107,9 +113,7 @@ const ListView = React.createClass({
 	// Called when a new item is created
 	onCreate (item) {
 		// Hide the create form
-		this.setState({
-			showCreateForm: false,
-		});
+		this.toggleCreateModal(false);
 		// Redirect to newly created item path
 		const list = this.props.currentList;
 		this.context.router.push(`${Keystone.adminPath}/${list.path}/${item.id}`);
@@ -137,7 +141,7 @@ const ListView = React.createClass({
 	},
 	handleSearchKey (e) {
 		// clear on esc
-		if (e.which === 27) {
+		if (e.which === ESC_KEY_CODE) {
 			this.handleSearchClear();
 		}
 	},
@@ -365,12 +369,22 @@ const ListView = React.createClass({
 		this.props.dispatch(setActiveSort(path));
 	},
 	toggleCreateModal (visible) {
+		if (visible) {
+			document.body.addEventListener('keyup', this.handleKeyPress, false);
+		} else {
+			document.body.removeEventListener('keyup', this.handleKeyPress, false);
+		}
 		this.setState({
 			showCreateForm: visible,
 		});
 	},
 	openCreateModal () {
 		this.toggleCreateModal(true);
+	},
+	handleKeyPress (evt) {
+		if (evt.which === ESC_KEY_CODE) {
+			this.toggleCreateModal(false);
+		}
 	},
 	closeCreateModal () {
 		this.toggleCreateModal(false);
