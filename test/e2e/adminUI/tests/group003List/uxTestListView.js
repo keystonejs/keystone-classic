@@ -1,3 +1,5 @@
+var NameModelTestConfig = require('../../../modelTestConfig/nameModel');
+
 module.exports = {
 	before: function (browser) {
 		browser.app = browser.page.app();
@@ -32,17 +34,15 @@ module.exports = {
 		browser.app
 			.waitForInitialFormScreen();
 
-		browser.initialFormScreen.section.form.section.nameList.section.name
-			.fillInput({value: 'Name Field Test 1'});
+		browser.initialFormScreen.fillInputs({
+			modelTestConfig: NameModelTestConfig,
+			fields: {
+				'name': {value: 'Name Field Test 1'},
+				'fieldA': {firstName: 'First 1', lastName: 'Last 1'},
+			}
+		});
 
-		browser.initialFormScreen.section.form.section.nameList.section.name
-			.assertInput({value: 'Name Field Test 1'});
-
-		browser.initialFormScreen.section.form.section.nameList.section.fieldA
-			.fillInput({firstName: 'First 1', lastName: 'Last 1'});
-
-		browser.initialFormScreen.section.form
-			.click('@createButton');
+		browser.initialFormScreen.save();
 
 		browser.app
 			.waitForItemScreen();
@@ -70,14 +70,13 @@ module.exports = {
 		browser.app
 			.waitForInitialFormScreen();
 
-		browser.initialFormScreen.section.form.section.nameList.section.name
-			.fillInput({value: 'Name Field Test 2'});
-
-		browser.initialFormScreen.section.form.section.nameList.section.name
-			.assertInput({value: 'Name Field Test 2'});
-
-		browser.initialFormScreen.section.form.section.nameList.section.fieldA
-			.fillInput({firstName: 'First 2', lastName: 'Last 2'});
+		browser.initialFormScreen.fillInputs({
+			modelTestConfig: NameModelTestConfig,
+			fields: {
+				'name': {value: 'Name Field Test 2'},
+				'fieldA': {firstName: 'First 2', lastName: 'Last 2'},
+			}
+		});
 
 		browser.initialFormScreen.section.form
 			.click('@createButton');
