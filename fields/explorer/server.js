@@ -16,7 +16,11 @@ app.get('/api/flavours', (req, res) => res.json({
 	count: 3,
 }));
 
-app.use('/', createStaticRouter({}));
+app.use('/', createStaticRouter({
+	adminPath: '',
+	explorerOnly: true,
+	build: 'hot',
+}));
 
 // All other routes get index.html
 app.use('/', (req, res) => res.sendFile(__dirname + '/index.html'));
