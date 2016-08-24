@@ -8,10 +8,11 @@ It is important that the Field Test Object adheres to the following format as th
 
 NOTE:  when calling commands in the Field Test Object, the test framework will first make sure the command is configured.  If not configured,
         it will log an quick message for the field and move on.
+NOTE:  fields should be selected on the context of their parent form.  Thus, the config.formSelector is matched along with the field selector.        
 
     module.exports = function FieldTestObject (config) {
         var selectElem = function(elem) {
-            return self.selector + ' ' + self.elements[elem];
+            return config.formSelector + ' ' + self.selector + ' ' + self.elements[elem];
         };
         var self = {
             selector: '<THE-CSS-SELECTOR-FOR-THE-FIELD>',

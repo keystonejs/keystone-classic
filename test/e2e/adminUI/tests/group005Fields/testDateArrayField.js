@@ -52,7 +52,7 @@ module.exports = {
 			modelTestConfig: DateArrayModelTestConfig,
 			fields: [{name: 'fieldA'}, {name: 'fieldB'}]
 		});
-		browser.initialFormScreen.clickUI({
+		browser.itemScreen.clickUI({
 			modelTestConfig: DateArrayModelTestConfig,
 			fields: {
 				'fieldA': {'button': 'addButton'},
@@ -65,7 +65,7 @@ module.exports = {
 				options: {'dateInputs': ['date1']}
 			}],
 		});
-		browser.initialFormScreen.clickUI({
+		browser.itemScreen.clickUI({
 			modelTestConfig: DateArrayModelTestConfig,
 			fields: {
 				'fieldA': {'button': 'addButton'},
@@ -78,13 +78,13 @@ module.exports = {
 				options: {'dateInputs': ['date1', 'date2']}
 			}],
 		});
-		browser.initialFormScreen.clickUI({
+		browser.itemScreen.clickUI({
 			modelTestConfig: DateArrayModelTestConfig,
 			fields: {
 				'fieldB': {'button': 'addButton'},
 			}
 		});
-		browser.initialFormScreen.clickUI({
+		browser.itemScreen.clickUI({
 			modelTestConfig: DateArrayModelTestConfig,
 			fields: {
 				'fieldB': {'button': 'addButton'},

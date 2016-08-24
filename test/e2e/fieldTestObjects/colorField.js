@@ -2,7 +2,7 @@ var utils = require('../utils');
 
 module.exports = function ColorField(config) {
 	var selectElem = function(elem) {
-		return self.selector + ' ' + self.elements[elem];
+		return config.formSelector + ' ' + self.selector + ' ' + self.elements[elem];
 	};
 	var self = {
 		selector: '.field-type-color[for="' + config.fieldName + '"]',

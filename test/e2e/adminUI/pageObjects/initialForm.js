@@ -29,7 +29,7 @@ module.exports = {
 		},
 		assertUIVisible: function (config) {
 			var form = this.section.form;
-			form.section['list'] = new config.modelTestConfig();
+			form.section['list'] = new config.modelTestConfig({formSelector: form.selector});
 			var browser = this;
 			return config.fields.forEach(function (field) {
 				var fieldTestObject = form.section['list'][field.name];
@@ -42,7 +42,7 @@ module.exports = {
 		},
 		assertUINotVisible: function (config) {
 			var form = this.section.form;
-			form.section['list'] = new config.modelTestConfig();
+			form.section['list'] = new config.modelTestConfig({formSelector: form.selector});
 			var browser = this;
 			return config.fields.forEach(function (field) {
 				var fieldTestObject = form.section['list'][field.name];
@@ -55,7 +55,7 @@ module.exports = {
 		},
 		assertUIPresent: function (config) {
 			var form = this.section.form;
-			form.section['list'] = new config.modelTestConfig();
+			form.section['list'] = new config.modelTestConfig({formSelector: form.selector});
 			var browser = this;
 			return config.fields.forEach(function (field) {
 				var fieldTestObject = form.section['list'][field.name];
@@ -68,7 +68,7 @@ module.exports = {
 		},
 		assertUINotPresent: function (config) {
 			var form = this.section.form;
-			form.section['list'] = new config.modelTestConfig();
+			form.section['list'] = new config.modelTestConfig({formSelector: form.selector});
 			var browser = this;
 			return config.fields.forEach(function (field) {
 				var fieldTestObject = form.section['list'][field.name];
@@ -81,7 +81,7 @@ module.exports = {
 		},
 		showMoreFields: function (config) {
 			var form = this.section.form;
-			form.section['list'] = new config.modelTestConfig();
+			form.section['list'] = new config.modelTestConfig({formSelector: form.selector});
 			var browser = this;
 			return config.fields.forEach(function (field) {
 				var fieldTestObject = form.section['list'][field.name];
@@ -94,7 +94,7 @@ module.exports = {
 		},
 		clickUI: function (config) {
 			var form = this.section.form;
-			form.section['list'] = new config.modelTestConfig();
+			form.section['list'] = new config.modelTestConfig({formSelector: form.selector});
 			var browser = this;
 			return Object.keys(config.fields).forEach(function (field) {
 				var fieldTestObject = form.section['list'][field];
@@ -107,7 +107,7 @@ module.exports = {
 		},
 		fillInputs: function (config) {
 			var form = this.section.form;
-			form.section['list'] = new config.modelTestConfig();
+			form.section['list'] = new config.modelTestConfig({formSelector: form.selector});
 			var browser = this;
 			return Object.keys(config.fields).forEach(function (field) {
 				var fieldTestObject = form.section['list'][field];
@@ -120,7 +120,7 @@ module.exports = {
 		},
 		assertInputs: function (config) {
 			var form = this.section.form;
-			form.section['list'] = new config.modelTestConfig();
+			form.section['list'] = new config.modelTestConfig({formSelector: form.selector});
 			var browser = this;
 			return Object.keys(config.fields).forEach(function (field) {
 				var fieldTestObject = form.section['list'][field];

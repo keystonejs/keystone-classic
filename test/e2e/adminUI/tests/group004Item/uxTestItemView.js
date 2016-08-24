@@ -33,12 +33,6 @@ module.exports = {
 		browser.end();
 	},
 	'Item screen should allow creating an item of the same type': function (browser) {
-
-		// TODO - there is a problem with the selectors. Re-enable when this is fixed.
-
-		console.log("Test temporarily diabled");
-
-		/*
 		browser.itemScreen.new();
 
 		browser.app.waitForInitialFormScreen();
@@ -58,7 +52,6 @@ module.exports = {
 
 		browser.initialFormScreen.save();
 		browser.app.waitForItemScreen();
-		*/
 
 	},
 	'Item screen should allow saving an item without changes': function (browser) {
@@ -67,7 +60,7 @@ module.exports = {
 		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
 	},
 	'Item screen should allow saving an item with changes': function (browser) {
-		browser.initialFormScreen.fillInputs({
+		browser.itemScreen.fillInputs({
 			modelTestConfig: UserModelTestConfig,
 			fields: {
 				'name': {firstName: 'First 2', lastName: 'Last 2'},
@@ -84,7 +77,7 @@ module.exports = {
 		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
 	},
 	'Item screen should allow resetting an item with changes': function (browser) {
-		browser.initialFormScreen.fillInputs({
+		browser.itemScreen.fillInputs({
 			modelTestConfig: UserModelTestConfig,
 			fields: {
 				'name': {firstName: 'First 3', lastName: 'Last 3'},

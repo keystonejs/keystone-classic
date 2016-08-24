@@ -2,7 +2,7 @@ var utils = require('../utils');
 
 module.exports = function BooleanField (config) {
 	var selectElem = function(elem) {
-		return self.selector + ' ' + self.elements[elem];
+		return config.formSelector + ' ' + self.selector + ' ' + self.elements[elem];
 	};
 	var self = {
 		selector: '[data-field-name=' + config.fieldName + '][data-field-type=boolean]',
@@ -12,7 +12,7 @@ module.exports = function BooleanField (config) {
 			value: 'label input[name="' + config.fieldName + '"]',
 		},
 		selectElem: function(elem) {
-			return self.selector + ' ' + self.elements[elem];
+			return config.formSelector + ' ' + self.selector + ' ' + self.elements[elem];
 		},
 		commands: {
 			assertUIVisible: function (browser, args) {

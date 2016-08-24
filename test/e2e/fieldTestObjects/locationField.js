@@ -2,7 +2,7 @@ var utils = require('../utils');
 
 module.exports = function LocationField (config) {
 	var selectElem = function(elem) {
-		return self.selector + ' ' + self.elements[elem];
+		return config.formSelector + ' ' + self.selector + ' ' + self.elements[elem];
 	};
 	var self = {
 		selector: '[data-field-name=' + config.fieldName + '][data-field-type=location]',

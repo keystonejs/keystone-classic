@@ -77,7 +77,7 @@ module.exports = {
 		});
 	},
 	'Password field can be filled via the edit form': function(browser) {
-		browser.initialFormScreen.clickUI({
+		browser.itemScreen.clickUI({
 			modelTestConfig: PasswordModelTestConfig,
 			fields: {
 				'fieldB': {'button': 'setPasswordButton'},

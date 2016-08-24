@@ -48,7 +48,7 @@ module.exports = {
 			modelTestConfig: TextArrayModelTestConfig,
 			fields: [{name: 'fieldA'}, {name: 'fieldB'}]
 		});
-		browser.initialFormScreen.clickUI({
+		browser.itemScreen.clickUI({
 			modelTestConfig: TextArrayModelTestConfig,
 			fields: {
 				'fieldA': {'button': 'addButton'},
@@ -61,7 +61,7 @@ module.exports = {
 				options: {'textInputs': ['text1']}
 			}],
 		});
-		browser.initialFormScreen.clickUI({
+		browser.itemScreen.clickUI({
 			modelTestConfig: TextArrayModelTestConfig,
 			fields: {
 				'fieldA': {'button': 'addButton'},
@@ -74,13 +74,13 @@ module.exports = {
 				options: {'textInputs': ['text1', 'text2']}
 			}],
 		});
-		browser.initialFormScreen.clickUI({
+		browser.itemScreen.clickUI({
 			modelTestConfig: TextArrayModelTestConfig,
 			fields: {
 				'fieldB': {'button': 'addButton'},
 			}
 		});
-		browser.initialFormScreen.clickUI({
+		browser.itemScreen.clickUI({
 			modelTestConfig: TextArrayModelTestConfig,
 			fields: {
 				'fieldB': {'button': 'addButton'},

@@ -2,7 +2,7 @@ var utils = require('../utils');
 
 module.exports = function NumberArrayField (config) {
 	var selectElem = function(elem) {
-		return self.selector + ' ' + self.elements[elem];
+		return config.formSelector + ' ' + self.selector + ' ' + self.elements[elem];
 	};
 	var self = {
 		selector: '.field-type-numberarray[for="' + config.fieldName + '"]',
