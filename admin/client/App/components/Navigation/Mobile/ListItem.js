@@ -11,12 +11,14 @@ const MobileListItem = React.createClass({
 		children: React.PropTypes.node.isRequired,
 		className: React.PropTypes.string,
 		href: React.PropTypes.string.isRequired,
+		onClick: React.PropTypes.func,
 	},
 	render () {
 		return (
 			<Link
 				className={this.props.className}
 				to={this.props.href}
+				onClick={this.props.onClick}
 				tabIndex="-1"
 			>
 				{this.props.children}
