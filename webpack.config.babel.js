@@ -85,8 +85,7 @@ export const getProd = (options) => {
 		},
 		plugins: [
 			...base.plugins,
-			// TODO doesn't do anything right now
-			new webpack.optimize.MinChunkSizePlugin({ minChunkSize: 14000 }),
+			new webpack.optimize.AggressiveMergingPlugin({ minSizeReduce: 1.8 }),
 			new webpack.optimize.UglifyJsPlugin({
 				compress: {
 					// Comment this if you want to verify the uglification
