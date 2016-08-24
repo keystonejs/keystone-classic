@@ -14,7 +14,7 @@ module.exports = function (req, res) {
 	var filters = req.query.filters;
 	if (filters && typeof filters === 'string') {
 		try { filters = JSON.parse(req.query.filters); }
-		catch (e) { } // eslint-disable-line no-empty
+		catch (e) { /* */ }
 	}
 	if (typeof filters === 'object') {
 		assign(where, req.list.addFiltersToQuery(filters));
@@ -48,7 +48,7 @@ module.exports = function (req, res) {
 			res.end(content, 'utf-8');
 		} else {
 			data = results.map(function (item) {
-				return req.list.getCSV(item, req.query.select, req.query.expandRelationshipFields);
+				return req.list.getData(item, req.query.select, req.query.expandRelationshipFields);
 			});
 			res.json(data);
 		}

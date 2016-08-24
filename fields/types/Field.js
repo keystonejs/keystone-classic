@@ -73,7 +73,7 @@ var Base = module.exports.Base = {
 				name: this.getInputName(this.props.path),
 				onChange: this.valueChanged,
 				ref: 'focusTarget',
-				value: value || '',
+				value,
 			}} />
 		);
 	},
@@ -133,6 +133,11 @@ module.exports.create = function (spec) {
 		spec: spec,
 		displayName: spec.displayName,
 		mixins: [Mixins.Collapse],
+		statics: {
+			getDefaultValue: function (field) {
+				return field.defaultValue || '';
+			},
+		},
 		render () {
 			if (!evalDependsOn(this.props.dependsOn, this.props.values)) {
 				return null;
@@ -143,6 +148,10 @@ module.exports.create = function (spec) {
 			return this.renderUI();
 		},
 	};
+
+	if (spec.statics) {
+		Object.assign(field.statics, spec.statics);
+	}
 
 	var excludeBaseMethods = {};
 	if (spec.mixins) {
@@ -156,7 +165,7 @@ module.exports.create = function (spec) {
 	}
 
 	Object.assign(field, blacklist(Base, excludeBaseMethods));
-	Object.assign(field, blacklist(spec, 'mixins'));
+	Object.assign(field, blacklist(spec, 'mixins', 'statics'));
 
 	if (Array.isArray(spec.mixins)) {
 		field.mixins = field.mixins.concat(spec.mixins);

@@ -83,6 +83,7 @@ const MobileNavigation = React.createClass({
 					href={href}
 					lists={section.lists}
 					currentListKey={this.props.currentListKey}
+					onClick={this.toggleMenu}
 				>
 					{section.label}
 				</MobileSectionItem>

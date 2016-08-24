@@ -8,8 +8,8 @@ module.exports = function (req, res) {
 		if (!item) return res.status(404).json({ error: 'not found', id: req.params.id });
 		req.list.updateItem(item, req.body, { files: req.files }, function (err) {
 			if (err) {
-				res.status(err.error === 'validation errors' ? 400 : 500);
-				return res.json(err);
+				var status = err.error === 'validation errors' ? 400 : 500;
+				return res.apiError(status, err);
 			}
 			res.json(req.list.getData(item));
 		});
