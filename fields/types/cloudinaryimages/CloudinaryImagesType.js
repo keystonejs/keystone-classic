@@ -231,6 +231,9 @@ cloudinaryimages.prototype.updateItem = function (item, data, files, callback) {
 	var field = this;
 	var values = this.getValueFromData(data);
 
+	// TODO: This logic needs to block uploading of files from the data argument,
+	// see CloudinaryImage for a reference on how it should be implemented
+
 	// Early exit path: reset value when falsy, or bail if no value was provided
 	if (!values) {
 		if (values !== undefined) {
