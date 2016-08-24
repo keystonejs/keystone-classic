@@ -11,7 +11,8 @@ let config = {
 		// 	path.resolve(__dirname, './admin/client/filters'),
 		// ],
 		// packages bundle
-		packages: require('./admin/client/packages'),
+		admin: `${__dirname}/admin/client/App`,
+		signin: `${__dirname}/admin/client/Signin`,
 	},
 	output: {
 		filename: '[name].js',

@@ -3,7 +3,7 @@ import classnames from 'classnames';
 
 import ListControl from '../ListControl';
 
-import { Columns } from 'FieldTypes';
+import { Columns } from '../../../../../../../fields';
 import { DropTarget, DragSource } from 'react-dnd';
 
 import {

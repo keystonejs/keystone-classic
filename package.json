@@ -156,6 +156,7 @@
   "scripts": {
     "build": "NODE_ENV=production webpack --bail",
     "build-dev": "webpack --bail",
+    "build-dev-watch": "webpack --watch",
     "pretest": "npm run lint && node test/pretest.js",
     "test": "mocha && mocha --opts test/mocha-admin.opts",
     "test-all": "npm test && npm run test-e2e-bg",

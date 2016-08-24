@@ -2,7 +2,7 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import Popout from '../../../../shared/Popout';
 
-import { Filters } from 'FieldTypes';
+import { Filters } from '../../../../../../../fields';
 
 var ListFiltersAddForm = React.createClass({
 	propTypes: {

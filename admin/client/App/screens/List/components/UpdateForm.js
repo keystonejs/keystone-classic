@@ -2,7 +2,7 @@ import React from 'react';
 import Select from 'react-select';
 import { findDOMNode } from 'react-dom';
 import assign from 'object-assign';
-import { Fields } from 'FieldTypes';
+import { Fields } from '../../../../../../fields';
 import InvalidFieldType from '../../../shared/InvalidFieldType';
 import { plural } from '../../../../utils/string';
 import { BlankState, Button, Form, Modal } from '../../../elemental';

@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Filters } from 'FieldTypes';
+import { Filters } from '../../../../../../../fields';
 import { Chip } from '../../../../elemental';
 
 import Popout from '../../../../shared/Popout';
