@@ -36,7 +36,7 @@ module.exports = Field.create({
 				onChange={this.valueChanged}
 				ref="focusTarget"
 				type="url"
-				value={this.props.value}
+				value={this.props.value || ''}
 			/>
 		);
 	},

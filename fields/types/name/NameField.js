@@ -14,10 +14,6 @@ module.exports = Field.create({
 	displayName: 'NameField',
 	statics: {
 		type: 'Name',
-		getDefaultValue: () => ({
-			first: '',
-			last: '',
-		}),
 	},
 	propTypes: {
 		onChange: PropTypes.func.isRequired,
