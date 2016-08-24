@@ -35,6 +35,7 @@ var SecondaryNavigation = React.createClass({
 	},
 	// Render the navigation
 	renderNavigation (lists) {
+		console.log(this.props.itemId);
 		const navigation = Object.keys(lists).map((key) => {
 			const list = lists[key];
 			// Get the link and the classname
@@ -42,7 +43,10 @@ var SecondaryNavigation = React.createClass({
 			const isActive = this.props.currentListKey && this.props.currentListKey === list.path;
 			const className = isActive ? 'active' : null;
 			const onClick = (evt) => {
-				if (isActive) {
+				console.log(this.props.itemId);
+				// If it's the currently active navigation item and we're not on the item view,
+				// clear the query params on click
+				if (isActive && !this.props.itemId) {
 					evt.preventDefault();
 					this.props.dispatch(
 						setActiveList(this.props.currentList, this.props.currentListKey)
