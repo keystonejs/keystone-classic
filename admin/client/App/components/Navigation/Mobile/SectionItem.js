@@ -25,7 +25,7 @@ const MobileSectionItem = React.createClass({
 			const className = (this.props.currentListKey && this.props.currentListKey === item.path) ? 'MobileNavigation__list-item is-active' : 'MobileNavigation__list-item';
 
 			return (
-				<MobileListItem key={item.path} href={href} className={className}>
+				<MobileListItem key={item.path} href={href} className={className} onClick={this.props.onClick}>
 					{item.label}
 				</MobileListItem>
 			);
@@ -44,6 +44,7 @@ const MobileSectionItem = React.createClass({
 					className="MobileNavigation__section-item"
 					to={this.props.href}
 					tabIndex="-1"
+					onClick={this.props.onClick}
 				>
 					{this.props.children}
 				</Link>
