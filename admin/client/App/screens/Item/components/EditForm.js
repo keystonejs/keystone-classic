@@ -205,13 +205,13 @@ var EditForm = React.createClass({
 	},
 	renderNameField () {
 		var nameField = this.props.list.nameField;
-		var nameIsEditable = this.props.list.nameIsEditable;
+		var nameFieldIsFormHeader = this.props.list.nameFieldIsFormHeader;
 		var wrapNameField = field => (
 			<div className="EditForm__name-field">
 				{field}
 			</div>
 		);
-		if (nameIsEditable) {
+		if (nameFieldIsFormHeader) {
 			var nameFieldProps = this.getFieldProps(nameField);
 			nameFieldProps.label = null;
 			nameFieldProps.size = 'full';
@@ -233,6 +233,12 @@ var EditForm = React.createClass({
 		var headings = 0;
 
 		return this.props.list.uiElements.map((el) => {
+			// Don't render the name field if it is the header since it'll be rendered in BIG above
+			// the list. (see renderNameField method, this is the reverse check of the one it does)
+			if (el.field === this.props.list.nameField.path && this.props.list.nameFieldIsFormHeader) {
+				return;
+			}
+
 			if (el.type === 'heading') {
 				headings++;
 				el.options.values = this.state.values;
