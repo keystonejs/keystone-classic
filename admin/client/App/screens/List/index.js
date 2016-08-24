@@ -52,9 +52,6 @@ const ListView = React.createClass({
 	},
 	getInitialState () {
 		const showCreateForm = this.props.location.search === '?create' || Keystone.createFormErrors;
-		if (showCreateForm) {
-			document.body.addEventListener('keyup', this.handleKeyPress, false);
-		}
 		return {
 			confirmationDialog: {
 				isOpen: false,
@@ -369,22 +366,12 @@ const ListView = React.createClass({
 		this.props.dispatch(setActiveSort(path));
 	},
 	toggleCreateModal (visible) {
-		if (visible) {
-			document.body.addEventListener('keyup', this.handleKeyPress, false);
-		} else {
-			document.body.removeEventListener('keyup', this.handleKeyPress, false);
-		}
 		this.setState({
 			showCreateForm: visible,
 		});
 	},
 	openCreateModal () {
 		this.toggleCreateModal(true);
-	},
-	handleKeyPress (evt) {
-		if (evt.which === ESC_KEY_CODE) {
-			this.toggleCreateModal(false);
-		}
 	},
 	closeCreateModal () {
 		this.toggleCreateModal(false);

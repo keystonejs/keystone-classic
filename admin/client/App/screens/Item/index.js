@@ -26,8 +26,6 @@ import {
 	selectList,
 } from '../List/actions';
 
-const ESC_KEY_CODE = 27;
-
 var ItemView = React.createClass({
 	displayName: 'ItemView',
 	contextTypes: {
@@ -67,19 +65,9 @@ var ItemView = React.createClass({
 	},
 	// Open and close the create new item modal
 	toggleCreateModal (visible) {
-		if (visible) {
-			document.body.addEventListener('keyup', this.handleKeyPress, false);
-		} else {
-			document.body.removeEventListener('keyup', this.handleKeyPress, false);
-		}
 		this.setState({
 			createIsOpen: visible,
 		});
-	},
-	handleKeyPress (evt) {
-		if (evt.which === ESC_KEY_CODE) {
-			this.toggleCreateModal(false);
-		}
 	},
 	// Render this items relationships
 	renderRelationships () {
