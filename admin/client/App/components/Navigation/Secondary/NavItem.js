@@ -11,13 +11,19 @@ const SecondaryNavItem = React.createClass({
 		children: React.PropTypes.node.isRequired,
 		className: React.PropTypes.string,
 		href: React.PropTypes.string.isRequired,
+		onClick: React.PropTypes.func,
 		path: React.PropTypes.string,
 		title: React.PropTypes.string,
 	},
 	render () {
 		return (
 			<li className={this.props.className} data-list-path={this.props.path}>
-				<Link to={this.props.href} title={this.props.title} tabIndex="-1">
+				<Link
+					to={this.props.href}
+					onClick={this.props.onClick}
+					title={this.props.title}
+					tabIndex="-1"
+				>
 					{this.props.children}
 				</Link>
 			</li>

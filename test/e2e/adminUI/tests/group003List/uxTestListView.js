@@ -48,8 +48,6 @@ module.exports = {
 			.waitForItemScreen();
 
 		browser.app
-			.click('@fieldListsMenu')
-			.waitForListScreen()
 			.click('@nameListSubmenu')
 			.waitForListScreen();
 
@@ -88,8 +86,6 @@ module.exports = {
 			.waitForItemScreen();
 
 		browser.app
-			.click('@fieldListsMenu')
-			.waitForListScreen()
 			.click('@nameListSubmenu')
 			.waitForListScreen();
 
@@ -117,8 +113,6 @@ module.exports = {
 	},
 	'List view should allow users to browse back to list view from an item view by using the crum links': function (browser) {
 		browser.app
-			.click('@fieldListsMenu')
-			.waitForListScreen()
 			.click('@nameListSubmenu')
 			.waitForListScreen();
 

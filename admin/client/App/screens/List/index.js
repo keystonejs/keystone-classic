@@ -36,7 +36,6 @@ import {
 	setActiveSort,
 	setCurrentPage,
 	selectList,
-	loadItems,
 	loadInitialItems,
 } from './actions';
 
@@ -51,7 +50,6 @@ const ListView = React.createClass({
 		router: React.PropTypes.object.isRequired,
 	},
 	getInitialState () {
-		const showCreateForm = this.props.location.search === '?create' || Keystone.createFormErrors;
 		return {
 			confirmationDialog: {
 				isOpen: false,
@@ -59,24 +57,28 @@ const ListView = React.createClass({
 			checkedItems: {},
 			constrainTableWidth: true,
 			manageMode: false,
-			showCreateForm: showCreateForm,
+			showCreateForm: false,
 			showUpdateForm: false,
 		};
 	},
-	componentDidMount () {
+	componentWillMount () {
 		// When we directly navigate to a list without coming from another client
 		// side routed page before, we need to initialize the list and parse
 		// possibly specified query parameters
 		this.props.dispatch(selectList(this.props.params.listId));
 		this.parseQueryParams();
 		this.props.dispatch(loadInitialItems());
+		const isNoCreate = this.props.lists.data[this.props.params.listId].nocreate;
+		const shouldOpenCreate = this.props.location.search === '?create';
+		this.setState({
+			showCreateForm: (shouldOpenCreate && !isNoCreate) || Keystone.createFormErrors,
+		});
 	},
 	componentWillReceiveProps (nextProps) {
 		// We've opened a new list from the client side routing, so initialize
 		// again with the new list id
 		if (nextProps.params.listId !== this.props.params.listId) {
 			this.props.dispatch(selectList(nextProps.params.listId));
-			this.props.dispatch(loadItems());
 		}
 	},
 	/**
