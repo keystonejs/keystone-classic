@@ -9,7 +9,7 @@ module.exports = function (req, res) {
 		req.list.validateInput(item, req.body, function (err) {
 			if (err) return res.status(400).json(err);
 			req.list.updateItem(item, req.body, { files: req.files }, function (err) {
-				if (err) return res.status(500).json(err);
+				if (err) return res.apiError(500, err.detail);
 				res.json(req.list.getData(item));
 			});
 		});
