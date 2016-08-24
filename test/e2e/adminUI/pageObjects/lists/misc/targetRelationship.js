@@ -1,10 +1,8 @@
-var TextType = require('../../fieldTypes/text');
+var objectAssign = require('object-assign');
+var TextFieldTestObject = require('../../../../fieldTestObjects/TextFieldTestObject');
 
 module.exports = function TargetRelationshipList(config) {
 	return {
-		selector: '.Form',
-		sections: {
-			name: new TextType({fieldName: 'name'}),
-		},
+		name: new TextFieldTestObject(objectAssign({}, config, {fieldName: 'name'})),
 	};
 };

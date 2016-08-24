@@ -1,5 +1,5 @@
 var fieldTests = require('./commonFieldTestUtils.js');
-var DatetimeModelTestConfig = require('../../../modelTestConfig/datetimeModel');
+var DatetimeModelTestConfig = require('../../../modelTestConfig/DatetimeModelTestConfig');
 
 module.exports = {
 	'@disabled': true, // TODO:  https://github.com/keystonejs/keystone/issues/3330

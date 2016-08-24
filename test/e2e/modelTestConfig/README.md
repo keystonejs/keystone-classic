@@ -7,12 +7,12 @@ The structure of a Model Test Config is very simple.  In the following example, 
 a Text Field Test Object and a Boolean Field Test Object.  Note that the config is passed through to the fields updated with the field name. 
 
     var objectAssign = require('object-assign');
-    var TextField = require('../fieldTestObjects/textField');
-    var BooleanField = require('../fieldTestObjects/booleanField');
+    var TextFieldTestObject = require('../fieldTestObjects/textField');
+    var BooleanFieldTestObject = require('../fieldTestObjects/booleanField');
 
     module.exports = function ModelTestConfig (config) {
         return {
-            name: new TextField(objectAssign({}, config, {fieldName: 'name'})),
-            fieldA: new BooleanField(objectAssign({}, config, {fieldName: 'fieldA'})),
+            name: new TextFieldTestObject(objectAssign({}, config, {fieldName: 'name'})),
+            fieldA: new BooleanFieldTestObject(objectAssign({}, config, {fieldName: 'fieldA'})),
         };
     };

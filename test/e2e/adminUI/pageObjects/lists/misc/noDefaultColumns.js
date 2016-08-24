@@ -1,11 +1,9 @@
-var TextType = require('../../fieldTypes/text');
+var objectAssign = require('object-assign');
+var TextFieldTestObject = require('../../../../fieldTestObjects/TextFieldTestObject');
 
 module.exports = function NoDefaultColumnsList(config) {
 	return {
-		selector: '.Form',
-		sections: {
-			fieldA: new TextType({fieldName: 'fieldA'}),
-			fieldB: new TextType({fieldName: 'fieldB'}),
-		},
+		fieldA: new TextFieldTestObject(objectAssign({}, config, {fieldName: 'fieldA'})),
+		fieldB: new TextFieldTestObject(objectAssign({}, config, {fieldName: 'fieldB'})),
 	};
 };

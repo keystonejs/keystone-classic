@@ -1,12 +1,10 @@
-var TextType = require('../../fieldTypes/text');
-var RelationshipType = require('../../fieldTypes/relationship');
+var objectAssign = require('object-assign');
+var TextFieldTestObject = require('../../../../fieldTestObjects/TextFieldTestObject');
+var RelationshipFieldTestObject = require('../../../../fieldTestObjects/RelationshipFieldTestObject');
 
 module.exports = function SourceRelationshipList(config) {
 	return {
-		selector: '.Form',
-		sections: {
-			name: new TextType({fieldName: 'name'}),
-			fieldA: new RelationshipType({fieldName: 'fieldA'}),
-		},
+		name: new TextFieldTestObject(objectAssign({}, config, {fieldName: 'name'})),
+		fieldA: new RelationshipFieldTestObject(objectAssign({}, config, {fieldName: 'fieldA'})),
 	};
 };

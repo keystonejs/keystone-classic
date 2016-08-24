@@ -1,10 +1,8 @@
-var RelationshipType = require('../../fieldTypes/relationship');
+var objectAssign = require('object-assign');
+var RelationshipFieldTestObject = require('../../../../fieldTestObjects/RelationshipFieldTestObject');
 
 module.exports = function InlineRelationshipList(config) {
 	return {
-		selector: '.Form',
-		sections: {
-			fieldA: new RelationshipType({fieldName: 'fieldA'}),
-		},
+		fieldA: new RelationshipFieldTestObject(objectAssign({}, config, {fieldName: 'fieldA'})),
 	};
 };

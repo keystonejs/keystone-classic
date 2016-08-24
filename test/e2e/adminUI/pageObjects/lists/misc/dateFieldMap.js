@@ -1,10 +1,8 @@
-var DateType = require('../../fieldTypes/date');
+var objectAssign = require('object-assign');
+var DateFieldTestObject = require('../../../../fieldTestObjects/DateFieldTestObject');
 
 module.exports = function DateFieldMapList(config) {
 	return {
-		selector: '.Form',
-		sections: {
-			datefield: new DateType({fieldName: 'datefield'}),
-		},
+		datefield: new DateFieldTestObject(objectAssign({}, config, {fieldName: 'datefield'})),
 	};
 };

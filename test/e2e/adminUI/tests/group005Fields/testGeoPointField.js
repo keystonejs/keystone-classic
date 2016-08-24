@@ -1,5 +1,5 @@
 var fieldTests = require('./commonFieldTestUtils.js');
-var GeoPointModelTestConfig = require('../../../modelTestConfig/geoPointModel');
+var GeoPointModelTestConfig = require('../../../modelTestConfig/GeoPointModelTestConfig');
 
 module.exports = {
 	before: fieldTests.before,

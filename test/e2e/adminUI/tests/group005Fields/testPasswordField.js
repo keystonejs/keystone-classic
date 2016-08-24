@@ -1,5 +1,5 @@
 var fieldTests = require('./commonFieldTestUtils.js');
-var PasswordModelTestConfig = require('../../../modelTestConfig/passwordModel');
+var PasswordModelTestConfig = require('../../../modelTestConfig/PasswordModelTestConfig');
 
 module.exports = {
 	before: fieldTests.before,

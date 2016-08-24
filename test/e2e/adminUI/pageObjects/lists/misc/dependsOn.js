@@ -1,12 +1,10 @@
-var BooleanField = require('../../../../fieldTestObjects/booleanField');
-var SelectType = require('../../fieldTypes/select');
+var objectAssign = require('object-assign');
+var BooleanFieldTestObject = require('../../../../fieldTestObjects/BooleanFieldTestObject');
+var SelectFieldTestObject = require('../../../../fieldTestObjects/SelectFieldTestObject');
 
 module.exports = function DependsOnList(config) {
 	return {
-		selector: '.Form',
-		sections: {
-			dependency: new BooleanField({fieldName: 'dependency'}),
-			dependent: new SelectType({fieldName: 'dependent'}),
-		},
+		dependency: new BooleanFieldTestObject(objectAssign({}, config, {fieldName: 'dependency'})),
+		dependent: new SelectFieldTestObject(objectAssign({}, config, {fieldName: 'dependent'})),
 	};
 };

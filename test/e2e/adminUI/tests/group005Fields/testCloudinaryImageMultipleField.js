@@ -1,5 +1,5 @@
 var fieldTests = require('./commonFieldTestUtils.js');
-var CloudinaryImageMultipleModelTestConfig = require('../../../modelTestConfig/cloudinaryImageMultipleModel');
+var CloudinaryImageMultipleModelTestConfig = require('../../../modelTestConfig/CloudinaryImageMultipleModelTestConfig');
 
 module.exports = {
 	before: fieldTests.before,

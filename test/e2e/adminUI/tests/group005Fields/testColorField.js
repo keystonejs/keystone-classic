@@ -1,5 +1,5 @@
 var fieldTests = require('./commonFieldTestUtils.js');
-var ColorModelTestConfig = require('../../../modelTestConfig/colorModel');
+var ColorModelTestConfig = require('../../../modelTestConfig/ColorModelTestConfig');
 
 module.exports = {
 	before: fieldTests.before,

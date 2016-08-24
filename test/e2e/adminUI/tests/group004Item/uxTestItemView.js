@@ -1,7 +1,7 @@
 // TODO:  Currently the tests here only fill in the name field of the user list form.  That's because the other
 //		  fields in the user list do not have corresponding page object support, yet.  When they do revisit filling
 //		  all the fields.
-var UserModelTestConfig = require('../../../modelTestConfig/userModel');
+var UserModelTestConfig = require('../../../modelTestConfig/UserModelTestConfig');
 
 module.exports = {
 	before: function (browser) {

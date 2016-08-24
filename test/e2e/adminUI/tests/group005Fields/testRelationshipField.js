@@ -1,5 +1,5 @@
 var fieldTests = require('./commonFieldTestUtils.js');
-var RelationshipModelTestConfig = require('../../../modelTestConfig/relationshipModel');
+var RelationshipModelTestConfig = require('../../../modelTestConfig/RelationshipModelTestConfig');
 
 module.exports = {
 	before: fieldTests.before,
