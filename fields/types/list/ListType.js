@@ -1,8 +1,10 @@
 var FieldType = require('../Type');
 var util = require('util');
 var utils = require('keystone-utils');
+var async = require('async');
 
 var isReserved = require('../../../lib/list/isReserved');
+var updateSubItem = require('../../../lib/list/updateSubItem');
 
 /**
  * List FieldType Constructor
@@ -40,7 +42,7 @@ function validateFieldType (field, path, type) {
 
 /**
  * Registers the field on the List's Mongoose Schema.
- *
+ * TODO singular field type
  * @api public
  */
 list.prototype.addToSchema = function () {
@@ -101,7 +103,7 @@ list.prototype.addToSchema = function () {
 			);
 		}
 		fields[path] = createField(path, fieldsSpec[path]);
-		fieldsArray.push(path);
+		fieldsArray.push(fields[path]);
 	});
 
 	if (this.options.decorateSchema) {
@@ -117,9 +119,9 @@ list.prototype.addToSchema = function () {
  */
 list.prototype.getProperties = function (item, separator) {
 	var fields = {};
-	this.fieldsArray.forEach(function (path) {
-		fields[path] = this.fields[path].getOptions();
-	}, this);
+	this.fieldsArray.forEach(function (field) {
+		fields[field.path] = field.getOptions();
+	});
 	return {
 		fields: fields,
 	};
@@ -163,7 +165,12 @@ list.prototype.validateRequiredInput = function (item, data, callback) {
  * Updates the value for this field in the item from a data object.
  * If the data object does not contain the value, then the value is set to empty array.
  */
-list.prototype.updateItem = function (item, data, callback) {
+list.prototype.updateItem = function (item, data, files, callback) {
+	if (typeof files === 'function') {
+		callback = files;
+		files = {};
+	}
+
 	var value = this.getValueFromData(data);
 	// Don't update the value when it is undefined
 	if (value === undefined) {
@@ -177,9 +184,36 @@ list.prototype.updateItem = function (item, data, callback) {
 	if (!Array.isArray(value)) {
 		value = [value];
 	}
-	// TODO - actually loop over fields, using updateItem()
-	item.set(this.path, value);
-	utils.defer(callback);
+
+	const me = item[this.path];
+	const valById = {};
+	var s;
+	for (s of value) {
+		if (s.id) {
+			valById[s.id] = s;
+		}
+	};
+
+	// First remove all items that are not in values
+	const toRemove = me
+	.filter(function (s) { return !valById[s.id]; })
+	.map(function (s) { return s._id; });
+	me.pull.apply(me, toRemove);
+
+	// Then adjust all values
+	const subById = {};
+	for (s of me) {
+		subById[s.id] = s;
+	};
+	var fieldsArray = this.fieldsArray;
+	async.eachOf(value, function (val, i, cb) {
+		var sub = subById[val.id];
+		if (!sub) {
+			var len = me.push({});
+			sub = me[len - 1];
+		}
+		updateSubItem(fieldsArray, sub, val, files, cb);
+	}, callback);
 };
 
 /* Export Field Type */
