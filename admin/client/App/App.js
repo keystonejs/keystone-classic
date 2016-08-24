@@ -42,6 +42,7 @@ const App = (props) => {
 					<SecondaryNavigation
 						currentListKey={props.params.listId}
 						lists={currentSection.lists}
+						itemId={props.params.itemId}
 					/>
 				) : null}
 			</header>
