@@ -3,9 +3,29 @@
  */
 
 import React, { Component, PropTypes } from 'react';
+import vkey from 'vkey';
 import { Modal, ModalBody, ModalFooter, Button } from 'elemental';
 
 class ConfirmationDialog extends Component {
+	constructor () {
+		super();
+		this.handleKeyPress = this.handleKeyPress.bind(this);
+	}
+
+	componentDidMount () {
+		document.body.addEventListener('keyup', this.props.onCancel, false);
+	}
+
+	componentWillUnmount () {
+		document.body.removeEventListener('keyup', this.props.onCancel, false);
+	}
+
+	handleKeyPress (evt) {
+		if (vkey[evt.keyCode] === '<escape>') {
+			this.props.onCancel();
+		}
+	}
+
 	render () {
 		const {
 			cancelLabel,

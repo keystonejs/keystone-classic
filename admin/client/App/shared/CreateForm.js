@@ -5,6 +5,7 @@
 
 import React from 'react';
 import assign from 'object-assign';
+import vkey from 'vkey';
 import AlertMessages from './AlertMessages';
 import { Fields } from 'FieldTypes';
 import InvalidFieldType from './InvalidFieldType';
@@ -39,6 +40,17 @@ const CreateForm = React.createClass({
 			values: values,
 			alerts: {},
 		};
+	},
+	componentDidMount () {
+		document.body.addEventListener('keyup', this.handleKeyPress, false);
+	},
+	componentWillUnmount () {
+		document.body.removeEventListener('keyup', this.handleKeyPress, false);
+	},
+	handleKeyPress (evt) {
+		if (vkey[evt.keyCode] === '<escape>') {
+			this.props.onCancel();
+		}
 	},
 	// Handle input change events
 	handleChange (event) {

@@ -70,13 +70,9 @@ const ListView = React.createClass({
 		this.props.dispatch(loadInitialItems());
 		const isNoCreate = this.props.lists.data[this.props.params.listId].nocreate;
 		const shouldOpenCreate = this.props.location.search === '?create';
-		const showCreateForm = (shouldOpenCreate && !isNoCreate) || Keystone.createFormErrors;
 		this.setState({
-			showCreateForm: showCreateForm,
+			showCreateForm: (shouldOpenCreate && !isNoCreate) || Keystone.createFormErrors,
 		});
-		if (showCreateForm) {
-			document.body.addEventListener('keyup', this.handleKeyPress, false);
-		}
 	},
 	componentWillReceiveProps (nextProps) {
 		// We've opened a new list from the client side routing, so initialize
@@ -386,22 +382,12 @@ const ListView = React.createClass({
 		this.props.dispatch(setActiveSort(path));
 	},
 	toggleCreateModal (visible) {
-		if (visible) {
-			document.body.addEventListener('keyup', this.handleKeyPress, false);
-		} else {
-			document.body.removeEventListener('keyup', this.handleKeyPress, false);
-		}
 		this.setState({
 			showCreateForm: visible,
 		});
 	},
 	openCreateModal () {
 		this.toggleCreateModal(true);
-	},
-	handleKeyPress (evt) {
-		if (evt.which === ESC_KEY_CODE) {
-			this.toggleCreateModal(false);
-		}
 	},
 	closeCreateModal () {
 		this.toggleCreateModal(false);
