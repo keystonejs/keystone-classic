@@ -45,18 +45,21 @@ function ListManagement ({
 			</Button>
 		</Section>
 	); */
+
+	const allVisibleButtonIsActive = checkedItemCount === Math.min(itemCount, itemsPerPage);
+	const noneButtonIsActive = !checkedItemCount;
 	const selectButtons = isOpen ? (
 		<Section>
 			<Group contiguous>
 				{selectAllButton}
 				<Section>
-					<Button onClick={() => handleSelect('visible')} title="Select all rows">
+					<Button active={allVisibleButtonIsActive} onClick={() => handleSelect('visible')} title="Select all rows">
 						{itemCount > itemsPerPage ? 'All Visible ' : 'All '}
 						<small style={buttonNoteStyles}>({itemCount > itemsPerPage ? itemsPerPage : itemCount})</small>
 					</Button>
 				</Section>
 				<Section>
-					<Button onClick={() => handleSelect('none')} title="Deselect all rows">None</Button>
+					<Button active={noneButtonIsActive} onClick={() => handleSelect('none')} title="Deselect all rows">None</Button>
 				</Section>
 			</Group>
 		</Section>
