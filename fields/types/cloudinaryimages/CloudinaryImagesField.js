@@ -30,6 +30,7 @@ module.exports = Field.create({
 	displayName: 'CloudinaryImagesField',
 	statics: {
 		type: 'CloudinaryImages',
+		getDefaultValue: () => ([]),
 	},
 	getInitialState () {
 		return this.buildInitialState(this.props);
