@@ -3,14 +3,29 @@
  */
 
 import React, { Component, PropTypes } from 'react';
+import vkey from 'vkey';
 import { Modal, ModalBody, ModalFooter, Button } from 'elemental';
 
 class ConfirmationDialog extends Component {
-	getBodyHtml () {
-		return {
-			__html: this.props.body,
-		};
+	constructor () {
+		super();
+		this.handleKeyPress = this.handleKeyPress.bind(this);
 	}
+
+	componentDidMount () {
+		document.body.addEventListener('keyup', this.props.onCancel, false);
+	}
+
+	componentWillUnmount () {
+		document.body.removeEventListener('keyup', this.props.onCancel, false);
+	}
+
+	handleKeyPress (evt) {
+		if (vkey[evt.keyCode] === '<escape>') {
+			this.props.onCancel();
+		}
+	}
+
 	render () {
 		const {
 			cancelLabel,
@@ -28,9 +43,7 @@ class ConfirmationDialog extends Component {
 				onCancel={onCancel}
 				width={400}
 			>
-				<ModalBody dangerouslySetInnerHTML={this.getBodyHtml()}>
-					<span />
-				</ModalBody>
+				<ModalBody>{this.props.body || <span />}</ModalBody>
 				<ModalFooter>
 					<Button autoFocus size="sm" type={confirmationType} onClick={onConfirmation}>
 						{confirmationLabel}

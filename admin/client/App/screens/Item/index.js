@@ -58,15 +58,13 @@ var ItemView = React.createClass({
 	// Called when a new item is created
 	onCreate (item) {
 		// Hide the create form
-		this.setState({
-			createIsOpen: false,
-		});
+		this.toggleCreateModal(false);
 		// Redirect to newly created item path
 		const list = this.props.currentList;
 		this.context.router.push(`${Keystone.adminPath}/${list.path}/${item.id}`);
 	},
 	// Open and close the create new item modal
-	toggleCreate (visible) {
+	toggleCreateModal (visible) {
 		this.setState({
 			createIsOpen: visible,
 		});
@@ -145,12 +143,12 @@ var ItemView = React.createClass({
 							<EditFormHeader
 								list={this.props.currentList}
 								data={this.props.data}
-								toggleCreate={this.toggleCreate}
+								toggleCreate={this.toggleCreateModal}
 							/>
 							<CreateForm
 								list={this.props.currentList}
 								isOpen={this.state.createIsOpen}
-								onCancel={() => this.toggleCreate(false)}
+								onCancel={() => this.toggleCreateModal(false)}
 								onCreate={(item) => this.onCreate(item)}
 							/>
 							<EditForm

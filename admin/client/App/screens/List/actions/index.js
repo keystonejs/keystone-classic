@@ -1,6 +1,7 @@
 import {
 	SELECT_LIST,
 	SET_CURRENT_PAGE,
+	INITIAL_LIST_LOAD,
 } from '../constants';
 
 import { setActiveList } from './active';
@@ -21,6 +22,12 @@ export function selectList (id) {
 	};
 }
 
+export function loadInitialItems () {
+	return {
+		type: INITIAL_LIST_LOAD,
+	};
+}
+
 /**
  * Set the current page
  *
@@ -29,7 +36,7 @@ export function selectList (id) {
 export function setCurrentPage (index) {
 	return {
 		type: SET_CURRENT_PAGE,
-		index,
+		index: parseInt(index),
 	};
 }
 

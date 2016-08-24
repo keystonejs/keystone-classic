@@ -5,48 +5,48 @@ module.exports = {
 	after: fieldTests.after,
 	'Password field should show correctly in the initial modal': function (browser) {
 		browser.app.openFieldList('Password');
-		browser.listPage.createFirstItem();
+		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 
-		browser.initialFormPage.assertUI({
+		browser.initialFormScreen.assertUI({
 			listName: 'Password',
 			fields: ['name', 'fieldA'],
 			args: {'editForm': false}, // To check for @value instead of @button
 		});
 	},
 	'restoring test state': function(browser) {
-		browser.initialFormPage.cancel();
+		browser.initialFormScreen.cancel();
 		browser.app.waitForListScreen();
 	},
 	'Password field can be filled via the initial modal': function(browser) {
 		browser.app.openFieldList('Password');
-		browser.listPage.createFirstItem();
+		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
-		browser.initialFormPage.fillInputs({
+		browser.initialFormScreen.fillInputs({
 			listName: 'Password',
 			fields: {
 				'name': {value: 'Password Field Test 1'},
 				'fieldA': {value: 'password1', confirm: 'wrongPassword1'},
 			}
 		});
-		browser.initialFormPage.save();
-		browser.initialFormPage.assertFlashError("Passwords must match");
-		browser.initialFormPage.fillInputs({
+		browser.initialFormScreen.save();
+		browser.initialFormScreen.assertFlashError("Passwords must match");
+		browser.initialFormScreen.fillInputs({
 			listName: 'Password',
 			fields: {
 				'fieldA': {value: 'password1', confirm: 'password1'},
 			}
 		});
-		browser.initialFormPage.assertInputs({
+		browser.initialFormScreen.assertInputs({
 			listName: 'Password',
 			fields: {
 				'name': {value: 'Password Field Test 1'},
 			}
 		});
-		browser.initialFormPage.save();
+		browser.initialFormScreen.save();
 		browser.app.waitForItemScreen();
 
-		browser.itemPage.assertInputs({
+		browser.itemScreen.assertInputs({
 			listName: 'Password',
 			fields: {
 				'name': {value: 'Password Field Test 1'},
@@ -54,33 +54,33 @@ module.exports = {
 		})
 	},
 	'Password field should show correctly in the edit form': function(browser) {
-		browser.itemPage.assertUI({
+		browser.itemScreen.assertUI({
 			listName: 'Password',
 			fields: ['fieldA', 'fieldB'],
 			args: {'editForm': true}, // To check for @button instead of @value
 		});
 	},
 	'Password field can be filled via the edit form': function(browser) {
-		browser.itemPage.section.form.section.passwordList.section.fieldB.clickSetPassword();
-		browser.itemPage.fillInputs({
+		browser.itemScreen.section.form.section.passwordList.section.fieldB.clickSetPassword();
+		browser.itemScreen.fillInputs({
 			listName: 'Password',
 			fields: {
 				'fieldB': {value: 'password2', confirm: 'wrongPassword2'}
 			}
 		});
-		browser.itemPage.save();
+		browser.itemScreen.save();
 		browser.app.waitForItemScreen();
-		browser.itemPage.assertFlashError('Passwords must match');
-		browser.itemPage.fillInputs({
+		browser.itemScreen.assertFlashError('Passwords must match');
+		browser.itemScreen.fillInputs({
 			listName: 'Password',
 			fields: {
 				'fieldB': {value: 'password2', confirm: 'password2'}
 			}
 		});
-		browser.itemPage.save();
+		browser.itemScreen.save();
 		browser.app.waitForItemScreen();
-		browser.itemPage.assertFlashMessage('Your changes have been saved successfully');
-		browser.itemPage.assertInputs({
+		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
+		browser.itemScreen.assertInputs({
 			listName: 'Password',
 			fields: {
 				'name': {value: 'Password Field Test 1'},

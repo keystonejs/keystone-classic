@@ -118,8 +118,22 @@ module.exports = function createApp (keystone, express) {
 	});
 
 	// Configure application routes
-	if (typeof keystone.get('routes') === 'function') {
-		keystone.get('routes')(app);
+	var appRouter = keystone.get('routes');
+	if (typeof appRouter === 'function') {
+		if (appRouter.length === 3) {
+			// new:
+			//    var myRouter = new express.Router();
+			//    myRouter.get('/', (req, res) => res.send('hello world'));
+			//    keystone.set('routes', myRouter);
+			app.use(appRouter);
+		} else {
+			// old:
+			//    var initRoutes = function (app) {
+			//      app.get('/', (req, res) => res.send('hello world'));
+			//    }
+			//    keystone.set('routes', initRoutes);
+			appRouter(app);
+		}
 	}
 
 

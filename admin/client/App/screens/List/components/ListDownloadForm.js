@@ -40,6 +40,11 @@ var ListDownloadForm = React.createClass({
 			} : el;
 		});
 	},
+	allColumnsSelected () {
+		const selectedColumns = Object.keys(this.state.selectedColumns).length;
+		const columnAmount = this.getListUIElements().filter((el) => el.type !== 'heading').length;
+		return selectedColumns === columnAmount;
+	},
 	togglePopout (visible) {
 		this.setState({
 			isOpen: visible,
@@ -68,6 +73,29 @@ var ListDownloadForm = React.createClass({
 		};
 		this.setState(newState);
 	},
+	clickSelectAll () {
+		if (this.allColumnsSelected()) {
+			this.selectNoColumns();
+		} else {
+			this.selectAllColumns();
+		}
+	},
+	selectAllColumns () {
+		const newColumns = {};
+		this.getListUIElements().map((el) => {
+			if (el.type !== 'heading') {
+				newColumns[el.field.path] = true;
+			}
+		});
+		this.setState({
+			selectedColumns: newColumns,
+		});
+	},
+	selectNoColumns () {
+		this.setState({
+			selectedColumns: {},
+		});
+	},
 	handleDownloadRequest () {
 		this.props.dispatch(downloadItems(this.state.format, Object.keys(this.state.selectedColumns)));
 		this.togglePopout(false);
@@ -94,9 +122,17 @@ var ListDownloadForm = React.createClass({
 			);
 		});
 
+		const allColumnsSelected = this.allColumnsSelected();
+		const checkboxLabel = allColumnsSelected ? 'None' : 'All';
+
 		return (
-			<div style={{ borderTop: '1px dashed rgba(0,0,0,0.1)', marginTop: '1em', paddingTop: '1em' }}>
-				{possibleColumns}
+			<div>
+				<FormField label="Quick select:">
+					<Checkbox onChange={this.clickSelectAll} value label={checkboxLabel} checked={allColumnsSelected} />
+				</FormField>
+				<div style={{ borderTop: '1px dashed rgba(0,0,0,0.1)', marginTop: '1em', paddingTop: '1em' }}>
+					{possibleColumns}
+				</div>
 			</div>
 		);
 	},

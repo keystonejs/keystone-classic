@@ -49,4 +49,9 @@ describe('<ListTile />', () => {
 		const component = shallow(<ListTile />);
 		demand(component.find(Link).at(1).prop('to')).include('?create');
 	});
+
+	it('should not render a create button if instructed', () => {
+		const component = shallow(<ListTile hideCreateButton />);
+		demand(component.find(Link).at(1).prop('to')).not.include('?create');
+	});
 });

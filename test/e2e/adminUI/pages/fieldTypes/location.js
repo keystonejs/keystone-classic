@@ -1,7 +1,7 @@
 var utils = require('../../../utils');
 
 module.exports = function LocationType(config) {
-	var self = {
+	return {
 		selector: '[data-field-name=' + config.fieldName + '][data-field-type=location]',
 		elements: {
 			label: '.FormLabel',
@@ -359,10 +359,12 @@ module.exports = function LocationType(config) {
 				}
 				return this;
 			},
-			showMore: function() {
-				return this
+			showMoreFields: function(input) {
+				this
+					.waitForElementVisible('@showMore')
 					.click('@showMore')
 					.waitForElementVisible('@numberField');
+				return this;
 			},
 			fillInput: function(input) {
 				this
@@ -472,6 +474,4 @@ module.exports = function LocationType(config) {
 			},
 		}],
 	};
-
-	return self;
 };

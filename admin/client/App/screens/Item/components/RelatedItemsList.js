@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 import { Columns } from 'FieldTypes';
 import { Alert, Spinner } from 'elemental';
 
@@ -85,7 +86,7 @@ const RelatedItemsList = React.createClass({
 		const listHref = `${Keystone.adminPath}/${this.props.refList.path}`;
 		return (
 			<div className="Relationship">
-				<h3 className="Relationship__link"><a href={listHref}>{this.props.refList.label}</a></h3>
+				<h3 className="Relationship__link"><Link to={listHref}>{this.props.refList.label}</Link></h3>
 				{this.state.items ? this.renderItems() : <Spinner size="sm" />}
 			</div>
 		);

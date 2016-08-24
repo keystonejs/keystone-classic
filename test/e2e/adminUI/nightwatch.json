@@ -9,7 +9,7 @@
   "globals_path": "test/e2e/globals.js",
   "selenium": {
     "start_process": true,
-    "server_path": "test/e2e/bin/selenium-server-standalone-2.53.1.jar",
+    "server_path": "${SELENIUM_SERVER}",
     "log_path": "",
     "host": "127.0.0.1",
     "port": 4444,
@@ -45,6 +45,7 @@
       "username": "${SAUCE_USERNAME}",
       "access_key": "${SAUCE_ACCESS_KEY}",
       "use_ssl": false,
+      "startConnect": false,
       "silent": true,
       "output": true,
       "screenshots": {

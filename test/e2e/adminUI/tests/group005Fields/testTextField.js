@@ -5,40 +5,40 @@ module.exports = {
 	after: fieldTests.after,
 	'Text field should show correctly in the initial modal': function (browser) {
 		browser.app.openFieldList('Text');
-		browser.listPage.createFirstItem();
+		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
 
-		browser.initialFormPage.assertUI({
+		browser.initialFormScreen.assertUI({
 			listName: 'Text',
 			fields: ['name', 'fieldA']
 		});
 	},
 	'restoring test state': function(browser) {
-		browser.initialFormPage.cancel();
+		browser.initialFormScreen.cancel();
 		browser.app.waitForListScreen();
 	},
 	'Text field can be filled via the initial modal': function(browser) {
 		browser.app.openFieldList('Text');
-		browser.listPage.createFirstItem();
+		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
-		browser.initialFormPage.fillInputs({
+		browser.initialFormScreen.fillInputs({
 			listName: 'Text',
 			fields: {
 				'name': {value: 'Text Field Test 1'},
 				'fieldA': {value: 'Some test text for field A'},
 			}
 		});
-		browser.initialFormPage.assertInputs({
+		browser.initialFormScreen.assertInputs({
 			listName: 'Text',
 			fields: {
 				'name': {value: 'Text Field Test 1'},
 				'fieldA': {value: 'Some test text for field A'},
 			}
 		});
-		browser.initialFormPage.save();
+		browser.initialFormScreen.save();
 		browser.app.waitForItemScreen();
 
-		browser.itemPage.assertInputs({
+		browser.itemScreen.assertInputs({
 			listName: 'Text',
 			fields: {
 				'name': {value: 'Text Field Test 1'},
@@ -47,22 +47,22 @@ module.exports = {
 		})
 	},
 	'Text field should show correctly in the edit form': function(browser) {
-		browser.itemPage.assertUI({
+		browser.itemScreen.assertUI({
 			listName: 'Text',
 			fields: ['fieldA', 'fieldB']
 		});
 	},
 	'Text field can be filled via the edit form': function(browser) {
-		browser.itemPage.fillInputs({
+		browser.itemScreen.fillInputs({
 			listName: 'Text',
 			fields: {
 				'fieldB': {value: 'Some test text for field B'}
 			}
 		});
-		browser.itemPage.save();
+		browser.itemScreen.save();
 		browser.app.waitForItemScreen();
-		browser.itemPage.assertFlashMessage('Your changes have been saved successfully');
-		browser.itemPage.assertInputs({
+		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
+		browser.itemScreen.assertInputs({
 			listName: 'Text',
 			fields: {
 				'name': {value: 'Text Field Test 1'},

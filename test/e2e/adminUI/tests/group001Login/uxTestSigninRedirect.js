@@ -1,7 +1,7 @@
 module.exports = {
 	before: function (browser) {
 		browser.app = browser.page.app();
-		browser.signinPage = browser.page.signin();
+		browser.signinScreen = browser.page.signin();
 
 		browser.url(browser.app.url + 'users');
 		browser.app.waitForSigninScreen();
@@ -12,7 +12,7 @@ module.exports = {
 			end();
 	},
 	'AdminUI should allow users to login and redirect to custom url': function (browser) {
-		browser.signinPage.signin();
+		browser.signinScreen.signin();
 		browser.app.waitForListScreen();
 		browser.assert.urlEquals(browser.app.url + 'users');
 	},
