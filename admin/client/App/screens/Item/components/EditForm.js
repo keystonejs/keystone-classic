@@ -233,6 +233,12 @@ var EditForm = React.createClass({
 		var headings = 0;
 
 		return this.props.list.uiElements.map((el) => {
+			// Don't render the name field if it is editable since it'll be rendered in BIG above
+			// the list. (see renderNameField method, this is the reverse check of the one it does)
+			if (el.field === this.props.list.nameField.path && this.props.list.nameIsEditable) {
+				return;
+			}
+
 			if (el.type === 'heading') {
 				headings++;
 				el.options.values = this.state.values;
