@@ -109,7 +109,7 @@ var SigninView = React.createClass({
 						/>
 						{this.props.user ? (
 							<UserInfo
-								adminPath={Keystone.adminPath}
+								adminPath={this.props.from ? this.props.from : Keystone.adminPath}
 								signoutPath={`${Keystone.adminPath}/signout`}
 								userCanAccessKeystone={this.props.userCanAccessKeystone}
 								userName={this.props.user.name}
