@@ -5,9 +5,9 @@ module.exports = {
 	before: fieldTests.before,
 	after: fieldTests.after,
 	'DateArray field should show correctly in the initial modal': function (browser) {
-		browser.app.openFieldList('DateArray');
+		browser.adminUIApp.openFieldList('DateArray');
 		browser.listScreen.createFirstItem();
-		browser.app.waitForInitialFormScreen();
+		browser.adminUIApp.waitForInitialFormScreen();
 
 		browser.initialFormScreen.assertUIVisible({
 			modelTestConfig: DateArrayModelTestConfig,
@@ -16,12 +16,12 @@ module.exports = {
 	},
 	'restoring test state': function(browser) {
 		browser.initialFormScreen.cancel();
-		browser.app.waitForListScreen();
+		browser.adminUIApp.waitForListScreen();
 	},
 	'DateArray field can be filled via the initial modal': function(browser) {
-		browser.app.openFieldList('DateArray');
+		browser.adminUIApp.openFieldList('DateArray');
 		browser.listScreen.createFirstItem();
-		browser.app.waitForInitialFormScreen();
+		browser.adminUIApp.waitForInitialFormScreen();
 		browser.initialFormScreen.fillInputs({
 			modelTestConfig: DateArrayModelTestConfig,
 			fields: {
@@ -37,7 +37,7 @@ module.exports = {
 		});
 		*/
 		browser.initialFormScreen.save();
-		browser.app.waitForItemScreen();
+		browser.adminUIApp.waitForItemScreen();
 		/* TODO Pending fix of timezone issues which are causing Travis CI to fail
 		browser.itemScreen.assertInputs({
 			modelTestConfig: DateArrayModelTestConfig,
@@ -117,7 +117,7 @@ module.exports = {
 		});
 
 		browser.itemScreen.save();
-		browser.app.waitForItemScreen();
+		browser.adminUIApp.waitForItemScreen();
 		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
 		/* TODO Pending fix of timezone issues which are causing Travis CI to fail
 		browser.itemScreen.assertInputs({

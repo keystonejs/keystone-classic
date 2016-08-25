@@ -1,26 +1,26 @@
 module.exports = {
 	before: function (browser) {
-		browser.app = browser.page.app();
-		browser.signinScreen = browser.page.signin();
+		browser.adminUIApp = browser.page.adminUIApp();
+		browser.signinScreen = browser.page.signinScreen();
 		browser.listScreen = browser.page.listScreen();
 		browser.itemScreen = browser.page.itemScreen();
 		browser.initialFormScreen = browser.page.initialForm();
 
-		browser.app.gotoHomeScreen();
-		browser.app.waitForSigninScreen();
+		browser.adminUIApp.gotoHomeScreen();
+		browser.adminUIApp.waitForSigninScreen();
 
 		browser.signinScreen.signin();
-		browser.app.waitForHomeScreen();
+		browser.adminUIApp.waitForHomeScreen();
 	},
 	after: function (browser) {
-		browser.app.signout();
+		browser.adminUIApp.signout();
 		browser.end();
 	},
 	'Depends On field should work in initial form': function(browser) {
 		// Create items
-		browser.app.openMiscList('DependsOn');
+		browser.adminUIApp.openMiscList('DependsOn');
 		browser.listScreen.createFirstItem();
-		browser.app.waitForInitialFormScreen();
+		browser.adminUIApp.waitForInitialFormScreen();
 
 
 		// The dependency condition is met by default, so the dependent field should show.

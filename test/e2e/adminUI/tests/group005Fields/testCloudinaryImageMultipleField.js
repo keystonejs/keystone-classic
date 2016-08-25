@@ -5,9 +5,9 @@ module.exports = {
 	before: fieldTests.before,
 	after: fieldTests.after,
 	'CloudinaryImageMultiple field should show correctly in the initial modal': function (browser) {
-		browser.app.openFieldList('CloudinaryImageMultiple');
+		browser.adminUIApp.openFieldList('CloudinaryImageMultiple');
 		browser.listScreen.createFirstItem();
-		browser.app.waitForInitialFormScreen();
+		browser.adminUIApp.waitForInitialFormScreen();
 
 		browser.initialFormScreen.assertUIVisible({
 			modelTestConfig: CloudinaryImageMultipleModelTestConfig,
@@ -16,12 +16,12 @@ module.exports = {
 	},
 	'restoring test state': function(browser) {
 		browser.initialFormScreen.cancel();
-		browser.app.waitForListScreen();
+		browser.adminUIApp.waitForListScreen();
 	},
 	'CloudinaryImageMultiple field can be filled via the initial modal': function(browser) {
-		browser.app.openFieldList('CloudinaryImageMultiple');
+		browser.adminUIApp.openFieldList('CloudinaryImageMultiple');
 		browser.listScreen.createFirstItem();
-		browser.app.waitForInitialFormScreen();
+		browser.adminUIApp.waitForInitialFormScreen();
 		browser.initialFormScreen.fillInputs({
 			modelTestConfig: CloudinaryImageMultipleModelTestConfig,
 			fields: {
@@ -35,7 +35,7 @@ module.exports = {
 			}
 		});
 		browser.initialFormScreen.save();
-		browser.app.waitForItemScreen();
+		browser.adminUIApp.waitForItemScreen();
 
 		browser.itemScreen.assertInputs({
 			modelTestConfig: CloudinaryImageMultipleModelTestConfig,

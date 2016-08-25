@@ -5,9 +5,9 @@ module.exports = {
 	before: fieldTests.before,
 	after: fieldTests.after,
 	'File field should show correctly in the initial modal': function (browser) {
-		browser.app.openFieldList('File');
+		browser.adminUIApp.openFieldList('File');
 		browser.listScreen.createFirstItem();
-		browser.app.waitForInitialFormScreen();
+		browser.adminUIApp.waitForInitialFormScreen();
 
 		browser.initialFormScreen.assertUIVisible({
 			modelTestConfig: FileModelTestConfig,
@@ -16,12 +16,12 @@ module.exports = {
 	},
 	'restoring test state': function(browser) {
 		browser.initialFormScreen.cancel();
-		browser.app.waitForListScreen();
+		browser.adminUIApp.waitForListScreen();
 	},
 	'File field can be filled via the initial modal': function(browser) {
-		browser.app.openFieldList('File');
+		browser.adminUIApp.openFieldList('File');
 		browser.listScreen.createFirstItem();
-		browser.app.waitForInitialFormScreen();
+		browser.adminUIApp.waitForInitialFormScreen();
 		browser.initialFormScreen.fillInputs({
 			modelTestConfig: FileModelTestConfig,
 			fields: {
@@ -35,7 +35,7 @@ module.exports = {
 			}
 		});
 		browser.initialFormScreen.save();
-		browser.app.waitForItemScreen();
+		browser.adminUIApp.waitForItemScreen();
 
 		browser.itemScreen.assertInputs({
 			modelTestConfig: FileModelTestConfig,

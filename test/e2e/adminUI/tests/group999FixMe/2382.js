@@ -1,29 +1,29 @@
 module.exports = {
 	before: function (browser) {
-		browser.app = browser.page.app();
-		browser.signinScreen = browser.page.signin();
+		browser.adminUIApp = browser.page.adminUIApp();
+		browser.signinScreen = browser.page.signinScreen();
 		browser.listScreen = browser.page.listScreen();
 		browser.itemScreen = browser.page.itemScreen();
 		browser.initialFormScreen = browser.page.initialForm();
 		browser.deleteConfirmationScreen = browser.page.deleteConfirmation();
 
-		browser.app.gotoHomeScreen();
-		browser.app.waitForSigninScreen();
+		browser.adminUIApp.gotoHomeScreen();
+		browser.adminUIApp.waitForSigninScreen();
 
 		browser.signinScreen.signin();
-		browser.app.waitForHomeScreen();
+		browser.adminUIApp.waitForHomeScreen();
 	},
 	after: function (browser) {
-		browser.app.signout();
+		browser.adminUIApp.signout();
 		browser.end();
 	},
 	'Demonstrate issue 2382': function(browser) {
 
 		// Add new text item
 
-		browser.app.openFieldList('Text');
+		browser.adminUIApp.openFieldList('Text');
 		browser.listScreen.createFirstItem();
-		browser.app.waitForInitialFormScreen();
+		browser.adminUIApp.waitForInitialFormScreen();
 
 		browser.initialFormScreen.fillInputs({
 			listName: 'Text',
@@ -32,16 +32,16 @@ module.exports = {
 			}
 		});
 		browser.initialFormScreen.save();
-		browser.app.waitForItemScreen();
+		browser.adminUIApp.waitForItemScreen();
 
-		browser.app.click('@homeIconLink');
-		browser.app.waitForHomeScreen();
+		browser.adminUIApp.click('@homeIconLink');
+		browser.adminUIApp.waitForHomeScreen();
 
 		// Add new relationship with the above text item
 
-		browser.app.openMiscList('ManyRelationship');
+		browser.adminUIApp.openMiscList('ManyRelationship');
 		browser.listScreen.createFirstItem();
-		browser.app.waitForInitialFormScreen();
+		browser.adminUIApp.waitForInitialFormScreen();
 
 		browser.initialFormScreen.fillInputs({
 			listName: 'ManyRelationship',
@@ -51,19 +51,19 @@ module.exports = {
 			}
 		});
 		browser.initialFormScreen.save();
-		browser.app.waitForItemScreen();
+		browser.adminUIApp.waitForItemScreen();
 
-		browser.app.click('@homeIconLink');
-		browser.app.waitForHomeScreen();
+		browser.adminUIApp.click('@homeIconLink');
+		browser.adminUIApp.waitForHomeScreen();
 
 		// Now delete the text item
 
-		browser.app.openFieldList('Text');
-		browser.app.waitForListScreen();
+		browser.adminUIApp.openFieldList('Text');
+		browser.adminUIApp.waitForListScreen();
 
 
 		browser.listScreen.navigateToFirstItem();
-		browser.app.waitForItemScreen();
+		browser.adminUIApp.waitForItemScreen();
 		browser.itemScreen.delete();
 
 		browser.deleteConfirmationScreen
@@ -72,10 +72,10 @@ module.exports = {
 		browser.deleteConfirmationScreen
 			.click('@deleteButton');
 
-		browser.app.click('@homeIconLink');
-		browser.app.waitForHomeScreen();
+		browser.adminUIApp.click('@homeIconLink');
+		browser.adminUIApp.waitForHomeScreen();
 
-		browser.app.openMiscList('ManyRelationship');
+		browser.adminUIApp.openMiscList('ManyRelationship');
 		browser.listScreen.navigateToFirstItem();
 
 		// TODO since we've not established the intended behaviour yet, just pause.

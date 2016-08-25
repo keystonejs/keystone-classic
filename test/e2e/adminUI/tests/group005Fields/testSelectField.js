@@ -5,9 +5,9 @@ module.exports = {
 	before: fieldTests.before,
 	after: fieldTests.after,
 	'Select field should show correctly in the initial modal': function (browser) {
-		browser.app.openFieldList('Select');
+		browser.adminUIApp.openFieldList('Select');
 		browser.listScreen.createFirstItem();
-		browser.app.waitForInitialFormScreen();
+		browser.adminUIApp.waitForInitialFormScreen();
 
 		browser.initialFormScreen.assertUIVisible({
 			modelTestConfig: SelectModelTestConfig,
@@ -22,12 +22,12 @@ module.exports = {
 	},
 	'restoring test state': function(browser) {
 		browser.initialFormScreen.cancel();
-		browser.app.waitForListScreen();
+		browser.adminUIApp.waitForListScreen();
 	},
 	'Select field can be filled via the initial modal': function(browser) {
-		browser.app.openFieldList('Select');
+		browser.adminUIApp.openFieldList('Select');
 		browser.listScreen.createFirstItem();
-		browser.app.waitForInitialFormScreen();
+		browser.adminUIApp.waitForInitialFormScreen();
 		browser.initialFormScreen.fillInputs({
 			modelTestConfig: SelectModelTestConfig,
 			fields: {
@@ -43,7 +43,7 @@ module.exports = {
 			}
 		});
 		browser.initialFormScreen.save();
-		browser.app.waitForItemScreen();
+		browser.adminUIApp.waitForItemScreen();
 
 		browser.itemScreen.assertInputs({
 			modelTestConfig: SelectModelTestConfig,
@@ -76,7 +76,7 @@ module.exports = {
 			}
 		});
 		browser.itemScreen.save();
-		browser.app.waitForItemScreen();
+		browser.adminUIApp.waitForItemScreen();
 		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
 		browser.itemScreen.assertInputs({
 			modelTestConfig: SelectModelTestConfig,

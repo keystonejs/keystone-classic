@@ -5,9 +5,9 @@ module.exports = {
 	before: fieldTests.before,
 	after: fieldTests.after,
 	'Boolean field should show correctly in the initial modal': function (browser) {
-		browser.app.openFieldList('Boolean');
+		browser.adminUIApp.openFieldList('Boolean');
 		browser.listScreen.createFirstItem();
-		browser.app.waitForInitialFormScreen();
+		browser.adminUIApp.waitForInitialFormScreen();
 
 		browser.initialFormScreen.assertUIVisible({
 			modelTestConfig: BooleanModelTestConfig,
@@ -16,12 +16,12 @@ module.exports = {
 	},
 	'restoring test state': function(browser) {
 		browser.initialFormScreen.cancel();
-		browser.app.waitForListScreen();
+		browser.adminUIApp.waitForListScreen();
 	},
 	'Boolean field can be filled via the initial modal': function(browser) {
-		browser.app.openFieldList('Boolean');
+		browser.adminUIApp.openFieldList('Boolean');
 		browser.listScreen.createFirstItem();
-		browser.app.waitForInitialFormScreen();
+		browser.adminUIApp.waitForInitialFormScreen();
 		browser.initialFormScreen.fillInputs({
 			modelTestConfig: BooleanModelTestConfig,
 			fields: {
@@ -38,7 +38,7 @@ module.exports = {
 			}
 		});
 		browser.initialFormScreen.save();
-		browser.app.waitForItemScreen();
+		browser.adminUIApp.waitForItemScreen();
 
 		browser.itemScreen.assertInputs({
 			modelTestConfig: BooleanModelTestConfig,
@@ -68,7 +68,7 @@ module.exports = {
 			}
 		});
 		browser.itemScreen.save();
-		browser.app.waitForItemScreen();
+		browser.adminUIApp.waitForItemScreen();
 		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
 		browser.itemScreen.assertInputs({
 			modelTestConfig: BooleanModelTestConfig,

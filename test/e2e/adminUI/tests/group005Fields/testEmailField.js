@@ -5,9 +5,9 @@ module.exports = {
 	before: fieldTests.before,
 	after: fieldTests.after,
 	'Email field should show correctly in the initial modal': function (browser) {
-		browser.app.openFieldList('Email');
+		browser.adminUIApp.openFieldList('Email');
 		browser.listScreen.createFirstItem();
-		browser.app.waitForInitialFormScreen();
+		browser.adminUIApp.waitForInitialFormScreen();
 
 		browser.initialFormScreen.assertUIVisible({
 			modelTestConfig: EmailModelTestConfig,
@@ -16,12 +16,12 @@ module.exports = {
 	},
 	'restoring test state': function(browser) {
 		browser.initialFormScreen.cancel();
-		browser.app.waitForListScreen();
+		browser.adminUIApp.waitForListScreen();
 	},
 	'Email field can be filled via the initial modal': function(browser) {
-		browser.app.openFieldList('Email');
+		browser.adminUIApp.openFieldList('Email');
 		browser.listScreen.createFirstItem();
-		browser.app.waitForInitialFormScreen();
+		browser.adminUIApp.waitForInitialFormScreen();
 		browser.initialFormScreen.fillInputs({
 			modelTestConfig: EmailModelTestConfig,
 			fields: {
@@ -37,7 +37,7 @@ module.exports = {
 			}
 		});
 		browser.initialFormScreen.save();
-		browser.app.waitForItemScreen();
+		browser.adminUIApp.waitForItemScreen();
 
 		browser.itemScreen.assertInputs({
 			modelTestConfig: EmailModelTestConfig,
@@ -61,7 +61,7 @@ module.exports = {
 			}
 		});
 		browser.itemScreen.save();
-		browser.app.waitForItemScreen();
+		browser.adminUIApp.waitForItemScreen();
 		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
 		browser.itemScreen.assertInputs({
 			modelTestConfig: EmailModelTestConfig,

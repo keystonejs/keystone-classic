@@ -1,55 +1,55 @@
 module.exports = {
 	before: function (browser) {
-		browser.app = browser.page.app();
-		browser.signinScreen = browser.page.signin();
+		browser.adminUIApp = browser.page.adminUIApp();
+		browser.signinScreen = browser.page.signinScreen();
 		browser.homeScreen = browser.page.homeScreen();
 
-		browser.app
+		browser.adminUIApp
 			.gotoHomeScreen()
 			.waitForSigninScreen();
 
 		browser.signinScreen.signin();
 
-		browser.app.waitForHomeScreen();
+		browser.adminUIApp.waitForHomeScreen();
 	},
 	after: function (browser) {
-		browser.app.signout();
+		browser.adminUIApp.signout();
 		browser.end();
 	},
 	'AdminUI should have a home view': function (browser) {
-		browser.app.expect.element('@homeScreen')
+		browser.adminUIApp.expect.element('@homeScreen')
 			.to.be.visible;
 	},
 	'Home view should have a home icon': function (browser) {
-		browser.app.expect.element('@homeIcon')
+		browser.adminUIApp.expect.element('@homeIcon')
 			.to.be.visible;
 	},
 	'Home view should have a home icon': function (browser) {
-		browser.app.expect.element('@homeIconLink')
+		browser.adminUIApp.expect.element('@homeIconLink')
 			.to.have.attribute('title').which.contains('Dashboard - e2e');
 	},
 	'Home view should have an Access menu': function (browser) {
-		browser.app.expect.element('@accessMenu')
+		browser.adminUIApp.expect.element('@accessMenu')
 			.text.to.equal('Access');
 	},
 	'Home view should have an Fields menu': function (browser) {
-		browser.app.expect.element('@fieldListsMenu')
+		browser.adminUIApp.expect.element('@fieldListsMenu')
 			.text.to.equal('Fields');
 	},
 	'Home view should have a Front Page Icon': function (browser) {
-		browser.app.expect.element('@frontPageIcon')
+		browser.adminUIApp.expect.element('@frontPageIcon')
 			.to.be.visible;
 	},
 	'Home view should have a Front Page link': function (browser) {
-		browser.app.expect.element('@frontPageIconLink')
+		browser.adminUIApp.expect.element('@frontPageIconLink')
 			.to.have.attribute('title').which.contains('Front page - e2e');
 	},
 	'Home view should have a Logout icon': function (browser) {
-		browser.app.expect.element('@logoutIcon')
+		browser.adminUIApp.expect.element('@logoutIcon')
 			.to.be.visible;
 	},
 	'Home view should have a Logout link': function (browser) {
-		browser.app.expect.element('@logoutIconLink')
+		browser.adminUIApp.expect.element('@logoutIconLink')
 			.to.have.attribute('title').which.contains('Sign Out');
 	},
 	'Home view should have a dashboard header': function (browser) {

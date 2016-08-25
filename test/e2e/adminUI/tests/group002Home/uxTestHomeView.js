@@ -2,27 +2,27 @@ var NameModelTestConfig = require('../../../modelTestConfig/NameModelTestConfig'
 
 module.exports = {
 	before: function (browser) {
-		browser.app = browser.page.app();
-		browser.signinScreen = browser.page.signin();
+		browser.adminUIApp = browser.page.adminUIApp();
+		browser.signinScreen = browser.page.signinScreen();
 		browser.homeScreen = browser.page.homeScreen();
 		browser.initialFormScreen = browser.page.initialForm();
 		browser.listScreen = browser.page.listScreen();
 		browser.deleteConfirmationScreen = browser.page.deleteConfirmation();
 
-		browser.app
+		browser.adminUIApp
 			.gotoHomeScreen()
 			.waitForSigninScreen();
 
 		browser.signinScreen.signin();
 
-		browser.app.waitForHomeScreen();
+		browser.adminUIApp.waitForHomeScreen();
 	},
 	after: function (browser) {
-		browser.app.signout();
+		browser.adminUIApp.signout();
 		browser.end();
 	},
 	'Home view should allow clicking a nav menu item such as Access and Fields to show the list of items': function (browser) {
-		browser.app
+		browser.adminUIApp
 			.gotoHomeScreen()
 			.waitForHomeScreen()
 			.click('@accessMenu')
@@ -33,18 +33,18 @@ module.exports = {
 			.waitForListScreen();
 	},
 	'Home view should allow clicking a card list item such as Users to should show the list of those items': function (browser) {
-		browser.app
+		browser.adminUIApp
 			.gotoHomeScreen()
 			.waitForHomeScreen();
 
 		browser.homeScreen.section.accessGroup.section.users
 			.click('@label');
 
-		browser.app
+		browser.adminUIApp
 			.waitForListScreen();
 	},
 	'Home view should allow an admin to create a new list item such as a user': function (browser) {
-		browser.app
+		browser.adminUIApp
 			.gotoHomeScreen()
 			.waitForHomeScreen();
 
@@ -55,7 +55,7 @@ module.exports = {
 			.waitForElementVisible('@createButton');
 	},
 	'Home view should allow an admin to create a new list item and increment the item count': function (browser) {
-		browser.app
+		browser.adminUIApp
 			.gotoHomeScreen()
 			.waitForHomeScreen();
 
@@ -64,7 +64,7 @@ module.exports = {
 		browser.homeScreen.section.fieldsGroup.section.names
 			.click('@plusIconLink');
 
-		browser.app.waitForInitialFormScreen();
+		browser.adminUIApp.waitForInitialFormScreen();
 
 		browser.initialFormScreen.fillInputs({
 			modelTestConfig: NameModelTestConfig,
@@ -76,7 +76,7 @@ module.exports = {
 
 		browser.initialFormScreen.save();
 
-		browser.app
+		browser.adminUIApp
 			.waitForItemScreen()
 			.gotoHomeScreen()
 			.waitForHomeScreen();
@@ -85,31 +85,31 @@ module.exports = {
 			.expect.element('@itemCount').text.to.equal('1 Item');
 	},
 	'Home view should be accessible from any other non-modal view by clicking the Home link': function (browser) {
-		browser.app
+		browser.adminUIApp
 			.gotoHomeScreen()
 			.waitForHomeScreen();
 
 		browser.homeScreen.section.accessGroup.section.users
 			.click('@label');
-		browser.app
+		browser.adminUIApp
 			.waitForListScreen();
 
-		browser.app
+		browser.adminUIApp
 			.click('@homeIconLink')
 			.waitForHomeScreen();
 	},
 	// UNDO ANY STATE CHANGES -- THIS TEST SHOULD RUN LAST
 	'Home view ... undoing any state changes': function (browser) {
 		// Delete the Name Field added
-		browser.app
+		browser.adminUIApp
 			.gotoHomeScreen()
 			.waitForHomeScreen();
 
-		browser.app
+		browser.adminUIApp
 			.click('@fieldListsMenu')
 			.waitForListScreen();
 
-		browser.app
+		browser.adminUIApp
 			.click('@nameListSubmenu')
 			.waitForListScreen();
 
@@ -122,6 +122,6 @@ module.exports = {
 		browser.deleteConfirmationScreen
 			.click('@deleteButton');
 
-		browser.app.waitForListScreen();
+		browser.adminUIApp.waitForListScreen();
 	},
 };

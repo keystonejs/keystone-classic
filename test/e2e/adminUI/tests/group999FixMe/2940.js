@@ -1,25 +1,25 @@
 module.exports = {
 	before: function (browser) {
-		browser.app = browser.page.app();
-		browser.signinScreen = browser.page.signin();
+		browser.adminUIApp = browser.page.adminUIApp();
+		browser.signinScreen = browser.page.signinScreen();
 		browser.listScreen = browser.page.listScreen();
 		browser.itemScreen = browser.page.itemScreen();
 		browser.initialFormScreen = browser.page.initialForm();
 
-		browser.app.gotoHomeScreen();
-		browser.app.waitForSigninScreen();
+		browser.adminUIApp.gotoHomeScreen();
+		browser.adminUIApp.waitForSigninScreen();
 
 		browser.signinScreen.signin();
-		browser.app.waitForHomeScreen();
+		browser.adminUIApp.waitForHomeScreen();
 	},
 	after: function (browser) {
-		browser.app.signout();
+		browser.adminUIApp.signout();
 		browser.end();
 	},
 	'List items with relationships to them should allow navigating to the source relationships': function(browser) {
-		browser.app.openMiscList('TargetRelationship');
+		browser.adminUIApp.openMiscList('TargetRelationship');
 		browser.listScreen.createFirstItem();
-		browser.app.waitForInitialFormScreen();
+		browser.adminUIApp.waitForInitialFormScreen();
 
 		browser.initialFormScreen.assertUI({
 			listName: 'TargetRelationship',
@@ -33,11 +33,11 @@ module.exports = {
 			},
 		});
 		browser.initialFormScreen.save();
-		browser.app.waitForItemScreen();
+		browser.adminUIApp.waitForItemScreen();
 
-		browser.app.openMiscList('SourceRelationship');
+		browser.adminUIApp.openMiscList('SourceRelationship');
 		browser.listScreen.createFirstItem();
-		browser.app.waitForInitialFormScreen();
+		browser.adminUIApp.waitForInitialFormScreen();
 
 		browser.initialFormScreen.assertUI({
 			listName: 'SourceRelationship',
@@ -51,7 +51,7 @@ module.exports = {
 			},
 		});
 		browser.initialFormScreen.save();
-		browser.app.waitForItemScreen();
+		browser.adminUIApp.waitForItemScreen();
 
 		browser.itemScreen.fillInputs({
 			listName: 'SourceRelationship',
@@ -61,13 +61,13 @@ module.exports = {
 			},
 		});
 		browser.itemScreen.save();
-		browser.app.waitForItemScreen();
+		browser.adminUIApp.waitForItemScreen();
 		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
 
-		browser.app.openMiscList('TargetRelationship');
+		browser.adminUIApp.openMiscList('TargetRelationship');
 		browser.listScreen.navigateToFirstItem();
 
-		browser.app.waitForItemScreen();
+		browser.adminUIApp.waitForItemScreen();
 
 		browser.itemScreen.assertInputs({
 			listName: 'TargetRelationship',
@@ -78,7 +78,7 @@ module.exports = {
 
 		browser.itemScreen.navitageToFirstRelationship();
 
-		browser.app.waitForItemScreen();
+		browser.adminUIApp.waitForItemScreen();
 
 		browser.itemScreen.assertInputs({
 			listName: 'SourceRelationship',
