@@ -113,6 +113,7 @@ module.exports = Field.create({
 	displayName: 'MarkdownField',
 	statics: {
 		type: 'Markdown',
+		getDefaultValue: () => ({}),
 	},
 
 	// override `shouldCollapse` to check the markdown field correctly
