@@ -312,6 +312,11 @@ var EditForm = React.createClass({
 		);
 	},
 	renderTrackingMeta () {
+		// TODO: These fields are visible now, so we don't want this. We may revisit
+		// it when we have more granular control over hiding fields in certain
+		// contexts, so I'm leaving this code here as a reference for now - JW
+		if (true) return null; // if (true) prevents unreachable code linter errpr
+
 		if (!this.props.list.tracking) return null;
 
 		var elements = [];
