@@ -207,6 +207,14 @@ cloudinaryimages.prototype.format = function (item) {
 };
 
 /**
+ * Gets the field's data from an Item, as used by the React components
+ */
+cloudinaryimages.prototype.getData = function (item) {
+	var value = item.get(this.path);
+	return Array.isArray(value) ? value : [];
+};
+
+/**
  * Validates that a value for this field has been provided in a data object
  *
  * Deprecated

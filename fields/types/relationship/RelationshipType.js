@@ -87,6 +87,18 @@ relationship.prototype.addToSchema = function (schema) {
 };
 
 /**
+ * Gets the field's data from an Item, as used by the React components
+ */
+relationship.prototype.getData = function (item) {
+	var value = item.get(this.path);
+	if (this.many) {
+		return Array.isArray(value) ? value : [];
+	} else {
+		return value;
+	}
+};
+
+/**
  * Add filters to a query
  */
 relationship.prototype.addFilterToQuery = function (filter) {
