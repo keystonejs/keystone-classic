@@ -1,6 +1,6 @@
 import React from 'react';
 import demand from 'must';
-import EditFormHeader from '../EditFormHeader';
+import { EditFormHeader } from '../EditFormHeader';
 import { shallow } from 'enzyme';
 
 import Toolbar from '../Toolbar';

@@ -10,7 +10,7 @@ import { Link } from 'react-router';
 import Drilldown from './Drilldown';
 import { GlyphButton } from '../../../elemental';
 
-var Header = React.createClass({
+export const EditFormHeader = React.createClass({
 	displayName: 'EditFormHeader',
 	propTypes: {
 		data: React.PropTypes.object,
@@ -151,6 +151,6 @@ var Header = React.createClass({
 	},
 });
 
-module.exports = connect((state) => ({
+export default connect((state) => ({
 	listActivePage: state.lists.page.index,
-}))(Header);
+}))(EditFormHeader);
