@@ -12,15 +12,27 @@ You can also deploy a starter project to [Heroku](https://www.heroku.com/) for f
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/JedWatson/keystone-starter)
 
 
-## v0.4.0 React Rebuild coming soon
+## Keystone 4.0 Beta Released!!!
 
-We've been working on a major update to Keystone for several months now, rewriting the Admin UI as a ReactJS App.
+We've been working on a major update to KeystoneJS for the last year, and it's a complete rebuild of Keystone's Admin UI and internal architecture. Improvements include:
 
-Work on this has now been merged into our `master` branch, which is currently not stable (but which we encourage you to try out and give us feedback on!). Stable `0.3.x` releases will continue to be published from the `0.3.x` branch.
+* The Admin UI has been re-written as a single page app using React.js, Redux and Elemental UI
+* An updated API for Lists and Fields
+* Better support for using Keystone without Express, or with your own express instance
+* Core functionality has been refactored and we're breaking Keystone up into separate npm packages
+* Startup time has been significantly reduced
+* LocalFile, S3File and AzureFile have been replaced by a new generic `keystone.Storage` engine and File field
+* We have much higher unit and end-to-end test coverage
 
-Our [demo site](http://demo.keystonejs.com/) has been updated to the new version - check it out and let us know what you think!
+Please try out the beta and let us know what you think:
 
-For more information on the upcoming version, including how to try it out and get involved, check out [issue #1612](https://github.com/keystonejs/keystone/issues/1612)
+```
+npm install --save keystone@next
+```
+
+We'll be publishing a summary of the new features, changes and improvements as we get closer to the final release. In the meantime, see the [v0.3 -> v4.0 Upgrade Guide](https://github.com/keystonejs/keystone/blob/master/docs/guides/v0.3-to-v4.0-Upgrade-Guide.md) for information on what's changed.
+
+Also check out our [demo site](http://demo.keystonejs.com/), which has been updated to the new version!
 
 
 ## About
