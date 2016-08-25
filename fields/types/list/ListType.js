@@ -177,7 +177,12 @@ list.prototype.getData = function (item) {
  * Updates the value for this field in the item from a data object.
  * If the data object does not contain the value, then the value is set to empty array.
  */
-list.prototype.updateItem = function (item, data, callback) {
+list.prototype.updateItem = function (item, data, files, callback) {
+	if (typeof files === 'function') {
+		callback = files;
+		files = {};
+	}
+
 	var field = this;
 	var values = this.getValueFromData(data);
 	// Don't update the value when it is undefined
@@ -201,7 +206,7 @@ list.prototype.updateItem = function (item, data, callback) {
 		var prevItem = listArray.id(value.id);
 		var newItem = listArray.create(prevItem);
 		async.forEach(field.fieldsArray, function (nestedField, done) {
-			nestedField.updateItem(newItem, value, done);
+			nestedField.updateItem(newItem, value, files, done);
 		}, function (err) {
 			next(err, newItem);
 		});
