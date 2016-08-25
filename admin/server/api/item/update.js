@@ -9,7 +9,8 @@ module.exports = function (req, res) {
 		req.list.updateItem(item, req.body, { files: req.files }, function (err) {
 			if (err) {
 				var status = err.error === 'validation errors' ? 400 : 500;
-				return res.apiError(status, err);
+				var error = err.error === 'database error' ? err.detail : err;
+				return res.apiError(status, error);
 			}
 			res.json(req.list.getData(item));
 		});
