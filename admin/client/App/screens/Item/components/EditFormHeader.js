@@ -1,5 +1,7 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
+import { connect } from 'react-redux';
+
 import Toolbar from './Toolbar';
 import ToolbarSection from './Toolbar/ToolbarSection';
 import { FormIconField, FormInput, ResponsiveText } from 'elemental';
@@ -8,7 +10,7 @@ import { Link } from 'react-router';
 import Drilldown from './Drilldown';
 import { GlyphButton } from '../../../elemental';
 
-var Header = React.createClass({
+export const EditFormHeader = React.createClass({
 	displayName: 'EditFormHeader',
 	propTypes: {
 		data: React.PropTypes.object,
@@ -47,8 +49,12 @@ var Header = React.createClass({
 		const { data, list } = this.props;
 		const items = data.drilldown ? data.drilldown.items : [];
 
-		const backPath = `${Keystone.adminPath}/${list.path}`;
+		let backPath = `${Keystone.adminPath}/${list.path}`;
 		const backStyles = { paddingLeft: 0, paddingRight: 0 };
+		// Link to the list page the user came from
+		if (this.props.listActivePage && this.props.listActivePage > 1) {
+			backPath = `${backPath}?page=${this.props.listActivePage}`;
+		}
 
 		// return a single back button when no drilldown exists
 		if (!items.length) {
@@ -145,4 +151,6 @@ var Header = React.createClass({
 	},
 });
 
-module.exports = Header;
+export default connect((state) => ({
+	listActivePage: state.lists.page.index,
+}))(EditFormHeader);
