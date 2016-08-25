@@ -13,11 +13,8 @@ module.exports = function PasswordFieldTestObject(config) {
 			setPasswordButton: '.Button',
 		},
 		commands: {
-			clickUI: function(browser, ui) {
-				var clickables = Object.keys(ui);
-				clickables.forEach(function(clickable) {
-					browser.click(selectElem(ui[clickable]));
-				});
+			clickUI: function (browser, elem) {
+				browser.click(selectElem(elem));
 			},
 			assertUIVisible: function(browser, args) {
 				browser

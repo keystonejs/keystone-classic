@@ -15,6 +15,9 @@ module.exports = function DateArrayFieldTestObject (config) {
 			date2Delete: '.FormField:nth-of-type(2) .Button--link-cancel',
 		},
 		commands: {
+			clickUI: function (browser, elem) {
+				browser.click(selectElem(elem));
+			},
 			assertUIVisible: function(browser, args) {
 				browser
 					.expect.element(selectElem('label')).to.be.visible;
@@ -74,12 +77,6 @@ module.exports = function DateArrayFieldTestObject (config) {
 							.expect.element(selectElem(dateInput + 'Delete')).to.not.be.present;
 					});
 				}
-			},
-			clickUI: function(browser, ui) {
-				var clickables = Object.keys(ui);
-				clickables.forEach(function(clickable) {
-					browser.click(selectElem(ui[clickable]));
-				});
 			},
 			fillInput: function(browser, input) {
 				var dateInputs = Object.keys(input);

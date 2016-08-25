@@ -80,7 +80,7 @@ module.exports = {
 		browser.itemScreen.clickUI({
 			modelTestConfig: PasswordModelTestConfig,
 			fields: {
-				'fieldB': {'button': 'setPasswordButton'},
+				'fieldB': {'click': 'setPasswordButton'},
 			}
 		});
 		browser.itemScreen.assertUIVisible({

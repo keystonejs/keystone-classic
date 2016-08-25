@@ -55,7 +55,7 @@ module.exports = {
 		browser.itemScreen.clickUI({
 			modelTestConfig: DateArrayModelTestConfig,
 			fields: {
-				'fieldA': {'button': 'addButton'},
+				'fieldA': {'click': 'addButton'},
 			}
 		});
 		browser.itemScreen.assertUIVisible({
@@ -68,7 +68,7 @@ module.exports = {
 		browser.itemScreen.clickUI({
 			modelTestConfig: DateArrayModelTestConfig,
 			fields: {
-				'fieldA': {'button': 'addButton'},
+				'fieldA': {'click': 'addButton'},
 			}
 		});
 		browser.itemScreen.assertUIVisible({
@@ -81,13 +81,13 @@ module.exports = {
 		browser.itemScreen.clickUI({
 			modelTestConfig: DateArrayModelTestConfig,
 			fields: {
-				'fieldB': {'button': 'addButton'},
+				'fieldB': {'click': 'addButton'},
 			}
 		});
 		browser.itemScreen.clickUI({
 			modelTestConfig: DateArrayModelTestConfig,
 			fields: {
-				'fieldB': {'button': 'addButton'},
+				'fieldB': {'click': 'addButton'},
 			}
 		});
 		browser.itemScreen.assertUIVisible({

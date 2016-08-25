@@ -39,7 +39,7 @@ module.exports = {
 		browser.initialFormScreen.clickUI({
 			modelTestConfig: MarkdownModelTestConfig,
 			fields: {
-				'fieldA': {'button': 'previewToggle'},
+				'fieldA': {'click': 'previewToggle'},
 			}
 		});
 		browser.initialFormScreen.assertInputs({

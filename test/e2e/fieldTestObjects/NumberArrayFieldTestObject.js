@@ -15,6 +15,9 @@ module.exports = function NumberArrayFieldTestObject (config) {
 			number2Delete: '.FormField:nth-of-type(2) .Button--link-cancel',
 		},
 		commands: {
+			clickUI: function (browser, elem) {
+				browser.click(selectElem(elem));
+			},
 			assertUIVisible: function(browser, args) {
 				browser
 					.expect.element(selectElem('label')).to.be.visible;
@@ -72,12 +75,6 @@ module.exports = function NumberArrayFieldTestObject (config) {
 							.expect.element(selectElem(numberInput + 'Delete')).to.not.be.present;
 					});
 				}
-			},
-			clickUI: function(browser, ui) {
-				var clickables = Object.keys(ui);
-				clickables.forEach(function(clickable) {
-					browser.click(selectElem(ui[clickable]));
-				});
 			},
 			fillInput: function(browser, input) {
 				numberInputs = Object.keys(input);

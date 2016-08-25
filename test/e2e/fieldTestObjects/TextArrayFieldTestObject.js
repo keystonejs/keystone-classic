@@ -1,7 +1,7 @@
 var utils = require('../utils');
 
-module.exports = function TextArrayFieldTestObject (config) {
-	var selectElem = function(elem) {
+module.exports = function TextArrayFieldTestObject(config) {
+	var selectElem = function (elem) {
 		return config.formSelector + ' ' + self.selector + ' ' + self.elements[elem];
 	};
 	var self = {
@@ -15,7 +15,10 @@ module.exports = function TextArrayFieldTestObject (config) {
 			text2Delete: '.FormField:nth-of-type(2) .Button--link-cancel',
 		},
 		commands: {
-			assertUIVisible: function(browser, args) {
+			clickUI: function (browser, elem) {
+				browser.click(selectElem(elem));
+			},
+			assertUIVisible: function (browser, args) {
 				browser
 					.expect.element(selectElem('label')).to.be.visible;
 				browser
@@ -23,7 +26,7 @@ module.exports = function TextArrayFieldTestObject (config) {
 				browser
 					.expect.element(selectElem('addButton')).to.be.visible;
 				if (args !== undefined && args.textInputs !== undefined) {
-					args.textInputs.forEach(function(textInput) {
+					args.textInputs.forEach(function (textInput) {
 						browser
 							.expect.element(selectElem(textInput)).to.be.visible;
 						browser
@@ -31,13 +34,13 @@ module.exports = function TextArrayFieldTestObject (config) {
 					});
 				}
 			},
-			assertUINotVisible: function(browser, args) {
+			assertUINotVisible: function (browser, args) {
 				browser
 					.expect.element(selectElem('label')).to.not.be.visible;
 				browser
 					.expect.element(selectElem('addButton')).to.not.be.visible;
 				if (args !== undefined && args.textInputs !== undefined) {
-					args.textInputs.forEach(function(textInput) {
+					args.textInputs.forEach(function (textInput) {
 						browser
 							.expect.element(selectElem(textInput)).to.not.be.visible;
 						browser
@@ -45,13 +48,13 @@ module.exports = function TextArrayFieldTestObject (config) {
 					});
 				}
 			},
-			assertUIPresent: function(browser, args) {
+			assertUIPresent: function (browser, args) {
 				browser
 					.expect.element(selectElem('label')).to.be.present;
 				browser
 					.expect.element(selectElem('addButton')).to.be.present;
 				if (args !== undefined && args.textInputs !== undefined) {
-					args.textInputs.forEach(function(textInput) {
+					args.textInputs.forEach(function (textInput) {
 						browser
 							.expect.element(selectElem(textInput)).to.be.present;
 						browser
@@ -59,13 +62,13 @@ module.exports = function TextArrayFieldTestObject (config) {
 					});
 				}
 			},
-			assertUINotPresent: function(browser, args) {
+			assertUINotPresent: function (browser, args) {
 				browser
 					.expect.element(selectElem('label')).to.not.be.present;
 				browser
 					.expect.element(selectElem('addButton')).to.not.be.present;
 				if (args !== undefined && args.textInputs !== undefined) {
-					args.textInputs.forEach(function(textInput) {
+					args.textInputs.forEach(function (textInput) {
 						browser
 							.expect.element(selectElem(textInput)).to.not.be.present;
 						browser
@@ -73,23 +76,17 @@ module.exports = function TextArrayFieldTestObject (config) {
 					});
 				}
 			},
-			clickUI: function(browser, ui) {
-				var clickables = Object.keys(ui);
-				clickables.forEach(function(clickable) {
-					browser.click(selectElem(ui[clickable]));
-				});
-			},
-			fillInput: function(browser, input) {
+			fillInput: function (browser, input) {
 				textInputs = Object.keys(input);
-				textInputs.forEach(function(textInput) {
+				textInputs.forEach(function (textInput) {
 					browser
 						.clearValue(selectElem(textInput))
 						.setValue(selectElem(textInput), input[textInput]);
 				});
 			},
-			assertInput: function(browser, input) {
+			assertInput: function (browser, input) {
 				textInputs = Object.keys(input);
-				textInputs.forEach(function(textInput) {
+				textInputs.forEach(function (textInput) {
 					browser
 						.getValue(selectElem(textInput), function (result) {
 							browser.api.assert.equal(result.state, "success");

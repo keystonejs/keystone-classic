@@ -35,6 +35,9 @@ module.exports = function LocationFieldTestObject (config) {
 			geoLngValue: '[data-field-location-path="' + config.fieldName + '.geo"] input[name="' + config.fieldName + '.geo[0]"]',
 		},
 		commands: {
+			clickUI: function (browser, elem) {
+				browser.click(selectElem(elem));
+			},
 			assertUIVisible: function(browser, args) {
 				browser
 					.expect.element(selectElem('label')).to.be.visible;

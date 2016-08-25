@@ -20,9 +20,11 @@ module.exports = {
 			],
 		});
 
-		browser.initialFormScreen.showMoreFields({
+		browser.initialFormScreen.clickUI({
 			modelTestConfig: LocationModelTestConfig,
-			fields: [{name: 'fieldA'}],
+			fields: {
+				'fieldA': {'click': 'showMore'},
+			}
 		});
 
 		browser.initialFormScreen.assertUIVisible({
@@ -44,9 +46,11 @@ module.exports = {
 		browser.app.openFieldList('Location');
 		browser.listScreen.createFirstItem();
 		browser.app.waitForInitialFormScreen();
-		browser.initialFormScreen.showMoreFields({
+		browser.initialFormScreen.clickUI({
 			modelTestConfig: LocationModelTestConfig,
-			fields: [{name: 'fieldA'}],
+			fields: {
+				'fieldA': {'click': 'showMore'},
+			}
 		});
 		browser.initialFormScreen.fillInputs({
 			modelTestConfig: LocationModelTestConfig,
@@ -120,9 +124,11 @@ module.exports = {
 				}
 			],
 		});
-		browser.itemScreen.showMoreFields({
+		browser.itemScreen.clickUI({
 			modelTestConfig: LocationModelTestConfig,
-			fields: [{name: 'fieldB'}],
+			fields: {
+				'fieldB': {'click': 'showMore'},
+			}
 		});
 		browser.itemScreen.assertUIVisible({
 			modelTestConfig: LocationModelTestConfig,
