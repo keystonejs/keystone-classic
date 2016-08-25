@@ -39,7 +39,9 @@ var ItemView = React.createClass({
 	componentDidMount () {
 		// When we directly navigate to an item without coming from another client
 		// side routed page before, we need to select the list before initializing the item
-		this.props.dispatch(selectList(this.props.params.listId));
+		if (!this.props.currentList) {
+			this.props.dispatch(selectList(this.props.params.listId));
+		}
 		this.initializeItem(this.props.params.itemId);
 	},
 	componentWillReceiveProps (nextProps) {
