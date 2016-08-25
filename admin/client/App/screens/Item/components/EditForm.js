@@ -59,6 +59,7 @@ var EditForm = React.createClass({
 			confirmationDialog: null,
 			loading: false,
 			lastValues: null, // used for resetting
+			focusFirstField: true,
 		};
 	},
 	getFieldProps (field) {
@@ -215,6 +216,7 @@ var EditForm = React.createClass({
 			var nameFieldProps = this.getFieldProps(nameField);
 			nameFieldProps.label = null;
 			nameFieldProps.size = 'full';
+			nameFieldProps.autoFocus = true;
 			nameFieldProps.inputProps = {
 				className: 'item-name-field',
 				placeholder: nameField.label,
@@ -232,10 +234,15 @@ var EditForm = React.createClass({
 	renderFormElements () {
 		var headings = 0;
 
-		return this.props.list.uiElements.map((el) => {
+		return this.props.list.uiElements.map((el, index) => {
 			// Don't render the name field if it is the header since it'll be rendered in BIG above
 			// the list. (see renderNameField method, this is the reverse check of the one it does)
 			if (this.props.list.nameField && el.field === this.props.list.nameField.path && this.props.list.nameFieldIsFormHeader) {
+				if (this.state.focusFirstField) {
+					this.setState({
+						focusFirstField: false,
+					});
+				}
 				return;
 			}
 
@@ -259,6 +266,10 @@ var EditForm = React.createClass({
 					});
 				}
 				props.key = field.path;
+				if (index === 0 && this.state.focusFirstField) {
+					console.log(`FOCUS ${field.path}`);
+					props.autoFocus = true;
+				}
 				return React.createElement(Fields[field.type], props);
 			}
 		}, this);
