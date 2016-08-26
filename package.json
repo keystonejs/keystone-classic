@@ -85,7 +85,7 @@
     "react-router-redux": "4.0.5",
     "react-select": "1.0.0-beta14",
     "redux": "3.5.2",
-    "redux-saga": "^0.11.0",
+    "redux-saga": "^0.11.1",
     "redux-thunk": "2.1.0",
     "sanitize-filename": "1.6.0",
     "scmp": "1.0.0",
