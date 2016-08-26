@@ -15,7 +15,6 @@ function markdown (list, path, options) {
 	this.toolbarOptions = options.toolbarOptions || {};
 	this.markedOptions = options.markedOptions || {};
 	this.height = options.height || 90;
-	this.wysiwyg = ('wysiwyg' in options) ? options.wysiwyg : true;
 
 	this._properties = ['wysiwyg', 'height', 'toolbarOptions'];
 	markdown.super_.call(this, list, path, options);
