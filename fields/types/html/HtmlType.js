@@ -11,7 +11,6 @@ var util = require('util');
 function html (list, path, options) {
 	this._nativeType = String;
 	this._defaultSize = 'full';
-	this.wysiwyg = options.wysiwyg || false;
 	this.height = options.height || 180;
 	this._properties = ['wysiwyg', 'height'];
 	html.super_.call(this, list, path, options);
