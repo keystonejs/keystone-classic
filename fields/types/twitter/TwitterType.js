@@ -1,6 +1,7 @@
 var FieldType = require('../Type');
 var TextType = require('../text/TextType');
 var util = require('util');
+var utils = require('keystone-utils');
 
 
 /**
@@ -16,16 +17,21 @@ function twitter (list, path, options) {
 twitter.properName = 'Twitter';
 util.inherits(twitter, FieldType);
 
+twitter.prototype.validateInput = function (data, callback) {
+	var value = this.getValueFromData(data);
+	var result = value === undefined || value === null || typeof value === 'string';
+	if (value.indexOf('twitter.com/') || value.indexOf('twitter.com/@')) {
+		value = stripUsername(value);
+		console.log(value);
+		result = /^@?(\w){1,15}$/.test(value);
+	}
+	utils.defer(callback, result);
+};
+
 twitter.prototype.validateRequiredInput = TextType.prototype.validateRequiredInput;
 
 /* Inherit from TextType prototype */
 twitter.prototype.addFilterToQuery = TextType.prototype.addFilterToQuery;
-
-twitter.prototype.validateInput = function (data, callback) {
-	var value = this.getValueFromData(data);
-	var result = value === undefined || value === null || typeof value === 'string';
-	utils.defer(callback, result);
-};
 
 /**
  * Formats the field value using either a supplied format function or default
@@ -38,15 +44,23 @@ twitter.prototype.format = function (item) {
 	} else if (typeof this.options.format === 'function') {
 		return this.options.format(twitter);
 	} else {
-		return removeProtocolPrefix(twitter);
+		return stripUsername(twitter);
 	}
 };
 
 /**
- * Remove the protocol prefix from url
+ * Get twitter username from url
  */
-function removeProtocolPrefix (url) {
-	return url.replace(/^[a-zA-Z]+\:\/\//, '');
+function stripUsername (twitter) {
+	if (twitter.charAt(twitter.length - 1) === '/') {
+		twitter = twitter.slice(0, -1);
+	}
+	var replacePosition = twitter.lastIndexOf('/');
+	twitter = twitter.substring(replacePosition + 1);
+	if (twitter.indexOf('@') + 1) {
+		return twitter.replace('@', '');
+	}
+	return twitter;
 }
 
 /* Export Field Type */

@@ -77,14 +77,14 @@ exports.testFieldType = function (List) {
 
 	describe('validateInput', function () {
 		it('should validate string input', function (done) {
-			List.fields.twitter.validateInput({ text: 'a' }, function (result) {
+			List.fields.twitter.validateInput({ twitter: 'a' }, function (result) {
 				demand(result).be.true();
 				done();
 			});
 		});
 
 		it('should validate emtpy string input', function (done) {
-			List.fields.twitter.validateInput({ text: '' }, function (result) {
+			List.fields.twitter.validateInput({ twitter: '' }, function (result) {
 				demand(result).be.true();
 				done();
 			});
@@ -98,70 +98,70 @@ exports.testFieldType = function (List) {
 		});
 
 		it('should validate null input', function (done) {
-			List.fields.twitter.validateInput({ text: null }, function (result) {
+			List.fields.twitter.validateInput({ twitter: null }, function (result) {
 				demand(result).be.true();
 				done();
 			});
 		});
 
 		it('should validate full twitter URL', function (done) {
-			List.fields.twitter.validateInput({ text: 'https://twitter.com/xyzcoode' }, function (result) {
+			List.fields.twitter.validateInput({ twitter: 'https://twitter.com/xyzcoode' }, function (result) {
 				demand(result).be.true();
 				done();
 			});
 		});
 
 		it('should validate twitter URL without protocol', function (done) {
-			List.fields.twitter.validateInput({ text: 'twitter.com/xyzcoode' }, function (result) {
+			List.fields.twitter.validateInput({ twitter: 'twitter.com/xyzcoode' }, function (result) {
 				demand(result).be.true();
 				done();
 			});
 		});
 
 		it('should invalidate numeric input', function (done) {
-			List.fields.twitter.validateInput({ text: 1 }, function (result) {
+			List.fields.twitter.validateInput({ twitter: 1 }, function (result) {
 				demand(result).be.false();
 				done();
 			});
 		});
 
 		it('should invalidate object input', function (done) {
-			List.fields.twitter.validateInput({ text: { things: 'stuff' } }, function (result) {
+			List.fields.twitter.validateInput({ twitter: { things: 'stuff' } }, function (result) {
 				demand(result).be.false();
 				done();
 			});
 		});
 
 		it('should invalidate array input', function (done) {
-			List.fields.twitter.validateInput({ text: [1, 2, 3] }, function (result) {
+			List.fields.twitter.validateInput({ twitter: [1, 2, 3] }, function (result) {
 				demand(result).be.false();
 				done();
 			});
 		});
 
 		it('should invalidate Boolean input', function (done) {
-			List.fields.twitter.validateInput({ text: true }, function (result) {
+			List.fields.twitter.validateInput({ twitter: true }, function (result) {
 				demand(result).be.false();
 				done();
 			});
 		});
 
 		it('should invalidate function input', function (done) {
-			List.fields.twitter.validateInput({ text: function () {} }, function (result) {
+			List.fields.twitter.validateInput({ twitter: function () {} }, function (result) {
 				demand(result).be.false();
 				done();
 			});
 		});
 
 		it('should invalidate regexp input', function (done) {
-			List.fields.twitter.validateInput({ text: /foo/ }, function (result) {
+			List.fields.twitter.validateInput({ twitter: /foo/ }, function (result) {
 				demand(result).be.false();
 				done();
 			});
 		});
 
 		it('should invalidate date input', function (done) {
-			List.fields.twitter.validateInput({ text: Date.now() }, function (result) {
+			List.fields.twitter.validateInput({ twitter: Date.now() }, function (result) {
 				demand(result).be.false();
 				done();
 			});

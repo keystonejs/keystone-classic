@@ -18,6 +18,8 @@ var TwitterColumn = React.createClass({
 			href = 'https://twitter.com/' + value;
 		}
 
+		var label = value;
+
 		return (
 			<ItemsTableValue href={href} padded exterior field={this.props.col.type}>
 				{label}
