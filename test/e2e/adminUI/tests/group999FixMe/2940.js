@@ -26,7 +26,7 @@ module.exports = {
 			fields: ['name'],
 		});
 
-		browser.initialFormScreen.fillInputs({
+		browser.initialFormScreen.fillFieldInputs({
 			listName: 'TargetRelationship',
 			fields: {
 				'name': {value: 'Test Target 1'},
@@ -44,7 +44,7 @@ module.exports = {
 			fields: ['name'],
 		});
 
-		browser.initialFormScreen.fillInputs({
+		browser.initialFormScreen.fillFieldInputs({
 			listName: 'SourceRelationship',
 			fields: {
 				'name': {value: 'Test Source 1'},
@@ -53,7 +53,7 @@ module.exports = {
 		browser.initialFormScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 
-		browser.itemScreen.fillInputs({
+		browser.itemScreen.fillFieldInputs({
 			listName: 'SourceRelationship',
 			fields: {
 				'fieldA': {value: 'Test Target 1'},
@@ -69,7 +69,7 @@ module.exports = {
 
 		browser.adminUIApp.waitForItemScreen();
 
-		browser.itemScreen.assertInputs({
+		browser.itemScreen.assertFieldInputs({
 			listName: 'TargetRelationship',
 			fields: {
 				'name': {value: 'Test Target 1'},
@@ -80,7 +80,7 @@ module.exports = {
 
 		browser.adminUIApp.waitForItemScreen();
 
-		browser.itemScreen.assertInputs({
+		browser.itemScreen.assertFieldInputs({
 			listName: 'SourceRelationship',
 			fields: {
 				'name': {value: 'Select Field Test 1'},

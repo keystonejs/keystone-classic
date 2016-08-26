@@ -9,7 +9,7 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.initialFormScreen.assertUIVisible({
+		browser.initialFormScreen.assertFieldUIVisible({
 			modelTestConfig: NameModelTestConfig,
 			fields: [{name: 'name'}, {name: 'fieldA'}]
 		});
@@ -22,14 +22,14 @@ module.exports = {
 		browser.adminUIApp.openFieldList('Name');
 		browser.listScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
-		browser.initialFormScreen.fillInputs({
+		browser.initialFormScreen.fillFieldInputs({
 			modelTestConfig: NameModelTestConfig,
 			fields: {
 				'name': {value: 'Name Field Test 1'},
 				'fieldA': {firstName: 'First 1', lastName: 'Last 1'},
 			}
 		});
-		browser.initialFormScreen.assertInputs({
+		browser.initialFormScreen.assertFieldInputs({
 			modelTestConfig: NameModelTestConfig,
 			fields: {
 				'name': {value: 'Name Field Test 1'},
@@ -39,7 +39,7 @@ module.exports = {
 		browser.initialFormScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 
-		browser.itemScreen.assertInputs({
+		browser.itemScreen.assertFieldInputs({
 			modelTestConfig: NameModelTestConfig,
 			fields: {
 				'name': {value: 'Name Field Test 1'},
@@ -48,13 +48,13 @@ module.exports = {
 		})
 	},
 	'Name field should show correctly in the edit form': function(browser) {
-		browser.itemScreen.assertUIVisible({
+		browser.itemScreen.assertFieldUIVisible({
 			modelTestConfig: NameModelTestConfig,
 			fields: [{name: 'fieldA'}, {name: 'fieldB'}]
 		});
 	},
 	'Name field can be filled via the edit form': function(browser) {
-		browser.itemScreen.fillInputs({
+		browser.itemScreen.fillFieldInputs({
 			modelTestConfig: NameModelTestConfig,
 			fields: {
 				'fieldB': {firstName: 'First 2', lastName: 'Last 2'}
@@ -63,7 +63,7 @@ module.exports = {
 		browser.itemScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
-		browser.itemScreen.assertInputs({
+		browser.itemScreen.assertFieldInputs({
 			modelTestConfig: NameModelTestConfig,
 			fields: {
 				'name': {value: 'Name Field Test 1'},

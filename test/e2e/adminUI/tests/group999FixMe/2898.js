@@ -22,7 +22,7 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.initialFormScreen.fillInputs({
+		browser.initialFormScreen.fillFieldInputs({
 			listName: 'Datetime',
 			fields: {
 				'name': {value: 'testing'},
@@ -33,7 +33,7 @@ module.exports = {
 		browser.initialFormScreen.save();
 
 		// The following assertion passes where it should fail.
-		browser.itemScreen.assertInputs({
+		browser.itemScreen.assertFieldInputs({
 			listName: 'Datetime',
 			fields: {
 				'name': {value: 'testing'},

@@ -66,7 +66,7 @@ module.exports = {
 
 		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.initialFormScreen.fillInputs({
+		browser.initialFormScreen.fillFieldInputs({
 			modelTestConfig: NameModelTestConfig,
 			fields: {
 				'name': {value: 'Name Field Test'},

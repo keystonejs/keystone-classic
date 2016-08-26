@@ -25,11 +25,11 @@ module.exports = function MarkdownFieldTestObject (config) {
 			preview: '.md-editor__preview'
 		},
 		commands: {
-			clickUI: function (browser, elem) {
+			clickFieldUI: function (browser, elem) {
 				console.log('******' + JSON.stringify(elem));
 				browser.click(selectElem(elem));
 			},
-			assertUIVisible: function(browser, args) {
+			assertFieldUIVisible: function(browser, args) {
 				browser
 					.expect.element(selectElem('label')).to.be.visible;
 				browser
@@ -63,7 +63,7 @@ module.exports = function MarkdownFieldTestObject (config) {
 				browser
 					.expect.element(selectElem('previewToggle')).to.be.visible;
 			},
-			assertUINotVisible: function(browser, args) {
+			assertFieldUINotVisible: function(browser, args) {
 				browser
 					.expect.element(selectElem('label')).to.not.be.visible;
 				browser
@@ -97,7 +97,7 @@ module.exports = function MarkdownFieldTestObject (config) {
 				browser
 					.expect.element(selectElem('previewToggle')).to.not.be.visible;
 			},
-			assertUIPresent: function(browser, args) {
+			assertFieldUIPresent: function(browser, args) {
 				browser
 					.expect.element(selectElem('label')).to.be.present;
 				browser
@@ -129,7 +129,7 @@ module.exports = function MarkdownFieldTestObject (config) {
 				browser
 					.expect.element(selectElem('previewToggle')).to.be.present;
 			},
-			assertUINotPresent: function(browser, args) {
+			assertFieldUINotPresent: function(browser, args) {
 				browser
 					.expect.element(selectElem('label')).to.not.be.present;
 				browser
@@ -161,12 +161,12 @@ module.exports = function MarkdownFieldTestObject (config) {
 				browser
 					.expect.element(selectElem('previewToggle')).to.not.be.present;
 			},
-			fillInput: function(browser, input) {
+			fillFieldInputs: function(browser, input) {
 				browser
 					.clearValue(selectElem('value'))
 					.setValue(selectElem('value'), input.md);
 			},
-			assertInput: function(browser, input) {
+			assertFieldInputs: function(browser, input) {
 				if (input.md !== undefined) {
 					browser
 						.waitForElementVisible(selectElem('value'))

@@ -9,7 +9,7 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.initialFormScreen.assertUIVisible({
+		browser.initialFormScreen.assertFieldUIVisible({
 			modelTestConfig: DateModelTestConfig,
 			fields: [{name: 'name'}, {name: 'fieldA'}]
 		});
@@ -22,7 +22,7 @@ module.exports = {
 		browser.adminUIApp.openFieldList('Date');
 		browser.listScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
-		browser.initialFormScreen.fillInputs({
+		browser.initialFormScreen.fillFieldInputs({
 			modelTestConfig: DateModelTestConfig,
 			fields: {
 				'name': {value: 'Date Field Test 1'},
@@ -30,7 +30,7 @@ module.exports = {
 			}
 		});
 		/* TODO Pending fix of timezone issues which are causing Travis CI to fail
-		browser.initialFormScreen.assertInputs({
+		browser.initialFormScreen.assertFieldInputs({
 			modelTestConfig: DateModelTestConfig,
 			fields: {
 				'name': {value: 'Date Field Test 1'},
@@ -41,7 +41,7 @@ module.exports = {
 		browser.initialFormScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 		/* TODO Pending fix of timezone issues which are causing Travis CI to fail
-		browser.itemScreen.assertInputs({
+		browser.itemScreen.assertFieldInputs({
 			modelTestConfig: DateModelTestConfig,
 			fields: {
 				'name': {value: 'Date Field Test 1'},
@@ -51,13 +51,13 @@ module.exports = {
 		*/
 	},
 	'Date field should show correctly in the edit form': function(browser) {
-		browser.itemScreen.assertUIVisible({
+		browser.itemScreen.assertFieldUIVisible({
 			modelTestConfig: DateModelTestConfig,
 			fields: [{name: 'fieldA'}, {name: 'fieldB'}]
 		});
 	},
 	'Date field can be filled via the edit form': function(browser) {
-		browser.itemScreen.fillInputs({
+		browser.itemScreen.fillFieldInputs({
 			modelTestConfig: DateModelTestConfig,
 			fields: {
 				'fieldB': {value: '2016-01-02'}
@@ -71,7 +71,7 @@ module.exports = {
 		browser.adminUIApp.waitForItemScreen();
 		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
 		/* TODO Pending fix of timezone issues which are causing Travis CI to fail
-		browser.itemScreen.assertInputs({
+		browser.itemScreen.assertFieldInputs({
 			modelTestConfig: DateModelTestConfig,
 			fields: {
 				'name': {value: 'Date Field Test 1'},

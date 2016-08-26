@@ -9,7 +9,7 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.initialFormScreen.assertUIVisible({
+		browser.initialFormScreen.assertFieldUIVisible({
 			modelTestConfig: FileModelTestConfig,
 			fields: [{name: 'name'}]
 		});
@@ -22,13 +22,13 @@ module.exports = {
 		browser.adminUIApp.openFieldList('File');
 		browser.listScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
-		browser.initialFormScreen.fillInputs({
+		browser.initialFormScreen.fillFieldInputs({
 			modelTestConfig: FileModelTestConfig,
 			fields: {
 				'name': {value: 'File Field Test 1'},
 			}
 		});
-		browser.initialFormScreen.assertInputs({
+		browser.initialFormScreen.assertFieldInputs({
 			modelTestConfig: FileModelTestConfig,
 			fields: {
 				'name': {value: 'File Field Test 1'},
@@ -37,7 +37,7 @@ module.exports = {
 		browser.initialFormScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 
-		browser.itemScreen.assertInputs({
+		browser.itemScreen.assertFieldInputs({
 			modelTestConfig: FileModelTestConfig,
 			fields: {
 				'name': {value: 'File Field Test 1'},
@@ -45,7 +45,7 @@ module.exports = {
 		})
 	},
 	'File field should show correctly in the edit form': function(browser) {
-		browser.itemScreen.assertUIVisible({
+		browser.itemScreen.assertFieldUIVisible({
 			modelTestConfig: FileModelTestConfig,
 			fields: [{name: 'fieldA'}, {name: 'fieldB'}]
 		});

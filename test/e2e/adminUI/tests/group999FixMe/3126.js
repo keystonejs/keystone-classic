@@ -25,7 +25,7 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.initialFormScreen.fillInputs({
+		browser.initialFormScreen.fillFieldInputs({
 			listName: 'DateFieldMap',
 			fields: {
 				'datefield': {value: '2016-01-01'},

@@ -9,7 +9,7 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.initialFormScreen.assertUIVisible({
+		browser.initialFormScreen.assertFieldUIVisible({
 			modelTestConfig: NumberModelTestConfig,
 			fields: [{name: 'name'}, {name: 'fieldA'}]
 		});
@@ -22,14 +22,14 @@ module.exports = {
 		browser.adminUIApp.openFieldList('Number');
 		browser.listScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
-		browser.initialFormScreen.fillInputs({
+		browser.initialFormScreen.fillFieldInputs({
 			modelTestConfig: NumberModelTestConfig,
 			fields: {
 				'name': {value: 'Number Field Test 1'},
 				'fieldA': {value: '1'},
 			}
 		});
-		browser.initialFormScreen.assertInputs({
+		browser.initialFormScreen.assertFieldInputs({
 			modelTestConfig: NumberModelTestConfig,
 			fields: {
 				'name': {value: 'Number Field Test 1'},
@@ -39,7 +39,7 @@ module.exports = {
 		browser.initialFormScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 
-		browser.itemScreen.assertInputs({
+		browser.itemScreen.assertFieldInputs({
 			modelTestConfig: NumberModelTestConfig,
 			fields: {
 				'name': {value: 'Number Field Test 1'},
@@ -48,13 +48,13 @@ module.exports = {
 		})
 	},
 	'Number field should show correctly in the edit form': function(browser) {
-		browser.itemScreen.assertUIVisible({
+		browser.itemScreen.assertFieldUIVisible({
 			modelTestConfig: NumberModelTestConfig,
 			fields: [{name: 'fieldA'}, {name: 'fieldB'}]
 		});
 	},
 	'Number field can be filled via the edit form': function(browser) {
-		browser.itemScreen.fillInputs({
+		browser.itemScreen.fillFieldInputs({
 			modelTestConfig: NumberModelTestConfig,
 			fields: {
 				'fieldB': {value: '2'}
@@ -63,7 +63,7 @@ module.exports = {
 		browser.itemScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
-		browser.itemScreen.assertInputs({
+		browser.itemScreen.assertFieldInputs({
 			modelTestConfig: NumberModelTestConfig,
 			fields: {
 				'name': {value: 'Number Field Test 1'},

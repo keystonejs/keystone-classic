@@ -9,7 +9,7 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.initialFormScreen.assertUIVisible({
+		browser.initialFormScreen.assertFieldUIVisible({
 			modelTestConfig: TextArrayModelTestConfig,
 			fields: [{name: 'name'}]
 		});
@@ -22,13 +22,13 @@ module.exports = {
 		browser.adminUIApp.openFieldList('TextArray');
 		browser.listScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
-		browser.initialFormScreen.fillInputs({
+		browser.initialFormScreen.fillFieldInputs({
 			modelTestConfig: TextArrayModelTestConfig,
 			fields: {
 				'name': {value: 'TextArray Field Test 1'},
 			}
 		});
-		browser.initialFormScreen.assertInputs({
+		browser.initialFormScreen.assertFieldInputs({
 			modelTestConfig: TextArrayModelTestConfig,
 			fields: {
 				'name': {value: 'TextArray Field Test 1'},
@@ -36,7 +36,7 @@ module.exports = {
 		});
 		browser.initialFormScreen.save();
 		browser.adminUIApp.waitForItemScreen();
-		browser.itemScreen.assertInputs({
+		browser.itemScreen.assertFieldInputs({
 			modelTestConfig: TextArrayModelTestConfig,
 			fields: {
 				'name': {value: 'TextArray Field Test 1'},
@@ -44,49 +44,49 @@ module.exports = {
 		})
 	},
 	'TextArray field should show correctly in the edit form': function(browser) {
-		browser.itemScreen.assertUIVisible({
+		browser.itemScreen.assertFieldUIVisible({
 			modelTestConfig: TextArrayModelTestConfig,
 			fields: [{name: 'fieldA'}, {name: 'fieldB'}]
 		});
-		browser.itemScreen.clickUI({
+		browser.itemScreen.clickFieldUI({
 			modelTestConfig: TextArrayModelTestConfig,
 			fields: {
 				'fieldA': {'click': 'addButton'},
 			}
 		});
-		browser.itemScreen.assertUIVisible({
+		browser.itemScreen.assertFieldUIVisible({
 			modelTestConfig: TextArrayModelTestConfig,
 			fields: [{
 				name: 'fieldA',
 				options: {'textInputs': ['text1']}
 			}],
 		});
-		browser.itemScreen.clickUI({
+		browser.itemScreen.clickFieldUI({
 			modelTestConfig: TextArrayModelTestConfig,
 			fields: {
 				'fieldA': {'click': 'addButton'},
 			}
 		});
-		browser.itemScreen.assertUIVisible({
+		browser.itemScreen.assertFieldUIVisible({
 			modelTestConfig: TextArrayModelTestConfig,
 			fields: [{
 				name: 'fieldA',
 				options: {'textInputs': ['text1', 'text2']}
 			}],
 		});
-		browser.itemScreen.clickUI({
+		browser.itemScreen.clickFieldUI({
 			modelTestConfig: TextArrayModelTestConfig,
 			fields: {
 				'fieldB': {'click': 'addButton'},
 			}
 		});
-		browser.itemScreen.clickUI({
+		browser.itemScreen.clickFieldUI({
 			modelTestConfig: TextArrayModelTestConfig,
 			fields: {
 				'fieldB': {'click': 'addButton'},
 			}
 		});
-		browser.itemScreen.assertUIVisible({
+		browser.itemScreen.assertFieldUIVisible({
 			modelTestConfig: TextArrayModelTestConfig,
 			fields: [{
 				name: 'fieldB',
@@ -95,13 +95,13 @@ module.exports = {
 		});
 	},
 	'TextArray field can be filled via the edit form': function(browser) {
-		browser.itemScreen.fillInputs({
+		browser.itemScreen.fillFieldInputs({
 			modelTestConfig: TextArrayModelTestConfig,
 			fields: {
 				'fieldA': {text1: 'Test text 1', text2: 'Test text 2'}
 			}
 		});
-		browser.itemScreen.fillInputs({
+		browser.itemScreen.fillFieldInputs({
 			modelTestConfig: TextArrayModelTestConfig,
 			fields: {
 				'fieldB': {text1: 'Test text 3', text2: 'Test text 4'}
@@ -110,7 +110,7 @@ module.exports = {
 		browser.itemScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
-		browser.itemScreen.assertInputs({
+		browser.itemScreen.assertFieldInputs({
 			modelTestConfig: TextArrayModelTestConfig,
 			fields: {
 				'name': {value: 'TextArray Field Test 1'},

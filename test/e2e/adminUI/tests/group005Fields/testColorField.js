@@ -9,7 +9,7 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.initialFormScreen.assertUIVisible({
+		browser.initialFormScreen.assertFieldUIVisible({
 			modelTestConfig: ColorModelTestConfig,
 			fields: [{name: 'name'}, {name: 'fieldA'}]
 		});
@@ -22,14 +22,14 @@ module.exports = {
 		browser.adminUIApp.openFieldList('Color');
 		browser.listScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
-		browser.initialFormScreen.fillInputs({
+		browser.initialFormScreen.fillFieldInputs({
 			modelTestConfig: ColorModelTestConfig,
 			fields: {
 				'name': {value: 'Color Field Test 1'},
 				'fieldA': {value: '#002147'},
 			}
 		});
-		browser.initialFormScreen.assertInputs({
+		browser.initialFormScreen.assertFieldInputs({
 			modelTestConfig: ColorModelTestConfig,
 			fields: {
 				'name': {value: 'Color Field Test 1'},
@@ -39,7 +39,7 @@ module.exports = {
 		browser.initialFormScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 
-		browser.itemScreen.assertInputs({
+		browser.itemScreen.assertFieldInputs({
 			modelTestConfig: ColorModelTestConfig,
 			fields: {
 				'name': {value: 'Color Field Test 1'},
@@ -48,13 +48,13 @@ module.exports = {
 		})
 	},
 	'Color field should show correctly in the edit form': function(browser) {
-		browser.itemScreen.assertUIVisible({
+		browser.itemScreen.assertFieldUIVisible({
 			modelTestConfig: ColorModelTestConfig,
 			fields: [{name: 'fieldA'}, {name: 'fieldB'}]
 		});
 	},
 	'Color field can be filled via the edit form': function(browser) {
-		browser.itemScreen.fillInputs({
+		browser.itemScreen.fillFieldInputs({
 			modelTestConfig: ColorModelTestConfig,
 			fields: {
 				'fieldB': {value: '#f8e71c'}
@@ -63,7 +63,7 @@ module.exports = {
 		browser.itemScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
-		browser.itemScreen.assertInputs({
+		browser.itemScreen.assertFieldInputs({
 			modelTestConfig: ColorModelTestConfig,
 			fields: {
 				'name': {value: 'Color Field Test 1'},

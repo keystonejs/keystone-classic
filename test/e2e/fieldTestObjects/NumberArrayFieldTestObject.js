@@ -15,10 +15,10 @@ module.exports = function NumberArrayFieldTestObject (config) {
 			number2Delete: '.FormField:nth-of-type(2) .Button--link-cancel',
 		},
 		commands: {
-			clickUI: function (browser, elem) {
+			clickFieldUI: function (browser, elem) {
 				browser.click(selectElem(elem));
 			},
-			assertUIVisible: function(browser, args) {
+			assertFieldUIVisible: function(browser, args) {
 				browser
 					.expect.element(selectElem('label')).to.be.visible;
 				browser
@@ -34,7 +34,7 @@ module.exports = function NumberArrayFieldTestObject (config) {
 					});
 				}
 			},
-			assertUINotVisible: function(browser, args) {
+			assertFieldUINotVisible: function(browser, args) {
 				browser
 					.expect.element(selectElem('label')).to.not.be.visible;
 				browser
@@ -48,7 +48,7 @@ module.exports = function NumberArrayFieldTestObject (config) {
 					});
 				}
 			},
-			assertUIPresent: function(browser, args) {
+			assertFieldUIPresent: function(browser, args) {
 				browser
 					.expect.element(selectElem('label')).to.be.present;
 				browser
@@ -62,7 +62,7 @@ module.exports = function NumberArrayFieldTestObject (config) {
 					});
 				}
 			},
-			assertUINotPresent: function(browser, args) {
+			assertFieldUINotPresent: function(browser, args) {
 				browser
 					.expect.element(selectElem('label')).to.not.be.present;
 				browser
@@ -76,7 +76,7 @@ module.exports = function NumberArrayFieldTestObject (config) {
 					});
 				}
 			},
-			fillInput: function(browser, input) {
+			fillFieldInputs: function(browser, input) {
 				numberInputs = Object.keys(input);
 				numberInputs.forEach(function(numberInput) {
 					browser
@@ -84,7 +84,7 @@ module.exports = function NumberArrayFieldTestObject (config) {
 						.setValue(selectElem(numberInput), input[numberInput]);
 				});
 			},
-			assertInput: function(browser, input) {
+			assertFieldInputs: function(browser, input) {
 				numberInputs = Object.keys(input);
 				numberInputs.forEach(function(numberInput) {
 					browser

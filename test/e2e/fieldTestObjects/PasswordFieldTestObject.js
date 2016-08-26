@@ -13,10 +13,10 @@ module.exports = function PasswordFieldTestObject(config) {
 			setPasswordButton: '.Button',
 		},
 		commands: {
-			clickUI: function (browser, elem) {
+			clickFieldUI: function (browser, elem) {
 				browser.click(selectElem(elem));
 			},
-			assertUIVisible: function(browser, args) {
+			assertFieldUIVisible: function(browser, args) {
 				browser
 					.expect.element(selectElem('label')).to.be.visible;
 				browser
@@ -29,7 +29,7 @@ module.exports = function PasswordFieldTestObject(config) {
 						.expect.element(selectElem('setPasswordButton')).to.be.visible;
 				}
 			},
-			assertUINotVisible: function(browser, args) {
+			assertFieldUINotVisible: function(browser, args) {
 				browser
 					.expect.element(selectElem('label')).to.not.be.visible;
 				browser
@@ -42,7 +42,7 @@ module.exports = function PasswordFieldTestObject(config) {
 						.expect.element(selectElem('setPasswordButton')).to.not.be.visible;
 				}
 			},
-			assertUIPresent: function(browser, args) {
+			assertFieldUIPresent: function(browser, args) {
 				browser
 					.expect.element(selectElem('label')).to.be.present;
 				if (args.passwordShown) {
@@ -53,7 +53,7 @@ module.exports = function PasswordFieldTestObject(config) {
 						.expect.element(selectElem('setPasswordButton')).to.be.present;
 				}
 			},
-			assertUINotPresent: function(browser, args) {
+			assertFieldUINotPresent: function(browser, args) {
 				browser
 					.expect.element(selectElem('label')).to.not.be.present;
 				if (args.passwordShown) {
@@ -64,14 +64,14 @@ module.exports = function PasswordFieldTestObject(config) {
 						.expect.element(selectElem('setPasswordButton')).to.not.be.present;
 				}
 			},
-			fillInput: function(browser, input) {
+			fillFieldInputs: function(browser, input) {
 				browser
 					.clearValue(selectElem('value'))
 					.setValue(selectElem('value'), input.value)
 					.clearValue(selectElem('confirmValue'))
 					.setValue(selectElem('confirmValue'), input.confirm)
 			},
-			assertInput: function(browser, input) {
+			assertFieldInputs: function(browser, input) {
 				browser
 					.waitForElementVisible(selectElem('value'));
 				browser

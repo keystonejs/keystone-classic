@@ -34,37 +34,37 @@ NOTE:  fields should be selected on the context of their parent form.  Thus, the
                 be called and thus cannot be tested.
             */
             commands: {
-                clickUI: function (browser, elem) {
+                clickFieldUI: function (browser, elem) {
                     /*
                     THIS FUNCTION CLICKS THE SPECIFIED ELEM IN THE FIELD
                     */
                 },
-                assertUIVisible: function (browser, args) {
+                assertFieldUIVisible: function (browser, args) {
                     /*
                     THIS FUNCTION ASSERTS THAT THE UI FOR THIS FIELD IS VISIBLE AS IN THE USER CAN SEE IT
                     */
                 },
-                assertUINotVisible: function (browser, args) {
+                assertFieldUINotVisible: function (browser, args) {
                     /*
                     THIS FUNCTION ASSERTS THAT THE UI FOR THIS FIELD IS NOT VISIBLE AS IN THE USER CANNOT SEE IT
                     */
                 },
-                assertUIPresent: function (browser, args) {
+                assertFieldUIPresent: function (browser, args) {
                     /*
                     THIS FUNCTION ASSERTS THAT THE ELEMENTS FOR THIS FIELD ARE PRESENT IN THE DOM
                     */
                 },
-                assertUINotPresent: function (browser, args) {
+                assertFieldUINotPresent: function (browser, args) {
                     /*
                     THIS FUNCTION ASSERTS THAT THE ELEMENTS FOR THIS FIELD ARE NOT PRESENT IN THE DOM
                     */
                 },
-                fillInput: function (browser, input) {
+                fillFieldInputs: function (browser, input) {
                     /*
                     THIS FUNCTION FILLS THE FIELD FORM WITH THE SPECIFIED INPUT
                     */
                 },
-                assertInput: function (browser, input) {
+                assertFieldInputs: function (browser, input) {
                     /*
                     THIS FUNCTION ASSERTS THAT THE FIELD FORM IS FILLED WITH THE SPECIFIED INPUT
                     */

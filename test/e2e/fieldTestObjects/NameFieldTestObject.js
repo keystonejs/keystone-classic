@@ -14,7 +14,7 @@ module.exports = function NameFieldTestObject (config) {
 			lastNamePlaceholder: 'input[placeholder="Last name"]',
 		},
 		commands: {
-			assertUIVisible: function(browser, args) {
+			assertFieldUIVisible: function(browser, args) {
 				browser
 					.expect.element(selectElem('label')).to.be.visible;
 				browser
@@ -28,7 +28,7 @@ module.exports = function NameFieldTestObject (config) {
 				browser
 					.expect.element(selectElem('lastNamePlaceholder')).to.be.visible;
 			},
-			assertUINotVisible: function(browser, args) {
+			assertFieldUINotVisible: function(browser, args) {
 				browser
 					.expect.element(selectElem('label')).to.not.be.visible;
 				browser
@@ -42,7 +42,7 @@ module.exports = function NameFieldTestObject (config) {
 				browser
 					.expect.element(selectElem('lastNamePlaceholder')).to.not.be.visible;
 			},
-			assertUIPresent: function(browser, args) {
+			assertFieldUIPresent: function(browser, args) {
 				browser
 					.expect.element(selectElem('label')).to.be.present;
 				browser
@@ -54,7 +54,7 @@ module.exports = function NameFieldTestObject (config) {
 				browser
 					.expect.element(selectElem('lastNamePlaceholder')).to.be.present;
 			},
-			assertUINotPresent: function(browser, args) {
+			assertFieldUINotPresent: function(browser, args) {
 				browser
 					.expect.element(selectElem('label')).to.not.be.present;
 				browser
@@ -66,14 +66,14 @@ module.exports = function NameFieldTestObject (config) {
 				browser
 					.expect.element(selectElem('lastNamePlaceholder')).to.not.be.present;
 			},
-			fillInput: function(browser, input) {
+			fillFieldInputs: function(browser, input) {
 				browser
 					.clearValue(selectElem('firstName'))
 					.setValue(selectElem('firstName'), input.firstName)
 					.clearValue(selectElem('lastName'))
 					.setValue(selectElem('lastName'), input.lastName);
 			},
-			assertInput: function(browser, input) {
+			assertFieldInputs: function(browser, input) {
 				browser
 					.getValue(selectElem('firstName'), function(result) {
 						browser.api.assert.equal(result.value, input.firstName);

@@ -9,7 +9,7 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.initialFormScreen.assertUIVisible({
+		browser.initialFormScreen.assertFieldUIVisible({
 			modelTestConfig: HtmlModelTestConfig,
 			fields: [{name: 'name'}, {name: 'fieldA'}]
 		});
@@ -22,14 +22,14 @@ module.exports = {
 		browser.adminUIApp.openFieldList('Html');
 		browser.listScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
-		browser.initialFormScreen.fillInputs({
+		browser.initialFormScreen.fillFieldInputs({
 			modelTestConfig: HtmlModelTestConfig,
 			fields: {
 				'name': {value: 'Html Field Test 1'},
 				'fieldA': {value: 'Some test html code for field A'},
 			}
 		});
-		browser.initialFormScreen.assertInputs({
+		browser.initialFormScreen.assertFieldInputs({
 			modelTestConfig: HtmlModelTestConfig,
 			fields: {
 				'name': {value: 'Html Field Test 1'},
@@ -39,7 +39,7 @@ module.exports = {
 		browser.initialFormScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 
-		browser.itemScreen.assertInputs({
+		browser.itemScreen.assertFieldInputs({
 			modelTestConfig: HtmlModelTestConfig,
 			fields: {
 				'name': {value: 'Html Field Test 1'},
@@ -48,13 +48,13 @@ module.exports = {
 		})
 	},
 	'Html field should show correctly in the edit form': function(browser) {
-		browser.itemScreen.assertUIVisible({
+		browser.itemScreen.assertFieldUIVisible({
 			modelTestConfig: HtmlModelTestConfig,
 			fields: [{name: 'fieldA'}, {name: 'fieldB'}]
 		});
 	},
 	'Html field can be filled via the edit form': function(browser) {
-		browser.itemScreen.fillInputs({
+		browser.itemScreen.fillFieldInputs({
 			modelTestConfig: HtmlModelTestConfig,
 			fields: {
 				'fieldB': {value: 'Some test html code for field B'}
@@ -63,7 +63,7 @@ module.exports = {
 		browser.itemScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
-		browser.itemScreen.assertInputs({
+		browser.itemScreen.assertFieldInputs({
 			modelTestConfig: HtmlModelTestConfig,
 			fields: {
 				'name': {value: 'Html Field Test 1'},

@@ -21,7 +21,7 @@ module.exports = {
 		browser.adminUIApp.openMiscList('NoDefaultColumn');
 		browser.listScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
-		browser.initialFormScreen.fillInputs({
+		browser.initialFormScreen.fillFieldInputs({
 			listName: 'NoDefaultColumn',
 			fields: {
 				'fieldA': {value: 'testing'},

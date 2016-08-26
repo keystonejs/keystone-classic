@@ -12,7 +12,7 @@ module.exports = function GeoPointFieldTestObject (config) {
 			valueLng: 'input[name="' + config.fieldName + '[0]"][placeholder="Longitude"]',
 		},
 		commands: {
-			assertUIVisible: function(browser, args) {
+			assertFieldUIVisible: function(browser, args) {
 				browser
 					.expect.element(selectElem('label')).to.be.visible;
 				browser
@@ -22,7 +22,7 @@ module.exports = function GeoPointFieldTestObject (config) {
 				browser
 					.expect.element(selectElem('valueLng')).to.be.visible;
 			},
-			assertUINotVisible: function(browser, args) {
+			assertFieldUINotVisible: function(browser, args) {
 				browser
 					.expect.element(selectElem('label')).to.not.be.visible;
 				browser
@@ -32,7 +32,7 @@ module.exports = function GeoPointFieldTestObject (config) {
 				browser
 					.expect.element(selectElem('valueLng')).to.not.be.visible;
 			},
-			assertUIPresent: function(browser, args) {
+			assertFieldUIPresent: function(browser, args) {
 				browser
 					.expect.element(selectElem('label')).to.be.present;
 				browser
@@ -40,7 +40,7 @@ module.exports = function GeoPointFieldTestObject (config) {
 				browser
 					.expect.element(selectElem('valueLng')).to.be.present;
 			},
-			assertUINotPresent: function(browser, args) {
+			assertFieldUINotPresent: function(browser, args) {
 				browser
 					.expect.element(selectElem('label')).to.not.be.present;
 				browser
@@ -48,7 +48,7 @@ module.exports = function GeoPointFieldTestObject (config) {
 				browser
 					.expect.element(selectElem('valueLng')).to.not.be.present;
 			},
-			fillInput: function(browser, input) {
+			fillFieldInputs: function(browser, input) {
 				browser
 					.clearValue(selectElem('valueLat'))
 					.setValue(selectElem('valueLat'), input.lat);
@@ -56,7 +56,7 @@ module.exports = function GeoPointFieldTestObject (config) {
 					.clearValue(selectElem('valueLng'))
 					.setValue(selectElem('valueLng'), input.lng);
 			},
-			assertInput: function(browser, input) {
+			assertFieldInputs: function(browser, input) {
 				browser
 					.waitForElementVisible(selectElem('valueLat'));
 				browser

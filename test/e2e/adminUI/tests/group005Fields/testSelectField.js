@@ -9,7 +9,7 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.initialFormScreen.assertUIVisible({
+		browser.initialFormScreen.assertFieldUIVisible({
 			modelTestConfig: SelectModelTestConfig,
 			fields: [
 				{name: 'name'},
@@ -28,14 +28,14 @@ module.exports = {
 		browser.adminUIApp.openFieldList('Select');
 		browser.listScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
-		browser.initialFormScreen.fillInputs({
+		browser.initialFormScreen.fillFieldInputs({
 			modelTestConfig: SelectModelTestConfig,
 			fields: {
 				'name': {value: 'Select Field Test 1'},
 				'fieldA': {value: 'One'},
 			}
 		});
-		browser.initialFormScreen.assertInputs({
+		browser.initialFormScreen.assertFieldInputs({
 			modelTestConfig: SelectModelTestConfig,
 			fields: {
 				'name': {value: 'Select Field Test 1'},
@@ -45,7 +45,7 @@ module.exports = {
 		browser.initialFormScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 
-		browser.itemScreen.assertInputs({
+		browser.itemScreen.assertFieldInputs({
 			modelTestConfig: SelectModelTestConfig,
 			fields: {
 				'name': {value: 'Select Field Test 1'},
@@ -54,7 +54,7 @@ module.exports = {
 		})
 	},
 	'Select field should show correctly in the edit form': function(browser) {
-		browser.itemScreen.assertUIVisible({
+		browser.itemScreen.assertFieldUIVisible({
 			modelTestConfig: SelectModelTestConfig,
 			fields: [
 				{
@@ -69,7 +69,7 @@ module.exports = {
 		});
 	},
 	'Select field can be filled via the edit form': function(browser) {
-		browser.itemScreen.fillInputs({
+		browser.itemScreen.fillFieldInputs({
 			modelTestConfig: SelectModelTestConfig,
 			fields: {
 				'fieldB': {value: 'Two'}
@@ -78,7 +78,7 @@ module.exports = {
 		browser.itemScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
-		browser.itemScreen.assertInputs({
+		browser.itemScreen.assertFieldInputs({
 			modelTestConfig: SelectModelTestConfig,
 			fields: {
 				'name': {value: 'Select Field Test 1'},

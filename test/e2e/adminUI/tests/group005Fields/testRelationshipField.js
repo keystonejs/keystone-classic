@@ -9,7 +9,7 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.initialFormScreen.assertUIVisible({
+		browser.initialFormScreen.assertFieldUIVisible({
 			modelTestConfig: RelationshipModelTestConfig,
 			fields: [{name: 'name'}, {name: 'fieldA'}]
 		});
@@ -21,14 +21,14 @@ module.exports = {
 		browser.adminUIApp.openFieldList('Relationship');
 		browser.listScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
-		browser.initialFormScreen.fillInputs({
+		browser.initialFormScreen.fillFieldInputs({
 			modelTestConfig: RelationshipModelTestConfig,
 			fields: {
 				'name': {value: 'Relationship Field Test 1'},
 				'fieldA': {option: 'option1'},
 			}
 		});
-		browser.initialFormScreen.assertInputs({
+		browser.initialFormScreen.assertFieldInputs({
 			modelTestConfig: RelationshipModelTestConfig,
 			fields: {
 				'name': {value: 'Relationship Field Test 1'},
@@ -38,7 +38,7 @@ module.exports = {
 		browser.initialFormScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 
-		browser.itemScreen.assertInputs({
+		browser.itemScreen.assertFieldInputs({
 			modelTestConfig: RelationshipModelTestConfig,
 			fields: {
 				'name': {value: 'Relationship Field Test 1'},
@@ -47,13 +47,13 @@ module.exports = {
 		})
 	},
 	'Relationship field should show correctly in the edit form': function(browser) {
-		browser.itemScreen.assertUIVisible({
+		browser.itemScreen.assertFieldUIVisible({
 			modelTestConfig: RelationshipModelTestConfig,
 			fields: [{name: 'fieldB'}]
 		});
 	},
 	'Relationship field can be filled via the edit form': function(browser) {
-		browser.itemScreen.fillInputs({
+		browser.itemScreen.fillFieldInputs({
 			modelTestConfig: RelationshipModelTestConfig,
 			fields: {
 				'fieldB': {option: 'option2'}
@@ -62,7 +62,7 @@ module.exports = {
 		browser.itemScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
-		browser.itemScreen.assertInputs({
+		browser.itemScreen.assertFieldInputs({
 			modelTestConfig: RelationshipModelTestConfig,
 			fields: {
 				'name': {value: 'Relationship Field Test 1'},

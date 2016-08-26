@@ -15,10 +15,10 @@ module.exports = function TextArrayFieldTestObject(config) {
 			text2Delete: '.FormField:nth-of-type(2) .Button--link-cancel',
 		},
 		commands: {
-			clickUI: function (browser, elem) {
+			clickFieldUI: function (browser, elem) {
 				browser.click(selectElem(elem));
 			},
-			assertUIVisible: function (browser, args) {
+			assertFieldUIVisible: function (browser, args) {
 				browser
 					.expect.element(selectElem('label')).to.be.visible;
 				browser
@@ -34,7 +34,7 @@ module.exports = function TextArrayFieldTestObject(config) {
 					});
 				}
 			},
-			assertUINotVisible: function (browser, args) {
+			assertFieldUINotVisible: function (browser, args) {
 				browser
 					.expect.element(selectElem('label')).to.not.be.visible;
 				browser
@@ -48,7 +48,7 @@ module.exports = function TextArrayFieldTestObject(config) {
 					});
 				}
 			},
-			assertUIPresent: function (browser, args) {
+			assertFieldUIPresent: function (browser, args) {
 				browser
 					.expect.element(selectElem('label')).to.be.present;
 				browser
@@ -62,7 +62,7 @@ module.exports = function TextArrayFieldTestObject(config) {
 					});
 				}
 			},
-			assertUINotPresent: function (browser, args) {
+			assertFieldUINotPresent: function (browser, args) {
 				browser
 					.expect.element(selectElem('label')).to.not.be.present;
 				browser
@@ -76,7 +76,7 @@ module.exports = function TextArrayFieldTestObject(config) {
 					});
 				}
 			},
-			fillInput: function (browser, input) {
+			fillFieldInputs: function (browser, input) {
 				textInputs = Object.keys(input);
 				textInputs.forEach(function (textInput) {
 					browser
@@ -84,7 +84,7 @@ module.exports = function TextArrayFieldTestObject(config) {
 						.setValue(selectElem(textInput), input[textInput]);
 				});
 			},
-			assertInput: function (browser, input) {
+			assertFieldInputs: function (browser, input) {
 				textInputs = Object.keys(input);
 				textInputs.forEach(function (textInput) {
 					browser

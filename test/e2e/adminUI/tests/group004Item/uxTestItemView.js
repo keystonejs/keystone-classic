@@ -37,13 +37,13 @@ module.exports = {
 
 		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.initialFormScreen.fillInputs({
+		browser.initialFormScreen.fillFieldInputs({
 			modelTestConfig: UserModelTestConfig,
 			fields: {
 				'name': {firstName: 'First 1', lastName: 'Last 1'},
 			}
 		});
-		browser.initialFormScreen.assertInputs({
+		browser.initialFormScreen.assertFieldInputs({
 			modelTestConfig: UserModelTestConfig,
 			fields: {
 				'name': {firstName: 'First 1', lastName: 'Last 1'},
@@ -60,13 +60,13 @@ module.exports = {
 		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
 	},
 	'Item screen should allow saving an item with changes': function (browser) {
-		browser.itemScreen.fillInputs({
+		browser.itemScreen.fillFieldInputs({
 			modelTestConfig: UserModelTestConfig,
 			fields: {
 				'name': {firstName: 'First 2', lastName: 'Last 2'},
 			}
 		});
-		browser.itemScreen.assertInputs({
+		browser.itemScreen.assertFieldInputs({
 			modelTestConfig: UserModelTestConfig,
 			fields: {
 				'name': {firstName: 'First 2', lastName: 'Last 2'},
@@ -77,13 +77,13 @@ module.exports = {
 		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
 	},
 	'Item screen should allow resetting an item with changes': function (browser) {
-		browser.itemScreen.fillInputs({
+		browser.itemScreen.fillFieldInputs({
 			modelTestConfig: UserModelTestConfig,
 			fields: {
 				'name': {firstName: 'First 3', lastName: 'Last 3'},
 			}
 		});
-		browser.itemScreen.assertInputs({
+		browser.itemScreen.assertFieldInputs({
 			modelTestConfig: UserModelTestConfig,
 			fields: {
 				'name': {firstName: 'First 3', lastName: 'Last 3'},
@@ -95,7 +95,7 @@ module.exports = {
 		browser.resetConfirmationScreen.reset();
 		browser.adminUIApp.waitForItemScreen();
 
-		browser.itemScreen.assertInputs({
+		browser.itemScreen.assertFieldInputs({
 			modelTestConfig: UserModelTestConfig,
 			fields: {
 				'name': {firstName: 'First 2', lastName: 'Last 2'},

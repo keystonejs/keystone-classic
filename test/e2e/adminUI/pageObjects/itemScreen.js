@@ -69,98 +69,98 @@ module.exports = {
 		//
 		// PAGE LEVEL COMMANDS
 		//
-		assertUIVisible: function (config) {
+		assertFieldUIVisible: function (config) {
 			var form = this.section.form;
 			form.section['list'] = new config.modelTestConfig({formSelector: form.selector});
 			var browser = this;
 			return config.fields.forEach(function (field) {
 				var fieldTestObject = form.section['list'][field.name];
-				if (fieldTestObject.commands.hasOwnProperty('assertUIVisible')) {
-					form.section['list'][field.name].commands.assertUIVisible(browser, field.options);
+				if (fieldTestObject.commands.hasOwnProperty('assertFieldUIVisible')) {
+					form.section['list'][field.name].commands.assertFieldUIVisible(browser, field.options);
 				} else {
-					console.log('***Item form not calling assertUIVisible() in ' + field.name + ' field test object -- function not defined');
+					console.log('***Item form not calling assertFieldUIVisible() in ' + field.name + ' field test object -- function not defined');
 				}
 			});
 		},
-		assertUINotVisible: function (config) {
+		assertFieldUINotVisible: function (config) {
 			var form = this.section.form;
 			form.section['list'] = new config.modelTestConfig({formSelector: form.selector});
 			var browser = this;
 			return config.fields.forEach(function (field) {
 				var fieldTestObject = form.section['list'][field.name];
-				if (fieldTestObject.commands.hasOwnProperty('assertUINotVisible')) {
-					form.section['list'][field.name].commands.assertUINotVisible(browser, field.options);
+				if (fieldTestObject.commands.hasOwnProperty('assertFieldUINotVisible')) {
+					form.section['list'][field.name].commands.assertFieldUINotVisible(browser, field.options);
 				} else {
-					console.log('***Item form not calling assertUINotVisible() in ' + field.name + ' field test object -- function not defined');
+					console.log('***Item form not calling assertFieldUINotVisible() in ' + field.name + ' field test object -- function not defined');
 				}
 			});
 		},
-		assertUIPresent: function (config) {
+		assertFieldUIPresent: function (config) {
 			var form = this.section.form;
 			form.section['list'] = new config.modelTestConfig({formSelector: form.selector});
 			var browser = this;
 			return config.fields.forEach(function (field) {
 				var fieldTestObject = form.section['list'][field.name];
-				if (fieldTestObject.commands.hasOwnProperty('assertUIPresent')) {
-					form.section['list'][field.name].commands.assertUIPresent(browser, field.options);
+				if (fieldTestObject.commands.hasOwnProperty('assertFieldUIPresent')) {
+					form.section['list'][field.name].commands.assertFieldUIPresent(browser, field.options);
 				} else {
-					console.log('***Item form not calling assertUIPresent() in ' + field.name + ' field test object -- function not defined');
+					console.log('***Item form not calling assertFieldUIPresent() in ' + field.name + ' field test object -- function not defined');
 				}
 			});
 		},
-		assertUINotPresent: function (config) {
+		assertFieldUINotPresent: function (config) {
 			var form = this.section.form;
 			form.section['list'] = new config.modelTestConfig({formSelector: form.selector});
 			var browser = this;
 			return config.fields.forEach(function (field) {
 				var fieldTestObject = form.section['list'][field.name];
-				if (fieldTestObject.commands.hasOwnProperty('assertUINotPresent')) {
-					form.section['list'][field.name].commands.assertUINotPresent(browser, field.options);
+				if (fieldTestObject.commands.hasOwnProperty('assertFieldUINotPresent')) {
+					form.section['list'][field.name].commands.assertFieldUINotPresent(browser, field.options);
 				} else {
-					console.log('***Item form not calling assertUINotPresent() in ' + field.name + ' field test object -- function not defined');
+					console.log('***Item form not calling assertFieldUINotPresent() in ' + field.name + ' field test object -- function not defined');
 				}
 			});
 		},
-		clickUI: function (config) {
+		clickFieldUI: function (config) {
 			var form = this.section.form;
 			form.section['list'] = new config.modelTestConfig({formSelector: form.selector});
 			var browser = this;
 			return Object.keys(config.fields).forEach(function (field) {
 				var fieldTestObject = form.section['list'][field];
-				if (fieldTestObject.commands.hasOwnProperty('clickUI')) {
+				if (fieldTestObject.commands.hasOwnProperty('clickFieldUI')) {
 					if (config.fields[field].hasOwnProperty('click')) {
-						fieldTestObject.commands.clickUI(browser, config.fields[field]['click']);
+						fieldTestObject.commands.clickFieldUI(browser, config.fields[field]['click']);
 					} else {
-						console.log('***Item form not calling clickUI() in ' + field + ' field test object -- field missing click configuration in test');
+						console.log('***Item form not calling clickFieldUI() in ' + field + ' field test object -- field missing click configuration in test');
 					}
 				} else {
-					console.log('***Item form not calling clickUI() in ' + field + ' field test object -- function not defined');
+					console.log('***Item form not calling clickFieldUI() in ' + field + ' field test object -- function not defined');
 				}
 			});
 		},
-		fillInputs: function (config) {
+		fillFieldInputs: function (config) {
 			var form = this.section.form;
 			form.section['list'] = new config.modelTestConfig({formSelector: form.selector});
 			var browser = this;
 			return Object.keys(config.fields).forEach(function (field) {
 				var fieldTestObject = form.section['list'][field];
-				if (fieldTestObject.commands.hasOwnProperty('fillInput')) {
-					fieldTestObject.commands.fillInput(browser, config.fields[field]);
+				if (fieldTestObject.commands.hasOwnProperty('fillFieldInputs')) {
+					fieldTestObject.commands.fillFieldInputs(browser, config.fields[field]);
 				} else {
-					console.log('***Item form not calling fillInput() in ' + field + ' field test object -- function not defined');
+					console.log('***Item form not calling fillFieldInputs() in ' + field + ' field test object -- function not defined');
 				}
 			});
 		},
-		assertInputs: function (config) {
+		assertFieldInputs: function (config) {
 			var form = this.section.form;
 			form.section['list'] = new config.modelTestConfig({formSelector: form.selector});
 			var browser = this;
 			return Object.keys(config.fields).forEach(function (field) {
 				var fieldTestObject = form.section['list'][field];
-				if (fieldTestObject.commands.hasOwnProperty('assertInput')) {
-					fieldTestObject.commands.assertInput(browser, config.fields[field]);
+				if (fieldTestObject.commands.hasOwnProperty('assertFieldInputs')) {
+					fieldTestObject.commands.assertFieldInputs(browser, config.fields[field]);
 				} else {
-					console.log('***Item form not calling assertInput() in ' + field + ' field test object -- function not defined');
+					console.log('***Item form not calling assertFieldInputs() in ' + field + ' field test object -- function not defined');
 				}
 			});
 		},

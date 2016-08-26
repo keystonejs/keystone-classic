@@ -35,10 +35,10 @@ module.exports = function LocationFieldTestObject (config) {
 			geoLngValue: '[data-field-location-path="' + config.fieldName + '.geo"] input[name="' + config.fieldName + '.geo[0]"]',
 		},
 		commands: {
-			clickUI: function (browser, elem) {
+			clickFieldUI: function (browser, elem) {
 				browser.click(selectElem(elem));
 			},
-			assertUIVisible: function(browser, args) {
+			assertFieldUIVisible: function(browser, args) {
 				browser
 					.expect.element(selectElem('label')).to.be.visible;
 				browser
@@ -112,7 +112,7 @@ module.exports = function LocationFieldTestObject (config) {
 						.expect.element(selectElem('geoLabel')).text.to.equal("Lat / Lng");
 				}
 			},
-			assertUINotVisible: function(browser, args) {
+			assertFieldUINotVisible: function(browser, args) {
 				browser
 					.expect.element(selectElem('label')).to.not.be.visible;
 				if (!args.showMore) {
@@ -170,7 +170,7 @@ module.exports = function LocationFieldTestObject (config) {
 						.expect.element(selectElem('geoLngValue')).to.not.be.visible;
 				}
 			},
-			assertUIPresent: function(browser, args) {
+			assertFieldUIPresent: function(browser, args) {
 				browser
 					.expect.element(selectElem('label')).to.be.present;
 				if (!args.showMore) {
@@ -228,7 +228,7 @@ module.exports = function LocationFieldTestObject (config) {
 						.expect.element(selectElem('geoLngValue')).to.be.present;
 				}
 			},
-			assertUINotPresent: function(browser, args) {
+			assertFieldUINotPresent: function(browser, args) {
 				browser
 					.expect.element(selectElem('label')).to.not.be.present;
 				if (!args.showMore) {
@@ -292,7 +292,7 @@ module.exports = function LocationFieldTestObject (config) {
 					.click(selectElem('showMore'))
 					.waitForElementVisible(selectElem('numberField'));
 			},
-			fillInput: function(browser, input) {
+			fillFieldInputs: function(browser, input) {
 				browser
 					.clearValue(selectElem('numberValue'))
 					.setValue(selectElem('numberValue'), input.number);
@@ -324,7 +324,7 @@ module.exports = function LocationFieldTestObject (config) {
 					.clearValue(selectElem('geoLngValue'))
 					.setValue(selectElem('geoLngValue'), input.geoLng);
 			},
-			assertInput: function(browser, input) {
+			assertFieldInputs: function(browser, input) {
 				browser
 					.waitForElementVisible(selectElem('numberValue'));
 				browser

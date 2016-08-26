@@ -12,7 +12,7 @@ module.exports = function CodeFieldTestObject (config) {
 			codeMirror: '.CodeMirror-container',
 		},
 		commands: {
-			assertUIVisible: function(browser, args) {
+			assertFieldUIVisible: function(browser, args) {
 				browser
 					.expect.element(selectElem('label')).to.be.visible;
 				browser
@@ -24,7 +24,7 @@ module.exports = function CodeFieldTestObject (config) {
 				browser
 					.expect.element(selectElem('codeMirror')).to.be.visible;
 			},
-			assertUINotVisible: function(browser, args) {
+			assertFieldUINotVisible: function(browser, args) {
 				browser
 					.expect.element(selectElem('label')).to.not.be.visible;
 				browser
@@ -36,7 +36,7 @@ module.exports = function CodeFieldTestObject (config) {
 				browser
 					.expect.element(selectElem('codeMirror')).to.not.be.visible;
 			},
-			assertUIPresent: function(browser, args) {
+			assertFieldUIPresent: function(browser, args) {
 				browser
 					.expect.element(selectElem('label')).to.be.present;
 				browser
@@ -46,7 +46,7 @@ module.exports = function CodeFieldTestObject (config) {
 				browser
 					.expect.element(selectElem('codeMirror')).to.be.present;
 			},
-			assertUINotPresent: function(browser, args) {
+			assertFieldUINotPresent: function(browser, args) {
 				browser
 					.expect.element(selectElem('label')).to.not.be.present;
 				browser
@@ -56,7 +56,7 @@ module.exports = function CodeFieldTestObject (config) {
 				browser
 					.expect.element(selectElem('codeMirror')).to.not.be.present;
 			},
-			fillInput: function(browser, input) {
+			fillFieldInputs: function(browser, input) {
 				browser.api
 					.execute(function (selector, input) {
 						var x = document.querySelector(selector);
@@ -64,7 +64,7 @@ module.exports = function CodeFieldTestObject (config) {
 						y.CodeMirror.setValue(input.value);
 					}, [self.selector, input]);
 			},
-			assertInput: function(browser, input) {
+			assertFieldInputs: function(browser, input) {
 				browser.api
 					.execute(function (selector) {
 						 var x = document.querySelector(selector);

@@ -17,7 +17,7 @@ module.exports = function RelationshipFieldTestObject (config) {
 			option2: '.Select-option:nth-of-type(2)'
 		},
 		commands: {
-			assertUIVisible: function(browser, args) {
+			assertFieldUIVisible: function(browser, args) {
 				browser
 					.expect.element(selectElem('label')).to.be.visible;
 				browser
@@ -25,7 +25,7 @@ module.exports = function RelationshipFieldTestObject (config) {
 				browser
 					.expect.element(selectElem('placeholder')).to.be.visible;
 			},
-			assertUINotVisible: function(browser, args) {
+			assertFieldUINotVisible: function(browser, args) {
 				browser
 					.expect.element(selectElem('label')).to.not.be.visible;
 				browser
@@ -33,19 +33,19 @@ module.exports = function RelationshipFieldTestObject (config) {
 				browser
 					.expect.element(selectElem('placeholder')).to.not.be.visible;
 			},
-			assertUIPresent: function(browser, args) {
+			assertFieldUIPresent: function(browser, args) {
 				browser
 					.expect.element(selectElem('label')).to.be.present;
 				browser
 					.expect.element(selectElem('placeholder')).to.be.present;
 			},
-			assertUINotPresent: function(browser, args) {
+			assertFieldUINotPresent: function(browser, args) {
 				browser
 					.expect.element(selectElem('label')).to.not.be.present;
 				browser
 					.expect.element(selectElem('placeholder')).to.not.be.present;
 			},
-			fillInput: function(browser, input) {
+			fillFieldInputs: function(browser, input) {
 				if (input.option) {
 					browser
 						.click(selectElem('arrow'))
@@ -57,7 +57,7 @@ module.exports = function RelationshipFieldTestObject (config) {
 						.api.keys([input.value, browser.api.Keys.ENTER]);
 				}
 			},
-			assertInput: function(browser, input) {
+			assertFieldInputs: function(browser, input) {
 				browser
 					.waitForElementVisible(selectElem('filledValue'));
 				browser

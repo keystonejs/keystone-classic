@@ -10,7 +10,7 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.initialFormScreen.assertUIVisible({
+		browser.initialFormScreen.assertFieldUIVisible({
 			modelTestConfig: DatetimeModelTestConfig,
 			fields: [{name: 'name'}, {name: 'fieldA'}]
 		});
@@ -23,7 +23,7 @@ module.exports = {
 		browser.adminUIApp.openFieldList('Datetime');
 		browser.listScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
-		browser.initialFormScreen.fillInputs({
+		browser.initialFormScreen.fillFieldInputs({
 			modelTestConfig: DatetimeModelTestConfig,
 			fields: {
 				'name': {value: 'Datetime Field Test 1'},
@@ -31,7 +31,7 @@ module.exports = {
 			}
 		});
 		/* TODO Pending fix of timezone issues which are causing Travis CI to fail
-		browser.initialFormScreen.assertInputs({
+		browser.initialFormScreen.assertFieldInputs({
 			modelTestConfig: DatetimeModelTestConfig,
 			fields: {
 				'name': {value: 'Datetime Field Test 1'},
@@ -42,7 +42,7 @@ module.exports = {
 		browser.initialFormScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 		/* TODO Pending fix of timezone issues which are causing Travis CI to fail
-		browser.itemScreen.assertInputs({
+		browser.itemScreen.assertFieldInputs({
 			modelTestConfig: DatetimeModelTestConfig,
 			fields: {
 				'name': {value: 'Datetime Field Test 1'},
@@ -52,13 +52,13 @@ module.exports = {
 		*/
 	},
 	'Datetime field should show correctly in the edit form': function(browser) {
-		browser.itemScreen.assertUIVisible({
+		browser.itemScreen.assertFieldUIVisible({
 			modelTestConfig: DatetimeModelTestConfig,
 			fields: [{name: 'fieldA'}, {name: 'fieldB'}]
 		});
 	},
 	'Datetime field can be filled via the edit form': function(browser) {
-		browser.itemScreen.fillInputs({
+		browser.itemScreen.fillFieldInputs({
 			modelTestConfig: DatetimeModelTestConfig,
 			fields: {
 				'fieldB': {date: '2016-01-02', time: '12:00:00 am'}
@@ -68,7 +68,7 @@ module.exports = {
 		browser.adminUIApp.waitForItemScreen();
 		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
 		/* TODO Pending fix of timezone issues which are causing Travis CI to fail
-		browser.itemScreen.assertInputs({
+		browser.itemScreen.assertFieldInputs({
 			modelTestConfig: DatetimeModelTestConfig,
 			fields: {
 				'name': {value: 'Datetime Field Test 1'},

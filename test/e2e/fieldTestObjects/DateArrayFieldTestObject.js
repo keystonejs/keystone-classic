@@ -15,10 +15,10 @@ module.exports = function DateArrayFieldTestObject (config) {
 			date2Delete: '.FormField:nth-of-type(2) .Button--link-cancel',
 		},
 		commands: {
-			clickUI: function (browser, elem) {
+			clickFieldUI: function (browser, elem) {
 				browser.click(selectElem(elem));
 			},
-			assertUIVisible: function(browser, args) {
+			assertFieldUIVisible: function(browser, args) {
 				browser
 					.expect.element(selectElem('label')).to.be.visible;
 				browser
@@ -34,7 +34,7 @@ module.exports = function DateArrayFieldTestObject (config) {
 					});
 				}
 			},
-			assertUINotVisible: function(browser, args) {
+			assertFieldUINotVisible: function(browser, args) {
 				browser
 					.expect.element(selectElem('label')).to.not.be.visible;
 				browser
@@ -50,7 +50,7 @@ module.exports = function DateArrayFieldTestObject (config) {
 					});
 				}
 			},
-			assertUIPresent: function(browser, args) {
+			assertFieldUIPresent: function(browser, args) {
 				browser
 					.expect.element(selectElem('label')).to.be.present;
 				browser
@@ -64,7 +64,7 @@ module.exports = function DateArrayFieldTestObject (config) {
 					});
 				}
 			},
-			assertUINotPresent: function(browser, args) {
+			assertFieldUINotPresent: function(browser, args) {
 				browser
 					.expect.element(selectElem('label')).to.not.be.present;
 				browser
@@ -78,7 +78,7 @@ module.exports = function DateArrayFieldTestObject (config) {
 					});
 				}
 			},
-			fillInput: function(browser, input) {
+			fillFieldInputs: function(browser, input) {
 				var dateInputs = Object.keys(input);
 				dateInputs.forEach(function(dateInput) {
 					browser
@@ -86,7 +86,7 @@ module.exports = function DateArrayFieldTestObject (config) {
 						.setValue(selectElem(dateInput), input[dateInput]);
 				});
 			},
-			assertInput: function(browser, input) {
+			assertFieldInputs: function(browser, input) {
 				var dateInputs = Object.keys(input);
 				dateInputs.forEach(function(dateInput) {
 					browser

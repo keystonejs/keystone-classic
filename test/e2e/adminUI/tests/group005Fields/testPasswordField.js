@@ -9,7 +9,7 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.initialFormScreen.assertUIVisible({
+		browser.initialFormScreen.assertFieldUIVisible({
 			modelTestConfig: PasswordModelTestConfig,
 			fields: [
 				{
@@ -30,7 +30,7 @@ module.exports = {
 		browser.adminUIApp.openFieldList('Password');
 		browser.listScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
-		browser.initialFormScreen.fillInputs({
+		browser.initialFormScreen.fillFieldInputs({
 			modelTestConfig: PasswordModelTestConfig,
 			fields: {
 				'name': {value: 'Password Field Test 1'},
@@ -39,13 +39,13 @@ module.exports = {
 		});
 		browser.initialFormScreen.save();
 		browser.initialFormScreen.assertFlashError("Passwords must match");
-		browser.initialFormScreen.fillInputs({
+		browser.initialFormScreen.fillFieldInputs({
 			modelTestConfig: PasswordModelTestConfig,
 			fields: {
 				'fieldA': {value: 'password1', confirm: 'password1'},
 			}
 		});
-		browser.initialFormScreen.assertInputs({
+		browser.initialFormScreen.assertFieldInputs({
 			modelTestConfig: PasswordModelTestConfig,
 			fields: {
 				'name': {value: 'Password Field Test 1'},
@@ -54,7 +54,7 @@ module.exports = {
 		browser.initialFormScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 
-		browser.itemScreen.assertInputs({
+		browser.itemScreen.assertFieldInputs({
 			modelTestConfig: PasswordModelTestConfig,
 			fields: {
 				'name': {value: 'Password Field Test 1'},
@@ -62,7 +62,7 @@ module.exports = {
 		})
 	},
 	'Password field should show correctly in the edit form': function(browser) {
-		browser.itemScreen.assertUIVisible({
+		browser.itemScreen.assertFieldUIVisible({
 			modelTestConfig: PasswordModelTestConfig,
 			fields: [
 				{
@@ -77,13 +77,13 @@ module.exports = {
 		});
 	},
 	'Password field can be filled via the edit form': function(browser) {
-		browser.itemScreen.clickUI({
+		browser.itemScreen.clickFieldUI({
 			modelTestConfig: PasswordModelTestConfig,
 			fields: {
 				'fieldB': {'click': 'setPasswordButton'},
 			}
 		});
-		browser.itemScreen.assertUIVisible({
+		browser.itemScreen.assertFieldUIVisible({
 			modelTestConfig: PasswordModelTestConfig,
 			fields: [
 				{
@@ -96,7 +96,7 @@ module.exports = {
 				}
 			],
 		});
-		browser.itemScreen.fillInputs({
+		browser.itemScreen.fillFieldInputs({
 			modelTestConfig: PasswordModelTestConfig,
 			fields: {
 				'fieldB': {value: 'password2', confirm: 'wrongPassword2'}
@@ -105,7 +105,7 @@ module.exports = {
 		browser.itemScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 		browser.itemScreen.assertFlashError('Passwords must match');
-		browser.itemScreen.fillInputs({
+		browser.itemScreen.fillFieldInputs({
 			modelTestConfig: PasswordModelTestConfig,
 			fields: {
 				'fieldB': {value: 'password2', confirm: 'password2'}
@@ -114,7 +114,7 @@ module.exports = {
 		browser.itemScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
-		browser.itemScreen.assertInputs({
+		browser.itemScreen.assertFieldInputs({
 			modelTestConfig: PasswordModelTestConfig,
 			fields: {
 				'name': {value: 'Password Field Test 1'},

@@ -9,7 +9,7 @@ module.exports = {
 		browser.listScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.initialFormScreen.assertUIVisible({
+		browser.initialFormScreen.assertFieldUIVisible({
 			modelTestConfig: BooleanModelTestConfig,
 			fields: [{name: 'name'}, {name: 'fieldA'}]
 		});
@@ -22,7 +22,7 @@ module.exports = {
 		browser.adminUIApp.openFieldList('Boolean');
 		browser.listScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
-		browser.initialFormScreen.fillInputs({
+		browser.initialFormScreen.fillFieldInputs({
 			modelTestConfig: BooleanModelTestConfig,
 			fields: {
 				'name': {value: 'Boolean Field Test 1'},
@@ -30,7 +30,7 @@ module.exports = {
 				'fieldD': {value: 'Test'},
 			}
 		});
-		browser.initialFormScreen.assertInputs({
+		browser.initialFormScreen.assertFieldInputs({
 			modelTestConfig: BooleanModelTestConfig,
 			fields: {
 				'name': {value: 'Boolean Field Test 1'},
@@ -40,7 +40,7 @@ module.exports = {
 		browser.initialFormScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 
-		browser.itemScreen.assertInputs({
+		browser.itemScreen.assertFieldInputs({
 			modelTestConfig: BooleanModelTestConfig,
 			fields: {
 				'name': {value: 'Boolean Field Test 1'},
@@ -49,19 +49,19 @@ module.exports = {
 		})
 	},
 	'Boolean field should show correctly in the edit form': function(browser) {
-		browser.itemScreen.assertUIVisible({
+		browser.itemScreen.assertFieldUIVisible({
 			modelTestConfig: BooleanModelTestConfig,
 			fields: [{name: 'fieldA'}, {name: 'fieldB'}]
 		});
 	},
 	'Boolean field should have its default value if hidden': function(browser) {
-		browser.itemScreen.assertUIVisible({
+		browser.itemScreen.assertFieldUIVisible({
 			modelTestConfig: BooleanModelTestConfig,
 			fields: [{name: 'fieldD'}],
 		});
 	},
 	'Boolean field can be filled via the edit form': function(browser) {
-		browser.itemScreen.fillInputs({
+		browser.itemScreen.fillFieldInputs({
 			modelTestConfig: BooleanModelTestConfig,
 			fields: {
 				'fieldB': {value: 'false'}
@@ -70,7 +70,7 @@ module.exports = {
 		browser.itemScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
-		browser.itemScreen.assertInputs({
+		browser.itemScreen.assertFieldInputs({
 			modelTestConfig: BooleanModelTestConfig,
 			fields: {
 				'name': {value: 'Boolean Field Test 1'},
