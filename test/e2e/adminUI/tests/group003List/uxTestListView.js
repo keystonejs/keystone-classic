@@ -24,7 +24,6 @@ module.exports = {
 	'List view should allow users to create a new list item': function (browser) {
 		browser.adminUIApp
 			.click('@fieldListsMenu')
-			.waitForListScreen()
 			.click('@nameListSubmenu')
 			.waitForListScreen();
 
@@ -49,7 +48,6 @@ module.exports = {
 
 		browser.adminUIApp
 			.click('@fieldListsMenu')
-			.waitForListScreen()
 			.click('@nameListSubmenu')
 			.waitForListScreen();
 
@@ -62,7 +60,6 @@ module.exports = {
 	'List view should allow users to create more new list items': function (browser) {
 		browser.adminUIApp
 			.click('@fieldListsMenu')
-			.waitForListScreen()
 			.click('@nameListSubmenu')
 			.waitForListScreen();
 
@@ -88,7 +85,6 @@ module.exports = {
 
 		browser.adminUIApp
 			.click('@fieldListsMenu')
-			.waitForListScreen()
 			.click('@nameListSubmenu')
 			.waitForListScreen();
 
@@ -104,7 +100,6 @@ module.exports = {
 	'List view should allow users to browse an item by clicking the item name': function (browser) {
 		browser.adminUIApp
 			.click('@fieldListsMenu')
-			.waitForListScreen()
 			.click('@nameListSubmenu')
 			.waitForListScreen();
 
@@ -117,7 +112,6 @@ module.exports = {
 	'List view should allow users to browse back to list view from an item view by using the crum links': function (browser) {
 		browser.adminUIApp
 			.click('@fieldListsMenu')
-			.waitForListScreen()
 			.click('@nameListSubmenu')
 			.waitForListScreen();
 
@@ -136,7 +130,6 @@ module.exports = {
 	'List view should allow users to search for items': function (browser) {
 		browser.adminUIApp
 			.click('@fieldListsMenu')
-			.waitForListScreen()
 			.click('@nameListSubmenu')
 			.waitForListScreen();
 
@@ -190,7 +183,6 @@ module.exports = {
 	'List view should allow users to delete last item': function (browser) {
 		browser.adminUIApp
 			.click('@fieldListsMenu')
-			.waitForListScreen()
 			.click('@nameListSubmenu')
 			.waitForListScreen();
 

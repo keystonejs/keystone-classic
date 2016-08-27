@@ -73,12 +73,12 @@ module.exports = {
 	},
 	'Item screen should show an item meta Created On label': function (browser) {
 		browser.itemScreen
-			.expect.element('@metaCreatedOnLabel')
+			.expect.element('@metaCreatedAtLabel')
 			.to.be.visible;
 	},
 	'Item screen should show an item meta Created On value': function (browser) {
 		browser.itemScreen
-			.expect.element('@metaCreatedOnValue')
+			.expect.element('@metaCreatedAtValue')
 			.to.be.visible;
 	},
 	// TODO:  The following are only testable with lists updated via a user session;
