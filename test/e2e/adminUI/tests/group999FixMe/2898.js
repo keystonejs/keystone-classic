@@ -1,28 +1,28 @@
 module.exports = {
 	before: function (browser) {
-		browser.app = browser.page.app();
-		browser.signinScreen = browser.page.signin();
-		browser.listScreen = browser.page.list();
-		browser.itemScreen = browser.page.item();
+		browser.adminUIApp = browser.page.adminUIApp();
+		browser.signinScreen = browser.page.signinScreen();
+		browser.listScreen = browser.page.listScreen();
+		browser.itemScreen = browser.page.itemScreen();
 		browser.initialFormScreen = browser.page.initialForm();
 
-		browser.app.gotoHomeScreen();
-		browser.app.waitForSigninScreen();
+		browser.adminUIApp.gotoHomeScreen();
+		browser.adminUIApp.waitForSigninScreen();
 
 		browser.signinScreen.signin();
-		browser.app.waitForHomeScreen();
+		browser.adminUIApp.waitForHomeScreen();
 	},
 	after: function (browser) {
-		browser.app.signout();
+		browser.adminUIApp.signout();
 		browser.end();
 	},
 	'Demonstrate issue 2898': function(browser) {
 		// Create items
-		browser.app.openFieldList('Datetime');
+		browser.adminUIApp.openFieldList('Datetime');
 		browser.listScreen.createFirstItem();
-		browser.app.waitForInitialFormScreen();
+		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.initialFormScreen.fillInputs({
+		browser.initialFormScreen.fillFieldInputs({
 			listName: 'Datetime',
 			fields: {
 				'name': {value: 'testing'},
@@ -33,7 +33,7 @@ module.exports = {
 		browser.initialFormScreen.save();
 
 		// The following assertion passes where it should fail.
-		browser.itemScreen.assertInputs({
+		browser.itemScreen.assertFieldInputs({
 			listName: 'Datetime',
 			fields: {
 				'name': {value: 'testing'},

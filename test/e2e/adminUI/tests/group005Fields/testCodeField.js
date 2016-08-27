@@ -1,45 +1,46 @@
 var fieldTests = require('./commonFieldTestUtils.js');
+var CodeModelTestConfig = require('../../../modelTestConfig/CodeModelTestConfig');
 
 module.exports = {
 	before: fieldTests.before,
 	after: fieldTests.after,
 	'Code field should show correctly in the initial modal': function (browser) {
-		browser.app.openFieldList('Code');
+		browser.adminUIApp.openFieldList('Code');
 		browser.listScreen.createFirstItem();
-		browser.app.waitForInitialFormScreen();
+		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.initialFormScreen.assertUI({
-			listName: 'Code',
-			fields: ['name', 'fieldA']
+		browser.initialFormScreen.assertFieldUIVisible({
+			modelTestConfig: CodeModelTestConfig,
+			fields: [{name: 'name'}, {name: 'fieldA'}]
 		});
 	},
 	'restoring test state': function(browser) {
 		browser.initialFormScreen.cancel();
-		browser.app.waitForListScreen();
+		browser.adminUIApp.waitForListScreen();
 	},
 	'Code field can be filled via the initial modal': function(browser) {
-		browser.app.openFieldList('Code');
+		browser.adminUIApp.openFieldList('Code');
 		browser.listScreen.createFirstItem();
-		browser.app.waitForInitialFormScreen();
-		browser.initialFormScreen.fillInputs({
-			listName: 'Code',
+		browser.adminUIApp.waitForInitialFormScreen();
+		browser.initialFormScreen.fillFieldInputs({
+			modelTestConfig: CodeModelTestConfig,
 			fields: {
 				'name': {value: 'Code Field Test 1'},
 				'fieldA': {value: 'Some test code for field A'},
 			}
 		});
-		browser.initialFormScreen.assertInputs({
-			listName: 'Code',
+		browser.initialFormScreen.assertFieldInputs({
+			modelTestConfig: CodeModelTestConfig,
 			fields: {
 				'name': {value: 'Code Field Test 1'},
 				'fieldA': {value: 'Some test code for field A'},
 			}
 		});
 		browser.initialFormScreen.save();
-		browser.app.waitForItemScreen();
+		browser.adminUIApp.waitForItemScreen();
 
-		browser.itemScreen.assertInputs({
-			listName: 'Code',
+		browser.itemScreen.assertFieldInputs({
+			modelTestConfig: CodeModelTestConfig,
 			fields: {
 				'name': {value: 'Code Field Test 1'},
 				'fieldA': {value: 'Some test code for field A'},
@@ -47,23 +48,23 @@ module.exports = {
 		})
 	},
 	'Code field should show correctly in the edit form': function(browser) {
-		browser.itemScreen.assertUI({
-			listName: 'Code',
-			fields: ['fieldA', 'fieldB']
+		browser.itemScreen.assertFieldUIVisible({
+			modelTestConfig: CodeModelTestConfig,
+			fields: [{name: 'fieldA'}, {name: 'fieldB'}]
 		});
 	},
 	'Code field can be filled via the edit form': function(browser) {
-		browser.itemScreen.fillInputs({
-			listName: 'Code',
+		browser.itemScreen.fillFieldInputs({
+			modelTestConfig: CodeModelTestConfig,
 			fields: {
 				'fieldB': {value: 'Some test code for field B'}
 			}
 		});
 		browser.itemScreen.save();
-		browser.app.waitForItemScreen();
+		browser.adminUIApp.waitForItemScreen();
 		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
-		browser.itemScreen.assertInputs({
-			listName: 'Code',
+		browser.itemScreen.assertFieldInputs({
+			modelTestConfig: CodeModelTestConfig,
 			fields: {
 				'name': {value: 'Code Field Test 1'},
 				'fieldA': {value: 'Some test code for field A'},
@@ -73,6 +74,6 @@ module.exports = {
 	},
 	'restoring test state': function(browser) {
 		browser.initialFormScreen.cancel();
-		browser.app.waitForListScreen();
+		browser.adminUIApp.waitForListScreen();
 	},
 };

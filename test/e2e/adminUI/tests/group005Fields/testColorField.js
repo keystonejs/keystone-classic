@@ -1,45 +1,46 @@
 var fieldTests = require('./commonFieldTestUtils.js');
+var ColorModelTestConfig = require('../../../modelTestConfig/ColorModelTestConfig');
 
 module.exports = {
 	before: fieldTests.before,
 	after: fieldTests.after,
 	'Color field should show correctly in the initial modal': function (browser) {
-		browser.app.openFieldList('Color');
+		browser.adminUIApp.openFieldList('Color');
 		browser.listScreen.createFirstItem();
-		browser.app.waitForInitialFormScreen();
+		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.initialFormScreen.assertUI({
-			listName: 'Color',
-			fields: ['name', 'fieldA']
+		browser.initialFormScreen.assertFieldUIVisible({
+			modelTestConfig: ColorModelTestConfig,
+			fields: [{name: 'name'}, {name: 'fieldA'}]
 		});
 	},
 	'restoring test state': function(browser) {
 		browser.initialFormScreen.cancel();
-		browser.app.waitForListScreen();
+		browser.adminUIApp.waitForListScreen();
 	},
 	'Color field can be filled via the initial modal': function(browser) {
-		browser.app.openFieldList('Color');
+		browser.adminUIApp.openFieldList('Color');
 		browser.listScreen.createFirstItem();
-		browser.app.waitForInitialFormScreen();
-		browser.initialFormScreen.fillInputs({
-			listName: 'Color',
+		browser.adminUIApp.waitForInitialFormScreen();
+		browser.initialFormScreen.fillFieldInputs({
+			modelTestConfig: ColorModelTestConfig,
 			fields: {
 				'name': {value: 'Color Field Test 1'},
 				'fieldA': {value: '#002147'},
 			}
 		});
-		browser.initialFormScreen.assertInputs({
-			listName: 'Color',
+		browser.initialFormScreen.assertFieldInputs({
+			modelTestConfig: ColorModelTestConfig,
 			fields: {
 				'name': {value: 'Color Field Test 1'},
 				'fieldA': {value: '#002147'},
 			}
 		});
 		browser.initialFormScreen.save();
-		browser.app.waitForItemScreen();
+		browser.adminUIApp.waitForItemScreen();
 
-		browser.itemScreen.assertInputs({
-			listName: 'Color',
+		browser.itemScreen.assertFieldInputs({
+			modelTestConfig: ColorModelTestConfig,
 			fields: {
 				'name': {value: 'Color Field Test 1'},
 				'fieldA': {value: '#002147'},
@@ -47,23 +48,23 @@ module.exports = {
 		})
 	},
 	'Color field should show correctly in the edit form': function(browser) {
-		browser.itemScreen.assertUI({
-			listName: 'Color',
-			fields: ['fieldA', 'fieldB']
+		browser.itemScreen.assertFieldUIVisible({
+			modelTestConfig: ColorModelTestConfig,
+			fields: [{name: 'fieldA'}, {name: 'fieldB'}]
 		});
 	},
 	'Color field can be filled via the edit form': function(browser) {
-		browser.itemScreen.fillInputs({
-			listName: 'Color',
+		browser.itemScreen.fillFieldInputs({
+			modelTestConfig: ColorModelTestConfig,
 			fields: {
 				'fieldB': {value: '#f8e71c'}
 			}
 		});
 		browser.itemScreen.save();
-		browser.app.waitForItemScreen();
+		browser.adminUIApp.waitForItemScreen();
 		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
-		browser.itemScreen.assertInputs({
-			listName: 'Color',
+		browser.itemScreen.assertFieldInputs({
+			modelTestConfig: ColorModelTestConfig,
 			fields: {
 				'name': {value: 'Color Field Test 1'},
 				'fieldA': {value: '#002147'},

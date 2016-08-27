@@ -1,38 +1,38 @@
 module.exports = {
 	before: function (browser) {
-		browser.app = browser.page.app();
-		browser.signinScreen = browser.page.signin();
-		browser.listScreen = browser.page.list();
-		browser.itemScreen = browser.page.item();
+		browser.adminUIApp = browser.page.adminUIApp();
+		browser.signinScreen = browser.page.signinScreen();
+		browser.listScreen = browser.page.listScreen();
+		browser.itemScreen = browser.page.itemScreen();
 		browser.initialFormScreen = browser.page.initialForm();
 		browser.deleteConfirmationScreen = browser.page.deleteConfirmation();
 
-		browser.app.gotoHomeScreen();
-		browser.app.waitForSigninScreen();
+		browser.adminUIApp.gotoHomeScreen();
+		browser.adminUIApp.waitForSigninScreen();
 
 		browser.signinScreen.signin();
-		browser.app.waitForHomeScreen();
+		browser.adminUIApp.waitForHomeScreen();
 	},
 	after: function (browser) {
-		browser.app.signout();
+		browser.adminUIApp.signout();
 		browser.end();
 	},
 	'Demonstrate issue 3126': function(browser) {
 
 		// Add new text item
 
-		browser.app.openMiscList('DateFieldMap');
+		browser.adminUIApp.openMiscList('DateFieldMap');
 		browser.listScreen.createFirstItem();
-		browser.app.waitForInitialFormScreen();
+		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.initialFormScreen.fillInputs({
+		browser.initialFormScreen.fillFieldInputs({
 			listName: 'DateFieldMap',
 			fields: {
 				'datefield': {value: '2016-01-01'},
 			}
 		});
 		browser.initialFormScreen.save();
-		browser.app.waitForItemScreen();
+		browser.adminUIApp.waitForItemScreen();
 
 		browser.itemScreen.back();
 

@@ -1,29 +1,29 @@
 module.exports = {
 	before: function (browser) {
-		browser.app = browser.page.app();
-		browser.signinScreen = browser.page.signin();
-		browser.listScreen = browser.page.list();
-		browser.itemScreen = browser.page.item();
+		browser.adminUIApp = browser.page.adminUIApp();
+		browser.signinScreen = browser.page.signinScreen();
+		browser.listScreen = browser.page.listScreen();
+		browser.itemScreen = browser.page.itemScreen();
 		browser.initialFormScreen = browser.page.initialForm();
 		browser.deleteConfirmationScreen = browser.page.deleteConfirmation();
 
-		browser.app
+		browser.adminUIApp
 			.gotoHomeScreen()
 			.waitForSigninScreen();
 
 		browser.signinScreen.signin();
 
-		browser.app
+		browser.adminUIApp
 			.waitForHomeScreen()
 			.click('@accessMenu')
 			.waitForListScreen();
 
 		browser.listScreen.click('@secondItemLink');
 
-		browser.app.waitForItemScreen();
+		browser.adminUIApp.waitForItemScreen();
 	},
 	after: function (browser) {
-		browser.app.signout();
+		browser.adminUIApp.signout();
 		browser.end();
 	},
 	'Item screen should show a search input icon to search for list items': function (browser) {
@@ -73,12 +73,12 @@ module.exports = {
 	},
 	'Item screen should show an item meta Created On label': function (browser) {
 		browser.itemScreen
-			.expect.element('@metaCreatedOnLabel')
+			.expect.element('@metaCreatedAtLabel')
 			.to.be.visible;
 	},
 	'Item screen should show an item meta Created On value': function (browser) {
 		browser.itemScreen
-			.expect.element('@metaCreatedOnValue')
+			.expect.element('@metaCreatedAtValue')
 			.to.be.visible;
 	},
 	// TODO:  The following are only testable with lists updated via a user session;

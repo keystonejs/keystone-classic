@@ -1,59 +1,59 @@
 module.exports = {
 	before: function (browser) {
-		browser.app = browser.page.app();
-		browser.signinScreen = browser.page.signin();
-		browser.listScreen = browser.page.list();
-		browser.itemScreen = browser.page.item();
+		browser.adminUIApp = browser.page.adminUIApp();
+		browser.signinScreen = browser.page.signinScreen();
+		browser.listScreen = browser.page.listScreen();
+		browser.itemScreen = browser.page.itemScreen();
 		browser.initialFormScreen = browser.page.initialForm();
 
-		browser.app.gotoHomeScreen();
-		browser.app.waitForSigninScreen();
+		browser.adminUIApp.gotoHomeScreen();
+		browser.adminUIApp.waitForSigninScreen();
 
 		browser.signinScreen.signin();
-		browser.app.waitForHomeScreen();
+		browser.adminUIApp.waitForHomeScreen();
 	},
 	after: function (browser) {
-		browser.app.signout();
+		browser.adminUIApp.signout();
 		browser.end();
 	},
 	'List items with relationships to them should allow navigating to the source relationships': function(browser) {
-		browser.app.openMiscList('TargetRelationship');
+		browser.adminUIApp.openMiscList('TargetRelationship');
 		browser.listScreen.createFirstItem();
-		browser.app.waitForInitialFormScreen();
+		browser.adminUIApp.waitForInitialFormScreen();
 
 		browser.initialFormScreen.assertUI({
 			listName: 'TargetRelationship',
 			fields: ['name'],
 		});
 
-		browser.initialFormScreen.fillInputs({
+		browser.initialFormScreen.fillFieldInputs({
 			listName: 'TargetRelationship',
 			fields: {
 				'name': {value: 'Test Target 1'},
 			},
 		});
 		browser.initialFormScreen.save();
-		browser.app.waitForItemScreen();
+		browser.adminUIApp.waitForItemScreen();
 
-		browser.app.openMiscList('SourceRelationship');
+		browser.adminUIApp.openMiscList('SourceRelationship');
 		browser.listScreen.createFirstItem();
-		browser.app.waitForInitialFormScreen();
+		browser.adminUIApp.waitForInitialFormScreen();
 
 		browser.initialFormScreen.assertUI({
 			listName: 'SourceRelationship',
 			fields: ['name'],
 		});
 
-		browser.initialFormScreen.fillInputs({
+		browser.initialFormScreen.fillFieldInputs({
 			listName: 'SourceRelationship',
 			fields: {
 				'name': {value: 'Test Source 1'},
 			},
 		});
 		browser.initialFormScreen.save();
-		browser.app.waitForItemScreen();
+		browser.adminUIApp.waitForItemScreen();
 
-		browser.itemScreen.fillInputs({
+		browser.itemScreen.fillFieldInputs({
 			listName: 'SourceRelationship',
 			fields: {
 				'fieldA': {value: 'Test Target 1'},
@@ -61,15 +61,15 @@ module.exports = {
 			},
 		});
 		browser.itemScreen.save();
-		browser.app.waitForItemScreen();
+		browser.adminUIApp.waitForItemScreen();
 		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
 
-		browser.app.openMiscList('TargetRelationship');
+		browser.adminUIApp.openMiscList('TargetRelationship');
 		browser.listScreen.navigateToFirstItem();
 
-		browser.app.waitForItemScreen();
+		browser.adminUIApp.waitForItemScreen();
 
-		browser.itemScreen.assertInputs({
+		browser.itemScreen.assertFieldInputs({
 			listName: 'TargetRelationship',
 			fields: {
 				'name': {value: 'Test Target 1'},
@@ -78,9 +78,9 @@ module.exports = {
 
 		browser.itemScreen.navitageToFirstRelationship();
 
-		browser.app.waitForItemScreen();
+		browser.adminUIApp.waitForItemScreen();
 
-		browser.itemScreen.assertInputs({
+		browser.itemScreen.assertFieldInputs({
 			listName: 'SourceRelationship',
 			fields: {
 				'name': {value: 'Select Field Test 1'},

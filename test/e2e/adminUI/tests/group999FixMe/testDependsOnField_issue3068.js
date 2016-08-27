@@ -1,30 +1,30 @@
 module.exports = {
 	before: function (browser) {
-		browser.app = browser.page.app();
-		browser.signinScreen = browser.page.signin();
-		browser.listScreen = browser.page.list();
-		browser.itemScreen = browser.page.item();
+		browser.adminUIApp = browser.page.adminUIApp();
+		browser.signinScreen = browser.page.signinScreen();
+		browser.listScreen = browser.page.listScreen();
+		browser.itemScreen = browser.page.itemScreen();
 		browser.initialFormScreen = browser.page.initialForm();
 
-		browser.app.gotoHomeScreen();
-		browser.app.waitForSigninScreen();
+		browser.adminUIApp.gotoHomeScreen();
+		browser.adminUIApp.waitForSigninScreen();
 
 		browser.signinScreen.signin();
-		browser.app.waitForHomeScreen();
+		browser.adminUIApp.waitForHomeScreen();
 	},
 	after: function (browser) {
-		browser.app.signout();
+		browser.adminUIApp.signout();
 		browser.end();
 	},
 	'Depends On field should work in initial form': function(browser) {
 		// Create items
-		browser.app.openMiscList('DependsOn');
+		browser.adminUIApp.openMiscList('DependsOn');
 		browser.listScreen.createFirstItem();
-		browser.app.waitForInitialFormScreen();
+		browser.adminUIApp.waitForInitialFormScreen();
 
 
 		// The dependency condition is met by default, so the dependent field should show.
-		browser.initialFormScreen.assertUIVisible({
+		browser.initialFormScreen.assertFieldUIVisible({
 			listName: 'DependsOn',
 			fields: ['dependency', 'dependent'],
 			args: {
@@ -32,14 +32,14 @@ module.exports = {
 			}
 		});
 
-		browser.initialFormScreen.fillInputs({
+		browser.initialFormScreen.fillFieldInputs({
 			listName: 'DependsOn',
 			fields: {
 				'dependency': true
 			}
 		});
 
-		browser.initialFormScreen.assertUIVisible({
+		browser.initialFormScreen.assertFieldUIVisible({
 			listName: 'DependsOn',
 			fields: ['dependency'],
 			args: {
@@ -47,7 +47,7 @@ module.exports = {
 			}
 		});
 
-		browser.initialFormScreen.assertUINotPresent({
+		browser.initialFormScreen.assertFieldUINotPresent({
 			listName: 'DependsOn',
 			fields: ['dependent'],
 			args: {
@@ -55,14 +55,14 @@ module.exports = {
 			}
 		});
 
-		browser.initialFormScreen.fillInputs({
+		browser.initialFormScreen.fillFieldInputs({
 			listName: 'DependsOn',
 			fields: {
 				'dependency': false
 			}
 		});
 
-		browser.initialFormScreen.assertUIVisible({
+		browser.initialFormScreen.assertFieldUIVisible({
 			listName: 'DependsOn',
 			fields: ['dependency', 'dependent'],
 			args: {
@@ -76,13 +76,13 @@ module.exports = {
 	'Depends On field should work in the edit form': function(browser) {
 
 		// The dependency condition is met, so the dependent field should show.
-		browser.itemScreen.assertUIVisible({
+		browser.itemScreen.assertFieldUIVisible({
 			listName: 'DependsOn',
 			fields: ['dependency', 'dependent'],
 			args: {'editForm': false}
 		});
 
-		browser.itemScreen.fillInputs({
+		browser.itemScreen.fillFieldInputs({
 			listName: 'DependsOn',
 			fields: {
 				'dependency': true
@@ -90,7 +90,7 @@ module.exports = {
 		});
 
 		// The dependency condition is no longer met, field should not be visible.
-		browser.itemScreen.assertUINotPresent({
+		browser.itemScreen.assertFieldUINotPresent({
 			listName: 'DependsOn',
 			fields: ['dependent'],
 			args: {
@@ -98,14 +98,14 @@ module.exports = {
 			}
 		});
 
-		browser.itemScreen.fillInputs({
+		browser.itemScreen.fillFieldInputs({
 			listName: 'DependsOn',
 			fields: {
 				'dependency': false
 			}
 		});
 
-		browser.itemScreen.assertUIVisible({
+		browser.itemScreen.assertFieldUIVisible({
 			listName: 'DependsOn',
 			fields: ['dependency', 'dependent'],
 			args: {
