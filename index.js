@@ -46,47 +46,47 @@ var Keystone = function () {
 	this.express = express;
 
 	// init environment defaults
-	this.set('env', process.env.NODE_ENV || 'development');
+	this._set('env', process.env.NODE_ENV || 'development');
 
-	this.set('port', process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT);
-	this.set('host', process.env.HOST || process.env.IP || process.env.OPENSHIFT_NODEJS_IP);
-	this.set('listen', process.env.LISTEN);
+	this._set('port', process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT);
+	this._set('host', process.env.HOST || process.env.IP || process.env.OPENSHIFT_NODEJS_IP);
+	this._set('listen', process.env.LISTEN);
 
-	this.set('ssl', process.env.SSL);
-	this.set('ssl port', process.env.SSL_PORT);
-	this.set('ssl host', process.env.SSL_HOST || process.env.SSL_IP);
-	this.set('ssl key', process.env.SSL_KEY);
-	this.set('ssl cert', process.env.SSL_CERT);
+	this._set('ssl', process.env.SSL);
+	this._set('ssl port', process.env.SSL_PORT);
+	this._set('ssl host', process.env.SSL_HOST || process.env.SSL_IP);
+	this._set('ssl key', process.env.SSL_KEY);
+	this._set('ssl cert', process.env.SSL_CERT);
 
-	this.set('cookie secret', process.env.COOKIE_SECRET);
-	this.set('cookie signin', (this.get('env') === 'development') ? true : false);
+	this._set('cookie secret', process.env.COOKIE_SECRET);
+	this._set('cookie signin', (this.get('env') === 'development') ? true : false);
 
-	this.set('embedly api key', process.env.EMBEDLY_API_KEY || process.env.EMBEDLY_APIKEY);
-	this.set('mandrill api key', process.env.MANDRILL_API_KEY || process.env.MANDRILL_APIKEY);
-	this.set('mandrill username', process.env.MANDRILL_USERNAME);
-	this.set('google api key', process.env.GOOGLE_BROWSER_KEY);
-	this.set('google server api key', process.env.GOOGLE_SERVER_KEY);
-	this.set('ga property', process.env.GA_PROPERTY);
-	this.set('ga domain', process.env.GA_DOMAIN);
-	this.set('chartbeat property', process.env.CHARTBEAT_PROPERTY);
-	this.set('chartbeat domain', process.env.CHARTBEAT_DOMAIN);
-	this.set('allowed ip ranges', process.env.ALLOWED_IP_RANGES);
+	this._set('embedly api key', process.env.EMBEDLY_API_KEY || process.env.EMBEDLY_APIKEY);
+	this._set('mandrill api key', process.env.MANDRILL_API_KEY || process.env.MANDRILL_APIKEY);
+	this._set('mandrill username', process.env.MANDRILL_USERNAME);
+	this._set('google api key', process.env.GOOGLE_BROWSER_KEY);
+	this._set('google server api key', process.env.GOOGLE_SERVER_KEY);
+	this._set('ga property', process.env.GA_PROPERTY);
+	this._set('ga domain', process.env.GA_DOMAIN);
+	this._set('chartbeat property', process.env.CHARTBEAT_PROPERTY);
+	this._set('chartbeat domain', process.env.CHARTBEAT_DOMAIN);
+	this._set('allowed ip ranges', process.env.ALLOWED_IP_RANGES);
 
 	if (process.env.S3_BUCKET && process.env.S3_KEY && process.env.S3_SECRET) {
-		this.set('s3 config', { bucket: process.env.S3_BUCKET, key: process.env.S3_KEY, secret: process.env.S3_SECRET, region: process.env.S3_REGION });
+		this._set('s3 config', { bucket: process.env.S3_BUCKET, key: process.env.S3_KEY, secret: process.env.S3_SECRET, region: process.env.S3_REGION });
 	}
 
 	if (process.env.AZURE_STORAGE_ACCOUNT && process.env.AZURE_STORAGE_ACCESS_KEY) {
-		this.set('azurefile config', { account: process.env.AZURE_STORAGE_ACCOUNT, key: process.env.AZURE_STORAGE_ACCESS_KEY });
+		this._set('azurefile config', { account: process.env.AZURE_STORAGE_ACCOUNT, key: process.env.AZURE_STORAGE_ACCESS_KEY });
 	}
 
 	if (process.env.CLOUDINARY_URL) {
 		// process.env.CLOUDINARY_URL is processed by the cloudinary package when this is set
-		this.set('cloudinary config', true);
+		this._set('cloudinary config', true);
 	}
 
 	// init mongoose
-	this.set('mongoose', require('mongoose'));
+	this._set('mongoose', require('mongoose'));
 	this.mongoose.Promise = require('es6-promise').Promise;
 
 	// Attach middleware packages, bound to this instance

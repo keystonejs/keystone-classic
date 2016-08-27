@@ -33,7 +33,7 @@ describe("initViewEngine", function () {
 	var keystone = require('../../../index.js');
 	var app = express();
 	keystone.init(options);
-	keystone.set('app', app);
+	keystone._set('app', app);
 	it("should set view", function () {
 		demand(typeof app.get('view')).must.be('function');
 	});

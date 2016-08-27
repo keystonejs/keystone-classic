@@ -17,7 +17,7 @@ describe('Keystone "module root" setting', function () {
 
 		it('should be used by keystone.getPath()', function () {
 			var viewsPath = 'relative/path/to/views'
-			keystone.set('views', viewsPath);
+			keystone._set('views', viewsPath);
 			demand(keystone.getPath('views')).to.be(path.resolve(__dirname, viewsPath));
 		});
 
@@ -27,7 +27,7 @@ describe('Keystone "module root" setting', function () {
 		var customPath = '../..';
 
 		before(function () {
-			keystone.set('module root', customPath);
+			keystone._set('module root', customPath);
 		});
 
 		it('should return the custom configured path', function () {
@@ -36,7 +36,7 @@ describe('Keystone "module root" setting', function () {
 
 		it('should be used by keystone.getPath() to resolve relative paths', function () {
 			var viewsPath = 'relative/path/to/views'
-			keystone.set('views', viewsPath);
+			keystone._set('views', viewsPath);
 			demand(keystone.getPath('views')).to.be(path.resolve(__dirname, customPath, viewsPath));
 		});
 	});
@@ -45,7 +45,7 @@ describe('Keystone "module root" setting', function () {
 		var customPath = path.resolve(__dirname, '../..');
 
 		before(function () {
-			keystone.set('module root', customPath);
+			keystone._set('module root', customPath);
 		});
 
 		it('should return the custom configured path', function () {
@@ -54,7 +54,7 @@ describe('Keystone "module root" setting', function () {
 
 		it('should be used by keystone.getPath() to resolve relative paths', function () {
 			var viewsPath = 'relative/path/to/views'
-			keystone.set('views', viewsPath);
+			keystone._set('views', viewsPath);
 			demand(keystone.getPath('views')).to.be(path.resolve(customPath, viewsPath));
 		});
 	});

@@ -124,14 +124,14 @@ module.exports = function createApp (keystone, express) {
 			// new:
 			//    var myRouter = new express.Router();
 			//    myRouter.get('/', (req, res) => res.send('hello world'));
-			//    keystone.set('routes', myRouter);
+			//    keystone._set('routes', myRouter);
 			app.use(appRouter);
 		} else {
 			// old:
 			//    var initRoutes = function (app) {
 			//      app.get('/', (req, res) => res.send('hello world'));
 			//    }
-			//    keystone.set('routes', initRoutes);
+			//    keystone._set('routes', initRoutes);
 			appRouter(app);
 		}
 	}

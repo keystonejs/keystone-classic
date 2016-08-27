@@ -46,8 +46,8 @@ keystone.init({
 });
 
 keystone.import('models');
-keystone.set('routes', require('./routes'));
-keystone.set('nav', {
+keystone._set('routes', require('./routes'));
+keystone._set('nav', {
 	'access': [
 		'users',
 	],

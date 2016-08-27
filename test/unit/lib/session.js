@@ -29,7 +29,7 @@ describe('Keystone.session', function () {
 
 		before(function () {
 			keystone.get('cookie secret', 'SECRET');
-			keystone.set('user model', 'User');
+			keystone._set('user model', 'User');
 		});
 
 		beforeEach(function () {
@@ -46,7 +46,7 @@ describe('Keystone.session', function () {
 		describe('with valid args, "cookie signin" on', function () {
 
 			it('should regenerate session, set user, session.userId, and res.cookie', function () {
-				keystone.set('cookie signin', true);
+				keystone._set('cookie signin', true);
 				keystone.session.signinWithUser(user, req, res, onSuccess);
 
 				sinon.assert.calledOnce(req.session.regenerate);
@@ -66,7 +66,7 @@ describe('Keystone.session', function () {
 		describe('with valid args, "cookie signin" off', function () {
 
 			it('should regenerate session, set user, session.userId', function () {
-				keystone.set('cookie signin', false);
+				keystone._set('cookie signin', false);
 				keystone.session.signinWithUser(user, req, res, onSuccess);
 
 				sinon.assert.calledOnce(req.session.regenerate);
@@ -176,7 +176,7 @@ describe('Keystone.session', function () {
 					},
 				};
 
-				keystone.set('user model', 'User');
+				keystone._set('user model', 'User');
 				sinon.stub(keystone, 'list').withArgs('User').returns(this.User);
 				sinon.stub(keystone.session, 'signinWithUser').callsArg(3);
 			});
@@ -305,7 +305,7 @@ describe('Keystone.session', function () {
 
 		before(function () {
 			keystone.get('cookie secret', 'SECRET');
-			keystone.set('user model', 'User');
+			keystone._set('user model', 'User');
 		});
 
 		beforeEach(function () {
@@ -319,7 +319,7 @@ describe('Keystone.session', function () {
 		});
 
 		it('should unset user, session.userId and cookie', function () {
-			keystone.set('cookie signin', true);
+			keystone._set('cookie signin', true);
 			keystone.session.signinWithUser(user, req, res, function() {
 				keystone.session.signout(req, res, function() {
 					demand(req.user).be.null();

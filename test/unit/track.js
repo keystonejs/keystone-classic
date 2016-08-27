@@ -24,7 +24,7 @@ describe('List "track" option', function () {
 		removeModel(testModelName);
 
 		// define user model
-		keystone.set('user model', userModelName);
+		keystone._set('user model', userModelName);
 		User = keystone.List(userModelName);
 		User.add({
 			name: { type: String, required: true, index: true }
