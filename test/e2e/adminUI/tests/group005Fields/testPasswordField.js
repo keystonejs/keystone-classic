@@ -2,6 +2,7 @@ var fieldTests = require('./commonFieldTestUtils.js');
 var PasswordModelTestConfig = require('../../../modelTestConfig/PasswordModelTestConfig');
 
 module.exports = {
+	'@disabled': true,  // TODO: enable after https://github.com/keystonejs/keystone/issues/3428 is fixed
 	before: fieldTests.before,
 	after: fieldTests.after,
 	'Password field should show correctly in the initial modal': function (browser) {
