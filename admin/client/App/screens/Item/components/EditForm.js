@@ -267,7 +267,6 @@ var EditForm = React.createClass({
 				}
 				props.key = field.path;
 				if (index === 0 && this.state.focusFirstField) {
-					console.log(`FOCUS ${field.path}`);
 					props.autoFocus = true;
 				}
 				return React.createElement(Fields[field.type], props);
