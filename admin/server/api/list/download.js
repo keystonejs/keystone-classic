@@ -39,8 +39,9 @@ module.exports = function (req, res) {
 		if (format === 'csv') {
 			data = results.map(function (item) {
 				return req.list.getCSVData(item, {
-					fields: req.query.select,
 					expandRelationshipFields: req.query.expandRelationshipFields,
+					fields: req.query.select,
+					user: req.user,
 				});
 			});
 			res.attachment(req.list.path + '-' + moment().format('YYYYMMDD-HHMMSS') + '.csv');
