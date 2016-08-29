@@ -1,6 +1,8 @@
 var objectAssign = require('object-assign');
-var CloudinaryImageFieldTestObject = require('../fieldTestObjects/CloudinaryImageFieldTestObject');
-var TextFieldTestObject = require('../fieldTestObjects/TextFieldTestObject');
+var fieldTestObjectsPath = require('keystone-nightwatch-e2e').fieldTestObjectsPath;
+var path = require('path');
+var CloudinaryImageFieldTestObject = require(path.resolve(fieldTestObjectsPath, 'CloudinaryImageFieldTestObject'));
+var TextFieldTestObject = require(path.resolve(fieldTestObjectsPath, 'TextFieldTestObject'));
 
 module.exports = function CloudinaryImageModelTestConfig (config) {
 	return {

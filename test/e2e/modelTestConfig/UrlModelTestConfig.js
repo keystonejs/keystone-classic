@@ -1,6 +1,8 @@
 var objectAssign = require('object-assign');
-var TextFieldTestObject = require('../fieldTestObjects/TextFieldTestObject');
-var UrlFieldTestObject = require('../fieldTestObjects/UrlFieldTestObject');
+var fieldTestObjectsPath = require('keystone-nightwatch-e2e').fieldTestObjectsPath;
+var path = require('path');
+var TextFieldTestObject = require(path.resolve(fieldTestObjectsPath, 'TextFieldTestObject'));
+var UrlFieldTestObject = require(path.resolve(fieldTestObjectsPath, 'UrlFieldTestObject'));
 
 module.exports = function UrlModelTestConfig (config) {
 	return {
