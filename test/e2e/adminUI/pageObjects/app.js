@@ -1,7 +1,3 @@
-/*
-	This page object describes global admin UI configuration and commands that are or should be
-	most likely available in all pages.
- */
 var keystone = require('../../../..');
 
 module.exports = {
@@ -80,47 +76,12 @@ module.exports = {
 				.waitForListScreen();
 		},
 		openFieldList: function(field) {
-				var list = field.toLowerCase() + 'List';
-				var listSubmenu = '@' + list + 'Submenu';
-				return this.click('@fieldListsMenu')
-					.waitForListScreen()
-					.click(listSubmenu)
-					.waitForListScreen();
-		},
-		signout: function() {
-			this.api.pause(500);
-			return this
-				.waitForElementVisible('@logoutIcon')
-				.click('@logoutIconLink')
-				.waitForSigninScreen();
-		},
-		waitForSigninScreen: function(timeout) {
-			return this
-				.waitForElementVisible('@signinScreen', timeout || this.api.globals.waitForConditionTimeout);
-		},
-		waitForHomeScreen: function(timeout) {
-			return this
-				.waitForElementVisible('@homeScreen', timeout || this.api.globals.waitForConditionTimeout);
-		},
-		waitForInitialFormScreen: function(timeout) {
-			return this
-				.waitForElementVisible('@initialFormScreen', timeout || this.api.globals.waitForConditionTimeout);
-		},
-		waitForDeleteConfirmationScreen: function(timeout) {
-			return this
-				.waitForElementVisible('@deleteConfirmationScreen', timeout || this.api.globals.waitForConditionTimeout);
-		},
-		waitForResetConfirmationScreen: function(timeout) {
-			return this
-				.waitForElementVisible('@resetConfirmationScreen', timeout || this.api.globals.waitForConditionTimeout);
-		},
-		waitForListScreen: function(timeout) {
-			return this
-				.waitForElementVisible('@listScreen', timeout || this.api.globals.waitForConditionTimeout);
-		},
-		waitForItemScreen: function(timeout) {
-			return this
-				.waitForElementVisible('@itemScreen', timeout || this.api.globals.waitForConditionTimeout);
+			var list = field.toLowerCase() + 'List';
+			var listSubmenu = '@' + list + 'Submenu';
+			return this.click('@fieldListsMenu')
+				.waitForListScreen()
+				.click(listSubmenu)
+				.waitForListScreen();
 		},
 	}],
 };

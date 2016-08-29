@@ -1,14 +1,14 @@
 module.exports = {
 	before: function (browser) {
+		browser.app = browser.page.app();
 		browser.adminUIApp = browser.page.adminUIApp();
-		browser.signinScreen = browser.page.signinScreen();
-		browser.homeScreen = browser.page.homeScreen();
+		browser.adminUISignin = browser.page.adminUISignin();
+		browser.adminUIHomeScreen = browser.page.adminUIHomeScreen();
 
-		browser.adminUIApp
-			.gotoHomeScreen()
-			.waitForSigninScreen();
+		browser.app.gotoHomeScreen();
+		browser.adminUIApp.waitForSigninScreen();
 
-		browser.signinScreen.signin();
+		browser.adminUISignin.signin();
 
 		browser.adminUIApp.waitForHomeScreen();
 	},
@@ -53,28 +53,28 @@ module.exports = {
 			.to.have.attribute('title').which.contains('Sign Out');
 	},
 	'Home view should have a dashboard header': function (browser) {
-		browser.homeScreen.expect.element('@dashboardHeader')
+		browser.adminUIHomeScreen.expect.element('@dashboardHeader')
 			.text.to.equal('e2e');
 	},
 	'Home view should have a Access dashboard sub-heading': function (browser) {
-		browser.homeScreen.section.accessGroup.expect.element('@subheading')
+		browser.adminUIHomeScreen.section.accessGroup.expect.element('@subheading')
 			.text.to.equal('Access');
 	},
 	'Home view should have a Fields dashboard sub-heading': function (browser) {
-		browser.homeScreen.section.fieldsGroup.expect.element('@subheading')
+		browser.adminUIHomeScreen.section.fieldsGroup.expect.element('@subheading')
 			.text.to.equal('Fields');
 	},
 	'Home view should have a Other dashboard sub-heading': function (browser) {
-		browser.homeScreen.section.otherGroup.expect.element('@subheading')
+		browser.adminUIHomeScreen.section.otherGroup.expect.element('@subheading')
 			.text.to.equal('Other');
 	},
 	'Home view should have tabs under Access dashboard group': function (browser) {
-		browser.homeScreen.section.accessGroup.assertUI();
+		browser.adminUIHomeScreen.section.accessGroup.assertUI();
 	},
 	'Home view should have tabs under Fields dashboard group': function (browser) {
-		browser.homeScreen.section.fieldsGroup.assertUI();
+		browser.adminUIHomeScreen.section.fieldsGroup.assertUI();
 	},
 	'Home view should have tabs under Other dashboard group': function (browser) {
-		browser.homeScreen.section.otherGroup.assertUI();
+		browser.adminUIHomeScreen.section.otherGroup.assertUI();
 	},
 };

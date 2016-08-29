@@ -1,16 +1,16 @@
 module.exports = {
 	before: function (browser) {
+		browser.app = browser.page.app();
 		browser.adminUIApp = browser.page.adminUIApp();
-		browser.signinScreen = browser.page.signinScreen();
-		browser.listScreen = browser.page.listScreen();
-		browser.itemScreen = browser.page.itemScreen();
-		browser.initialFormScreen = browser.page.initialForm();
+		browser.adminUISignin = browser.page.adminUISignin();
+		browser.adminUIListScreen = browser.page.adminUIListScreen();
+		browser.adminUIItemScreen = browser.page.adminUIItemScreen();
+		browser.adminUIInitialFormScreen = browser.page.adminUIInitialForm();
 
-		browser.adminUIApp
-			.gotoHomeScreen()
-			.waitForSigninScreen();
+		browser.app.gotoHomeScreen();
+		browser.adminUIApp.waitForSigninScreen();
 
-		browser.signinScreen.signin();
+		browser.adminUISignin.signin();
 
 		browser.adminUIApp.waitForHomeScreen();
 	},

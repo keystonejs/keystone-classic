@@ -1,19 +1,19 @@
-var NameModelTestConfig = require('../../../modelTestConfig/NameModelTestConfig');
+var NameModelTestConfig = require(require('keystone-nightwatch-e2e').fieldTestObjectsPath + '/NameModelTestConfig');
 
 module.exports = {
 	before: function (browser) {
+		browser.app = browser.page.app();
 		browser.adminUIApp = browser.page.adminUIApp();
-		browser.signinScreen = browser.page.signinScreen();
-		browser.listScreen = browser.page.listScreen();
-		browser.itemScreen = browser.page.itemScreen();
-		browser.initialFormScreen = browser.page.initialForm();
-		browser.deleteConfirmationScreen = browser.page.deleteConfirmation();
+		browser.adminUISignin = browser.page.adminUISignin();
+		browser.adminUIListScreen = browser.page.adminUIListScreen();
+		browser.adminUIItemScreen = browser.page.adminUIItemScreen();
+		browser.adminUIInitialFormScreen = browser.page.adminUIInitialForm();
+		browser.adminUIDeleteConfirmation = browser.page.adminUIDeleteConfirmation();
 
-		browser.adminUIApp
-			.gotoHomeScreen()
-			.waitForSigninScreen();
+		browser.app.gotoHomeScreen();
+		browser.adminUIApp.waitForSigninScreen();
 
-		browser.signinScreen.signin();
+		browser.adminUISignin.signin();
 
 		browser.adminUIApp.waitForHomeScreen();
 	},
@@ -27,13 +27,13 @@ module.exports = {
 			.click('@nameListSubmenu')
 			.waitForListScreen();
 
-		browser.listScreen
+		browser.adminUIListScreen
 			.click('@createFirstItemButton');
 
 		browser.adminUIApp
 			.waitForInitialFormScreen();
 
-		browser.initialFormScreen.fillFieldInputs({
+		browser.adminUIInitialFormScreen.fillFieldInputs({
 			modelTestConfig: NameModelTestConfig,
 			fields: {
 				'name': {value: 'Name Field Test 1'},
@@ -41,7 +41,7 @@ module.exports = {
 			}
 		});
 
-		browser.initialFormScreen.save();
+		browser.adminUIInitialFormScreen.save();
 
 		browser.adminUIApp
 			.waitForItemScreen();
@@ -51,10 +51,10 @@ module.exports = {
 			.click('@nameListSubmenu')
 			.waitForListScreen();
 
-		browser.listScreen
+		browser.adminUIListScreen
 			.expect.element('@paginationCount').text.to.equal('Showing 1 Name');
 
-		browser.listScreen
+		browser.adminUIListScreen
 			.expect.element('@firstItemNameValue').text.to.equal('Name Field Test 1');
 	},
 	'List view should allow users to create more new list items': function (browser) {
@@ -63,13 +63,13 @@ module.exports = {
 			.click('@nameListSubmenu')
 			.waitForListScreen();
 
-		browser.listScreen
+		browser.adminUIListScreen
 			.click('@createMoreItemsButton');
 
 		browser.adminUIApp
 			.waitForInitialFormScreen();
 
-		browser.initialFormScreen.fillFieldInputs({
+		browser.adminUIInitialFormScreen.fillFieldInputs({
 			modelTestConfig: NameModelTestConfig,
 			fields: {
 				'name': {value: 'Name Field Test 2'},
@@ -77,7 +77,7 @@ module.exports = {
 			}
 		});
 
-		browser.initialFormScreen.section.form
+		browser.adminUIInitialFormScreen.section.form
 			.click('@createButton');
 
 		browser.adminUIApp
@@ -88,13 +88,13 @@ module.exports = {
 			.click('@nameListSubmenu')
 			.waitForListScreen();
 
-		browser.listScreen
+		browser.adminUIListScreen
 			.expect.element('@paginationCount').text.to.equal('Showing 2 Names');
 
-		browser.listScreen
+		browser.adminUIListScreen
 			.expect.element('@firstItemNameValue').text.to.equal('Name Field Test 1');
 
-		browser.listScreen
+		browser.adminUIListScreen
 			.expect.element('@secondItemNameValue').text.to.equal('Name Field Test 2');
 	},
 	'List view should allow users to browse an item by clicking the item name': function (browser) {
@@ -103,7 +103,7 @@ module.exports = {
 			.click('@nameListSubmenu')
 			.waitForListScreen();
 
-		browser.listScreen
+		browser.adminUIListScreen
 			.click('@firstItemNameValue');
 
 		browser.adminUIApp
@@ -115,13 +115,13 @@ module.exports = {
 			.click('@nameListSubmenu')
 			.waitForListScreen();
 
-		browser.listScreen
+		browser.adminUIListScreen
 			.click('@firstItemNameValue');
 
 		browser.adminUIApp
 			.waitForItemScreen();
 
-		browser.itemScreen
+		browser.adminUIItemScreen
 			.click('@listBreadcrumb');
 
 		browser.adminUIApp
@@ -133,51 +133,51 @@ module.exports = {
 			.click('@nameListSubmenu')
 			.waitForListScreen();
 
-		browser.listScreen
+		browser.adminUIListScreen
 			.setValue('@searchInputField', 'Name Field Test 2');
 
 		browser.adminUIApp
 			.waitForListScreen();
 
-		browser.listScreen
+		browser.adminUIListScreen
 			.expect.element('@paginationCount').text.to.equal('Showing 1 Name');
 
-		browser.listScreen
+		browser.adminUIListScreen
 			.expect.element('@firstItemNameValue').text.to.equal('Name Field Test 2');
 	},
 	'List view should allow users to clear search filter': function (browser) {
-		browser.listScreen
+		browser.adminUIListScreen
 			.click('@searchInputFieldClearIcon');
 
 		browser.adminUIApp
 			.waitForListScreen();
 
-		browser.listScreen
+		browser.adminUIListScreen
 			.expect.element('@paginationCount').text.to.equal('Showing 2 Names');
 
-		browser.listScreen
+		browser.adminUIListScreen
 			.expect.element('@firstItemNameValue').text.to.equal('Name Field Test 1');
 
-		browser.listScreen
+		browser.adminUIListScreen
 			.expect.element('@secondItemNameValue').text.to.equal('Name Field Test 2');
 	},
 	'List view should allow users to delete items': function (browser) {
-		browser.listScreen
+		browser.adminUIListScreen
 			.click('@firstItemDeleteIcon');
 
 		browser.adminUIApp
 			.waitForDeleteConfirmationScreen();
 
-		browser.deleteConfirmationScreen
+		browser.adminUIDeleteConfirmation
 			.click('@deleteButton');
 
 		browser.adminUIApp
 			.waitForListScreen();
 
-		browser.listScreen
+		browser.adminUIListScreen
 			.expect.element('@paginationCount').text.to.equal('Showing 1 Name');
 
-		browser.listScreen
+		browser.adminUIListScreen
 			.expect.element('@firstItemNameValue').text.to.equal('Name Field Test 2');
 	},
 	'List view should allow users to delete last item': function (browser) {
@@ -186,19 +186,19 @@ module.exports = {
 			.click('@nameListSubmenu')
 			.waitForListScreen();
 
-		browser.listScreen
+		browser.adminUIListScreen
 			.click('@firstItemDeleteIcon');
 
 		browser.adminUIApp
 			.waitForDeleteConfirmationScreen();
 
-		browser.deleteConfirmationScreen
+		browser.adminUIDeleteConfirmation
 			.click('@deleteButton');
 
 		browser.adminUIApp
 			.waitForListScreen();
 
-		browser.listScreen
+		browser.adminUIListScreen
 			.expect.element('@noItemsFoundNoText').text.to.equal('No names found…');
 	},
 
