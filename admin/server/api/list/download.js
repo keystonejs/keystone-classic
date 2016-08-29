@@ -44,6 +44,10 @@ module.exports = function (req, res) {
 					fields: req.query.select,
 					user: req.user,
 				});
+				// If nested values in the first item aren't present, babyparse
+				// won't add them even if they are present in others. So we
+				// add keys from all items to an array and explicitly provided
+				// the complete set to baby.unparse() below
 				Object.keys(row).forEach(function (i) {
 					if (fields.indexOf(i) === -1) fields.push(i);
 				});
