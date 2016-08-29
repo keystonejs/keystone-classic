@@ -38,7 +38,10 @@ module.exports = function (req, res) {
 		if (err) return res.apiError('database error', err);
 		if (format === 'csv') {
 			data = results.map(function (item) {
-				return req.list.getCSVData(item, req.query.select, req.query.expandRelationshipFields);
+				return req.list.getCSVData(item, {
+					fields: req.query.select,
+					expandRelationshipFields: req.query.expandRelationshipFields,
+				});
 			});
 			res.attachment(req.list.path + '-' + moment().format('YYYYMMDD-HHMMSS') + '.csv');
 			res.setHeader('Content-Type', 'application/octet-stream');
