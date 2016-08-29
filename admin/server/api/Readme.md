@@ -26,13 +26,23 @@ Manages creating, destroying and validating KeystoneJS sessions (specifically, l
 GET /api/session
 ```
 
-Returns the currently logged in user, or `undefined`.
+Returns a single `user` property with either the currently logged in user, or `undefined`.
 
 ### Response
+
+#### When signed in:
 
 ```js
 {
 	user: req.user
+}
+```
+
+#### Signed out or new session:
+
+```js
+{
+	user: undefined
 }
 ```
 

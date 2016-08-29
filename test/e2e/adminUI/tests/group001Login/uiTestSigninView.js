@@ -1,9 +1,9 @@
 module.exports = {
 	before: function (browser) {
-		browser.app = browser.page.app();
-		browser.signinScreen = browser.page.signin();
+		browser.adminUIApp = browser.page.adminUIApp();
+		browser.signinScreen = browser.page.signinScreen();
 
-		browser.app
+		browser.adminUIApp
 			.gotoHomeScreen()
 			.waitForSigninScreen();
 	},

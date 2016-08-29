@@ -1,53 +1,53 @@
+var NameModelTestConfig = require('../../../modelTestConfig/NameModelTestConfig');
+
 module.exports = {
 	before: function (browser) {
-		browser.app = browser.page.app();
-		browser.signinScreen = browser.page.signin();
-		browser.listScreen = browser.page.list();
-		browser.itemScreen = browser.page.item();
+		browser.adminUIApp = browser.page.adminUIApp();
+		browser.signinScreen = browser.page.signinScreen();
+		browser.listScreen = browser.page.listScreen();
+		browser.itemScreen = browser.page.itemScreen();
 		browser.initialFormScreen = browser.page.initialForm();
 		browser.deleteConfirmationScreen = browser.page.deleteConfirmation();
 
-		browser.app
+		browser.adminUIApp
 			.gotoHomeScreen()
 			.waitForSigninScreen();
 
 		browser.signinScreen.signin();
 
-		browser.app.waitForHomeScreen();
+		browser.adminUIApp.waitForHomeScreen();
 	},
 	after: function (browser) {
-		browser.app.signout();
+		browser.adminUIApp.signout();
 		browser.end();
 	},
 	'List view should allow users to create a new list item': function (browser) {
-		browser.app
+		browser.adminUIApp
 			.click('@fieldListsMenu')
-			.waitForListScreen()
 			.click('@nameListSubmenu')
 			.waitForListScreen();
 
 		browser.listScreen
 			.click('@createFirstItemButton');
 
-		browser.app
+		browser.adminUIApp
 			.waitForInitialFormScreen();
 
-		browser.initialFormScreen.section.form.section.nameList.section.name
-			.fillInput({value: 'Name Field Test 1'});
+		browser.initialFormScreen.fillFieldInputs({
+			modelTestConfig: NameModelTestConfig,
+			fields: {
+				'name': {value: 'Name Field Test 1'},
+				'fieldA': {firstName: 'First 1', lastName: 'Last 1'},
+			}
+		});
 
-		browser.initialFormScreen.section.form.section.nameList.section.name
-			.assertInput({value: 'Name Field Test 1'});
+		browser.initialFormScreen.save();
 
-		browser.initialFormScreen.section.form.section.nameList.section.fieldA
-			.fillInput({firstName: 'First 1', lastName: 'Last 1'});
-
-		browser.initialFormScreen.section.form
-			.click('@createButton');
-
-		browser.app
+		browser.adminUIApp
 			.waitForItemScreen();
 
-		browser.app
+		browser.adminUIApp
+			.click('@fieldListsMenu')
 			.click('@nameListSubmenu')
 			.waitForListScreen();
 
@@ -58,34 +58,33 @@ module.exports = {
 			.expect.element('@firstItemNameValue').text.to.equal('Name Field Test 1');
 	},
 	'List view should allow users to create more new list items': function (browser) {
-		browser.app
+		browser.adminUIApp
 			.click('@fieldListsMenu')
-			.waitForListScreen()
 			.click('@nameListSubmenu')
 			.waitForListScreen();
 
 		browser.listScreen
 			.click('@createMoreItemsButton');
 
-		browser.app
+		browser.adminUIApp
 			.waitForInitialFormScreen();
 
-		browser.initialFormScreen.section.form.section.nameList.section.name
-			.fillInput({value: 'Name Field Test 2'});
-
-		browser.initialFormScreen.section.form.section.nameList.section.name
-			.assertInput({value: 'Name Field Test 2'});
-
-		browser.initialFormScreen.section.form.section.nameList.section.fieldA
-			.fillInput({firstName: 'First 2', lastName: 'Last 2'});
+		browser.initialFormScreen.fillFieldInputs({
+			modelTestConfig: NameModelTestConfig,
+			fields: {
+				'name': {value: 'Name Field Test 2'},
+				'fieldA': {firstName: 'First 2', lastName: 'Last 2'},
+			}
+		});
 
 		browser.initialFormScreen.section.form
 			.click('@createButton');
 
-		browser.app
+		browser.adminUIApp
 			.waitForItemScreen();
 
-		browser.app
+		browser.adminUIApp
+			.click('@fieldListsMenu')
 			.click('@nameListSubmenu')
 			.waitForListScreen();
 
@@ -99,46 +98,45 @@ module.exports = {
 			.expect.element('@secondItemNameValue').text.to.equal('Name Field Test 2');
 	},
 	'List view should allow users to browse an item by clicking the item name': function (browser) {
-		browser.app
+		browser.adminUIApp
 			.click('@fieldListsMenu')
-			.waitForListScreen()
 			.click('@nameListSubmenu')
 			.waitForListScreen();
 
 		browser.listScreen
 			.click('@firstItemNameValue');
 
-		browser.app
+		browser.adminUIApp
 			.waitForItemScreen();
 	},
 	'List view should allow users to browse back to list view from an item view by using the crum links': function (browser) {
-		browser.app
+		browser.adminUIApp
+			.click('@fieldListsMenu')
 			.click('@nameListSubmenu')
 			.waitForListScreen();
 
 		browser.listScreen
 			.click('@firstItemNameValue');
 
-		browser.app
+		browser.adminUIApp
 			.waitForItemScreen();
 
 		browser.itemScreen
 			.click('@listBreadcrumb');
 
-		browser.app
+		browser.adminUIApp
 			.waitForListScreen();
 	},
 	'List view should allow users to search for items': function (browser) {
-		browser.app
+		browser.adminUIApp
 			.click('@fieldListsMenu')
-			.waitForListScreen()
 			.click('@nameListSubmenu')
 			.waitForListScreen();
 
 		browser.listScreen
 			.setValue('@searchInputField', 'Name Field Test 2');
 
-		browser.app
+		browser.adminUIApp
 			.waitForListScreen();
 
 		browser.listScreen
@@ -151,7 +149,7 @@ module.exports = {
 		browser.listScreen
 			.click('@searchInputFieldClearIcon');
 
-		browser.app
+		browser.adminUIApp
 			.waitForListScreen();
 
 		browser.listScreen
@@ -167,13 +165,13 @@ module.exports = {
 		browser.listScreen
 			.click('@firstItemDeleteIcon');
 
-		browser.app
+		browser.adminUIApp
 			.waitForDeleteConfirmationScreen();
 
 		browser.deleteConfirmationScreen
 			.click('@deleteButton');
 
-		browser.app
+		browser.adminUIApp
 			.waitForListScreen();
 
 		browser.listScreen
@@ -183,22 +181,21 @@ module.exports = {
 			.expect.element('@firstItemNameValue').text.to.equal('Name Field Test 2');
 	},
 	'List view should allow users to delete last item': function (browser) {
-		browser.app
+		browser.adminUIApp
 			.click('@fieldListsMenu')
-			.waitForListScreen()
 			.click('@nameListSubmenu')
 			.waitForListScreen();
 
 		browser.listScreen
 			.click('@firstItemDeleteIcon');
 
-		browser.app
+		browser.adminUIApp
 			.waitForDeleteConfirmationScreen();
 
 		browser.deleteConfirmationScreen
 			.click('@deleteButton');
 
-		browser.app
+		browser.adminUIApp
 			.waitForListScreen();
 
 		browser.listScreen
