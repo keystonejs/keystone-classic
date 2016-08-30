@@ -73,7 +73,7 @@ html
 		#footer: .container
 			p 	#{brand} #{appversion} 
 				| Powered by <a href="http://keystonejs.com" target="_blank">KeystoneJS</a> version #{version}.
-				if User && user
+				if User && user && auth
 					|  Signed in as 
 					a(href='/keystone/' + User.path + '/' + user.id)= User.getDocumentName(user)
 					| .
