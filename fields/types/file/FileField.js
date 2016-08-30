@@ -36,6 +36,10 @@ module.exports = Field.create({
 			// size: PropTypes.number,
 		}),
 	},
+	statics: {
+		type: 'File',
+		getDefaultValue: () => ({}),
+	},
 	getInitialState () {
 		return buildInitialState(this.props);
 	},

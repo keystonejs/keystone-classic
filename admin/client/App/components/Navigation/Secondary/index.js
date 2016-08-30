@@ -3,8 +3,12 @@
  */
 
 import React from 'react';
+import { connect } from 'react-redux';
 import { Container } from 'elemental';
 
+import {
+	setActiveList,
+} from '../../../screens/List/actions/active';
 import SecondaryNavItem from './NavItem';
 
 var SecondaryNavigation = React.createClass({
@@ -35,7 +39,18 @@ var SecondaryNavigation = React.createClass({
 			const list = lists[key];
 			// Get the link and the classname
 			const href = list.external ? list.path : `${Keystone.adminPath}/${list.path}`;
-			const className = (this.props.currentListKey && this.props.currentListKey === list.path) ? 'active' : null;
+			const isActive = this.props.currentListKey && this.props.currentListKey === list.path;
+			const className = isActive ? 'active' : null;
+			const onClick = (evt) => {
+				// If it's the currently active navigation item and we're not on the item view,
+				// clear the query params on click
+				if (isActive && !this.props.itemId) {
+					evt.preventDefault();
+					this.props.dispatch(
+						setActiveList(this.props.currentList, this.props.currentListKey)
+					);
+				}
+			};
 
 			return (
 				<SecondaryNavItem
@@ -43,6 +58,7 @@ var SecondaryNavigation = React.createClass({
 					path={list.path}
 					className={className}
 					href={href}
+					onClick={onClick}
 				>
 					{list.label}
 				</SecondaryNavItem>
@@ -68,4 +84,8 @@ var SecondaryNavigation = React.createClass({
 	},
 });
 
-module.exports = SecondaryNavigation;
+module.exports = connect((state) => {
+	return {
+		currentList: state.lists.currentList,
+	};
+})(SecondaryNavigation);

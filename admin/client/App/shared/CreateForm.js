@@ -5,6 +5,7 @@
 
 import React from 'react';
 import assign from 'object-assign';
+import vkey from 'vkey';
 import AlertMessages from './AlertMessages';
 import { Fields } from 'FieldTypes';
 import InvalidFieldType from './InvalidFieldType';
@@ -31,14 +32,24 @@ const CreateForm = React.createClass({
 		var values = {};
 		Object.keys(this.props.list.fields).forEach(key => {
 			var field = this.props.list.fields[key];
-			if (field.defaultValue) {
-				values[field.path] = field.defaultValue;
-			}
+			var FieldComponent = Fields[field.type];
+			values[field.path] = FieldComponent.getDefaultValue(field);
 		});
 		return {
 			values: values,
 			alerts: {},
 		};
+	},
+	componentDidMount () {
+		document.body.addEventListener('keyup', this.handleKeyPress, false);
+	},
+	componentWillUnmount () {
+		document.body.removeEventListener('keyup', this.handleKeyPress, false);
+	},
+	handleKeyPress (evt) {
+		if (vkey[evt.keyCode] === '<escape>') {
+			this.props.onCancel();
+		}
 	},
 	// Handle input change events
 	handleChange (event) {
@@ -114,7 +125,7 @@ const CreateForm = React.createClass({
 			if (nameField.type === 'text') {
 				nameFieldProps.className = 'item-name-field';
 				nameFieldProps.placeholder = nameField.label;
-				nameFieldProps.label = false;
+				nameFieldProps.label = '';
 			}
 			form.push(React.createElement(Fields[nameField.type], nameFieldProps));
 		}

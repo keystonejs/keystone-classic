@@ -29,9 +29,6 @@ var ListFiltersAdd = React.createClass({
 			selectedField: false,
 		};
 	},
-	componentWillReceiveProps (nextProps) {
-		this.setState({ isOpen: nextProps.isOpen });
-	},
 	updateSearch (e) {
 		this.setState({ searchString: e.target.value });
 	},

@@ -18,7 +18,7 @@ with a real keystone app server.
 
         adminUI                                 => adminUI e2e test suite
             nightwatch.json                     => nightwatch config
-            pages
+            pageObjects
                 ...                             => page objects representing an AdminUI screen/page
             tests
                 groupNNN<group-name>            => adminUI test group, where NNN is a group sequence number
@@ -26,7 +26,7 @@ with a real keystone app server.
                     uxTest<test-name>           => UX/functional test suite
 
         drivers
-            <browser drivers>                   => all required browser drivers
+            <browser drivers>                   => place holder directories for browser drivers
 
         updates                                 => all schema update/migration files
            0.0.1-updates-e2e.js                 => keystone updates
@@ -116,7 +116,7 @@ from keystone's root directory:
     This allows you to experiment with the exact same setup the test do!
 
 
-## Adding New Tests
+## Add New Tests
 You should consider adding new UI/UX/Functional tests if:
 
 - you introduce new UI elements (e.g., a new field type).
@@ -125,10 +125,10 @@ You should consider adding new UI/UX/Functional tests if:
 - you fix a bug that's does not have UI/UX/Functional test coverage
 
 
-## Test Organization
-The best approach to keeping tests well organized is to:
+## Writing The Tests
+The best approach to writing new tests is to:
 
-- when writing new tests, use an existing one as an example.
+- use an existing one as an example.
 - keep the test style consistent.
 - keep the test file structure consistent.
 - each test group must run on its own using the `--group` argument (that means, that each test within the group must undo
@@ -136,20 +136,23 @@ any changes it does to the state of the UI)
 - each test within a group must run on its own using the `--test` argument (that means, that each test must undo
 any changes it does to the state of the UI)
 - when naming selectors (e.g., in adminUI.js) make sure to use a very descriptive name
-
+- tests should make use of Page Object (see below for more on POs) commands to carry about the testing and should
+    try as much as possible accessing Page Object elements directly.  As in an OO paradigm where you use methods
+    to manipulate the data, likewise, in tests we should use PO commands to manipulate the page elements.
 
 ## Adding Field Tests
 
 - add a model for the field to test/e2e/models/fields/<Field-Name>.js
 - add the field collection to the fields nav in test/e2e/server.js
-- add a page object for the field to test/e2e/adminUI/pages/fieldTypes
-- add a page object for the list testing the field to test/e2e/adminUI/pages/lists
-- add uiTest<Field-Name>Field.js to test/e2e/adminUI/group005Fields
-- add uxTest<Field-Name>Field.js to test/e2e/adminUI/group005Fields
+- add a test object for the field to test/e2e/fieldTestObjects
+- add a test config for the field test list model to test/e2e/modelTestConfig
+- add test<Field-Name>Field.js to test/e2e/adminUI/tests/group005Fields
 
 
 ## Some about nightwatch Page Objects(PO)
 Since we use nightwatch Page Objects(PO) quite a bit in e2e then here are some notes to keep in mind:
+
+NOTE:  For a more conceptual Page Object description see Martin Fowler's [here](http://martinfowler.com/bliki/PageObject.html)
 
 - a PO is basically an abstraction of a view/page.  It defines:
 
@@ -175,45 +178,53 @@ Since we use nightwatch Page Objects(PO) quite a bit in e2e then here are some n
             },
         }],
 
-    - tests `before:` should define all POs the test will need to interact with.  For example:
+- the tests `before:` function should define all POs the test will need to interact with.  For example:
 
-        before: function (browser) {
-            browser.spa = browser.page.spa();
-            browser.spa.navigate();
-        }
+    before: function (browser) {
+        browser.spa = browser.page.spa();
+        browser.spa.navigate();
+    }
 
-        then in tests you can access the spa PO as follows:
+    then in tests you can access the spa PO as follows:
 
-            browser.spa
-                .click('@fieldsMenu')
+        browser.adminUIApp = browser.page.adminUIApp()
 
-        in PO commands you can access the POs as follows:
+    in PO commands you can access the POs as follows:
 
-            this.api.spa
-                .click('@fieldsMenu')
-
-- list POs are very special.  The abstract a list and its fields.  They also include the commands that can be executed
-    against the list.  They should all have the same format.  The only things that may vary are the field names, the
-    number of fields, and the selectors, and the number of commands (the more fields the more commands since there
-    are commands per field in the list).  Unlike other page objects, list objects are not meant to be directly created.
-    Instead, these are required by other page objects (e.g., the item page object).  All selector lookups and commands
-    executed against a list are done in the context of the page that required the list.
+        this.api.adminUIApp.click('@fieldsMenu')
 
 
-## Some Don'ts
-Here are some don'ts that may cross your mind as good ideas but shouldn't:
+# Existing Page Objects
+The following Page Objects already exists and should be used in tests:
 
-- don't do something like the following in the lists.  Although it may sound like a good idea at first, think about it
-    a bit more shows some pitfalls the main one being that lists do not know in which form they are being used.  For
-    example, the initial modal form may only show fields that the user marked as _initial_ when defining the keystone
-    list.
+- adminUIApp.js -- this Page Object abstracts the testing for the admin UI SPA.  It only concerns itself with common test operations
+    that apply to all SPA pages.
+- homeScreen.js -- this Page Object abstracts the testing for the Admin UI Home page.
+- dashBoardGroup.js -- this Page Object abstracts the testing of the Home Groups.
+- dashBoardTab.js -- this Page Object abstracts the testing of the Home Group Tabs.
+- homeScreen.js -- this Page Object abstracts the testing for the Admin UI Home page.
+- listScreen.js -- this Page Object abstracts the testing for the Admin UI List page.
+- itemScreen.js -- this Page Object abstracts the testing for the Admin UI Item page.
+- initialForm.js -- this Page Object abstracts the testing for the initial modal create form.
+- deleteConfirmation.js -- this Page Object abstracts the testing for the delete confirmation modal.
+- resetConfirmation.js -- this Page Object abstracts the testing for the reset confirmation modal.
 
-        assertUI: function() {
-            this.expect.section('@name').to.be.visible;
-            this.expect.section('@fieldA').to.be.visible;
-        }
 
-- in [here](http://martinfowler.com/bliki/PageObject.html) Martin Fowler suggests that no assertions be done in page
-    objects.  For the most part we are sticking to that suggestion.  The only place where we currently do assertions
-    is in the field type definitions, since the fields know better about their contained path elements.  So please
-    try not to add assertions anywhere else in page objects as doing so may have subtle pitfalls.
+## Field Test Objects
+In keystone we have come up with the concept of a Field Test Object.  These are similar to Nightwatch's Page Objects, 
+except that we control the behavior and the execution of these ourselves.  Since every field should be part of a form, 
+likewise, every field Test Object should be testable only via either the itemScreen form or the initial form Page Objects.
+Please see the Field Test Object README under test/e2e/fieldTestObjects for more information on creating your own field
+test objects.
+
+
+## Model Test Configs
+In keystone we have come up with the concept of a Model Test Config.  In a keystone application, a list model is used to
+define the fields that make up the model.  Likewise, a Model Test Config is used to describe the Field Test Objects for
+fields the keystone list model is composed of.  This is a powerful concept as you can also create Model Test Config for your
+own application and plug into the keystone's test framework to test your app specific models!
+
+
+## Testing Your Application Models
+Keystone's e2e test framework can be used to test your own application's list models.
+TODO:  provide instructions!!!

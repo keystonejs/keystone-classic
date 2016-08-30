@@ -12,15 +12,27 @@ You can also deploy a starter project to [Heroku](https://www.heroku.com/) for f
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/JedWatson/keystone-starter)
 
 
-## v0.4.0 React Rebuild coming soon
+## Keystone 4.0 Beta Released!!!
 
-We've been working on a major update to Keystone for several months now, rewriting the Admin UI as a ReactJS App.
+We've been working on a major update to KeystoneJS for the last year, and it's a complete rebuild of Keystone's Admin UI and internal architecture. Improvements include:
 
-Work on this has now been merged into our `master` branch, which is currently not stable (but which we encourage you to try out and give us feedback on!). Stable `0.3.x` releases will continue to be published from the `0.3.x` branch.
+* The Admin UI has been re-written as a single page app using React.js, Redux and Elemental UI
+* An updated API for Lists and Fields
+* Better support for using Keystone without Express, or with your own express instance
+* Core functionality has been refactored and we're breaking Keystone up into separate npm packages
+* Startup time has been significantly reduced
+* LocalFile, S3File and AzureFile have been replaced by a new generic `keystone.Storage` engine and File field
+* We have much higher unit and end-to-end test coverage
 
-Our [demo site](http://demo.keystonejs.com/) has been updated to the new version - check it out and let us know what you think!
+Please try out the beta and let us know what you think:
 
-For more information on the upcoming version, including how to try it out and get involved, check out [issue #1612](https://github.com/keystonejs/keystone/issues/1612)
+```
+npm install --save keystone@next
+```
+
+We'll be publishing a summary of the new features, changes and improvements as we get closer to the final release. In the meantime, see the [v0.3 -> v4.0 Upgrade Guide](https://github.com/keystonejs/keystone/blob/master/docs/guides/v0.3-to-v4.0-Upgrade-Guide.md) for information on what's changed.
+
+Also check out our [demo site](http://demo.keystonejs.com/), which has been updated to the new version!
 
 
 ## About
@@ -61,13 +73,11 @@ We love to hear feedback about Keystone and the projects you're using it for. Pi
 #### Related Projects
 If you are using KeystoneJS in any projects we encourage you to add it to our [Related Projects Page](https://github.com/keystonejs/keystone/wiki/Related-Projects). This is also the place to find generators and such that bundle KeystoneJS.
 
-
 ### Contributing
 
 If you can, please contribute by reporting issues, discussing ideas, or submitting pull requests with patches and new features. We do our best to respond to all issues and pull requests within a day or two, and make patch releases to npm regularly.
 
 If you're going to contribute code, please follow our [coding standards](https://github.com/keystonejs/keystone/wiki/Coding-Standards) and read our [CONTRIBUTING.md](https://github.com/keystonejs/keystone/blob/master/CONTRIBUTING.md).
-
 
 ## Usage
 
@@ -88,66 +98,19 @@ Alternatively, to include Keystone in an existing project or start from scratch 
 
 Then read through the [Documentation](http://keystonejs.com/docs) and the [Example Projects](http://keystonejs.com/examples) to understand how to use it.
 
-
-### Example application script (keystone.js)
-
-Running in default mode, Keystone takes care of everything required to configure your application with Express, connect to your MongoDB database, and start the web server.
-
-Here is an example of what your `keystone.js` (or `app.js`, etc) file may look like:
-
-```js
-var keystone = require('keystone');
-
-keystone.init({
-
-	'name': 'My Project',
-	'brand': 'Project',
-
-	'less': 'public',
-	'static': 'public',
-
-	'views': 'templates/views',
-	'view engine': 'jade',
-
-	'auth': true,
-	'user model': 'User',
-	'cookie secret': '--- your secret ---',
-
-	'auto update': true
-
-});
-
-keystone.import('models');
-
-keystone.set('routes', require('./routes'));
-
-keystone.start();
-```
-
 ### Configuration
 
-Config variables can be passed in an object to the `keystone.init` method, or can be set any time before `keystone.start` is
-called using `keystone.set(key, value)`. This allows for a more flexible order of execution (e.g. if you refer to Lists in your
-routes, you can set the routes after configuring your Lists, as in the example above).
+Config variables can be passed in an object to the `keystone.init` method, or can be set any time before `keystone.start` is called using `keystone.set(key, value)`. This allows for a more flexible order of execution (e.g. if you refer to Lists in your routes, you can set the routes after configuring your Lists, as in the example above).
 
-See the [KeystoneJS configuration documentation](http://keystonejs.com/docs/configuration) for details and examples of the available
-configuration options.
-
-To understand how these settings are used, and how the Express application is initialised, see `Keystone.prototype.start` in `lib/core/start.js`.
-
+See the [KeystoneJS configuration documentation](http://keystonejs.com/docs/configuration) for details and examples of the available configuration options.
 
 ### Database field types
 
-Keystone builds on the basic data types provided by mongo and allows you to easily add rich,
-functional fields to your application's models.
+Keystone builds on the basic data types provided by mongo and allows you to easily add rich, functional fields to your application's models.
 
-You get helper methods on your models for dealing with each field type easily (such as
-formatting a date or number, resizing an image, getting an array of the available options
-for a select field, or using Google's Places API to improve addresses) as well as a beautiful,
-responsive admin UI to edit your data with.
+You get helper methods on your models for dealing with each field type easily (such as formatting a date or number, resizing an image, getting an array of the available options for a select field, or using Google's Places API to improve addresses) as well as a beautiful, responsive admin UI to edit your data with.
 
-See the [KeystoneJS database documentation](http://keystonejs.com/docs/database) for details and examples of the various field types,
-as well as how to set up and use database models in your application.
+See the [KeystoneJS database documentation](http://keystonejs.com/docs/database) for details and examples of the various field types, as well as how to set up and use database models in your application.
 
 Keystone's field types include:
 
@@ -175,9 +138,7 @@ Keystone's field types include:
 *	[LocalFile](http://keystonejs.com/docs/database/#fieldtypes-localfile)
 *	[S3 File](http://keystonejs.com/docs/database/#fieldtypes-s3file)
 
-Keystone also has [Relationship fields](http://keystonejs.com/docs/database#relationships) for managing one-to-many and many-to-many
-relationships between different models.
-
+Keystone also has [Relationship fields](http://keystonejs.com/docs/database#relationships) for managing one-to-many and many-to-many relationships between different models.
 
 ### Running KeystoneJS in Production
 
@@ -186,12 +147,11 @@ You can do this by setting `NODE_ENV=production` in your `.env` file, which gets
 
 Setting your environment enables certain features, including template caching, simpler error reporting and html minification, that are important in production but annoying in development.
 
-
 ### Linking Keystone for Development and Testing
 
 If you want to test or develop against the `master` branch of KeystoneJS (or against your own branch), rather than a published version on **npm**, you just need to check it out then use `npm link` to link it to your project. On Mac OS, this is done like this:
 
-*	Checkout KeystoneJS locally, e.g. to `~/Development/KeystoneJS`
+*	Clone KeystoneJS locally, e.g. to `~/Development/KeystoneJS`
 *	From the KeystoneJS directory, run `sudo npm link` (you will need to enter your system password)
 *	From your project directory, e.g. `~/Development/MySite` (the one with your `package.json` file in it) run `npm link keystone`. This will create a link between `~/Development/MySite/node_modules/keystone` and `~/Development/KeystoneJS`.
 
@@ -202,28 +162,11 @@ To go back to using a published version of KeystoneJS from npm, from your projec
 #### Testing
 To run the test suite run `npm test`.
 
-
 ## Thanks
 
-KeystoneJS is a free and open source community-driven project. Thanks to our many [contributors](https://github.com/keystonejs/keystone/graphs/contributors) and [users](https://github.com/keystonejs/keystone/stargazers) for making it great.
+KeystoneJS is a free and open source community-driven project. Thanks to our many  [contributors](https://github.com/keystonejs/keystone/graphs/contributors) and  [users](https://github.com/keystonejs/keystone/stargazers) for making it great.
 
-Thanks to the following companies and projects whose work we have used or taken inspiration from in the making of KeystoneJS:
-
-* [Node.js](http://nodejs.org)
-* [Thinkmill](http://thinkmill.com.au)
-* [ExpressJS](http://expressjs.com)
-* [MongoDB](https://www.mongodb.org/)
-* [Mongoose](http://mongoosejs.com)
-* [React](http://facebook.github.io/react/)
-* [jQuery](http://jquery.com)
-* [Underscore](http://underscorejs.org)
-* [Bootstrap](http://getbootstrap.com)
-* [Amazon](http://aws.amazon.com)
-* [Heroku](https://www.heroku.com/)
-* [Google](https://developers.google.com)
-* [Cloudinary](http://cloudinary.com/)
-* [Embedly](http://embed.ly)
-* [Yusuke Kamiyamane](http://p.yusukekamiyamane.com/)
+Keystone's development is led by [Jed Watson](https://github.com/JedWatson), [Joss Mackison](https://github.com/jossmac) and [Max Stoiber](https://github.com/mxstbr) and supported by [Thinkmill](http://thinkmill.com.au) in Sydney, Australia.
 
 
 ## License

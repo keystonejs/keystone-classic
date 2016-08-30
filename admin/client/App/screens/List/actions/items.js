@@ -4,9 +4,6 @@ import {
 	ITEM_LOADING_ERROR,
 } from '../constants';
 
-import {
-	deleteItem,
-} from '../../Item/actions';
 import { NETWORK_ERROR_RETRY_DELAY } from '../../../../constants';
 
 export function loadItems (options = {}) {
@@ -113,8 +110,10 @@ export function itemLoadingError () {
 
 export function deleteItems (ids) {
 	return (dispatch, getState) => {
-		for (var i = 0; i < ids.length; i++) {
-			dispatch(deleteItem(ids[i]));
-		}
+		const list = getState().lists.currentList;
+		list.deleteItems(ids, (err, data) => {
+			// TODO ERROR HANDLING
+			dispatch(loadItems());
+		});
 	};
 }

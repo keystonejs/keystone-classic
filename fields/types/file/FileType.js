@@ -123,63 +123,72 @@ file.prototype.validateInput = function (data, callback) {
  * Validates that input has been provided
  */
 file.prototype.validateRequiredInput = function (item, data, callback) {
-	var value = this.getValueFromData(data);
-	debug('[%s.%s] Validating required input: ', this.list.key, this.path, value);
+	// TODO: We need to also get the `files` argument, so we can check for
+	// uploaded files. without it, this will return false negatives so we
+	// can't actually validate required input at the moment.
+	var result = true;
+	// var value = this.getValueFromData(data);
+	// debug('[%s.%s] Validating required input: ', this.list.key, this.path, value);
 	// TODO: Need to actually check a dynamic path based on the adapter
 	// TODO: This incorrectly allows empty values in the object to pass validation
-	var result = (value || item.get(this.paths.filename)) ? true : false;
-	debug('[%s.%s] Validation result: ', this.list.key, this.path, result);
+	// var result = (value || item.get(this.paths.filename)) ? true : false;
+	// debug('[%s.%s] Validation result: ', this.list.key, this.path, result);
 	utils.defer(callback, result);
 };
 
 /**
  * Updates the value for this field in the item from a data object
+ * TODO: It is not possible to remove an existing value and upload a new fiel
+ * in the same action, this should be supported
  */
 file.prototype.updateItem = function (item, data, files, callback) {
+	// Process arguments
 	if (typeof files === 'function') {
 		callback = files;
 		files = {};
 	}
+	if (!files) {
+		files = {};
+	}
 
+	// Prepare values
 	var value = this.getValueFromData(data);
+	var uploadedFile;
 
-	// If no value was provided, check the `files` object
-	if (value === undefined) {
-		var fileUploadValue = this.getValueFromData(files);
-		// Ensure a file was actually uploaded
-		if (fileUploadValue && fileUploadValue.path) {
-			value = fileUploadValue;
-		}
+	// Providing the string "remove" removes the file and resets the field
+	if (value === 'remove') {
+		this.remove(item);
+		utils.defer(callback);
 	}
 
-	// Ignore undefined values
-	if (value === undefined) {
-		return utils.defer(callback);
+	// Find an uploaded file in the files argument, either referenced in the
+	// data argument or named with the field path / field_upload path + suffix
+	if (typeof value === 'string' && value.substr(0, 7) === 'upload:') {
+		uploadedFile = files[value.substr(7)];
+	} else {
+		uploadedFile = this.getValueFromData(files) || this.getValueFromData(files, '_upload');
 	}
 
-	// Allow field value reset
+	// Ensure a valid file was uploaded, else null out the value
+	if (uploadedFile && !uploadedFile.path) {
+		uploadedFile = undefined;
+	}
+
+	// If we have a file to upload, we do that and stop here
+	if (uploadedFile) {
+		return this.upload(item, uploadedFile, callback);
+	}
+
+	// Empty / null values reset the field
 	if (value === null || value === '' || (typeof value === 'object' && !Object.keys(value).length)) {
 		this.reset(item);
-		return utils.defer(callback);
+		value = undefined;
 	}
 
-	if (typeof value === 'string') {
-		if (value === 'remove') {
-			this.remove(item);
-			return utils.defer(callback);
-		} else if (value.substr(0, 7) === 'upload:') {
-			var uploadFieldPath = value.substr(7);
-			var fileToUpload = files[uploadFieldPath];
-			if (!fileToUpload) {
-				return utils.defer(callback);
-			}
-			return this.upload(item, fileToUpload, callback);
-		}
-		// TODO: Validation should have prevented us from getting here,
-		// but we should check anyway
+	// If there is a valid value at this point, set it on the field
+	if (typeof value === 'object') {
+		item.set(this.path, value);
 	}
-	debug('[%s.%s] Updating item %s with value:', this.list.key, this.path, item.id, value);
-	item.set(this.path, value);
 	utils.defer(callback);
 };
 

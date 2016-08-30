@@ -15,7 +15,7 @@ function ListManagement ({
 }) {
 	// do not render if there's no results
 	// or if edit/delete unavailable on the list
-	if (!itemCount || (nodelete && noedit)) return null;
+	if (!itemCount || (nodelete /* && noedit */)) return null;
 
 	const buttonNoteStyles = { color: '#999', fontWeight: 'normal' };
 
@@ -35,7 +35,8 @@ function ListManagement ({
 	);
 
 	// select buttons
-	const selectAllButton = itemCount > itemsPerPage && (
+	// TODO: implement selecting all items across multiple pages
+	const selectAllButton = null; /* itemCount > itemsPerPage && (
 		<Section>
 			<Button
 				onClick={() => handleSelect('all')}
@@ -43,19 +44,22 @@ function ListManagement ({
 				All <small style={buttonNoteStyles}>({itemCount})</small>
 			</Button>
 		</Section>
-	);
+	); */
+
+	const allVisibleButtonIsActive = checkedItemCount === Math.min(itemCount, itemsPerPage);
+	const noneButtonIsActive = !checkedItemCount;
 	const selectButtons = isOpen ? (
 		<Section>
 			<Group contiguous>
 				{selectAllButton}
 				<Section>
-					<Button onClick={() => handleSelect('visible')} title="Select all rows">
-						{itemCount > itemsPerPage ? 'Page ' : 'All '}
+					<Button active={allVisibleButtonIsActive} onClick={() => handleSelect('visible')} title="Select all rows">
+						{itemCount > itemsPerPage ? 'All Visible ' : 'All '}
 						<small style={buttonNoteStyles}>({itemCount > itemsPerPage ? itemsPerPage : itemCount})</small>
 					</Button>
 				</Section>
 				<Section>
-					<Button onClick={() => handleSelect('none')} title="Deselect all rows">None</Button>
+					<Button active={noneButtonIsActive} onClick={() => handleSelect('none')} title="Deselect all rows">None</Button>
 				</Section>
 			</Group>
 		</Section>

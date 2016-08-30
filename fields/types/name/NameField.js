@@ -11,6 +11,10 @@ module.exports = Field.create({
 	displayName: 'NameField',
 	statics: {
 		type: 'Name',
+		getDefaultValue: () => ({
+			first: '',
+			last: '',
+		}),
 	},
 	propTypes: {
 		onChange: PropTypes.func.isRequired,
@@ -55,12 +59,12 @@ module.exports = Field.create({
 		);
 	},
 	renderField () {
-		const { value = {}, paths } = this.props;
+		const { value = {}, paths, autoFocus } = this.props;
 		return (
 			<FormRow>
 				<FormField width="one-half">
 					<FormInput
-						autoFocus
+						autoFocus={autoFocus}
 						autoComplete="off"
 						name={this.getInputName(paths.first)}
 						onChange={this.changeFirst}

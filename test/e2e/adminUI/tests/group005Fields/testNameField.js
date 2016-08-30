@@ -1,45 +1,46 @@
 var fieldTests = require('./commonFieldTestUtils.js');
+var NameModelTestConfig = require('../../../modelTestConfig/NameModelTestConfig');
 
 module.exports = {
 	before: fieldTests.before,
 	after: fieldTests.after,
 	'Name field should show correctly in the initial modal': function (browser) {
-		browser.app.openFieldList('Name');
+		browser.adminUIApp.openFieldList('Name');
 		browser.listScreen.createFirstItem();
-		browser.app.waitForInitialFormScreen();
+		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.initialFormScreen.assertUI({
-			listName: 'Name',
-			fields: ['name', 'fieldA']
+		browser.initialFormScreen.assertFieldUIVisible({
+			modelTestConfig: NameModelTestConfig,
+			fields: [{name: 'name'}, {name: 'fieldA'}]
 		});
 	},
 	'restoring test state': function(browser) {
 		browser.initialFormScreen.cancel();
-		browser.app.waitForListScreen();
+		browser.adminUIApp.waitForListScreen();
 	},
 	'Name field can be filled via the initial modal': function(browser) {
-		browser.app.openFieldList('Name');
+		browser.adminUIApp.openFieldList('Name');
 		browser.listScreen.createFirstItem();
-		browser.app.waitForInitialFormScreen();
-		browser.initialFormScreen.fillInputs({
-			listName: 'Name',
+		browser.adminUIApp.waitForInitialFormScreen();
+		browser.initialFormScreen.fillFieldInputs({
+			modelTestConfig: NameModelTestConfig,
 			fields: {
 				'name': {value: 'Name Field Test 1'},
 				'fieldA': {firstName: 'First 1', lastName: 'Last 1'},
 			}
 		});
-		browser.initialFormScreen.assertInputs({
-			listName: 'Name',
+		browser.initialFormScreen.assertFieldInputs({
+			modelTestConfig: NameModelTestConfig,
 			fields: {
 				'name': {value: 'Name Field Test 1'},
 				'fieldA': {firstName: 'First 1', lastName: 'Last 1'},
 			}
 		});
 		browser.initialFormScreen.save();
-		browser.app.waitForItemScreen();
+		browser.adminUIApp.waitForItemScreen();
 
-		browser.itemScreen.assertInputs({
-			listName: 'Name',
+		browser.itemScreen.assertFieldInputs({
+			modelTestConfig: NameModelTestConfig,
 			fields: {
 				'name': {value: 'Name Field Test 1'},
 				'fieldA': {firstName: 'First 1', lastName: 'Last 1'},
@@ -47,23 +48,23 @@ module.exports = {
 		})
 	},
 	'Name field should show correctly in the edit form': function(browser) {
-		browser.itemScreen.assertUI({
-			listName: 'Name',
-			fields: ['fieldA', 'fieldB']
+		browser.itemScreen.assertFieldUIVisible({
+			modelTestConfig: NameModelTestConfig,
+			fields: [{name: 'fieldA'}, {name: 'fieldB'}]
 		});
 	},
 	'Name field can be filled via the edit form': function(browser) {
-		browser.itemScreen.fillInputs({
-			listName: 'Name',
+		browser.itemScreen.fillFieldInputs({
+			modelTestConfig: NameModelTestConfig,
 			fields: {
 				'fieldB': {firstName: 'First 2', lastName: 'Last 2'}
 			}
 		});
 		browser.itemScreen.save();
-		browser.app.waitForItemScreen();
+		browser.adminUIApp.waitForItemScreen();
 		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
-		browser.itemScreen.assertInputs({
-			listName: 'Name',
+		browser.itemScreen.assertFieldInputs({
+			modelTestConfig: NameModelTestConfig,
 			fields: {
 				'name': {value: 'Name Field Test 1'},
 				'fieldA': {firstName: 'First 1', lastName: 'Last 1'},

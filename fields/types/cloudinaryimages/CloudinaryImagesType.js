@@ -207,6 +207,14 @@ cloudinaryimages.prototype.format = function (item) {
 };
 
 /**
+ * Gets the field's data from an Item, as used by the React components
+ */
+cloudinaryimages.prototype.getData = function (item) {
+	var value = item.get(this.path);
+	return Array.isArray(value) ? value : [];
+};
+
+/**
  * Validates that a value for this field has been provided in a data object
  *
  * Deprecated
@@ -230,6 +238,9 @@ cloudinaryimages.prototype.updateItem = function (item, data, files, callback) {
 	var cloudinary = require('cloudinary');
 	var field = this;
 	var values = this.getValueFromData(data);
+
+	// TODO: This logic needs to block uploading of files from the data argument,
+	// see CloudinaryImage for a reference on how it should be implemented
 
 	// Early exit path: reset value when falsy, or bail if no value was provided
 	if (!values) {

@@ -28,13 +28,13 @@ var NumberArrayFilter = React.createClass({
 		filter: React.PropTypes.shape({
 			mode: React.PropTypes.oneOf(MODE_OPTIONS.map(i => i.value)),
 			presence: React.PropTypes.oneOf(PRESENCE_OPTIONS.map(i => i.value)),
-			value: React.PropTypes.oneOf(
+			value: React.PropTypes.oneOf([
 				React.PropTypes.string,
 				React.PropTypes.shape({
 					min: React.PropTypes.number,
 					max: React.PropTypes.number,
-				})
-			),
+				}),
+			]),
 		}),
 	},
 	statics: {

@@ -36,13 +36,14 @@ import {
 	setActiveSort,
 	setCurrentPage,
 	selectList,
-	loadItems,
 	loadInitialItems,
 } from './actions';
 
 import {
 	deleteItem,
 } from '../Item/actions';
+
+const ESC_KEY_CODE = 27;
 
 const ListView = React.createClass({
 	contextTypes: {
@@ -56,24 +57,28 @@ const ListView = React.createClass({
 			checkedItems: {},
 			constrainTableWidth: true,
 			manageMode: false,
-			showCreateForm: this.props.location.search === '?create' || Keystone.createFormErrors,
+			showCreateForm: false,
 			showUpdateForm: false,
 		};
 	},
-	componentDidMount () {
+	componentWillMount () {
 		// When we directly navigate to a list without coming from another client
 		// side routed page before, we need to initialize the list and parse
 		// possibly specified query parameters
 		this.props.dispatch(selectList(this.props.params.listId));
 		this.parseQueryParams();
 		this.props.dispatch(loadInitialItems());
+		const isNoCreate = this.props.lists.data[this.props.params.listId].nocreate;
+		const shouldOpenCreate = this.props.location.search === '?create';
+		this.setState({
+			showCreateForm: (shouldOpenCreate && !isNoCreate) || Keystone.createFormErrors,
+		});
 	},
 	componentWillReceiveProps (nextProps) {
 		// We've opened a new list from the client side routing, so initialize
 		// again with the new list id
 		if (nextProps.params.listId !== this.props.params.listId) {
 			this.props.dispatch(selectList(nextProps.params.listId));
-			this.props.dispatch(loadItems());
 		}
 	},
 	/**
@@ -107,9 +112,7 @@ const ListView = React.createClass({
 	// Called when a new item is created
 	onCreate (item) {
 		// Hide the create form
-		this.setState({
-			showCreateForm: false,
-		});
+		this.toggleCreateModal(false);
 		// Redirect to newly created item path
 		const list = this.props.currentList;
 		this.context.router.push(`${Keystone.adminPath}/${list.path}/${item.id}`);
@@ -137,7 +140,7 @@ const ListView = React.createClass({
 	},
 	handleSearchKey (e) {
 		// clear on esc
-		if (e.which === 27) {
+		if (e.which === ESC_KEY_CODE) {
 			this.handleSearchClear();
 		}
 	},
@@ -171,7 +174,14 @@ const ListView = React.createClass({
 			confirmationDialog: {
 				isOpen: true,
 				label: 'Delete',
-				body: <p>Are you sure you want to delete {itemCount}?<br /><br />This cannot be undone.</p>,
+				body: (
+					<p>
+						Are you sure you want to delete {itemCount}?
+						<br />
+						<br />
+						This cannot be undone.
+					</p>
+				),
 				onConfirmation: () => {
 					this.props.dispatch(deleteItems(itemIds));
 					this.toggleManageMode();
@@ -335,7 +345,14 @@ const ListView = React.createClass({
 			confirmationDialog: {
 				isOpen: true,
 				label: 'Delete',
-				body: `Are you sure you want to delete <strong>${item.name}</strong>?<br /><br />This cannot be undone.`,
+				body: (
+					<p>
+						Are you sure you want to delete <strong>${item.name}</strong>?
+						<br />
+						<br />
+						This cannot be undone.
+					</p>
+				),
 				onConfirmation: () => {
 					this.props.dispatch(deleteItem(item.id));
 					this.removeConfirmationDialog();

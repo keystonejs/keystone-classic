@@ -9,6 +9,7 @@ module.exports = Field.create({
 	displayName: 'EmbedlyField',
 	statics: {
 		type: 'Embedly',
+		getDefaultValue: () => ({}),
 	},
 
 	// always defers to renderValue; there is no form UI for this field

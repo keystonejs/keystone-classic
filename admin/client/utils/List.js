@@ -305,19 +305,16 @@ List.prototype.deleteItem = function (itemId, callback) {
  * @param  {Function} callback
  */
 List.prototype.deleteItems = function (itemIds, callback) {
-	const url = Keystone.adminPath + '/api/' + this.path + '/' + itemIds.join(',') + '/delete';
+	const url = Keystone.adminPath + '/api/' + this.path + '/delete';
 	xhr({
 		url: url,
 		method: 'POST',
 		headers: Keystone.csrf.header,
+		json: {
+			ids: itemIds,
+		},
 	}, (err, resp, body) => {
 		if (err) return callback(err);
-		try {
-			body = JSON.parse(body);
-		} catch (e) {
-			console.log('Error parsing results json:', e, body);
-			return callback(e);
-		}
 		// Pass the body as result or error, depending on the statusCode
 		if (resp.statusCode === 200) {
 			callback(null, body);

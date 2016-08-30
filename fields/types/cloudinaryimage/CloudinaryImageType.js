@@ -253,6 +253,14 @@ cloudinaryimage.prototype.format = function (item) {
 };
 
 /**
+ * Gets the field's data from an Item, as used by the React components
+ */
+cloudinaryimage.prototype.getData = function (item) {
+	var value = item.get(this.path);
+	return typeof value === 'object' ? value : {};
+};
+
+/**
  * Detects whether the field has been modified
  */
 cloudinaryimage.prototype.isModified = function (item) {
@@ -285,9 +293,12 @@ cloudinaryimage.prototype.validateInput = function (data, callback) {
  * Validates that input has been provided
  */
 cloudinaryimage.prototype.validateRequiredInput = function (item, data, callback) {
-	var value = this.getValueFromData(data);
-	// TODO: This should be much more robust
-	var result = (value || item.get(this.path).public_id) ? true : false;
+	// TODO: We need to also get the `files` argument, so we can check for
+	// uploaded files. without it, this will return false negatives so we
+	// can't actually validate required input at the moment.
+	var result = true;
+	// var value = this.getValueFromData(data);
+	// var result = (value || item.get(this.path).public_id) ? true : false;
 	utils.defer(callback, result);
 };
 
@@ -302,42 +313,27 @@ cloudinaryimage.prototype.inputIsValid = function () {
 
 /**
  * Updates the value for this field in the item from a data object
+ * TODO: It is not possible to remove an existing value and upload a new image
+ * in the same action, this should be supported
  */
 cloudinaryimage.prototype.updateItem = function (item, data, files, callback) {
+	// Process arguments
 	if (typeof files === 'function') {
 		callback = files;
 		files = {};
-	} else if (!files) {
+	}
+	if (!files) {
 		files = {};
 	}
 
 	var cloudinary = require('cloudinary');
 	var field = this;
+
+	// Prepare values
 	var value = this.getValueFromData(data);
+	var uploadedFile;
 
-	// Allow value to be retrieved from the legacy `_upload` path if it is undefined
-	if (value === undefined) {
-		value = this.getValueFromData(data, '_upload');
-	}
-
-	// If the value is still undefined, bail early
-	if (value === undefined) {
-		return utils.defer(callback);
-	}
-
-	// Allow field value reset
-	if (value === '' || value === null || (typeof value === 'object' && !Object.keys(value).length)) {
-		value = getEmptyValue();
-	}
-
-	/*
-		When the value is a string, it is one of:
-		* a reference to an uploaded file in multipart data (provided in files)
-		* base64 data to upload
-		* a remote URL to upload
-		* a direction to delete the current file ("remove")
-	*/
-
+	// Providing the string "remove" removes the file and resets the field
 	if (value === 'remove') {
 		cloudinary.uploader.destroy(item.get(field.paths.public_id), function (result) {
 			if (result.error) {
@@ -350,22 +346,24 @@ cloudinaryimage.prototype.updateItem = function (item, data, files, callback) {
 		return;
 	}
 
-	if (typeof value === 'string') {
-		// detect file upload (field value must be a reference to a field in the
-		// uploaded files object provided by multer)
-		if (value.substr(0, 7) === 'upload:') {
-			var uploadFieldPath = value.substr(7);
-			value = files[uploadFieldPath];
-		}
-		// detect a URL or Base64 Data
-		else if (/^(data:[a-z\/]+;base64)|(https?\:\/\/)/.test(value)) {
-			value = { path: value };
-		}
-		// TODO: The value won't be processed, we should probably return an error
+	// Find an uploaded file in the files argument, either referenced in the
+	// data argument or named with the field path / field_upload path + suffix
+	// Base64 data and remote URLs are also accepted as images to upload
+	if (typeof value === 'string' && value.substr(0, 7) === 'upload:') {
+		uploadedFile = files[value.substr(7)];
+	} else if (typeof value === 'string' && /^(data:[a-z\/]+;base64)|(https?\:\/\/)/.test(value)) {
+		uploadedFile = { path: value };
+	} else {
+		uploadedFile = this.getValueFromData(files) || this.getValueFromData(files, '_upload');
 	}
 
-	// if an object with a path has been provided, upload the value in the path
-	if (typeof value === 'object' && value.path) {
+	// Ensure a valid file was uploaded, else null out the value
+	if (uploadedFile && !uploadedFile.path) {
+		uploadedFile = undefined;
+	}
+
+	// If we have a file to upload, we do that and stop here
+	if (uploadedFile) {
 		var tagPrefix = keystone.get('cloudinary prefix') || '';
 		var uploadOptions = {
 			tags: [],
@@ -383,11 +381,11 @@ cloudinaryimage.prototype.updateItem = function (item, data, files, callback) {
 			uploadOptions.folder = folder;
 		}
 		// NOTE: field.options.publicID has been deprecated (tbc)
-		if (field.options.filenameAsPublicID && value.originalname && typeof value.originalname === 'string') {
-			uploadOptions.public_id = value.originalname.substring(0, value.originalname.lastIndexOf('.'));
+		if (field.options.filenameAsPublicID && uploadedFile.originalname && typeof uploadedFile.originalname === 'string') {
+			uploadOptions.public_id = uploadedFile.originalname.substring(0, uploadedFile.originalname.lastIndexOf('.'));
 		}
 		// TODO: implement autoCleanup; should delete existing images before uploading
-		cloudinary.uploader.upload(value.path, function (result) {
+		cloudinary.uploader.upload(uploadedFile.path, function (result) {
 			if (result.error) {
 				return callback(result.error);
 			} else {
@@ -399,8 +397,15 @@ cloudinaryimage.prototype.updateItem = function (item, data, files, callback) {
 		return;
 	}
 
-	// otherwise, simply set the value on the field
-	item.set(field.path, value);
+	// Empty / null values reset the field
+	if (value === null || value === '' || (typeof value === 'object' && !Object.keys(value).length)) {
+		value = getEmptyValue();
+	}
+
+	// If there is a valid value at this point, set it on the field
+	if (typeof value === 'object') {
+		item.set(this.path, value);
+	}
 	utils.defer(callback);
 };
 
