@@ -24,7 +24,7 @@ module.exports = {
 		browser.adminUIApp.expect.element('@homeIcon')
 			.to.be.visible;
 	},
-	'Home view should have a home icon': function (browser) {
+	'Home view should have a home icon link': function (browser) {
 		browser.adminUIApp.expect.element('@homeIconLink')
 			.to.have.attribute('title').which.contains('Dashboard - e2e');
 	},

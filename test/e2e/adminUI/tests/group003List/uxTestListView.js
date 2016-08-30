@@ -1,4 +1,4 @@
-var NameModelTestConfig = require(require('keystone-nightwatch-e2e').fieldTestObjectsPath + '/NameModelTestConfig');
+var NameModelTestConfig = require('../../../modelTestConfig/NameModelTestConfig');
 
 module.exports = {
 	before: function (browser) {
