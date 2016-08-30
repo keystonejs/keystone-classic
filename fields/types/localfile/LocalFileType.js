@@ -49,7 +49,7 @@ function localfile (list, path, options) {
 
 }
 localfile.properName = 'LocalFile';
-util.inherits(localfile, FieldType);
+// util.inherits(localfile, FieldType);
 
 /**
  * Registers the field on the List's Mongoose Schema.

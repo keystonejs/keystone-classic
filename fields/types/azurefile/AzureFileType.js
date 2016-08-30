@@ -61,7 +61,7 @@ function azurefile (list, path, options) {
 
 }
 azurefile.properName = 'AzureFile';
-util.inherits(azurefile, FieldType);
+// util.inherits(azurefile, FieldType);
 
 /**
  * Exposes the custom or keystone s3 config settings

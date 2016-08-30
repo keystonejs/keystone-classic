@@ -52,7 +52,7 @@ function s3file (list, path, options) {
 
 }
 s3file.properName = 'S3File';
-util.inherits(s3file, FieldType);
+// util.inherits(s3file, FieldType);
 
 /**
  * Exposes the custom or keystone s3 config settings

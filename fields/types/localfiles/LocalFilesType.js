@@ -55,7 +55,7 @@ function localfiles (list, path, options) {
 	*/
 }
 localfiles.properName = 'LocalFiles';
-util.inherits(localfiles, FieldType);
+// util.inherits(localfiles, FieldType);
 
 /**
  * Registers the field on the List's Mongoose Schema.
