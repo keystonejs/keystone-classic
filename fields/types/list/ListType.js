@@ -165,20 +165,7 @@ list.prototype.getData = function (item) {
 	var items = item.get(this.path);
 	var fieldsArray = this.fieldsArray;
 	return items.map(function (i) {
-		var result = {};
-		fieldsArray.forEach(function (field) {
-			result[field.path] = field.getData(i);
-		});
-		return result;
-	});
-};
-
-list.prototype.getData = function (item) {
-	var items = item.get(this.path);
-	var fieldsArray = this.fieldsArray;
-	return items.map(function (i) {
-		var result = {};
-		result.id = i.id;
+		var result = { id: i.id };
 		for (var field of fieldsArray) {
 			result[field.path] = field.getData(i);
 		}
@@ -190,7 +177,12 @@ list.prototype.getData = function (item) {
  * Updates the value for this field in the item from a data object.
  * If the data object does not contain the value, then the value is set to empty array.
  */
-list.prototype.updateItem = function (item, data, callback) {
+list.prototype.updateItem = function (item, data, files, callback) {
+	if (typeof files === 'function') {
+		callback = files;
+		files = {};
+	}
+
 	var field = this;
 	var values = this.getValueFromData(data);
 	// Don't update the value when it is undefined
@@ -211,9 +203,10 @@ list.prototype.updateItem = function (item, data, callback) {
 	// resiliant update method that can be implemented without a lot of complexity
 	var listArray = item.get(this.path);
 	async.map(values, function (value, next) {
-		var newItem = listArray.create();
+		var prevItem = listArray.id(value.id);
+		var newItem = listArray.create(prevItem);
 		async.forEach(field.fieldsArray, function (nestedField, done) {
-			nestedField.updateItem(newItem, value, done);
+			nestedField.updateItem(newItem, value, files, done);
 		}, function (err) {
 			next(err, newItem);
 		});

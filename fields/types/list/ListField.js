@@ -9,9 +9,25 @@ import { Fields } from 'FieldTypes';
 import { Button, GlyphButton } from '../../../admin/client/App/elemental';
 import InvalidFieldType from '../../../admin/client/App/shared/InvalidFieldType';
 
+let i = 1337;
 function generateId () {
-	return Math.random().toString(36).substr(2, 9);
+	return i++;
 };
+
+const ItemDom = ({ name, id, onRemove, children }) => (
+	<div style={{
+		borderTop: '2px solid #eee',
+		paddingTop: 15,
+	}}>
+		{name && <input type="hidden" name={name} value={id}/>}
+		{children}
+		<div style={{ textAlign: 'right', paddingBottom: 10 }}>
+			<Button size="xsmall" color="danger" onClick={onRemove}>
+				remove
+			</Button>
+		</div>
+	</div>
+);
 
 module.exports = Field.create({
 	displayName: 'ListField',
@@ -26,33 +42,33 @@ module.exports = Field.create({
 		value: React.PropTypes.array,
 	},
 	addItem () {
-		const value = this.props.value.slice();
-		value.push({
-			id: generateId(),
-			_isNew: true,
-		});
-		this.props.onChange({
-			path: this.props.path,
-			value: value,
+		const { path, value, onChange } = this.props;
+		onChange({
+			path,
+			value: [
+				...value,
+				{
+					id: generateId(),
+					_isNew: true,
+				},
+			],
 		});
 	},
 	removeItem (index) {
-		const oldValue = this.props.value;
+		const { value: oldValue, path, onChange } = this.props;
 		const value = oldValue.slice(0, index).concat(oldValue.slice(index + 1));
-		this.props.onChange({
-			path: this.props.path,
-			value: value,
-		});
+		onChange({ path, value });
 	},
 	handleFieldChange (index, event) {
-		const value = this.props.value.slice();
-		const update = value[index];
-		update[event.path] = event.value;
-		value.splice(index, 1, update);
-		this.props.onChange({
-			path: this.props.path,
-			value: value,
-		});
+		const { value: oldValue, path, onChange } = this.props;
+		const head = oldValue.slice(0, index);
+		const item = {
+			...oldValue[index],
+			[event.path]: event.value,
+		};
+		const tail = oldValue.slice(index + 1);
+		const value = [...head, item, ...tail];
+		onChange({ path, value });
 	},
 	renderFieldsForItem (index, value) {
 		return Object.keys(this.props.fields).map((path) => {
@@ -78,25 +94,22 @@ module.exports = Field.create({
 		}, this);
 	},
 	renderItems () {
+		const { value = [], path } = this.props;
+		const onAdd = this.addItem;
 		return (
 			<div>
-				{this.props.value.map((value, index) => (
-					<div key={`item${value.id}`} style={{
-						borderTop: '2px solid #eee',
-						paddingTop: 15,
-					}}>
-						{!value._isNew ? (
-							<input type="hidden" name={`${this.props.path}[${index}][id]`} value={value.id} />
-						) : null}
-						{this.renderFieldsForItem(index, value)}
-						<div style={{ textAlign: 'right', paddingBottom: 10 }}>
-							<Button size="xsmall" color="danger" onClick={e => this.removeItem(index)}>
-								remove
-							</Button>
-						</div>
-					</div>
-				))}
-				<GlyphButton color="success" glyph="plus" position="left" onClick={this.addItem}>
+				{value.map((value, index) => {
+					const { id, _isNew } = value;
+					const name = !_isNew && `${path}[${index}][id]`;
+					const onRemove = e => this.removeItem(index);
+
+					return (
+						<ItemDom key={id} {...{ id, name, onRemove }}>
+							{this.renderFieldsForItem(index, value)}
+						</ItemDom>
+					);
+				})}
+				<GlyphButton color="success" glyph="plus" position="left" onClick={onAdd}>
 					Add
 				</GlyphButton>
 			</div>
