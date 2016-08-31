@@ -289,13 +289,6 @@ location.prototype.getRequestHandler = function (item, req, paths, callback) {
 };
 
 /**
- * Immediately handles a standard form submission for the field (see `getRequestHandler()`)
- */
-location.prototype.handleRequest = function (item, req, paths, callback) {
-	this.getRequestHandler(item, req, paths, callback)();
-};
-
-/**
  * Internal Google geocode request method
  */
 function doGoogleGeocodeRequest (address, region, callback) {

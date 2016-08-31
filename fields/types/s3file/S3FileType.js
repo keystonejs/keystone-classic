@@ -442,13 +442,6 @@ s3file.prototype.getRequestHandler = function (item, req, paths, callback) {
 
 };
 
-/**
- * Immediately handles a standard form submission for the field (see `getRequestHandler()`)
- */
-s3file.prototype.handleRequest = function (item, req, paths, callback) {
-	this.getRequestHandler(item, req, paths, callback)();
-};
-
 /*!
  * Export class
  */

@@ -349,14 +349,5 @@ localfile.prototype.getRequestHandler = function (item, req, paths, callback) {
 
 };
 
-/**
- * Immediately handles a standard form submission for the field (see `getRequestHandler()`)
- *
- * @api public
- */
-localfile.prototype.handleRequest = function (item, req, paths, callback) {
-	this.getRequestHandler(item, req, paths, callback)();
-};
-
 /* Export Field Type */
 module.exports = localfile;
