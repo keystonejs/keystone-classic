@@ -18,7 +18,7 @@ module.exports = {
 	},
 	'Demonstrate issue 2898': function(browser) {
 		// Create items
-		browser.adminUIApp.openFieldList('Datetime');
+		browser.adminUIApp.openList({section: 'fields', list: 'Datetime'});
 		browser.adminUIListScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
 

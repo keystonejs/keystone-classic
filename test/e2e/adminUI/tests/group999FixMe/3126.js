@@ -21,7 +21,7 @@ module.exports = {
 
 		// Add new text item
 
-		browser.adminUIApp.openMiscList('DateFieldMap');
+		browser.adminUIApp.openList({section: 'Miscs', list: 'DateFieldMap'});
 		browser.adminUIListScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
 

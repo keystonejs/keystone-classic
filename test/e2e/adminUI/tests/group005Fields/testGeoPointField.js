@@ -5,7 +5,7 @@ module.exports = {
 	before: fieldTests.before,
 	after: fieldTests.after,
 	'GeoPoint field should show correctly in the initial modal': function (browser) {
-		browser.adminUIApp.openFieldList('GeoPoint');
+		browser.adminUIApp.openList({section: 'fields', list: 'GeoPoint'});
 		browser.adminUIListScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
 
@@ -19,7 +19,7 @@ module.exports = {
 		browser.adminUIApp.waitForListScreen();
 	},
 	'GeoPoint field can be filled via the initial modal': function(browser) {
-		browser.adminUIApp.openFieldList('GeoPoint');
+		browser.adminUIApp.openList({section: 'fields', list: 'GeoPoint'});
 		browser.adminUIListScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
 		browser.adminUIInitialFormScreen.fillFieldInputs({

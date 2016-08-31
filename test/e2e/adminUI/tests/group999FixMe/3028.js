@@ -18,7 +18,7 @@ module.exports = {
 	},
 	'Should be able to create an inline relationship': function(browser) {
 		// Create items
-		browser.adminUIApp.openMiscList('InlineRelationship');
+		browser.adminUIApp.openList({section: 'Miscs', list: 'InlineRelationship'});
 		browser.adminUIListScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
 		browser.adminUIInitialFormScreen.save();

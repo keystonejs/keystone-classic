@@ -5,7 +5,7 @@ module.exports = {
 	before: fieldTests.before,
 	after: fieldTests.after,
 	'Select field should show correctly in the initial modal': function (browser) {
-		browser.adminUIApp.openFieldList('Select');
+		browser.adminUIApp.openList({section: 'fields', list: 'Select'});
 		browser.adminUIListScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
 
@@ -25,7 +25,7 @@ module.exports = {
 		browser.adminUIApp.waitForListScreen();
 	},
 	'Select field can be filled via the initial modal': function(browser) {
-		browser.adminUIApp.openFieldList('Select');
+		browser.adminUIApp.openList({section: 'fields', list: 'Select'});
 		browser.adminUIListScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
 		browser.adminUIInitialFormScreen.fillFieldInputs({

@@ -5,7 +5,7 @@ module.exports = {
 	before: fieldTests.before,
 	after: fieldTests.after,
 	'CloudinaryImage field should show correctly in the initial modal': function (browser) {
-		browser.adminUIApp.openFieldList('CloudinaryImage');
+		browser.adminUIApp.openList({section: 'fields', list: 'CloudinaryImage'});
 		browser.adminUIListScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
 
@@ -19,7 +19,7 @@ module.exports = {
 		browser.adminUIApp.waitForListScreen();
 	},
 	'CloudinaryImage field can be filled via the initial modal': function(browser) {
-		browser.adminUIApp.openFieldList('CloudinaryImage');
+		browser.adminUIApp.openList({section: 'fields', list: 'CloudinaryImage'});
 		browser.adminUIListScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
 		browser.adminUIInitialFormScreen.fillFieldInputs({

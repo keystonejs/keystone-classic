@@ -18,7 +18,7 @@ module.exports = {
 	},
 	'Depends On field should work in initial form': function(browser) {
 		// Create items
-		browser.adminUIApp.openMiscList('DependsOn');
+		browser.adminUIApp.openList({section: 'Miscs', list: 'DependsOn'});
 		browser.adminUIListScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
 

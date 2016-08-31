@@ -5,7 +5,7 @@ module.exports = {
 	before: fieldTests.before,
 	after: fieldTests.after,
 	'Date field should show correctly in the initial modal': function (browser) {
-		browser.adminUIApp.openFieldList('Date');
+		browser.adminUIApp.openList({section: 'fields', list: 'Date'});
 		browser.adminUIListScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
 
@@ -19,7 +19,7 @@ module.exports = {
 		browser.adminUIApp.waitForListScreen();
 	},
 	'Date field can be filled via the initial modal': function(browser) {
-		browser.adminUIApp.openFieldList('Date');
+		browser.adminUIApp.openList({section: 'fields', list: 'Date'});
 		browser.adminUIListScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
 		browser.adminUIInitialFormScreen.fillFieldInputs({

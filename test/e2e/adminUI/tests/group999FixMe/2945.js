@@ -18,7 +18,7 @@ module.exports = {
 	},
 	'List screen must show ID column if it has neither default nor name columns': function(browser) {
 		// Create items
-		browser.adminUIApp.openMiscList('NoDefaultColumn');
+		browser.adminUIApp.openList({section: 'Miscs', list: 'NoDefaultColumn'});
 		browser.adminUIListScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
 		browser.adminUIInitialFormScreen.fillFieldInputs({

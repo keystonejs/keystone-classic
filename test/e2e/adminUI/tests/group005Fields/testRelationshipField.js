@@ -5,7 +5,7 @@ module.exports = {
 	before: fieldTests.before,
 	after: fieldTests.after,
 	'Relationship field should show correctly in the initial modal': function (browser) {
-		browser.adminUIApp.openFieldList('Relationship');
+		browser.adminUIApp.openList({section: 'fields', list: 'Relationship'});
 		browser.adminUIListScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
 
@@ -18,7 +18,7 @@ module.exports = {
 		browser.adminUIApp.waitForListScreen();
 	},
 	'Relationship field can be filled via the initial modal': function(browser) {
-		browser.adminUIApp.openFieldList('Relationship');
+		browser.adminUIApp.openList({section: 'fields', list: 'Relationship'});
 		browser.adminUIListScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
 		browser.adminUIInitialFormScreen.fillFieldInputs({

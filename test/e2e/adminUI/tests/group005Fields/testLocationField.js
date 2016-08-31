@@ -5,7 +5,7 @@ module.exports = {
 	before: fieldTests.before,
 	after: fieldTests.after,
 	'Location field should show correctly in the initial modal': function (browser) {
-		browser.adminUIApp.openFieldList('Location');
+		browser.adminUIApp.openList({section: 'fields', list: 'Location'});
 		browser.adminUIListScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
 
@@ -43,7 +43,7 @@ module.exports = {
 		browser.adminUIApp.waitForListScreen();
 	},
 	'Location field can be filled via the initial modal': function(browser) {
-		browser.adminUIApp.openFieldList('Location');
+		browser.adminUIApp.openList({section: 'fields', list: 'Location'});
 		browser.adminUIListScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
 		browser.adminUIInitialFormScreen.clickFieldUI({

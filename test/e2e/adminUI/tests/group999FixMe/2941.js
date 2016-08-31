@@ -18,7 +18,7 @@ module.exports = {
 	},
 	'Demonstrate issue 2941': function(browser) {
 		// Create items
-		browser.adminUIApp.openMiscList('HiddenRelationship');
+		browser.adminUIApp.openList({section: 'Miscs', list: 'HiddenRelationship'});
 		browser.adminUIListScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
 

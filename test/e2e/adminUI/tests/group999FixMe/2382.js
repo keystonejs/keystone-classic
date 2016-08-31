@@ -21,7 +21,7 @@ module.exports = {
 
 		// Add new text item
 
-		browser.adminUIApp.openFieldList('Text');
+		browser.adminUIApp.openList({section: 'fields', list: 'Text'});
 		browser.adminUIListScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
 
@@ -39,7 +39,7 @@ module.exports = {
 
 		// Add new relationship with the above text item
 
-		browser.adminUIApp.openMiscList('ManyRelationship');
+		browser.adminUIApp.openList({section: 'Miscs', list: 'ManyRelationship'});
 		browser.adminUIListScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
 
@@ -58,7 +58,7 @@ module.exports = {
 
 		// Now delete the text item
 
-		browser.adminUIApp.openFieldList('Text');
+		browser.adminUIApp.openList({section: 'fields', list: 'Text'});
 		browser.adminUIApp.waitForListScreen();
 
 
@@ -75,7 +75,7 @@ module.exports = {
 		browser.adminUIApp.click('@homeIconLink');
 		browser.adminUIApp.waitForHomeScreen();
 
-		browser.adminUIApp.openMiscList('ManyRelationship');
+		browser.adminUIApp.openList({section: 'Miscs', list: 'ManyRelationship'});
 		browser.adminUIListScreen.navigateToFirstItem();
 
 		// TODO since we've not established the intended behaviour yet, just pause.

@@ -5,7 +5,7 @@ module.exports = {
 	before: fieldTests.before,
 	after: fieldTests.after,
 	'Email field should show correctly in the initial modal': function (browser) {
-		browser.adminUIApp.openFieldList('Email');
+		browser.adminUIApp.openList({section: 'fields', list: 'Email'});
 		browser.adminUIListScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
 
@@ -19,7 +19,7 @@ module.exports = {
 		browser.adminUIApp.waitForListScreen();
 	},
 	'Email field can be filled via the initial modal': function(browser) {
-		browser.adminUIApp.openFieldList('Email');
+		browser.adminUIApp.openList({section: 'fields', list: 'Email'});
 		browser.adminUIListScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
 		browser.adminUIInitialFormScreen.fillFieldInputs({

@@ -17,7 +17,7 @@ module.exports = {
 		browser.end();
 	},
 	'List items with relationships to them should allow navigating to the source relationships': function(browser) {
-		browser.adminUIApp.openMiscList('TargetRelationship');
+		browser.adminUIApp.openList({section: 'Miscs', list: 'TargetRelationship'});
 		browser.adminUIListScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
 
@@ -35,7 +35,7 @@ module.exports = {
 		browser.adminUIInitialFormScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 
-		browser.adminUIApp.openMiscList('SourceRelationship');
+		browser.adminUIApp.openList({section: 'Miscs', list: 'SourceRelationship'});
 		browser.adminUIListScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
 
@@ -64,7 +64,7 @@ module.exports = {
 		browser.adminUIApp.waitForItemScreen();
 		browser.adminUIItemScreen.assertFlashMessage('Your changes have been saved successfully');
 
-		browser.adminUIApp.openMiscList('TargetRelationship');
+		browser.adminUIApp.openList({section: 'Miscs', list: 'TargetRelationship'});
 		browser.adminUIListScreen.navigateToFirstItem();
 
 		browser.adminUIApp.waitForItemScreen();
