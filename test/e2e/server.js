@@ -18,7 +18,7 @@ process.env['PAGE_OBJECTS_PATH'] = keystoneNightwatchE2e.pageObjectsPath;
 var dbName = '/e2e' + (process.env.KEYSTONEJS_PORT || 3000);
 var mongoUri = 'mongodb://' + (process.env.KEYSTONEJS_HOST || 'localhost') + dbName;
 
-var selenium = null;
+var selenium_proc = null;
 
 keystone.init({
 	'name': 'e2e',
@@ -138,17 +138,16 @@ https://github.com/nightwatchjs/nightwatch/issues/470
 */
 function runSeleniumInBackground (done) {
 	console.log([moment().format('HH:mm:ss:SSS')] + ' e2e: starting selenium server in background...');
-	selenium = child_process.spawn('java',
+	selenium_proc = child_process.spawn('java',
 	[
-		'-jar',
-		path.join(__dirname, 'bin/selenium-server-standalone-2.53.0.jar')
+		'-jar', selenium.path
 	],
 	{
 		stdio: ['ignore', 'pipe', 'pipe']
 	});
 	var running = false;
 
-	selenium.stderr.on('data', function (buffer)
+	selenium_proc.stderr.on('data', function (buffer)
 	{
 	  var line = buffer.toString();
 	  if(line.search(/Selenium Server is up and running/g) != -1) {
@@ -157,7 +156,7 @@ function runSeleniumInBackground (done) {
 	  }
 	});
 
-	selenium.on('close', function (code) {
+	selenium_proc.on('close', function (code) {
 		if(!running) {
 			done(new Error('Selenium exited with error code ' + code));
 		}
@@ -240,14 +239,17 @@ function start() {
 			console.error([moment().format('HH:mm:ss:SSS')] + ' e2e: ' + err);
 			exitProcess = true;
 		}
-		if (selenium) {
-			selenium.kill('SIGHUP');
+		if (selenium_proc) {
+			console.error([moment().format('HH:mm:ss:SSS')] + ' e2e: terminating selenium process');
+			selenium_proc.kill('SIGTERM');
+			selenium_proc.kill('SIGKILL');
 			exitProcess = true;
 		}
 		if (runTests) {
 			exitProcess = true;
 		}
 		if (exitProcess) {
+			console.error([moment().format('HH:mm:ss:SSS')] + ' e2e: exiting');
 			process.exit();
 		}
 	});
