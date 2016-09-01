@@ -6,20 +6,18 @@ var engine = ReactEngine.server.create({});
 var request = require('superagent');
 var moment = require('moment');
 var mongoose = require('mongoose');
-var Nightwatch = require('nightwatch/lib/index.js');
-var child_process = require('child_process');
 var path = require('path');
-var selenium = require('selenium-server-standalone-jar');
 var keystoneNightwatchE2e = require('keystone-nightwatch-e2e');
 
-process.env['SELENIUM_SERVER'] = selenium.path;
+// Set app-specific env for nightwatch session
+process.env['SELENIUM_SERVER'] = keystoneNightwatchE2e.seleniumPath;
 process.env['PAGE_OBJECTS_PATH'] = keystoneNightwatchE2e.pageObjectsPath;
 
+// determine the mongo uri and database name
 var dbName = '/e2e' + (process.env.KEYSTONEJS_PORT || 3000);
 var mongoUri = 'mongodb://' + (process.env.KEYSTONEJS_HOST || 'localhost') + dbName;
 
-var selenium_proc = null;
-
+// initialize keystone
 keystone.init({
 	'name': 'e2e',
 	'brand': 'e2e',
@@ -47,8 +45,13 @@ keystone.init({
 	'cloudinary config': 'cloudinary://api_key:api_secret@cloud_name',
 });
 
+// import app models
 keystone.import('models');
+
+// setup any custom routes
 keystone.set('routes', require('./routes'));
+
+// setup application adminui navigation
 keystone.set('nav', {
 	'access': [
 		'users',
@@ -93,6 +96,7 @@ keystone.set('nav', {
 	]
 });
 
+// Function that drops the test database before starting testing
 function dropTestDatabase(done) {
 	console.log([moment().format('HH:mm:ss:SSS')] + ' e2e: dropping test database');
 
@@ -110,6 +114,7 @@ function dropTestDatabase(done) {
 	});
 }
 
+// Function that checks if keystone is ready before starting testing
 function checkKeystoneReady (done) {
 	async.retry({
 		times: 10,
@@ -130,56 +135,14 @@ function checkKeystoneReady (done) {
 	})
 }
 
-/*
-On some machines, selenium fails with a timeout error when nightwatch tries to connect due to a
-deadlock situation. The following is a temporary workaround that starts selenium without a pipe
-from stdin until this issue is fixed in nightwatch:
-https://github.com/nightwatchjs/nightwatch/issues/470
-*/
-function runSeleniumInBackground (done) {
-	console.log([moment().format('HH:mm:ss:SSS')] + ' e2e: starting selenium server in background...');
-	selenium_proc = child_process.spawn('java',
-	[
-		'-jar', selenium.path
-	],
-	{
-		stdio: ['ignore', 'pipe', 'pipe']
-	});
-	var running = false;
-
-	selenium_proc.stderr.on('data', function (buffer)
-	{
-	  var line = buffer.toString();
-	  if(line.search(/Selenium Server is up and running/g) != -1) {
-			running = true;
-			done();
-	  }
-	});
-
-	selenium_proc.on('close', function (code) {
-		if(!running) {
-			done(new Error('Selenium exited with error code ' + code));
-		}
-	});
-}
-
-function runNightwatch (done) {
+// Function that starts the e2e common framework
+function runE2E (options, done) {
 	console.log([moment().format('HH:mm:ss:SSS')] + ' e2e: starting tests...');
 
-	try {
-		Nightwatch.cli(function (argv) {
-			Nightwatch.runner(argv, function () {
-				console.log([moment().format('HH:mm:ss:SSS')] + ' e2e: finished tests...');
-				done();
-			});
-		});
-	} catch (ex) {
-		console.error('\nThere was an error while starting the nightwatch test runner:\n\n');
-		process.stderr.write(ex.stack + '\n');
-		done("failed to run nightwatch!");
-	}
+	keystoneNightwatchE2e.startE2E(options, done);
 }
 
+// Function that starts keystone
 function runKeystone(cb) {
 	console.log([moment().format('HH:mm:ss:SSS')] + ' e2e: starting KeystoneJS...');
 
@@ -194,6 +157,7 @@ function runKeystone(cb) {
 	});
 }
 
+// Function that bootstraps the e2e test service
 function start() {
 	var runTests = process.argv.indexOf('--notest') === -1;
 	var dropDB = process.argv.indexOf('--nodrop') === -1;
@@ -218,16 +182,11 @@ function start() {
 		},
 
 		function (cb) {
-			if (runTests && runSelenium) {
-				runSeleniumInBackground(cb)
-			}	else {
-				cb();
-			}
-		},
-
-		function (cb) {
 			if (runTests) {
-				runNightwatch(cb);
+				runE2E({
+					keystone: keystone,
+					runSelenium: runSelenium
+				}, cb);
 			} else {
 				cb();
 			}
@@ -237,12 +196,6 @@ function start() {
 		var exitProcess = false;
 		if (err) {
 			console.error([moment().format('HH:mm:ss:SSS')] + ' e2e: ' + err);
-			exitProcess = true;
-		}
-		if (selenium_proc) {
-			console.error([moment().format('HH:mm:ss:SSS')] + ' e2e: terminating selenium process');
-			selenium_proc.kill('SIGTERM');
-			selenium_proc.kill('SIGKILL');
 			exitProcess = true;
 		}
 		if (runTests) {
