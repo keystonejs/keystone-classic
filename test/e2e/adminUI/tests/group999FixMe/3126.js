@@ -7,7 +7,7 @@ module.exports = {
 		browser.adminUIInitialFormScreen = browser.page.adminUIInitialForm();
 		browser.adminUIDeleteConfirmation = browser.page.adminUIDeleteConfirmation();
 
-		browser.app.gotoHomeScreen();
+		browser.adminUIApp.gotoHomeScreen();
 		browser.adminUIApp.waitForSigninScreen();
 
 		browser.adminUISignin.signin();

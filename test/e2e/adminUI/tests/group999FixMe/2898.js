@@ -6,7 +6,7 @@ module.exports = {
 		browser.adminUIItemScreen = browser.page.adminUIItemScreen();
 		browser.adminUIInitialFormScreen = browser.page.adminUIInitialForm();
 
-		browser.app.gotoHomeScreen();
+		browser.adminUIApp.gotoHomeScreen();
 		browser.adminUIApp.waitForSigninScreen();
 
 		browser.adminUISignin.signin();

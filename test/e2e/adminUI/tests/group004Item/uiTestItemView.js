@@ -1,6 +1,5 @@
 module.exports = {
 	before: function (browser) {
-		browser.app = browser.page.app();
 		browser.adminUIApp = browser.page.adminUIApp();
 		browser.adminUISignin = browser.page.adminUISignin();
 		browser.adminUIListScreen = browser.page.adminUIListScreen();
@@ -8,7 +7,7 @@ module.exports = {
 		browser.adminUIInitialFormScreen = browser.page.adminUIInitialForm();
 		browser.adminUIDeleteConfirmation = browser.page.adminUIDeleteConfirmation();
 
-		browser.app.gotoHomeScreen();
+		browser.adminUIApp.gotoHomeScreen();
 		browser.adminUIApp.waitForSigninScreen();
 
 		browser.adminUISignin.signin();

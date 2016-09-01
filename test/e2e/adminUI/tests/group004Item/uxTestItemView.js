@@ -5,7 +5,6 @@ var UserModelTestConfig = require('../../../modelTestConfig/UserModelTestConfig'
 
 module.exports = {
 	before: function (browser) {
-		browser.app = browser.page.app();
 		browser.adminUIApp = browser.page.adminUIApp();
 		browser.adminUISignin = browser.page.adminUISignin();
 		browser.adminUIListScreen = browser.page.adminUIListScreen();
@@ -14,7 +13,7 @@ module.exports = {
 		browser.adminUIDeleteConfirmation = browser.page.adminUIDeleteConfirmation();
 		browser.adminUIResetConfirmationScreen = browser.page.adminUIResetConfirmation();
 
-		browser.app.gotoHomeScreen();
+		browser.adminUIApp.gotoHomeScreen();
 		browser.adminUIApp.waitForSigninScreen();
 
 		browser.adminUISignin.signin();
