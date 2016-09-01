@@ -19,13 +19,18 @@ util.inherits(twitter, FieldType);
 
 twitter.prototype.validateInput = function (data, callback) {
 	var value = this.getValueFromData(data);
-	var result = value === undefined || value === null || typeof value === 'string';
-	if (value.indexOf('twitter.com/') || value.indexOf('twitter.com/@')) {
-		value = stripUsername(value);
-		console.log(value);
+	var result = false;
+	var detail;
+	if (value === undefined || value === null || value === '') {
+		result = true;
+	} else if (typeof value === 'string') {
+		if (value.indexOf('twitter.com/') || value.indexOf('twitter.com/@')) {
+			value = stripUsername(value);
+		}
 		result = /^@?(\w){1,15}$/.test(value);
+		detail = 'enter valid twitter username with or without url';
 	}
-	utils.defer(callback, result);
+	utils.defer(callback, result, detail);
 };
 
 twitter.prototype.validateRequiredInput = TextType.prototype.validateRequiredInput;
@@ -49,7 +54,7 @@ twitter.prototype.format = function (item) {
 };
 
 /**
- * Get twitter username from url
+ * Strip twitter username from url, remove @
  */
 function stripUsername (twitter) {
 	if (twitter.charAt(twitter.length - 1) === '/') {

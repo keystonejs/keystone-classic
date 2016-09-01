@@ -67,7 +67,7 @@ exports.testFieldType = function (List) {
 		it('should strip the protocol when formatting', function (done) {
 			var testItem = new List.model();
 			List.fields.twitter.updateItem(testItem, {
-				url: 'http://www.keystonejs.com',
+				twitter: 'http://www.keystonejs.com',
 			}, function () {
 				demand(testItem._.twitter.format()).be('www.keystonejs.com');
 				done();
