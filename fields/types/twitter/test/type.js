@@ -76,14 +76,21 @@ exports.testFieldType = function (List) {
 	});
 
 	describe('validateInput', function () {
-		it('should validate string input', function (done) {
-			List.fields.twitter.validateInput({ twitter: 'a' }, function (result) {
+		it('should validate bare username without \'@\'', function (done) {
+			List.fields.twitter.validateInput({ twitter: 'username' }, function (result) {
 				demand(result).be.true();
 				done();
 			});
 		});
 
-		it('should validate emtpy string input', function (done) {
+		it('should validate twitter username with \'@\'', function (done) {
+			List.fields.twitter.validateInput({ twitter: '@username' }, function (result) {
+				demand(result).be.true();
+				done();
+			});
+		});
+
+		it('should validate empty string input', function (done) {
 			List.fields.twitter.validateInput({ twitter: '' }, function (result) {
 				demand(result).be.true();
 				done();
@@ -111,8 +118,36 @@ exports.testFieldType = function (List) {
 			});
 		});
 
+		it('should validate full twitter URL including \'@\'', function (done) {
+			List.fields.twitter.validateInput({ twitter: 'https://twitter.com/@xyzcoode' }, function (result) {
+				demand(result).be.true();
+				done();
+			});
+		});
+
 		it('should validate twitter URL without protocol', function (done) {
 			List.fields.twitter.validateInput({ twitter: 'twitter.com/xyzcoode' }, function (result) {
+				demand(result).be.true();
+				done();
+			});
+		});
+
+		it('should validate twitter URL without protocol including \'@\'', function (done) {
+			List.fields.twitter.validateInput({ twitter: 'twitter.com/@xyzcoode' }, function (result) {
+				demand(result).be.true();
+				done();
+			});
+		});
+
+		it('should validate twitter URL with \'www\'', function (done) {
+			List.fields.twitter.validateInput({ twitter: 'https://www.twitter.com/xyzcoode' }, function (result) {
+				demand(result).be.true();
+				done();
+			});
+		});
+
+		it('should validate twitter URL with http protocol', function (done) {
+			List.fields.twitter.validateInput({ twitter: 'http://twitter.com/xyzcoode' }, function (result) {
 				demand(result).be.true();
 				done();
 			});
@@ -162,6 +197,20 @@ exports.testFieldType = function (List) {
 
 		it('should invalidate date input', function (done) {
 			List.fields.twitter.validateInput({ twitter: Date.now() }, function (result) {
+				demand(result).be.false();
+				done();
+			});
+		});
+
+		it('should invalidate URL to other domain than twitter', function (done) {
+			List.fields.twitter.validateInput({ twitter: 'http://www.google.com' }, function (result) {
+				demand(result).be.false();
+				done();
+			});
+		});
+
+		it('should invalidate twitter homepage URL without username', function (done) {
+			List.fields.twitter.validateInput({ twitter: 'http://www.twitter.com' }, function (result) {
 				demand(result).be.false();
 				done();
 			});
