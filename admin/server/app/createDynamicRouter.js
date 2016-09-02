@@ -74,10 +74,6 @@ module.exports = function createDynamicRouter (keystone) {
 	// #5: Core Lists API
 	var initList = require('../middleware/initList');
 
-	// Legacy API endpoints
-	router.post('/api/legacy/:list/create', initList, require('../api/list/legacyCreate'));
-	router.post('/api/legacy/:list/:id', initList, require('../api/item/legacyUpdate'));
-
 	// lists
 	router.all('/api/counts', require('../api/counts'));
 	router.get('/api/:list', initList, require('../api/list/get'));
