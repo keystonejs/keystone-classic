@@ -24,7 +24,7 @@ twitter.prototype.validateInput = function (data, callback) {
 	if (value === undefined || value === null || value === '') {
 		result = true;
 	} else if (typeof value === 'string') {
-		if (value.indexOf('twitter.com/') || value.indexOf('twitter.com/@')) {
+		if (value.indexOf('twitter.com/') + 1 || value.indexOf('twitter.com/@') + 1) {
 			value = stripUsername(value);
 		}
 		result = /^@?(\w){1,15}$/.test(value);
@@ -40,7 +40,7 @@ twitter.prototype.addFilterToQuery = TextType.prototype.addFilterToQuery;
 
 /**
  * Formats the field value using either a supplied format function or default
- * which strips the leading protocol from the value for simpler display
+ * which strips the username for simpler display
  */
 twitter.prototype.format = function (item) {
 	var twitter = item.get(this.path) || '';
@@ -62,7 +62,7 @@ function stripUsername (twitter) {
 	}
 	var replacePosition = twitter.lastIndexOf('/');
 	twitter = twitter.substring(replacePosition + 1);
-	if (twitter.indexOf('@') + 1) {
+	if (twitter.indexOf('@') + 2) {
 		return twitter.replace('@', '');
 	}
 	return twitter;

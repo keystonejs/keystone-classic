@@ -12,13 +12,10 @@ var TwitterColumn = React.createClass({
 		var value = this.props.data.fields[this.props.col.path];
 		if (!value) return;
 
-		// RECHECK. if the value doesn't start with a protocol, add https:twitter.com/
-		var href = value;
-		if (href && !/(\w+\:\/\/)/.test(href)) {
-			href = 'https://twitter.com/' + value;
-		}
-
-		var label = value;
+		// If value is valid twitter username, format href and label
+		value = stripUsername(value);
+		var href = 'https://twitter.com/' + value;
+		var label = '@' + value;
 
 		return (
 			<ItemsTableValue href={href} padded exterior field={this.props.col.type}>
@@ -34,5 +31,17 @@ var TwitterColumn = React.createClass({
 		);
 	},
 });
+
+function stripUsername (twitter) {
+	if (twitter.charAt(twitter.length - 1) === '/') {
+		twitter = twitter.slice(0, -1);
+	}
+	var replacePosition = twitter.lastIndexOf('/');
+	twitter = twitter.substring(replacePosition + 1);
+	if (twitter.indexOf('@') + 2) {
+		return twitter.replace('@', '');
+	}
+	return twitter;
+}
 
 module.exports = TwitterColumn;

@@ -7,20 +7,28 @@ module.exports = Field.create({
 	statics: {
 		type: 'Twitter',
 	},
+	formatValue () {
+		var value = this.props.value;
+		// if href is a valid twitter username, format it
+		if (/^@?(\w){1,15}$/.test(value)) {
+			return '@' + value;
+		}
+		return value;
+	},
 	openValue () {
 		var href = this.props.value;
 		if (!href) return;
-		// RECHECK!
-		if (!/^(mailto\:)|(\w+\:\/\/)/.test(href)) {
-			href = 'http://' + href;
+		// if href is a valid twitter username, format it
+		if (/^@?(\w){1,15}$/.test(href)) {
+			href = 'http://twitter.com/' + href;
 		}
 		window.open(href);
 	},
 	renderLink () {
-		if (!this.props.value) return null;
-
+		var value = this.props.value;
+		if (!value) return null;
 		return (
-			<Button type="link" onClick={this.openValue} className="keystone-relational-button" title={'Open ' + this.props.value + ' in a new tab'}>
+			<Button type="link" onClick={this.openValue} className="keystone-relational-button" title={'Open ' + this.formatValue + ' in a new tab'}>
 				<span className="octicon octicon-link" />
 			</Button>
 		);
@@ -33,7 +41,7 @@ module.exports = Field.create({
 				value={this.props.value}
 				onChange={this.valueChanged}
 				autoComplete="off"
-				type="url"
+				type="text"
 			/>
 		);
 	},
