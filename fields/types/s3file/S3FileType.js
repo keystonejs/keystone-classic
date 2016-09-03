@@ -52,7 +52,7 @@ function s3file (list, path, options) {
 
 }
 s3file.properName = 'S3File';
-util.inherits(s3file, FieldType);
+// util.inherits(s3file, FieldType);
 
 /**
  * Exposes the custom or keystone s3 config settings
@@ -440,13 +440,6 @@ s3file.prototype.getRequestHandler = function (item, req, paths, callback) {
 
 	};
 
-};
-
-/**
- * Immediately handles a standard form submission for the field (see `getRequestHandler()`)
- */
-s3file.prototype.handleRequest = function (item, req, paths, callback) {
-	this.getRequestHandler(item, req, paths, callback)();
 };
 
 /*!

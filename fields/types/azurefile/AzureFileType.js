@@ -61,7 +61,7 @@ function azurefile (list, path, options) {
 
 }
 azurefile.properName = 'AzureFile';
-util.inherits(azurefile, FieldType);
+// util.inherits(azurefile, FieldType);
 
 /**
  * Exposes the custom or keystone s3 config settings
@@ -292,13 +292,6 @@ azurefile.prototype.getRequestHandler = function (item, req, paths, callback) {
 
 	};
 
-};
-
-/**
- * Immediately handles a standard form submission for the field (see `getRequestHandler()`)
- */
-azurefile.prototype.handleRequest = function (item, req, paths, callback) {
-	this.getRequestHandler(item, req, paths, callback)();
 };
 
 /* Export Field Type */

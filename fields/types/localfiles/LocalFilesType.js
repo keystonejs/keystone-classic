@@ -55,7 +55,7 @@ function localfiles (list, path, options) {
 	*/
 }
 localfiles.properName = 'LocalFiles';
-util.inherits(localfiles, FieldType);
+// util.inherits(localfiles, FieldType);
 
 /**
  * Registers the field on the List's Mongoose Schema.
@@ -362,13 +362,6 @@ localfiles.prototype.getRequestHandler = function (item, req, paths, callback) {
 		return callback();
 	};
 
-};
-
-/**
- * Immediately handles a standard form submission for the field (see `getRequestHandler()`)
- */
-localfiles.prototype.handleRequest = function (item, req, paths, callback) {
-	this.getRequestHandler(item, req, paths, callback)();
 };
 
 

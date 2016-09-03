@@ -35,14 +35,30 @@ module.exports = function (req, res) {
 	query.sort(sort.string);
 	query.exec(function (err, results) {
 		var data;
+		var fields = [];
 		if (err) return res.apiError('database error', err);
 		if (format === 'csv') {
 			data = results.map(function (item) {
-				return req.list.getCSV(item, req.query.select, req.query.expandRelationshipFields);
+				var row = req.list.getCSVData(item, {
+					expandRelationshipFields: req.query.expandRelationshipFields,
+					fields: req.query.select,
+					user: req.user,
+				});
+				// If nested values in the first item aren't present, babyparse
+				// won't add them even if they are present in others. So we
+				// add keys from all items to an array and explicitly provided
+				// the complete set to baby.unparse() below
+				Object.keys(row).forEach(function (i) {
+					if (fields.indexOf(i) === -1) fields.push(i);
+				});
+				return row;
 			});
 			res.attachment(req.list.path + '-' + moment().format('YYYYMMDD-HHMMSS') + '.csv');
 			res.setHeader('Content-Type', 'application/octet-stream');
-			var content = baby.unparse(data, {
+			var content = baby.unparse({
+				data: data,
+				fields: fields,
+			}, {
 				delimiter: keystone.get('csv field delimiter') || ',',
 			});
 			res.end(content, 'utf-8');

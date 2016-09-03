@@ -5,41 +5,41 @@ module.exports = {
 	before: fieldTests.before,
 	after: fieldTests.after,
 	'Code field should show correctly in the initial modal': function (browser) {
-		browser.adminUIApp.openFieldList('Code');
-		browser.listScreen.createFirstItem();
+		browser.adminUIApp.openList({section: 'fields', list: 'Code'});
+		browser.adminUIListScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.initialFormScreen.assertFieldUIVisible({
+		browser.adminUIInitialFormScreen.assertFieldUIVisible({
 			modelTestConfig: CodeModelTestConfig,
 			fields: [{name: 'name'}, {name: 'fieldA'}]
 		});
 	},
 	'restoring test state': function(browser) {
-		browser.initialFormScreen.cancel();
+		browser.adminUIInitialFormScreen.cancel();
 		browser.adminUIApp.waitForListScreen();
 	},
 	'Code field can be filled via the initial modal': function(browser) {
-		browser.adminUIApp.openFieldList('Code');
-		browser.listScreen.createFirstItem();
+		browser.adminUIApp.openList({section: 'fields', list: 'Code'});
+		browser.adminUIListScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
-		browser.initialFormScreen.fillFieldInputs({
+		browser.adminUIInitialFormScreen.fillFieldInputs({
 			modelTestConfig: CodeModelTestConfig,
 			fields: {
 				'name': {value: 'Code Field Test 1'},
 				'fieldA': {value: 'Some test code for field A'},
 			}
 		});
-		browser.initialFormScreen.assertFieldInputs({
+		browser.adminUIInitialFormScreen.assertFieldInputs({
 			modelTestConfig: CodeModelTestConfig,
 			fields: {
 				'name': {value: 'Code Field Test 1'},
 				'fieldA': {value: 'Some test code for field A'},
 			}
 		});
-		browser.initialFormScreen.save();
+		browser.adminUIInitialFormScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 
-		browser.itemScreen.assertFieldInputs({
+		browser.adminUIItemScreen.assertFieldInputs({
 			modelTestConfig: CodeModelTestConfig,
 			fields: {
 				'name': {value: 'Code Field Test 1'},
@@ -48,22 +48,22 @@ module.exports = {
 		})
 	},
 	'Code field should show correctly in the edit form': function(browser) {
-		browser.itemScreen.assertFieldUIVisible({
+		browser.adminUIItemScreen.assertFieldUIVisible({
 			modelTestConfig: CodeModelTestConfig,
 			fields: [{name: 'fieldA'}, {name: 'fieldB'}]
 		});
 	},
 	'Code field can be filled via the edit form': function(browser) {
-		browser.itemScreen.fillFieldInputs({
+		browser.adminUIItemScreen.fillFieldInputs({
 			modelTestConfig: CodeModelTestConfig,
 			fields: {
 				'fieldB': {value: 'Some test code for field B'}
 			}
 		});
-		browser.itemScreen.save();
+		browser.adminUIItemScreen.save();
 		browser.adminUIApp.waitForItemScreen();
-		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
-		browser.itemScreen.assertFieldInputs({
+		browser.adminUIItemScreen.assertFlashMessage('Your changes have been saved successfully');
+		browser.adminUIItemScreen.assertFieldInputs({
 			modelTestConfig: CodeModelTestConfig,
 			fields: {
 				'name': {value: 'Code Field Test 1'},
@@ -73,7 +73,7 @@ module.exports = {
 		})
 	},
 	'restoring test state': function(browser) {
-		browser.initialFormScreen.cancel();
+		browser.adminUIInitialFormScreen.cancel();
 		browser.adminUIApp.waitForListScreen();
 	},
 };

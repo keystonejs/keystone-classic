@@ -14,7 +14,7 @@ module.exports = function (req, res) {
 		req.list.model.findById(data.id, function (err, item) {
 			if (err) return done({ statusCode: 500, error: 'database error', detail: err, id: data.id });
 			if (!item) return done({ statusCode: 404, error: 'not found', id: data.id });
-			req.list.updateItem(item, data, { files: req.files }, function (err) {
+			req.list.updateItem(item, data, { files: req.files, user: req.user }, function (err) {
 				if (err) {
 					err.id = data.id;
 					// validation errors send http 400; everything else sends http 500

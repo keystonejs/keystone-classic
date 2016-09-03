@@ -5,41 +5,41 @@ module.exports = {
 	before: fieldTests.before,
 	after: fieldTests.after,
 	'GeoPoint field should show correctly in the initial modal': function (browser) {
-		browser.adminUIApp.openFieldList('GeoPoint');
-		browser.listScreen.createFirstItem();
+		browser.adminUIApp.openList({section: 'fields', list: 'GeoPoint'});
+		browser.adminUIListScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.initialFormScreen.assertFieldUIVisible({
+		browser.adminUIInitialFormScreen.assertFieldUIVisible({
 			modelTestConfig: GeoPointModelTestConfig,
 			fields: [{name: 'name'}, {name: 'fieldA'}]
 		});
 	},
 	'restoring test state': function(browser) {
-		browser.initialFormScreen.cancel();
+		browser.adminUIInitialFormScreen.cancel();
 		browser.adminUIApp.waitForListScreen();
 	},
 	'GeoPoint field can be filled via the initial modal': function(browser) {
-		browser.adminUIApp.openFieldList('GeoPoint');
-		browser.listScreen.createFirstItem();
+		browser.adminUIApp.openList({section: 'fields', list: 'GeoPoint'});
+		browser.adminUIListScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
-		browser.initialFormScreen.fillFieldInputs({
+		browser.adminUIInitialFormScreen.fillFieldInputs({
 			modelTestConfig: GeoPointModelTestConfig,
 			fields: {
 				'name': {value: 'GeoPoint Field Test 1'},
 				'fieldA': {lat: '123', lng: '456'},
 			}
 		});
-		browser.initialFormScreen.assertFieldInputs({
+		browser.adminUIInitialFormScreen.assertFieldInputs({
 			modelTestConfig: GeoPointModelTestConfig,
 			fields: {
 				'name': {value: 'GeoPoint Field Test 1'},
 				'fieldA': {lat: '123', lng: '456'},
 			}
 		});
-		browser.initialFormScreen.save();
+		browser.adminUIInitialFormScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 
-		browser.itemScreen.assertFieldInputs({
+		browser.adminUIItemScreen.assertFieldInputs({
 			modelTestConfig: GeoPointModelTestConfig,
 			fields: {
 				'name': {value: 'GeoPoint Field Test 1'},
@@ -48,22 +48,22 @@ module.exports = {
 		})
 	},
 	'GeoPoint field should show correctly in the edit form': function(browser) {
-		browser.itemScreen.assertFieldUIVisible({
+		browser.adminUIItemScreen.assertFieldUIVisible({
 			modelTestConfig: GeoPointModelTestConfig,
 			fields: [{name: 'fieldA'}, {name: 'fieldB'}]
 		});
 	},
 	'GeoPoint field can be filled via the edit form': function(browser) {
-		browser.itemScreen.fillFieldInputs({
+		browser.adminUIItemScreen.fillFieldInputs({
 			modelTestConfig: GeoPointModelTestConfig,
 			fields: {
 				'fieldB': {lat: '789', lng: '246'}
 			}
 		});
-		browser.itemScreen.save();
+		browser.adminUIItemScreen.save();
 		browser.adminUIApp.waitForItemScreen();
-		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
-		browser.itemScreen.assertFieldInputs({
+		browser.adminUIItemScreen.assertFlashMessage('Your changes have been saved successfully');
+		browser.adminUIItemScreen.assertFieldInputs({
 			modelTestConfig: GeoPointModelTestConfig,
 			fields: {
 				'name': {value: 'GeoPoint Field Test 1'},
