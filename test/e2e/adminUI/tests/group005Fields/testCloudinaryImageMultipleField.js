@@ -5,39 +5,39 @@ module.exports = {
 	before: fieldTests.before,
 	after: fieldTests.after,
 	'CloudinaryImageMultiple field should show correctly in the initial modal': function (browser) {
-		browser.adminUIApp.openFieldList('CloudinaryImageMultiple');
-		browser.listScreen.createFirstItem();
+		browser.adminUIApp.openList({section: 'fields', list: 'CloudinaryImageMultiple'});
+		browser.adminUIListScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.initialFormScreen.assertFieldUIVisible({
+		browser.adminUIInitialFormScreen.assertFieldUIVisible({
 			modelTestConfig: CloudinaryImageMultipleModelTestConfig,
 			fields: [{name: 'name'}]
 		});
 	},
 	'restoring test state': function(browser) {
-		browser.initialFormScreen.cancel();
+		browser.adminUIInitialFormScreen.cancel();
 		browser.adminUIApp.waitForListScreen();
 	},
 	'CloudinaryImageMultiple field can be filled via the initial modal': function(browser) {
-		browser.adminUIApp.openFieldList('CloudinaryImageMultiple');
-		browser.listScreen.createFirstItem();
+		browser.adminUIApp.openList({section: 'fields', list: 'CloudinaryImageMultiple'});
+		browser.adminUIListScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
-		browser.initialFormScreen.fillFieldInputs({
+		browser.adminUIInitialFormScreen.fillFieldInputs({
 			modelTestConfig: CloudinaryImageMultipleModelTestConfig,
 			fields: {
 				'name': {value: 'CloudinaryImageMultiple Field Test 1'},
 			}
 		});
-		browser.initialFormScreen.assertFieldInputs({
+		browser.adminUIInitialFormScreen.assertFieldInputs({
 			modelTestConfig: CloudinaryImageMultipleModelTestConfig,
 			fields: {
 				'name': {value: 'CloudinaryImageMultiple Field Test 1'},
 			}
 		});
-		browser.initialFormScreen.save();
+		browser.adminUIInitialFormScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 
-		browser.itemScreen.assertFieldInputs({
+		browser.adminUIItemScreen.assertFieldInputs({
 			modelTestConfig: CloudinaryImageMultipleModelTestConfig,
 			fields: {
 				'name': {value: 'CloudinaryImageMultiple Field Test 1'},
@@ -45,7 +45,7 @@ module.exports = {
 		})
 	},
 	'CloudinaryImageMultiple field should show correctly in the edit form': function(browser) {
-		browser.itemScreen.assertFieldUIVisible({
+		browser.adminUIItemScreen.assertFieldUIVisible({
 			modelTestConfig: CloudinaryImageMultipleModelTestConfig,
 			fields: [{name: 'fieldA'}, {name: 'fieldB'}]
 		});

@@ -6,11 +6,11 @@ module.exports = {
 	before: fieldTests.before,
 	after: fieldTests.after,
 	'Password field should show correctly in the initial modal': function (browser) {
-		browser.adminUIApp.openFieldList('Password');
-		browser.listScreen.createFirstItem();
+		browser.adminUIApp.openList({section: 'fields', list: 'Password'});
+		browser.adminUIListScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.initialFormScreen.assertFieldUIVisible({
+		browser.adminUIInitialFormScreen.assertFieldUIVisible({
 			modelTestConfig: PasswordModelTestConfig,
 			fields: [
 				{
@@ -24,35 +24,35 @@ module.exports = {
 		});
 	},
 	'restoring test state': function(browser) {
-		browser.initialFormScreen.cancel();
+		browser.adminUIInitialFormScreen.cancel();
 		browser.adminUIApp.waitForListScreen();
 	},
 	'Password field can be filled via the initial modal': function(browser) {
-		browser.adminUIApp.openFieldList('Password');
-		browser.listScreen.createFirstItem();
+		browser.adminUIApp.openList({section: 'fields', list: 'Password'});
+		browser.adminUIListScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
-		browser.initialFormScreen.fillFieldInputs({
+		browser.adminUIInitialFormScreen.fillFieldInputs({
 			modelTestConfig: PasswordModelTestConfig,
 			fields: {
 				'name': {value: 'Password Field Test 1'},
 				'fieldA': {value: 'password1', confirm: 'wrongPassword1'},
 			}
 		});
-		browser.initialFormScreen.save();
-		browser.initialFormScreen.assertFlashError("Passwords must match");
-		browser.initialFormScreen.fillFieldInputs({
+		browser.adminUIInitialFormScreen.save();
+		browser.adminUIInitialFormScreen.assertFlashError("Passwords must match");
+		browser.adminUIInitialFormScreen.fillFieldInputs({
 			modelTestConfig: PasswordModelTestConfig,
 			fields: {
 				'fieldA': {value: 'password1', confirm: 'password1'},
 			}
 		});
-		browser.initialFormScreen.assertFieldInputs({
+		browser.adminUIInitialFormScreen.assertFieldInputs({
 			modelTestConfig: PasswordModelTestConfig,
 			fields: {
 				'name': {value: 'Password Field Test 1'},
 			}
 		});
-		browser.initialFormScreen.save();
+		browser.adminUIInitialFormScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 
 		browser.itemScreen.assertFieldInputs({

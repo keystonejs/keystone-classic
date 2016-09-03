@@ -5,11 +5,11 @@ module.exports = {
 	before: fieldTests.before,
 	after: fieldTests.after,
 	'Location field should show correctly in the initial modal': function (browser) {
-		browser.adminUIApp.openFieldList('Location');
-		browser.listScreen.createFirstItem();
+		browser.adminUIApp.openList({section: 'fields', list: 'Location'});
+		browser.adminUIListScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.initialFormScreen.assertFieldUIVisible({
+		browser.adminUIInitialFormScreen.assertFieldUIVisible({
 			modelTestConfig: LocationModelTestConfig,
 			fields: [
 				{name: 'name'},
@@ -20,14 +20,14 @@ module.exports = {
 			],
 		});
 
-		browser.initialFormScreen.clickFieldUI({
+		browser.adminUIInitialFormScreen.clickFieldUI({
 			modelTestConfig: LocationModelTestConfig,
 			fields: {
 				'fieldA': {'click': 'showMore'},
 			}
 		});
 
-		browser.initialFormScreen.assertFieldUIVisible({
+		browser.adminUIInitialFormScreen.assertFieldUIVisible({
 			modelTestConfig: LocationModelTestConfig,
 			fields: [
 				{name: 'name'},
@@ -39,20 +39,20 @@ module.exports = {
 		});
 	},
 	'restoring test state': function(browser) {
-		browser.initialFormScreen.cancel();
+		browser.adminUIInitialFormScreen.cancel();
 		browser.adminUIApp.waitForListScreen();
 	},
 	'Location field can be filled via the initial modal': function(browser) {
-		browser.adminUIApp.openFieldList('Location');
-		browser.listScreen.createFirstItem();
+		browser.adminUIApp.openList({section: 'fields', list: 'Location'});
+		browser.adminUIListScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
-		browser.initialFormScreen.clickFieldUI({
+		browser.adminUIInitialFormScreen.clickFieldUI({
 			modelTestConfig: LocationModelTestConfig,
 			fields: {
 				'fieldA': {'click': 'showMore'},
 			}
 		});
-		browser.initialFormScreen.fillFieldInputs({
+		browser.adminUIInitialFormScreen.fillFieldInputs({
 			modelTestConfig: LocationModelTestConfig,
 			fields: {
 				'name': {value: 'Location Field Test 1'},
@@ -70,7 +70,7 @@ module.exports = {
 				},
 			}
 		});
-		browser.initialFormScreen.assertFieldInputs({
+		browser.adminUIInitialFormScreen.assertFieldInputs({
 			modelTestConfig: LocationModelTestConfig,
 			fields: {
 				'name': {value: 'Location Field Test 1'},
@@ -88,10 +88,10 @@ module.exports = {
 				},
 			}
 		});
-		browser.initialFormScreen.save();
+		browser.adminUIInitialFormScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 
-		browser.itemScreen.assertFieldInputs({
+		browser.adminUIItemScreen.assertFieldInputs({
 			modelTestConfig: LocationModelTestConfig,
 			fields: {
 				'name': {value: 'Location Field Test 1'},
@@ -111,7 +111,7 @@ module.exports = {
 		})
 	},
 	'Location field should show correctly in the edit form': function(browser) {
-		browser.itemScreen.assertFieldUIVisible({
+		browser.adminUIItemScreen.assertFieldUIVisible({
 			modelTestConfig: LocationModelTestConfig,
 			fields: [
 				{
@@ -124,13 +124,13 @@ module.exports = {
 				}
 			],
 		});
-		browser.itemScreen.clickFieldUI({
+		browser.adminUIItemScreen.clickFieldUI({
 			modelTestConfig: LocationModelTestConfig,
 			fields: {
 				'fieldB': {'click': 'showMore'},
 			}
 		});
-		browser.itemScreen.assertFieldUIVisible({
+		browser.adminUIItemScreen.assertFieldUIVisible({
 			modelTestConfig: LocationModelTestConfig,
 			fields: [
 				{
@@ -145,7 +145,7 @@ module.exports = {
 		});
 	},
 	'Location field can be filled via the edit form': function(browser) {
-		browser.itemScreen.fillFieldInputs({
+		browser.adminUIItemScreen.fillFieldInputs({
 			modelTestConfig: LocationModelTestConfig,
 			fields: {
 				'fieldB': {
@@ -162,10 +162,10 @@ module.exports = {
 				},
 			}
 		});
-		browser.itemScreen.save();
+		browser.adminUIItemScreen.save();
 		browser.adminUIApp.waitForItemScreen();
-		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
-		browser.itemScreen.assertFieldInputs({
+		browser.adminUIItemScreen.assertFlashMessage('Your changes have been saved successfully');
+		browser.adminUIItemScreen.assertFieldInputs({
 			modelTestConfig: LocationModelTestConfig,
 			fields: {
 				'name': {value: 'Location Field Test 1'},
