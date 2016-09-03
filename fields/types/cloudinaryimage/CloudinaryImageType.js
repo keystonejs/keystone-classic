@@ -4,6 +4,7 @@ var ensureCallback = require('keystone-storage-namefunctions/ensureCallback');
 var FieldType = require('../Type');
 var keystone = require('../../../');
 var nameFunctions = require('keystone-storage-namefunctions');
+var prototypeMethods = require('keystone-storage-namefunctions/prototypeMethods');
 var sanitize = require('sanitize-filename');
 var util = require('util');
 var utils = require('keystone-utils');
@@ -418,7 +419,7 @@ cloudinaryimage.prototype.updateItem = function (item, data, files, callback) {
 		if (folder) {
 			uploadOptions.folder = folder;
 		}
-		this._getFilename(uploadedFile, function (err, filename) {
+		this.getFilename(uploadedFile, function (err, filename) {
 			if (err) return callback(err);
 			// If an undefined filename is returned, Cloudinary will automatically generate a unique
 			//   filename. Therefore undefined is a valid filename value.
@@ -452,50 +453,16 @@ cloudinaryimage.prototype.updateItem = function (item, data, files, callback) {
 	utils.defer(callback);
 };
 
-
 /**
 	Generates a filename with the provided method in a retry loop, used by
-	_getFilename below
+	getFilename below
 */
-cloudinaryimage.prototype._retryFilename = function (attempt, file, callback) {
-	var adapter = this;
-	if (attempt > this.options.retryAttempts) {
-		return callback(Error('Unique filename could not be generated; Maximum attempts exceeded'));
-	}
-	this.options.generateFilename(file, attempt, function (err, filename) {
-		if (err) return callback(err);
-		adapter.fileExists(filename, function (err, exists) {
-			if (err) return callback(err);
-			if (exists) return adapter._retryFilename(attempt + 1, file, callback);
-			callback(null, filename);
-		});
-	});
-};
+cloudinaryimage.prototype.retryFilename = prototypeMethods.retryFilename;
 
 /**
 	Gets a filename for uploaded files based on the adapter options
 */
-cloudinaryimage.prototype._getFilename = function (file, callback) {
-	var adapter = this;
-	switch (this.options.whenExists) {
-		case 'overwrite':
-			this.options.generateFilename(file, 0, callback);
-			break;
-		case 'error':
-			this.options.generateFilename(file, 0, function (err, filename) {
-				if (err) return callback(err);
-				adapter.fileExists(filename, function (err, result) {
-					if (err) return callback(err);
-					if (result === true) return callback(Error('File already exists'));
-					callback(null, filename);
-				});
-			});
-			break;
-		case 'retry':
-			this._retryFilename(0, file, callback);
-			break;
-	}
-};
+cloudinaryimage.prototype.getFilename = prototypeMethods.getFilename;
 
 cloudinaryimage.prototype.fileExists = function (filename, callback) {
 	var cloudinary = require('cloudinary');
