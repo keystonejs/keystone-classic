@@ -40,7 +40,7 @@ function getEmptyValue () {
 function cloudinaryimage (list, path, options) {
 	this._underscoreMethods = ['format'];
 	this._fixedSize = 'full';
-	this._properties = ['select', 'selectPrefix', 'autoCleanup', 'publicID', 'folder', 'filenameAsPublicID', 'generateFilename', 'whenExists', 'retryAttempts'];
+	this._properties = ['select', 'selectPrefix', 'autoCleanup'];
 
 	// TODO: implement filtering, usage disabled for now
 	options.nofilter = true;
