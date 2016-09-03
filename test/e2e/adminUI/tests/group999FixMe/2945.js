@@ -1,15 +1,15 @@
 module.exports = {
 	before: function (browser) {
 		browser.adminUIApp = browser.page.adminUIApp();
-		browser.signinScreen = browser.page.signinScreen();
-		browser.listScreen = browser.page.listScreen();
-		browser.itemScreen = browser.page.itemScreen();
-		browser.initialFormScreen = browser.page.initialForm();
+		browser.adminUISignin = browser.page.adminUISignin();
+		browser.adminUIListScreen = browser.page.adminUIListScreen();
+		browser.adminUIItemScreen = browser.page.adminUIItemScreen();
+		browser.adminUIInitialFormScreen = browser.page.adminUIInitialForm();
 
 		browser.adminUIApp.gotoHomeScreen();
 		browser.adminUIApp.waitForSigninScreen();
 
-		browser.signinScreen.signin();
+		browser.adminUISignin.signin();
 		browser.adminUIApp.waitForHomeScreen();
 	},
 	after: function (browser) {
@@ -18,27 +18,27 @@ module.exports = {
 	},
 	'List screen must show ID column if it has neither default nor name columns': function(browser) {
 		// Create items
-		browser.adminUIApp.openMiscList('NoDefaultColumn');
-		browser.listScreen.createFirstItem();
+		browser.adminUIApp.openList({section: 'Miscs', list: 'NoDefaultColumn'});
+		browser.adminUIListScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
-		browser.initialFormScreen.fillFieldInputs({
+		browser.adminUIInitialFormScreen.fillFieldInputs({
 			listName: 'NoDefaultColumn',
 			fields: {
 				'fieldA': {value: 'testing'},
 			}
 		});
-		browser.initialFormScreen.save();
+		browser.adminUIInitialFormScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 
 		// If no default is set, the ID should be used.
 		browser.adminUIApp.navigate('http://localhost:3000/keystone/no-default-columns');
-		browser.listScreen.expect.element('@firstColumnHeader').text.to.equal('ID');
+		browser.adminUIListScreen.expect.element('@firstColumnHeader').text.to.equal('ID');
 	},
 	'List screen must show requested columns': function(browser) {
 		// If specific columns have been requested, they should be shown.
 		browser.adminUIApp.navigate('http://localhost:3000/keystone/no-default-columns?columns=id%2CfieldA');
-		browser.listScreen.expect.element('@firstColumnHeader').text.to.equal('ID');
-		browser.listScreen.expect.element('@secondColumnHeader').text.to.equal('Field A');
+		browser.adminUIListScreen.expect.element('@firstColumnHeader').text.to.equal('ID');
+		browser.adminUIListScreen.expect.element('@secondColumnHeader').text.to.equal('Field A');
 
 	}
 };

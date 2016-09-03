@@ -1,6 +1,8 @@
 var objectAssign = require('object-assign');
-var TextFieldTestObject = require('../fieldTestObjects/TextFieldTestObject');
-var MarkdownFieldTestObject = require('../fieldTestObjects/MarkdownFieldTestObject');
+var fieldTestObjectsPath = require('keystone-nightwatch-e2e').fieldTestObjectsPath;
+var path = require('path');
+var TextFieldTestObject = require(path.resolve(fieldTestObjectsPath, 'TextFieldTestObject'));
+var MarkdownFieldTestObject = require(path.resolve(fieldTestObjectsPath, 'MarkdownFieldTestObject'));
 
 module.exports = function MarkdownModelTestConfig (config) {
 	return {

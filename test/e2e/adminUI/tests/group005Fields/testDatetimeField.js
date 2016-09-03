@@ -6,24 +6,24 @@ module.exports = {
 	before: fieldTests.before,
 	after: fieldTests.after,
 	'Datetime field should show correctly in the initial modal': function (browser) {
-		browser.adminUIApp.openFieldList('Datetime');
-		browser.listScreen.createFirstItem();
+		browser.adminUIApp.openList({section: 'fields', list: 'Datetime'});
+		browser.adminUIListScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.initialFormScreen.assertFieldUIVisible({
+		browser.adminUIInitialFormScreen.assertFieldUIVisible({
 			modelTestConfig: DatetimeModelTestConfig,
 			fields: [{name: 'name'}, {name: 'fieldA'}]
 		});
 	},
 	'restoring test state': function(browser) {
-		browser.initialFormScreen.cancel();
+		browser.adminUIInitialFormScreen.cancel();
 		browser.adminUIApp.waitForListScreen();
 	},
 	'Datetime field can be filled via the initial modal': function(browser) {
-		browser.adminUIApp.openFieldList('Datetime');
-		browser.listScreen.createFirstItem();
+		browser.adminUIApp.openList({section: 'fields', list: 'Datetime'});
+		browser.adminUIListScreen.createFirstItem();
 		browser.adminUIApp.waitForInitialFormScreen();
-		browser.initialFormScreen.fillFieldInputs({
+		browser.adminUIInitialFormScreen.fillFieldInputs({
 			modelTestConfig: DatetimeModelTestConfig,
 			fields: {
 				'name': {value: 'Datetime Field Test 1'},
@@ -31,7 +31,7 @@ module.exports = {
 			}
 		});
 		/* TODO Pending fix of timezone issues which are causing Travis CI to fail
-		browser.initialFormScreen.assertFieldInputs({
+		browser.adminUIInitialFormScreen.assertFieldInputs({
 			modelTestConfig: DatetimeModelTestConfig,
 			fields: {
 				'name': {value: 'Datetime Field Test 1'},
@@ -39,10 +39,10 @@ module.exports = {
 			}
 		});
 		*/
-		browser.initialFormScreen.save();
+		browser.adminUIInitialFormScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 		/* TODO Pending fix of timezone issues which are causing Travis CI to fail
-		browser.itemScreen.assertFieldInputs({
+		browser.adminUIItemScreen.assertFieldInputs({
 			modelTestConfig: DatetimeModelTestConfig,
 			fields: {
 				'name': {value: 'Datetime Field Test 1'},
@@ -52,23 +52,23 @@ module.exports = {
 		*/
 	},
 	'Datetime field should show correctly in the edit form': function(browser) {
-		browser.itemScreen.assertFieldUIVisible({
+		browser.adminUIItemScreen.assertFieldUIVisible({
 			modelTestConfig: DatetimeModelTestConfig,
 			fields: [{name: 'fieldA'}, {name: 'fieldB'}]
 		});
 	},
 	'Datetime field can be filled via the edit form': function(browser) {
-		browser.itemScreen.fillFieldInputs({
+		browser.adminUIItemScreen.fillFieldInputs({
 			modelTestConfig: DatetimeModelTestConfig,
 			fields: {
 				'fieldB': {date: '2016-01-02', time: '12:00:00 am'}
 			}
 		});
-		browser.itemScreen.save();
+		browser.adminUIItemScreen.save();
 		browser.adminUIApp.waitForItemScreen();
-		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
+		browser.adminUIItemScreen.assertFlashMessage('Your changes have been saved successfully');
 		/* TODO Pending fix of timezone issues which are causing Travis CI to fail
-		browser.itemScreen.assertFieldInputs({
+		browser.adminUIItemScreen.assertFieldInputs({
 			modelTestConfig: DatetimeModelTestConfig,
 			fields: {
 				'name': {value: 'Datetime Field Test 1'},

@@ -1,9 +1,11 @@
 var objectAssign = require('object-assign');
-var NameFieldTestObject = require('../fieldTestObjects/NameFieldTestObject');
-var EmailFieldTestObject = require('../fieldTestObjects/EmailFieldTestObject');
-var PasswordFieldTestObject = require('../fieldTestObjects/PasswordFieldTestObject');
-var TextFieldTestObject = require('../fieldTestObjects/TextFieldTestObject');
-var BooleanFieldTestObject = require('../fieldTestObjects/BooleanFieldTestObject');
+var fieldTestObjectsPath = require('keystone-nightwatch-e2e').fieldTestObjectsPath;
+var path = require('path');
+var NameFieldTestObject = require(path.resolve(fieldTestObjectsPath, 'NameFieldTestObject'));
+var EmailFieldTestObject = require(path.resolve(fieldTestObjectsPath, 'EmailFieldTestObject'));
+var PasswordFieldTestObject = require(path.resolve(fieldTestObjectsPath, 'PasswordFieldTestObject'));
+var TextFieldTestObject = require(path.resolve(fieldTestObjectsPath, 'TextFieldTestObject'));
+var BooleanFieldTestObject = require(path.resolve(fieldTestObjectsPath, 'BooleanFieldTestObject'));
 
 module.exports = function UserModelTestConfig (config) {
 	return {

@@ -1,6 +1,8 @@
 var objectAssign = require('object-assign');
-var NameFieldTestObject = require('../fieldTestObjects/NameFieldTestObject');
-var TextFieldTestObject = require('../fieldTestObjects/TextFieldTestObject');
+var fieldTestObjectsPath = require('keystone-nightwatch-e2e').fieldTestObjectsPath;
+var path = require('path');
+var NameFieldTestObject = require(path.resolve(fieldTestObjectsPath, 'NameFieldTestObject'));
+var TextFieldTestObject = require(path.resolve(fieldTestObjectsPath, 'TextFieldTestObject'));
 
 module.exports = function NameModelTestConfig (config) {
 	return {
