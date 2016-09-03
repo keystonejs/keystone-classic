@@ -13,8 +13,10 @@ var CLOUDINARY_FIELDS = ['public_id', 'version', 'signature', 'format', 'resourc
 */
 
 var DEFAULT_OPTIONS = {
-	generateFilename: nameFunctions.randomFilename,
-	whenExists: 'retry',
+	// This makes Cloudinary assign a unique public_id and is the same as
+	//   the legacy implementation
+	generateFilename: () => undefined,
+	whenExists: 'overwrite',
 	retryAttempts: 3, // For whenExists: 'retry'.
 };
 
@@ -418,8 +420,12 @@ cloudinaryimage.prototype.updateItem = function (item, data, files, callback) {
 		}
 		this._getFilename(uploadedFile, function (err, filename) {
 			if (err) return callback(err);
-			filename = sanitize(filename);
-			uploadOptions.public_id = trimSupportedFileExtensions(filename);
+			// If an undefined filename is returned, Cloudinary will automatically generate a unique
+			//   filename. Therefore undefined is a valid filename value.
+			if (filename !== undefined) {
+				filename = sanitize(filename);
+				uploadOptions.public_id = trimSupportedFileExtensions(filename);
+			}
 			// TODO: implement autoCleanup; should delete existing images before uploading
 			cloudinary.uploader.upload(uploadedFile.path, function (result) {
 				if (result.error) {
