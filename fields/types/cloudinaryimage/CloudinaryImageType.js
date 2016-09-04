@@ -1,13 +1,25 @@
 var _ = require('lodash');
 var assign = require('object-assign');
+var ensureCallback = require('keystone-storage-namefunctions/ensureCallback');
 var FieldType = require('../Type');
 var keystone = require('../../../');
+var nameFunctions = require('keystone-storage-namefunctions');
+var prototypeMethods = require('keystone-storage-namefunctions/prototypeMethods');
+var sanitize = require('sanitize-filename');
 var util = require('util');
 var utils = require('keystone-utils');
 
 /*
 var CLOUDINARY_FIELDS = ['public_id', 'version', 'signature', 'format', 'resource_type', 'url', 'width', 'height', 'secure_url'];
 */
+
+var DEFAULT_OPTIONS = {
+	// This makes Cloudinary assign a unique public_id and is the same as
+	//   the legacy implementation
+	generateFilename: () => undefined,
+	whenExists: 'overwrite',
+	retryAttempts: 3, // For whenExists: 'retry'.
+};
 
 function getEmptyValue () {
 	return {
@@ -31,10 +43,17 @@ function getEmptyValue () {
 function cloudinaryimage (list, path, options) {
 	this._underscoreMethods = ['format'];
 	this._fixedSize = 'full';
-	this._properties = ['select', 'selectPrefix', 'autoCleanup', 'publicID', 'folder', 'filenameAsPublicID'];
+	this._properties = ['select', 'selectPrefix', 'autoCleanup'];
 
 	// TODO: implement filtering, usage disabled for now
 	options.nofilter = true;
+	if (options.filenameAsPublicID) {
+		// Produces the same result as the legacy filenameAsPublicID option
+		options.generateFilename = nameFunctions.originalFilename;
+		options.whenExists = 'overwrite';
+	}
+	options = assign({}, DEFAULT_OPTIONS, options);
+	options.generateFilename = ensureCallback(options.generateFilename);
 
 	cloudinaryimage.super_.call(this, list, path, options);
 	// validate cloudinary config
@@ -312,6 +331,26 @@ cloudinaryimage.prototype.inputIsValid = function () {
 };
 
 /**
+ * Trim supported file extensions from the public id because cloudinary uses these at
+ * the end of the a url to dynamically convert the image filetype
+ */
+function trimSupportedFileExtensions (publicId) {
+	var supportedExtensions = [
+		'.jpg', '.jpe', '.jpeg', '.jpc', '.jp2', '.j2k', '.wdp', '.jxr',
+		'.hdp', '.png', '.gif', '.webp', '.bmp', '.tif', '.tiff', '.ico',
+		'.pdf', '.ps', '.ept', '.eps', '.eps3', '.psd', '.svg', '.ai',
+		'.djvu', '.flif', '.tga',
+	];
+	for (var i = 0; i < supportedExtensions.length; i++) {
+		var extension = supportedExtensions[i];
+		if (_.endsWith(publicId, extension)) {
+			return publicId.slice(0, -extension.length);
+		}
+	}
+	return publicId;
+}
+
+/**
  * Updates the value for this field in the item from a data object
  * TODO: It is not possible to remove an existing value and upload a new image
  * in the same action, this should be supported
@@ -380,19 +419,24 @@ cloudinaryimage.prototype.updateItem = function (item, data, files, callback) {
 		if (folder) {
 			uploadOptions.folder = folder;
 		}
-		// NOTE: field.options.publicID has been deprecated (tbc)
-		if (field.options.filenameAsPublicID && uploadedFile.originalname && typeof uploadedFile.originalname === 'string') {
-			uploadOptions.public_id = uploadedFile.originalname.substring(0, uploadedFile.originalname.lastIndexOf('.'));
-		}
-		// TODO: implement autoCleanup; should delete existing images before uploading
-		cloudinary.uploader.upload(uploadedFile.path, function (result) {
-			if (result.error) {
-				return callback(result.error);
-			} else {
-				item.set(field.path, result);
-				return callback();
+		this.getFilename(uploadedFile, function (err, filename) {
+			if (err) return callback(err);
+			// If an undefined filename is returned, Cloudinary will automatically generate a unique
+			//   filename. Therefore undefined is a valid filename value.
+			if (filename !== undefined) {
+				filename = sanitize(filename);
+				uploadOptions.public_id = trimSupportedFileExtensions(filename);
 			}
-		}, uploadOptions);
+			// TODO: implement autoCleanup; should delete existing images before uploading
+			cloudinary.uploader.upload(uploadedFile.path, function (result) {
+				if (result.error) {
+					return callback(result.error);
+				} else {
+					item.set(field.path, result);
+					return callback();
+				}
+			}, uploadOptions);
+		});
 
 		return;
 	}
@@ -407,6 +451,33 @@ cloudinaryimage.prototype.updateItem = function (item, data, files, callback) {
 		item.set(this.path, value);
 	}
 	utils.defer(callback);
+};
+
+/**
+	Generates a filename with the provided method in a retry loop, used by
+	getFilename below
+*/
+cloudinaryimage.prototype.retryFilename = prototypeMethods.retryFilename;
+
+/**
+	Gets a filename for uploaded files based on the adapter options
+*/
+cloudinaryimage.prototype.getFilename = prototypeMethods.getFilename;
+
+cloudinaryimage.prototype.fileExists = function (filename, callback) {
+	var cloudinary = require('cloudinary');
+	cloudinary.api.resource(filename, function (result) {
+		if (result.error && result.error.http_code === 404) {
+			// File doesn't exist
+			callback(null, false);
+		} else if (result.error) {
+			// Error
+			callback(result.error, null);
+		} else {
+			// File exists
+			callback(null, true);
+		}
+	});
 };
 
 /**
