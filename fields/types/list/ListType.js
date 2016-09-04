@@ -206,7 +206,11 @@ list.prototype.updateItem = function (item, data, files, callback) {
 		var prevItem = listArray.id(value.id);
 		var newItem = listArray.create(prevItem);
 		async.forEach(field.fieldsArray, function (nestedField, done) {
-			nestedField.updateItem(newItem, value, files, done);
+			if (nestedField.updateItem.length === 4) {
+				nestedField.updateItem(newItem, value, files, done);
+			} else {
+				nestedField.updateItem(newItem, value, done);
+			}
 		}, function (err) {
 			next(err, newItem);
 		});
