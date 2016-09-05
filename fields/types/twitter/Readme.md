@@ -6,14 +6,18 @@ Stores a `String` in the model.
 
 ### `format`
 
-By default, strips any protocol from the value using the regular expression `^[a-zA-Z]+\:\/\/` and returns a string.
+Defaults to `stripUsername`. By default, strips twitter username from the value and returns it as string.
 
 You can override the default formatter by providing a method as the `format` option on the field, or disable it by setting the format option to `false`.
+
+### `validateInput`
+
+Ensures the value, if provided, is a valid twitter username using 'stripUsername' and regular expression '^@?(\w){1,15}$'.
+Both 'username' and '@username', as well as twitter profile url with or without protocol are allowed.
 
 ### Inherits from [`Text`](../text)
 
 * `addFilterToQuery`
-* `validateInput`
 * `validateRequiredInput`
 
 ## Filtering
