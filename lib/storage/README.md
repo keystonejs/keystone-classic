@@ -10,7 +10,7 @@ This is the usage with the most basic adapter, the filesystem (FS) adapter. (thi
 
 First, configure a new storage instance to use the FS adapter:
 
-```JS
+```js
 var myStorage = new keystone.Storage({
   adapter: keystone.Storage.Adapters.FS,
   fs: {
@@ -22,7 +22,7 @@ var myStorage = new keystone.Storage({
 
 Then create a new Field with a type of `File` and pass in the storage adapter you just created:
 
-```JS
+```js
 MyList.add({
 	file: { type: Types.File, storage: myStorage },
 });
@@ -60,7 +60,7 @@ Adapters also provide schema paths that are specific to the service the adapter 
 
 **Note that not all schema paths are enabled by default!** You can specify which paths should be included by setting keys in the `schema` options:
 
-```JS
+```js
 var myStorage = new keystone.Storage({
   adapter: yourAdapter,
   schema: {
@@ -68,4 +68,16 @@ var myStorage = new keystone.Storage({
     url: true,
   },
 });
+```
+
+The defaults for which scheme paths are enabled are:
+
+```js
+{
+  size: true,
+  mimetype: true,
+  path: false,
+  originalname: false,
+  url: false,
+};
 ```
