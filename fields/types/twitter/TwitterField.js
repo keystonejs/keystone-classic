@@ -7,14 +7,6 @@ module.exports = Field.create({
 	statics: {
 		type: 'Twitter',
 	},
-	formatValue () {
-		var value = this.props.value;
-		// if href is a valid twitter username, format it
-		if (/^@?(\w){1,15}$/.test(value)) {
-			return '@' + value;
-		}
-		return value;
-	},
 	openValue () {
 		var href = this.props.value;
 		if (!href) return;
@@ -28,7 +20,7 @@ module.exports = Field.create({
 		var value = this.props.value;
 		if (!value) return null;
 		return (
-			<Button type="link" onClick={this.openValue} className="keystone-relational-button" title={'Open ' + this.formatValue + ' in a new tab'}>
+			<Button type="link" onClick={this.openValue} className="keystone-relational-button" title={'Open ' + this.props.value + ' in a new tab'}>
 				<span className="octicon octicon-link" />
 			</Button>
 		);

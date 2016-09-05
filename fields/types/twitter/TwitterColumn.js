@@ -12,7 +12,7 @@ var TwitterColumn = React.createClass({
 		var value = this.props.data.fields[this.props.col.path];
 		if (!value) return;
 
-		// If value is valid twitter username, format href and label
+		// Format href and label
 		value = stripUsername(value);
 		var href = 'https://twitter.com/' + value;
 		var label = '@' + value;
