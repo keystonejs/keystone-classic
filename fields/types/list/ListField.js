@@ -9,7 +9,7 @@ import { Fields } from 'FieldTypes';
 import { Button, GlyphButton } from '../../../admin/client/App/elemental';
 import InvalidFieldType from '../../../admin/client/App/shared/InvalidFieldType';
 
-let i = 1337;
+let i = 0;
 function generateId () {
 	return i++;
 };
