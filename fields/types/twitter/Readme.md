@@ -12,8 +12,8 @@ You can override the default formatter by providing a method as the `format` opt
 
 ### `validateInput`
 
-Ensures the value, if provided, is a valid twitter username using 'stripUsername' and regular expression '^@?(\w){1,15}$'.
-Both 'username' and '@username', as well as twitter profile url with or without protocol are allowed.
+Ensures the value, if provided, is a valid twitter username using `stripUsername` and regular expression `^@?(\w){1,15}$`.
+Both `username` and `@username`, as well as twitter profile url with or without protocol are allowed.
 
 ### Inherits from [`Text`](../text)
 
