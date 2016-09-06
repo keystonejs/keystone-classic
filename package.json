@@ -48,7 +48,6 @@
     "fs-extra": "0.30.0",
     "grappling-hook": "3.0.0",
     "i": "0.3.5",
-    "jade": "1.11.0",
     "kerberos": "0.0.21",
     "keystone-storage-namefunctions": "1.1.1",
     "keystone-utils": "0.4.0",
