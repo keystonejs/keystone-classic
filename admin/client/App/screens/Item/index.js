@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import { Container, Spinner } from 'elemental';
+import { Center, Container, Spinner } from '../../elemental';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
@@ -130,9 +130,9 @@ var ItemView = React.createClass({
 		// If we don't have any data yet, show the loading indicator
 		if (!this.props.ready) {
 			return (
-				<div className="centered-loading-indicator" data-screen-id="item">
-					<Spinner size="md" />
-				</div>
+				<Center height="50vh" data-screen-id="item">
+					<Spinner />
+				</Center>
 			);
 		}
 

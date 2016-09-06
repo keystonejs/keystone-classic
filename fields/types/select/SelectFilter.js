@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import vkey from 'vkey';
 import { Button, FormField, FormNote, SegmentedControl } from 'elemental';
 import PopoutList from '../../../admin/client/App/shared/Popout/PopoutList';
+import Kbd from '../../../admin/client/App/shared/Kbd';
 import bindFunctions from '../../utils/bindFunctions';
 
 const INVERTED_OPTIONS = [
@@ -177,7 +178,7 @@ class SelectFilter extends Component {
 					<Button size="xs" onClick={this.toggleAllOptions} style={{ padding: 0, width: 50 }}>
 						{indeterminate ? 'All' : 'None'}
 					</Button>
-					<FormNote>Hold <kbd>{metaKeyLabel}</kbd> to select multiple options</FormNote>
+					<FormNote>Hold <Kbd>{metaKeyLabel}</Kbd> to select multiple options</FormNote>
 				</div>
 				{this.renderOptions()}
 			</div>

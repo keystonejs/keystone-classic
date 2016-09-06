@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { css, StyleSheet } from 'aphrodite/no-important';
 import styles from './styles';
 import concatClassnames from '../../../utils/concatClassnames';
+import InputNoedit from './noedit';
 
 const classes = StyleSheet.create(styles);
 
@@ -20,17 +21,22 @@ class FormInput extends Component {
 		this.target.focus();
 	}
 	render () {
+		// NOTE return a different component for `noedit`
+		if (this.props.noedit) return <InputNoedit {...this.props} />;
+
 		// NOTE `focusInput` is declared to remove it from `props`, though never used
 		const {
 			className,
-			id,
+			disabled,
 			focusInput, // eslint-disable-line no-unused-vars
+			id,
 			...props,
 		} = this.props;
 		const { formFieldId, formLayout } = this.context;
 		props.id = id || formFieldId;
 		props.className = css(
 			classes.FormInput,
+			disabled ? classes['FormInput--disabled'] : null,
 			formLayout ? classes['FormInput--form-layout-' + formLayout] : null,
 			...concatClassnames(className)
 		);
@@ -38,7 +44,7 @@ class FormInput extends Component {
 		const setRef = (n) => (this.target = n);
 
 		return (
-			<input ref={setRef} {...props} />
+			<input ref={setRef} disabled={props.disabled} {...props} />
 		);
 	}
 };

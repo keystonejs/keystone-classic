@@ -1,6 +1,4 @@
 import { StyleSheet, css } from 'aphrodite/no-important';
-import blacklist from 'blacklist';
-import classnames from 'classnames';
 import React, { Component, PropTypes } from 'react';
 
 import styles from './styles';
@@ -20,28 +18,29 @@ class FormField extends Component {
 	}
 	render () {
 		const { formLayout } = this.context;
-		const { children, className, label, offsetAbsentLabel } = this.props;
+		const { children, className, cropLabel, htmlFor, label, offsetAbsentLabel, ...props } = this.props;
+		const classnameIsAphrodite = typeof className !== 'string';
 
-		// classes
-		const componentClass = classnames(
-			css(classes.FormField), {
-				[css(classes['FormField--offset-absent-label'])]: offsetAbsentLabel,
-				[css(classes['FormField--form-layout-' + formLayout])]: formLayout,
-			}, className);
+		props.className = css(
+			classes.FormField,
+			classes['FormField--form-layout-' + formLayout],
+			offsetAbsentLabel ? classes['FormField--offset-absent-label'] : null,
+			classnameIsAphrodite ? className : null
+		);
 
-		// props
-		const consumedProps = blacklist(this.props, 'className', 'component', 'label', 'offsetAbsentLabel', 'variant');
-		consumedProps.className = componentClass;
+		if (!classnameIsAphrodite) {
+			props.className += ' ' + className;
+		}
 
 		// elements
 		const componentLabel = label ? (
-			<FormLabel>
+			<FormLabel htmlFor={htmlFor} cropText={cropLabel}>
 				{label}
 			</FormLabel>
 		) : null;
 
 		return (
-			<div {...consumedProps}>
+			<div {...props}>
 				{componentLabel}
 				{children}
 			</div>
@@ -50,7 +49,7 @@ class FormField extends Component {
 };
 
 FormField.contextTypes = {
-	formLayout: PropTypes.oneOf(['basic', 'horizontal', 'inline']),
+	formLayout: PropTypes.oneOf(['basic', 'horizontal', 'inline']).isRequired,
 };
 FormField.childContextTypes = {
 	formFieldId: PropTypes.string,
@@ -58,15 +57,10 @@ FormField.childContextTypes = {
 FormField.propTypes = {
 	children: PropTypes.node,
 	className: React.PropTypes.string,
+	cropLabel: PropTypes.bool,
 	htmlFor: React.PropTypes.string,
 	label: React.PropTypes.string,
 	offsetAbsentLabel: React.PropTypes.bool,
-	variant: PropTypes.oneOf(['basic', 'horizontal', 'inline']),
-};
-FormField.defaultProps = {
-	component: 'form',
-	htmlFor: generateId(),
-	variant: 'basic',
 };
 
 function generateId () {

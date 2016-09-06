@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import { Columns } from 'FieldTypes';
-import { Alert, Spinner } from 'elemental';
+import { Alert, Center, Spinner } from '../../../elemental';
 
 const RelatedItemsList = React.createClass({
 	propTypes: {
@@ -29,7 +29,7 @@ const RelatedItemsList = React.createClass({
 		const { refList, relatedItemId, relationship } = this.props;
 		if (!refList.fields[relationship.refPath]) {
 			const err = (
-				<Alert type="danger">
+				<Alert color="danger">
 					<strong>Error:</strong> Related List <strong>{refList.label}</strong> has no field <strong>{relationship.refPath}</strong>
 				</Alert>
 			);
@@ -83,11 +83,18 @@ const RelatedItemsList = React.createClass({
 		if (this.state.err) {
 			return <div className="Relationship">{this.state.err}</div>;
 		}
+
 		const listHref = `${Keystone.adminPath}/${this.props.refList.path}`;
+		const loadingElement = (
+			<Center height={100}>
+				<Spinner />
+			</Center>
+		);
+
 		return (
 			<div className="Relationship">
 				<h3 className="Relationship__link"><Link to={listHref}>{this.props.refList.label}</Link></h3>
-				{this.state.items ? this.renderItems() : <Spinner size="sm" />}
+				{this.state.items ? this.renderItems() : loadingElement}
 			</div>
 		);
 	},

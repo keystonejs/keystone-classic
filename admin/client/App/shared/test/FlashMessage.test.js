@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import demand from 'must';
 import FlashMessage from '../FlashMessage';
-import { Alert } from 'elemental';
+import { Alert } from '../../elemental';
 
 describe('<FlashMessage />', () => {
 	it('should render an Alert', () => {

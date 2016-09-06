@@ -2,13 +2,14 @@ import React from 'react';
 import moment from 'moment';
 import assign from 'object-assign';
 import {
-	Col,
 	Form,
 	FormField,
 	FormInput,
+	GridCol,
+	GridRow,
 	ResponsiveText,
-	Row,
-} from 'elemental';
+} from '../../../elemental';
+
 // import { css, StyleSheet } from 'aphrodite/no-important';
 import { Fields } from 'FieldTypes';
 import { fade } from '../../../../utils/color';
@@ -382,17 +383,17 @@ var EditForm = React.createClass({
 		return (
 			<form ref="editForm" className="EditForm-container">
 				{(this.state.alerts) ? <AlertMessages alerts={this.state.alerts} /> : null}
-				<Row>
-					<Col lg="3/4">
-						<Form type="horizontal" className="EditForm" component="div">
+				<GridRow>
+					<GridCol large="three-quarters">
+						<Form layout="horizontal" className="EditForm" component="div">
 							{this.renderNameField()}
 							{this.renderKeyOrId()}
 							{this.renderFormElements()}
 							{this.renderTrackingMeta()}
 						</Form>
-					</Col>
-					<Col lg="1/4"><span /></Col>
-				</Row>
+					</GridCol>
+					<GridCol large="one-quarter"><span /></GridCol>
+				</GridRow>
 				{this.renderFooterBar()}
 				{this.state.confirmationDialog}
 			</form>

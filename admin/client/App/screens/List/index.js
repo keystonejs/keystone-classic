@@ -8,13 +8,11 @@ import React from 'react';
 import numeral from 'numeral';
 import {
 	BlankState,
-	Container,
 	Pagination,
-	Spinner,
 } from 'elemental';
 import { connect } from 'react-redux';
 
-import { GlyphButton } from '../../elemental';
+import { Center, Container, GlyphButton, Spinner } from '../../elemental';
 
 import ListFilters from './components/Filtering/ListFilters';
 import ListHeaderTitle from './components/ListHeaderTitle';
@@ -462,9 +460,9 @@ const ListView = React.createClass({
 						/>
 					) : null}
 					{(this.props.loading) ? (
-						<div className="centered-loading-indicator">
-							<Spinner size="md" />
-						</div>
+						<Center height="50vh">
+							<Spinner />
+						</Center>
 					) : (
 						<div>
 							<ItemsTable
@@ -507,9 +505,9 @@ const ListView = React.createClass({
 	render () {
 		if (!this.props.ready) {
 			return (
-				<div className="centered-loading-indicator" data-screen-id="list">
-					<Spinner size="md" />
-				</div>
+				<Center height="50vh" data-screen-id="list">
+					<Spinner />
+				</Center>
 			);
 		}
 		return (

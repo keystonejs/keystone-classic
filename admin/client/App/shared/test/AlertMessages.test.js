@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import demand from 'must';
 import AlertMessages from '../AlertMessages';
-import { Alert } from 'elemental';
+import { Alert } from '../../elemental';
 
 describe('<AlertMessages />', () => {
 	it('should render null if no message is passed', () => {

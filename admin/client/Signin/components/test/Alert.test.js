@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import demand from 'must';
-import { Alert } from 'elemental';
+import { Alert } from '../../../App/elemental';
 import AlertView from '../Alert';
 
 describe('<Alert />', () => {

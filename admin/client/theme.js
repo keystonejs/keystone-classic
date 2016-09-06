@@ -190,8 +190,10 @@ theme.input = {
 	height: theme.component.height,
 	border: {
 		color: '#ccc',
-		colorHover: '#bbb',
 		colorFocus: theme.color.info,
+		colorHover: '#bbb',
+		radius: theme.borderRadius.default,
+		width: 1,
 	},
 	boxShadow: 'inset 0 1px 1px rgba(0, 0, 0, 0.075)',
 	boxShadowFocus: `inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 3px ${fade(theme.color.info, 10)}`,

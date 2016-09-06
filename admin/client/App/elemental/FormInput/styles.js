@@ -9,8 +9,10 @@ module.exports = {
 		'appearance': 'none',
 		'backgroundColor': theme.input.bgColor,
 		'backgroundImage': 'none',
-		'border': `1px solid ${theme.input.border.color}`,
-		'borderRadius': '0.25em', // FIXME
+		'borderColor': theme.input.border.color,
+		'borderRadius': theme.input.border.radius,
+		'borderStyle': 'solid',
+		'borderWidth': theme.input.border.width,
 		'boxShadow': theme.input.boxShadow,
 		'color': 'inherit', // FIXME
 		'display': 'block',
