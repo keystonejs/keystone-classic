@@ -2,6 +2,8 @@ import React from 'react';
 import ItemsTableCell from '../../components/ItemsTableCell';
 import ItemsTableValue from '../../components/ItemsTableValue';
 
+var stripUsername = require('./utils/stripUsername');
+
 var TwitterColumn = React.createClass({
 	displayName: 'TwitterColumn',
 	propTypes: {
@@ -31,17 +33,5 @@ var TwitterColumn = React.createClass({
 		);
 	},
 });
-
-function stripUsername (twitter) {
-	if (twitter.charAt(twitter.length - 1) === '/') {
-		twitter = twitter.slice(0, -1);
-	}
-	var replacePosition = twitter.lastIndexOf('/');
-	twitter = twitter.substring(replacePosition + 1);
-	if (twitter.indexOf('@') + 2) {
-		return twitter.replace('@', '');
-	}
-	return twitter;
-}
 
 module.exports = TwitterColumn;

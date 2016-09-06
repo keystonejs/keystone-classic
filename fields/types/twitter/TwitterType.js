@@ -2,7 +2,7 @@ var FieldType = require('../Type');
 var TextType = require('../text/TextType');
 var util = require('util');
 var utils = require('keystone-utils');
-
+var stripUsername = require('./utils/stripUsername');
 
 /**
  * Twitter FieldType Constructor
@@ -24,7 +24,7 @@ twitter.prototype.validateInput = function (data, callback) {
 	if (value === undefined || value === null || value === '') {
 		result = true;
 	} else if (typeof value === 'string') {
-		if (value.indexOf('twitter.com/') + 1 || value.indexOf('twitter.com/@') + 1) {
+		if (value.indexOf('twitter.com/') !== -1 || value.indexOf('twitter.com/@') !== -1) {
 			value = stripUsername(value);
 		}
 		result = /^@?(\w){1,15}$/.test(value);
@@ -52,21 +52,6 @@ twitter.prototype.format = function (item) {
 		return stripUsername(twitter);
 	}
 };
-
-/**
- * Strip twitter username from url, remove @
- */
-function stripUsername (twitter) {
-	if (twitter.charAt(twitter.length - 1) === '/') {
-		twitter = twitter.slice(0, -1);
-	}
-	var replacePosition = twitter.lastIndexOf('/');
-	twitter = twitter.substring(replacePosition + 1);
-	if (twitter.indexOf('@') + 2) {
-		return twitter.replace('@', '');
-	}
-	return twitter;
-}
 
 /* Export Field Type */
 module.exports = twitter;
