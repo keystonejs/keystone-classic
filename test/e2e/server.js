@@ -17,92 +17,16 @@ process.env['PAGE_OBJECTS_PATH'] = keystoneNightwatchE2e.pageObjectsPath;
 var dbName = '/e2e' + (process.env.KEYSTONEJS_PORT || 3000);
 var mongoUri = 'mongodb://' + (process.env.KEYSTONEJS_HOST || 'localhost') + dbName;
 
-// initialize keystone
-keystone.init({
-	'name': 'e2e',
-	'brand': 'e2e',
-
-	'host': process.env.KEYSTONEJS_HOST || 'localhost',
-	'port': process.env.KEYSTONEJS_PORT || 3000,
-
-	'mongo': mongoUri,
-
-	'less': 'public',
-	'static': 'public',
-	'favicon': 'adminuiCustom/favicon.ico',
-	'views': 'templates/views',
-	'view engine': '.jsx',
-	'custom engine': engine,
-	'view': view,
-
-	'auto update': true,
-	'session': true,
-	'auth': true,
-	'user model': 'User',
-	'cookie secret': 'Secret',
-	'adminui custom styles': 'adminuiCustom/styles.less',
-
-	'cloudinary config': 'cloudinary://api_key:api_secret@cloud_name',
-});
-
-// import app models
-keystone.import('models');
-
-// setup any custom routes
-keystone.set('routes', require('./routes'));
-
-// setup application adminui navigation
-keystone.set('nav', {
-	'access': [
-		'users',
-	],
-	'fields': [
-		'booleans',
-		'cloudinary-images',
-		'cloudinary-image-multiples',
-		'codes',
-		'colors',
-		'dates',
-		'date-arrays',
-		'datetimes',
-		'emails',
-		'files',
-		'geo-points',
-		'htmls',
-		'keys',
-		'locations',
-		'markdowns',
-		'money',
-		'names',
-		'numbers',
-		'number-arrays',
-		'passwords',
-		'relationships',
-		'selects',
-		'texts',
-		'text-arrays',
-		'textareas',
-		'urls',
-	],
-	'Miscs': [
-		'date-field-maps',
-		'depends-ons',
-		'no-default-columns',
-		'inline-relationships',
-		'many-relationships',
-		'hidden-relationships',
-		'source-relationships',
-		'target-relationships',
-	]
-});
-
 // Function that drops the test database before starting testing
 function dropTestDatabase(done) {
-	console.log([moment().format('HH:mm:ss:SSS')] + ' e2e: dropping test database');
+	console.log([moment().format('HH:mm:ss:SSS')] + ' e2e: dropping test database: ' + mongoUri);
 
 	mongoose.connect(mongoUri,function(err){
 		if (!err) {
 			mongoose.connection.db.dropDatabase(function (err) {
+				if (!err) {
+					console.log([moment().format('HH:mm:ss:SSS')] + ' e2e: dropped test database: ' + mongoUri);
+				}
 				mongoose.connection.close(function(err) {
 					done(err);
 				})
@@ -145,6 +69,85 @@ function runE2E (options, done) {
 // Function that starts keystone
 function runKeystone(cb) {
 	console.log([moment().format('HH:mm:ss:SSS')] + ' e2e: starting KeystoneJS...');
+
+// initialize keystone
+	keystone.init({
+		'name': 'e2e',
+		'brand': 'e2e',
+
+		'host': process.env.KEYSTONEJS_HOST || 'localhost',
+		'port': process.env.KEYSTONEJS_PORT || 3000,
+
+		'mongo': mongoUri,
+
+		'less': 'public',
+		'static': 'public',
+		'favicon': 'adminuiCustom/favicon.ico',
+		'views': 'templates/views',
+		'view engine': '.jsx',
+		'custom engine': engine,
+		'view': view,
+
+		'auto update': true,
+		'session': true,
+		'auth': true,
+		'user model': 'User',
+		'cookie secret': 'Secret',
+		'adminui custom styles': 'adminuiCustom/styles.less',
+
+		'cloudinary config': 'cloudinary://api_key:api_secret@cloud_name',
+	});
+
+// import app models
+	keystone.import('models');
+
+// setup any custom routes
+	keystone.set('routes', require('./routes'));
+
+// setup application adminui navigation
+	keystone.set('nav', {
+		'access': [
+			'users',
+		],
+		'fields': [
+			'booleans',
+			'cloudinary-images',
+			'cloudinary-image-multiples',
+			'codes',
+			'colors',
+			'dates',
+			'date-arrays',
+			'datetimes',
+			'emails',
+			'files',
+			'geo-points',
+			'htmls',
+			'keys',
+			'locations',
+			'markdowns',
+			'money',
+			'names',
+			'numbers',
+			'number-arrays',
+			'passwords',
+			'relationships',
+			'selects',
+			'texts',
+			'text-arrays',
+			'textareas',
+			'urls',
+		],
+		'Miscs': [
+			'date-field-maps',
+			'depends-ons',
+			'no-default-columns',
+			'inline-relationships',
+			'many-relationships',
+			'hidden-relationships',
+			'source-relationships',
+			'target-relationships',
+		]
+	});
 
 	keystone.start({
 		onMount: function () {
