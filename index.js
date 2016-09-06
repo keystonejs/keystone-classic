@@ -111,6 +111,7 @@ Keystone.prototype.prefixModel = function (key) {
 
 /* Attach core functionality to Keystone.prototype */
 Keystone.prototype.createItems = require('./lib/core/createItems');
+Keystone.prototype.createRouter = require('./lib/core/createRouter');
 Keystone.prototype.getOrphanedLists = require('./lib/core/getOrphanedLists');
 Keystone.prototype.importer = require('./lib/core/importer');
 Keystone.prototype.init = require('./lib/core/init');
