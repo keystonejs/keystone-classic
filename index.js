@@ -20,8 +20,6 @@ var moduleRoot = (function (_rootPath) {
 
 /**
  * Keystone Class
- *
- * @api public
  */
 var Keystone = function () {
 	grappling.mixin(this).allowHooks('pre:static', 'pre:bodyparser', 'pre:session', 'pre:logger', 'pre:admin', 'pre:routes', 'pre:render', 'updates', 'signin', 'signout');
@@ -135,8 +133,6 @@ Keystone.prototype.routes = function () {
 
 /**
  * The exports object is an instance of Keystone.
- *
- * @api public
  */
 var keystone = module.exports = new Keystone();
 
@@ -171,11 +167,7 @@ keystone.utils = utils;
  * to the module root (where the keystone project is being consumed from).
  *
  * ####Example:
- *
  *     var models = keystone.import('models');
- *
- * @param {String} dirname
- * @api public
  */
 
 Keystone.prototype.import = function (dirname) {
@@ -230,8 +222,6 @@ Keystone.prototype.applyUpdates = function (callback) {
 
 /**
  * Logs a configuration error to the console
- *
- * @api public
  */
 
 Keystone.prototype.console = {};
@@ -244,8 +234,6 @@ Keystone.prototype.console.err = function (type, msg) {
 
 /**
  * Keystone version
- *
- * @api public
  */
 
 keystone.version = require('./package.json').version;
