@@ -154,6 +154,7 @@
     "postinstall": "sh postinstall-build.sh",
     "clean-build": "rm admin/public/js/*.js admin/public/js/*.map 2>&1 | grep -v 'No such' && echo Cleaned. || true",
     "build": "npm run clean-build && env NODE_ENV=production webpack --bail",
+    "git-build": "sh build-git.sh",
     "build-dev": "webpack --bail",
     "build-dev-watch": "webpack --watch",
     "pretest": "npm run lint && node test/pretest.js",
