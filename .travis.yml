@@ -2,8 +2,6 @@ language: node_js
 node_js:
 - '6'
 env:
-  global:
-    - KEYSTONE_PREBUILD_ADMIN=true
   matrix:
     - JOB=lint-and-test-cov
 matrix:

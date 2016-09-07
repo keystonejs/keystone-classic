@@ -14,7 +14,7 @@ Both of these have a separate EJS template that is rendered in the backend, [`ad
 
 ## Folder structure
 
-We use a variant of the hirarchic folder structure detailled by @ryanflorence in [this gist](https://gist.github.com/ryanflorence/daafb1e3cb8ad740b346). Each part of our application can have a `components` folder with some reusable components that _only that part uses_ and a `shared` folder that _this part and some components further down the hirarchy use_.
+We use a variant of the hierarchic folder structure detailled by @ryanflorence in [this gist](https://gist.github.com/ryanflorence/daafb1e3cb8ad740b346). Each part of our application can have a `components` folder with some reusable components that _only that part uses_ and a `shared` folder that _this part and some components further down the hirarchy use_.
 
 ```
 client
@@ -30,8 +30,7 @@ client
 │   └── components/
 ├── utils/                           # Some common utilities we use in both Signin and App
 ├── README.md
-├── constants.js                     # A few shared constants
-└── packages.js                      # A list of our vendor dependencies for browserify to bundle separately
+└── constants.js                     # A few shared constants
 ```
 
 This means an import like `import SomeSharedComponent from '../../../shared/SomeSharedComponent'` is perfectly fine, but if you find yourself import from a `component` folder like so `import SomeComponent from '../../../component/SomeComponent'` move that component to the `shared/` folder on the same level.

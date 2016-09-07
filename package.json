@@ -13,20 +13,15 @@
     "asyncdi": "1.1.0",
     "babel-core": "6.18.2",
     "babel-plugin-transform-object-assign": "6.8.0",
-    "babel-polyfill": "6.16.0",
+    "babel-polyfill": "^6.16.0",
     "babel-preset-es2015": "6.18.0",
     "babel-preset-react": "6.16.0",
     "babel-preset-stage-2": "6.18.0",
-    "babelify": "7.3.0",
     "babyparse": "0.4.6",
     "bcrypt-nodejs": "~0.0.3",
     "blacklist": "1.1.4",
     "body-parser": "1.15.2",
-    "brfs": "1.4.3",
-    "browserify": "13.1.1",
-    "browserify-shim": "3.8.12",
     "caller-id": "0.1.0",
-    "chalk": "1.1.3",
     "classnames": "2.2.5",
     "cloudinary": "1.4.6",
     "cloudinary-microurl": "1.0.2",
@@ -91,7 +86,6 @@
     "serve-favicon": "2.3.2",
     "string-to-stream": "1.1.0",
     "vkey": "1.0.0",
-    "watchify": "3.7.0",
     "xhr": "2.3.1"
   },
   "devDependencies": {
@@ -126,17 +120,6 @@
     "updtr": "0.2.1",
     "watch": "0.19.2",
     "webpack": "^1.13.2"
-  },
-  "browserify": {
-    "transform": [
-      "browserify-shim"
-    ]
-  },
-  "browserify-shim": {
-    "tinymce": "global:tinymce",
-    "jquery": "global:$",
-    "codemirror": "global:CodeMirror",
-    "underscore": "global:_"
   },
   "author": "Jed Watson",
   "homepage": "http://keystonejs.com/",
