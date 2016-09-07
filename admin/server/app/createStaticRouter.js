@@ -44,7 +44,7 @@ module.exports = function createStaticRouter (options) {
 
 	/* Configure router */
 	router.use('/styles', less(path.join(publicDir, 'styles'), lessOptions));
-	router.use('/styles/fonts', express.static(path.join(publicDir, 'js', 'lib', 'tinymce', 'skins', 'keystone', 'fonts')));
+	router.use('/styles/fonts', express.static(path.join(publicDir, 'lib', 'tinymce', 'skins', 'keystone', 'fonts')));
 
 	if (build) {
 		var webpack = require('webpack');
@@ -90,7 +90,12 @@ module.exports = function createStaticRouter (options) {
 			router.use(hotMW(compiler));
 		}
 	}
+
 	router.use(express.static(publicDir));
+	// We can add or change things in the publicDir under lib/tinymce/
+	// thanks to precedence
+	const tinyMceDir = path.dirname(require.resolve('tinymce/tinymce'));
+	router.use('/lib/tinymce', express.static(tinyMceDir));
 
 	return router;
 };

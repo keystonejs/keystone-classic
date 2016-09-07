@@ -40,9 +40,11 @@ if [ ! -e $canary ] || \
 			react-redux \
 			react-router \
 			react-router-redux \
+			react-tinymce-input \
 			redux \
 			redux-saga \
 			redux-thunk \
+			scriptjs \
 			style-loader \
 			webpack
 	fi

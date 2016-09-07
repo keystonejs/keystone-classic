@@ -1,28 +1,10 @@
 import Field from '../Field';
 import React from 'react';
 import { FormInput } from 'elemental';
+import $script from 'scriptjs';
+import TinyMce from 'react-tinymce-input';
 
-let tinymce;
-
-/**
- * TODO:
- * - Remove dependency on underscore
- */
-
-var lastId = 0;
-
-function getId () {
-	return 'keystone-html-' + lastId++;
-}
-
-// Workaround for #2834 found here https://github.com/tinymce/tinymce/issues/794#issuecomment-203701329
-function removeTinyMCEInstance (editor) {
-	var oldLength = tinymce.editors.length;
-	tinymce.remove(editor);
-	if (oldLength === tinymce.editors.length) {
-		tinymce.editors.remove(editor);
-	}
-}
+let editorLoaded = !!global.tinymce;
 
 module.exports = Field.create({
 
@@ -33,93 +15,48 @@ module.exports = Field.create({
 
 	getInitialState () {
 		return {
-			id: getId(),
 			isFocused: false,
-			wysiwygActive: false,
+			editorLoaded,
 		};
 	},
 
-	initWysiwyg () {
-		if (!this.props.wysiwyg) return;
-		// We only have it in the browser if we have wysiwyg
-		tinymce = require('tinymce');
-
-		var self = this;
-		var opts = this.getOptions();
-
-		opts.setup = function (editor) {
-			self.editor = editor;
-			editor.on('change', self.valueChanged);
-			editor.on('focus', self.focusChanged.bind(self, true));
-			editor.on('blur', self.focusChanged.bind(self, false));
-		};
-
-		this._currentValue = this.props.value;
-		tinymce.init(opts);
-		this.setState({ wysiwygActive: true });
-	},
-
-	removeWysiwyg (state) {
-		removeTinyMCEInstance(tinymce.get(state.id));
-		this.setState({ wysiwygActive: false });
-	},
-
-	componentDidUpdate (prevProps, prevState) {
-		if (prevState.isCollapsed && !this.state.isCollapsed) {
-			this.initWysiwyg();
-		}
-
-		if (this.props.wysiwyg) {
-			if (evalDependsOn(this.props.dependsOn, this.props.values)) {
-				if (!this.state.wysiwygActive) {
-					this.initWysiwyg();
-				}
-			} else if (this.state.wysiwygActive) {
-				this.removeWysiwyg(prevState);
-			}
-		}
+	componentWillMount () {
+		this.tinymceConfig = this.getOptions();
 	},
 
 	componentDidMount () {
-		this.initWysiwyg();
-	},
-
-	componentWillReceiveProps (nextProps) {
-		if (this.editor && this._currentValue !== nextProps.value) {
-			this.editor.setContent(nextProps.value);
+		if (this.props.wysiwyg && !this.state.editorLoaded) {
+			this.loadEditor();
 		}
 	},
 
-	focusChanged (focused) {
-		this.setState({
-			isFocused: focused,
+	loadEditor () {
+		$script(`${Keystone.adminPath}/lib/tinymce/tinymce.min.js`, () => {
+			this.setState({ editorLoaded: true });
 		});
 	},
 
-	valueChanged  (event) {
-		var content;
-		if (this.editor) {
-			content = this.editor.getContent();
-		} else {
-			content = event.target.value;
-		}
-
-		this._currentValue = content;
-		this.props.onChange({
-			path: this.props.path,
-			value: content,
-		});
+	handleFocus () {
+		this.setState({ isFocused: true });
 	},
 
+	handleBlur () {
+		this.setState({ isFocused: false });
+	},
+
+	handleChange (value) {
+		const { onChange, path } = this.props;
+		onChange({ path, value });
+	},
+
+	// TODO this doesn't seem very logical, especially overrideToolbar
 	getOptions () {
-		var plugins = ['code', 'link'];
-		var options = Object.assign(
-				{},
-				Keystone.wysiwyg.options,
-				this.props.wysiwyg
-			);
-		var toolbar = options.overrideToolbar ? '' : 'bold italic | alignleft aligncenter alignright | bullist numlist | outdent indent | removeformat | link ';
-		var i;
+		const plugins = ['code', 'link'];
+		const options = {
+			...Keystone.wysiwyg.options,
+			...this.props.wysiwyg,
+		};
+		let toolbar = options.overrideToolbar ? '' : 'bold italic | alignleft aligncenter alignright | bullist numlist | outdent indent | removeformat | link ';
 
 		if (options.enableImages) {
 			plugins.push('image');
@@ -132,16 +69,10 @@ module.exports = Field.create({
 		}
 
 		if (options.additionalButtons) {
-			var additionalButtons = options.additionalButtons.split(',');
-			for (i = 0; i < additionalButtons.length; i++) {
-				toolbar += (' | ' + additionalButtons[i]);
-			}
+			toolbar = `${toolbar} | ${options.additionalButtons.split(',').join(' | ')}`;
 		}
 		if (options.additionalPlugins) {
-			var additionalPlugins = options.additionalPlugins.split(',');
-			for (i = 0; i < additionalPlugins.length; i++) {
-				plugins.push(additionalPlugins[i]);
-			}
+			plugins.push.apply(options.additionalPlugins.split(','));
 		}
 		if (options.importcss) {
 			plugins.push('importcss');
@@ -159,9 +90,8 @@ module.exports = Field.create({
 		}
 
 		var opts = {
-			selector: '#' + this.state.id,
-			toolbar: toolbar,
-			plugins: plugins,
+			toolbar,
+			plugins,
 			menubar: options.menubar || false,
 			skin: options.skin || 'keystone',
 		};
@@ -186,31 +116,44 @@ module.exports = Field.create({
 	},
 
 	renderField () {
-		var className = this.state.isFocused ? 'is-focused' : '';
-		var style = {
-			height: this.props.height,
-		};
+		const { height, value, path, wysiwyg } = this.props;
+		const { isFocused, editorLoaded } = this.state;
+		const { tinymceConfig } = this;
+		const className = isFocused ? 'is-focused' : '';
+		const fieldClassName = wysiwyg ? 'wysiwyg' : 'code';
+		const name = this.getInputName(path);
+		const style = { minHeight: height };
+		const showEditor = wysiwyg && editorLoaded;
 		return (
 			<div className={className}>
-				<FormInput
-					id={this.state.id}
-					multiline
-					name={this.getInputName(this.props.path)}
-					onChange={this.valueChanged}
-					className={this.props.wysiwyg ? 'wysiwyg' : 'code'}
-					style={style}
-					value={this.props.value}
-				/>
+				{showEditor ? (
+					<TinyMce
+						onChange={this.handleChange}
+						onFocus={this.handleFocus}
+						onBlur={this.handleBlur}
+						className={fieldClassName}
+						style={style}
+						tinymceConfig={tinymceConfig}
+						name={name}
+						value={value}
+					/>
+				) : (
+					<FormInput
+						multiline
+						style={style}
+						onChange={ev => this.handleChange(ev.target.value)}
+						className={fieldClassName}
+						name={name}
+						value={value}
+					/>
+				)}
 			</div>
 		);
 	},
 
 	renderValue () {
-		return (
-			<FormInput multiline noedit>
-				{this.props.value}
-			</FormInput>
-		);
+		const { value } = this.props;
+		return <FormInput multiline noedit value={value} />;
 	},
 
 });
