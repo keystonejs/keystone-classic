@@ -15,17 +15,15 @@
     <script>
       var Keystone = <%- JSON.stringify(keystone) %>;
     </script>
-<%# Old jQuery, editor and Cloudinary scripts %>
+<%# Old jQuery and Cloudinary scripts %>
     <script src="<%= adminPath %>/js/lib/jquery/jquery-1.10.2.min.js"></script>
-<% if (fieldTypes.wysiwyg) { -%>
-    <script src="<%= adminPath %>/js/lib/tinymce/tinymce.min.js"></script>
 <% if (cloudinaryScript) { -%>
     <script src="<%= adminPath %>/js/lib/jqueryfileupload/vendor/jquery.ui.widget.js"></script>
     <script src="<%= adminPath %>/js/lib/jqueryfileupload/jquery.iframe-transport.js"></script>
     <script src="<%= adminPath %>/js/lib/jqueryfileupload/jquery.fileupload.js"></script>
     <script src="<%= adminPath %>/js/lib/cloudinary/jquery.cloudinary.js"></script>
     <%- cloudinaryScript %>
-<% } } -%>
+<% } -%>
     <script src="<%= adminPath %>/js/common.js"></script>
     <script src="<%= adminPath %>/js/admin.js"></script>
 <% if (env === 'production' && ga.property && ga.domain) { -%>
