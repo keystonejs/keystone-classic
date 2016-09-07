@@ -150,8 +150,8 @@
     "url": "https://github.com/keystonejs/keystone/issues"
   },
   "scripts": {
-    "prepublish": "sh postinstall-build.sh",
-    "postinstall": "sh postinstall-build.sh",
+    "prepublish": "sh build-postinstall.sh",
+    "postinstall": "sh build-postinstall.sh",
     "clean-build": "rm admin/public/js/*.js admin/public/js/*.map 2>&1 | grep -v 'No such' && echo Cleaned. || true",
     "build": "npm run clean-build && env NODE_ENV=production webpack --bail",
     "git-build": "sh build-git.sh",
