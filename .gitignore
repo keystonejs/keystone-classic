@@ -29,6 +29,7 @@ admin/public/styles/auth.css
 admin/public/styles/auth.min.css
 admin/public/styles/keystone.css
 admin/public/styles/keystone.min.css
+admin/public/js
 reports
 
 test/e2e/drivers/*
