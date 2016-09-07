@@ -1,7 +1,7 @@
 module.exports = {
 	Field: require('../DatetimeField'),
 	Filter: require('../DatetimeFilter'),
-	readme: require('fs').readFileSync('./fields/types/datetime/Readme.md', 'utf8'),
+	readme: require('../Readme.md'),
 	section: 'Date',
 	spec: {
 		label: 'Datetime',

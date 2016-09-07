@@ -1,7 +1,7 @@
 module.exports = {
 	Field: require('../RelationshipField'),
 	Filter: require('../RelationshipFilter'),
-	readme: require('fs').readFileSync('./fields/types/relationship/Readme.md', 'utf8'),
+	readme: require('../Readme.md'),
 	section: 'Miscellaneous',
 	spec: [{
 		label: 'Single Relationship',

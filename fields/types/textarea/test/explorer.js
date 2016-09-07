@@ -1,7 +1,7 @@
 module.exports = {
 	Field: require('../TextareaField'),
 	Filter: require('../TextareaFilter'),
-	readme: require('fs').readFileSync('./fields/types/textarea/Readme.md', 'utf8'),
+	readme: require('../Readme.md'),
 	section: 'Text',
 	spec: {
 		label: 'Textarea',

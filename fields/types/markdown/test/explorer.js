@@ -1,7 +1,7 @@
 module.exports = {
 	Field: require('../MarkdownField'),
 	Filter: require('../MarkdownFilter'),
-	readme: require('fs').readFileSync('./fields/types/markdown/Readme.md', 'utf8'),
+	readme: require('../Readme.md'),
 	section: 'Text',
 	spec: {
 		label: 'Markdown',

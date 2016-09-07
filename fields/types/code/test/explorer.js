@@ -1,7 +1,7 @@
 module.exports = {
 	Field: require('../CodeField'),
 	Filter: require('../CodeFilter'),
-	readme: require('fs').readFileSync('./fields/types/code/Readme.md', 'utf8'),
+	readme: require('../Readme.md'),
 	section: 'Text',
 	spec: {
 		label: 'Code',

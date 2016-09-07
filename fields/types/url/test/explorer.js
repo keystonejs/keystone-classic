@@ -1,7 +1,7 @@
 module.exports = {
 	Field: require('../UrlField'),
 	Filter: require('../UrlFilter'),
-	readme: require('fs').readFileSync('./fields/types/url/Readme.md', 'utf8'),
+	readme: require('../Readme.md'),
 	section: 'Text',
 	spec: {
 		label: 'Url',

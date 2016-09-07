@@ -1,7 +1,7 @@
 module.exports = {
 	Field: require('../NumberField'),
 	Filter: require('../NumberFilter'),
-	readme: require('fs').readFileSync('./fields/types/number/Readme.md', 'utf8'),
+	readme: require('../Readme.md'),
 	section: 'Number',
 	spec: {
 		label: 'Number',

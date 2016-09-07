@@ -13,6 +13,7 @@ let config = {
 		// packages bundle
 		admin: `${__dirname}/admin/client/App`,
 		signin: `${__dirname}/admin/client/Signin`,
+		explorer: `${__dirname}/fields/explorer`,
 	},
 	output: {
 		filename: '[name].js',
@@ -45,6 +46,8 @@ let config = {
 				test: /\.css$/,
 				loaders: ['style', 'css'],
 			},
+			{ test: /\.json$/, loader: 'json' },
+			{ test: /\.md$/, loader: 'raw' },
 		],
 	},
 	// Externally loaded dependencies
@@ -89,6 +92,10 @@ function createProdConfig (config) {
 	];
 	return {
 		...config,
+		entry: {
+			admin: config.entry.admin,
+			signin: config.entry.signin,
+		},
 		output: {
 			...config.output,
 			pathinfo: false,

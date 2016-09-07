@@ -1,7 +1,7 @@
 module.exports = {
 	Field: require('../MoneyField'),
 	Filter: require('../MoneyFilter'),
-	readme: require('fs').readFileSync('./fields/types/money/Readme.md', 'utf8'),
+	readme: require('../Readme.md'),
 	section: 'Number',
 	spec: {
 		label: 'Money',

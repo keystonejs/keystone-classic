@@ -1,7 +1,7 @@
 module.exports = {
 	Field: require('../BooleanField'),
 	Filter: require('../BooleanFilter'),
-	readme: require('fs').readFileSync('./fields/types/boolean/Readme.md', 'utf8'),
+	readme: require('../Readme.md'),
 	section: 'Miscellaneous',
 	spec: {
 		label: 'Boolean',

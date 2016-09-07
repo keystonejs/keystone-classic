@@ -1,7 +1,7 @@
 module.exports = {
 	Field: require('../HtmlField'),
 	Filter: require('../HtmlFilter'),
-	readme: require('fs').readFileSync('./fields/types/html/Readme.md', 'utf8'),
+	readme: require('../Readme.md'),
 	section: 'Text',
 	spec: {
 		label: 'Html',
