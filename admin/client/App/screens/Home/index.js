@@ -4,10 +4,8 @@
  */
 
 import React from 'react';
-import { Chip, Container, Spinner } from '../../elemental';
+import { Container, Spinner } from '../../elemental';
 import { connect } from 'react-redux';
-
-console.log('Chip', Chip);
 
 import Lists from './components/Lists';
 import Section from './components/Section';

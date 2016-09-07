@@ -14,8 +14,13 @@ const cloneWithClassnames = (c) => {
 	});
 };
 
-function Alert ({ children, className, color, component, ...props }) {
-	const Component = component;
+function Alert ({
+	children,
+	className,
+	color,
+	component: Component,
+	...props,
+}) {
 	props.className = css(
 		classes.alert,
 		classes[color],

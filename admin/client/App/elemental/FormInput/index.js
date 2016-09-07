@@ -21,18 +21,23 @@ class FormInput extends Component {
 		this.target.focus();
 	}
 	render () {
-		// NOTE return a different component for `noedit`
-		if (this.props.noedit) return <InputNoedit {...this.props} />;
-
 		// NOTE `focusInput` is declared to remove it from `props`, though never used
 		const {
 			className,
 			disabled,
 			focusInput, // eslint-disable-line no-unused-vars
 			id,
+			multiline,
+			noedit,
+			staticClassName,
 			...props,
 		} = this.props;
+
+		// NOTE return a different component for `noedit`
+		if (noedit) return <InputNoedit {...this.props} />;
+
 		const { formFieldId, formLayout } = this.context;
+
 		props.id = id || formFieldId;
 		props.className = css(
 			classes.FormInput,
@@ -40,11 +45,19 @@ class FormInput extends Component {
 			formLayout ? classes['FormInput--form-layout-' + formLayout] : null,
 			...concatClassnames(className)
 		);
+		if (staticClassName) {
+			props.className += (' ' + staticClassName);
+		}
 
 		const setRef = (n) => (this.target = n);
+		const Tag = multiline ? 'textarea' : 'input';
 
 		return (
-			<input ref={setRef} disabled={props.disabled} {...props} />
+			<Tag
+				ref={setRef}
+				disabled={props.disabled}
+				{...props}
+			/>
 		);
 	}
 };
@@ -55,6 +68,8 @@ FormInput.contextTypes = {
 	formFieldId: PropTypes.string,
 };
 FormInput.propTypes = {
+	multiline: PropTypes.bool,
+	staticClassName: PropTypes.string,
 	type: PropTypes.string,
 };
 FormInput.defaultProps = {

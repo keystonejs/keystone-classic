@@ -2,12 +2,22 @@ import React, { Component, PropTypes } from 'react';
 import { css, StyleSheet } from 'aphrodite/no-important';
 
 import theme from '../../../theme';
+import { fade } from '../../../utils/color';
 
 /* eslint quote-props: ["error", "as-needed"] */
 
-function FormInputNoedit ({ className, component: Component, ...props }) {
+function FormInputNoedit ({
+	className,
+	component: Component,
+	cropText,
+	noedit, // NOTE not used, just removed from props
+	type,
+	...props,
+}) {
 	props.className = css(
 		classes.noedit,
+		cropText ? classes.cropText : null,
+		props.href ? classes.anchor : null,
 		className
 	);
 
@@ -19,37 +29,55 @@ FormInputNoedit.propTypes = {
 		PropTypes.string,
 		PropTypes.func,
 	]),
+	cropText: PropTypes.bool,
 };
 FormInputNoedit.defaultProps = {
 	component: 'span',
 };
 
+const anchorHoverAndFocusStyles = {
+	backgroundColor: fade(theme.color.link, 10),
+	borderColor: fade(theme.color.link, 10),
+	color: theme.color.link,
+	outline: 'none',
+	textDecoration: 'underline',
+};
+
 const classes = StyleSheet.create({
 	noedit: {
 		appearance: 'none',
-		backgroundColor: theme.input.bgColor,
+		backgroundColor: theme.input.background.noedit,
 		backgroundImage: 'none',
-		borderColor: theme.input.border.color,
+		borderColor: theme.input.border.color.noedit,
 		borderRadius: theme.input.border.radius,
 		borderStyle: 'solid',
 		borderWidth: theme.input.border.width,
-		color: 'inherit', // FIXME
-		display: 'block',
+		color: theme.color.gray80,
+		display: 'inline-block',
 		height: theme.input.height,
 		lineHeight: theme.input.lineHeight,
 		padding: `0 ${theme.input.paddingHorizontal}`,
 		transition: 'border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s',
-		width: '100%',
+		verticalAlign: 'middle',
 
-		':hover': {
-			borderColor: theme.input.border.colorHover,
-			outline: 0,
+		// prevent empty inputs from collapsing by adding content
+		':empty:before': {
+			color: theme.color.gray40,
+			content: '"(no value)"',
 		},
-		':focus': {
-			borderColor: theme.input.border.colorFocus,
-			boxShadow: theme.input.boxShadowFocus,
-			outline: 0,
-		},
+	},
+
+	// indicate clickability when using an anchor
+	anchor: {
+		backgroundColor: fade(theme.color.link, 5),
+		borderColor: fade(theme.color.link, 10),
+		color: theme.color.link,
+		marginRight: 5,
+		minWidth: 0,
+		textDecoration: 'none',
+
+		':hover': anchorHoverAndFocusStyles,
+		':focus': anchorHoverAndFocusStyles,
 	},
 });
 

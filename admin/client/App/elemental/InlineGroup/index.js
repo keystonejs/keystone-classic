@@ -7,14 +7,10 @@ function InlineGroup ({
 	block,
 	children,
 	className,
-	component,
+	component: Component,
 	contiguous,
 	...props,
 }) {
-
-	// set the component
-	const Component = component;
-
 	// prepare group className
 	props.className = css(
 		classes.group,

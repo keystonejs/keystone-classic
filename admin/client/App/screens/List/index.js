@@ -6,10 +6,7 @@
 import React from 'react';
 // import { findDOMNode } from 'react-dom'; // TODO re-implement focus when ready
 import numeral from 'numeral';
-import {
-	BlankState,
-	Pagination,
-} from 'elemental';
+import { BlankState, Pagination } from 'elemental';
 import { connect } from 'react-redux';
 
 import { Center, Container, GlyphButton, Spinner } from '../../elemental';

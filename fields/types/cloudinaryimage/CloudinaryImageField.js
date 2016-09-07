@@ -6,9 +6,8 @@ work out whether we're going to support deleting through the UI.
 
 import React, { PropTypes } from 'react';
 import Field from '../Field';
-import { FormField, FormInput, FormNote } from 'elemental';
 import cloudinaryResize from '../../../admin/client/utils/cloudinaryResize';
-import { Button } from '../../../admin/client/App/elemental';
+import { Button, FormField, FormInput, FormNote } from '../../../admin/client/App/elemental';
 
 import ImageThumbnail from '../../components/ImageThumbnail';
 import FileChangeMessage from '../../components/FileChangeMessage';
@@ -185,10 +184,12 @@ module.exports = Field.create({
 
 		return (
 			<Lightbox
-				images={[this.getImageSource(600)]}
+				backdropClosesModal
 				currentImage={0}
+				images={[{ src: this.getImageSource(600) }]}
 				isOpen={this.state.lightboxIsVisible}
 				onClose={this.closeLightbox}
+				showImageCount={false}
 			/>
 		);
 	},

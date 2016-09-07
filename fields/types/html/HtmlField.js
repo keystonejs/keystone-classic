@@ -2,7 +2,7 @@ import _ from 'lodash';
 import Field from '../Field';
 import React from 'react';
 import tinymce from 'tinymce';
-import { FormInput } from 'elemental';
+import { FormInput } from '../../../admin/client/App/elemental';
 
 /**
  * TODO:
@@ -179,11 +179,6 @@ module.exports = Field.create({
 		return opts;
 	},
 
-	getFieldClassName () {
-		var className = this.props.wysiwyg ? 'wysiwyg' : 'code';
-		return className;
-	},
-
 	renderField () {
 		var className = this.state.isFocused ? 'is-focused' : '';
 		var style = {
@@ -191,7 +186,15 @@ module.exports = Field.create({
 		};
 		return (
 			<div className={className}>
-				<FormInput multiline style={style} onChange={this.valueChanged} id={this.state.id} className={this.getFieldClassName()} name={this.getInputName(this.props.path)} value={this.props.value} />
+				<FormInput
+					id={this.state.id}
+					multiline
+					name={this.getInputName(this.props.path)}
+					onChange={this.valueChanged}
+					staticClassName={this.props.wysiwyg ? 'wysiwyg' : 'code'}
+					style={style}
+					value={this.props.value}
+				/>
 			</div>
 		);
 	},

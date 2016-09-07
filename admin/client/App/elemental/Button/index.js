@@ -23,7 +23,7 @@ function Button ({
 	block,
 	className,
 	color,
-	component,
+	component: Component,
 	disabled,
 	size,
 	variant,
@@ -43,15 +43,15 @@ function Button ({
 	);
 
 	// return an anchor or button
-	if (!component) {
-		component = props.href ? 'a' : 'button';
+	if (!Component) {
+		Component = props.href ? 'a' : 'button';
 	}
 	// Ensure buttons don't submit by default
-	if (component === 'button' && !props.type) {
+	if (Component === 'button' && !props.type) {
 		props.type = 'button';
 	}
 
-	return React.createElement(component, props);
+	return <Component {...props} />;
 };
 
 const classNameShape = {

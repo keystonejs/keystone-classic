@@ -4,7 +4,11 @@ import { listsByKey } from '../../../admin/client/utils/lists';
 import React from 'react';
 import Select from 'react-select';
 import xhr from 'xhr';
-import { Button, InputGroup } from 'elemental';
+import {
+	Button,
+	InlineGroup as Group,
+	InlineGroupSection as Section,
+} from '../../../admin/client/App/elemental';
 import _ from 'lodash';
 
 function compareValues (current, next) {
@@ -208,19 +212,19 @@ module.exports = Field.create({
 		// TODO: Implement this somewhere higher in the app, it breaks the encapsulation of the RelationshipField component
 		const CreateForm = require('../../../admin/client/App/shared/CreateForm');
 		return (
-			<InputGroup>
-				<InputGroup.Section grow>
+			<Group>
+				<Section grow>
 					{this.renderSelect()}
-				</InputGroup.Section>
-				<InputGroup.Section>
+				</Section>
+				<Section>
 					<Button onClick={this.openCreate} type="success">+</Button>
-				</InputGroup.Section>
+				</Section>
 				<CreateForm
 					list={listsByKey[this.props.refList.key]}
 					isOpen={this.state.createIsOpen}
 					onCreate={this.onCreate}
 					onCancel={this.closeCreate} />
-			</InputGroup>
+			</Group>
 		);
 	},
 

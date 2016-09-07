@@ -7,9 +7,9 @@ import theme from '../../../theme';
 module.exports = {
 	'FormInput': {
 		'appearance': 'none',
-		'backgroundColor': theme.input.bgColor,
+		'backgroundColor': theme.input.background.default,
 		'backgroundImage': 'none',
-		'borderColor': theme.input.border.color,
+		'borderColor': theme.input.border.color.default,
 		'borderRadius': theme.input.border.radius,
 		'borderStyle': 'solid',
 		'borderWidth': theme.input.border.width,
@@ -23,17 +23,17 @@ module.exports = {
 		'width': '100%',
 
 		':hover': {
-			borderColor: theme.input.border.colorHover,
+			borderColor: theme.input.border.color.hover,
 			outline: 0,
 		},
 		':focus': {
-			borderColor: theme.input.border.colorFocus,
+			borderColor: theme.input.border.color.focus,
 			boxShadow: theme.input.boxShadowFocus,
 			outline: 0,
 		},
 	},
 	'FormInput--disabled': {
-		backgroundColor: theme.input.bgDisabled,
+		backgroundColor: theme.input.background.disabled,
 		pointerEvents: 'none',
 	},
 };

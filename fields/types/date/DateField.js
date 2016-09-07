@@ -2,7 +2,6 @@ import DateInput from '../../components/DateInput';
 import Field from '../Field';
 import moment from 'moment';
 import React from 'react';
-// import { Button, InputGroup, FormInput } from 'elemental';
 import {
 	Button,
 	FormInput,

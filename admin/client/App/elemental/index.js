@@ -10,6 +10,7 @@ module.exports = {
 	FormInput: require('./FormInput'),
 	FormLabel: require('./FormLabel'),
 	FormNote: require('./FormNote'),
+	FormSelect: require('./FormSelect'),
 	Glyph: require('./Glyph'),
 	GlyphButton: require('./GlyphButton'),
 	GridCol: require('./GridCol'),

@@ -1,6 +1,6 @@
 /* eslint-disable key-spacing */
 const theme = {};
-const { blend, fade, lighten } = require('./utils/color');
+const { blend, darken, fade, lighten } = require('./utils/color');
 
 // ==============================
 // COMMON
@@ -183,21 +183,33 @@ theme.component = {
 // input
 
 theme.input = {
-	bgColor: 'white',
-	bgDisabled: '#fafafa',
+	background: {
+		default: 'white',
+		disabled: '#fafafa',
+		noedit: darken(theme.color.body, 2),
+	},
 	placeholderColor: '#aaa',
 	lineHeight: theme.component.lineHeight,
 	height: theme.component.height,
 	border: {
-		color: '#ccc',
-		colorFocus: theme.color.info,
-		colorHover: '#bbb',
+		color: {
+			default: '#ccc',
+			focus: theme.color.info,
+			hover: '#bbb',
+			noedit: darken(theme.color.body, 8),
+		},
 		radius: theme.borderRadius.default,
 		width: 1,
 	},
 	boxShadow: 'inset 0 1px 1px rgba(0, 0, 0, 0.075)',
 	boxShadowFocus: `inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 3px ${fade(theme.color.info, 10)}`,
 	paddingHorizontal: '.75em',
+};
+
+// select
+
+theme.select = {
+	boxShadow: '0 1px 1px rgba(0, 0, 0, 0.075)',
 };
 
 // alert

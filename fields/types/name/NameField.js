@@ -1,6 +1,10 @@
 import Field from '../Field';
 import React, { PropTypes } from 'react';
-import { FormField, FormInput, FormRow } from 'elemental';
+import {
+	FormInput,
+	GridCol,
+	GridRow,
+} from '../../../admin/client/App/elemental';
 
 const NAME_SHAPE = {
 	first: PropTypes.string,
@@ -44,25 +48,25 @@ module.exports = Field.create({
 		const { value = {} } = this.props;
 
 		return (
-			<FormRow>
-				<FormField width="one-half">
+			<GridRow small="one-half" gutter={10}>
+				<GridCol>
 					<FormInput noedit style={inputStyle}>
 						{value.first}
 					</FormInput>
-				</FormField>
-				<FormField width="one-half">
+				</GridCol>
+				<GridCol>
 					<FormInput noedit style={inputStyle}>
 						{value.last}
 					</FormInput>
-				</FormField>
-			</FormRow>
+				</GridCol>
+			</GridRow>
 		);
 	},
 	renderField () {
 		const { value = {}, paths, autoFocus } = this.props;
 		return (
-			<FormRow>
-				<FormField width="one-half">
+			<GridRow small="one-half" gutter={10}>
+				<GridCol>
 					<FormInput
 						autoFocus={autoFocus}
 						autoComplete="off"
@@ -71,8 +75,8 @@ module.exports = Field.create({
 						placeholder="First name"
 						value={value.first}
 					/>
-				</FormField>
-				<FormField width="one-half">
+				</GridCol>
+				<GridCol>
 					<FormInput
 						autoComplete="off"
 						name={this.getInputName(paths.last)}
@@ -80,8 +84,8 @@ module.exports = Field.create({
 						placeholder="Last name"
 						value={value.last}
 					/>
-				</FormField>
-			</FormRow>
+				</GridCol>
+			</GridRow>
 		);
 	},
 });
