@@ -18,6 +18,9 @@ const proxyLoader = {
 const babelLoader = {
 	test: /\.jsx?$/,
 	loader: 'babel',
+	query: {
+		cacheDirectory: true,
+	},
 	include: [__dirname],
 	exclude: [
 		path.join(__dirname, 'node_modules'),
@@ -120,6 +123,7 @@ export const getHot = (options = {}) => {
 	.map(l => l === babelLoader ? ({
 		...babelLoader,
 		query: {
+			...babelLoader.query,
 			plugins: 'react-hot-loader/babel',
 		},
 	}) : l)
