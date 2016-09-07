@@ -47,11 +47,11 @@ datetime.prototype.getInputFromData = function (data) {
 	var timeValue = this.getValueFromData(data, '_time');
 	var tzOffsetValue = this.getValueFromData(data, '_tzOffset');
 	if (dateValue && timeValue) {
-		var ret = dateValue + ' ' + timeValue;
+		var combined = dateValue + ' ' + timeValue;
 		if (typeof tzOffsetValue !== 'undefined') {
-			ret += ' ' + tzOffsetValue;
+			combined += ' ' + tzOffsetValue;
 		}
-		return ret;
+		return combined;
 	}
 
 	return this.getValueFromData(data);
