@@ -4,8 +4,7 @@ import { findDOMNode } from 'react-dom';
 import {
 	FormField,
 	FormInput,
-	GridCol,
-	GridRow,
+	Grid,
 	SegmentedControl,
 } from '../../../admin/client/App/elemental';
 
@@ -79,8 +78,8 @@ var TextFilter = React.createClass({
 						value={filter.street}
 					/>
 				</FormField>
-				<GridRow gutter={10}>
-					<GridCol xsmall="two-thirds">
+				<Grid.Row gutter={10}>
+					<Grid.Col xsmall="two-thirds">
 						<FormInput
 							name="city"
 							onChange={this.updateValue}
@@ -88,8 +87,8 @@ var TextFilter = React.createClass({
 							style={{ marginBottom: '1em' }}
 							value={filter.city}
 						/>
-					</GridCol>
-					<GridCol xsmall="one-third">
+					</Grid.Col>
+					<Grid.Col xsmall="one-third">
 						<FormInput
 							name="state"
 							onChange={this.updateValue}
@@ -97,24 +96,24 @@ var TextFilter = React.createClass({
 							style={{ marginBottom: '1em' }}
 							value={filter.state}
 						/>
-					</GridCol>
-					<GridCol xsmall="one-third" style={{ marginBottom: 0 }}>
+					</Grid.Col>
+					<Grid.Col xsmall="one-third" style={{ marginBottom: 0 }}>
 						<FormInput
 							name="code"
 							onChange={this.updateValue}
 							placeholder="Postcode"
 							value={filter.code}
 						/>
-					</GridCol>
-					<GridCol xsmall="two-thirds" style={{ marginBottom: 0 }}>
+					</Grid.Col>
+					<Grid.Col xsmall="two-thirds" style={{ marginBottom: 0 }}>
 						<FormInput
 							name="country"
 							onChange={this.updateValue}
 							placeholder="Country"
 							value={filter.country}
 						/>
-					</GridCol>
-				</GridRow>
+					</Grid.Col>
+				</Grid.Row>
 			</div>
 		);
 	},

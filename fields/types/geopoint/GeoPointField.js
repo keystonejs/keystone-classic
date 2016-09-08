@@ -2,8 +2,7 @@ import Field from '../Field';
 import React from 'react';
 import {
 	FormInput,
-	GridCol,
-	GridRow,
+	Grid,
 } from '../../../admin/client/App/elemental';
 
 module.exports = Field.create({
@@ -44,8 +43,8 @@ module.exports = Field.create({
 	renderField () {
 		const { value = [], path } = this.props;
 		return (
-			<GridRow xsmall="one-half" gutter={10}>
-				<GridCol>
+			<Grid.Row xsmall="one-half" gutter={10}>
+				<Grid.Col>
 					<FormInput
 						autoComplete="off"
 						name={this.getInputName(path + '[1]')}
@@ -54,8 +53,8 @@ module.exports = Field.create({
 						ref="lat"
 						value={value[1]}
 					/>
-				</GridCol>
-				<GridCol width="one-half">
+				</Grid.Col>
+				<Grid.Col width="one-half">
 					<FormInput
 						autoComplete="off"
 						name={this.getInputName(path + '[0]')}
@@ -64,8 +63,8 @@ module.exports = Field.create({
 						ref="lng"
 						value={value[0]}
 					/>
-				</GridCol>
-			</GridRow>
+				</Grid.Col>
+			</Grid.Row>
 		);
 	},
 

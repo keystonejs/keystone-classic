@@ -5,8 +5,7 @@ import {
 	FormField,
 	FormInput,
 	FormSelect,
-	GridCol,
-	GridRow,
+	Grid,
 } from '../../../admin/client/App/elemental';
 
 const MODE_OPTIONS = [
@@ -106,8 +105,8 @@ var NumberArrayFilter = React.createClass({
 		if (mode.value === 'between') {
 			// Render "min" and "max" input
 			controls = (
-				<GridRow xsmall="one-half" gutter={10}>
-					<GridCol>
+				<Grid.Row xsmall="one-half" gutter={10}>
+					<Grid.Col>
 						<FormInput
 							onChange={this.handleValueChangeBuilder('minValue')}
 							placeholder="Min."
@@ -115,16 +114,16 @@ var NumberArrayFilter = React.createClass({
 							type="number"
 							value={this.props.filter.value.min}
 						/>
-					</GridCol>
-					<GridCol>
+					</Grid.Col>
+					<Grid.Col>
 						<FormInput
 							onChange={this.handleValueChangeBuilder('maxValue')}
 							placeholder="Max."
 							type="number"
 							value={this.props.filter.value.max}
 						/>
-					</GridCol>
-				</GridRow>
+					</Grid.Col>
+				</Grid.Row>
 			);
 		} else {
 			// Render one number input

@@ -8,8 +8,7 @@ import {
 	FormField,
 	FormInput,
 	FormNote,
-	GridCol,
-	GridRow,
+	Grid,
 	LabelledControl,
 } from '../../../admin/client/App/elemental';
 
@@ -130,24 +129,24 @@ module.exports = Field.create({
 		const { value = {}, path } = this.props;
 		return (
 			<NestedFormField label="Suburb / State" data-field-location-path={path + '.suburb_state'}>
-				<GridRow gutter={10}>
-					<GridCol small="two-thirds" data-field-location-path={path + '.suburb'}>
+				<Grid.Row gutter={10}>
+					<Grid.Col small="two-thirds" data-field-location-path={path + '.suburb'}>
 						<FormInput
 							name={this.getInputName(path + '.suburb')}
 							onChange={this.makeChanger('suburb')}
 							placeholder="Suburb"
 							value={value.suburb}
 						/>
-					</GridCol>
-					<GridCol small="one-third" data-field-location-path={path + '.state'}>
+					</Grid.Col>
+					<Grid.Col small="one-third" data-field-location-path={path + '.state'}>
 						<FormInput
 							name={this.getInputName(path + '.state')}
 							onChange={this.makeChanger('state')}
 							placeholder="State"
 							value={value.state}
 						/>
-					</GridCol>
-				</GridRow>
+					</Grid.Col>
+				</Grid.Row>
 			</NestedFormField>
 		);
 	},
@@ -156,24 +155,24 @@ module.exports = Field.create({
 		const { value = {}, path } = this.props;
 		return (
 			<NestedFormField label="Postcode / Country" data-field-location-path={path + '.postcode_country'}>
-				<GridRow gutter={10}>
-					<GridCol small="one-third" data-field-location-path={path + '.postcode'}>
+				<Grid.Row gutter={10}>
+					<Grid.Col small="one-third" data-field-location-path={path + '.postcode'}>
 						<FormInput
 							name={this.getInputName(path + '.postcode')}
 							onChange={this.makeChanger('postcode')}
 							placeholder="Post Code"
 							value={value.postcode}
 						/>
-					</GridCol>
-					<GridCol small="two-thirds" data-field-location-path={path + '.country'}>
+					</Grid.Col>
+					<Grid.Col small="two-thirds" data-field-location-path={path + '.country'}>
 						<FormInput
 							name={this.getInputName(path + '.country')}
 							onChange={this.makeChanger('country')}
 							placeholder="Country"
 							value={value.country}
 						/>
-					</GridCol>
-				</GridRow>
+					</Grid.Col>
+				</Grid.Row>
 			</NestedFormField>
 		);
 	},
@@ -186,24 +185,24 @@ module.exports = Field.create({
 		const geo = value.geo || [];
 		return (
 			<NestedFormField label="Lat / Lng" data-field-location-path={path + '.geo'}>
-				<GridRow gutter={10}>
-					<GridCol small="one-half" data-field-location-path="latitude">
+				<Grid.Row gutter={10}>
+					<Grid.Col small="one-half" data-field-location-path="latitude">
 						<FormInput
 							name={this.getInputName(paths.geo + '[1]')}
 							onChange={this.makeGeoChanger(1)}
 							placeholder="Latitude"
 							value={geo[1]}
 						/>
-					</GridCol>
-					<GridCol small="one-half" data-field-location-path="longitude">
+					</Grid.Col>
+					<Grid.Col small="one-half" data-field-location-path="longitude">
 						<FormInput
 							name={this.getInputName(paths.geo + '[0]')}
 							onChange={this.makeGeoChanger(0)}
 							placeholder="Longitude"
 							value={geo[0]}
 						/>
-					</GridCol>
-				</GridRow>
+					</Grid.Col>
+				</Grid.Row>
 			</NestedFormField>
 		);
 	},

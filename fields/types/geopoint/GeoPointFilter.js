@@ -3,8 +3,7 @@ import React from 'react';
 import {
 	FormField,
 	FormInput,
-	GridCol,
-	GridRow,
+	Grid,
 	SegmentedControl,
 } from '../../../admin/client/App/elemental';
 
@@ -74,8 +73,8 @@ var TextFilter = React.createClass({
 
 		return (
 			<div>
-				<GridRow xsmall="one-half" gutter={10}>
-					<GridCol>
+				<Grid.Row xsmall="one-half" gutter={10}>
+					<Grid.Col>
 						<FormField label="Latitude" >
 							<FormInput
 								autoFocus
@@ -88,8 +87,8 @@ var TextFilter = React.createClass({
 								value={filter.lat}
 							/>
 						</FormField>
-					</GridCol>
-					<GridCol>
+					</Grid.Col>
+					<Grid.Col>
 						<FormField label="Longitude">
 							<FormInput
 								onChange={this.changeLon}
@@ -101,8 +100,8 @@ var TextFilter = React.createClass({
 								value={filter.lon}
 							/>
 						</FormField>
-					</GridCol>
-				</GridRow>
+					</Grid.Col>
+				</Grid.Row>
 				<FormField>
 					<SegmentedControl
 						equalWidthSegments

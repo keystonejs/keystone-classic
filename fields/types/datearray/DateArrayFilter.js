@@ -5,8 +5,7 @@ import DayPicker from 'react-day-picker';
 import {
 	FormInput,
 	FormSelect,
-	GridCol,
-	GridRow,
+	Grid,
 } from '../../../admin/client/App/elemental';
 
 const PRESENCE_OPTIONS = [
@@ -143,14 +142,14 @@ var DateFilter = React.createClass({
 			controls = (
 				<div>
 					<div style={{ marginBottom: '1em' }}>
-						<GridRow xsmall="one-half" gutter={10}>
-							<GridCol>
+						<Grid.Row xsmall="one-half" gutter={10}>
+							<Grid.Col>
 								<FormInput ref="after" placeholder="From" onFocus={(e) => { this.setActiveField('after'); }} value={moment(filter.after).format(this.props.format)} />
-							</GridCol>
-							<GridCol>
+							</Grid.Col>
+							<Grid.Col>
 								<FormInput ref="before" placeholder="To" onFocus={(e) => { this.setActiveField('before'); }} value={moment(filter.before).format(this.props.format)} />
-							</GridCol>
-						</GridRow>
+							</Grid.Col>
+						</Grid.Row>
 					</div>
 					<div style={{ position: 'relative' }}>
 						<DayPicker

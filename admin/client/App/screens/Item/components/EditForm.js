@@ -5,8 +5,7 @@ import {
 	Form,
 	FormField,
 	FormInput,
-	GridCol,
-	GridRow,
+	Grid,
 	ResponsiveText,
 } from '../../../elemental';
 
@@ -383,17 +382,17 @@ var EditForm = React.createClass({
 		return (
 			<form ref="editForm" className="EditForm-container">
 				{(this.state.alerts) ? <AlertMessages alerts={this.state.alerts} /> : null}
-				<GridRow>
-					<GridCol large="three-quarters">
+				<Grid.Row>
+					<Grid.Col large="three-quarters">
 						<Form layout="horizontal" component="div">
 							{this.renderNameField()}
 							{this.renderKeyOrId()}
 							{this.renderFormElements()}
 							{this.renderTrackingMeta()}
 						</Form>
-					</GridCol>
-					<GridCol large="one-quarter"><span /></GridCol>
-				</GridRow>
+					</Grid.Col>
+					<Grid.Col large="one-quarter"><span /></Grid.Col>
+				</Grid.Row>
 				{this.renderFooterBar()}
 				{this.state.confirmationDialog}
 			</form>
