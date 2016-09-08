@@ -1,7 +1,13 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 
-import { FormField, FormInput, FormRow, FormSelect } from 'elemental';
+import {
+	FormField,
+	FormInput,
+	FormSelect,
+	GridCol,
+	GridRow,
+} from '../../../admin/client/App/elemental';
 
 const MODE_OPTIONS = [
 	{ label: 'Exactly', value: 'equals' },
@@ -28,7 +34,8 @@ var NumberArrayFilter = React.createClass({
 		filter: React.PropTypes.shape({
 			mode: React.PropTypes.oneOf(MODE_OPTIONS.map(i => i.value)),
 			presence: React.PropTypes.oneOf(PRESENCE_OPTIONS.map(i => i.value)),
-			value: React.PropTypes.oneOf([
+			value: React.PropTypes.oneOfType([
+				React.PropTypes.number,
 				React.PropTypes.string,
 				React.PropTypes.shape({
 					min: React.PropTypes.number,
@@ -80,12 +87,14 @@ var NumberArrayFilter = React.createClass({
 		this.props.onChange({ ...this.props.filter, ...changedProp });
 	},
 	// Update the filter mode
-	selectMode (mode) {
+	selectMode (e) {
+		const mode = e.target.value;
 		this.updateFilter({ mode });
 		findDOMNode(this.refs.focusTarget).focus();
 	},
 	// Update the presence selection
-	selectPresence (presence) {
+	selectPresence (e) {
+		const presence = e.target.value;
 		this.updateFilter({ presence });
 		findDOMNode(this.refs.focusTarget).focus();
 	},
@@ -97,38 +106,36 @@ var NumberArrayFilter = React.createClass({
 		if (mode.value === 'between') {
 			// Render "min" and "max" input
 			controls = (
-				<FormRow>
-					<FormField width="one-half" style={{ marginBottom: 0 }}>
+				<GridRow xsmall="one-half" gutter={10}>
+					<GridCol>
 						<FormInput
-							type="number"
-							ref="focusTarget"
-							placeholder="Min."
 							onChange={this.handleValueChangeBuilder('minValue')}
+							placeholder="Min."
+							ref="focusTarget"
+							type="number"
 							value={this.props.filter.value.min}
 						/>
-					</FormField>
-					<FormField width="one-half" style={{ marginBottom: 0 }}>
+					</GridCol>
+					<GridCol>
 						<FormInput
-							type="number"
-							placeholder="Max."
 							onChange={this.handleValueChangeBuilder('maxValue')}
+							placeholder="Max."
+							type="number"
 							value={this.props.filter.value.max}
 						/>
-					</FormField>
-				</FormRow>
+					</GridCol>
+				</GridRow>
 			);
 		} else {
 			// Render one number input
 			controls = (
-				<FormField>
-					<FormInput
-						type="number"
-						ref="focusTarget"
-						placeholder={placeholder}
-						onChange={this.handleValueChangeBuilder('value')}
-						value={this.props.filter.value}
-					/>
-				</FormField>
+				<FormInput
+					onChange={this.handleValueChangeBuilder('value')}
+					placeholder={placeholder}
+					ref="focusTarget"
+					type="number"
+					value={this.props.filter.value}
+				/>
 			);
 		}
 
@@ -142,8 +149,20 @@ var NumberArrayFilter = React.createClass({
 
 		return (
 			<div>
-				<FormSelect options={PRESENCE_OPTIONS} onChange={this.selectPresence} value={presence.value} />
-				<FormSelect options={MODE_OPTIONS} onChange={this.selectMode} value={mode.value} />
+				<FormField>
+					<FormSelect
+						onChange={this.selectPresence}
+						options={PRESENCE_OPTIONS}
+						value={presence.value}
+					/>
+				</FormField>
+				<FormField>
+					<FormSelect
+						onChange={this.selectMode}
+						options={MODE_OPTIONS}
+						value={mode.value}
+					/>
+				</FormField>
 				{this.renderControls(presence, mode)}
 			</div>
 		);

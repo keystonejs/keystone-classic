@@ -20,7 +20,7 @@ function ListHeaderSearch ({
 				onChange={handleChange}
 				onKeyUp={handleKeyup}
 				placeholder="Search"
-				focusInput={focusInput}
+				focus={focusInput}
 				value={value}
 			/>
 			<button

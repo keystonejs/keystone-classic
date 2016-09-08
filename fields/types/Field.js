@@ -62,7 +62,7 @@ var Base = module.exports.Base = {
 	renderNote () {
 		if (!this.props.note) return null;
 
-		return <FormNote html={this.props.note}>Test</FormNote>;
+		return <FormNote html={this.props.note} />;
 	},
 	renderField () {
 		const { autoFocus, value, inputProps } = this.props;

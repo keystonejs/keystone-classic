@@ -10,22 +10,22 @@ class FormInput extends Component {
 	constructor () {
 		super();
 
-		this.focusInput = this.focusInput.bind(this);
+		this.focus = this.focus.bind(this);
 	}
 	componentWillReceiveProps (nextProps) {
-		if (nextProps.focusInput && !this.props.focusInput) {
-			this.focusInput();
+		if (nextProps.focus && !this.props.focus) {
+			this.focus();
 		}
 	}
-	focusInput () {
+	focus () {
 		this.target.focus();
 	}
 	render () {
-		// NOTE `focusInput` is declared to remove it from `props`, though never used
+		// NOTE `focus` is declared to remove it from `props`, though never used
 		const {
 			className,
 			disabled,
-			focusInput, // eslint-disable-line no-unused-vars
+			focus, // eslint-disable-line no-unused-vars
 			id,
 			multiline,
 			noedit,

@@ -17,7 +17,7 @@ class FormField extends Component {
 		};
 	}
 	render () {
-		const { formLayout, labelWidth } = this.context;
+		const { formLayout = 'basic', labelWidth } = this.context;
 		const { children, className, cropLabel, htmlFor, label, offsetAbsentLabel, ...props } = this.props;
 		const classnameIsAphrodite = typeof className !== 'string';
 
@@ -55,7 +55,7 @@ class FormField extends Component {
 };
 
 FormField.contextTypes = {
-	formLayout: PropTypes.oneOf(['basic', 'horizontal', 'inline']).isRequired,
+	formLayout: PropTypes.oneOf(['basic', 'horizontal', 'inline']),
 	labelWidth: PropTypes.oneOfType([
 		PropTypes.number,
 		PropTypes.string,

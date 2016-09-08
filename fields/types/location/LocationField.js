@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import React from 'react';
 import Field from '../Field';
-import { Checkbox } from 'elemental';
 import CollapsedFieldLabel from '../../components/CollapsedFieldLabel';
 import NestedFormField from '../../components/NestedFormField';
 
@@ -11,6 +10,7 @@ import {
 	FormNote,
 	GridCol,
 	GridRow,
+	LabelledControl,
 } from '../../../admin/client/App/elemental';
 
 /**
@@ -223,20 +223,24 @@ module.exports = Field.create({
 		const { paths, enableMapsAPI } = this.props;
 		if (!enableMapsAPI) return null;
 		var replace = this.state.improve ? (
-			<Checkbox
+			<LabelledControl
+				checked={this.state.overwrite}
 				label="Replace existing data"
 				name={this.getInputName(paths.overwrite)}
 				onChange={this.makeGoogler('overwrite')}
-				checked={this.state.overwrite} />
+				type="checkbox"
+			/>
 		) : null;
 		return (
 			<FormField offsetAbsentLabel>
-				<Checkbox
+				<LabelledControl
+					checked={this.state.improve}
 					label="Autodetect and improve location on save"
 					name={this.getInputName(paths.improve)}
 					onChange={this.makeGoogler('improve')}
-					checked={this.state.improve}
-					title="When checked, this will attempt to fill missing fields. It will also get the lat/long" />
+					title="When checked, this will attempt to fill missing fields. It will also get the lat/long"
+					type="checkbox"
+				/>
 				{replace}
 			</FormField>
 		);

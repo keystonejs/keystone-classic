@@ -3,7 +3,13 @@ import { findDOMNode } from 'react-dom';
 import moment from 'moment';
 import DayPicker from 'react-day-picker';
 
-import { FormField, FormInput, FormRow, FormSelect, SegmentedControl } from 'elemental';
+import {
+	FormInput,
+	FormSelect,
+	GridCol,
+	GridRow,
+	SegmentedControl,
+} from '../../../admin/client/App/elemental';
 
 const INVERTED_OPTIONS = [
 	{ label: 'Matches', value: false },
@@ -77,7 +83,8 @@ var DateFilter = React.createClass({
 		this.updateFilter({ inverted: value });
 		this.setFocus(this.props.filter.mode);
 	},
-	selectMode (mode) {
+	selectMode (e) {
+		const mode = e.target.value;
 		this.updateFilter({ mode });
 		this.setFocus(mode);
 	},
@@ -135,14 +142,14 @@ var DateFilter = React.createClass({
 	renderToggle () {
 		const { filter } = this.props;
 		return (
-			<FormField>
+			<div style={{ marginBottom: '1em' }}>
 				<SegmentedControl
 					equalWidthSegments
+					onChange={this.toggleInverted}
 					options={INVERTED_OPTIONS}
 					value={filter.inverted}
-					onChange={this.toggleInverted}
 				/>
-			</FormField>
+			</div>
 		);
 	},
 	renderControls () {
@@ -162,24 +169,26 @@ var DateFilter = React.createClass({
 		if (mode.value === 'between') {
 			controls = (
 				<div>
-					<FormRow>
-						<FormField width="one-half">
-							<FormInput
-								ref="after"
-								placeholder="From"
-								onFocus={() => this.setActiveField('after')}
-								value={moment(filter.after).format(this.props.format)}
-							/>
-						</FormField>
-						<FormField width="one-half">
-							<FormInput
-								ref="before"
-								placeholder="To"
-								onFocus={() => this.setActiveField('before')}
-								value={moment(filter.before).format(this.props.format)}
-							/>
-						</FormField>
-					</FormRow>
+					<div style={{ marginBottom: '1em' }}>
+						<GridRow xsmall="one-half" gutter={10}>
+							<GridCol>
+								<FormInput
+									ref="after"
+									placeholder="From"
+									onFocus={() => this.setActiveField('after')}
+									value={moment(filter.after).format(this.props.format)}
+								/>
+							</GridCol>
+							<GridCol>
+								<FormInput
+									ref="before"
+									placeholder="To"
+									onFocus={() => this.setActiveField('before')}
+									value={moment(filter.before).format(this.props.format)}
+								/>
+							</GridCol>
+						</GridRow>
+					</div>
 					<div style={{ position: 'relative' }}>
 						<DayPicker
 							modifiers={modifiers}
@@ -193,7 +202,7 @@ var DateFilter = React.createClass({
 		} else {
 			controls = (
 				<div>
-					<FormField>
+					<div style={{ marginBottom: '1em' }}>
 						<FormInput
 							ref="input"
 							placeholder={placeholder}
@@ -201,7 +210,7 @@ var DateFilter = React.createClass({
 							onChange={this.handleInputChange}
 							onFocus={this.showCurrentDate}
 						/>
-					</FormField>
+					</div>
 					<div style={{ position: 'relative' }}>
 						<DayPicker
 							ref="daypicker"
@@ -223,11 +232,13 @@ var DateFilter = React.createClass({
 		return (
 			<div>
 				{this.renderToggle()}
-				<FormSelect
-					options={MODE_OPTIONS}
-					onChange={this.selectMode}
-					value={mode.value}
-				/>
+				<div style={{ marginBottom: '1em' }}>
+					<FormSelect
+						options={MODE_OPTIONS}
+						onChange={this.selectMode}
+						value={mode.value}
+					/>
+				</div>
 				{this.renderControls()}
 			</div>
 		);

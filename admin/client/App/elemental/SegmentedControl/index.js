@@ -49,24 +49,26 @@ function SegmentedControl ({
 		</div>);
 };
 
+const valuePropShape = [
+	PropTypes.bool,
+	PropTypes.number,
+	PropTypes.string,
+];
+
 SegmentedControl.propTypes = {
 	color: PropTypes.oneOf(Object.keys(colors)),
 	cropText: PropTypes.bool, // when `inline && equalWidthSegments` crops to the next largest option length
 	equalWidthSegments: PropTypes.bool, // only relevant when `inline === false`
 	inline: PropTypes.bool,
 	onChange: PropTypes.func.isRequired,
-	options: React.PropTypes.arrayOf(
-		React.PropTypes.shape({
-			disabled: React.PropTypes.bool,
-			label: React.PropTypes.string,
-			value: React.PropTypes.string,
+	options: PropTypes.arrayOf(
+		PropTypes.shape({
+			disabled: PropTypes.bool,
+			label: PropTypes.string,
+			value: PropTypes.oneOfType(valuePropShape),
 		})
 	).isRequired,
-	value: PropTypes.oneOfType([
-		PropTypes.bool,
-		PropTypes.number,
-		PropTypes.string,
-	]),
+	value: PropTypes.oneOfType(valuePropShape),
 };
 SegmentedControl.defaultProps = {
 	color: 'default',

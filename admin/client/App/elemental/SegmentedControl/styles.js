@@ -10,7 +10,7 @@ import theme from '../../../theme';
 // Prepare variants
 const colorVariants = {};
 Object.keys(colors).forEach(color => {
-	const hoverStyles = {
+	const pseudoStyles = {
 		backgroundColor: colors[color],
 		color: 'white',
 	};
@@ -18,8 +18,9 @@ Object.keys(colors).forEach(color => {
 		backgroundColor: colors[color],
 		color: 'white',
 
-		':hover': hoverStyles,
-		':focus': hoverStyles,
+		':hover': pseudoStyles,
+		':focus': pseudoStyles,
+		':active': pseudoStyles,
 	};
 });
 
@@ -50,6 +51,7 @@ module.exports = {
 
 		':hover': { backgroundColor: 'rgba(0, 0, 0, 0.05)' },
 		':focus': { backgroundColor: 'rgba(0, 0, 0, 0.05)' },
+		':active': { backgroundColor: 'rgba(0, 0, 0, 0.1)' },
 	},
 	button__equalWidth: {
 		flex: '1 1 0',

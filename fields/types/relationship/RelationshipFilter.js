@@ -4,7 +4,11 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import xhr from 'xhr';
 
-import { FormField, FormInput, SegmentedControl } from 'elemental';
+import {
+	FormField,
+	FormInput,
+	SegmentedControl,
+} from '../../../admin/client/App/elemental';
 
 import PopoutList from '../../../admin/client/App/shared/Popout/PopoutList';
 

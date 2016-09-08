@@ -385,7 +385,7 @@ var EditForm = React.createClass({
 				{(this.state.alerts) ? <AlertMessages alerts={this.state.alerts} /> : null}
 				<GridRow>
 					<GridCol large="three-quarters">
-						<Form layout="horizontal" className="EditForm" component="div">
+						<Form layout="horizontal" component="div">
 							{this.renderNameField()}
 							{this.renderKeyOrId()}
 							{this.renderFormElements()}

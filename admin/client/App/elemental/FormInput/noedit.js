@@ -17,7 +17,7 @@ function FormInputNoedit ({
 	props.className = css(
 		classes.noedit,
 		cropText ? classes.cropText : null,
-		props.href ? classes.anchor : null,
+		(props.href || props.onClick) ? classes.anchor : null,
 		className
 	);
 

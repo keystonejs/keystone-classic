@@ -1,6 +1,10 @@
 import Field from '../Field';
 import React from 'react';
-import { FormRow, FormField, FormInput } from 'elemental';
+import {
+	FormInput,
+	GridCol,
+	GridRow,
+} from '../../../admin/client/App/elemental';
 
 module.exports = Field.create({
 
@@ -40,14 +44,28 @@ module.exports = Field.create({
 	renderField () {
 		const { value = [], path } = this.props;
 		return (
-			<FormRow>
-				<FormField width="one-half">
-					<FormInput name={this.getInputName(path + '[1]')} placeholder="Latitude" ref="lat" value={value[1]} onChange={this.handleLat} autoComplete="off" />
-				</FormField>
-				<FormField width="one-half">
-					<FormInput name={this.getInputName(path + '[0]')} placeholder="Longitude" ref="lng" value={value[0]} onChange={this.handleLong} autoComplete="off" />
-				</FormField>
-			</FormRow>
+			<GridRow xsmall="one-half" gutter={10}>
+				<GridCol>
+					<FormInput
+						autoComplete="off"
+						name={this.getInputName(path + '[1]')}
+						onChange={this.handleLat}
+						placeholder="Latitude"
+						ref="lat"
+						value={value[1]}
+					/>
+				</GridCol>
+				<GridCol width="one-half">
+					<FormInput
+						autoComplete="off"
+						name={this.getInputName(path + '[0]')}
+						onChange={this.handleLong}
+						placeholder="Longitude"
+						ref="lng"
+						value={value[0]}
+					/>
+				</GridCol>
+			</GridRow>
 		);
 	},
 
