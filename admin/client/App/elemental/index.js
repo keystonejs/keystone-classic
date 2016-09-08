@@ -17,6 +17,7 @@ module.exports = {
 	GridRow: require('./GridRow'),
 	InlineGroup: require('./InlineGroup'),
 	InlineGroupSection: require('./InlineGroupSection'),
+	LabelledControl: require('./LabelledControl'),
 	LoadingButton: require('./LoadingButton'),
 	ResponsiveText: require('./ResponsiveText'),
 	ScreenReaderOnly: require('./ScreenReaderOnly'),

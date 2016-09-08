@@ -10,6 +10,7 @@ class Form extends Component {
 	getChildContext () {
 		return {
 			formLayout: this.props.layout,
+			labelWidth: this.props.labelWidth,
 		};
 	}
 	render () {
@@ -29,6 +30,10 @@ class Form extends Component {
 
 Form.childContextTypes = {
 	formLayout: PropTypes.oneOf(['basic', 'horizontal', 'inline']),
+	labelWidth: PropTypes.oneOfType([
+		PropTypes.number,
+		PropTypes.string,
+	]),
 };
 Form.propTypes = {
 	children: PropTypes.node.isRequired,

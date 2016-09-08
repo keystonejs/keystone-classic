@@ -6,7 +6,7 @@ const classes = StyleSheet.create(styles);
 
 function FormLabel (
 	{ className, component: Component, cropText, htmlFor, ...props },
-	{ formFieldId, formLayout }
+	{ formFieldId, formLayout, labelWidth }
 ) {
 	props.htmlFor = htmlFor || formFieldId;
 	props.className = css(
@@ -15,6 +15,12 @@ function FormLabel (
 		cropText ? classes['FormLabel--crop-text'] : null,
 		className
 	);
+	if (labelWidth) {
+		props.style = {
+			width: labelWidth,
+			...props.style,
+		};
+	}
 
 	return <Component {...props} />;
 };
@@ -23,6 +29,10 @@ function FormLabel (
 FormLabel.contextTypes = {
 	formLayout: PropTypes.oneOf(['basic', 'horizontal', 'inline']),
 	formFieldId: PropTypes.string,
+	labelWidth: PropTypes.oneOfType([
+		PropTypes.number,
+		PropTypes.string,
+	]),
 };
 FormLabel.propTypes = {
 	component: PropTypes.oneOfType([
