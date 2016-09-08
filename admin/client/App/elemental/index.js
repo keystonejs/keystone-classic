@@ -20,5 +20,6 @@ module.exports = {
 	LoadingButton: require('./LoadingButton'),
 	ResponsiveText: require('./ResponsiveText'),
 	ScreenReaderOnly: require('./ScreenReaderOnly'),
+	SegmentedControl: require('./SegmentedControl'),
 	Spinner: require('./Spinner'),
 };
