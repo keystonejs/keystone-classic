@@ -1,4 +1,4 @@
-import { FormNote, FormField, FormInput } from 'elemental';
+import { FormNote, FormField, FormInput } from '../../../elemental';
 import React, { PropTypes } from 'react';
 import vkey from 'vkey';
 

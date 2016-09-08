@@ -4,11 +4,24 @@ import styles from './styles';
 
 const classes = StyleSheet.create(styles);
 
-function FormNote ({ className, children, component: Component, ...props }) {
+function FormNote ({
+	className,
+	children,
+	component: Component,
+	html,
+	...props,
+}) {
 	props.className = css(classes.note, className);
 
-	return (
-		<Component {...props} dangerouslySetInnerHTML={{ __html: children }} />
+	// Property Violation
+	if (children && html) {
+		console.error('Warning: FormNote cannot render `children` and `html`. You must provide one or the other.');
+	}
+
+	return html ? (
+		<Component {...props} dangerouslySetInnerHTML={!!html && { __html: html }} />
+	) : (
+		<Component {...props}>{children}</Component>
 	);
 };
 FormNote.propTypes = {
@@ -16,6 +29,7 @@ FormNote.propTypes = {
 		PropTypes.func,
 		PropTypes.string,
 	]),
+	html: PropTypes.string,
 };
 FormNote.defaultProps = {
 	component: 'div',

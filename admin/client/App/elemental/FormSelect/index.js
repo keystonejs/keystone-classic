@@ -16,10 +16,9 @@ class FormSelect extends Component {
 		);
 		props.id = id || formFieldId;
 
-		// allow an array of options or children
+		// Property Violation
 		if (options && children) {
-			console.error('Error: `FormSelect` accepts either `children` or `options`, but not both.');
-			return null;
+			console.error('Warning: FormSelect cannot render `children` and `options`. You must provide one or the other.');
 		}
 
 		return (
