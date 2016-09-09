@@ -35,7 +35,7 @@ module.exports = Field.create({
 				{this.props.value}
 			</FormInput>
 		) : (
-			<FormInput noedit>(not set)</FormInput>
+			<FormInput noedit />
 		);
 	},
 });

@@ -42,7 +42,7 @@ module.exports = Field.create({
 	},
 
 	renderValue () {
-		return <FormInput noedit>{this.props.value ? 'password set' : 'password not set'}</FormInput>;
+		return <FormInput noedit>{this.props.value ? 'Password Set' : ''}</FormInput>;
 	},
 
 	renderField () {

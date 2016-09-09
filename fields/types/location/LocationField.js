@@ -104,7 +104,7 @@ module.exports = Field.create({
 	},
 
 	renderValue () {
-		return <FormInput noedit>{this.formatValue() || '(no value)'}</FormInput>;
+		return <FormInput noedit>{this.formatValue() || ''}</FormInput>;
 	},
 
 	renderField (fieldPath, label, collapse, autoFocus) {

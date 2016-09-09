@@ -317,7 +317,7 @@ module.exports = Field.create({
 
 		const toolbar = this.shouldRenderField()
 			? this.renderImageToolbar()
-			: <FormInput noedit>no image</FormInput>;
+			: <FormInput noedit />;
 
 		return (
 			<FormField label={label} className="field-type-cloudinaryimage" htmlFor={path}>
