@@ -175,12 +175,12 @@ const ListView = React.createClass({
 				isOpen: true,
 				label: 'Delete',
 				body: (
-					`<p>
-						Are you sure you want to delete ${itemCount}?
+					<p>
+						Are you sure you want to delete {itemCount}?
 						<br />
 						<br />
 						This cannot be undone.
-					</p>`
+					</p>
 				),
 				onConfirmation: () => {
 					this.props.dispatch(deleteItems(itemIds));
@@ -346,12 +346,12 @@ const ListView = React.createClass({
 				isOpen: true,
 				label: 'Delete',
 				body: (
-					`<p>
+					<p>
 						Are you sure you want to delete <strong>${item.name}</strong>?
 						<br />
 						<br />
 						This cannot be undone.
-					</p>`
+					</p>
 				),
 				onConfirmation: () => {
 					this.props.dispatch(deleteItem(item.id));
