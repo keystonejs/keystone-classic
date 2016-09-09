@@ -1,5 +1,6 @@
 # How to create a blog with Keystone
 
+<<<<<<< Updated upstream
 One way to get acquainted with Keystone is to build a simple blog with it.
 Here's how you can do it:
 
@@ -46,3 +47,18 @@ node keystone
 ```
 
 You can now go to your browser and check out your new project on port 3000 (open http://localhost:3000).
+=======
+## Changing blog styles and templates
+
+After you run http://localhost:3000 for the first time, you can see the default blog template with default styles. Now it is time to make our blog look like [Bootstrap-clean-blog](https://blackrockdigital.github.io/startbootstrap-clean-blog/) theme. Download theme's [source files](https://github.com/BlackrockDigital/startbootstrap-clean-blog/archive/gh-pages.zip)
+
+### Adding .less files
+
+By default, Boostrap is already included with Keystone, so we would only have to add a few .less files. Copy contents of Boostrap theme's `less` folder, go to `public/styles/styles/site` and replace existing files with theme's files. Do not forget to `@import` correct .less files in `site.less`. Now re-run `node keystone` to recompile css.
+
+### Editing templates
+
+First, let's re-build header and footer. Open `templates/layouts/default.jade` file which contains template's wrapper. Now by following Bootstrap theme's `index.html`, add fonts, extra navigation elements and theme's classes using Jade. If you are not familiar with Jade (recently renamed to pug), refer to the [official documentation](https://pugjs.org/api/getting-started.html).
+
+Blog and post templates are a bit more tricky to modify. When you open `templates/views/blog.jade`, you will see a mixin which creates a feed of the latest posts.
+>>>>>>> Stashed changes
