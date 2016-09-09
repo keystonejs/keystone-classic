@@ -333,13 +333,13 @@ const ListView = React.createClass({
 			checkedItems: {},
 		});
 	},
-	deleteTableItem (item, event) {
-		if (event.altKey) {
+	deleteTableItem (item, e) {
+		if (e.altKey) {
 			this.props.dispatch(deleteItem(item.id));
 			return;
 		}
 
-		event.preventDefault();
+		e.preventDefault();
 
 		this.setState({
 			confirmationDialog: {
