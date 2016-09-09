@@ -163,7 +163,7 @@ Field.prototype.getPreSaveWatcher = function () {
 		applyValue = function () { return true; };
 	} else {
 		// if watch is a string, convert it to a list of paths to watch
-		if (_.isString(this.options.watch)) {
+		if (typeof this.options.watch === 'string') {
 			this.options.watch = this.options.watch.split(' ');
 		}
 		if (typeof this.options.watch === 'function') {
