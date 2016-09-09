@@ -6,6 +6,7 @@ import Select from 'react-select';
 import xhr from 'xhr';
 import {
 	Button,
+	FormInput,
 	InlineGroup as Group,
 	InlineGroupSection as Section,
 } from '../../../admin/client/App/elemental';
@@ -229,7 +230,16 @@ module.exports = Field.create({
 	},
 
 	renderValue () {
-		return this.renderSelect(true);
+		const { many } = this.props;
+		const { value } = this.state;
+		const props = {
+			children: value ? value.name : null,
+			component: value ? 'a' : 'span',
+			href: value ? value.href : null,
+			noedit: true,
+		};
+
+		return many ? this.renderSelect(true) : <FormInput {...props} />;
 	},
 
 	renderField () {
