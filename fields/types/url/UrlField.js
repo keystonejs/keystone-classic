@@ -49,9 +49,10 @@ module.exports = Field.create({
 		);
 	},
 	renderValue () {
+		const { value } = this.props;
 		return (
-			<FormInput noedit onClick={this.openValue}>
-				{this.props.value}
+			<FormInput noedit onClick={value && this.openValue}>
+				{value}
 			</FormInput>
 		);
 	},
