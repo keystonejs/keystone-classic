@@ -51,9 +51,8 @@ var Base = module.exports.Base = {
 		return this.props.collapse && !this.props.value;
 	},
 	shouldRenderField () {
-		if (!this.props.noedit) return true;
-		if (this.props.mode === 'create' && this.props.initial) return true;
-		return false;
+		if (this.props.mode === 'create') return true;
+		return !this.props.noedit;
 	},
 	focus () {
 		if (!this.refs[this.spec.focusTargetRef]) return;
