@@ -304,7 +304,7 @@ function doGoogleGeocodeRequest (address, region, callback) {
 		address: address,
 	};
 
-	if (arguments.length === 2 && _.isFunction(region)) {
+	if (arguments.length === 2 && typeof region === 'function') {
 		callback = region;
 		region = null;
 	}
@@ -356,7 +356,7 @@ function doGoogleGeocodeRequest (address, region, callback) {
  */
 location.prototype.googleLookup = function (item, region, update, callback) {
 
-	if (_.isFunction(update)) {
+	if (typeof update === 'function') {
 		callback = update;
 		update = false;
 	}

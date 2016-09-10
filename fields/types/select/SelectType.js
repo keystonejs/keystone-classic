@@ -21,7 +21,7 @@ function select (list, path, options) {
 		throw new Error('Select fields require an options array.');
 	}
 	this.ops = options.options.map(function (i) {
-		var op = _.isString(i) ? { value: i.trim(), label: utils.keyToLabel(i) } : i;
+		var op = typeof i === 'string' ? { value: i.trim(), label: utils.keyToLabel(i) } : i;
 		if (!_.isObject(op)) {
 			op = { label: '' + i, value: '' + i };
 		}
