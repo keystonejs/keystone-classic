@@ -1,6 +1,6 @@
 import React from 'react';
-import ItemsTableCell from '../../../admin/client/components/ItemsTable/ItemsTableCell';
-import ItemsTableValue from '../../../admin/client/components/ItemsTable/ItemsTableValue';
+import ItemsTableCell from '../../components/ItemsTableCell';
+import ItemsTableValue from '../../components/ItemsTableValue';
 
 var UrlColumn = React.createClass({
 	displayName: 'UrlColumn',
@@ -22,7 +22,7 @@ var UrlColumn = React.createClass({
 		var label = value.replace(/^https?\:\/\//i, '');
 
 		return (
-			<ItemsTableValue href={href} padded exterior field={this.props.col.type}>
+			<ItemsTableValue to={href} padded exterior field={this.props.col.type}>
 				{label}
 			</ItemsTableValue>
 		);

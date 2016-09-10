@@ -61,63 +61,66 @@
 	color: @primary-navbar-color;
 	padding-bottom: .5em;
 	padding-top: .5em;
+}
 
-	// add a little divider between nav items
-	li {
-		position: relative;
+.primary-navbar__item {
+	position: relative;
 
-		&:before {
-			.translate(0,-50%);
-			background-color: rgba(255, 255, 255, 0.2);
-			content: " ";
-			left: 0;
-			height: 1em;
-			position: absolute;
-			top: 50%;
-			width: 1px;
-			z-index: 1;
-		}
-
-		// hide the divider where appropriate
-		&:first-child::before,
-		&.right:last-child::before {
-			display: none;
-		}
+	// adds a divider between nav items
+	&::before {
+		.translate(0,-50%);
+		background-color: rgba(255, 255, 255, 0.2);
+		content: " ";
+		left: 0;
+		height: 1em;
+		position: absolute;
+		top: 50%;
+		width: 1px;
+		z-index: 1;
 	}
 
-	li > a {
-		border-radius: .3em;
-		color: inherit;
-		padding: @primary-navbar-padding-vertical @primary-navbar-padding-horizontal;
-		position: relative;
+	// hide the divider where appropriate
+	&:first-child::before,
+	&.right:last-child::before {
+		display: none;
+	}
+}
 
-		&:hover {
-			background-color: @primary-navbar-hover-bg;
-			color: @primary-navbar-hover-color;
-		}
+// anchors and Link component
+.primary-navbar__link {
+	border-radius: .3em;
+	color: inherit;
+	padding: @primary-navbar-padding-vertical @primary-navbar-padding-horizontal;
+	position: relative;
+
+	&:hover {
+		background-color: @primary-navbar-hover-bg;
+		color: @primary-navbar-hover-color;
+	}
+}
+
+// hide the active item's divider and, using box-shadow, mask the one
+// to its right
+.primary-navbar__item--active {
+	box-shadow: 2px 0 0 @primary-navbar-bg;
+	z-index: 2;
+
+	&::before {
+		display: none;
 	}
 
-	// the selected nav item
-	.active {
-		// hide the active element's divider and mask the one to its right
-		box-shadow: 2px 0 0 @primary-navbar-bg; // this sits on top of the divider, masking it from view
-		z-index: 2;
-
-		&:before {
-			display: none;
-		}
-
-		> a {
-			&, &:hover {
-				background-color: @primary-navbar-active-bg;
-				color: @primary-navbar-active-color;
-			}
-		}
+	.primary-navbar__link {
+		background-color: @primary-navbar-active-bg;
+		color: @primary-navbar-active-color;
 	}
+}
 
-	// align first nav items to the left of the container
-	// because the active state has a background we exclude it in this selector
-	li:first-child:not(.active) > a {
+// brand specific styles
+.primary-navbar__brand {
+	box-shadow: none;
+
+	.primary-navbar__link {
+		background-color: transparent;
 		padding-left: 0;
 	}
 }
@@ -144,8 +147,8 @@
 	}
 	.active > a {
 
-		&:before,
-		&:after {
+		&::before,
+		&::after {
 			.square(0);
 			border: @secondary-navbar-arrow-size solid transparent;
 			border-bottom-width: 0;
@@ -154,11 +157,11 @@
 			position: absolute;
 			left: 50%;
 		}
-		&:before {
+		&::before {
 			border-top-color: #ccc;
 			bottom: -(@secondary-navbar-arrow-size + 1);
 		}
-		&:after {
+		&::after {
 			border-top-color: @secondary-navbar-bg;
 			bottom: -@secondary-navbar-arrow-size;
 		}

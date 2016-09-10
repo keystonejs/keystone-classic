@@ -21,43 +21,14 @@
 
 
 
-// Collapsed Field Label
-// ------------------------------
-
-/*button*/.collapsed-field-label {
-	padding-left: 0;
-	padding-right: 0;
-
-	// stop things jumping around
-	// TODO: find out why this is necessary
-	margin-bottom: 1px;
-}
-
-
-
-
 // Colour
 // ------------------------------
 
-.field-type-color__wrapper {
-	position: relative;
-}
-.field-type-color__button {
-	padding: 4px;
-	width: @component-height;
-}
-.field-type-color__swatch {
-	border-radius: 1px;
-	box-shadow: inset 0 0 0 1px rgba(0,0,0,0.1);
-	display: block;
-	height: 100%;
-	width: 100%;
-}
-
+// NOTE
 // fix sizing issues with https://github.com/casesandberg/react-color
 // component doesn't play nice with border-box
 
-.field-type-color__picker {
+.e2e-type-color__popover {
 	div,
 	input,
 	span {
@@ -88,28 +59,6 @@
 .field-type-localfiles__note--upload {
 	background-color: fade(@app-success, 5%);
 	color: fade(@app-success, 50%);
-}
-
-
-
-
-// Location
-// ------------------------------
-
-.field-type-location {
-	label {
-		margin: 0;
-	}
-	label+.row {
-		margin-top: 12px;
-	}
-	// .noedit {
-	// 	.make-sm-column(9);
-	// 	.make-md-column(10);
-	// }
-	.row label {
-		padding-top: @padding-base-vertical;
-	}
 }
 
 

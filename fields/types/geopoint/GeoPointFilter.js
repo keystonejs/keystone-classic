@@ -74,7 +74,7 @@ var TextFilter = React.createClass({
 						label="Latitude"
 					>
 						<FormInput
-							autofocus
+							autoFocus
 							ref="latitude"
 							type="number"
 							required="true"

@@ -20,6 +20,7 @@ function money (list, path, options) {
 	}
 	money.super_.call(this, list, path, options);
 }
+money.properName = 'Money';
 util.inherits(money, FieldType);
 
 

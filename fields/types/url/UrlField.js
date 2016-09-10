@@ -4,6 +4,9 @@ import { Button, FormInput } from 'elemental';
 
 module.exports = Field.create({
 	displayName: 'URLField',
+	statics: {
+		type: 'Url',
+	},
 	openValue () {
 		var href = this.props.value;
 		if (!href) return;
@@ -24,7 +27,7 @@ module.exports = Field.create({
 	renderField () {
 		return (
 			<FormInput
-				name={this.props.path}
+				name={this.getInputName(this.props.path)}
 				ref="focusTarget"
 				value={this.props.value}
 				onChange={this.valueChanged}

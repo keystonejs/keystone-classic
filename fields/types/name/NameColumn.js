@@ -1,6 +1,6 @@
 import React from 'react';
-import ItemsTableCell from '../../../admin/client/components/ItemsTable/ItemsTableCell';
-import ItemsTableValue from '../../../admin/client/components/ItemsTable/ItemsTableValue';
+import ItemsTableCell from '../../components/ItemsTableCell';
+import ItemsTableValue from '../../components/ItemsTableValue';
 import displayName from 'display-name';
 
 var NameColumn = React.createClass({
@@ -18,7 +18,7 @@ var NameColumn = React.createClass({
 	render () {
 		return (
 			<ItemsTableCell>
-				<ItemsTableValue href={this.props.linkTo} padded interior field={this.props.col.type}>
+				<ItemsTableValue to={this.props.linkTo} padded interior field={this.props.col.type}>
 					{this.renderValue()}
 				</ItemsTableValue>
 			</ItemsTableCell>

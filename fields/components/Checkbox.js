@@ -1,7 +1,7 @@
 import React from 'react';
 import blacklist from 'blacklist';
 import classnames from 'classnames';
-import Color from 'color';
+import { darken, fade } from '../../admin/client/utils/color';
 import E from '../../admin/client/constants';
 
 var Checkbox = React.createClass({
@@ -34,9 +34,9 @@ var Checkbox = React.createClass({
 		const { checked, readonly } = this.props;
 		const { active, focus, hover } = this.state;
 
-		const checkedColor = Color('#3999fc');
+		const checkedColor = '#3999fc';
 
-		let background = (checked && !readonly) ? checkedColor.hexString() : 'white';
+		let background = (checked && !readonly) ? checkedColor : 'white';
 		let borderColor = (checked && !readonly) ? 'rgba(0,0,0,0.15) rgba(0,0,0,0.1) rgba(0,0,0,0.05)' : 'rgba(0,0,0,0.3) rgba(0,0,0,0.2) rgba(0,0,0,0.15)';
 		let boxShadow = (checked && !readonly) ? '0 1px 0 rgba(255,255,255,0.33)' : 'inset 0 1px 0 rgba(0,0,0,0.06)';
 		let color = (checked && !readonly) ? 'white' : '#bbb';
@@ -47,13 +47,13 @@ var Checkbox = React.createClass({
 			borderColor = (checked) ? 'rgba(0,0,0,0.1) rgba(0,0,0,0.15) rgba(0,0,0,0.2)' : 'rgba(0,0,0,0.35) rgba(0,0,0,0.3) rgba(0,0,0,0.25)';
 		}
 		if (active) {
-			background = (checked && !readonly) ? checkedColor.darken(0.2).hexString() : '#eee';
+			background = (checked && !readonly) ? darken(checkedColor, 20) : '#eee';
 			borderColor = (checked && !readonly) ? 'rgba(0,0,0,0.25) rgba(0,0,0,0.3) rgba(0,0,0,0.35)' : 'rgba(0,0,0,0.4) rgba(0,0,0,0.35) rgba(0,0,0,0.3)';
 			boxShadow = (checked && !readonly) ? '0 1px 0 rgba(255,255,255,0.33)' : 'inset 0 1px 3px rgba(0,0,0,0.2)';
 		}
 		if (focus && !active) {
-			borderColor = (checked && !readonly) ? 'rgba(0,0,0,0.25) rgba(0,0,0,0.3) rgba(0,0,0,0.35)' : checkedColor.hexString();
-			boxShadow = (checked && !readonly) ? `0 0 0 3px ${checkedColor.alpha(0.15).rgbString()}` : `inset 0 1px 2px rgba(0,0,0,0.15), 0 0 0 3px ${checkedColor.alpha(0.15).rgbString()}`;
+			borderColor = (checked && !readonly) ? 'rgba(0,0,0,0.25) rgba(0,0,0,0.3) rgba(0,0,0,0.35)' : checkedColor;
+			boxShadow = (checked && !readonly) ? `0 0 0 3px ${fade(checkedColor, 15)}` : `inset 0 1px 2px rgba(0,0,0,0.15), 0 0 0 3px ${fade(checkedColor, 15)}`;
 		}
 
 		// noedit
@@ -61,7 +61,7 @@ var Checkbox = React.createClass({
 			background = 'rgba(255,255,255,0.5)';
 			borderColor = 'rgba(0,0,0,0.1)';
 			boxShadow = 'none';
-			color = checked ? checkedColor.hexString() : '#bbb';
+			color = checked ? checkedColor : '#bbb';
 		}
 
 		return {

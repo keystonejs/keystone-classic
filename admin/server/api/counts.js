@@ -1,7 +1,7 @@
-var keystone = require('../../../');
 var async = require('async');
 
 module.exports = function (req, res) {
+	var keystone = req.keystone;
 	var counts = {};
 	async.each(keystone.lists, function (list, next) {
 		list.model.count(function (err, count) {

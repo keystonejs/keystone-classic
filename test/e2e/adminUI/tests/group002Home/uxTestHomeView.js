@@ -1,108 +1,119 @@
-var adminUI = require('../../adminUI');
+var NameModelTestConfig = require('../../../modelTestConfig/NameModelTestConfig');
 
 module.exports = {
 	before: function (browser) {
-		browser
-			.url(adminUI.url)
-			.waitForElementVisible(adminUI.cssSelector.signinView.id)
-			.setValue(adminUI.cssSelector.signinView.emailInput, adminUI.login.email)
-			.setValue(adminUI.cssSelector.signinView.passwordInput, adminUI.login.password)
-			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.signinView.submitButton)
-			.pause(browser.globals.defaultPauseTimeout);
+		browser.adminUIApp = browser.page.adminUIApp();
+		browser.adminUISignin = browser.page.adminUISignin();
+		browser.adminUIHomeScreen = browser.page.adminUIHomeScreen();
+		browser.adminUIInitialFormScreen = browser.page.adminUIInitialForm();
+		browser.adminUIListScreen = browser.page.adminUIListScreen();
+		browser.adminUIDeleteConfirmation = browser.page.adminUIDeleteConfirmation();
+
+		browser.adminUIApp.gotoHomeScreen();
+		browser.adminUIApp.waitForSigninScreen();
+
+		browser.adminUISignin.signin();
+
+		browser.adminUIApp.waitForHomeScreen();
 	},
 	after: function (browser) {
-		browser
-			.url(adminUI.url)
-			.waitForElementVisible(adminUI.cssSelector.homeView.id)
-			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.allView.logoutIconLink)
-			.pause(browser.globals.defaultPauseTimeout)
-			.end();
+		browser.adminUIApp.signout();
+		browser.end();
 	},
-	'Home view should allow clicking a nav menu item such as Access to show the list of items': function (browser) {
-		browser
-			.url(adminUI.url)
-			.waitForElementVisible(adminUI.cssSelector.homeView.id)
-			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.allView.accessMenu)
-			.waitForElementVisible(adminUI.cssSelector.listView.id)
-			.pause(browser.globals.defaultPauseTimeout)
-			.url(adminUI.url)
-			.waitForElementVisible(adminUI.cssSelector.homeView.id)
-			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.allView.fieldsMenu)
-			.waitForElementVisible(adminUI.cssSelector.listView.id)
-			.pause(browser.globals.defaultPauseTimeout);
+	'Home view should allow clicking a nav menu item such as Access and Fields to show the list of items': function (browser) {
+		browser.adminUIApp
+			.waitForHomeScreen()
+			.click('@accessMenu')
+			.waitForListScreen();
+		browser.adminUIApp.gotoHomeScreen();
+		browser.adminUIApp.waitForHomeScreen()
+			.click('@fieldListsMenu')
+			.waitForListScreen();
 	},
 	'Home view should allow clicking a card list item such as Users to should show the list of those items': function (browser) {
-		browser
-			.url(adminUI.url)
-			.waitForElementVisible(adminUI.cssSelector.homeView.id)
-			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.homeView.usersTabUnderDashboardAccessSubheading)
-			.waitForElementVisible(adminUI.cssSelector.listView.id)
-			.pause(browser.globals.defaultPauseTimeout);
+		browser.adminUIApp.gotoHomeScreen();
+		browser.adminUIApp.waitForHomeScreen();
+
+		browser.adminUIHomeScreen.section.accessGroup.section.users
+			.click('@label');
+
+		browser.adminUIApp
+			.waitForListScreen();
 	},
 	'Home view should allow an admin to create a new list item such as a user': function (browser) {
-		browser
-			.url(adminUI.url)
-			.waitForElementVisible(adminUI.cssSelector.homeView.id)
-			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.homeView.plusIconLinkForUsersTabUnderDashboardAccessSubheading)
-			.waitForElementVisible(adminUI.cssSelector.initialModalView.id)
-			.pause(browser.globals.defaultPauseTimeout);
+		browser.adminUIApp.gotoHomeScreen();
+		browser.adminUIApp.waitForHomeScreen();
+
+		browser.adminUIHomeScreen.section.accessGroup.section.users
+			.click('@plusIconLink');
+
+		browser.adminUIInitialFormScreen.section.form
+			.waitForElementVisible('@createButton');
 	},
 	'Home view should allow an admin to create a new list item and increment the item count': function (browser) {
-		browser
-			.url(adminUI.url)
-			.waitForElementVisible(adminUI.cssSelector.homeView.id)
-			.pause(browser.globals.defaultPauseTimeout);
+		browser.adminUIApp.gotoHomeScreen();
+		browser.adminUIApp.waitForHomeScreen();
 
-		browser.expect.element(adminUI.cssSelector.homeView.itemCountForNamesTabUnderDashboardFieldsSubheading)
-			.text.to.equal('0 Items');
+		browser.adminUIHomeScreen.section.fieldsGroup.section.names
+			.expect.element('@itemCount').text.to.equal('0 Items');
+		browser.adminUIHomeScreen.section.fieldsGroup.section.names
+			.click('@plusIconLink');
 
-		browser
-			.click(adminUI.cssSelector.homeView.plusIconLinkForNamesTabUnderDashboardFieldsSubheading)
-			.waitForElementVisible(adminUI.cssSelector.initialModalView.id)
-			.setValue(adminUI.cssSelector.initialModalView.fieldType.name.name.name.value, 'Name Field Test')
-			.setValue(adminUI.cssSelector.initialModalView.fieldType.name.name.fieldA.first, 'First')
-			.setValue(adminUI.cssSelector.initialModalView.fieldType.name.name.fieldA.last, 'Last')
-			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.initialModalView.buttonCreate)
-			.waitForElementVisible(adminUI.cssSelector.itemView.id)
-			.url(adminUI.url);
+		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.expect.element(adminUI.cssSelector.homeView.itemCountForNamesTabUnderDashboardFieldsSubheading)
-			.text.to.equal('1 Item');
+		browser.adminUIInitialFormScreen.fillFieldInputs({
+			modelTestConfig: NameModelTestConfig,
+			fields: {
+				'name': {value: 'Name Field Test'},
+				'fieldA': {firstName: 'First', lastName: 'Last'},
+			}
+		});
+
+		browser.adminUIInitialFormScreen.save();
+
+		browser.adminUIApp.waitForItemScreen();
+		browser.adminUIApp.gotoHomeScreen();
+		browser.adminUIApp.waitForHomeScreen();
+
+		browser.adminUIHomeScreen.section.fieldsGroup.section.names
+			.expect.element('@itemCount').text.to.equal('1 Item');
 	},
 	'Home view should be accessible from any other non-modal view by clicking the Home link': function (browser) {
-		browser
-			.url(adminUI.url)
-			.waitForElementVisible(adminUI.cssSelector.homeView.id)
-			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.homeView.usersTabUnderDashboardAccessSubheading)
-			.waitForElementVisible(adminUI.cssSelector.listView.id)
-			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.allView.homeIconLink)
-			.waitForElementVisible(adminUI.cssSelector.homeView.id)
-			.pause(browser.globals.defaultPauseTimeout);
-	},
+		browser.adminUIApp.gotoHomeScreen();
+		browser.adminUIApp.waitForHomeScreen();
 
+		browser.adminUIHomeScreen.section.accessGroup.section.users
+			.click('@label');
+		browser.adminUIApp
+			.waitForListScreen();
+
+		browser.adminUIApp
+			.click('@homeIconLink')
+			.waitForHomeScreen();
+	},
 	// UNDO ANY STATE CHANGES -- THIS TEST SHOULD RUN LAST
 	'Home view ... undoing any state changes': function (browser) {
 		// Delete the Name Field added
-		browser
-			.url(adminUI.url)
-			.waitForElementVisible(adminUI.cssSelector.homeView.id)
-			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.allView.fieldsMenu)
-			.waitForElementVisible(adminUI.cssSelector.listView.id)
-			.click(adminUI.cssSelector.allView.namesFieldsSubmenu)
-			.waitForElementVisible(adminUI.cssSelector.listView.id)
-			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.listView.singleItemDeleteIcon)
-			.waitForElementVisible(adminUI.cssSelector.deleteConfirmationModalView.id)
-			.click(adminUI.cssSelector.deleteConfirmationModalView.buttonDelete);
+		browser.adminUIApp.gotoHomeScreen();
+		browser.adminUIApp.waitForHomeScreen();
+
+		browser.adminUIApp
+			.click('@fieldListsMenu')
+			.waitForListScreen();
+
+		browser.adminUIApp
+			.click('@nameListSubmenu')
+			.waitForListScreen();
+
+		browser.adminUIListScreen
+			.click('@singleItemDeleteIcon');
+
+		browser.adminUIDeleteConfirmation
+			.waitForElementVisible('@deleteButton');
+
+		browser.adminUIDeleteConfirmation
+			.click('@deleteButton');
+
+		browser.adminUIApp.waitForListScreen();
 	},
 };

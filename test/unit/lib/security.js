@@ -48,7 +48,7 @@ describe('CSRF', function () {
 	describe('createToken(req)', function () {
 		it('must create a new token', function () {
 			memory.token = csrf.createToken(memory.req);
-			memory.token.substr(memory.token.length - 1, 1).must.equal('=');
+			memory.token.length.must.be.above(38);
 		});
 	});
 	describe('getToken(req, res)', function () {
@@ -93,7 +93,7 @@ describe('CSRF', function () {
 			var req = REQ(), res = RES();
 			csrf.middleware.init(req, res, function (err) {
 				var token = res.locals[csrf.LOCAL_VALUE];
-				token.substr(token.length - 1, 1).must.equal('=');
+				token.length.must.above(38);
 				next();
 			});
 		});

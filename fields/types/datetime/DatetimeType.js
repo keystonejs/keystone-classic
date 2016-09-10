@@ -3,10 +3,9 @@ var DateType = require('../date/DateType');
 var FieldType = require('../Type');
 var util = require('util');
 var utils = require('keystone-utils');
-var TextType = require('../text/TextType');
 
 // ISO_8601 is needed for the automatically created createdAt and updatedAt fields
-var parseFormats = ['YYYY-MM-DD', 'YYYY-MM-DD h:m:s a', 'YYYY-MM-DD h:m a', 'YYYY-MM-DD H:m:s', 'YYYY-MM-DD H:m', moment.ISO_8601];
+var parseFormats = ['YYYY-MM-DD', 'YYYY-MM-DD h:m:s a', 'YYYY-MM-DD h:m a', 'YYYY-MM-DD H:m:s', 'YYYY-MM-DD H:m', 'YYYY-MM-DD h:mm:s a Z', moment.ISO_8601];
 /**
  * DateTime FieldType Constructor
  * @extends Field
@@ -19,7 +18,7 @@ function datetime (list, path, options) {
 	this._properties = ['formatString', 'isUTC'];
 	this.typeDescription = 'date and time';
 	this.parseFormatString = options.parseFormat || parseFormats;
-	this.formatString = (options.format === false) ? false : (options.format || 'YYYY-MM-DD h:m:s a');
+	this.formatString = (options.format === false) ? false : (options.format || 'YYYY-MM-DD h:mm:ss a');
 	this.isUTC = options.utc || false;
 	if (this.formatString && typeof this.formatString !== 'string') {
 		throw new Error('FieldType.DateTime: options.format must be a string.');
@@ -28,8 +27,10 @@ function datetime (list, path, options) {
 	this.paths = {
 		date: this._path.append('_date'),
 		time: this._path.append('_time'),
+		tzOffset: this._path.append('_tzOffset'),
 	};
 }
+datetime.properName = 'Datetime';
 util.inherits(datetime, FieldType);
 
 /* Inherit generic methods */
@@ -38,18 +39,32 @@ datetime.prototype.moment = DateType.prototype.moment;
 datetime.prototype.parse = DateType.prototype.parse;
 datetime.prototype.addFilterToQuery = DateType.prototype.addFilterToQuery;
 
-datetime.prototype.validateRequiredInput = TextType.prototype.validateRequiredInput;
-
 /**
  * Get the value from a data object; may be simple or a pair of fields
  */
 datetime.prototype.getInputFromData = function (data) {
 	var dateValue = this.getValueFromData(data, '_date');
 	var timeValue = this.getValueFromData(data, '_time');
+	var tzOffsetValue = this.getValueFromData(data, '_tzOffset');
 	if (dateValue && timeValue) {
-		return dateValue + ' ' + timeValue;
+		var combined = dateValue + ' ' + timeValue;
+		if (typeof tzOffsetValue !== 'undefined') {
+			combined += ' ' + tzOffsetValue;
+		}
+		return combined;
 	}
+
 	return this.getValueFromData(data);
+};
+
+
+datetime.prototype.validateRequiredInput = function (item, data, callback) {
+	var value = this.getInputFromData(data);
+	var result = !!value;
+	if (value === undefined && item.get(this.path)) {
+		result = true;
+	}
+	utils.defer(callback, result);
 };
 
 /**

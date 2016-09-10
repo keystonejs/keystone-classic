@@ -1,39 +1,90 @@
 language: node_js
 node_js:
-  - "0.12"
-
-before_install:
-  - npm install -g npm@3
+- '6'
+env:
+  global:
+    - KEYSTONE_PREBUILD_ADMIN=true
+  matrix:
+    - JOB=lint-and-test-cov
+matrix:
+  include:
+    - node_js: '6'
+      addons:
+        sauce_connect: true
+      script:
+        - npm run test-e2e-saucelabs-group
+      env:
+        - JOB=e2e GROUP=group005Fields
+    - node_js: '6'
+      addons:
+        sauce_connect: true
+      script:
+        - npm run test-e2e-saucelabs-group
+      env:
+        - JOB=e2e GROUP=group004Item
+    - node_js: '6'
+      addons:
+        sauce_connect: true
+      script:
+        - npm run test-e2e-saucelabs-group
+      env:
+        - JOB=e2e GROUP=group003List
+    - node_js: '6'
+      addons:
+        sauce_connect: true
+      script:
+        - npm run test-e2e-saucelabs-group
+      env:
+        - JOB=e2e GROUP=group002Home
+    - node_js: '6'
+      addons:
+        sauce_connect: true
+      script:
+        - npm run test-e2e-saucelabs-group
+      env:
+        - JOB=e2e GROUP=group001Login
+    - node_js: '6'
+      script:
+        - npm run test-admin
+      env:
+        - JOB=unit_tests_node_6
+    - node_js: '5'
+      script:
+        - npm run test-admin
+      env:
+        - JOB=unit_tests_node_5
+    - node_js: '4'
+      script:
+        - npm run test-admin
+      env:
+        - JOB=unit_tests_node_4
+    - node_js: '0.12'
+      script:
+        - npm run test-admin
+      env:
+        - JOB=unit_tests_node_0.12
 
 before_script:
-  - npm run lint
-  - sleep 15
-
+- sleep 15
 script:
-  - npm run test-cov
-  - npm run test-e2e-saucelabs
-
+- npm run lint
+- npm run test-cov
 sudo: required
-
 notifications:
   email:
-    - jed@keystonejs.com
-
+  - jed@keystonejs.com
+  slack:
+    secure: AqayzYjoHTlwE85pgB0h5yqpyBDWbdrpiXKXhb8tSqWPKi6unhkfZ4r11kQRowoDQXb+fue9367u+lJ9lKBfMv+SSFnKY+OccasfrW6JwJ8Wi258aB7bjcSP9kUtUfvbbvPSwQjY6Z8+9TlMxP6kyabeZ69SGnhnaJNt+vbAJzc=
 services:
-  - mongodb
-
+- mongodb
 git:
-  depth:
-    10
-
+  depth: 10
 cache:
   directories:
-    - node_modules
-
+  - node_modules
 addons:
   apt:
     sources:
-      - mongodb-3.2-precise
+    - mongodb-3.2-precise
     packages:
-      - mongodb-org-server
-  sauce_connect: true
+    - mongodb-org-server

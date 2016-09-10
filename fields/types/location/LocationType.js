@@ -42,15 +42,15 @@ function location (list, path, options) {
 
 	location.super_.call(this, list, path, options);
 }
+location.properName = 'Location';
 util.inherits(location, FieldType);
 
 /**
  * Registers the field on the List's Mongoose Schema.
  */
-location.prototype.addToSchema = function () {
+location.prototype.addToSchema = function (schema) {
 
 	var field = this;
-	var schema = this.list.schema;
 	var options = this.options;
 
 	var paths = this.paths = {
@@ -109,9 +109,8 @@ location.prototype.addToSchema = function () {
 	// see http://stackoverflow.com/questions/16388836/does-applying-a-2dsphere-index-on-a-mongoose-schema-force-the-location-field-to
 	schema.pre('save', function (next) {
 		var obj = field._path.get(this);
-		if (Array.isArray(obj.geo) && (obj.geo.length !== 2 || (obj.geo[0] === null && obj.geo[1] === null))) {
-			obj.geo = undefined;
-		}
+		var geo = (obj.geo || []).map(Number).filter(_.isFinite);
+		obj.geo = (geo.length === 2) ? geo : undefined;
 		next();
 	});
 
@@ -258,42 +257,18 @@ location.prototype.updateItem = function (item, data, callback) {
 		item.set(paths.geo, (lat && lng) ? [lng, lat] : undefined);
 	}
 
-	process.nextTick(callback);
-};
-
-/**
- * Returns a callback that handles a standard form submission for the field
- *
- * Handles:
- * - `field.paths.improve` in `req.body` - improves data via `.googleLookup()`
- * - `field.paths.overwrite` in `req.body` - in conjunction with `improve`, overwrites existing data
- */
-location.prototype.getRequestHandler = function (item, req, paths, callback) {
-	var field = this;
-	if (utils.isFunction(paths)) {
-		callback = paths;
-		paths = field.paths;
-	} else if (!paths) {
-		paths = field.paths;
-	}
-	callback = callback || function () {};
-	return function () {
-		var update = req.body[paths.overwrite] ? 'overwrite' : true;
-		if (req.body && req.body[paths.improve]) {
-			field.googleLookup(item, false, update, function () {
-				callback();
-			});
-		} else {
+	var doGoogleLookup = this.getValueFromData(data, '_improve');
+	if (doGoogleLookup) {
+		var googleUpdateMode = this.getValueFromData(data, '_improve_overwrite') ? 'overwrite' : true;
+		this.googleLookup(item, false, googleUpdateMode, function (err, location, result) {
+			// TODO: we are currently discarding the error; it should probably be
+			// sent back in the response, needs consideration
 			callback();
-		}
-	};
-};
+		});
+		return;
+	}
 
-/**
- * Immediately handles a standard form submission for the field (see `getRequestHandler()`)
- */
-location.prototype.handleRequest = function (item, req, paths, callback) {
-	this.getRequestHandler(item, req, paths, callback)();
+	process.nextTick(callback);
 };
 
 /**
@@ -312,7 +287,7 @@ function doGoogleGeocodeRequest (address, region, callback) {
 		address: address,
 	};
 
-	if (arguments.length === 2 && _.isFunction(region)) {
+	if (arguments.length === 2 && typeof region === 'function') {
 		callback = region;
 		region = null;
 	}
@@ -364,7 +339,7 @@ function doGoogleGeocodeRequest (address, region, callback) {
  */
 location.prototype.googleLookup = function (item, region, update, callback) {
 
-	if (_.isFunction(update)) {
+	if (typeof update === 'function') {
 		callback = update;
 		update = false;
 	}
@@ -397,8 +372,7 @@ location.prototype.googleLookup = function (item, region, update, callback) {
 
 		_.forEach(result.address_components, function (val) {
 			if (_.indexOf(val.types, 'street_number') >= 0) {
-				location.street1 = location.street1 || [];
-				location.street1.push(val.long_name);
+				location.street1 = [val.long_name];
 			}
 			if (_.indexOf(val.types, 'route') >= 0) {
 				location.street1 = location.street1 || [];

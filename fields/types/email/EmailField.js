@@ -1,5 +1,5 @@
 import Field from '../Field';
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { FormInput } from 'elemental';
 
 /*
@@ -10,10 +10,17 @@ import { FormInput } from 'elemental';
 
 module.exports = Field.create({
 	displayName: 'EmailField',
+	propTypes: {
+		path: PropTypes.string.isRequired,
+		value: PropTypes.string,
+	},
+	statics: {
+		type: 'Email',
+	},
 	renderField () {
 		return (
 			<FormInput
-				name={this.props.path}
+				name={this.getInputName(this.props.path)}
 				ref="focusTarget"
 				value={this.props.value}
 				onChange={this.valueChanged}

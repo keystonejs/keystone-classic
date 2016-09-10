@@ -15,6 +15,7 @@ function name (list, path, options) {
 	options.nofilter = true; // TODO: remove this when 0.4 is merged
 	name.super_.call(this, list, path, options);
 }
+name.properName = 'Name';
 util.inherits(name, FieldType);
 
 /**
@@ -25,8 +26,7 @@ util.inherits(name, FieldType);
  *
  * @api public
  */
-name.prototype.addToSchema = function () {
-	var schema = this.list.schema;
+name.prototype.addToSchema = function (schema) {
 	var paths = this.paths = {
 		first: this._path.append('.first'),
 		last: this._path.append('.last'),
@@ -121,7 +121,7 @@ name.prototype.getInputFromData = function (data) {
 			last: last,
 		};
 	}
-	return this.getValueFromData(data);
+	return this.getValueFromData(data) || this.getValueFromData(data, '.full');
 };
 
 /**

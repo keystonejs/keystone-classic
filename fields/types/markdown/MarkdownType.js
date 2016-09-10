@@ -20,6 +20,7 @@ function markdown (list, path, options) {
 	this._properties = ['wysiwyg', 'height', 'toolbarOptions'];
 	markdown.super_.call(this, list, path, options);
 }
+markdown.properName = 'Markdown';
 util.inherits(markdown, FieldType);
 
 
@@ -33,9 +34,7 @@ markdown.prototype.validateRequiredInput = TextType.prototype.validateRequiredIn
  * Adds String properties for .md and .html markdown, and a setter for .md
  * that generates html when it is updated.
  */
-markdown.prototype.addToSchema = function () {
-
-	var schema = this.list.schema;
+markdown.prototype.addToSchema = function (schema) {
 
 	var paths = this.paths = {
 		md: this._path.append('.md'),
@@ -94,6 +93,14 @@ markdown.prototype.addFilterToQuery = function (filter) {
  */
 markdown.prototype.format = function (item) {
 	return item.get(this.paths.html);
+};
+
+/**
+ * Gets the field's data from an Item, as used by the React components
+ */
+markdown.prototype.getData = function (item) {
+	var value = item.get(this.path);
+	return typeof value === 'object' ? value : {};
 };
 
 /**

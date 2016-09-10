@@ -45,6 +45,7 @@ function embedly (list, path, options) {
 
 	embedly.super_.call(this, list, path, options);
 }
+embedly.properName = 'Embedly';
 util.inherits(embedly, FieldType);
 
 /**
@@ -52,10 +53,9 @@ util.inherits(embedly, FieldType);
  *
  * @api public
  */
-embedly.prototype.addToSchema = function () {
+embedly.prototype.addToSchema = function (schema) {
 
 	var field = this;
-	var schema = this.list.schema;
 
 	this.paths = {
 		exists: this._path.append('.exists'),
@@ -113,54 +113,41 @@ embedly.prototype.addToSchema = function () {
 
 		var post = this;
 
-		new EmbedlyAPI({ key: keystone.get('embedly api key') }, function (err, api) { // eslint-disable-line no-new
+		var api = new EmbedlyAPI({ key: keystone.get('embedly api key') });
+		var opts = _.defaults({ url: fromValue }, field.embedlyOptions);
 
+		api.oembed(opts, function (err, objs) {
 			if (err) {
-				console.error('Error creating Embedly api:');
-				console.error(err, api);
-				field.reset(this);
-				return next();
-			}
-
-			var opts = _.defaults({ url: fromValue }, field.embedlyOptions);
-
-			api.oembed(opts, function (err, objs) {
-
-				if (err) {
-					console.error('Embedly API Error:');
-					console.error(err, objs);
-					field.reset(post);
+				console.error('Embedly API Error:');
+				console.error(err, objs);
+				field.reset(post);
+			} else {
+				var data = objs[0];
+				if (data && data.type !== 'error') {
+					post.set(field.path, {
+						exists: true,
+						type: data.type,
+						title: data.title,
+						url: data.url,
+						width: data.width,
+						height: data.height,
+						version: data.version,
+						description: data.description,
+						html: data.html,
+						authorName: data.author_name,
+						authorUrl: data.author_url,
+						providerName: data.provider_name,
+						providerUrl: data.provider_url,
+						thumbnailUrl: data.thumbnail_url,
+						thumbnailWidth: data.thumbnail_width,
+						thumbnailHeight: data.thumbnail_height,
+					});
 				} else {
-					var data = objs[0];
-					if (data && data.type !== 'error') {
-						post.set(field.path, {
-							exists: true,
-							type: data.type,
-							title: data.title,
-							url: data.url,
-							width: data.width,
-							height: data.height,
-							version: data.version,
-							description: data.description,
-							html: data.html,
-							authorName: data.author_name,
-							authorUrl: data.author_url,
-							providerName: data.provider_name,
-							providerUrl: data.provider_url,
-							thumbnailUrl: data.thumbnail_url,
-							thumbnailWidth: data.thumbnail_width,
-							thumbnailHeight: data.thumbnail_height,
-						});
-
-					} else {
-						field.reset(post);
-					}
+					field.reset(post);
 				}
-				return next();
-
-			});
+			}
+			return next();
 		});
-
 	});
 
 	this.bindUnderscoreMethods();
@@ -200,6 +187,14 @@ embedly.prototype.reset = function (item) {
  */
 embedly.prototype.format = function (item) {
 	return item.get(this.paths.html);
+};
+
+/**
+ * Gets the field's data from an Item, as used by the React components
+ */
+embedly.prototype.getData = function (item) {
+	var value = item.get(this.path);
+	return typeof value === 'object' ? value : {};
 };
 
 /**

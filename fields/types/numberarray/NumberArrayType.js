@@ -20,6 +20,7 @@ function numberarray (list, path, options) {
 	this.separator = options.separator || ' | ';
 	numberarray.super_.call(this, list, path, options);
 }
+numberarray.properName = 'NumberArray';
 util.inherits(numberarray, FieldType);
 
 /**
@@ -213,23 +214,21 @@ numberarray.prototype.inputIsValid = function (data, required, item) {
  */
 numberarray.prototype.updateItem = function (item, data, callback) {
 	var value = this.getValueFromData(data);
-	if (typeof value !== 'undefined') {
-		if (value === null || value === '') {
-			value = [];
-		}
-		if (!Array.isArray(value)) {
-			value = [value];
-		}
-		value = value.map(function (num) {
-			if (typeof num !== 'number') {
-				num = utils.number(num);
-			}
-			return num;
-		}).filter(function (num) {
-			return !Number.isNaN(num);
-		});
-		item.set(this.path, value);
+	if (value === undefined || value === null || value === '') {
+		value = [];
 	}
+	if (!Array.isArray(value)) {
+		value = [value];
+	}
+	value = value.map(function (num) {
+		if (typeof num !== 'number') {
+			num = utils.number(num);
+		}
+		return num;
+	}).filter(function (num) {
+		return !Number.isNaN(num);
+	});
+	item.set(this.path, value);
 	process.nextTick(callback);
 };
 

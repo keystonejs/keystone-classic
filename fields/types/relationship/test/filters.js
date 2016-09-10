@@ -11,11 +11,11 @@ exports.initList = function (List) {
 var items;
 
 exports.getTestItems = function (List, callback) {
-	async.map({
+	async.mapValues({
 		jed: new List.model({ name: 'Jed' }),
 		max: new List.model({ name: 'Max' }),
-	}, function (itm, done) {
-		itm.save(function (err, doc) {
+	}, function (item, key, done) {
+		item.save(function (err, doc) {
 			if (err) return done(err);
 			return done(null, String(doc.id));
 		});
@@ -56,7 +56,7 @@ exports.testFilters = function (List, filter) {
 			});
 		});
 
-		it('should find multiple matches', function (done) {
+		it.skip('should find multiple matches', function (done) {
 			filter({
 				single: {
 					value: [items.jed, items.max],

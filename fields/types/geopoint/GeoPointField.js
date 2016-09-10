@@ -5,32 +5,47 @@ import { FormRow, FormField, FormInput } from 'elemental';
 module.exports = Field.create({
 
 	displayName: 'GeopointField',
+	statics: {
+		type: 'Geopoint',
+	},
 
 	focusTargetRef: 'lat',
 
-	valueChanged (which, event) {
-		this.props.value[which] = event.target.value;
-		this.props.onChange({
-			path: this.props.path,
-			value: this.props.value,
+	handleLat (event) {
+		const { value = [], path, onChange } = this.props;
+		const newVal = event.target.value;
+		onChange({
+			path,
+			value: [value[0], newVal],
+		});
+	},
+
+	handleLong (event) {
+		const { value = [], path, onChange } = this.props;
+		const newVal = event.target.value;
+		onChange({
+			path,
+			value: [newVal, value[1]],
 		});
 	},
 
 	renderValue () {
-		if (this.props.value[1] && this.props.value[0]) {
-			return <FormInput noedit>{this.props.value[1]}, {this.props.value[0]}</FormInput>; // eslint-disable-line comma-spacing
+		const { value } = this.props;
+		if (value && value[1] && value[0]) {
+			return <FormInput noedit>{value[1]}, {value[0]}</FormInput>; // eslint-disable-line comma-spacing
 		}
 		return <FormInput noedit>(not set)</FormInput>;
 	},
 
 	renderField () {
+		const { value = [], path } = this.props;
 		return (
 			<FormRow>
 				<FormField width="one-half">
-					<FormInput name={this.props.path + '[1]'} placeholder="Latitude" ref="lat" value={this.props.value[1]} onChange={this.valueChanged.bind(this, 1)} autoComplete="off" />
+					<FormInput name={this.getInputName(path + '[1]')} placeholder="Latitude" ref="lat" value={value[1]} onChange={this.handleLat} autoComplete="off" />
 				</FormField>
 				<FormField width="one-half">
-					<FormInput name={this.props.path + '[0]'} placeholder="Longitude" ref="lng" value={this.props.value[0]} onChange={this.valueChanged.bind(this, 0)} autoComplete="off" />
+					<FormInput name={this.getInputName(path + '[0]')} placeholder="Longitude" ref="lng" value={value[0]} onChange={this.handleLong} autoComplete="off" />
 				</FormField>
 			</FormRow>
 		);

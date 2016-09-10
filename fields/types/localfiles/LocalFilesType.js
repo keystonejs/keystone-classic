@@ -1,13 +1,12 @@
-var _ = require('lodash');
-var async = require('async');
-var FieldType = require('../Type');
-var fs = require('fs-extra');
-var grappling = require('grappling-hook');
-var keystone = require('../../../');
-var moment = require('moment');
-var path = require('path');
-var util = require('util');
-var utils = require('keystone-utils');
+/**
+Deprecated.
+
+Using this field will now throw an error, and this code will be removed soon.
+
+See https://github.com/keystonejs/keystone/wiki/File-Fields-Upgrade-Guide
+*/
+
+/* eslint-disable */
 
 /**
  * localfiles FieldType Constructor
@@ -15,6 +14,11 @@ var utils = require('keystone-utils');
  * @api public
  */
 function localfiles (list, path, options) {
+
+	throw new Error('The LocalFiles field type has been removed. Please use File instead.'
+		+ '\n\nSee https://github.com/keystonejs/keystone/wiki/File-Fields-Upgrade-Guide\n');
+
+	/*
 	grappling.mixin(this).allowHooks('move');
 	this._underscoreMethods = ['format', 'uploadFiles'];
 	this._fixedSize = 'full';
@@ -48,16 +52,17 @@ function localfiles (list, path, options) {
 	if (options.post && options.post.move) {
 		this.post('move', options.post.move);
 	}
+	*/
 }
-util.inherits(localfiles, FieldType);
+localfiles.properName = 'LocalFiles';
+// util.inherits(localfiles, FieldType);
 
 /**
  * Registers the field on the List's Mongoose Schema.
  */
-localfiles.prototype.addToSchema = function () {
+localfiles.prototype.addToSchema = function (schema) {
 
 	var field = this;
-	var schema = this.list.schema;
 	var mongoose = keystone.mongoose;
 
 	var paths = this.paths = {
@@ -357,13 +362,6 @@ localfiles.prototype.getRequestHandler = function (item, req, paths, callback) {
 		return callback();
 	};
 
-};
-
-/**
- * Immediately handles a standard form submission for the field (see `getRequestHandler()`)
- */
-localfiles.prototype.handleRequest = function (item, req, paths, callback) {
-	this.getRequestHandler(item, req, paths, callback)();
 };
 
 

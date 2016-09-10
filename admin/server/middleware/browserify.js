@@ -1,12 +1,9 @@
-var babelify = require('babelify');
-var browserify = require('browserify');
 var chalk = require('chalk');
 var crypto = require('crypto');
 var fs = require('fs-extra');
 var moment = require('moment');
 var packages = require('../../client/packages');
 var path = require('path');
-var watchify = require('watchify');
 
 var basedir = path.resolve(__dirname + '/../../client/');
 var devMode = process.env.KEYSTONE_DEV === 'true';
@@ -18,7 +15,7 @@ function ts () {
 }
 
 function logInit (file) {
-	console.log(chalk.grey('Watching ') + chalk.underline('keystone/admin/src/' + file) + chalk.grey(' for changes...'));
+	console.log(chalk.grey('Watching ') + chalk.underline(file) + chalk.grey(' for changes...'));
 }
 
 function logRebuild (file) {
@@ -35,12 +32,15 @@ module.exports = function (file, name) {
 	var queue = [];
 	var ready;
 	var src;
+	var logName = typeof file === 'string' ? file.replace(/^\.\//, '') : name;
+	var fileName = logName;
+	if (fileName.substr(-3) !== '.js') fileName += '.js';
 	function writeBundle (buff) {
 		if (devWriteBundles) {
-			fs.outputFile(path.resolve(path.join(__dirname, '../../bundles/js', file)), buff, 'utf8');
+			fs.outputFile(path.resolve(path.join(__dirname, '../../bundles/js', fileName)), buff, 'utf8');
 		}
 		if (devWriteDisc) {
-			var discFile = file.replace('.js', '.html');
+			var discFile = fileName.replace('.js', '.html');
 			require('disc').bundle(buff, function (err, html) {
 				if (err) {
 					logError(discFile, err);
@@ -54,9 +54,12 @@ module.exports = function (file, name) {
 	function build () {
 		if (building) return;
 		building = true;
+		var babelify = require('babelify');
+		var browserify = require('browserify');
+		var watchify = require('watchify');
 		var opts = { basedir: basedir };
 		if (devMode) {
-			logInit(file);
+			logInit(logName);
 			opts.debug = true;
 			opts.cache = {};
 			opts.packageCache = {};
@@ -66,14 +69,11 @@ module.exports = function (file, name) {
 		}
 		if (name) {
 			b = browserify(opts);
-			b.require('./' + file, { expose: name });
+			b.require(file, { expose: name });
 		} else {
-			b = browserify('./' + file, opts);
+			b = browserify(file, opts);
 		}
-		b.transform(babelify.configure({
-			plugins: [require('babel-plugin-transform-object-rest-spread'), require('babel-plugin-transform-object-assign')],
-			presets: [require('babel-preset-es2015'), require('babel-preset-react')],
-		}));
+		b.transform(babelify);
 		b.exclude('FieldTypes');
 		packages.forEach(function (i) {
 			b.exclude(i);
@@ -82,7 +82,7 @@ module.exports = function (file, name) {
 			b = watchify(b, { poll: 500 });
 		}
 		b.bundle(function (err, buff) {
-			if (err) return logError(file, err);
+			if (err) return logError(logName, err);
 			src = buff;
 			ready = true;
 			queue.forEach(function (reqres) {
@@ -92,8 +92,8 @@ module.exports = function (file, name) {
 		});
 		b.on('update', function () {
 			b.bundle(function (err, buff) {
-				if (err) return logError(file, err);
-				else logRebuild(file);
+				if (err) return logError(logName, err);
+				else logRebuild(logName);
 				src = buff;
 				writeBundle(buff);
 			});

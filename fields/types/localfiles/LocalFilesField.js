@@ -1,8 +1,12 @@
+/*
+TODO: this file has been left as a reference for the new File type field.
+Some features here, including size formatting and icons, may be ported across.
+*/
+
 import _ from 'lodash';
 import bytes from 'bytes';
 import Field from '../Field';
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { Button, FormField, FormInput, FormNote } from 'elemental';
 
 const ICON_EXTS = [
@@ -97,7 +101,7 @@ module.exports = Field.create({
 	},
 
 	fileFieldNode () {
-		return ReactDOM.findDOMNode(this.refs.fileField);
+		return this.refs.fileField;
 	},
 
 	renderFileField () {
@@ -195,7 +199,7 @@ module.exports = Field.create({
 
 	renderUI () {
 		return (
-			<FormField label={this.props.label} className="field-type-localfiles">
+			<FormField label={this.props.label} className="field-type-localfiles" htmlFor={this.props.path}>
 				{this.renderFieldAction()}
 				{this.renderUploadsField()}
 				{this.renderFileField()}

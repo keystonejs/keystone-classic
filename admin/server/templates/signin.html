@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width">
+    <title>Sign in to <%= brand %></title>
+    <link rel="stylesheet" href="<%= adminPath %>/styles/keystone.min.css">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+  </head>
+  <body>
+    <div id="signin-view"></div>
+    <script>
+      var Keystone = <%- JSON.stringify(locals) %>;
+    </script>
+    <script src="<%= adminPath %>/js/packages.js"></script>
+    <script src="<%= adminPath %>/js/signin.js"></script>
+  </body>
+</html>

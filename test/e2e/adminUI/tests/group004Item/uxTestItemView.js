@@ -1,89 +1,110 @@
-var adminUI = require('../../adminUI');
+// TODO:  Currently the tests here only fill in the name field of the user list form.  That's because the other
+//		  fields in the user list do not have corresponding page object support, yet.  When they do revisit filling
+//		  all the fields.
+var UserModelTestConfig = require('../../../modelTestConfig/UserModelTestConfig');
 
 module.exports = {
 	before: function (browser) {
-		browser
-			.url(adminUI.url)
-			.waitForElementVisible(adminUI.cssSelector.signinView.id)
-			.setValue(adminUI.cssSelector.signinView.emailInput, adminUI.login.email)
-			.setValue(adminUI.cssSelector.signinView.passwordInput, adminUI.login.password)
-			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.signinView.submitButton)
-			.pause(browser.globals.defaultPauseTimeout)
-			.url(adminUI.url)
-			.waitForElementVisible(adminUI.cssSelector.homeView.id)
-			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.allView.accessMenu)
-			.waitForElementVisible(adminUI.cssSelector.listView.id)
-			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.listView.nameColumnValueForUserList)
-			.waitForElementVisible(adminUI.cssSelector.itemView.id)
-			.pause(browser.globals.defaultPauseTimeout);
+		browser.adminUIApp = browser.page.adminUIApp();
+		browser.adminUISignin = browser.page.adminUISignin();
+		browser.adminUIListScreen = browser.page.adminUIListScreen();
+		browser.adminUIItemScreen = browser.page.adminUIItemScreen();
+		browser.adminUIInitialFormScreen = browser.page.adminUIInitialForm();
+		browser.adminUIDeleteConfirmation = browser.page.adminUIDeleteConfirmation();
+		browser.adminUIResetConfirmationScreen = browser.page.adminUIResetConfirmation();
+
+		browser.adminUIApp.gotoHomeScreen();
+		browser.adminUIApp.waitForSigninScreen();
+
+		browser.adminUISignin.signin();
+
+		browser.adminUIApp
+			.waitForHomeScreen()
+			.click('@accessMenu')
+			.waitForListScreen();
+
+		browser.adminUIListScreen.click('@secondItemLink');
+
+		browser.adminUIApp.waitForItemScreen();
 	},
 	after: function (browser) {
-		browser
-			.click(adminUI.cssSelector.allView.logoutIconLink)
-			.pause(browser.globals.defaultPauseTimeout)
-			.end();
+		browser.adminUIApp.signout();
+		browser.end();
 	},
-	'Item view should allow creating an item of the same type': function (browser) {
-		browser
-			.click(adminUI.cssSelector.itemView.newItemPlusButton)
-			.pause(browser.globals.defaultPauseTimeout)
-			.setValue(adminUI.cssSelector.initialModalView.fieldType.name.user.name.first, 'First1')
-			.setValue(adminUI.cssSelector.initialModalView.fieldType.name.user.name.last, 'Last1')
-			.setValue(adminUI.cssSelector.initialModalView.fieldType.email.user.email.value, 'first1.last1@test.e2e')
-			.setValue(adminUI.cssSelector.initialModalView.fieldType.password.user.password.value, 'test')
-			.setValue(adminUI.cssSelector.initialModalView.fieldType.password.user.password.value_confirm, 'test')
-			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.initialModalView.buttonCreate)
-			.waitForElementVisible(adminUI.cssSelector.itemView.id)
-			.pause(browser.globals.defaultPauseTimeout);
+	'Item screen should allow creating an item of the same type': function (browser) {
+		browser.adminUIItemScreen.new();
 
-		browser.expect.element(adminUI.cssSelector.itemView.flashMessage)
-			.text.to.equal('New User First1 Last1 created.')
-	},
-	'Item view should allow saving an item without changes': function (browser) {
-		browser
-			.click(adminUI.cssSelector.itemView.itemSaveButton);
+		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.expect.element(adminUI.cssSelector.itemView.flashMessage)
-			.text.to.equal('Your changes have been saved.')
-	},
-	'Item view should allow saving an item with changes': function (browser) {
-		browser
-			.clearValue(adminUI.cssSelector.itemView.fieldType.name.user.name.first)
-			.setValue(adminUI.cssSelector.itemView.fieldType.name.user.name.first, 'First1X')
-			.clearValue(adminUI.cssSelector.itemView.fieldType.name.user.name.last)
-			.setValue(adminUI.cssSelector.itemView.fieldType.name.user.name.last, 'Last1X')
-			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.itemView.itemSaveButton);
+		browser.adminUIInitialFormScreen.fillFieldInputs({
+			modelTestConfig: UserModelTestConfig,
+			fields: {
+				'name': {firstName: 'First 1', lastName: 'Last 1'},
+			}
+		});
+		browser.adminUIInitialFormScreen.assertFieldInputs({
+			modelTestConfig: UserModelTestConfig,
+			fields: {
+				'name': {firstName: 'First 1', lastName: 'Last 1'},
+			}
+		});
 
-		browser.expect.element(adminUI.cssSelector.itemView.flashMessage)
-			.text.to.equal('Your changes have been saved.')
-	},
-	'Item view should allow resetting an item with changes': function (browser) {
-		browser
-			.clearValue(adminUI.cssSelector.itemView.fieldType.name.user.name.first)
-			.setValue(adminUI.cssSelector.itemView.fieldType.name.user.name.first, 'First1XXXXXXXXXX')
-			.clearValue(adminUI.cssSelector.itemView.fieldType.name.user.name.last)
-			.setValue(adminUI.cssSelector.itemView.fieldType.name.user.name.last, 'Last1XXXXXXXXXXX')
-			.pause(browser.globals.defaultPauseTimeout)
-			.click(adminUI.cssSelector.itemView.itemResetButton)
-			.waitForElementVisible(adminUI.cssSelector.resetConfirmationModalView.id)
-			.click(adminUI.cssSelector.resetConfirmationModalView.buttonDelete)
-			.waitForElementVisible(adminUI.cssSelector.itemView.id);
+		browser.adminUIInitialFormScreen.save();
+		browser.adminUIApp.waitForItemScreen();
 
-		browser.expect.element(adminUI.cssSelector.itemView.fieldType.name.user.name.first)
-			.to.have.value.that.equals('First1X');
-		browser.expect.element(adminUI.cssSelector.itemView.fieldType.name.user.name.last)
-			.to.have.value.that.equals('Last1X');
 	},
-	'Item view should allow deleting an item': function (browser) {
-		browser
-			.click(adminUI.cssSelector.itemView.itemDeleteButton)
-			.waitForElementVisible(adminUI.cssSelector.deleteConfirmationModalView.id)
-			.click(adminUI.cssSelector.deleteConfirmationModalView.buttonDelete)
-			.waitForElementVisible(adminUI.cssSelector.listView.id);
+	'Item screen should allow saving an item without changes': function (browser) {
+		browser.adminUIItemScreen.save();
+
+		browser.adminUIItemScreen.assertFlashMessage('Your changes have been saved successfully');
+	},
+	'Item screen should allow saving an item with changes': function (browser) {
+		browser.adminUIItemScreen.fillFieldInputs({
+			modelTestConfig: UserModelTestConfig,
+			fields: {
+				'name': {firstName: 'First 2', lastName: 'Last 2'},
+			}
+		});
+		browser.adminUIItemScreen.assertFieldInputs({
+			modelTestConfig: UserModelTestConfig,
+			fields: {
+				'name': {firstName: 'First 2', lastName: 'Last 2'},
+			}
+		});
+		browser.adminUIItemScreen.save();
+		browser.adminUIApp.waitForItemScreen();
+		browser.adminUIItemScreen.assertFlashMessage('Your changes have been saved successfully');
+	},
+	'Item screen should allow resetting an item with changes': function (browser) {
+		browser.adminUIItemScreen.fillFieldInputs({
+			modelTestConfig: UserModelTestConfig,
+			fields: {
+				'name': {firstName: 'First 3', lastName: 'Last 3'},
+			}
+		});
+		browser.adminUIItemScreen.assertFieldInputs({
+			modelTestConfig: UserModelTestConfig,
+			fields: {
+				'name': {firstName: 'First 3', lastName: 'Last 3'},
+			}
+		});
+
+		browser.adminUIItemScreen.reset();
+		browser.adminUIApp.waitForResetConfirmationScreen();
+		browser.adminUIResetConfirmationScreen.reset();
+		browser.adminUIApp.waitForItemScreen();
+
+		browser.adminUIItemScreen.assertFieldInputs({
+			modelTestConfig: UserModelTestConfig,
+			fields: {
+				'name': {firstName: 'First 2', lastName: 'Last 2'},
+			}
+		});
+	},
+	'Item screen should allow deleting an item': function (browser) {
+		browser.adminUIItemScreen.delete();
+		browser.adminUIApp.waitForDeleteConfirmationScreen();
+		browser.adminUIDeleteConfirmation.delete();
+		browser.adminUIApp.waitForListScreen();
 	},
 };

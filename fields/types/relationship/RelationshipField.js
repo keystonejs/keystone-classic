@@ -1,10 +1,11 @@
 import async from 'async';
-import Lists from '../../../admin/client/stores/Lists';
 import Field from '../Field';
+import { listsByKey } from '../../../admin/client/utils/lists';
 import React from 'react';
 import Select from 'react-select';
 import xhr from 'xhr';
 import { Button, InputGroup } from 'elemental';
+import _ from 'lodash';
 
 function compareValues (current, next) {
 	const currentLength = current ? current.length : 0;
@@ -19,6 +20,9 @@ function compareValues (current, next) {
 module.exports = Field.create({
 
 	displayName: 'RelationshipField',
+	statics: {
+		type: 'Relationship',
+	},
 
 	getInitialState () {
 		return {
@@ -49,7 +53,7 @@ module.exports = Field.create({
 		var filters = {};
 
 		_.forEach(this.props.filters, (value, key) => {
-			if (_.isString(value) && value[0] == ':') { // eslint-disable-line eqeqeq
+			if (typeof value === 'string' && value[0] === ':') {
 				var fieldName = value.slice(1);
 
 				var val = this.props.values[fieldName];
@@ -149,9 +153,15 @@ module.exports = Field.create({
 		});
 	},
 
-	toggleCreate (visible) {
+	openCreate () {
 		this.setState({
-			createIsOpen: visible,
+			createIsOpen: true,
+		});
+	},
+
+	closeCreate () {
+		this.setState({
+			createIsOpen: false,
 		});
 	},
 
@@ -171,7 +181,7 @@ module.exports = Field.create({
 			complete: true,
 			options: Object.keys(this._itemsCache).map((k) => this._itemsCache[k]),
 		});
-		this.toggleCreate(false);
+		this.closeCreate();
 	},
 
 	renderSelect (noedit) {
@@ -181,7 +191,7 @@ module.exports = Field.create({
 				disabled={noedit}
 				loadOptions={this.loadOptions}
 				labelKey="name"
-				name={this.props.path}
+				name={this.getInputName(this.props.path)}
 				onChange={this.valueChanged}
 				simpleValue
 				value={this.state.value}
@@ -192,23 +202,24 @@ module.exports = Field.create({
 
 	renderInputGroup () {
 		// TODO: find better solution
-		//   when importing the CreateForm using: import CreateForm from '../../../admin/client/components/CreateForm';
+		//   when importing the CreateForm using: import CreateForm from '../../../admin/client/App/shared/CreateForm';
 		//   CreateForm was imported as a blank object. This stack overflow post suggested lazilly requiring it:
 		// http://stackoverflow.com/questions/29807664/cyclic-dependency-returns-empty-object-in-react-native
-		const CreateForm = require('../../../admin/client/components/Forms/CreateForm');
+		// TODO: Implement this somewhere higher in the app, it breaks the encapsulation of the RelationshipField component
+		const CreateForm = require('../../../admin/client/App/shared/CreateForm');
 		return (
 			<InputGroup>
 				<InputGroup.Section grow>
 					{this.renderSelect()}
 				</InputGroup.Section>
 				<InputGroup.Section>
-					<Button onClick={() => this.toggleCreate(true)} type="success">+</Button>
+					<Button onClick={this.openCreate} type="success">+</Button>
 				</InputGroup.Section>
 				<CreateForm
-					list={Lists[this.props.refList.key]}
+					list={listsByKey[this.props.refList.key]}
 					isOpen={this.state.createIsOpen}
-					onCreate={(data) => this.onCreate(data)}
-					onCancel={() => this.toggleCreate(false)} />
+					onCreate={this.onCreate}
+					onCancel={this.closeCreate} />
 			</InputGroup>
 		);
 	},

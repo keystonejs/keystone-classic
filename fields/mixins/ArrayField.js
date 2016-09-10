@@ -1,5 +1,7 @@
 var React = require('react');
-var ReactDOM = require('react-dom');
+
+import _ from 'lodash';
+import { findDOMNode } from 'react-dom';
 
 var Button = require('elemental').Button;
 var FormField = require('elemental').FormField;
@@ -20,7 +22,7 @@ function reduceValues (values) {
 module.exports = {
 	getInitialState: function () {
 		return {
-			values: this.props.value.map(newItem),
+			values: Array.isArray(this.props.value) ? this.props.value.map(newItem) : [],
 		};
 	},
 
@@ -38,7 +40,7 @@ module.exports = {
 			values: newValues,
 		}, () => {
 			if (!this.state.values.length) return;
-			ReactDOM.findDOMNode(this.refs['item_' + this.state.values.length]).focus();
+			findDOMNode(this.refs['item_' + this.state.values.length]).focus();
 		});
 		this.valueChanged(reduceValues(newValues));
 	},
@@ -48,7 +50,7 @@ module.exports = {
 		this.setState({
 			values: newValues,
 		}, function () {
-			ReactDOM.findDOMNode(this.refs.button).focus();
+			findDOMNode(this.refs.button).focus();
 		});
 		this.valueChanged(reduceValues(newValues));
 	},
@@ -85,7 +87,7 @@ module.exports = {
 		const value = this.processInputValue ? this.processInputValue(item.value) : item.value;
 		return (
 			<FormField key={item.key}>
-				<Input ref={'item_' + (index + 1)} name={this.props.path} value={value} onChange={this.updateItem.bind(this, item)} onKeyDown={this.addItemOnEnter} autoComplete="off" />
+				<Input ref={'item_' + (index + 1)} name={this.getInputName(this.props.path)} value={value} onChange={this.updateItem.bind(this, item)} onKeyDown={this.addItemOnEnter} autoComplete="off" />
 				<Button type="link-cancel" onClick={this.removeItem.bind(this, item)} className="keystone-relational-button">
 					<span className="octicon octicon-x" />
 				</Button>

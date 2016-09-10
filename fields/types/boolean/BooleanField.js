@@ -1,18 +1,20 @@
 import React from 'react';
 import Field from '../Field';
 import Checkbox from '../../components/Checkbox';
-import { FormField, FormNote } from 'elemental';
+import { FormField } from 'elemental';
+
+const NOOP = () => {};
 
 module.exports = Field.create({
-
 	displayName: 'BooleanField',
-
+	statics: {
+		type: 'Boolean',
+	},
 	propTypes: {
 		indent: React.PropTypes.bool,
 		label: React.PropTypes.string,
-		note: React.PropTypes.string,
-		onChange: React.PropTypes.func,
-		path: React.PropTypes.string,
+		onChange: React.PropTypes.func.isRequired,
+		path: React.PropTypes.string.isRequired,
 		value: React.PropTypes.bool,
 	},
 
@@ -22,33 +24,37 @@ module.exports = Field.create({
 			value: value,
 		});
 	},
-
-	renderNote () {
-		if (!this.props.note) return null;
-		return <FormNote note={this.props.note} />;
-	},
-
 	renderFormInput () {
 		if (!this.shouldRenderField()) return;
-		return <input type="hidden" name={this.props.path} value={this.props.value ? 'true' : 'false'} />;
-	},
 
-	renderCheckbox () {
-		if (!this.shouldRenderField()) return <Checkbox readonly checked={this.props.value} />;
-		return <Checkbox checked={this.props.value} onChange={this.valueChanged} />;
-	},
-
-	renderUI () {
 		return (
-			<FormField offsetAbsentLabel={this.props.indent} className="field-type-boolean" htmlFor={this.props.path}>
-				<label style={{ height: '2.3em' }}>
-					{this.renderFormInput()}
-					{this.renderCheckbox()}
-					<span style={{ marginLeft: '.75em' }}>{this.props.label}</span>
-				</label>
-				{this.renderNote()}
-			</FormField>
+			<input
+				name={this.getInputName(this.props.path)}
+				type="hidden"
+				value={!!this.props.value}
+			/>
 		);
 	},
+	renderUI () {
+		const { indent, value, label, path } = this.props;
 
+		return (
+			<div data-field-name={path} data-field-type="boolean">
+				<FormField offsetAbsentLabel={indent}>
+					<label style={{ height: '2.3em' }}>
+						{this.renderFormInput()}
+						<Checkbox
+							checked={value}
+							onChange={(this.shouldRenderField() && this.valueChanged) || NOOP}
+							readonly={!this.shouldRenderField()}
+						/>
+						<span style={{ marginLeft: '.75em' }}>
+							{label}
+						</span>
+					</label>
+					{this.renderNote()}
+				</FormField>
+			</div>
+		);
+	},
 });

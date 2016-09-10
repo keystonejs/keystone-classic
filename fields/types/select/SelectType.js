@@ -21,7 +21,7 @@ function select (list, path, options) {
 		throw new Error('Select fields require an options array.');
 	}
 	this.ops = options.options.map(function (i) {
-		var op = _.isString(i) ? { value: i.trim(), label: utils.keyToLabel(i) } : i;
+		var op = typeof i === 'string' ? { value: i.trim(), label: utils.keyToLabel(i) } : i;
 		if (!_.isObject(op)) {
 			op = { label: '' + i, value: '' + i };
 		}
@@ -42,6 +42,7 @@ function select (list, path, options) {
 	this.values = _.map(this.ops, 'value');
 	select.super_.call(this, list, path, options);
 }
+select.properName = 'Select';
 util.inherits(select, FieldType);
 
 /**
@@ -51,9 +52,8 @@ util.inherits(select, FieldType);
  * and statics to the Schema for converting a value to a label,
  * and retrieving all of the defined options.
  */
-select.prototype.addToSchema = function () {
+select.prototype.addToSchema = function (schema) {
 	var field = this;
-	var schema = this.list.schema;
 	this.paths = {
 		data: this.options.dataPath || this._path.append('Data'),
 		label: this.options.labelPath || this._path.append('Label'),

@@ -1,6 +1,6 @@
 import React from 'react';
-import ItemsTableCell from '../../../admin/client/components/ItemsTable/ItemsTableCell';
-import ItemsTableValue from '../../../admin/client/components/ItemsTable/ItemsTableValue';
+import ItemsTableCell from '../../components/ItemsTableCell';
+import ItemsTableValue from '../../components/ItemsTableValue';
 
 var TextColumn = React.createClass({
 	displayName: 'TextColumn',
@@ -20,7 +20,7 @@ var TextColumn = React.createClass({
 		const className = this.props.col.field.monospace ? 'ItemList__value--monospace' : undefined;
 		return (
 			<ItemsTableCell>
-				<ItemsTableValue className={className} href={this.props.linkTo} empty={empty} padded interior field={this.props.col.type}>
+				<ItemsTableValue className={className} to={this.props.linkTo} empty={empty} padded interior field={this.props.col.type}>
 					{value}
 				</ItemsTableValue>
 			</ItemsTableCell>

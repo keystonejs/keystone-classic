@@ -10,6 +10,9 @@ const DEFAULT_FORMAT_STRING = 'Do MMM YYYY';
 module.exports = Field.create({
 
 	displayName: 'DateArrayField',
+	statics: {
+		type: 'DateArray',
+	},
 	mixins: [ArrayFieldMixin],
 
 	propTypes: {
@@ -31,7 +34,7 @@ module.exports = Field.create({
 	},
 
 	formatValue (value) {
-		return value ? this.moment(value).format(this.props.formatString) : '';
+		return value ? moment(value).format(this.props.formatString) : '';
 	},
 
 	getInputComponent () {

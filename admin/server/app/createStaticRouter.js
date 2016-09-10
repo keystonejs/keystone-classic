@@ -10,28 +10,45 @@ var browserify = require('../middleware/browserify');
 var express = require('express');
 var less = require('less-middleware');
 var path = require('path');
+var str = require('string-to-stream');
+
+function buildFieldTypesStream (fieldTypes) {
+	var src = '';
+	var types = Object.keys(fieldTypes);
+	['Column', 'Field', 'Filter'].forEach(function (i) {
+		src += 'exports.' + i + 's = {\n';
+		types.forEach(function (type) {
+			if (typeof fieldTypes[type] !== 'string') return;
+			src += type + ': require("../../fields/types/' + type + '/' + fieldTypes[type] + i + '"),\n';
+		});
+		// Append ID and Unrecognised column types
+		if (i === 'Column') {
+			src += 'id: require("../../fields/components/columns/IdColumn"),\n';
+			src += '__unrecognised__: require("../../fields/components/columns/InvalidColumn"),\n';
+		}
+
+		src += '};\n';
+	});
+	return str(src);
+}
 
 module.exports = function createStaticRouter (keystone) {
 	var router = express.Router();
 
 	/* Prepare browserify bundles */
 	var bundles = {
-		fields: browserify('fields.js', 'FieldTypes'),
-		signin: browserify('views/signin.js'),
-		home: browserify('views/home.js'),
-		item: browserify('views/item.js'),
-		list: browserify('views/list.js'),
+		fields: browserify(buildFieldTypesStream(keystone.fieldTypes), 'FieldTypes'),
+		signin: browserify('./Signin/index.js'),
+		admin: browserify('./App/index.js'),
 	};
 
-	// prebuild static resources on the next tick
-	// improves first-request performance
-	process.nextTick(function () {
+	// prebuild static resources on the next tick in keystone dev mode; this
+	// improves first-request performance but delays server start
+	if (process.env.KEYSTONE_DEV === 'true' || process.env.KEYSTONE_PREBUILD_ADMIN === 'true') {
 		bundles.fields.build();
 		bundles.signin.build();
-		bundles.home.build();
-		bundles.item.build();
-		bundles.list.build();
-	});
+		bundles.admin.build();
+	}
 
 	/* Prepare LESS options */
 	var elementalPath = path.join(path.dirname(require.resolve('elemental')), '..');
@@ -54,9 +71,7 @@ module.exports = function createStaticRouter (keystone) {
 	router.use('/styles/fonts', express.static(path.resolve(__dirname + '/../../public/js/lib/tinymce/skins/keystone/fonts')));
 	router.get('/js/fields.js', bundles.fields.serve);
 	router.get('/js/signin.js', bundles.signin.serve);
-	router.get('/js/home.js', bundles.home.serve);
-	router.get('/js/item.js', bundles.item.serve);
-	router.get('/js/list.js', bundles.list.serve);
+	router.get('/js/admin.js', bundles.admin.serve);
 	router.use(express.static(path.resolve(__dirname + '/../../public')));
 
 	return router;
