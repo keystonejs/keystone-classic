@@ -13,7 +13,7 @@ describe('<FlashMessage />', () => {
 	it('should take the Alert type from the props', () => {
 		const type = 'danger';
 		const component = shallow(<FlashMessage type={type} message={{}} />);
-		demand(component.find(Alert).at(0).prop('type')).eql(type);
+		demand(component.find(Alert).at(0).prop('color')).eql(type);
 	});
 
 	it('should render a span if the message is a string', () => {

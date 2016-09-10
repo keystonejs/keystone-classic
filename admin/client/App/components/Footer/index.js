@@ -37,7 +37,7 @@ var Footer = React.createClass({
 		const { backUrl, brand, appversion, version } = this.props;
 
 		return (
-			<footer className={css(classes.footer)}>
+			<footer className={css(classes.footer)} data-keystone-footer>
 				<Container>
 					<a
 						href={backUrl}
