@@ -10,6 +10,7 @@ function FormInputNoedit ({
 	className,
 	component: Component,
 	cropText,
+	multiline,
 	noedit, // NOTE not used, just removed from props
 	type,
 	...props,
@@ -17,6 +18,7 @@ function FormInputNoedit ({
 	props.className = css(
 		classes.noedit,
 		cropText ? classes.cropText : null,
+		multiline ? classes.multiline : null,
 		(props.href || props.onClick) ? classes.anchor : null,
 		className
 	);
@@ -65,6 +67,14 @@ const classes = StyleSheet.create({
 			color: theme.color.gray40,
 			content: '"(no value)"',
 		},
+	},
+
+	multiline: {
+		display: 'block',
+		height: 'auto',
+		lineHeight: '1.4',
+		paddingBottom: '0.6em',
+		paddingTop: '0.6em',
 	},
 
 	// indicate clickability when using an anchor

@@ -191,7 +191,7 @@ module.exports = Field.create({
 					multiline
 					name={this.getInputName(this.props.path)}
 					onChange={this.valueChanged}
-					staticClassName={this.props.wysiwyg ? 'wysiwyg' : 'code'}
+					className={this.props.wysiwyg ? 'wysiwyg' : 'code'}
 					style={style}
 					value={this.props.value}
 				/>
@@ -200,7 +200,11 @@ module.exports = Field.create({
 	},
 
 	renderValue () {
-		return <FormInput multiline noedit value={this.props.value} />;
+		return (
+			<FormInput multiline noedit>
+				{this.props.value}
+			</FormInput>
+		);
 	},
 
 });

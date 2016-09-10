@@ -12,6 +12,7 @@ const classes = StyleSheet.create(styles);
 // font and CSS; inflating the project size
 
 function Glyph ({
+	aphroditeStyles,
 	className,
 	color,
 	component: Component,
@@ -25,8 +26,11 @@ function Glyph ({
 		classes.glyph,
 		colorIsValidType && classes['color__' + color],
 		classes['size__' + size],
-		className
+		aphroditeStyles
 	) + ` ${octicons[name]}`;
+	if (className) {
+		props.className += (' ' + className);
+	}
 
 	// support random color strings
 	props.style = {
@@ -38,6 +42,10 @@ function Glyph ({
 };
 
 Glyph.propTypes = {
+	aphroditeStyles: PropTypes.shape({
+		_definition: PropTypes.object,
+		_name: PropTypes.string,
+	}),
 	color: PropTypes.oneOfType([
 		PropTypes.oneOf(Object.keys(colors)),
 		PropTypes.string, // support random color strings

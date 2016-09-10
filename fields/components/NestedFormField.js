@@ -6,7 +6,9 @@ import theme from '../../admin/client/theme';
 function NestedFormField ({ children, className, label, ...props }) {
 	return (
 		<FormField {...props}>
-			<FormLabel className={classes.label}>{label}</FormLabel>
+			<FormLabel aphroditeStyles={classes.label}>
+				{label}
+			</FormLabel>
 			{children}
 		</FormField>
 	);

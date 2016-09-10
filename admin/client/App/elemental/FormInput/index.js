@@ -11,21 +11,14 @@ const classes = StyleSheet.create(styles);
 class FormInput extends Component {
 	render () {
 		const {
+			aphroditeStyles,
 			className,
 			disabled,
 			id,
 			multiline,
 			noedit,
-			staticClassName,
 			...props,
 		} = this.props;
-
-		console.log('FormInput className', className);
-
-		// Property Violation
-		if (typeof className === 'string') {
-			console.error('FormInput: use prop `staticClassName` for global CSS classes. Attempted className: "' + className + '".');
-		}
 
 		// NOTE return a different component for `noedit`
 		if (noedit) return <InputNoedit {...this.props} />;
@@ -37,10 +30,10 @@ class FormInput extends Component {
 			classes.FormInput,
 			disabled ? classes['FormInput--disabled'] : null,
 			formLayout ? classes['FormInput--form-layout-' + formLayout] : null,
-			...concatClassnames(className)
+			...concatClassnames(aphroditeStyles)
 		);
-		if (staticClassName) {
-			props.className += (' ' + staticClassName);
+		if (className) {
+			props.className += (' ' + className);
 		}
 
 		const setRef = (n) => (this.target = n);
@@ -56,18 +49,17 @@ class FormInput extends Component {
 	}
 };
 
-const classNameShape = {
+const stylesShape = {
 	_definition: PropTypes.object,
 	_name: PropTypes.string,
 };
 
 FormInput.propTypes = {
-	className: PropTypes.oneOfType([
-		PropTypes.arrayOf(PropTypes.shape(classNameShape)),
-		PropTypes.shape(classNameShape),
+	aphroditeStyles: PropTypes.oneOfType([
+		PropTypes.arrayOf(PropTypes.shape(stylesShape)),
+		PropTypes.shape(stylesShape),
 	]),
 	multiline: PropTypes.bool,
-	staticClassName: PropTypes.string,
 	type: PropTypes.string,
 };
 FormInput.defaultProps = {

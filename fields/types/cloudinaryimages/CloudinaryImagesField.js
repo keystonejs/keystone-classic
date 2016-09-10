@@ -45,7 +45,7 @@ module.exports = Field.create({
 	},
 	buildInitialState (props) {
 		const uploadFieldPath = `CloudinaryImages-${props.path}-${++uploadInc}`;
-		const thumbnails = props.value.map((img, index) => {
+		const thumbnails = props.value ? props.value.map((img, index) => {
 			return this.getThumbnail({
 				value: img,
 				imageSourceSmall: cloudinaryResize(img.public_id, {
@@ -58,7 +58,7 @@ module.exports = Field.create({
 					width: 900,
 				}),
 			}, index);
-		});
+		}) : [];
 		return { thumbnails, uploadFieldPath };
 	},
 	getThumbnail (props, index) {

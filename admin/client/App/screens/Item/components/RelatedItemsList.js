@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import { Columns } from 'FieldTypes';
-import { Alert, Center, Spinner } from '../../../elemental';
+import { Alert, BlankState, Center, Spinner } from '../../../elemental';
 
 const RelatedItemsList = React.createClass({
 	propTypes: {
@@ -18,7 +18,11 @@ const RelatedItemsList = React.createClass({
 		};
 	},
 	componentDidMount () {
+		this.__isMounted = true;
 		this.loadItems();
+	},
+	componentWillUnmount () {
+		this.__isMounted = false;
 	},
 	getColumns () {
 		const { relationship, refList } = this.props;
@@ -43,7 +47,7 @@ const RelatedItemsList = React.createClass({
 			}],
 		}, (err, items) => {
 			// TODO: indicate pagination & link to main list view
-			this.setState({ items });
+			if (this.__isMounted) this.setState({ items });
 		});
 	},
 	renderItems () {
@@ -58,7 +62,10 @@ const RelatedItemsList = React.createClass({
 				</table>
 			</div>
 		) : (
-			<h4 className="Relationship__noresults">No related {this.props.refList.plural}</h4>
+			<BlankState
+				heading={`No related ${this.props.refList.plural.toLowerCase()}...`}
+				style={{ marginBottom: '3em' }}
+			/>
 		);
 	},
 	renderTableCols () {

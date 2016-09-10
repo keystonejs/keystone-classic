@@ -73,7 +73,7 @@ module.exports = Field.create({
 		return !!this.state.userSelectedFile;
 	},
 	hasExisting () {
-		return !!this.props.value.url;
+		return !!(this.props.value && this.props.value.url);
 	},
 	hasImage () {
 		return this.hasExisting() || this.hasLocal();

@@ -19,29 +19,24 @@ class FormField extends Component {
 	render () {
 		const { formLayout = 'basic', labelWidth } = this.context;
 		const {
+			aphroditeStyles,
 			children,
 			className,
 			cropLabel,
 			htmlFor,
 			label,
 			offsetAbsentLabel,
-			staticClassName,
 			...props,
 		} = this.props;
-
-		// Property Violation
-		if (typeof className === 'string') {
-			console.error('FormField: use prop `staticClassName` for global CSS classes. Attempted className: "' + className + '".');
-		}
 
 		props.className = css(
 			classes.FormField,
 			classes['FormField--form-layout-' + formLayout],
 			offsetAbsentLabel ? classes['FormField--offset-absent-label'] : null,
-			className
+			aphroditeStyles
 		);
-		if (staticClassName) {
-			props.className += (' ' + staticClassName);
+		if (className) {
+			props.className += (' ' + className);
 		}
 		if (offsetAbsentLabel && labelWidth) {
 			props.style = {
@@ -66,7 +61,7 @@ class FormField extends Component {
 	}
 };
 
-const classNameShape = {
+const stylesShape = {
 	_definition: PropTypes.object,
 	_name: PropTypes.string,
 };
@@ -82,16 +77,15 @@ FormField.childContextTypes = {
 	formFieldId: PropTypes.string,
 };
 FormField.propTypes = {
-	children: PropTypes.node,
-	className: PropTypes.oneOfType([
-		PropTypes.arrayOf(PropTypes.shape(classNameShape)),
-		PropTypes.shape(classNameShape),
+	aphroditeStyles: PropTypes.oneOfType([
+		PropTypes.arrayOf(PropTypes.shape(stylesShape)),
+		PropTypes.shape(stylesShape),
 	]),
+	children: PropTypes.node,
 	cropLabel: PropTypes.bool,
 	htmlFor: React.PropTypes.string,
 	label: React.PropTypes.string,
 	offsetAbsentLabel: React.PropTypes.bool,
-	staticClassName: PropTypes.string,
 };
 
 function generateId () {

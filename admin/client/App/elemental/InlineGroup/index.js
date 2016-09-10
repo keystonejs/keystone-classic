@@ -4,6 +4,7 @@ import React, { cloneElement, Children, Component, PropTypes } from 'react';
 // NOTE: only accepts InlineGroupSection as a single child
 
 function InlineGroup ({
+	aphroditeStyles,
 	block,
 	children,
 	className,
@@ -15,8 +16,11 @@ function InlineGroup ({
 	props.className = css(
 		classes.group,
 		!!block && classes.block,
-		className
+		aphroditeStyles
 	);
+	if (className) {
+		props.className += (' ' + className);
+	}
 
 	// convert children to an array and filter out falsey values
 	const buttons = Children.toArray(children).filter(i => i);
@@ -49,6 +53,10 @@ function InlineGroup ({
 };
 
 InlineGroup.propTypes = {
+	aphroditeStyles: PropTypes.shape({
+		_definition: PropTypes.object,
+		_name: PropTypes.string,
+	}),
 	block: PropTypes.bool,
 	component: PropTypes.oneOfType([
 		PropTypes.func,

@@ -24,6 +24,7 @@ class Button extends Component {
 	render () {
 		var {
 			active,
+			aphroditeStyles,
 			block,
 			className,
 			color,
@@ -34,11 +35,6 @@ class Button extends Component {
 			...props,
 		} = this.props;
 
-		// Property Violation
-		if (typeof className === 'string') {
-			console.error('Button: use prop `staticClassName` for global CSS classes. Attempted className: "' + className + '".');
-		}
-
 		// get the styles
 		const variantClasses = getStyleSheet(variant, color);
 		props.className = css(
@@ -48,8 +44,11 @@ class Button extends Component {
 			block ? commonClasses.block : null,
 			disabled ? commonClasses.disabled : null,
 			active ? variantClasses.active : null,
-			...concatClassnames(className)
+			...concatClassnames(aphroditeStyles)
 		);
+		if (className) {
+			props.className += (' ' + className);
+		}
 
 		// return an anchor or button
 		if (!Tag) {
@@ -64,18 +63,18 @@ class Button extends Component {
 	}
 };
 
-const classNameShape = {
+const stylesShape = {
 	_definition: PropTypes.object,
 	_name: PropTypes.string,
 };
 
 Button.propTypes = {
 	active: PropTypes.bool,
-	block: PropTypes.bool,
-	className: PropTypes.oneOfType([
-		PropTypes.arrayOf(PropTypes.shape(classNameShape)),
-		PropTypes.shape(classNameShape),
+	aphroditeStyles: PropTypes.oneOfType([
+		PropTypes.arrayOf(PropTypes.shape(stylesShape)),
+		PropTypes.shape(stylesShape),
 	]),
+	block: PropTypes.bool,
 	color: PropTypes.oneOf(BUTTON_COLORS),
 	component: PropTypes.oneOfType([
 		PropTypes.func,

@@ -123,7 +123,7 @@ const CreateForm = React.createClass({
 			var nameFieldProps = this.getFieldProps(nameField);
 			nameFieldProps.autoFocus = focusWasSet = true;
 			if (nameField.type === 'text') {
-				nameFieldProps.staticClassName = 'item-name-field';
+				nameFieldProps.className = 'item-name-field';
 				nameFieldProps.placeholder = nameField.label;
 				nameFieldProps.label = '';
 			}

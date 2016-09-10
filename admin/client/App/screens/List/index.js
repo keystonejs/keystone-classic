@@ -6,10 +6,17 @@
 import React from 'react';
 // import { findDOMNode } from 'react-dom'; // TODO re-implement focus when ready
 import numeral from 'numeral';
-import { BlankState, Pagination } from '../../elemental';
 import { connect } from 'react-redux';
 
-import { Center, Container, GlyphButton, Spinner } from '../../elemental';
+import {
+	BlankState,
+	Center,
+	Container,
+	Glyph,
+	GlyphButton,
+	Pagination,
+	Spinner,
+} from '../../elemental';
 
 import ListFilters from './components/Filtering/ListFilters';
 import ListHeaderTitle from './components/ListHeaderTitle';
@@ -420,7 +427,7 @@ const ListView = React.createClass({
 						}] }}
 					/>
 				) : null}
-				<BlankState heading={<div>No {this.props.currentList.plural.toLowerCase()} found&hellip;</div>} style={{ marginTop: 40 }}>
+				<BlankState heading={`No ${this.props.currentList.plural.toLowerCase()} found...`} style={{ marginTop: 40 }}>
 					{button}
 				</BlankState>
 			</Container>
@@ -494,8 +501,14 @@ const ListView = React.createClass({
 		matching = matching ? ' found matching ' + matching : '.';
 		return (
 			<BlankState style={{ marginTop: 20, marginBottom: 20 }}>
-				<span className="octicon octicon-search" style={{ fontSize: 32, marginBottom: 20 }} />
-				<BlankState.Heading>No {this.props.currentList.plural.toLowerCase()}{matching}</BlankState.Heading>
+				<Glyph
+					name="search"
+					size="medium"
+					style={{ marginBottom: 20 }}
+				/>
+				<h2 style={{ color: 'inherit' }}>
+					No {this.props.currentList.plural.toLowerCase()}{matching}
+				</h2>
 			</BlankState>
 		);
 	},

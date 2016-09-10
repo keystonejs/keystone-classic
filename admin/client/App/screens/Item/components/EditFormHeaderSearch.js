@@ -11,11 +11,10 @@ class EditFormHeaderSearch extends Component {
 		super();
 
 		this.focusField = this.focusField.bind(this);
-		this.state = { focused: true };
+		this.state = { focused: false };
 	}
 	focusField () {
 		this.setState({ focused: true }, () => {
-			console.log(this.refs.target);
 			findDOMNode(this.refs.target).focus();
 		});
 	}
@@ -31,12 +30,12 @@ class EditFormHeaderSearch extends Component {
 		return focused ? (
 			<div className={css(classes.wrapper)}>
 				<Glyph
-					className={classes.glyph}
+					aphroditeStyles={classes.glyph}
 					color={theme.color.gray40}
 					name="search"
 				/>
 				<FormInput
-					className={classes.input}
+					aphroditeStyles={classes.input}
 					name="search"
 					onBlur={() => this.setState({ focused: false })}
 					onChange={onChange}
@@ -52,10 +51,12 @@ class EditFormHeaderSearch extends Component {
 			<GlyphButton
 				color="primary"
 				glyph="search"
+				glyphStyle={{ marginRight: '0.4em' }}
 				onClick={this.focusField}
 				onFocus={this.focusField}
 				position="left"
 				variant="link"
+				style={{ paddingLeft: '0.7em' }}
 				>
 				Search
 			</GlyphButton>
@@ -81,12 +82,12 @@ const classes = StyleSheet.create({
 	// input
 	input: {
 		paddingLeft: '2.2em',
-		opacity: 0,
+		// opacity: 0,
 		transition: 'all 240ms',
 		width: 100,
 
 		':focus': {
-			opacity: 1,
+			// opacity: 1,
 			width: 240,
 		},
 	},

@@ -137,13 +137,13 @@ module.exports = Field.create({
 	renderChangeMessage () {
 		if (this.state.userSelectedFile) {
 			return (
-				<FileChangeMessage type="success">
-					File selected - save to upload
+				<FileChangeMessage color="success">
+					Save to Upload
 				</FileChangeMessage>
 			);
 		} else if (this.state.removeExisting) {
 			return (
-				<FileChangeMessage type="danger">
+				<FileChangeMessage color="danger">
 					File {this.props.autoCleanup ? 'deleted' : 'removed'} - save to confirm
 				</FileChangeMessage>
 			);

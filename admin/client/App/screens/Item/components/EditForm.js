@@ -229,7 +229,7 @@ var EditForm = React.createClass({
 			nameFieldProps.size = 'full';
 			nameFieldProps.autoFocus = true;
 			nameFieldProps.inputProps = {
-				staticClassName: 'item-name-field',
+				className: 'item-name-field',
 				placeholder: nameField.label,
 				size: 'lg',
 			};
