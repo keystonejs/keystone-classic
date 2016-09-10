@@ -137,6 +137,16 @@ theme.button = {
 	},
 };
 
+// blank state
+
+theme.blankstate = {
+	background: darken(theme.color.body, 4),
+	borderRadius: theme.borderRadius.default,
+	color: theme.color.gray40,
+	paddingHorizontal: '2em',
+	paddingVertical: '4em',
+};
+
 // font
 
 theme.font = {
@@ -259,6 +269,52 @@ theme.glyph = {
 		small: 16,
 		medium: 32,
 		large: 64,
+	},
+};
+
+// modal
+
+theme.modal = {
+	background: 'rgba(0, 0, 0, 0.8)',
+	zIndex: 100,
+	padding: {
+		dialog: {
+			horizontal: '1em',
+			vertical: 0,
+		},
+		body: {
+			horizontal: 0,
+			vertical: '1em',
+		},
+		footer: {
+			horizontal: 0,
+			vertical: '1em',
+		},
+		header: {
+			horizontal: 0,
+			vertical: '0.6em',
+		},
+	},
+};
+
+// pagination
+
+theme.pagination = {
+	color: theme.color.gray60,
+
+	hover: {
+		background: 'white',
+		border: 'rgba(0, 0, 0, 0.1)',
+		color: theme.color.gray60,
+	},
+	selected: {
+		background: 'rgba(0, 0, 0, 0.05)',
+		border: 'transparent',
+		color: theme.color.gray60,
+	},
+	disabled: {
+		background: 'transparent',
+		color: theme.color.gray40,
 	},
 };
 

@@ -62,6 +62,12 @@ var EditForm = React.createClass({
 			focusFirstField: true,
 		};
 	},
+	componentDidMount () {
+		this.__isMounted = true;
+	},
+	componentWillUnmount () {
+		this.__isMounted = false;
+	},
 	getFieldProps (field) {
 		const props = assign({}, field);
 		const alerts = this.state.alerts;
@@ -89,12 +95,13 @@ var EditForm = React.createClass({
 	confirmReset (event) {
 		const confirmationDialog = (
 			<ConfirmationDialog
-				isOpen
-				body={<p>Reset your changes to <strong>{this.props.data.name}</strong>?</p>}
 				confirmationLabel="Reset"
+				isOpen
 				onCancel={this.removeConfirmationDialog}
 				onConfirmation={this.handleReset}
-			/>
+			>
+				<p>Reset your changes to <strong>{this.props.data.name}</strong>?</p>
+			</ConfirmationDialog>
 		);
 		event.preventDefault();
 		this.setState({ confirmationDialog });
@@ -108,12 +115,16 @@ var EditForm = React.createClass({
 	confirmDelete () {
 		const confirmationDialog = (
 			<ConfirmationDialog
-				isOpen
-				body={<p>Are you sure you want to delete <strong>{this.props.data.name}?</strong><br /><br />This cannot be undone.</p>}
 				confirmationLabel="Delete"
+				isOpen
 				onCancel={this.removeConfirmationDialog}
 				onConfirmation={this.handleDelete}
-			/>
+			>
+				Are you sure you want to delete <strong>{this.props.data.name}?</strong>
+				<br />
+				<br />
+				This cannot be undone.
+			</ConfirmationDialog>
 		);
 		this.setState({ confirmationDialog });
 	},
@@ -218,7 +229,7 @@ var EditForm = React.createClass({
 			nameFieldProps.size = 'full';
 			nameFieldProps.autoFocus = true;
 			nameFieldProps.inputProps = {
-				className: 'item-name-field',
+				staticClassName: 'item-name-field',
 				placeholder: nameField.label,
 				size: 'lg',
 			};
@@ -238,7 +249,7 @@ var EditForm = React.createClass({
 			// Don't render the name field if it is the header since it'll be rendered in BIG above
 			// the list. (see renderNameField method, this is the reverse check of the one it does)
 			if (this.props.list.nameField && el.field === this.props.list.nameField.path && this.props.list.nameFieldIsFormHeader) {
-				if (this.state.focusFirstField) {
+				if (this.__isMounted && this.state.focusFirstField) {
 					this.setState({
 						focusFirstField: false,
 					});

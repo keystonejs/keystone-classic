@@ -1,5 +1,5 @@
 import { css, StyleSheet } from 'aphrodite/no-important';
-import React, { PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 import styles from './styles';
 import concatClassnames from '../../../utils/concatClassnames';
 
@@ -18,40 +18,50 @@ const BUTTON_SIZES = ['large', 'medium', 'small', 'xsmall'];
 const BUTTON_VARIANTS = ['fill', 'hollow', 'link'];
 const BUTTON_COLORS = ['default', 'primary', 'success', 'warning', 'danger', 'cancel', 'delete'];
 
-function Button ({
-	active,
-	block,
-	className,
-	color,
-	component: Component,
-	disabled,
-	size,
-	variant,
-	...props,
-}) {
+// NOTE must NOT be functional component to allow `refs`
 
-	// get the styles
-	const variantClasses = getStyleSheet(variant, color);
-	props.className = css(
-		commonClasses.base,
-		commonClasses[size],
-		variantClasses.base,
-		block ? commonClasses.block : null,
-		disabled ? commonClasses.disabled : null,
-		active ? variantClasses.active : null,
-		...concatClassnames(className)
-	);
+class Button extends Component {
+	render () {
+		var {
+			active,
+			block,
+			className,
+			color,
+			component: Tag,
+			disabled,
+			size,
+			variant,
+			...props,
+		} = this.props;
 
-	// return an anchor or button
-	if (!Component) {
-		Component = props.href ? 'a' : 'button';
+		// Property Violation
+		if (typeof className === 'string') {
+			console.error('Button: use prop `staticClassName` for global CSS classes. Attempted className: "' + className + '".');
+		}
+
+		// get the styles
+		const variantClasses = getStyleSheet(variant, color);
+		props.className = css(
+			commonClasses.base,
+			commonClasses[size],
+			variantClasses.base,
+			block ? commonClasses.block : null,
+			disabled ? commonClasses.disabled : null,
+			active ? variantClasses.active : null,
+			...concatClassnames(className)
+		);
+
+		// return an anchor or button
+		if (!Tag) {
+			Tag = props.href ? 'a' : 'button';
+		}
+		// Ensure buttons don't submit by default
+		if (Tag === 'button' && !props.type) {
+			props.type = 'button';
+		}
+
+		return <Tag {...props} />;
 	}
-	// Ensure buttons don't submit by default
-	if (Component === 'button' && !props.type) {
-		props.type = 'button';
-	}
-
-	return <Component {...props} />;
 };
 
 const classNameShape = {

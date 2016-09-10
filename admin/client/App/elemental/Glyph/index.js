@@ -17,20 +17,31 @@ function Glyph ({
 	component: Component,
 	name,
 	size,
+	style,
 	...props,
 }) {
+	const colorIsValidType = Object.keys(colors).includes(color);
 	props.className = css(
 		classes.glyph,
-		classes['color__' + color],
+		colorIsValidType && classes['color__' + color],
 		classes['size__' + size],
 		className
 	) + ` ${octicons[name]}`;
+
+	// support random color strings
+	props.style = {
+		color: !colorIsValidType ? color : null,
+		...style,
+	};
 
 	return <Component {...props} />;
 };
 
 Glyph.propTypes = {
-	color: PropTypes.oneOf(Object.keys(colors)),
+	color: PropTypes.oneOfType([
+		PropTypes.oneOf(Object.keys(colors)),
+		PropTypes.string, // support random color strings
+	]),
 	name: PropTypes.oneOf(Object.keys(octicons)).isRequired,
 	size: PropTypes.oneOf(Object.keys(sizes)),
 };

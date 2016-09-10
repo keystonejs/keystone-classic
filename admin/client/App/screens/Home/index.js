@@ -16,6 +16,11 @@ import {
 
 var HomeView = React.createClass({
 	displayName: 'HomeView',
+	getInitialState () {
+		return {
+			modalIsOpen: true,
+		};
+	},
 	// When everything is rendered, start loading the item counts of the lists
 	// from the API
 	componentDidMount () {

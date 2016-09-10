@@ -19,7 +19,7 @@ function FormNote ({
 	}
 
 	return html ? (
-		<Component {...props} dangerouslySetInnerHTML={!!html && { __html: html }} />
+		<Component {...props} dangerouslySetInnerHTML={{ __html: html }} />
 	) : (
 		<Component {...props}>{children}</Component>
 	);

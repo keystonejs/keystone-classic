@@ -6,32 +6,26 @@ import InputNoedit from './noedit';
 
 const classes = StyleSheet.create(styles);
 
-class FormInput extends Component {
-	constructor () {
-		super();
+// NOTE must NOT be functional component to allow `refs`
 
-		this.focus = this.focus.bind(this);
-	}
-	componentWillReceiveProps (nextProps) {
-		if (nextProps.focus && !this.props.focus) {
-			this.focus();
-		}
-	}
-	focus () {
-		this.target.focus();
-	}
+class FormInput extends Component {
 	render () {
-		// NOTE `focus` is declared to remove it from `props`, though never used
 		const {
 			className,
 			disabled,
-			focus, // eslint-disable-line no-unused-vars
 			id,
 			multiline,
 			noedit,
 			staticClassName,
 			...props,
 		} = this.props;
+
+		console.log('FormInput className', className);
+
+		// Property Violation
+		if (typeof className === 'string') {
+			console.error('FormInput: use prop `staticClassName` for global CSS classes. Attempted className: "' + className + '".');
+		}
 
 		// NOTE return a different component for `noedit`
 		if (noedit) return <InputNoedit {...this.props} />;
@@ -62,18 +56,26 @@ class FormInput extends Component {
 	}
 };
 
-
-FormInput.contextTypes = {
-	formLayout: PropTypes.oneOf(['basic', 'horizontal', 'inline']),
-	formFieldId: PropTypes.string,
+const classNameShape = {
+	_definition: PropTypes.object,
+	_name: PropTypes.string,
 };
+
 FormInput.propTypes = {
+	className: PropTypes.oneOfType([
+		PropTypes.arrayOf(PropTypes.shape(classNameShape)),
+		PropTypes.shape(classNameShape),
+	]),
 	multiline: PropTypes.bool,
 	staticClassName: PropTypes.string,
 	type: PropTypes.string,
 };
 FormInput.defaultProps = {
 	type: 'text',
+};
+FormInput.contextTypes = {
+	formLayout: PropTypes.oneOf(['basic', 'horizontal', 'inline']),
+	formFieldId: PropTypes.string,
 };
 
 module.exports = FormInput;

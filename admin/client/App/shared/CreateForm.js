@@ -9,7 +9,7 @@ import vkey from 'vkey';
 import AlertMessages from './AlertMessages';
 import { Fields } from 'FieldTypes';
 import InvalidFieldType from './InvalidFieldType';
-import { Button, Form, Modal } from 'elemental';
+import { Button, Form, Modal } from '../elemental';
 
 const CreateForm = React.createClass({
 	displayName: 'CreateForm',
@@ -123,7 +123,7 @@ const CreateForm = React.createClass({
 			var nameFieldProps = this.getFieldProps(nameField);
 			nameFieldProps.autoFocus = focusWasSet = true;
 			if (nameField.type === 'text') {
-				nameFieldProps.className = 'item-name-field';
+				nameFieldProps.staticClassName = 'item-name-field';
 				nameFieldProps.placeholder = nameField.label;
 				nameFieldProps.label = '';
 			}
@@ -151,14 +151,9 @@ const CreateForm = React.createClass({
 		});
 
 		return (
-			<Form
-				type="horizontal"
-				onSubmit={this.submitForm}
-				className="create-form"
-			>
+			<Form layout="horizontal" onSubmit={this.submitForm}>
 				<Modal.Header
 					text={'Create a new ' + list.singular}
-					onClose={this.props.onCancel}
 					showCloseButton
 				/>
 				<Modal.Body>
@@ -166,9 +161,12 @@ const CreateForm = React.createClass({
 					{form}
 				</Modal.Body>
 				<Modal.Footer>
-					<Button type="success" submit>Create</Button>
+					<Button color="success" type="submit">
+						Create
+					</Button>
 					<Button
-						type="link-cancel"
+						variant="link"
+						color="cancel"
 						onClick={this.props.onCancel}
 					>
 						Cancel
@@ -179,13 +177,13 @@ const CreateForm = React.createClass({
 	},
 	render () {
 		return (
-			<Modal
+			<Modal.Dialog
 				isOpen={this.props.isOpen}
-				onCancel={this.props.onCancel}
+				onClose={this.props.onCancel}
 				backdropClosesModal
 			>
 				{this.renderForm()}
-			</Modal>
+			</Modal.Dialog>
 		);
 	},
 });

@@ -6,7 +6,7 @@
 import React from 'react';
 // import { findDOMNode } from 'react-dom'; // TODO re-implement focus when ready
 import numeral from 'numeral';
-import { BlankState, Pagination } from 'elemental';
+import { BlankState, Pagination } from '../../elemental';
 import { connect } from 'react-redux';
 
 import { Center, Container, GlyphButton, Spinner } from '../../elemental';
@@ -170,12 +170,12 @@ const ListView = React.createClass({
 				isOpen: true,
 				label: 'Delete',
 				body: (
-					<p>
+					<div>
 						Are you sure you want to delete {itemCount}?
 						<br />
 						<br />
 						This cannot be undone.
-					</p>
+					</div>
 				),
 				onConfirmation: () => {
 					this.props.dispatch(deleteItems(itemIds));
@@ -195,12 +195,13 @@ const ListView = React.createClass({
 		const props = this.state.confirmationDialog;
 		return (
 			<ConfirmationDialog
-				isOpen={props.isOpen}
-				body={props.body}
 				confirmationLabel={props.label}
+				isOpen={props.isOpen}
 				onCancel={this.removeConfirmationDialog}
 				onConfirmation={props.onConfirmation}
-			/>
+			>
+				{props.body}
+			</ConfirmationDialog>
 		);
 	},
 	renderManagement () {
@@ -341,12 +342,12 @@ const ListView = React.createClass({
 				isOpen: true,
 				label: 'Delete',
 				body: (
-					<p>
-						Are you sure you want to delete <strong>${item.name}</strong>?
+					<div>
+						Are you sure you want to delete <strong>{item.name}</strong>?
 						<br />
 						<br />
 						This cannot be undone.
-					</p>
+					</div>
 				),
 				onConfirmation: () => {
 					this.props.dispatch(deleteItem(item.id));
@@ -419,8 +420,7 @@ const ListView = React.createClass({
 						}] }}
 					/>
 				) : null}
-				<BlankState style={{ marginTop: 40 }}>
-					<BlankState.Heading>No {this.props.currentList.plural.toLowerCase()} found&hellip;</BlankState.Heading>
+				<BlankState heading={<div>No {this.props.currentList.plural.toLowerCase()} found&hellip;</div>} style={{ marginTop: 40 }}>
 					{button}
 				</BlankState>
 			</Container>
