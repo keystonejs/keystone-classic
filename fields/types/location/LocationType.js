@@ -257,6 +257,20 @@ location.prototype.updateItem = function (item, data, callback) {
 		item.set(paths.geo, (lat && lng) ? [lng, lat] : undefined);
 	}
 
+	var doGoogleLookup = this.getValueFromData(data, '_improve');
+	if (doGoogleLookup) {
+		var googleUpdateMode = this.getValueFromData(data, '_improve_overwrite') ? 'overwrite' : true;
+		this.googleLookup(item, false, googleUpdateMode, function (err, location, result) {
+			// TODO: we are currently discarding the error; it should probably be
+			// sent back in the response, needs consideration
+			// console.log('Got err: ', err);
+			// console.log('Got location: ', location);
+			// console.log('Got result: ', result);
+			callback();
+		});
+		return;
+	}
+
 	process.nextTick(callback);
 };
 
