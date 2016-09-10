@@ -8,7 +8,7 @@ import classnames from 'classnames';
 
 /**
  * TODO:
- * - Remove dependency on underscore
+ * - Remove dependency on lodash
  */
 
 // See CodeMirror docs for API:
