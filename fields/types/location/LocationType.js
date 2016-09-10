@@ -263,43 +263,12 @@ location.prototype.updateItem = function (item, data, callback) {
 		this.googleLookup(item, false, googleUpdateMode, function (err, location, result) {
 			// TODO: we are currently discarding the error; it should probably be
 			// sent back in the response, needs consideration
-			// console.log('Got err: ', err);
-			// console.log('Got location: ', location);
-			// console.log('Got result: ', result);
 			callback();
 		});
 		return;
 	}
 
 	process.nextTick(callback);
-};
-
-/**
- * Returns a callback that handles a standard form submission for the field
- *
- * Handles:
- * - `field.paths.improve` in `req.body` - improves data via `.googleLookup()`
- * - `field.paths.overwrite` in `req.body` - in conjunction with `improve`, overwrites existing data
- */
-location.prototype.getRequestHandler = function (item, req, paths, callback) {
-	var field = this;
-	if (utils.isFunction(paths)) {
-		callback = paths;
-		paths = field.paths;
-	} else if (!paths) {
-		paths = field.paths;
-	}
-	callback = callback || function () {};
-	return function () {
-		var update = req.body[paths.overwrite] ? 'overwrite' : true;
-		if (req.body && req.body[paths.improve]) {
-			field.googleLookup(item, false, update, function () {
-				callback();
-			});
-		} else {
-			callback();
-		}
-	};
 };
 
 /**
