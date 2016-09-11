@@ -20,9 +20,6 @@ function embedly (list, path, options) {
 	this.fromPath = options.from;
 	this.embedlyOptions = options.options || {};
 
-	// TODO: implement filtering, usage disabled for now
-	options.nofilter = true;
-
 	// check and api key has been set, or bail.
 	if (!keystone.get('embedly api key')) {
 		throw new Error('Invalid Configuration\n\n'

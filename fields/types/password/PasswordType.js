@@ -30,7 +30,6 @@ function password (list, path, options) {
 	this._fixedSize = 'full';
 	// You can't sort on password fields
 	options.nosort = true;
-	options.nofilter = true; // TODO: remove this when 0.4 is merged
 	this.workFactor = options.workFactor || 10;
 	password.super_.call(this, list, path, options);
 	for (var key in this.options.complexity) {

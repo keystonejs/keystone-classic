@@ -45,8 +45,6 @@ function cloudinaryimage (list, path, options) {
 	this._fixedSize = 'full';
 	this._properties = ['select', 'selectPrefix', 'autoCleanup'];
 
-	// TODO: implement filtering, usage disabled for now
-	options.nofilter = true;
 	if (options.filenameAsPublicID) {
 		// Produces the same result as the legacy filenameAsPublicID option
 		options.generateFilename = nameFunctions.originalFilename;
