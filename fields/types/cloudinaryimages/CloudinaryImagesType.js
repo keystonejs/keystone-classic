@@ -72,12 +72,12 @@ cloudinaryimages.prototype.addToSchema = function (schema) {
 
 	this.paths = {
 		// virtuals
-		folder: this._path.append('.folder'),
+		folder: this.path + '.folder',
 		// form paths
-		upload: this._path.append('_upload'),
-		uploads: this._path.append('_uploads'),
-		action: this._path.append('_action'),
-		order: this._path.append('_order'),
+		upload: this.path + '_upload',
+		uploads: this.path + '_uploads',
+		action: this.path + '_action',
+		order: this.path + '_order',
 	};
 
 	var ImageSchema = new mongoose.Schema({

@@ -27,9 +27,9 @@ util.inherits(name, FieldType);
  */
 name.prototype.addToSchema = function (schema) {
 	var paths = this.paths = {
-		first: this._path.append('.first'),
-		last: this._path.append('.last'),
-		full: this._path.append('.full'),
+		first: this.path + '.first',
+		last: this.path + '.last',
+		full: this.path + '.full',
 	};
 
 	schema.nested[this.path] = true;

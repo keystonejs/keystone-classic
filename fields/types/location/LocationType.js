@@ -54,20 +54,20 @@ location.prototype.addToSchema = function (schema) {
 	var options = this.options;
 
 	var paths = this.paths = {
-		number: this._path.append('.number'),
-		name: this._path.append('.name'),
-		street1: this._path.append('.street1'),
-		street2: this._path.append('.street2'),
-		suburb: this._path.append('.suburb'),
-		state: this._path.append('.state'),
-		postcode: this._path.append('.postcode'),
-		country: this._path.append('.country'),
-		geo: this._path.append('.geo'),
-		geo_lat: this._path.append('.geo_lat'),
-		geo_lng: this._path.append('.geo_lng'),
-		serialised: this._path.append('.serialised'),
-		improve: this._path.append('_improve'),
-		overwrite: this._path.append('_improve_overwrite'),
+		number: this.path + '.number',
+		name: this.path + '.name',
+		street1: this.path + '.street1',
+		street2: this.path + '.street2',
+		suburb: this.path + '.suburb',
+		state: this.path + '.state',
+		postcode: this.path + '.postcode',
+		country: this.path + '.country',
+		geo: this.path + '.geo',
+		geo_lat: this.path + '.geo_lat',
+		geo_lng: this.path + '.geo_lng',
+		serialised: this.path + '.serialised',
+		improve: this.path + '_improve',
+		overwrite: this.path + '_improve_overwrite',
 	};
 
 	var getFieldDef = function (type, key) {

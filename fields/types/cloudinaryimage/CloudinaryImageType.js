@@ -95,20 +95,20 @@ cloudinaryimage.prototype.addToSchema = function (schema) {
 
 	var paths = this.paths = {
 		// cloudinary fields
-		public_id: this._path.append('.public_id'),
-		version: this._path.append('.version'),
-		signature: this._path.append('.signature'),
-		format: this._path.append('.format'),
-		resource_type: this._path.append('.resource_type'),
-		url: this._path.append('.url'),
-		width: this._path.append('.width'),
-		height: this._path.append('.height'),
-		secure_url: this._path.append('.secure_url'),
+		public_id: this.path + '.public_id',
+		version: this.path + '.version',
+		signature: this.path + '.signature',
+		format: this.path + '.format',
+		resource_type: this.path + '.resource_type',
+		url: this.path + '.url',
+		width: this.path + '.width',
+		height: this.path + '.height',
+		secure_url: this.path + '.secure_url',
 		// virtuals
-		exists: this._path.append('.exists'),
-		folder: this._path.append('.folder'),
+		exists: this.path + '.exists',
+		folder: this.path + '.folder',
 		// form paths
-		select: this._path.append('_select'),
+		select: this.path + '_select',
 	};
 
 	var schemaPaths = this._path.addTo({}, {

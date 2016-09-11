@@ -61,8 +61,8 @@ password.prototype.addToSchema = function (schema) {
 	var needs_hashing = '__' + field.path + '_needs_hashing';
 
 	this.paths = {
-		confirm: this.options.confirmPath || this._path.append('_confirm'),
-		hash: this.options.hashPath || this._path.append('_hash'),
+		confirm: this.options.confirmPath || this.path + '_confirm',
+		hash: this.options.hashPath || this.path + '_hash',
 	};
 
 	schema.path(this.path, _.defaults({

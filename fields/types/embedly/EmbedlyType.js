@@ -55,22 +55,22 @@ embedly.prototype.addToSchema = function (schema) {
 	var field = this;
 
 	this.paths = {
-		exists: this._path.append('.exists'),
-		type: this._path.append('.type'),
-		title: this._path.append('.title'),
-		url: this._path.append('.url'),
-		width: this._path.append('.width'),
-		height: this._path.append('.height'),
-		version: this._path.append('.version'),
-		description: this._path.append('.description'),
-		html: this._path.append('.html'),
-		authorName: this._path.append('.authorName'),
-		authorUrl: this._path.append('.authorUrl'),
-		providerName: this._path.append('.providerName'),
-		providerUrl: this._path.append('.providerUrl'),
-		thumbnailUrl: this._path.append('.thumbnailUrl'),
-		thumbnailWidth: this._path.append('.thumbnailWidth'),
-		thumbnailHeight: this._path.append('.thumbnailHeight'),
+		exists: this.path + '.exists',
+		type: this.path + '.type',
+		title: this.path + '.title',
+		url: this.path + '.url',
+		width: this.path + '.width',
+		height: this.path + '.height',
+		version: this.path + '.version',
+		description: this.path + '.description',
+		html: this.path + '.html',
+		authorName: this.path + '.authorName',
+		authorUrl: this.path + '.authorUrl',
+		providerName: this.path + '.providerName',
+		providerUrl: this.path + '.providerUrl',
+		thumbnailUrl: this.path + '.thumbnailUrl',
+		thumbnailWidth: this.path + '.thumbnailWidth',
+		thumbnailHeight: this.path + '.thumbnailHeight',
 	};
 
 	schema.nested[this.path] = true;
