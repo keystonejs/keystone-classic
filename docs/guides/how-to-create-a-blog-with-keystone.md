@@ -2,6 +2,7 @@
 
 One of the most common projects you can do with Keystone is a blog.
 In this guide we will walk you through building a simple blog based on free [Bootstrap-clean-blog](https://blackrockdigital.github.io/startbootstrap-clean-blog/) theme.
+Our blog will have 3 page templates: index page with blog feed, single post and About us page.
 See the final blog's source code [here](https://github.com/xyzteam2016/xyzcodeblog).
 
 ## Install prerequisites
@@ -62,4 +63,34 @@ First, let's re-build header and footer. Open `templates/layouts/default.jade` f
 
 Blog and post templates are a bit more tricky to modify. When you open `templates/views/blog.jade`, you will see a mixin which renders a feed of the latest posts where each post has title, brief, image (if it exists) and meta information. Existing `blog.jade` template already contains most of this elements. Let's add missing classes and post's brief by following theme's `index.html` file.
 
-In KeystoneJS, your data schema and models are controlled by [Lists](http://keystonejs.com/docs/database/). In our case, `Post` is a `List`, and we want to pull relevant data from its [fields](http://keystonejs.com/docs/database/#fields) or specify it's [options](http://keystonejs.com/docs/database/#fields-options). This way, if we want to access post's field's data, we will use the following syntax: `post.fieldname.subfieldname`. For example, to add post's brief, we will add `post.content.brief`
+In KeystoneJS, your data schema and models are controlled by [Lists](http://keystonejs.com/docs/database/). In our case, `Post` is a `List`, and we want to pull relevant data from its [fields](http://keystonejs.com/docs/database/#fields) or specify it's [options](http://keystonejs.com/docs/database/#fields-options) or [methods](http://keystonejs.com/docs/database/#fields-underscoremethods). This way, if we want to access post field data inside mixin, we will use the following syntax: `post.fieldname.subfieldname`. For example, to add post's brief, we will write `post.content.brief`. Similarly, if we want to check if image exists, we will access post image `exists` option, like this `if post.image.exists`, and if it results to true, we show a post's image scaled to fit within the specified width and height, like that `img(src=post._.image.fit(800,800))` using image's `fit` underscore method. For the full list of available fields and their options and methods, refer to (KeystoneJS documentation)[http://keystonejs.com/docs/database/]. Single post `post.jade` template can be modified in exactly same way as `blog.jade` file. The only difference is, in order to access field's data inside `post` template, you need to use `data.list.fieldname.subfieldname` syntax.
+
+### Adding new page
+
+By default, there is no Page `Model` shipped with default Keystone project. Since we want to have 'About us' page on our blog, let's go ahead and create it.
+
+1) Create a new `Page.js` file in `models` folder. Since it is very similar to post data model, you can copy-paste contents of `Post.js` and use it as a template. New `Page` model doesn't require so many fields as `Post` model, it would be enough to add the following fields:
+
+```
+Page.add({
+	title: { type: String, required: true },
+	state: { type: Types.Select, options: 'draft, published, archived', default: 'draft', index: true },
+	image: { type: Types.CloudinaryImage },
+	content: {
+		brief: { type: Types.Html, wysiwyg: true, height: 150 },
+		extended: { type: Types.Html, wysiwyg: true, height: 400 },
+	},
+});
+```
+
+As the last step, specify which fields to display in `keystone/pages` in Admin UI where all your pages will be listed. In our case we only want to display page title and state, and we set column width to 20%. `Page.defaultColumns = 'title, state|20%';` Now run `node keystone` and go to `http://localhost:3000/keystone/pages` to see our brand new `Page` model in action. Now create a new page called 'About'.
+
+2) Next step would be add a `view` for page. Go to `routes/views` and duplicate `post.js` to use as a template. Let's set `locals` to `pages` this way: `locals.section = 'pages';`, so our page URLs will look like following `http://localhost:3000/pages/pagename`. We can also remove post related code, like `populate('author categories')` since we don't have `author` field in our `Page` model.
+
+3) Now let's define a new route for page. Open `routes/index.js` file, navigate to 'Setup Route Bindings' section and add `app.get('/pages/:page', routes.views.page);` line.
+
+4) Now we are ready to add a template for our page. Go to `templates/views`, create `page.jade` file and copy-paste `post.jade` contents into it. You can access `page` fields and options similar way by using `data.list.fieldname.subfieldname` syntax. Remove post-only related code, and we are all set to move to the last step.
+
+5) Add 'About' page link to navigation. Go to `routes/middleware.js` and add a new line to `res.locals.navLinks` - `{ label: 'About', key: 'about', href: '/pages/about' }`.
+
+Now re-run `node keystone` and celebrate your new blog ready to go live.
