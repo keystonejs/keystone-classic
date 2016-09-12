@@ -25,9 +25,9 @@ function datetime (list, path, options) {
 	}
 	datetime.super_.call(this, list, path, options);
 	this.paths = {
-		date: this._path.append('_date'),
-		time: this._path.append('_time'),
-		tzOffset: this._path.append('_tzOffset'),
+		date: this.path + '_date',
+		time: this.path + '_time',
+		tzOffset: this.path + '_tzOffset',
 	};
 }
 datetime.properName = 'Datetime';

@@ -24,7 +24,6 @@ var DEFAULT_OPTION_KEYS = [
 	'noedit',
 	'nocol',
 	'nosort',
-	'nofilter',
 	'indent',
 	'hidden',
 	'collapse',
@@ -163,10 +162,10 @@ Field.prototype.getPreSaveWatcher = function () {
 		applyValue = function () { return true; };
 	} else {
 		// if watch is a string, convert it to a list of paths to watch
-		if (_.isString(this.options.watch)) {
+		if (typeof this.options.watch === 'string') {
 			this.options.watch = this.options.watch.split(' ');
 		}
-		if (_.isFunction(this.options.watch)) {
+		if (typeof this.options.watch === 'function') {
 			applyValue = this.options.watch;
 		} else if (_.isArray(this.options.watch)) {
 			applyValue = function (item) {
@@ -193,7 +192,7 @@ Field.prototype.getPreSaveWatcher = function () {
 		process.exit(1);
 	}
 
-	if (!_.isFunction(this.options.value)) {
+	if (typeof this.options.value !== 'function') {
 		console.error('\nError: Invalid Configuration\n\n'
 		+ 'Watch set with no value method provided for ' + this.list.key + '.' + this.path + ' (' + this.type + ')');
 		process.exit(1);
@@ -227,7 +226,6 @@ definePrototypeGetters(Field, {
 	noedit: function () { return this.options.noedit || false; },
 	nocol: function () { return this.options.nocol || false; },
 	nosort: function () { return this.options.nosort || false; },
-	nofilter: function () { return this.options.nofilter || false; },
 	collapse: function () { return this.options.collapse || false; },
 	hidden: function () { return this.options.hidden || false; },
 	dependsOn: function () { return this.options.dependsOn || false; },
