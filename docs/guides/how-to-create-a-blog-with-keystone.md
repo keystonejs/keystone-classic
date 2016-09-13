@@ -65,7 +65,7 @@ Blog and post templates are a bit more tricky to modify. When you open `template
 
 In KeystoneJS, your data schema and models are controlled by [Lists](http://keystonejs.com/docs/database/). In our case, `Post` is a `List`, and we want to pull relevant data from its [fields](http://keystonejs.com/docs/database/#fields) or specify it's [options](http://keystonejs.com/docs/database/#fields-options) or [methods](http://keystonejs.com/docs/database/#fields-underscoremethods). This way, if we want to access post field data inside mixin, we will use the following syntax: `post.fieldname.subfieldname`. For example, to add post's brief, we will write `post.content.brief`. Similarly, if we want to check if image exists, we will access post image `exists` option, like this `if post.image.exists`, and if it results to true, we show a post's image scaled to fit within the specified width and height, like that `img(src=post._.image.fit(800,800))` using image's `fit` underscore method. For the full list of available fields and their options and methods, refer to (KeystoneJS documentation)[http://keystonejs.com/docs/database/]. Single post `post.jade` template can be modified in exactly same way as `blog.jade` file. The only difference is, in order to access field's data inside `post` template, you need to use `data.list.fieldname.subfieldname` syntax.
 
-### Adding new page
+### Creating new page
 
 By default, there is no Page `Model` shipped with default Keystone project. Since we want to have 'About us' page on our blog, let's go ahead and create it.
 
@@ -91,6 +91,23 @@ As the last step, specify which fields to display in `keystone/pages` in Admin U
 
 4) Now we are ready to add a template for our page. Go to `templates/views`, create `page.jade` file and copy-paste `post.jade` contents into it. You can access `page` fields and options similar way by using `data.list.fieldname.subfieldname` syntax. Remove post-only related code, and we are all set to move to the last step.
 
-5) Add 'About' page link to navigation. Go to `routes/middleware.js` and add a new line to `res.locals.navLinks` - `{ label: 'About', key: 'about', href: '/pages/about' }`.
+5) Add 'About' page link to navigation. Go to `routes/middleware.js` and add a new line to `res.locals.navLinks`
+
+```
+res.locals.navLinks = [
+  { label: 'About', key: 'about', href: '/pages/page/about' }, // adding About to blog navigation
+  { label: 'Blog', key: 'blog', href: '/blog' },
+];
+```
+
+Last but not least, you may want to add `Pages` to Admin UI top navigation. To do so, open `keystone.js` file located in the root of your project and add a new route to `keystone.set(nav)`
+
+```
+keystone.set('nav', {
+	posts: ['posts', 'post-categories'],
+	users: 'users',
+	pages: 'pages', // adding pages to Admin UI nav
+});
+```
 
 Now re-run `node keystone` and celebrate your new blog ready to go live.
