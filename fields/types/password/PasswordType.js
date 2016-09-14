@@ -30,7 +30,6 @@ function password (list, path, options) {
 	this._fixedSize = 'full';
 	// You can't sort on password fields
 	options.nosort = true;
-	options.nofilter = true; // TODO: remove this when 0.4 is merged
 	this.workFactor = options.workFactor || 10;
 	password.super_.call(this, list, path, options);
 	for (var key in this.options.complexity) {
@@ -62,8 +61,8 @@ password.prototype.addToSchema = function (schema) {
 	var needs_hashing = '__' + field.path + '_needs_hashing';
 
 	this.paths = {
-		confirm: this.options.confirmPath || this._path.append('_confirm'),
-		hash: this.options.hashPath || this._path.append('_hash'),
+		confirm: this.options.confirmPath || this.path + '_confirm',
+		hash: this.options.hashPath || this.path + '_hash',
 	};
 
 	schema.path(this.path, _.defaults({
