@@ -4,7 +4,6 @@ var async = require('async');
 var FieldType = require('../Type');
 var keystone = require('../../../');
 var util = require('util');
-var utils = require('keystone-utils');
 
 function getEmptyValue () {
 	return {
