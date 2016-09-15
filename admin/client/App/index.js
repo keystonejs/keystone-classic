@@ -15,7 +15,6 @@ import App from './App';
 import Home from './screens/Home';
 import Item from './screens/Item';
 import List from './screens/List';
-// import Visualization from './screens/Visualization';
 
 import store from './store';
 
