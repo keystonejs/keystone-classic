@@ -13,8 +13,6 @@ var REGEXP_LNGLAT = /^\s*(\-?\d+(?:\.\d+)?)\s*\,\s*(\-?\d+(?:\.\d+)?)\s*$/;
  */
 function geopoint (list, path, options) {
 	this._fixedSize = 'medium';
-	// TODO: implement filtering
-	options.nofilter = true;
 	geopoint.super_.call(this, list, path, options);
 }
 geopoint.properName = 'GeoPoint';

@@ -1,6 +1,7 @@
 module.exports = {
 	Alert: require('./Alert'),
 	Button: require('./Button'),
+	Center: require('./Center'),
 	Container: require('./Container'),
 	DropdownButton: require('./DropdownButton'),
 	Form: require('./Form'),

@@ -1,7 +1,6 @@
 # How to create a blog with Keystone
 
-One of the most common projects you can do with Keystone is a blog.
-In this guide we will walk you through building a simple blog based on free [Bootstrap-clean-blog](https://blackrockdigital.github.io/startbootstrap-clean-blog/) theme.
+In this guide we will walk you through building a simple blog with Keystone based on free [Bootstrap-clean-blog](https://blackrockdigital.github.io/startbootstrap-clean-blog/) theme.
 Our blog will have 3 page templates: index page with blog feed, single post and About us page.
 See the final blog's source code [here](https://github.com/xyzteam2016/xyzcodeblog).
 
@@ -111,3 +110,72 @@ keystone.set('nav', {
 ```
 
 Re-run `node keystone` and celebrate your new blog ready to go live.
+
+## Deploy to Heroku
+
+Your blog is now running nicely on your local machine, which is good, but it would be better to show it to the world. Let's deploy it to Heroku!
+
+First of all, head over to https://www.heroku.com/ and sign up for a free account.
+Then, download the [Heroku Command Line Interface](https://devcenter.heroku.com/articles/heroku-command-line#download-and-install).
+
+If you want, you can take a [crash course](https://devcenter.heroku.com/articles/getting-started-with-nodejs) on how to deploy a node.js app, to have a head start.
+
+Now, if you are ready, navigate to your project folder, initialize the git repository and make the initial commit:
+
+```sh
+git init
+git add .
+git commit -m "Initial commit"
+```
+
+Login to Heroku and create your app:
+```sh
+heroku login
+heroku create my-blog
+```
+
+If you run the `heroku create` command without the name parameter, heroku will assign a random name to your app and you will be able to change this later, if you wish.
+The command will also automatically add a git remote `heroku`.
+
+If you want to use an existing git repository, you can add it by running the command:
+```sh
+heroku git:remote -a my-blog
+```
+
+Or you can rename it by passing `-r my-best-blog`.
+
+Now we are going to configure the environment variables.
+Open the `.env` file in the root directory of your project. In case you accepted the default options in the Yeoman generator, then the file contains the test values. You may register for your own Cloudinary and Mandrill accounts and change these to your own keys, if you like.
+
+Now that we are deploying the app, we need to set these variables using Heroku CLI.
+
+Run `heroku config:set` with the variables from the `.env` file as parameters:
+
+```sh
+heroku config:set MANDRILL_API_KEY=<your-mandrill-api-key>
+heroku config:set CLOUDINARY_URL=<your-cloudinary-url>
+heroku config:set COOKIE_SECRET==<your-cookie-secret>
+```
+
+The last piece of set up is adding the MongoDB add-on, which will handle the database connection.
+
+```sh
+heroku addons:create mongolab
+```
+
+This automatically created another config variable called `MONGODB_URI`. However, Keystone needs it to be called `MONGOLAB_URI`. To fix this, go to your project in your Heroku [dashboard](https://dashboard.heroku.com/), open the Settings tab and rename the variable to `MONGOLAB_URI`
+
+Alright, now we're all ready to deploy!
+Push your files:
+
+```sh
+git push heroku master
+```
+
+And open your app in your browser:
+
+```sh
+heroku open
+```
+
+Tada! There we have it: your app is live on Heroku!

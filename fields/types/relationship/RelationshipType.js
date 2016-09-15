@@ -77,7 +77,7 @@ relationship.prototype.addToSchema = function (schema) {
 		unique: (this.options.unique ? true : false),
 	};
 	this.paths = {
-		refList: this.options.refListPath || this._path.append('RefList'),
+		refList: this.options.refListPath || this.path + 'RefList',
 	};
 	schema.path(this.path, this.many ? [def] : def);
 	schema.virtual(this.paths.refList).get(function () {
