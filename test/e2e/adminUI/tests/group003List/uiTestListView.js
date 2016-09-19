@@ -1,3 +1,5 @@
+var UserModelTestConfig = require('../../../modelTestConfig/UserModelTestConfig');
+
 module.exports = {
 	before: function (browser) {
 		browser.adminUIApp = browser.page.adminUIApp();
@@ -13,117 +15,99 @@ module.exports = {
 		browser.adminUISignin.signin();
 
 		browser.adminUIApp.waitForHomeScreen();
+
+		browser.adminUIApp.click('@accessMenu').waitForListScreen();
 	},
 	after: function (browser) {
 		browser.adminUIApp.signout();
 		browser.end();
 	},
-	'List screen must have a search bar': function (browser) {
-		browser.adminUIApp
-			.click('@accessMenu')
-			.waitForListScreen();
-
-		browser.adminUIListScreen
-			.expect.element('@searchInputField').to.be.visible;
+	'List screen must show a search bar': function (browser) {
+		browser.adminUIListScreen.assertSearchInputFieldVisible();
 	},
-	'List screen must have a filter input': function (browser) {
-		browser.adminUIListScreen
-			.expect.element('@filterDropdown').to.be.visible;
+	'List screen must show a search field clear icon': function (browser) {
+		browser.adminUIListScreen.assertSearchInputClearIconVisible();
 	},
-	'List screen must have a column input': function (browser) {
-		browser.adminUIListScreen
-			.expect.element('@columnDropdown').to.be.visible;
+	'List screen must show a filter input': function (browser) {
+		browser.adminUIListScreen.assertFilterDropDownVisible();
 	},
-	'List screen must have a download input': function (browser) {
-		browser.adminUIListScreen
-			.expect.element('@downloadDropdown').to.be.visible;
+	'List screen must show a column input': function (browser) {
+		browser.adminUIListScreen.assertColumnSelectionDropdownVisible();
+	},
+	'List screen must show a download input': function (browser) {
+		browser.adminUIListScreen.assertDownloadDropdownVisible();
 	},
 	// TODO:  For some reason the expand table width input control does not show in saucelabs' Firefox 44...why?
 	//		It shows fine with local selenium server and Firefox 44.0.2
-	//'List screen must have an expand table width input': function (browser) {
-	//	browser.expect.element(adminUI.cssSelector.listView.expandTableIcon)
-	//			      .to.be.visible;
-	//},
-	'List screen must have a create list item button': function (browser) {
-		browser.adminUIListScreen
-			.expect.element('@createMoreItemsButton').to.be.visible;
+	// 'List screen must show an expand table width input': function (browser) {
+	// 	browser.adminUIListScreen.assertExpandTableWidthInputVisible();
+	// },
+	'List screen must show a create list item button': function (browser) {
+		browser.adminUIListScreen.assertCreateMoreItemsButtonVisible();
 	},
-	'List screen must have a pagination count': function (browser) {
-		browser.adminUIListScreen
-			.expect.element('@paginationCount').to.be.visible;
+	'List screen must show a page item count': function (browser) {
+		browser.adminUIListScreen.assertPageItemCountTextVisible();
 	},
-	'List screen must have a name column header': function (browser) {
-		browser.adminUIListScreen
-			.expect.element('@firstColumnHeader').to.be.visible;
-
-		browser.adminUIListScreen
-			.expect.element('@firstColumnHeader').text.to.equal('Name');
+	'List screen must show a name column header': function (browser) {
+		browser.adminUIListScreen.assertItemListHeaderVisible({ column: 1 });
+		browser.adminUIListScreen.assertItemListHeaderContains({ column: 1, value: 'Name' });
 	},
-	'List screen must have an email column header': function (browser) {
-		browser.adminUIListScreen
-			.expect.element('@secondColumnHeader').to.be.visible;
-
-		browser.adminUIListScreen
-			.expect.element('@secondColumnHeader').text.to.equal('Email');
+	'List screen must show an email column header': function (browser) {
+		browser.adminUIListScreen.assertItemListHeaderVisible({ column: 2 });
+		browser.adminUIListScreen.assertItemListHeaderContains({ column: 2, value: 'Email' });
 	},
-	'List screen must have an Is Admin column header': function (browser) {
-		browser.adminUIListScreen
-			.expect.element('@thirdColumnHeader').to.be.visible;
-
-		browser.adminUIListScreen
-			.expect.element('@thirdColumnHeader').text.to.equal('Is Admin');
+	'List screen must show an Is Admin column header': function (browser) {
+		browser.adminUIListScreen.assertItemListHeaderVisible({ column: 3 });
+		browser.adminUIListScreen.assertItemListHeaderContains({ column: 3, value: 'Is Admin' });
 	},
-	'List screen items must a delete icon': function (browser) {
-		browser.adminUIListScreen
-			.expect.element('@firstItemDeleteIcon').to.be.visible;
-		browser.adminUIListScreen
-			.expect.element('@secondItemDeleteIcon').to.be.visible;
+	'List screen items must show a delete icon': function (browser) {
+		browser.adminUIListScreen.assertItemDeleteIconVisible([
+			{ row: 1, column: 1 },
+			{ row: 2, column: 1 },
+		]);
 	},
-	'List screen user item must have a name value': function (browser) {
-		browser.adminUIListScreen
-			.expect.element('@firstItemFirstColumnValue').to.be.visible;
+	'List screen user item must show a name': function (browser) {
+		browser.adminUIListScreen.assertItemFieldUIVisible([
+			{ row: 1, column: 2, name: 'name', modelTestConfig: UserModelTestConfig, },
+			{ row: 2, column: 2, name: 'name', modelTestConfig: UserModelTestConfig, },
+		]);
 
-		browser.adminUIListScreen
-			.expect.element('@firstItemFirstColumnValue').text.to.equal('e2e member');
-
-		browser.adminUIListScreen
-			.expect.element('@secondItemFirstColumnValue').to.be.visible;
-
-		browser.adminUIListScreen
-			.expect.element('@secondItemFirstColumnValue').text.to.equal('e2e user');
+		browser.adminUIListScreen.assertItemFieldValueEquals([
+			{ row: 1, column: 2, name: 'name', value: 'e2e member', modelTestConfig: UserModelTestConfig, },
+			{ row: 2, column: 2, name: 'name', value: 'e2e user', modelTestConfig: UserModelTestConfig, },
+		]);
 	},
-	'List screen user item must have a value in the email column': function (browser) {
-		browser.adminUIListScreen
-			.expect.element('@firstItemSecondColumnValue').to.be.visible;
+	'List screen user item must show an email': function (browser) {
+		browser.adminUIListScreen.assertItemFieldUIVisible([
+			{ row: 1, column: 3, name: 'email', modelTestConfig: UserModelTestConfig, },
+			{ row: 2, column: 3, name: 'email', modelTestConfig: UserModelTestConfig, },
+		]);
 
-		browser.adminUIListScreen
-			.expect.element('@firstItemSecondColumnValue').text.to.equal('member@test.e2e');
-
-		browser.adminUIListScreen
-			.expect.element('@secondItemSecondColumnValue').to.be.visible;
-
-		browser.adminUIListScreen
-			.expect.element('@secondItemSecondColumnValue').text.to.equal('user@test.e2e');
+		browser.adminUIListScreen.assertItemFieldValueEquals([
+			{ row: 1, column: 3, name: 'email', value: 'member@test.e2e', modelTestConfig: UserModelTestConfig, },
+			{ row: 2, column: 3, name: 'email', value: 'user@test.e2e', modelTestConfig: UserModelTestConfig, },
+		]);
 	},
-	'List screen user item must have a value in the Is Admin column': function (browser) {
-		browser.adminUIListScreen
-			.expect.element('@firstItemThirdColumnValue').to.be.visible;
+	'List screen user item must have a Is Admin column': function (browser) {
+		browser.adminUIListScreen.assertItemFieldUIVisible([
+			{ row: 1, column: 4, name: 'isAdmin', modelTestConfig: UserModelTestConfig, },
+			{ row: 2, column: 4, name: 'isAdmin', modelTestConfig: UserModelTestConfig, },
+		]);
 
-		browser.adminUIListScreen
-			.expect.element('@secondItemThirdColumnValue').to.be.visible;
+		browser.adminUIListScreen.assertItemFieldValueEquals([
+			{ row: 1, column: 4, name: 'isAdmin', value: 'false', modelTestConfig: UserModelTestConfig, },
+			{ row: 2, column: 4, name: 'isAdmin', value: 'true', modelTestConfig: UserModelTestConfig, },
+		]);
 	},
-	'List screen user item must be an Admin and not a Member': function (browser) {
-		browser.adminUIListScreen
-			.expect.element('@secondUserItemIsAdmin').to.be.visible;
+	'List screen user item must have a Is Member column': function (browser) {
+		browser.adminUIListScreen.assertItemFieldUIVisible([
+			{ row: 1, column: 5, name: 'isMember', modelTestConfig: UserModelTestConfig, },
+			{ row: 2, column: 5, name: 'isMember', modelTestConfig: UserModelTestConfig, },
+		]);
 
-		browser.adminUIListScreen
-			.expect.element('@secondUserItemIsNotMember').to.be.visible;
-	},
-	'List screen member item must be a Member and not an Admin': function (browser) {
-		browser.adminUIListScreen
-			.expect.element('@firstUserItemIsMember').to.be.visible;
-
-		browser.adminUIListScreen
-			.expect.element('@firstUserItemIsNotAdmin').to.be.visible;
+		browser.adminUIListScreen.assertItemFieldValueEquals([
+			{ row: 1, column: 5, name: 'isMember', value: 'true', modelTestConfig: UserModelTestConfig, },
+			{ row: 2, column: 5, name: 'isMember', value: 'false', modelTestConfig: UserModelTestConfig, },
+		]);
 	},
 };

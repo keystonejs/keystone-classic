@@ -23,7 +23,9 @@ module.exports = {
 			.click('@accessMenu')
 			.waitForListScreen();
 
-		browser.adminUIListScreen.click('@secondItemLink');
+		browser.adminUIListScreen.clickItemFieldValue([
+			{ row: 2, column: 2, name: 'name', modelTestConfig: UserModelTestConfig, }
+		]);
 
 		browser.adminUIApp.waitForItemScreen();
 	},
