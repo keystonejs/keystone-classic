@@ -17,7 +17,12 @@ function location (list, path, options) {
 	this._underscoreMethods = ['format', 'googleLookup', 'kmFrom', 'milesFrom'];
 	this._fixedSize = 'full';
 	this._properties = ['enableMapsAPI'];
-	this.enableMapsAPI = (options.geocodeGoogle === true || (options.geocodeGoogle !== false && keystone.get('google server api key'))) ? true : false;
+	this.enableMapsAPI = (options.enableImprove === true || (options.enableImprove !== false && keystone.get('google server api key'))) ? true : false;
+
+	// Throw on invalid options in 4.0 (remove for 5.0)
+	if ('geocodeGoogle' in options) {
+		throw new Error('The geocodeGoogle option for Location fields has been renamed to enableImprove');
+	}
 
 	if (!options.defaults) {
 		options.defaults = {};
