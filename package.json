@@ -95,7 +95,7 @@
     "xhr": "2.2.2"
   },
   "devDependencies": {
-    "browserify-middleware": "7.0.0",
+    "browserify-middleware": "7.1.0",
     "codeclimate-test-reporter": "0.3.3",
     "core-assert": "0.2.0",
     "disc": "1.3.2",
