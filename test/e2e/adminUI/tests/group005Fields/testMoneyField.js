@@ -6,7 +6,7 @@ module.exports = {
 	after: fieldTests.after,
 	'Money field should show correctly in the initial modal': function (browser) {
 		browser.adminUIApp.openList({section: 'fields', list: 'Money'});
-		browser.adminUIListScreen.createFirstItem();
+		browser.adminUIListScreen.clickCreateItemButton();
 		browser.adminUIApp.waitForInitialFormScreen();
 
 		browser.adminUIInitialFormScreen.assertFieldUIVisible({
@@ -20,7 +20,7 @@ module.exports = {
 	},
 	'Money field can be filled via the initial modal': function(browser) {
 		browser.adminUIApp.openList({section: 'fields', list: 'Money'});
-		browser.adminUIListScreen.createFirstItem();
+		browser.adminUIListScreen.clickCreateItemButton();
 		browser.adminUIApp.waitForInitialFormScreen();
 		browser.adminUIInitialFormScreen.fillFieldInputs({
 			modelTestConfig: MoneyModelTestConfig,

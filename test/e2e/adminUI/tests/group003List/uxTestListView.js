@@ -21,184 +21,145 @@ module.exports = {
 		browser.end();
 	},
 	'List view should allow users to create a new list item': function (browser) {
-		browser.adminUIApp
-			.click('@fieldListsMenu')
-			.click('@nameListSubmenu')
-			.waitForListScreen();
+		browser.adminUIApp.click('@fieldListsMenu').click('@nameListSubmenu').waitForListScreen();
 
-		browser.adminUIListScreen
-			.click('@createFirstItemButton');
+		browser.adminUIListScreen.clickCreateItemButton();
 
-		browser.adminUIApp
-			.waitForInitialFormScreen();
+		browser.adminUIApp.waitForInitialFormScreen();
 
 		browser.adminUIInitialFormScreen.fillFieldInputs({
 			modelTestConfig: NameModelTestConfig,
 			fields: {
-				'name': {value: 'Name Field Test 1'},
-				'fieldA': {firstName: 'First 1', lastName: 'Last 1'},
+				'name': { value: 'Name Field Test 1' },
+				'fieldA': { firstName: 'First 1', lastName: 'Last 1' },
 			}
 		});
 
 		browser.adminUIInitialFormScreen.save();
 
-		browser.adminUIApp
-			.waitForItemScreen();
+		browser.adminUIApp.waitForItemScreen();
 
-		browser.adminUIApp
-			.click('@fieldListsMenu')
-			.click('@nameListSubmenu')
-			.waitForListScreen();
+		browser.adminUIApp.click('@fieldListsMenu').click('@nameListSubmenu').waitForListScreen();
 
-		browser.adminUIListScreen
-			.expect.element('@paginationCount').text.to.equal('Showing 1 Name');
+		browser.adminUIListScreen.assertPageItemCountTextEquals('Showing 1 Name');
 
-		browser.adminUIListScreen
-			.expect.element('@firstItemNameValue').text.to.equal('Name Field Test 1');
+		browser.adminUIListScreen.assertItemFieldValueEquals([
+			{ row: 1, column: 2, name: 'name', value: 'Name Field Test 1', modelTestConfig: NameModelTestConfig }
+		]);
 	},
 	'List view should allow users to create more new list items': function (browser) {
-		browser.adminUIApp
-			.click('@fieldListsMenu')
-			.click('@nameListSubmenu')
-			.waitForListScreen();
+		browser.adminUIApp.click('@fieldListsMenu').click('@nameListSubmenu').waitForListScreen();
 
-		browser.adminUIListScreen
-			.click('@createMoreItemsButton');
+		browser.adminUIListScreen.clickCreateItemButton();
 
-		browser.adminUIApp
-			.waitForInitialFormScreen();
+		browser.adminUIApp.waitForInitialFormScreen();
 
 		browser.adminUIInitialFormScreen.fillFieldInputs({
 			modelTestConfig: NameModelTestConfig,
 			fields: {
-				'name': {value: 'Name Field Test 2'},
-				'fieldA': {firstName: 'First 2', lastName: 'Last 2'},
+				'name': { value: 'Name Field Test 2' },
+				'fieldA': { firstName: 'First 2', lastName: 'Last 2' },
 			}
 		});
 
+		// TODO: refactor
 		browser.adminUIInitialFormScreen.section.form
 			.click('@createButton');
 
-		browser.adminUIApp
-			.waitForItemScreen();
+		browser.adminUIApp.waitForItemScreen();
 
-		browser.adminUIApp
-			.click('@fieldListsMenu')
-			.click('@nameListSubmenu')
-			.waitForListScreen();
+		browser.adminUIApp.click('@fieldListsMenu').click('@nameListSubmenu').waitForListScreen();
 
-		browser.adminUIListScreen
-			.expect.element('@paginationCount').text.to.equal('Showing 2 Names');
+		browser.adminUIListScreen.assertPageItemCountTextEquals('Showing 2 Names');
 
-		browser.adminUIListScreen
-			.expect.element('@firstItemNameValue').text.to.equal('Name Field Test 1');
-
-		browser.adminUIListScreen
-			.expect.element('@secondItemNameValue').text.to.equal('Name Field Test 2');
+		browser.adminUIListScreen.assertItemFieldValueEquals([
+			{ row: 1, column: 2, name: 'name', value: 'Name Field Test 1', modelTestConfig: NameModelTestConfig, },
+			{ row: 2, column: 2, name: 'name', value: 'Name Field Test 2', modelTestConfig: NameModelTestConfig, }
+		]);
 	},
 	'List view should allow users to browse an item by clicking the item name': function (browser) {
-		browser.adminUIApp
-			.click('@fieldListsMenu')
-			.click('@nameListSubmenu')
-			.waitForListScreen();
+		browser.adminUIApp.click('@fieldListsMenu').click('@nameListSubmenu').waitForListScreen();
 
-		browser.adminUIListScreen
-			.click('@firstItemNameValue');
+		browser.adminUIListScreen.clickItemFieldValue([
+			{ row: 1, column: 2, name: 'name', modelTestConfig: NameModelTestConfig, }
+		]);
 
-		browser.adminUIApp
-			.waitForItemScreen();
+		browser.adminUIApp.waitForItemScreen();
 	},
 	'List view should allow users to browse back to list view from an item view by using the crum links': function (browser) {
-		browser.adminUIApp
-			.click('@fieldListsMenu')
-			.click('@nameListSubmenu')
-			.waitForListScreen();
+		browser.adminUIApp.click('@fieldListsMenu').click('@nameListSubmenu').waitForListScreen();
 
-		browser.adminUIListScreen
-			.click('@firstItemNameValue');
+		browser.adminUIListScreen.clickItemFieldValue([
+			{ row: 1, column: 2, name: 'name', modelTestConfig: NameModelTestConfig, }
+		]);
 
-		browser.adminUIApp
-			.waitForItemScreen();
+		browser.adminUIApp.waitForItemScreen();
 
-		browser.adminUIItemScreen
-			.click('@listBreadcrumb');
+		// TODO: refactor
+		browser.adminUIItemScreen.click('@listBreadcrumb');
 
-		browser.adminUIApp
-			.waitForListScreen();
+		browser.adminUIApp.waitForListScreen();
 	},
 	'List view should allow users to search for items': function (browser) {
-		browser.adminUIApp
-			.click('@fieldListsMenu')
-			.click('@nameListSubmenu')
-			.waitForListScreen();
+		browser.adminUIApp.click('@fieldListsMenu').click('@nameListSubmenu').waitForListScreen();
 
+		// TODO: refactor
 		browser.adminUIListScreen
 			.setValue('@searchInputField', 'Name Field Test 2');
 
-		browser.adminUIApp
-			.waitForListScreen();
+		browser.adminUIApp.waitForListScreen();
 
-		browser.adminUIListScreen
-			.expect.element('@paginationCount').text.to.equal('Showing 1 Name');
+		browser.adminUIListScreen.assertPageItemCountTextEquals('Showing 1 Name');
 
-		browser.adminUIListScreen
-			.expect.element('@firstItemNameValue').text.to.equal('Name Field Test 2');
+		browser.adminUIListScreen.assertItemFieldValueEquals([
+			{ row: 1, column: 2, name: 'name', value: 'Name Field Test 2', modelTestConfig: NameModelTestConfig, },
+		]);
 	},
 	'List view should allow users to clear search filter': function (browser) {
-		browser.adminUIListScreen
-			.click('@searchInputFieldClearIcon');
+		browser.adminUIListScreen.clickSearchInputClearIcon();
 
-		browser.adminUIApp
-			.waitForListScreen();
+		browser.adminUIApp.waitForListScreen();
 
-		browser.adminUIListScreen
-			.expect.element('@paginationCount').text.to.equal('Showing 2 Names');
+		browser.adminUIListScreen.assertPageItemCountTextEquals('Showing 2 Names');
 
-		browser.adminUIListScreen
-			.expect.element('@firstItemNameValue').text.to.equal('Name Field Test 1');
-
-		browser.adminUIListScreen
-			.expect.element('@secondItemNameValue').text.to.equal('Name Field Test 2');
+		browser.adminUIListScreen.assertItemFieldValueEquals([
+			{ row: 1, column: 2, name: 'name', value: 'Name Field Test 1', modelTestConfig: NameModelTestConfig, },
+			{ row: 2, column: 2, name: 'name', value: 'Name Field Test 2', modelTestConfig: NameModelTestConfig, },
+		]);
 	},
 	'List view should allow users to delete items': function (browser) {
-		browser.adminUIListScreen
-			.click('@firstItemDeleteIcon');
+		browser.adminUIListScreen.clickDeleteItemIcon([
+			{ row: 1, column: 1 }
+		])
 
-		browser.adminUIApp
-			.waitForDeleteConfirmationScreen();
+		browser.adminUIApp.waitForDeleteConfirmationScreen();
 
-		browser.adminUIDeleteConfirmation
-			.click('@deleteButton');
+		// TODO: refactor
+		browser.adminUIDeleteConfirmation.click('@deleteButton');
 
-		browser.adminUIApp
-			.waitForListScreen();
+		browser.adminUIApp.waitForListScreen();
 
-		browser.adminUIListScreen
-			.expect.element('@paginationCount').text.to.equal('Showing 1 Name');
+		browser.adminUIListScreen.assertPageItemCountTextEquals('Showing 1 Name');
 
-		browser.adminUIListScreen
-			.expect.element('@firstItemNameValue').text.to.equal('Name Field Test 2');
+		browser.adminUIListScreen.assertItemFieldValueEquals([
+			{ row: 1, column: 2, name: 'name', value: 'Name Field Test 2', modelTestConfig: NameModelTestConfig, },
+		]);
 	},
 	'List view should allow users to delete last item': function (browser) {
-		browser.adminUIApp
-			.click('@fieldListsMenu')
-			.click('@nameListSubmenu')
-			.waitForListScreen();
+		browser.adminUIApp.click('@fieldListsMenu').click('@nameListSubmenu').waitForListScreen();
 
-		browser.adminUIListScreen
-			.click('@firstItemDeleteIcon');
+		browser.adminUIListScreen.clickDeleteItemIcon([
+			{ row: 1, column: 1 }
+		])
 
-		browser.adminUIApp
-			.waitForDeleteConfirmationScreen();
+		browser.adminUIApp.waitForDeleteConfirmationScreen();
 
-		browser.adminUIDeleteConfirmation
-			.click('@deleteButton');
+		// TODO: refactor
+		browser.adminUIDeleteConfirmation.click('@deleteButton');
 
-		browser.adminUIApp
-			.waitForListScreen();
+		browser.adminUIApp.waitForListScreen();
 
-		browser.adminUIListScreen
-			.expect.element('@noItemsFoundNoText').text.to.equal('No names found…');
+		browser.adminUIListScreen.assertNoItemsFoundTextEquals('No names found…');
 	},
 
 	// UNDO ANY STATE CHANGES -- THIS TEST SHOULD RUN LAST

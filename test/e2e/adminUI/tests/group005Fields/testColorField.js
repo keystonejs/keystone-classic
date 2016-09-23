@@ -6,7 +6,7 @@ module.exports = {
 	after: fieldTests.after,
 	'Color field should show correctly in the initial modal': function (browser) {
 		browser.adminUIApp.openList({section: 'fields', list: 'Color'});
-		browser.adminUIListScreen.createFirstItem();
+		browser.adminUIListScreen.clickCreateItemButton();
 		browser.adminUIApp.waitForInitialFormScreen();
 
 		browser.adminUIInitialFormScreen.assertFieldUIVisible({
@@ -20,7 +20,7 @@ module.exports = {
 	},
 	'Color field can be filled via the initial modal': function(browser) {
 		browser.adminUIApp.openList({section: 'fields', list: 'Color'});
-		browser.adminUIListScreen.createFirstItem();
+		browser.adminUIListScreen.clickCreateItemButton();
 		browser.adminUIApp.waitForInitialFormScreen();
 		browser.adminUIInitialFormScreen.fillFieldInputs({
 			modelTestConfig: ColorModelTestConfig,

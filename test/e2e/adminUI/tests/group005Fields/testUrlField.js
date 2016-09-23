@@ -6,7 +6,7 @@ module.exports = {
 	after: fieldTests.after,
 	'Url field should show correctly in the initial modal': function (browser) {
 		browser.adminUIApp.openList({section: 'fields', list: 'Url'});
-		browser.adminUIListScreen.createFirstItem();
+		browser.adminUIListScreen.clickCreateItemButton();
 		browser.adminUIApp.waitForInitialFormScreen();
 
 		browser.adminUIInitialFormScreen.assertFieldUIVisible({
@@ -20,7 +20,7 @@ module.exports = {
 	},
 	'Url field can be filled via the initial modal': function(browser) {
 		browser.adminUIApp.openList({section: 'fields', list: 'Url'});
-		browser.adminUIListScreen.createFirstItem();
+		browser.adminUIListScreen.clickCreateItemButton();
 		browser.adminUIApp.waitForInitialFormScreen();
 		browser.adminUIInitialFormScreen.fillFieldInputs({
 			modelTestConfig: UrlModelTestConfig,
