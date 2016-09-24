@@ -38,18 +38,13 @@ module.exports = {
 
 		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.adminUIInitialFormScreen.fillFieldInputs({
-			modelTestConfig: UserModelTestConfig,
-			fields: {
-				'name': {firstName: 'First 1', lastName: 'Last 1'},
-			}
-		});
-		browser.adminUIInitialFormScreen.assertFieldInputs({
-			modelTestConfig: UserModelTestConfig,
-			fields: {
-				'name': {firstName: 'First 1', lastName: 'Last 1'},
-			}
-		});
+		browser.adminUIInitialFormScreen.fillFieldInputs([
+			{ name: 'name', input: { firstName: 'First 1', lastName: 'Last 1' }, modelTestConfig: UserModelTestConfig, },
+		]);
+
+		browser.adminUIInitialFormScreen.assertFieldInputs([
+			{ name: 'name', input: { firstName: 'First 1', lastName: 'Last 1' }, modelTestConfig: UserModelTestConfig, },
+		]);
 
 		browser.adminUIInitialFormScreen.save();
 		browser.adminUIApp.waitForItemScreen();
@@ -61,47 +56,35 @@ module.exports = {
 		browser.adminUIItemScreen.assertFlashMessage('Your changes have been saved successfully');
 	},
 	'Item screen should allow saving an item with changes': function (browser) {
-		browser.adminUIItemScreen.fillFieldInputs({
-			modelTestConfig: UserModelTestConfig,
-			fields: {
-				'name': {firstName: 'First 2', lastName: 'Last 2'},
-			}
-		});
-		browser.adminUIItemScreen.assertFieldInputs({
-			modelTestConfig: UserModelTestConfig,
-			fields: {
-				'name': {firstName: 'First 2', lastName: 'Last 2'},
-			}
-		});
+		browser.adminUIItemScreen.fillFieldInputs([
+			{ name: 'name', input: { firstName: 'First 2', lastName: 'Last 2' }, modelTestConfig: UserModelTestConfig, },
+		]);
+		
+		browser.adminUIItemScreen.assertFieldInputs([
+			{ name: 'name', input: { firstName: 'First 2', lastName: 'Last 2' }, modelTestConfig: UserModelTestConfig, },
+		]);
+		
 		browser.adminUIItemScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 		browser.adminUIItemScreen.assertFlashMessage('Your changes have been saved successfully');
 	},
 	'Item screen should allow resetting an item with changes': function (browser) {
-		browser.adminUIItemScreen.fillFieldInputs({
-			modelTestConfig: UserModelTestConfig,
-			fields: {
-				'name': {firstName: 'First 3', lastName: 'Last 3'},
-			}
-		});
-		browser.adminUIItemScreen.assertFieldInputs({
-			modelTestConfig: UserModelTestConfig,
-			fields: {
-				'name': {firstName: 'First 3', lastName: 'Last 3'},
-			}
-		});
+		browser.adminUIItemScreen.fillFieldInputs([
+			{ name: 'name', input: { firstName: 'First 3', lastName: 'Last 3' }, modelTestConfig: UserModelTestConfig, },
+		]);
+
+		browser.adminUIItemScreen.assertFieldInputs([
+			{ name: 'name', input: { firstName: 'First 3', lastName: 'Last 3' }, modelTestConfig: UserModelTestConfig, },
+		]);
 
 		browser.adminUIItemScreen.reset();
 		browser.adminUIApp.waitForResetConfirmationScreen();
 		browser.adminUIResetConfirmationScreen.reset();
 		browser.adminUIApp.waitForItemScreen();
 
-		browser.adminUIItemScreen.assertFieldInputs({
-			modelTestConfig: UserModelTestConfig,
-			fields: {
-				'name': {firstName: 'First 2', lastName: 'Last 2'},
-			}
-		});
+		browser.adminUIItemScreen.assertFieldInputs([
+			{ name: 'name', input: { firstName: 'First 2', lastName: 'Last 2' }, modelTestConfig: UserModelTestConfig, },
+		]);
 	},
 	'Item screen should allow deleting an item': function (browser) {
 		browser.adminUIItemScreen.delete();

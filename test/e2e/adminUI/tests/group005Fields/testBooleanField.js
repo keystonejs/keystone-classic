@@ -9,10 +9,10 @@ module.exports = {
 		browser.adminUIListScreen.clickCreateItemButton();
 		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.adminUIInitialFormScreen.assertFieldUIVisible({
-			modelTestConfig: BooleanModelTestConfig,
-			fields: [{name: 'name'}, {name: 'fieldA'}]
-		});
+		browser.adminUIInitialFormScreen.assertFieldUIVisible([
+			{ name: 'name', modelTestConfig: BooleanModelTestConfig, }, 
+			{ name: 'fieldA', modelTestConfig: BooleanModelTestConfig, },
+		]);
 	},
 	'restoring test state': function(browser) {
 		browser.adminUIInitialFormScreen.cancel();
@@ -20,63 +20,55 @@ module.exports = {
 	},
 	'Boolean field can be filled via the initial modal': function(browser) {
 		browser.adminUIApp.openList({section: 'fields', list: 'boolean'});
+
 		browser.adminUIListScreen.clickCreateItemButton();
+
 		browser.adminUIApp.waitForInitialFormScreen();
-		browser.adminUIInitialFormScreen.fillFieldInputs({
-			modelTestConfig: BooleanModelTestConfig,
-			fields: {
-				'name': {value: 'Boolean Field Test 1'},
-				'fieldA': {value: 'true'},
-				'fieldD': {value: 'Test'},
-			}
-		});
-		browser.adminUIInitialFormScreen.assertFieldInputs({
-			modelTestConfig: BooleanModelTestConfig,
-			fields: {
-				'name': {value: 'Boolean Field Test 1'},
-				'fieldA': {value: 'true'},
-			}
-		});
+
+		browser.adminUIInitialFormScreen.fillFieldInputs([
+			{ name: 'name', input: { value: 'Boolean Field Test 1' }, modelTestConfig: BooleanModelTestConfig, },
+			{ name: 'fieldA', input: { value: 'true' }, modelTestConfig: BooleanModelTestConfig, },
+			{ name: 'fieldD', input: { value: 'Test' }, modelTestConfig: BooleanModelTestConfig, },
+		]);
+
+		browser.adminUIInitialFormScreen.assertFieldInputs([
+			{ name: 'name', input: { value: 'Boolean Field Test 1' }, modelTestConfig: BooleanModelTestConfig, },
+			{ name: 'fieldA', input: { value: 'true' }, modelTestConfig: BooleanModelTestConfig, },
+			{ name: 'fieldD', input: { value: 'Test' }, modelTestConfig: BooleanModelTestConfig, },
+		]);
+
 		browser.adminUIInitialFormScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 
-		browser.adminUIItemScreen.assertFieldInputs({
-			modelTestConfig: BooleanModelTestConfig,
-			fields: {
-				'name': {value: 'Boolean Field Test 1'},
-				'fieldA': {value: 'true'},
-			}
-		})
+		browser.adminUIInitialFormScreen.assertFieldInputs([
+			{ name: 'name', input: { value: 'Boolean Field Test 1' }, modelTestConfig: BooleanModelTestConfig, },
+			{ name: 'fieldA', input: { value: 'true' }, modelTestConfig: BooleanModelTestConfig, },
+			{ name: 'fieldD', input: { value: 'Test' }, modelTestConfig: BooleanModelTestConfig, },
+		]);
 	},
 	'Boolean field should show correctly in the edit form': function(browser) {
-		browser.adminUIItemScreen.assertFieldUIVisible({
-			modelTestConfig: BooleanModelTestConfig,
-			fields: [{name: 'fieldA'}, {name: 'fieldB'}]
-		});
+		browser.adminUIItemScreen.assertFieldUIVisible([
+			{ name: 'fieldA', modelTestConfig: BooleanModelTestConfig, }, 
+			{ name: 'fieldB', modelTestConfig: BooleanModelTestConfig, },
+		]);
 	},
 	'Boolean field should have its default value if hidden': function(browser) {
-		browser.adminUIItemScreen.assertFieldUIVisible({
-			modelTestConfig: BooleanModelTestConfig,
-			fields: [{name: 'fieldD'}],
-		});
+		browser.adminUIItemScreen.assertFieldUIVisible([
+			{ name: 'fieldD', modelTestConfig: BooleanModelTestConfig, },
+		]);
 	},
 	'Boolean field can be filled via the edit form': function(browser) {
-		browser.adminUIItemScreen.fillFieldInputs({
-			modelTestConfig: BooleanModelTestConfig,
-			fields: {
-				'fieldB': {value: 'false'}
-			}
-		});
+		browser.adminUIItemScreen.fillFieldInputs([
+			{ name: 'fieldB', input: {value: 'false'}, modelTestConfig: BooleanModelTestConfig, }
+		]);
+
 		browser.adminUIItemScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 		browser.adminUIItemScreen.assertFlashMessage('Your changes have been saved successfully');
-		browser.adminUIItemScreen.assertFieldInputs({
-			modelTestConfig: BooleanModelTestConfig,
-			fields: {
-				'name': {value: 'Boolean Field Test 1'},
-				'fieldA': {value: 'true'},
-				'fieldB': {value: 'false'}
-			}
-		})
+		browser.adminUIItemScreen.assertFieldInputs([
+			{ name: 'name', input: { value: 'Boolean Field Test 1' }, modelTestConfig: BooleanModelTestConfig, },
+			{ name: 'fieldA', input: { value: 'true' }, modelTestConfig: BooleanModelTestConfig, },
+			{ name: 'fieldB', input: { value: 'false' }, modelTestConfig: BooleanModelTestConfig, },
+		])
 	},
 };

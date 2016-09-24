@@ -28,13 +28,10 @@ module.exports = {
 
 		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.adminUIInitialFormScreen.fillFieldInputs({
-			modelTestConfig: NameModelTestConfig,
-			fields: {
-				'name': { value: 'Name Field Test 1' },
-				'fieldA': { firstName: 'First 1', lastName: 'Last 1' },
-			}
-		});
+		browser.adminUIInitialFormScreen.fillFieldInputs([
+			{ name: 'name', input: { value: 'Name Field Test 1' }, modelTestConfig: NameModelTestConfig, },
+			{ name: 'fieldA', input: { firstName: 'First 1', lastName: 'Last 1' }, modelTestConfig: NameModelTestConfig, },
+		]);
 
 		browser.adminUIInitialFormScreen.save();
 
@@ -55,13 +52,10 @@ module.exports = {
 
 		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.adminUIInitialFormScreen.fillFieldInputs({
-			modelTestConfig: NameModelTestConfig,
-			fields: {
-				'name': { value: 'Name Field Test 2' },
-				'fieldA': { firstName: 'First 2', lastName: 'Last 2' },
-			}
-		});
+		browser.adminUIInitialFormScreen.fillFieldInputs([
+			{ name: 'name', input: { value: 'Name Field Test 2' }, modelTestConfig: NameModelTestConfig, },
+			{ name: 'fieldA', input: { firstName: 'First 2', lastName: 'Last 2' }, modelTestConfig: NameModelTestConfig, },
+		]);
 
 		// TODO: refactor
 		browser.adminUIInitialFormScreen.section.form

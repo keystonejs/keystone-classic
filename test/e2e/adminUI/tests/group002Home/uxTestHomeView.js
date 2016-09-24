@@ -61,13 +61,10 @@ module.exports = {
 
 		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.adminUIInitialFormScreen.fillFieldInputs({
-			modelTestConfig: NameModelTestConfig,
-			fields: {
-				'name': {value: 'Name Field Test'},
-				'fieldA': {firstName: 'First', lastName: 'Last'},
-			}
-		});
+		browser.adminUIInitialFormScreen.fillFieldInputs([
+			{name: 'name', input: { value: 'Name Field Test' }, modelTestConfig: NameModelTestConfig,},
+			{name: 'fieldA', input: { firstName: 'First', lastName: 'Last' }, modelTestConfig: NameModelTestConfig,},
+		]);
 
 		browser.adminUIInitialFormScreen.save();
 

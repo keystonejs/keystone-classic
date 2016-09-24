@@ -3,7 +3,7 @@ module.exports = {
 		browser.adminUIApp = browser.page.adminUIApp();
 		browser.adminUISigninScreen = browser.page.adminUISignin();
 
-		browser.adminUIApp.gotoHomeScreen();
+		browser.adminUIApp.gotoSigninScreen();
 		browser.adminUIApp.waitForSigninScreen();
 	},
 	after: function (browser) {

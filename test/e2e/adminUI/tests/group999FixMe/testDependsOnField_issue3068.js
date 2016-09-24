@@ -47,7 +47,7 @@ module.exports = {
 			}
 		});
 
-		browser.adminUIInitialFormScreen.assertFieldUINotPresent({
+		browser.adminUIInitialFormScreen.assertFieldDOMNotPresent({
 			listName: 'DependsOn',
 			fields: ['dependent'],
 			args: {
@@ -90,7 +90,7 @@ module.exports = {
 		});
 
 		// The dependency condition is no longer met, field should not be visible.
-		browser.adminUIItemScreen.assertFieldUINotPresent({
+		browser.adminUIItemScreen.assertFieldDOMNotPresent({
 			listName: 'DependsOn',
 			fields: ['dependent'],
 			args: {
