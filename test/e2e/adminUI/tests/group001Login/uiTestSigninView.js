@@ -1,7 +1,7 @@
 module.exports = {
 	before: function (browser) {
 		browser.adminUIApp = browser.page.adminUIApp();
-		browser.adminUISignin = browser.page.adminUISignin();
+		browser.adminUISigninScreen = browser.page.adminUISignin();
 		browser.adminUIApp.gotoHomeScreen();
 		browser.adminUIApp.waitForSigninScreen();
 	},
@@ -9,6 +9,6 @@ module.exports = {
 		browser.end();
 	},
 	'Signin page should show correctly': function (browser) {
-		browser.adminUISignin.assertUI();
+		browser.adminUISigninScreen.assertUI();
 	},
 };

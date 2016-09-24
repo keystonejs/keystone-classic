@@ -1,13 +1,13 @@
 module.exports = {
 	before: function (browser) {
 		browser.adminUIApp = browser.page.adminUIApp();
-		browser.adminUISignin = browser.page.adminUISignin();
+		browser.adminUISigninScreen = browser.page.adminUISignin();
 		browser.adminUIHomeScreen = browser.page.adminUIHomeScreen();
 
 		browser.adminUIApp.gotoHomeScreen();
 		browser.adminUIApp.waitForSigninScreen();
 
-		browser.adminUISignin.signin();
+		browser.adminUISigninScreen.signin();
 
 		browser.adminUIApp.waitForHomeScreen();
 	},

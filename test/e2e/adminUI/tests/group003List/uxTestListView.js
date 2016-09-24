@@ -3,16 +3,17 @@ var NameModelTestConfig = require('../../../modelTestConfig/NameModelTestConfig'
 module.exports = {
 	before: function (browser) {
 		browser.adminUIApp = browser.page.adminUIApp();
-		browser.adminUISignin = browser.page.adminUISignin();
+		browser.adminUISigninScreen = browser.page.adminUISignin();
 		browser.adminUIListScreen = browser.page.adminUIListScreen();
 		browser.adminUIItemScreen = browser.page.adminUIItemScreen();
 		browser.adminUIInitialFormScreen = browser.page.adminUIInitialForm();
 		browser.adminUIDeleteConfirmation = browser.page.adminUIDeleteConfirmation();
 
-		browser.adminUIApp.gotoHomeScreen();
+		browser.adminUIApp.gotoSigninScreen();
+
 		browser.adminUIApp.waitForSigninScreen();
 
-		browser.adminUISignin.signin();
+		browser.adminUISigninScreen.signin();
 
 		browser.adminUIApp.waitForHomeScreen();
 	},
@@ -21,7 +22,7 @@ module.exports = {
 		browser.end();
 	},
 	'List view should allow users to create a new list item': function (browser) {
-		browser.adminUIApp.click('@fieldListsMenu').click('@nameListSubmenu').waitForListScreen();
+		browser.adminUIApp.openList({section: 'fields', list: 'Name'});
 
 		browser.adminUIListScreen.clickCreateItemButton();
 
@@ -39,7 +40,7 @@ module.exports = {
 
 		browser.adminUIApp.waitForItemScreen();
 
-		browser.adminUIApp.click('@fieldListsMenu').click('@nameListSubmenu').waitForListScreen();
+		browser.adminUIApp.openList({section: 'fields', list: 'Name'});
 
 		browser.adminUIListScreen.assertPageItemCountTextEquals('Showing 1 Name');
 
@@ -48,7 +49,7 @@ module.exports = {
 		]);
 	},
 	'List view should allow users to create more new list items': function (browser) {
-		browser.adminUIApp.click('@fieldListsMenu').click('@nameListSubmenu').waitForListScreen();
+		browser.adminUIApp.openList({section: 'fields', list: 'Name'});
 
 		browser.adminUIListScreen.clickCreateItemButton();
 
@@ -68,7 +69,7 @@ module.exports = {
 
 		browser.adminUIApp.waitForItemScreen();
 
-		browser.adminUIApp.click('@fieldListsMenu').click('@nameListSubmenu').waitForListScreen();
+		browser.adminUIApp.openList({section: 'fields', list: 'Name'});
 
 		browser.adminUIListScreen.assertPageItemCountTextEquals('Showing 2 Names');
 
@@ -78,7 +79,7 @@ module.exports = {
 		]);
 	},
 	'List view should allow users to browse an item by clicking the item name': function (browser) {
-		browser.adminUIApp.click('@fieldListsMenu').click('@nameListSubmenu').waitForListScreen();
+		browser.adminUIApp.openList({section: 'fields', list: 'Name'});
 
 		browser.adminUIListScreen.clickItemFieldValue([
 			{ row: 1, column: 2, name: 'name', modelTestConfig: NameModelTestConfig, }
@@ -87,7 +88,7 @@ module.exports = {
 		browser.adminUIApp.waitForItemScreen();
 	},
 	'List view should allow users to browse back to list view from an item view by using the crum links': function (browser) {
-		browser.adminUIApp.click('@fieldListsMenu').click('@nameListSubmenu').waitForListScreen();
+		browser.adminUIApp.openList({section: 'fields', list: 'Name'});
 
 		browser.adminUIListScreen.clickItemFieldValue([
 			{ row: 1, column: 2, name: 'name', modelTestConfig: NameModelTestConfig, }
@@ -101,7 +102,7 @@ module.exports = {
 		browser.adminUIApp.waitForListScreen();
 	},
 	'List view should allow users to search for items': function (browser) {
-		browser.adminUIApp.click('@fieldListsMenu').click('@nameListSubmenu').waitForListScreen();
+		browser.adminUIApp.openList({section: 'fields', list: 'Name'});
 
 		// TODO: refactor
 		browser.adminUIListScreen
@@ -146,7 +147,7 @@ module.exports = {
 		]);
 	},
 	'List view should allow users to delete last item': function (browser) {
-		browser.adminUIApp.click('@fieldListsMenu').click('@nameListSubmenu').waitForListScreen();
+		browser.adminUIApp.openList({section: 'fields', list: 'Name'});
 
 		browser.adminUIListScreen.clickDeleteItemIcon([
 			{ row: 1, column: 1 }

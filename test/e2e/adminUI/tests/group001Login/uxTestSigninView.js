@@ -1,7 +1,7 @@
 module.exports = {
 	before: function (browser) {
 		browser.adminUIApp = browser.page.adminUIApp();
-		browser.adminUISignin = browser.page.adminUISignin();
+		browser.adminUISigninScreen = browser.page.adminUISignin();
 
 		browser.adminUIApp.gotoHomeScreen();
 		browser.adminUIApp.waitForSigninScreen();
@@ -10,7 +10,7 @@ module.exports = {
 		browser.end();
 	},
 	'Signin page should allow users to login': function (browser) {
-		browser.adminUISignin.signin();
+		browser.adminUISigninScreen.signin();
 		browser.adminUIApp.waitForHomeScreen();
 	},
 	'Signin page should be presented upon signout': function (browser) {
