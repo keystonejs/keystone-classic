@@ -47,7 +47,7 @@ file.prototype.upload = function (item, file, callback) {
 	var field = this;
 	// TODO; Validate there is actuall a file to upload
 	debug('[%s.%s] Uploading file for item %s:', this.list.key, this.path, item.id, file);
-	this.storage.uploadFile(file, function (err, result) {
+	this.storage.uploadFile(file, item, function (err, result) {
 		if (err) return callback(err);
 		debug('[%s.%s] Uploaded file for item %s with result:', field.list.key, field.path, item.id, result);
 		item.set(field.path, result);
