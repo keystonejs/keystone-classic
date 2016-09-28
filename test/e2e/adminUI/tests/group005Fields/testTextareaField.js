@@ -10,10 +10,10 @@ module.exports = {
 		browser.adminUIListScreen.clickCreateItemButton();
 		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.adminUIInitialFormScreen.assertFieldUIVisible({
-			modelTestConfig: TextareaModelTestConfig,
-			fields: [{name: 'name'}, {name: 'fieldA'}]
-		});
+		browser.adminUIInitialFormScreen.assertFieldUIVisible([
+			{ name: 'name', modelTestConfig: TextareaModelTestConfig, },
+			{ name: 'fieldA', modelTestConfig: TextareaModelTestConfig, }
+		]);
 
 		browser.adminUIInitialFormScreen.cancel();
 		browser.adminUIApp.waitForListScreen();
@@ -24,58 +24,43 @@ module.exports = {
 		browser.adminUIListScreen.clickCreateItemButton();
 		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.adminUIInitialFormScreen.fillFieldInputs({
-			modelTestConfig: TextareaModelTestConfig,
-			fields: {
-				'name': {value: 'Textarea Field Test 1'},
-				'fieldA': {value: 'Some test text for field A'},
-			}
-		});
-		browser.adminUIInitialFormScreen.assertFieldInputs({
-			modelTestConfig: TextareaModelTestConfig,
-			fields: {
-				'name': {value: 'Textarea Field Test 1'},
-				'fieldA': {value: 'Some test text for field A'},
-			}
-		});
+		browser.adminUIInitialFormScreen.fillFieldInputs([
+			{ name: 'name', input: { value: 'Textarea Field Test 1' }, modelTestConfig: TextareaModelTestConfig },
+			{ name: 'fieldA', input: { value: 'Some test text for field A' }, modelTestConfig: TextareaModelTestConfig },
+		]);
+		browser.adminUIInitialFormScreen.assertFieldInputs([
+			{ name: 'name', input: { value: 'Textarea Field Test 1' }, modelTestConfig: TextareaModelTestConfig },
+			{ name: 'fieldA', input: { value: 'Some test text for field A' }, modelTestConfig: TextareaModelTestConfig },
+		]);
 
 		browser.adminUIInitialFormScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 	},
 	'Textarea field should show correctly in the edit form': function(browser) {
-		browser.adminUIItemScreen.assertFieldUIVisible({
-			modelTestConfig: TextareaModelTestConfig,
-			fields: [{name: 'fieldA'}, {name: 'fieldB'}]
-		});
+		browser.adminUIItemScreen.assertFieldUIVisible([
+			{ name: 'fieldA', modelTestConfig: TextareaModelTestConfig, },
+			{ name: 'fieldB', modelTestConfig: TextareaModelTestConfig, }
+		]);
 
-		browser.adminUIItemScreen.assertFieldInputs({
-			modelTestConfig: TextareaModelTestConfig,
-			fields: {
-				'name': {value: 'Textarea Field Test 1'},
-				'fieldA': {value: 'Some test text for field A'},
-			}
-		})
+		browser.adminUIItemScreen.assertFieldInputs([
+			{ name: 'name', input: { value: 'Textarea Field Test 1' }, modelTestConfig: TextareaModelTestConfig },
+			{ name: 'fieldA', input: { value: 'Some test text for field A' }, modelTestConfig: TextareaModelTestConfig },
+		])
 	},
 	'Textarea field can be filled via the edit form': function(browser) {
-		browser.adminUIItemScreen.fillFieldInputs({
-			modelTestConfig: TextareaModelTestConfig,
-			fields: {
-				'fieldB': {value: 'Some test text for field B'}
-			}
-		});
+		browser.adminUIItemScreen.fillFieldInputs([
+			{ name: 'fieldB', input: { value: 'Some test text for field B' }, modelTestConfig: TextareaModelTestConfig },
+		]);
 
 		browser.adminUIItemScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 
 		browser.adminUIItemScreen.assertFlashMessage('Your changes have been saved successfully');
 
-		browser.adminUIItemScreen.assertFieldInputs({
-			modelTestConfig: TextareaModelTestConfig,
-			fields: {
-				'name': {value: 'Textarea Field Test 1'},
-				'fieldA': {value: 'Some test text for field A'},
-				'fieldB': {value: 'Some test text for field B'}
-			}
-		})
+		browser.adminUIItemScreen.assertFieldInputs([
+			{ name: 'name', input: { value: 'Textarea Field Test 1' }, modelTestConfig: TextareaModelTestConfig },
+			{ name: 'fieldA', input: { value: 'Some test text for field A' }, modelTestConfig: TextareaModelTestConfig },
+			{ name: 'fieldB', input: { value: 'Some test text for field B' }, modelTestConfig: TextareaModelTestConfig },
+		])
 	},
 };

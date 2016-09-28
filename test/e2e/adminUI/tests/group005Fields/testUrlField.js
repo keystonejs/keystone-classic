@@ -10,10 +10,10 @@ module.exports = {
 		browser.adminUIListScreen.clickCreateItemButton();
 		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.adminUIInitialFormScreen.assertFieldUIVisible({
-			modelTestConfig: UrlModelTestConfig,
-			fields: [{name: 'name'}, {name: 'fieldA'}]
-		});
+		browser.adminUIInitialFormScreen.assertFieldUIVisible([
+			{ name: 'name', modelTestConfig: UrlModelTestConfig, },
+			{ name: 'fieldA', modelTestConfig: UrlModelTestConfig, }
+		]);
 
 		browser.adminUIInitialFormScreen.cancel();
 		browser.adminUIApp.waitForListScreen();
@@ -24,58 +24,43 @@ module.exports = {
 		browser.adminUIListScreen.clickCreateItemButton();
 		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.adminUIInitialFormScreen.fillFieldInputs({
-			modelTestConfig: UrlModelTestConfig,
-			fields: {
-				'name': {value: 'Url Field Test 1'},
-				'fieldA': {value: 'http://www.example1.com'},
-			}
-		});
-		browser.adminUIInitialFormScreen.assertFieldInputs({
-			modelTestConfig: UrlModelTestConfig,
-			fields: {
-				'name': {value: 'Url Field Test 1'},
-				'fieldA': {value: 'http://www.example1.com'},
-			}
-		});
+		browser.adminUIInitialFormScreen.fillFieldInputs([
+			{ name: 'name', input: { value: 'Url Field Test 1' }, modelTestConfig: UrlModelTestConfig },
+			{ name: 'fieldA', input: { value: 'http://www.example1.com' }, modelTestConfig: UrlModelTestConfig },
+		]);
+		browser.adminUIInitialFormScreen.assertFieldInputs([
+			{ name: 'name', input: { value: 'Url Field Test 1' }, modelTestConfig: UrlModelTestConfig },
+			{ name: 'fieldA', input: { value: 'http://www.example1.com' }, modelTestConfig: UrlModelTestConfig },
+		]);
 
 		browser.adminUIInitialFormScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 	},
 	'Url field should show correctly in the edit form': function(browser) {
-		browser.adminUIItemScreen.assertFieldUIVisible({
-			modelTestConfig: UrlModelTestConfig,
-			fields: [{name: 'fieldA'}, {name: 'fieldB'}]
-		});
+		browser.adminUIItemScreen.assertFieldUIVisible([
+			{ name: 'fieldA', modelTestConfig: UrlModelTestConfig, },
+			{ name: 'fieldB', modelTestConfig: UrlModelTestConfig, }
+		]);
 
-		browser.adminUIItemScreen.assertFieldInputs({
-			modelTestConfig: UrlModelTestConfig,
-			fields: {
-				'name': {value: 'Url Field Test 1'},
-				'fieldA': {value: 'http://www.example1.com'},
-			}
-		})
+		browser.adminUIItemScreen.assertFieldInputs([
+			{ name: 'name', input: { value: 'Url Field Test 1' }, modelTestConfig: UrlModelTestConfig },
+			{ name: 'fieldA', input: { value: 'http://www.example1.com' }, modelTestConfig: UrlModelTestConfig },
+		])
 	},
 	'Url field can be filled via the edit form': function(browser) {
-		browser.adminUIItemScreen.fillFieldInputs({
-			modelTestConfig: UrlModelTestConfig,
-			fields: {
-				'fieldB': {value: 'http://www.example2.com'}
-			}
-		});
+		browser.adminUIItemScreen.fillFieldInputs([
+			{ name: 'fieldB', input: { value: 'http://www.example2.com' }, modelTestConfig: UrlModelTestConfig },
+		]);
 
 		browser.adminUIItemScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 
 		browser.adminUIItemScreen.assertFlashMessage('Your changes have been saved successfully');
 
-		browser.adminUIItemScreen.assertFieldInputs({
-			modelTestConfig: UrlModelTestConfig,
-			fields: {
-				'name': {value: 'Url Field Test 1'},
-				'fieldA': {value: 'http://www.example1.com'},
-				'fieldB': {value: 'http://www.example2.com'}
-			}
-		})
+		browser.adminUIItemScreen.assertFieldInputs([
+			{ name: 'name', input: { value: 'Url Field Test 1' }, modelTestConfig: UrlModelTestConfig },
+			{ name: 'fieldA', input: { value: 'http://www.example1.com' }, modelTestConfig: UrlModelTestConfig },
+			{ name: 'fieldB', input: { value: 'http://www.example2.com' }, modelTestConfig: UrlModelTestConfig },
+		])
 	},
 };

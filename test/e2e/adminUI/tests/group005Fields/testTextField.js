@@ -10,10 +10,10 @@ module.exports = {
 		browser.adminUIListScreen.clickCreateItemButton();
 		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.adminUIInitialFormScreen.assertFieldUIVisible({
-			modelTestConfig: TextModelTestConfig,
-			fields: [{name: 'name'}, {name: 'fieldA'}]
-		});
+		browser.adminUIInitialFormScreen.assertFieldUIVisible([
+			{ name: 'name', modelTestConfig: TextModelTestConfig, },
+			{ name: 'fieldA', modelTestConfig: TextModelTestConfig, }
+		]);
 
 		browser.adminUIInitialFormScreen.cancel();
 		browser.adminUIApp.waitForListScreen();
@@ -24,57 +24,42 @@ module.exports = {
 		browser.adminUIListScreen.clickCreateItemButton();
 		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.adminUIInitialFormScreen.fillFieldInputs({
-			modelTestConfig: TextModelTestConfig,
-			fields: {
-				'name': {value: 'Text Field Test 1'},
-				'fieldA': {value: 'Some test text for field A'},
-			}
-		});
-		browser.adminUIInitialFormScreen.assertFieldInputs({
-			modelTestConfig: TextModelTestConfig,
-			fields: {
-				'name': {value: 'Text Field Test 1'},
-				'fieldA': {value: 'Some test text for field A'},
-			}
-		});
+		browser.adminUIInitialFormScreen.fillFieldInputs([
+			{ name: 'name', input: { value: 'Text Field Test 1' }, modelTestConfig: TextModelTestConfig },
+			{ name: 'fieldA', input: { value: 'Some test text for field A' }, modelTestConfig: TextModelTestConfig },
+		]);
+		browser.adminUIInitialFormScreen.assertFieldInputs([
+			{ name: 'name', input: { value: 'Text Field Test 1' }, modelTestConfig: TextModelTestConfig },
+			{ name: 'fieldA', input: { value: 'Some test text for field A' }, modelTestConfig: TextModelTestConfig },
+		]);
 
 		browser.adminUIInitialFormScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 	},
 	'Text field should show correctly in the edit form': function(browser) {
-		browser.adminUIItemScreen.assertFieldUIVisible({
-			modelTestConfig: TextModelTestConfig,
-			fields: [{name: 'fieldA'}, {name: 'fieldB'}]
-		});
+		browser.adminUIItemScreen.assertFieldUIVisible([
+			{ name: 'fieldA', modelTestConfig: TextModelTestConfig, },
+			{ name: 'fieldB', modelTestConfig: TextModelTestConfig, }
+		]);
 
-		browser.adminUIItemScreen.assertFieldInputs({
-			modelTestConfig: TextModelTestConfig,
-			fields: {
-				'name': {value: 'Text Field Test 1'},
-				'fieldA': {value: 'Some test text for field A'},
-			}
-		})
+		browser.adminUIItemScreen.assertFieldInputs([
+			{ name: 'name', input: { value: 'Text Field Test 1' }, modelTestConfig: TextModelTestConfig },
+			{ name: 'fieldA', input: { value: 'Some test text for field A' }, modelTestConfig: TextModelTestConfig },
+		])
 	},
 	'Text field can be filled via the edit form': function(browser) {
-		browser.adminUIItemScreen.fillFieldInputs({
-			modelTestConfig: TextModelTestConfig,
-			fields: {
-				'fieldB': {value: 'Some test text for field B'}
-			}
-		});
+		browser.adminUIItemScreen.fillFieldInputs([
+			{ name: 'fieldB', input: { value: 'Some test text for field B' }, modelTestConfig: TextModelTestConfig },
+		]);
 		browser.adminUIItemScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 
 		browser.adminUIItemScreen.assertFlashMessage('Your changes have been saved successfully');
 
-		browser.adminUIItemScreen.assertFieldInputs({
-			modelTestConfig: TextModelTestConfig,
-			fields: {
-				'name': {value: 'Text Field Test 1'},
-				'fieldA': {value: 'Some test text for field A'},
-				'fieldB': {value: 'Some test text for field B'}
-			}
-		})
+		browser.adminUIItemScreen.assertFieldInputs([
+			{ name: 'name', input: { value: 'Text Field Test 1' }, modelTestConfig: TextModelTestConfig },
+			{ name: 'fieldA', input: { value: 'Some test text for field A' }, modelTestConfig: TextModelTestConfig },
+			{ name: 'fieldB', input: { value: 'Some test text for field B' }, modelTestConfig: TextModelTestConfig },
+		])
 	},
 };
