@@ -3,7 +3,7 @@ var NameModelTestConfig = require('../../../modelTestConfig/NameModelTestConfig'
 module.exports = {
 	before: function (browser) {
 		browser.adminUIApp = browser.page.adminUIApp();
-		browser.adminUISignin = browser.page.adminUISignin();
+		browser.adminUISigninScreen = browser.page.adminUISignin();
 		browser.adminUIHomeScreen = browser.page.adminUIHomeScreen();
 		browser.adminUIInitialFormScreen = browser.page.adminUIInitialForm();
 		browser.adminUIListScreen = browser.page.adminUIListScreen();
@@ -12,7 +12,7 @@ module.exports = {
 		browser.adminUIApp.gotoHomeScreen();
 		browser.adminUIApp.waitForSigninScreen();
 
-		browser.adminUISignin.signin();
+		browser.adminUISigninScreen.signin();
 
 		browser.adminUIApp.waitForHomeScreen();
 	},
@@ -61,13 +61,10 @@ module.exports = {
 
 		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.adminUIInitialFormScreen.fillFieldInputs({
-			modelTestConfig: NameModelTestConfig,
-			fields: {
-				'name': {value: 'Name Field Test'},
-				'fieldA': {firstName: 'First', lastName: 'Last'},
-			}
-		});
+		browser.adminUIInitialFormScreen.fillFieldInputs([
+			{name: 'name', input: { value: 'Name Field Test' }, modelTestConfig: NameModelTestConfig,},
+			{name: 'fieldA', input: { firstName: 'First', lastName: 'Last' }, modelTestConfig: NameModelTestConfig,},
+		]);
 
 		browser.adminUIInitialFormScreen.save();
 

@@ -1,18 +1,23 @@
-var NameModelTestConfig = require('../../../modelTestConfig/NameModelTestConfig');
+var ModelTestConfig = require('../../../modelTestConfig/NameModelTestConfig');
 
 module.exports = {
 	before: function (browser) {
 		browser.adminUIApp = browser.page.adminUIApp();
-		browser.adminUISignin = browser.page.adminUISignin();
+		browser.adminUISigninScreen = browser.page.adminUISignin();
 		browser.adminUIListScreen = browser.page.adminUIListScreen();
 		browser.adminUIItemScreen = browser.page.adminUIItemScreen();
 		browser.adminUIInitialFormScreen = browser.page.adminUIInitialForm();
 		browser.adminUIDeleteConfirmation = browser.page.adminUIDeleteConfirmation();
 
-		browser.adminUIApp.gotoHomeScreen();
+		browser.adminUIListScreen.setDefaultModelTestConfig(ModelTestConfig);
+		browser.adminUIItemScreen.setDefaultModelTestConfig(ModelTestConfig);
+		browser.adminUIInitialFormScreen.setDefaultModelTestConfig(ModelTestConfig);
+
+		browser.adminUIApp.gotoSigninScreen();
+
 		browser.adminUIApp.waitForSigninScreen();
 
-		browser.adminUISignin.signin();
+		browser.adminUISigninScreen.signin();
 
 		browser.adminUIApp.waitForHomeScreen();
 	},
@@ -21,46 +26,40 @@ module.exports = {
 		browser.end();
 	},
 	'List view should allow users to create a new list item': function (browser) {
-		browser.adminUIApp.click('@fieldListsMenu').click('@nameListSubmenu').waitForListScreen();
+		browser.adminUIApp.openList({section: 'fields', list: 'Name'});
 
 		browser.adminUIListScreen.clickCreateItemButton();
 
 		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.adminUIInitialFormScreen.fillFieldInputs({
-			modelTestConfig: NameModelTestConfig,
-			fields: {
-				'name': { value: 'Name Field Test 1' },
-				'fieldA': { firstName: 'First 1', lastName: 'Last 1' },
-			}
-		});
+		browser.adminUIInitialFormScreen.fillFieldInputs([
+			{ name: 'name', input: { value: 'Name Field Test 1' },},
+			{ name: 'fieldA', input: { firstName: 'First 1', lastName: 'Last 1' },},
+		]);
 
 		browser.adminUIInitialFormScreen.save();
 
 		browser.adminUIApp.waitForItemScreen();
 
-		browser.adminUIApp.click('@fieldListsMenu').click('@nameListSubmenu').waitForListScreen();
+		browser.adminUIApp.openList({section: 'fields', list: 'Name'});
 
 		browser.adminUIListScreen.assertPageItemCountTextEquals('Showing 1 Name');
 
 		browser.adminUIListScreen.assertItemFieldValueEquals([
-			{ row: 1, column: 2, name: 'name', value: 'Name Field Test 1', modelTestConfig: NameModelTestConfig }
+			{ row: 1, column: 2, name: 'name', value: 'Name Field Test 1', }
 		]);
 	},
 	'List view should allow users to create more new list items': function (browser) {
-		browser.adminUIApp.click('@fieldListsMenu').click('@nameListSubmenu').waitForListScreen();
+		browser.adminUIApp.openList({section: 'fields', list: 'Name'});
 
 		browser.adminUIListScreen.clickCreateItemButton();
 
 		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.adminUIInitialFormScreen.fillFieldInputs({
-			modelTestConfig: NameModelTestConfig,
-			fields: {
-				'name': { value: 'Name Field Test 2' },
-				'fieldA': { firstName: 'First 2', lastName: 'Last 2' },
-			}
-		});
+		browser.adminUIInitialFormScreen.fillFieldInputs([
+			{ name: 'name', input: { value: 'Name Field Test 2' },},
+			{ name: 'fieldA', input: { firstName: 'First 2', lastName: 'Last 2' },},
+		]);
 
 		// TODO: refactor
 		browser.adminUIInitialFormScreen.section.form
@@ -68,29 +67,29 @@ module.exports = {
 
 		browser.adminUIApp.waitForItemScreen();
 
-		browser.adminUIApp.click('@fieldListsMenu').click('@nameListSubmenu').waitForListScreen();
+		browser.adminUIApp.openList({section: 'fields', list: 'Name'});
 
 		browser.adminUIListScreen.assertPageItemCountTextEquals('Showing 2 Names');
 
 		browser.adminUIListScreen.assertItemFieldValueEquals([
-			{ row: 1, column: 2, name: 'name', value: 'Name Field Test 1', modelTestConfig: NameModelTestConfig, },
-			{ row: 2, column: 2, name: 'name', value: 'Name Field Test 2', modelTestConfig: NameModelTestConfig, }
+			{ row: 1, column: 2, name: 'name', value: 'Name Field Test 1',},
+			{ row: 2, column: 2, name: 'name', value: 'Name Field Test 2',}
 		]);
 	},
 	'List view should allow users to browse an item by clicking the item name': function (browser) {
-		browser.adminUIApp.click('@fieldListsMenu').click('@nameListSubmenu').waitForListScreen();
+		browser.adminUIApp.openList({section: 'fields', list: 'Name'});
 
 		browser.adminUIListScreen.clickItemFieldValue([
-			{ row: 1, column: 2, name: 'name', modelTestConfig: NameModelTestConfig, }
+			{ row: 1, column: 2, name: 'name',}
 		]);
 
 		browser.adminUIApp.waitForItemScreen();
 	},
 	'List view should allow users to browse back to list view from an item view by using the crum links': function (browser) {
-		browser.adminUIApp.click('@fieldListsMenu').click('@nameListSubmenu').waitForListScreen();
+		browser.adminUIApp.openList({section: 'fields', list: 'Name'});
 
 		browser.adminUIListScreen.clickItemFieldValue([
-			{ row: 1, column: 2, name: 'name', modelTestConfig: NameModelTestConfig, }
+			{ row: 1, column: 2, name: 'name',}
 		]);
 
 		browser.adminUIApp.waitForItemScreen();
@@ -101,7 +100,7 @@ module.exports = {
 		browser.adminUIApp.waitForListScreen();
 	},
 	'List view should allow users to search for items': function (browser) {
-		browser.adminUIApp.click('@fieldListsMenu').click('@nameListSubmenu').waitForListScreen();
+		browser.adminUIApp.openList({section: 'fields', list: 'Name'});
 
 		// TODO: refactor
 		browser.adminUIListScreen
@@ -112,7 +111,7 @@ module.exports = {
 		browser.adminUIListScreen.assertPageItemCountTextEquals('Showing 1 Name');
 
 		browser.adminUIListScreen.assertItemFieldValueEquals([
-			{ row: 1, column: 2, name: 'name', value: 'Name Field Test 2', modelTestConfig: NameModelTestConfig, },
+			{ row: 1, column: 2, name: 'name', value: 'Name Field Test 2',},
 		]);
 	},
 	'List view should allow users to clear search filter': function (browser) {
@@ -123,8 +122,8 @@ module.exports = {
 		browser.adminUIListScreen.assertPageItemCountTextEquals('Showing 2 Names');
 
 		browser.adminUIListScreen.assertItemFieldValueEquals([
-			{ row: 1, column: 2, name: 'name', value: 'Name Field Test 1', modelTestConfig: NameModelTestConfig, },
-			{ row: 2, column: 2, name: 'name', value: 'Name Field Test 2', modelTestConfig: NameModelTestConfig, },
+			{ row: 1, column: 2, name: 'name', value: 'Name Field Test 1',},
+			{ row: 2, column: 2, name: 'name', value: 'Name Field Test 2',},
 		]);
 	},
 	'List view should allow users to delete items': function (browser) {
@@ -142,11 +141,11 @@ module.exports = {
 		browser.adminUIListScreen.assertPageItemCountTextEquals('Showing 1 Name');
 
 		browser.adminUIListScreen.assertItemFieldValueEquals([
-			{ row: 1, column: 2, name: 'name', value: 'Name Field Test 2', modelTestConfig: NameModelTestConfig, },
+			{ row: 1, column: 2, name: 'name', value: 'Name Field Test 2',},
 		]);
 	},
 	'List view should allow users to delete last item': function (browser) {
-		browser.adminUIApp.click('@fieldListsMenu').click('@nameListSubmenu').waitForListScreen();
+		browser.adminUIApp.openList({section: 'fields', list: 'Name'});
 
 		browser.adminUIListScreen.clickDeleteItemIcon([
 			{ row: 1, column: 1 }

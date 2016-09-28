@@ -1,75 +1,70 @@
 var fieldTests = require('./commonFieldTestUtils.js');
-var TextModelTestConfig = require('../../../modelTestConfig/TextModelTestConfig');
+var ModelTestConfig = require('../../../modelTestConfig/TextModelTestConfig');
 
 module.exports = {
-	before: fieldTests.before,
+	before: function (browser) {
+		fieldTests.before(browser);
+		browser.adminUIInitialFormScreen.setDefaultModelTestConfig(ModelTestConfig);
+		browser.adminUIItemScreen.setDefaultModelTestConfig(ModelTestConfig);
+		browser.adminUIListScreen.setDefaultModelTestConfig(ModelTestConfig);
+	},
 	after: fieldTests.after,
 	'Text field should show correctly in the initial modal': function (browser) {
 		browser.adminUIApp.openList({section: 'fields', list: 'Text'});
+
 		browser.adminUIListScreen.clickCreateItemButton();
 		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.adminUIInitialFormScreen.assertFieldUIVisible({
-			modelTestConfig: TextModelTestConfig,
-			fields: [{name: 'name'}, {name: 'fieldA'}]
-		});
-	},
-	'restoring test state': function(browser) {
+		browser.adminUIInitialFormScreen.assertFieldUIVisible([
+			{ name: 'name',},
+			{ name: 'fieldA',}
+		]);
+
 		browser.adminUIInitialFormScreen.cancel();
 		browser.adminUIApp.waitForListScreen();
 	},
 	'Text field can be filled via the initial modal': function(browser) {
 		browser.adminUIApp.openList({section: 'fields', list: 'Text'});
+
 		browser.adminUIListScreen.clickCreateItemButton();
 		browser.adminUIApp.waitForInitialFormScreen();
-		browser.adminUIInitialFormScreen.fillFieldInputs({
-			modelTestConfig: TextModelTestConfig,
-			fields: {
-				'name': {value: 'Text Field Test 1'},
-				'fieldA': {value: 'Some test text for field A'},
-			}
-		});
-		browser.adminUIInitialFormScreen.assertFieldInputs({
-			modelTestConfig: TextModelTestConfig,
-			fields: {
-				'name': {value: 'Text Field Test 1'},
-				'fieldA': {value: 'Some test text for field A'},
-			}
-		});
+
+		browser.adminUIInitialFormScreen.fillFieldInputs([
+			{ name: 'name', input: { value: 'Text Field Test 1' }, },
+			{ name: 'fieldA', input: { value: 'Some test text for field A' }, },
+		]);
+		browser.adminUIInitialFormScreen.assertFieldInputs([
+			{ name: 'name', input: { value: 'Text Field Test 1' }, },
+			{ name: 'fieldA', input: { value: 'Some test text for field A' }, },
+		]);
+
 		browser.adminUIInitialFormScreen.save();
 		browser.adminUIApp.waitForItemScreen();
-
-		browser.adminUIItemScreen.assertFieldInputs({
-			modelTestConfig: TextModelTestConfig,
-			fields: {
-				'name': {value: 'Text Field Test 1'},
-				'fieldA': {value: 'Some test text for field A'},
-			}
-		})
 	},
 	'Text field should show correctly in the edit form': function(browser) {
-		browser.adminUIItemScreen.assertFieldUIVisible({
-			modelTestConfig: TextModelTestConfig,
-			fields: [{name: 'fieldA'}, {name: 'fieldB'}]
-		});
+		browser.adminUIItemScreen.assertFieldUIVisible([
+			{ name: 'fieldA',},
+			{ name: 'fieldB',}
+		]);
+
+		browser.adminUIItemScreen.assertFieldInputs([
+			{ name: 'name', input: { value: 'Text Field Test 1' }, },
+			{ name: 'fieldA', input: { value: 'Some test text for field A' }, },
+		])
 	},
 	'Text field can be filled via the edit form': function(browser) {
-		browser.adminUIItemScreen.fillFieldInputs({
-			modelTestConfig: TextModelTestConfig,
-			fields: {
-				'fieldB': {value: 'Some test text for field B'}
-			}
-		});
+		browser.adminUIItemScreen.fillFieldInputs([
+			{ name: 'fieldB', input: { value: 'Some test text for field B' }, },
+		]);
 		browser.adminUIItemScreen.save();
 		browser.adminUIApp.waitForItemScreen();
+
 		browser.adminUIItemScreen.assertFlashMessage('Your changes have been saved successfully');
-		browser.adminUIItemScreen.assertFieldInputs({
-			modelTestConfig: TextModelTestConfig,
-			fields: {
-				'name': {value: 'Text Field Test 1'},
-				'fieldA': {value: 'Some test text for field A'},
-				'fieldB': {value: 'Some test text for field B'}
-			}
-		})
+
+		browser.adminUIItemScreen.assertFieldInputs([
+			{ name: 'name', input: { value: 'Text Field Test 1' }, },
+			{ name: 'fieldA', input: { value: 'Some test text for field A' }, },
+			{ name: 'fieldB', input: { value: 'Some test text for field B' }, },
+		])
 	},
 };

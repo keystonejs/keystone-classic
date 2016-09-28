@@ -1,75 +1,73 @@
 var fieldTests = require('./commonFieldTestUtils.js');
-var KeyModelTestConfig = require('../../../modelTestConfig/KeyModelTestConfig');
+var ModelTestConfig = require('../../../modelTestConfig/KeyModelTestConfig');
 
 module.exports = {
-	before: fieldTests.before,
+	before: function (browser) {
+		fieldTests.before(browser);
+		browser.adminUIInitialFormScreen.setDefaultModelTestConfig(ModelTestConfig);
+		browser.adminUIItemScreen.setDefaultModelTestConfig(ModelTestConfig);
+		browser.adminUIListScreen.setDefaultModelTestConfig(ModelTestConfig);
+	},
 	after: fieldTests.after,
 	'Key field should show correctly in the initial modal': function (browser) {
 		browser.adminUIApp.openList({section: 'fields', list: 'Key'});
+
 		browser.adminUIListScreen.clickCreateItemButton();
 		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.adminUIInitialFormScreen.assertFieldUIVisible({
-			modelTestConfig: KeyModelTestConfig,
-			fields: [{name: 'name'}, {name: 'fieldA'}]
-		});
-	},
-	'restoring test state': function(browser) {
+		browser.adminUIInitialFormScreen.assertFieldUIVisible([
+			{ name: 'name',},
+			{ name: 'fieldA',},
+		]);
+
 		browser.adminUIInitialFormScreen.cancel();
 		browser.adminUIApp.waitForListScreen();
 	},
 	'Key field can be filled via the initial modal': function(browser) {
 		browser.adminUIApp.openList({section: 'fields', list: 'Key'});
+
 		browser.adminUIListScreen.clickCreateItemButton();
 		browser.adminUIApp.waitForInitialFormScreen();
-		browser.adminUIInitialFormScreen.fillFieldInputs({
-			modelTestConfig: KeyModelTestConfig,
-			fields: {
-				'name': {value: 'Key Field Test 1'},
-				'fieldA': {value: 'A test key for field A'},
-			}
-		});
-		browser.adminUIInitialFormScreen.assertFieldInputs({
-			modelTestConfig: KeyModelTestConfig,
-			fields: {
-				'name': {value: 'Key Field Test 1'},
-				'fieldA': {value: 'A test key for field A'},
-			}
-		});
+
+		browser.adminUIInitialFormScreen.fillFieldInputs([
+			{ name: 'name', input: { value: 'Key Field Test 1' },},
+			{ name: 'fieldA', input: { value: 'A test key for field A' },},
+		]);
+
+		browser.adminUIInitialFormScreen.assertFieldInputs([
+			{ name: 'name', input: { value: 'Key Field Test 1' },},
+			{ name: 'fieldA', input: { value: 'A test key for field A' },},
+		]);
+
 		browser.adminUIInitialFormScreen.save();
 		browser.adminUIApp.waitForItemScreen();
-
-		browser.adminUIItemScreen.assertFieldInputs({
-			modelTestConfig: KeyModelTestConfig,
-			fields: {
-				'name': {value: 'Key Field Test 1'},
-				'fieldA': {value: 'a-test-key-for-field-a'},
-			}
-		})
 	},
 	'Key field should show correctly in the edit form': function(browser) {
-		browser.adminUIItemScreen.assertFieldUIVisible({
-			modelTestConfig: KeyModelTestConfig,
-			fields: [{name: 'fieldA'}, {name: 'fieldB'}]
-		});
+		browser.adminUIItemScreen.assertFieldUIVisible([
+			{ name: 'name',},
+			{ name: 'fieldA',},
+			{ name: 'fieldB',},
+		]);
+
+		browser.adminUIItemScreen.assertFieldInputs([
+			{ name: 'name', input: { value: 'Key Field Test 1' },},
+			{ name: 'fieldA', input: { value: 'a-test-key-for-field-a' },},
+		]);
 	},
 	'Key field can be filled via the edit form': function(browser) {
-		browser.adminUIItemScreen.fillFieldInputs({
-			modelTestConfig: KeyModelTestConfig,
-			fields: {
-				'fieldB': {value: 'A test key for field B'}
-			}
-		});
+		browser.adminUIItemScreen.fillFieldInputs([
+			{ name: 'fieldB', input: { value: 'A test key for field B' },},
+		]);
+
 		browser.adminUIItemScreen.save();
 		browser.adminUIApp.waitForItemScreen();
+
 		browser.adminUIItemScreen.assertFlashMessage('Your changes have been saved successfully');
-		browser.adminUIItemScreen.assertFieldInputs({
-			modelTestConfig: KeyModelTestConfig,
-			fields: {
-				'name': {value: 'Key Field Test 1'},
-				'fieldA': {value: 'a-test-key-for-field-a'},
-				'fieldB': {value: 'a-test-key-for-field-b'}
-			}
-		})
+
+		browser.adminUIItemScreen.assertFieldInputs([
+			{ name: 'name', input: { value: 'Key Field Test 1' },},
+			{ name: 'fieldA', input: { value: 'a-test-key-for-field-a' },},
+			{ name: 'fieldB', input: { value: 'a-test-key-for-field-b' },},
+		]);
 	},
 };
