@@ -8,10 +8,12 @@ var moment = require('moment');
 var mongoose = require('mongoose');
 var path = require('path');
 var keystoneNightwatchE2e = require('keystone-nightwatch-e2e');
+var chromedriver = require('chromedriver');
 
 // Set app-specific env for nightwatch session
 process.env['SELENIUM_SERVER'] = keystoneNightwatchE2e.seleniumPath;
 process.env['PAGE_OBJECTS_PATH'] = keystoneNightwatchE2e.pageObjectsPath;
+process.env['CHROMEDRIVER_PATH'] = chromedriver.path;
 
 // determine the mongo uri and database name
 var dbName = '/e2e' + (process.env.KEYSTONEJS_PORT || 3000);
