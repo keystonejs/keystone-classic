@@ -9,36 +9,26 @@ env:
 matrix:
   include:
     - node_js: '6'
-      addons:
-        sauce_connect: true
       script:
         - npm run test-e2e-saucelabs-group
       env:
         - JOB=e2e GROUP=group005Fields
     - node_js: '6'
-      addons:
-        sauce_connect: true
       script:
         - npm run test-e2e-saucelabs-group
       env:
         - JOB=e2e GROUP=group004Item
     - node_js: '6'
-      addons:
-        sauce_connect: true
       script:
         - npm run test-e2e-saucelabs-group
       env:
         - JOB=e2e GROUP=group003List
     - node_js: '6'
-      addons:
-        sauce_connect: true
       script:
         - npm run test-e2e-saucelabs-group
       env:
         - JOB=e2e GROUP=group002Home
     - node_js: '6'
-      addons:
-        sauce_connect: true
       script:
         - npm run test-e2e-saucelabs-group
       env:
@@ -66,6 +56,8 @@ matrix:
 
 before_script:
 - sleep 15
+- export DISPLAY=:99.0
+- sh -e /etc/init.d/xvfb start
 script:
 - npm run lint
 - npm run test-cov
@@ -88,3 +80,4 @@ addons:
     - mongodb-3.2-precise
     packages:
     - mongodb-org-server
+  firefox: "44.0"
