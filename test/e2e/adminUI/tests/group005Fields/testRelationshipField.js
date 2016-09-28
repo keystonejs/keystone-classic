@@ -6,6 +6,7 @@ module.exports = {
 	after: fieldTests.after,
 	'Relationship field should show correctly in the initial modal': function (browser) {
 		browser.adminUIApp.openList({section: 'fields', list: 'Relationship'});
+
 		browser.adminUIListScreen.clickCreateItemButton();
 		browser.adminUIApp.waitForInitialFormScreen();
 
@@ -19,8 +20,10 @@ module.exports = {
 	},
 	'Relationship field can be filled via the initial modal': function(browser) {
 		browser.adminUIApp.openList({section: 'fields', list: 'Relationship'});
+
 		browser.adminUIListScreen.clickCreateItemButton();
 		browser.adminUIApp.waitForInitialFormScreen();
+
 		browser.adminUIInitialFormScreen.fillFieldInputs({
 			modelTestConfig: RelationshipModelTestConfig,
 			fields: {
@@ -35,8 +38,15 @@ module.exports = {
 				'fieldA': {value: 'e2e member'},
 			}
 		});
+
 		browser.adminUIInitialFormScreen.save();
 		browser.adminUIApp.waitForItemScreen();
+	},
+	'Relationship field should show correctly in the edit form': function(browser) {
+		browser.adminUIItemScreen.assertFieldUIVisible({
+			modelTestConfig: RelationshipModelTestConfig,
+			fields: [{name: 'fieldB'}]
+		});
 
 		browser.adminUIItemScreen.assertFieldInputs({
 			modelTestConfig: RelationshipModelTestConfig,
@@ -46,12 +56,6 @@ module.exports = {
 			}
 		})
 	},
-	'Relationship field should show correctly in the edit form': function(browser) {
-		browser.adminUIItemScreen.assertFieldUIVisible({
-			modelTestConfig: RelationshipModelTestConfig,
-			fields: [{name: 'fieldB'}]
-		});
-	},
 	'Relationship field can be filled via the edit form': function(browser) {
 		browser.adminUIItemScreen.fillFieldInputs({
 			modelTestConfig: RelationshipModelTestConfig,
@@ -59,9 +63,12 @@ module.exports = {
 				'fieldB': {option: 'option2'}
 			}
 		});
+
 		browser.adminUIItemScreen.save();
 		browser.adminUIApp.waitForItemScreen();
+
 		browser.adminUIItemScreen.assertFlashMessage('Your changes have been saved successfully');
+
 		browser.adminUIItemScreen.assertFieldInputs({
 			modelTestConfig: RelationshipModelTestConfig,
 			fields: {

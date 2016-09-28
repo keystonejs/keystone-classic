@@ -6,6 +6,7 @@ module.exports = {
 	after: fieldTests.after,
 	'Text field should show correctly in the initial modal': function (browser) {
 		browser.adminUIApp.openList({section: 'fields', list: 'Text'});
+
 		browser.adminUIListScreen.clickCreateItemButton();
 		browser.adminUIApp.waitForInitialFormScreen();
 
@@ -13,15 +14,16 @@ module.exports = {
 			modelTestConfig: TextModelTestConfig,
 			fields: [{name: 'name'}, {name: 'fieldA'}]
 		});
-	},
-	'restoring test state': function(browser) {
+
 		browser.adminUIInitialFormScreen.cancel();
 		browser.adminUIApp.waitForListScreen();
 	},
 	'Text field can be filled via the initial modal': function(browser) {
 		browser.adminUIApp.openList({section: 'fields', list: 'Text'});
+
 		browser.adminUIListScreen.clickCreateItemButton();
 		browser.adminUIApp.waitForInitialFormScreen();
+
 		browser.adminUIInitialFormScreen.fillFieldInputs({
 			modelTestConfig: TextModelTestConfig,
 			fields: {
@@ -36,8 +38,15 @@ module.exports = {
 				'fieldA': {value: 'Some test text for field A'},
 			}
 		});
+
 		browser.adminUIInitialFormScreen.save();
 		browser.adminUIApp.waitForItemScreen();
+	},
+	'Text field should show correctly in the edit form': function(browser) {
+		browser.adminUIItemScreen.assertFieldUIVisible({
+			modelTestConfig: TextModelTestConfig,
+			fields: [{name: 'fieldA'}, {name: 'fieldB'}]
+		});
 
 		browser.adminUIItemScreen.assertFieldInputs({
 			modelTestConfig: TextModelTestConfig,
@@ -46,12 +55,6 @@ module.exports = {
 				'fieldA': {value: 'Some test text for field A'},
 			}
 		})
-	},
-	'Text field should show correctly in the edit form': function(browser) {
-		browser.adminUIItemScreen.assertFieldUIVisible({
-			modelTestConfig: TextModelTestConfig,
-			fields: [{name: 'fieldA'}, {name: 'fieldB'}]
-		});
 	},
 	'Text field can be filled via the edit form': function(browser) {
 		browser.adminUIItemScreen.fillFieldInputs({
@@ -62,7 +65,9 @@ module.exports = {
 		});
 		browser.adminUIItemScreen.save();
 		browser.adminUIApp.waitForItemScreen();
+
 		browser.adminUIItemScreen.assertFlashMessage('Your changes have been saved successfully');
+
 		browser.adminUIItemScreen.assertFieldInputs({
 			modelTestConfig: TextModelTestConfig,
 			fields: {

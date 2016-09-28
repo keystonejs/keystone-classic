@@ -7,6 +7,7 @@ module.exports = {
 	after: fieldTests.after,
 	'Password field should show correctly in the initial modal': function (browser) {
 		browser.adminUIApp.openList({section: 'fields', list: 'Password'});
+
 		browser.adminUIListScreen.clickCreateItemButton();
 		browser.adminUIApp.waitForInitialFormScreen();
 
@@ -22,15 +23,16 @@ module.exports = {
 				}
 			],
 		});
-	},
-	'restoring test state': function(browser) {
+
 		browser.adminUIInitialFormScreen.cancel();
 		browser.adminUIApp.waitForListScreen();
 	},
 	'Password field can be filled via the initial modal': function(browser) {
 		browser.adminUIApp.openList({section: 'fields', list: 'Password'});
+
 		browser.adminUIListScreen.clickCreateItemButton();
 		browser.adminUIApp.waitForInitialFormScreen();
+
 		browser.adminUIInitialFormScreen.fillFieldInputs({
 			modelTestConfig: PasswordModelTestConfig,
 			fields: {
@@ -54,13 +56,6 @@ module.exports = {
 		});
 		browser.adminUIInitialFormScreen.save();
 		browser.adminUIApp.waitForItemScreen();
-
-		browser.itemScreen.assertFieldInputs({
-			modelTestConfig: PasswordModelTestConfig,
-			fields: {
-				'name': {value: 'Password Field Test 1'},
-			}
-		})
 	},
 	'Password field should show correctly in the edit form': function(browser) {
 		browser.itemScreen.assertFieldUIVisible({
@@ -76,6 +71,13 @@ module.exports = {
 				}
 			],
 		});
+
+		browser.itemScreen.assertFieldInputs({
+			modelTestConfig: PasswordModelTestConfig,
+			fields: {
+				'name': {value: 'Password Field Test 1'},
+			}
+		})
 	},
 	'Password field can be filled via the edit form': function(browser) {
 		browser.itemScreen.clickFieldUI({
@@ -103,9 +105,12 @@ module.exports = {
 				'fieldB': {value: 'password2', confirm: 'wrongPassword2'}
 			}
 		});
+
 		browser.itemScreen.save();
 		browser.adminUIApp.waitForItemScreen();
+
 		browser.itemScreen.assertFlashError('Passwords must match');
+
 		browser.itemScreen.fillFieldInputs({
 			modelTestConfig: PasswordModelTestConfig,
 			fields: {
@@ -114,7 +119,9 @@ module.exports = {
 		});
 		browser.itemScreen.save();
 		browser.adminUIApp.waitForItemScreen();
+
 		browser.itemScreen.assertFlashMessage('Your changes have been saved successfully');
+
 		browser.itemScreen.assertFieldInputs({
 			modelTestConfig: PasswordModelTestConfig,
 			fields: {

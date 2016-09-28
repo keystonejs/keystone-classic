@@ -6,70 +6,63 @@ module.exports = {
 	after: fieldTests.after,
 	'GeoPoint field should show correctly in the initial modal': function (browser) {
 		browser.adminUIApp.openList({section: 'fields', list: 'GeoPoint'});
+
 		browser.adminUIListScreen.clickCreateItemButton();
 		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.adminUIInitialFormScreen.assertFieldUIVisible({
-			modelTestConfig: GeoPointModelTestConfig,
-			fields: [{name: 'name'}, {name: 'fieldA'}]
-		});
-	},
-	'restoring test state': function(browser) {
+		browser.adminUIInitialFormScreen.assertFieldUIVisible([
+			{ name: 'name', modelTestConfig: GeoPointModelTestConfig, }, 
+			{ name: 'fieldA', modelTestConfig: GeoPointModelTestConfig, }, 
+		]);
+
 		browser.adminUIInitialFormScreen.cancel();
 		browser.adminUIApp.waitForListScreen();
 	},
 	'GeoPoint field can be filled via the initial modal': function(browser) {
 		browser.adminUIApp.openList({section: 'fields', list: 'GeoPoint'});
+
 		browser.adminUIListScreen.clickCreateItemButton();
 		browser.adminUIApp.waitForInitialFormScreen();
-		browser.adminUIInitialFormScreen.fillFieldInputs({
-			modelTestConfig: GeoPointModelTestConfig,
-			fields: {
-				'name': {value: 'GeoPoint Field Test 1'},
-				'fieldA': {lat: '123', lng: '456'},
-			}
-		});
-		browser.adminUIInitialFormScreen.assertFieldInputs({
-			modelTestConfig: GeoPointModelTestConfig,
-			fields: {
-				'name': {value: 'GeoPoint Field Test 1'},
-				'fieldA': {lat: '123', lng: '456'},
-			}
-		});
+
+		browser.adminUIInitialFormScreen.fillFieldInputs([
+			{ name: 'name', input: { value: 'GeoPoint Field Test 1' }, modelTestConfig: GeoPointModelTestConfig, }, 
+			{ name: 'fieldA', input: { lat: '123', lng: '456' }, modelTestConfig: GeoPointModelTestConfig, }, 
+		]);
+
+		browser.adminUIInitialFormScreen.assertFieldInputs([
+			{ name: 'name', input: { value: 'GeoPoint Field Test 1' }, modelTestConfig: GeoPointModelTestConfig, }, 
+			{ name: 'fieldA', input: { lat: '123', lng: '456' }, modelTestConfig: GeoPointModelTestConfig, }, 
+		]);
+
 		browser.adminUIInitialFormScreen.save();
 		browser.adminUIApp.waitForItemScreen();
-
-		browser.adminUIItemScreen.assertFieldInputs({
-			modelTestConfig: GeoPointModelTestConfig,
-			fields: {
-				'name': {value: 'GeoPoint Field Test 1'},
-				'fieldA': {lat: '123', lng: '456'},
-			}
-		})
 	},
 	'GeoPoint field should show correctly in the edit form': function(browser) {
-		browser.adminUIItemScreen.assertFieldUIVisible({
-			modelTestConfig: GeoPointModelTestConfig,
-			fields: [{name: 'fieldA'}, {name: 'fieldB'}]
-		});
+		browser.adminUIItemScreen.assertFieldUIVisible([
+			{ name: 'name', modelTestConfig: GeoPointModelTestConfig, }, 
+			{ name: 'fieldA', modelTestConfig: GeoPointModelTestConfig, }, 
+			{ name: 'fieldB', modelTestConfig: GeoPointModelTestConfig, }, 
+		]);
+
+		browser.adminUIItemScreen.assertFieldInputs([
+			{ name: 'name', input: { value: 'GeoPoint Field Test 1' }, modelTestConfig: GeoPointModelTestConfig, }, 
+			{ name: 'fieldA', input: { lat: '123', lng: '456' }, modelTestConfig: GeoPointModelTestConfig, }, 
+		]);
 	},
 	'GeoPoint field can be filled via the edit form': function(browser) {
-		browser.adminUIItemScreen.fillFieldInputs({
-			modelTestConfig: GeoPointModelTestConfig,
-			fields: {
-				'fieldB': {lat: '789', lng: '246'}
-			}
-		});
+		browser.adminUIItemScreen.fillFieldInputs([
+			{ name: 'fieldB', input: { lat: '789', lng: '246' }, modelTestConfig: GeoPointModelTestConfig, }, 
+		]);
+
 		browser.adminUIItemScreen.save();
 		browser.adminUIApp.waitForItemScreen();
+
 		browser.adminUIItemScreen.assertFlashMessage('Your changes have been saved successfully');
-		browser.adminUIItemScreen.assertFieldInputs({
-			modelTestConfig: GeoPointModelTestConfig,
-			fields: {
-				'name': {value: 'GeoPoint Field Test 1'},
-				'fieldA': {lat: '123', lng: '456'},
-				'fieldB': {lat: '789', lng: '246'}
-			}
-		})
+
+		browser.adminUIItemScreen.assertFieldInputs([
+			{ name: 'name', input: { value: 'GeoPoint Field Test 1' }, modelTestConfig: GeoPointModelTestConfig, }, 
+			{ name: 'fieldA', input: { lat: '123', lng: '456' }, modelTestConfig: GeoPointModelTestConfig, }, 
+			{ name: 'fieldB', input: { lat: '789', lng: '246' }, modelTestConfig: GeoPointModelTestConfig, }, 
+		]);
 	},
 };

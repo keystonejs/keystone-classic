@@ -6,70 +6,63 @@ module.exports = {
 	after: fieldTests.after,
 	'Money field should show correctly in the initial modal': function (browser) {
 		browser.adminUIApp.openList({section: 'fields', list: 'Money'});
+
 		browser.adminUIListScreen.clickCreateItemButton();
 		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.adminUIInitialFormScreen.assertFieldUIVisible({
-			modelTestConfig: MoneyModelTestConfig,
-			fields: [{name: 'name'}, {name: 'fieldA'}]
-		});
-	},
-	'restoring test state': function(browser) {
+		browser.adminUIInitialFormScreen.assertFieldUIVisible([
+			{ name: 'name', modelTestConfig: MoneyModelTestConfig, }, 
+			{ name: 'fieldA', modelTestConfig: MoneyModelTestConfig, }, 
+		]);
+
 		browser.adminUIInitialFormScreen.cancel();
 		browser.adminUIApp.waitForListScreen();
 	},
 	'Money field can be filled via the initial modal': function(browser) {
 		browser.adminUIApp.openList({section: 'fields', list: 'Money'});
+
 		browser.adminUIListScreen.clickCreateItemButton();
 		browser.adminUIApp.waitForInitialFormScreen();
-		browser.adminUIInitialFormScreen.fillFieldInputs({
-			modelTestConfig: MoneyModelTestConfig,
-			fields: {
-				'name': {value: 'Money Field Test 1'},
-				'fieldA': {value: '1'},
-			}
-		});
-		browser.adminUIInitialFormScreen.assertFieldInputs({
-			modelTestConfig: MoneyModelTestConfig,
-			fields: {
-				'name': {value: 'Money Field Test 1'},
-				'fieldA': {value: '1'},
-			}
-		});
+
+		browser.adminUIInitialFormScreen.fillFieldInputs([
+			{ name: 'name', input: { value: 'Money Field Test 1' }, modelTestConfig: MoneyModelTestConfig, }, 
+			{ name: 'fieldA', input: { value: '1' }, modelTestConfig: MoneyModelTestConfig, }, 
+		]);
+
+		browser.adminUIInitialFormScreen.assertFieldInputs([
+			{ name: 'name', input: { value: 'Money Field Test 1' }, modelTestConfig: MoneyModelTestConfig, }, 
+			{ name: 'fieldA', input: { value: '1' }, modelTestConfig: MoneyModelTestConfig, }, 
+		]);
+
 		browser.adminUIInitialFormScreen.save();
 		browser.adminUIApp.waitForItemScreen();
-
-		browser.adminUIItemScreen.assertFieldInputs({
-			modelTestConfig: MoneyModelTestConfig,
-			fields: {
-				'name': {value: 'Money Field Test 1'},
-				'fieldA': {value: '1'},
-			}
-		})
 	},
 	'Money field should show correctly in the edit form': function(browser) {
-		browser.adminUIItemScreen.assertFieldUIVisible({
-			modelTestConfig: MoneyModelTestConfig,
-			fields: [{name: 'fieldA'}, {name: 'fieldB'}]
-		});
+		browser.adminUIItemScreen.assertFieldUIVisible([
+			{ name: 'name', modelTestConfig: MoneyModelTestConfig, }, 
+			{ name: 'fieldA', modelTestConfig: MoneyModelTestConfig, }, 
+			{ name: 'fieldB', modelTestConfig: MoneyModelTestConfig, }, 
+		]);
+
+		browser.adminUIItemScreen.assertFieldInputs([
+			{ name: 'name', input: { value: 'Money Field Test 1' }, modelTestConfig: MoneyModelTestConfig, }, 
+			{ name: 'fieldA', input: { value: '1' }, modelTestConfig: MoneyModelTestConfig, }, 
+		]);
 	},
 	'Money field can be filled via the edit form': function(browser) {
-		browser.adminUIItemScreen.fillFieldInputs({
-			modelTestConfig: MoneyModelTestConfig,
-			fields: {
-				'fieldB': {value: '2'}
-			}
-		});
+		browser.adminUIItemScreen.fillFieldInputs([
+			{ name: 'fieldB', input: { value: '2' }, modelTestConfig: MoneyModelTestConfig, }, 
+		]);
+
 		browser.adminUIItemScreen.save();
 		browser.adminUIApp.waitForItemScreen();
+
 		browser.adminUIItemScreen.assertFlashMessage('Your changes have been saved successfully');
-		browser.adminUIItemScreen.assertFieldInputs({
-			modelTestConfig: MoneyModelTestConfig,
-			fields: {
-				'name': {value: 'Money Field Test 1'},
-				'fieldA': {value: '1'},
-				'fieldB': {value: '2'}
-			}
-		})
+
+		browser.adminUIItemScreen.assertFieldInputs([
+			{ name: 'name', input: { value: 'Money Field Test 1' }, modelTestConfig: MoneyModelTestConfig, }, 
+			{ name: 'fieldA', input: { value: '1' }, modelTestConfig: MoneyModelTestConfig, }, 
+			{ name: 'fieldB', input: { value: '2' }, modelTestConfig: MoneyModelTestConfig, }, 
+		]);
 	},
 };

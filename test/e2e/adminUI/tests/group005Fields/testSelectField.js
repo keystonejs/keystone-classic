@@ -6,6 +6,7 @@ module.exports = {
 	after: fieldTests.after,
 	'Select field should show correctly in the initial modal': function (browser) {
 		browser.adminUIApp.openList({section: 'fields', list: 'Select'});
+
 		browser.adminUIListScreen.clickCreateItemButton();
 		browser.adminUIApp.waitForInitialFormScreen();
 
@@ -19,15 +20,16 @@ module.exports = {
 				}
 			],
 		});
-	},
-	'restoring test state': function(browser) {
+
 		browser.adminUIInitialFormScreen.cancel();
 		browser.adminUIApp.waitForListScreen();
 	},
 	'Select field can be filled via the initial modal': function(browser) {
 		browser.adminUIApp.openList({section: 'fields', list: 'Select'});
+
 		browser.adminUIListScreen.clickCreateItemButton();
 		browser.adminUIApp.waitForInitialFormScreen();
+
 		browser.adminUIInitialFormScreen.fillFieldInputs({
 			modelTestConfig: SelectModelTestConfig,
 			fields: {
@@ -42,16 +44,9 @@ module.exports = {
 				'fieldA': {value: 'One'},
 			}
 		});
+
 		browser.adminUIInitialFormScreen.save();
 		browser.adminUIApp.waitForItemScreen();
-
-		browser.adminUIItemScreen.assertFieldInputs({
-			modelTestConfig: SelectModelTestConfig,
-			fields: {
-				'name': {value: 'Select Field Test 1'},
-				'fieldA': {value: 'One'},
-			}
-		})
 	},
 	'Select field should show correctly in the edit form': function(browser) {
 		browser.adminUIItemScreen.assertFieldUIVisible({
@@ -67,6 +62,14 @@ module.exports = {
 				}
 			],
 		});
+
+		browser.adminUIItemScreen.assertFieldInputs({
+			modelTestConfig: SelectModelTestConfig,
+			fields: {
+				'name': {value: 'Select Field Test 1'},
+				'fieldA': {value: 'One'},
+			}
+		})
 	},
 	'Select field can be filled via the edit form': function(browser) {
 		browser.adminUIItemScreen.fillFieldInputs({
@@ -75,9 +78,12 @@ module.exports = {
 				'fieldB': {value: 'Two'}
 			}
 		});
+
 		browser.adminUIItemScreen.save();
 		browser.adminUIApp.waitForItemScreen();
+
 		browser.adminUIItemScreen.assertFlashMessage('Your changes have been saved successfully');
+
 		browser.adminUIItemScreen.assertFieldInputs({
 			modelTestConfig: SelectModelTestConfig,
 			fields: {

@@ -6,6 +6,7 @@ module.exports = {
 	after: fieldTests.after,
 	'Textarea field should show correctly in the initial modal': function (browser) {
 		browser.adminUIApp.openList({section: 'fields', list: 'Textarea'});
+
 		browser.adminUIListScreen.clickCreateItemButton();
 		browser.adminUIApp.waitForInitialFormScreen();
 
@@ -13,15 +14,16 @@ module.exports = {
 			modelTestConfig: TextareaModelTestConfig,
 			fields: [{name: 'name'}, {name: 'fieldA'}]
 		});
-	},
-	'restoring test state': function(browser) {
+
 		browser.adminUIInitialFormScreen.cancel();
 		browser.adminUIApp.waitForListScreen();
 	},
 	'Textarea field can be filled via the initial modal': function(browser) {
 		browser.adminUIApp.openList({section: 'fields', list: 'Textarea'});
+
 		browser.adminUIListScreen.clickCreateItemButton();
 		browser.adminUIApp.waitForInitialFormScreen();
+
 		browser.adminUIInitialFormScreen.fillFieldInputs({
 			modelTestConfig: TextareaModelTestConfig,
 			fields: {
@@ -36,8 +38,15 @@ module.exports = {
 				'fieldA': {value: 'Some test text for field A'},
 			}
 		});
+
 		browser.adminUIInitialFormScreen.save();
 		browser.adminUIApp.waitForItemScreen();
+	},
+	'Textarea field should show correctly in the edit form': function(browser) {
+		browser.adminUIItemScreen.assertFieldUIVisible({
+			modelTestConfig: TextareaModelTestConfig,
+			fields: [{name: 'fieldA'}, {name: 'fieldB'}]
+		});
 
 		browser.adminUIItemScreen.assertFieldInputs({
 			modelTestConfig: TextareaModelTestConfig,
@@ -47,12 +56,6 @@ module.exports = {
 			}
 		})
 	},
-	'Textarea field should show correctly in the edit form': function(browser) {
-		browser.adminUIItemScreen.assertFieldUIVisible({
-			modelTestConfig: TextareaModelTestConfig,
-			fields: [{name: 'fieldA'}, {name: 'fieldB'}]
-		});
-	},
 	'Textarea field can be filled via the edit form': function(browser) {
 		browser.adminUIItemScreen.fillFieldInputs({
 			modelTestConfig: TextareaModelTestConfig,
@@ -60,9 +63,12 @@ module.exports = {
 				'fieldB': {value: 'Some test text for field B'}
 			}
 		});
+
 		browser.adminUIItemScreen.save();
 		browser.adminUIApp.waitForItemScreen();
+
 		browser.adminUIItemScreen.assertFlashMessage('Your changes have been saved successfully');
+
 		browser.adminUIItemScreen.assertFieldInputs({
 			modelTestConfig: TextareaModelTestConfig,
 			fields: {

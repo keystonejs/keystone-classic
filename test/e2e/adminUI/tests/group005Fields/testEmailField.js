@@ -6,70 +6,63 @@ module.exports = {
 	after: fieldTests.after,
 	'Email field should show correctly in the initial modal': function (browser) {
 		browser.adminUIApp.openList({section: 'fields', list: 'Email'});
+
 		browser.adminUIListScreen.clickCreateItemButton();
 		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.adminUIInitialFormScreen.assertFieldUIVisible({
-			modelTestConfig: EmailModelTestConfig,
-			fields: [{name: 'name'}, {name: 'fieldA'}]
-		});
-	},
-	'restoring test state': function(browser) {
+		browser.adminUIInitialFormScreen.assertFieldUIVisible([
+			{ name: 'name', modelTestConfig: EmailModelTestConfig, }, 
+			{ name: 'fieldA', modelTestConfig: EmailModelTestConfig, }, 
+		]);
+
 		browser.adminUIInitialFormScreen.cancel();
 		browser.adminUIApp.waitForListScreen();
 	},
 	'Email field can be filled via the initial modal': function(browser) {
 		browser.adminUIApp.openList({section: 'fields', list: 'Email'});
+
 		browser.adminUIListScreen.clickCreateItemButton();
 		browser.adminUIApp.waitForInitialFormScreen();
-		browser.adminUIInitialFormScreen.fillFieldInputs({
-			modelTestConfig: EmailModelTestConfig,
-			fields: {
-				'name': {value: 'Email Field Test 1'},
-				'fieldA': {value: 'user@example1.com'},
-			}
-		});
-		browser.adminUIInitialFormScreen.assertFieldInputs({
-			modelTestConfig: EmailModelTestConfig,
-			fields: {
-				'name': {value: 'Email Field Test 1'},
-				'fieldA': {value: 'user@example1.com'},
-			}
-		});
+
+		browser.adminUIInitialFormScreen.fillFieldInputs([
+			{ name: 'name', input: { value: 'Email Field Test 1' }, modelTestConfig: EmailModelTestConfig, }, 
+			{ name: 'fieldA', input: { value: 'user@example1.com' }, modelTestConfig: EmailModelTestConfig, }, 
+		]);
+
+		browser.adminUIInitialFormScreen.assertFieldInputs([
+			{ name: 'name', input: { value: 'Email Field Test 1' }, modelTestConfig: EmailModelTestConfig, }, 
+			{ name: 'fieldA', input: { value: 'user@example1.com' }, modelTestConfig: EmailModelTestConfig, }, 
+		]);
+
 		browser.adminUIInitialFormScreen.save();
 		browser.adminUIApp.waitForItemScreen();
-
-		browser.adminUIItemScreen.assertFieldInputs({
-			modelTestConfig: EmailModelTestConfig,
-			fields: {
-				'name': {value: 'Email Field Test 1'},
-				'fieldA': {value: 'user@example1.com'},
-			}
-		})
 	},
 	'Email field should show correctly in the edit form': function(browser) {
-		browser.adminUIItemScreen.assertFieldUIVisible({
-			modelTestConfig: EmailModelTestConfig,
-			fields: [{name: 'fieldA'}, {name: 'fieldB'}]
-		});
+		browser.adminUIItemScreen.assertFieldUIVisible([
+			{ name: 'name', modelTestConfig: EmailModelTestConfig, }, 
+			{ name: 'fieldA', modelTestConfig: EmailModelTestConfig, }, 
+			{ name: 'fieldB', modelTestConfig: EmailModelTestConfig, }, 
+		]);
+
+		browser.adminUIItemScreen.assertFieldInputs([
+			{ name: 'name', input: { value: 'Email Field Test 1' }, modelTestConfig: EmailModelTestConfig, }, 
+			{ name: 'fieldA', input: { value: 'user@example1.com' }, modelTestConfig: EmailModelTestConfig, }, 
+		]);
 	},
 	'Email field can be filled via the edit form': function(browser) {
-		browser.adminUIItemScreen.fillFieldInputs({
-			modelTestConfig: EmailModelTestConfig,
-			fields: {
-				'fieldB': {value: 'user@example2.com'}
-			}
-		});
+		browser.adminUIItemScreen.fillFieldInputs([
+			{ name: 'fieldB', input: { value: 'user@example2.com' }, modelTestConfig: EmailModelTestConfig, }, 
+		]);
+
 		browser.adminUIItemScreen.save();
 		browser.adminUIApp.waitForItemScreen();
+
 		browser.adminUIItemScreen.assertFlashMessage('Your changes have been saved successfully');
-		browser.adminUIItemScreen.assertFieldInputs({
-			modelTestConfig: EmailModelTestConfig,
-			fields: {
-				'name': {value: 'Email Field Test 1'},
-				'fieldA': {value: 'user@example1.com'},
-				'fieldB': {value: 'user@example2.com'}
-			}
-		})
+
+		browser.adminUIItemScreen.assertFieldInputs([
+			{ name: 'name', input: { value: 'Email Field Test 1' }, modelTestConfig: EmailModelTestConfig, }, 
+			{ name: 'fieldA', input: { value: 'user@example1.com' }, modelTestConfig: EmailModelTestConfig, }, 
+			{ name: 'fieldB', input: { value: 'user@example2.com' }, modelTestConfig: EmailModelTestConfig, }, 
+		]);
 	},
 };

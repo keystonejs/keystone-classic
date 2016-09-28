@@ -6,79 +6,72 @@ module.exports = {
 	after: fieldTests.after,
 	'Date field should show correctly in the initial modal': function (browser) {
 		browser.adminUIApp.openList({section: 'fields', list: 'Date'});
+
 		browser.adminUIListScreen.clickCreateItemButton();
 		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.adminUIInitialFormScreen.assertFieldUIVisible({
-			modelTestConfig: DateModelTestConfig,
-			fields: [{name: 'name'}, {name: 'fieldA'}]
-		});
-	},
-	'restoring test state': function(browser) {
+		browser.adminUIInitialFormScreen.assertFieldUIVisible([
+			{ name: 'name', modelTestConfig: DateModelTestConfig, }, 
+			{ name: 'fieldA', modelTestConfig: DateModelTestConfig, }, 
+		]);
+
 		browser.adminUIInitialFormScreen.cancel();
 		browser.adminUIApp.waitForListScreen();
 	},
 	'Date field can be filled via the initial modal': function(browser) {
 		browser.adminUIApp.openList({section: 'fields', list: 'Date'});
+
 		browser.adminUIListScreen.clickCreateItemButton();
 		browser.adminUIApp.waitForInitialFormScreen();
-		browser.adminUIInitialFormScreen.fillFieldInputs({
-			modelTestConfig: DateModelTestConfig,
-			fields: {
-				'name': {value: 'Date Field Test 1'},
-				'fieldA': {value: '2016-01-01'},
-			}
-		});
+
+		browser.adminUIInitialFormScreen.fillFieldInputs([
+			{ name: 'name', input: { value: 'Date Field Test 1' }, modelTestConfig: DateModelTestConfig, }, 
+			{ name: 'fieldA', input: { value: '2016-01-01' }, modelTestConfig: DateModelTestConfig, }, 
+		]);
 		/* TODO Pending fix of timezone issues which are causing Travis CI to fail
-		browser.adminUIInitialFormScreen.assertFieldInputs({
-			modelTestConfig: DateModelTestConfig,
-			fields: {
-				'name': {value: 'Date Field Test 1'},
-				'fieldA': {value: '2016-01-01'},
-			}
-		});
+		browser.adminUIInitialFormScreen.assertFieldInputs([
+			{ name: 'name', input: { value: 'Date Field Test 1' }, modelTestConfig: DateModelTestConfig, }, 
+			{ name: 'fieldA', input: { value: '2016-01-01' }, modelTestConfig: DateModelTestConfig, }, 
+		]);
 		*/
 		browser.adminUIInitialFormScreen.save();
 		browser.adminUIApp.waitForItemScreen();
-		/* TODO Pending fix of timezone issues which are causing Travis CI to fail
-		browser.adminUIItemScreen.assertFieldInputs({
-			modelTestConfig: DateModelTestConfig,
-			fields: {
-				'name': {value: 'Date Field Test 1'},
-				'fieldA': {value: '2016-01-01'},
-			}
-		})
-		*/
 	},
 	'Date field should show correctly in the edit form': function(browser) {
-		browser.adminUIItemScreen.assertFieldUIVisible({
-			modelTestConfig: DateModelTestConfig,
-			fields: [{name: 'fieldA'}, {name: 'fieldB'}]
-		});
+		browser.adminUIItemScreen.assertFieldUIVisible([
+			{ name: 'name', modelTestConfig: DateModelTestConfig, }, 
+			{ name: 'fieldA', modelTestConfig: DateModelTestConfig, }, 
+			{ name: 'fieldB', modelTestConfig: DateModelTestConfig, }, 
+		]);
+
+		/* TODO Pending fix of timezone issues which are causing Travis CI to fail
+		browser.adminUIItemScreen.assertFieldInputs([
+			{ name: 'name', input: { value: 'Date Field Test 1' }, modelTestConfig: DateModelTestConfig, }, 
+			{ name: 'fieldA', input: { value: '2016-01-01' }, modelTestConfig: DateModelTestConfig, }, 
+		]);
+		*/
 	},
 	'Date field can be filled via the edit form': function(browser) {
-		browser.adminUIItemScreen.fillFieldInputs({
-			modelTestConfig: DateModelTestConfig,
-			fields: {
-				'fieldB': {value: '2016-01-02'}
-			}
-		});
+		browser.adminUIItemScreen.fillFieldInputs([
+			{ name: 'fieldB', input: { value: '2016-01-02' }, modelTestConfig: DateModelTestConfig, }, 
+		]);
+
 		// Drop focus on the date field so the popup disappears.
 		browser.execute(function() {
 			document.activeElement.blur();
 		});
+
 		browser.adminUIItemScreen.save();
 		browser.adminUIApp.waitForItemScreen();
+
 		browser.adminUIItemScreen.assertFlashMessage('Your changes have been saved successfully');
+
 		/* TODO Pending fix of timezone issues which are causing Travis CI to fail
-		browser.adminUIItemScreen.assertFieldInputs({
-			modelTestConfig: DateModelTestConfig,
-			fields: {
-				'name': {value: 'Date Field Test 1'},
-				'fieldA': {value: '2016-01-01'},
-				'fieldB': {value: '2016-01-02'}
-			}
-		})
+		browser.adminUIItemScreen.assertFieldInputs([
+			{ name: 'name', input: { value: 'Date Field Test 1' }, modelTestConfig: DateModelTestConfig, }, 
+			{ name: 'fieldA', input: { value: '2016-01-01' }, modelTestConfig: DateModelTestConfig, }, 
+			{ name: 'fieldB', input: { value: '2016-01-02' }, modelTestConfig: DateModelTestConfig, }, 
+		]);
 		*/
 	},
 };
