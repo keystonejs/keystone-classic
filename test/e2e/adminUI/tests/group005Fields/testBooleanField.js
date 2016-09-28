@@ -1,8 +1,13 @@
 var fieldTests = require('./commonFieldTestUtils.js');
-var BooleanModelTestConfig = require('../../../modelTestConfig/BooleanModelTestConfig');
+var ModelTestConfig = require('../../../modelTestConfig/BooleanModelTestConfig');
 
 module.exports = {
-	before: fieldTests.before,
+	before: function (browser) {
+		fieldTests.before(browser);
+		browser.adminUIInitialFormScreen.setDefaultModelTestConfig(ModelTestConfig);
+		browser.adminUIItemScreen.setDefaultModelTestConfig(ModelTestConfig);
+		browser.adminUIListScreen.setDefaultModelTestConfig(ModelTestConfig);
+	},
 	after: fieldTests.after,
 	'Boolean field should show correctly in the initial modal': function (browser) {
 		browser.adminUIApp.openList({section: 'fields', list: 'boolean'});
@@ -11,8 +16,8 @@ module.exports = {
 		browser.adminUIApp.waitForInitialFormScreen();
 
 		browser.adminUIInitialFormScreen.assertFieldUIVisible([
-			{ name: 'name', modelTestConfig: BooleanModelTestConfig, }, 
-			{ name: 'fieldA', modelTestConfig: BooleanModelTestConfig, },
+			{ name: 'name', },
+			{ name: 'fieldA', },
 		]);
 	},
 	'restoring test state': function(browser) {
@@ -26,15 +31,15 @@ module.exports = {
 		browser.adminUIApp.waitForInitialFormScreen();
 
 		browser.adminUIInitialFormScreen.fillFieldInputs([
-			{ name: 'name', input: { value: 'Boolean Field Test 1' }, modelTestConfig: BooleanModelTestConfig, },
-			{ name: 'fieldA', input: { value: 'true' }, modelTestConfig: BooleanModelTestConfig, },
-			{ name: 'fieldD', input: { value: 'Test' }, modelTestConfig: BooleanModelTestConfig, },
+			{ name: 'name', input: { value: 'Boolean Field Test 1' }, },
+			{ name: 'fieldA', input: { value: 'true' }, },
+			{ name: 'fieldD', input: { value: 'Test' }, },
 		]);
 
 		browser.adminUIInitialFormScreen.assertFieldInputs([
-			{ name: 'name', input: { value: 'Boolean Field Test 1' }, modelTestConfig: BooleanModelTestConfig, },
-			{ name: 'fieldA', input: { value: 'true' }, modelTestConfig: BooleanModelTestConfig, },
-			{ name: 'fieldD', input: { value: 'Test' }, modelTestConfig: BooleanModelTestConfig, },
+			{ name: 'name', input: { value: 'Boolean Field Test 1' }, },
+			{ name: 'fieldA', input: { value: 'true' }, },
+			{ name: 'fieldD', input: { value: 'Test' }, },
 		]);
 
 		browser.adminUIInitialFormScreen.save();
@@ -42,25 +47,25 @@ module.exports = {
 	},
 	'Boolean field should show correctly in the edit form': function(browser) {
 		browser.adminUIItemScreen.assertFieldUIVisible([
-			{ name: 'name', modelTestConfig: BooleanModelTestConfig, }, 
-			{ name: 'fieldA', modelTestConfig: BooleanModelTestConfig, }, 
-			{ name: 'fieldB', modelTestConfig: BooleanModelTestConfig, },
+			{ name: 'name', },
+			{ name: 'fieldA', },
+			{ name: 'fieldB', },
 		]);
 
 		browser.adminUIItemScreen.assertFieldInputs([
-			{ name: 'name', input: { value: 'Boolean Field Test 1' }, modelTestConfig: BooleanModelTestConfig, },
-			{ name: 'fieldA', input: { value: 'true' }, modelTestConfig: BooleanModelTestConfig, },
-			{ name: 'fieldD', input: { value: 'Test' }, modelTestConfig: BooleanModelTestConfig, },
+			{ name: 'name', input: { value: 'Boolean Field Test 1' }, },
+			{ name: 'fieldA', input: { value: 'true' }, },
+			{ name: 'fieldD', input: { value: 'Test' }, },
 		]);
 	},
 	'Boolean field should have its default value if hidden': function(browser) {
 		browser.adminUIItemScreen.assertFieldUIVisible([
-			{ name: 'fieldD', modelTestConfig: BooleanModelTestConfig, },
+			{ name: 'fieldD', },
 		]);
 	},
 	'Boolean field can be filled via the edit form': function(browser) {
 		browser.adminUIItemScreen.fillFieldInputs([
-			{ name: 'fieldB', input: {value: 'false'}, modelTestConfig: BooleanModelTestConfig, }
+			{ name: 'fieldB', input: {value: 'false'}, }
 		]);
 
 		browser.adminUIItemScreen.save();
@@ -69,9 +74,9 @@ module.exports = {
 		browser.adminUIItemScreen.assertFlashMessage('Your changes have been saved successfully');
 
 		browser.adminUIItemScreen.assertFieldInputs([
-			{ name: 'name', input: { value: 'Boolean Field Test 1' }, modelTestConfig: BooleanModelTestConfig, },
-			{ name: 'fieldA', input: { value: 'true' }, modelTestConfig: BooleanModelTestConfig, },
-			{ name: 'fieldB', input: { value: 'false' }, modelTestConfig: BooleanModelTestConfig, },
+			{ name: 'name', input: { value: 'Boolean Field Test 1' }, },
+			{ name: 'fieldA', input: { value: 'true' }, },
+			{ name: 'fieldB', input: { value: 'false' }, },
 		])
 	},
 };

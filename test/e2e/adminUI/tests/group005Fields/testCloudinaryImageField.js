@@ -1,8 +1,13 @@
 var fieldTests = require('./commonFieldTestUtils.js');
-var CloudinaryImageModelTestConfig = require('../../../modelTestConfig/CloudinaryImageModelTestConfig');
+var ModelTestConfig = require('../../../modelTestConfig/CloudinaryImageModelTestConfig');
 
 module.exports = {
-	before: fieldTests.before,
+	before: function (browser) {
+		fieldTests.before(browser);
+		browser.adminUIInitialFormScreen.setDefaultModelTestConfig(ModelTestConfig);
+		browser.adminUIItemScreen.setDefaultModelTestConfig(ModelTestConfig);
+		browser.adminUIListScreen.setDefaultModelTestConfig(ModelTestConfig);
+	},
 	after: fieldTests.after,
 	'CloudinaryImage field should show correctly in the initial modal': function (browser) {
 		browser.adminUIApp.openList({section: 'fields', list: 'CloudinaryImage'});
@@ -11,7 +16,7 @@ module.exports = {
 		browser.adminUIApp.waitForInitialFormScreen();
 
 		browser.adminUIInitialFormScreen.assertFieldUIVisible([
-			{ name: 'name', modelTestConfig: CloudinaryImageModelTestConfig, },
+			{ name: 'name',},
 		]);
 
 		browser.adminUIInitialFormScreen.cancel();
@@ -24,11 +29,11 @@ module.exports = {
 		browser.adminUIApp.waitForInitialFormScreen();
 
 		browser.adminUIInitialFormScreen.fillFieldInputs([
-			{ name: 'name', input: { value: 'CloudinaryImage Field Test 1' }, modelTestConfig: CloudinaryImageModelTestConfig, },
+			{ name: 'name', input: { value: 'CloudinaryImage Field Test 1' },},
 		]);
 
 		browser.adminUIInitialFormScreen.assertFieldInputs([
-			{ name: 'name', input: { value: 'CloudinaryImage Field Test 1' }, modelTestConfig: CloudinaryImageModelTestConfig, },
+			{ name: 'name', input: { value: 'CloudinaryImage Field Test 1' },},
 		]);
 
 		browser.adminUIInitialFormScreen.save();
@@ -37,13 +42,13 @@ module.exports = {
 	},
 	'CloudinaryImage field should show correctly in the edit form': function(browser) {
 		browser.adminUIItemScreen.assertFieldUIVisible([
-			{ name: 'name', modelTestConfig: CloudinaryImageModelTestConfig, },
-			{ name: 'fieldA', modelTestConfig: CloudinaryImageModelTestConfig, },
-			{ name: 'fieldB', modelTestConfig: CloudinaryImageModelTestConfig, },
+			{ name: 'name',},
+			{ name: 'fieldA',},
+			{ name: 'fieldB',},
 		]);
 
 		browser.adminUIItemScreen.assertFieldInputs([
-			{ name: 'name', input: { value: 'CloudinaryImage Field Test 1' }, modelTestConfig: CloudinaryImageModelTestConfig, },
+			{ name: 'name', input: { value: 'CloudinaryImage Field Test 1' },},
 		]);
 	},
 };

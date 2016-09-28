@@ -1,8 +1,13 @@
 var fieldTests = require('./commonFieldTestUtils.js');
-var NumberModelTestConfig = require('../../../modelTestConfig/NumberModelTestConfig');
+var ModelTestConfig = require('../../../modelTestConfig/NumberModelTestConfig');
 
 module.exports = {
-	before: fieldTests.before,
+	before: function (browser) {
+		fieldTests.before(browser);
+		browser.adminUIInitialFormScreen.setDefaultModelTestConfig(ModelTestConfig);
+		browser.adminUIItemScreen.setDefaultModelTestConfig(ModelTestConfig);
+		browser.adminUIListScreen.setDefaultModelTestConfig(ModelTestConfig);
+	},
 	after: fieldTests.after,
 	'Number field should show correctly in the initial modal': function (browser) {
 		browser.adminUIApp.openList({section: 'fields', list: 'Number'});
@@ -11,8 +16,8 @@ module.exports = {
 		browser.adminUIApp.waitForInitialFormScreen();
 
 		browser.adminUIInitialFormScreen.assertFieldUIVisible([
-			{ name: 'name', modelTestConfig: NumberModelTestConfig, },
-			{ name: 'fieldA', modelTestConfig: NumberModelTestConfig, }
+			{ name: 'name',},
+			{ name: 'fieldA',}
 		]);
 
 		browser.adminUIInitialFormScreen.cancel();
@@ -25,12 +30,12 @@ module.exports = {
 		browser.adminUIApp.waitForInitialFormScreen();
 
 		browser.adminUIInitialFormScreen.fillFieldInputs([
-			{ name: 'name', input: { value: 'Number Field Test 1' }, modelTestConfig: NumberModelTestConfig },
-			{ name: 'fieldA', input: { value: '1' }, modelTestConfig: NumberModelTestConfig },
+			{ name: 'name', input: { value: 'Number Field Test 1' }, },
+			{ name: 'fieldA', input: { value: '1' }, },
 		]);
 		browser.adminUIInitialFormScreen.assertFieldInputs([
-			{ name: 'name', input: { value: 'Number Field Test 1' }, modelTestConfig: NumberModelTestConfig },
-			{ name: 'fieldA', input: { value: '1' }, modelTestConfig: NumberModelTestConfig },
+			{ name: 'name', input: { value: 'Number Field Test 1' }, },
+			{ name: 'fieldA', input: { value: '1' }, },
 		]);
 
 		browser.adminUIInitialFormScreen.save();
@@ -38,18 +43,18 @@ module.exports = {
 	},
 	'Number field should show correctly in the edit form': function(browser) {
 		browser.adminUIItemScreen.assertFieldUIVisible([
-			{ name: 'fieldA', modelTestConfig: NumberModelTestConfig, },
-			{ name: 'fieldB', modelTestConfig: NumberModelTestConfig, }
+			{ name: 'fieldA',},
+			{ name: 'fieldB',}
 		]);
 
 		browser.adminUIItemScreen.assertFieldInputs([
-			{ name: 'name', input: { value: 'Number Field Test 1' }, modelTestConfig: NumberModelTestConfig },
-			{ name: 'fieldA', input: { value: '1' }, modelTestConfig: NumberModelTestConfig },
+			{ name: 'name', input: { value: 'Number Field Test 1' }, },
+			{ name: 'fieldA', input: { value: '1' }, },
 		])
 	},
 	'Number field can be filled via the edit form': function(browser) {
 		browser.adminUIItemScreen.fillFieldInputs([
-			{ name: 'fieldB', input: { value: '2' }, modelTestConfig: NumberModelTestConfig },
+			{ name: 'fieldB', input: { value: '2' }, },
 		]);
 		browser.adminUIItemScreen.save();
 		browser.adminUIApp.waitForItemScreen();
@@ -57,9 +62,9 @@ module.exports = {
 		browser.adminUIItemScreen.assertFlashMessage('Your changes have been saved successfully');
 
 		browser.adminUIItemScreen.assertFieldInputs([
-			{ name: 'name', input: { value: 'Number Field Test 1' }, modelTestConfig: NumberModelTestConfig },
-			{ name: 'fieldA', input: { value: '1' }, modelTestConfig: NumberModelTestConfig },
-			{ name: 'fieldB', input: { value: '2' }, modelTestConfig: NumberModelTestConfig },
+			{ name: 'name', input: { value: 'Number Field Test 1' }, },
+			{ name: 'fieldA', input: { value: '1' }, },
+			{ name: 'fieldB', input: { value: '2' }, },
 		])
 	},
 };

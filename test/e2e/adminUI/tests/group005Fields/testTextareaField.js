@@ -1,8 +1,13 @@
 var fieldTests = require('./commonFieldTestUtils.js');
-var TextareaModelTestConfig = require('../../../modelTestConfig/TextareaModelTestConfig');
+var ModelTestConfig = require('../../../modelTestConfig/TextareaModelTestConfig');
 
 module.exports = {
-	before: fieldTests.before,
+	before: function (browser) {
+		fieldTests.before(browser);
+		browser.adminUIInitialFormScreen.setDefaultModelTestConfig(ModelTestConfig);
+		browser.adminUIItemScreen.setDefaultModelTestConfig(ModelTestConfig);
+		browser.adminUIListScreen.setDefaultModelTestConfig(ModelTestConfig);
+	},
 	after: fieldTests.after,
 	'Textarea field should show correctly in the initial modal': function (browser) {
 		browser.adminUIApp.openList({section: 'fields', list: 'Textarea'});
@@ -11,8 +16,8 @@ module.exports = {
 		browser.adminUIApp.waitForInitialFormScreen();
 
 		browser.adminUIInitialFormScreen.assertFieldUIVisible([
-			{ name: 'name', modelTestConfig: TextareaModelTestConfig, },
-			{ name: 'fieldA', modelTestConfig: TextareaModelTestConfig, }
+			{ name: 'name',},
+			{ name: 'fieldA',}
 		]);
 
 		browser.adminUIInitialFormScreen.cancel();
@@ -25,12 +30,12 @@ module.exports = {
 		browser.adminUIApp.waitForInitialFormScreen();
 
 		browser.adminUIInitialFormScreen.fillFieldInputs([
-			{ name: 'name', input: { value: 'Textarea Field Test 1' }, modelTestConfig: TextareaModelTestConfig },
-			{ name: 'fieldA', input: { value: 'Some test text for field A' }, modelTestConfig: TextareaModelTestConfig },
+			{ name: 'name', input: { value: 'Textarea Field Test 1' }, },
+			{ name: 'fieldA', input: { value: 'Some test text for field A' }, },
 		]);
 		browser.adminUIInitialFormScreen.assertFieldInputs([
-			{ name: 'name', input: { value: 'Textarea Field Test 1' }, modelTestConfig: TextareaModelTestConfig },
-			{ name: 'fieldA', input: { value: 'Some test text for field A' }, modelTestConfig: TextareaModelTestConfig },
+			{ name: 'name', input: { value: 'Textarea Field Test 1' }, },
+			{ name: 'fieldA', input: { value: 'Some test text for field A' }, },
 		]);
 
 		browser.adminUIInitialFormScreen.save();
@@ -38,18 +43,18 @@ module.exports = {
 	},
 	'Textarea field should show correctly in the edit form': function(browser) {
 		browser.adminUIItemScreen.assertFieldUIVisible([
-			{ name: 'fieldA', modelTestConfig: TextareaModelTestConfig, },
-			{ name: 'fieldB', modelTestConfig: TextareaModelTestConfig, }
+			{ name: 'fieldA',},
+			{ name: 'fieldB',}
 		]);
 
 		browser.adminUIItemScreen.assertFieldInputs([
-			{ name: 'name', input: { value: 'Textarea Field Test 1' }, modelTestConfig: TextareaModelTestConfig },
-			{ name: 'fieldA', input: { value: 'Some test text for field A' }, modelTestConfig: TextareaModelTestConfig },
+			{ name: 'name', input: { value: 'Textarea Field Test 1' }, },
+			{ name: 'fieldA', input: { value: 'Some test text for field A' }, },
 		])
 	},
 	'Textarea field can be filled via the edit form': function(browser) {
 		browser.adminUIItemScreen.fillFieldInputs([
-			{ name: 'fieldB', input: { value: 'Some test text for field B' }, modelTestConfig: TextareaModelTestConfig },
+			{ name: 'fieldB', input: { value: 'Some test text for field B' }, },
 		]);
 
 		browser.adminUIItemScreen.save();
@@ -58,9 +63,9 @@ module.exports = {
 		browser.adminUIItemScreen.assertFlashMessage('Your changes have been saved successfully');
 
 		browser.adminUIItemScreen.assertFieldInputs([
-			{ name: 'name', input: { value: 'Textarea Field Test 1' }, modelTestConfig: TextareaModelTestConfig },
-			{ name: 'fieldA', input: { value: 'Some test text for field A' }, modelTestConfig: TextareaModelTestConfig },
-			{ name: 'fieldB', input: { value: 'Some test text for field B' }, modelTestConfig: TextareaModelTestConfig },
+			{ name: 'name', input: { value: 'Textarea Field Test 1' }, },
+			{ name: 'fieldA', input: { value: 'Some test text for field A' }, },
+			{ name: 'fieldB', input: { value: 'Some test text for field B' }, },
 		])
 	},
 };

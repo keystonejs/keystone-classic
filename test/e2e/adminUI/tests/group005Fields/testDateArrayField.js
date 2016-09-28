@@ -1,8 +1,13 @@
 var fieldTests = require('./commonFieldTestUtils.js');
-var DateArrayModelTestConfig = require('../../../modelTestConfig/DateArrayModelTestConfig');
+var ModelTestConfig = require('../../../modelTestConfig/DateArrayModelTestConfig');
 
 module.exports = {
-	before: fieldTests.before,
+	before: function (browser) {
+		fieldTests.before(browser);
+		browser.adminUIInitialFormScreen.setDefaultModelTestConfig(ModelTestConfig);
+		browser.adminUIItemScreen.setDefaultModelTestConfig(ModelTestConfig);
+		browser.adminUIListScreen.setDefaultModelTestConfig(ModelTestConfig);
+	},
 	after: fieldTests.after,
 	'DateArray field should show correctly in the initial modal': function (browser) {
 		browser.adminUIApp.openList({section: 'fields', list: 'DateArray'});
@@ -11,7 +16,7 @@ module.exports = {
 		browser.adminUIApp.waitForInitialFormScreen();
 
 		browser.adminUIInitialFormScreen.assertFieldUIVisible([
-			{ name: 'name', modelTestConfig: DateArrayModelTestConfig, }, 
+			{ name: 'name',},
 		]);
 
 		browser.adminUIInitialFormScreen.cancel();
@@ -24,11 +29,11 @@ module.exports = {
 		browser.adminUIApp.waitForInitialFormScreen();
 
 		browser.adminUIInitialFormScreen.fillFieldInputs([
-			{ name: 'name', input: { value: 'DateArray Field Test 1' }, modelTestConfig: DateArrayModelTestConfig, }, 
+			{ name: 'name', input: { value: 'DateArray Field Test 1' },},
 		]);
 		/* TODO Pending fix of timezone issues which are causing Travis CI to fail
 		browser.adminUIInitialFormScreen.assertFieldInputs([
-			{ name: 'name', input: { value: 'DateArray Field Test 1' }, modelTestConfig: DateArrayModelTestConfig, }, 
+			{ name: 'name', input: { value: 'DateArray Field Test 1' },},
 		]);
 		*/
 
@@ -37,52 +42,52 @@ module.exports = {
 	},
 	'DateArray field should show correctly in the edit form': function(browser) {
 		browser.adminUIItemScreen.assertFieldUIVisible([
-			{ name: 'name', modelTestConfig: DateArrayModelTestConfig, }, 
-			{ name: 'fieldA', modelTestConfig: DateArrayModelTestConfig, }, 
-			{ name: 'fieldB', modelTestConfig: DateArrayModelTestConfig, }, 
+			{ name: 'name',},
+			{ name: 'fieldA',},
+			{ name: 'fieldB',},
 		]);
 
 		/* TODO Pending fix of timezone issues which are causing Travis CI to fail
 		browser.adminUIItemScreen.assertFieldInputs([
-			{ name: 'name', input: { value: 'DateArray Field Test 1' }, modelTestConfig: DateArrayModelTestConfig, }, 
+			{ name: 'name', input: { value: 'DateArray Field Test 1' },},
 		]);
 		*/
 
 		browser.adminUIItemScreen.clickFieldUI([
-			{ name: 'fieldA', click: 'addButton', modelTestConfig: DateArrayModelTestConfig, }, 
+			{ name: 'fieldA', click: 'addButton',},
 		]);
 
 		browser.adminUIItemScreen.assertFieldUIVisible([
-			{ name: 'fieldA', options: { 'dateInputs': ['date1'] }, modelTestConfig: DateArrayModelTestConfig, }, 
+			{ name: 'fieldA', options: { 'dateInputs': ['date1'] },},
 		]);
 
 		browser.adminUIItemScreen.clickFieldUI([
-			{ name: 'fieldA', click: 'addButton', modelTestConfig: DateArrayModelTestConfig, }, 
+			{ name: 'fieldA', click: 'addButton',},
 		]);
 
 		browser.adminUIItemScreen.assertFieldUIVisible([
-			{ name: 'fieldA', options: { 'dateInputs': ['date1', 'date2'] }, modelTestConfig: DateArrayModelTestConfig, }, 
+			{ name: 'fieldA', options: { 'dateInputs': ['date1', 'date2'] },},
 		]);
 
 		browser.adminUIItemScreen.clickFieldUI([
-			{ name: 'fieldB', click: 'addButton', modelTestConfig: DateArrayModelTestConfig, }, 
+			{ name: 'fieldB', click: 'addButton',},
 		]);
 
 		browser.adminUIItemScreen.clickFieldUI([
-			{ name: 'fieldB', click: 'addButton', modelTestConfig: DateArrayModelTestConfig, }, 
+			{ name: 'fieldB', click: 'addButton',},
 		]);
 
 		browser.adminUIItemScreen.assertFieldUIVisible([
-			{ name: 'fieldB', options: { 'dateInputs': ['date1', 'date2'] }, modelTestConfig: DateArrayModelTestConfig, }, 
+			{ name: 'fieldB', options: { 'dateInputs': ['date1', 'date2'] },},
 		]);
 	},
 	'DateArray field can be filled via the edit form': function(browser) {
 		browser.adminUIItemScreen.fillFieldInputs([
-			{ name: 'fieldA', input: {date1: '2016-01-01', date2: '2016-01-02'}, modelTestConfig: DateArrayModelTestConfig, }, 
+			{ name: 'fieldA', input: {date1: '2016-01-01', date2: '2016-01-02'},},
 		]);
 
 		browser.adminUIItemScreen.fillFieldInputs([
-			{ name: 'fieldB', input: {date1: '2016-01-03', date2: '2016-01-04'}, modelTestConfig: DateArrayModelTestConfig, }, 
+			{ name: 'fieldB', input: {date1: '2016-01-03', date2: '2016-01-04'},},
 		]);
 
 		// Drop focus on the date field so the popup disappears.
@@ -97,9 +102,9 @@ module.exports = {
 
 		/* TODO Pending fix of timezone issues which are causing Travis CI to fail
 		browser.adminUIItemScreen.assertFieldInputs([
-			{ name: 'name', input: { value: 'DateArray Field Test 1' }, modelTestConfig: DateArrayModelTestConfig, }, 
-			{ name: 'fieldB', input: { date1: '2016-01-01', date2: '2016-01-02' }, modelTestConfig: DateArrayModelTestConfig, }, 
-			{ name: 'fieldB', input: { date1: '2016-01-03', date2: '2016-01-04' }, modelTestConfig: DateArrayModelTestConfig, }, 
+			{ name: 'name', input: { value: 'DateArray Field Test 1' },},
+			{ name: 'fieldB', input: { date1: '2016-01-01', date2: '2016-01-02' },},
+			{ name: 'fieldB', input: { date1: '2016-01-03', date2: '2016-01-04' },},
 		]);
 		*/
 	},

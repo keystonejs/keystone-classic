@@ -1,8 +1,13 @@
 var fieldTests = require('./commonFieldTestUtils.js');
-var RelationshipModelTestConfig = require('../../../modelTestConfig/RelationshipModelTestConfig');
+var ModelTestConfig = require('../../../modelTestConfig/RelationshipModelTestConfig');
 
 module.exports = {
-	before: fieldTests.before,
+	before: function (browser) {
+		fieldTests.before(browser);
+		browser.adminUIInitialFormScreen.setDefaultModelTestConfig(ModelTestConfig);
+		browser.adminUIItemScreen.setDefaultModelTestConfig(ModelTestConfig);
+		browser.adminUIListScreen.setDefaultModelTestConfig(ModelTestConfig);
+	},
 	after: fieldTests.after,
 	'Relationship field should show correctly in the initial modal': function (browser) {
 		browser.adminUIApp.openList({section: 'fields', list: 'Relationship'});
@@ -11,8 +16,8 @@ module.exports = {
 		browser.adminUIApp.waitForInitialFormScreen();
 
 		browser.adminUIInitialFormScreen.assertFieldUIVisible([
-			{ name: 'name', modelTestConfig: RelationshipModelTestConfig, },
-			{ name: 'fieldA', modelTestConfig: RelationshipModelTestConfig, }
+			{ name: 'name',},
+			{ name: 'fieldA',}
 		]);
 
 		browser.adminUIInitialFormScreen.cancel();
@@ -25,12 +30,12 @@ module.exports = {
 		browser.adminUIApp.waitForInitialFormScreen();
 
 		browser.adminUIInitialFormScreen.fillFieldInputs([
-			{ name: 'name', input: { value: 'Relationship Field Test 1' }, modelTestConfig: RelationshipModelTestConfig },
-			{ name: 'fieldA', input: { option: 'option1' }, modelTestConfig: RelationshipModelTestConfig },
+			{ name: 'name', input: { value: 'Relationship Field Test 1' }, },
+			{ name: 'fieldA', input: { option: 'option1' }, },
 		]);
 		browser.adminUIInitialFormScreen.assertFieldInputs([
-			{ name: 'name', input: { value: 'Relationship Field Test 1' }, modelTestConfig: RelationshipModelTestConfig },
-			{ name: 'fieldA', input: { value: 'e2e member' }, modelTestConfig: RelationshipModelTestConfig },
+			{ name: 'name', input: { value: 'Relationship Field Test 1' }, },
+			{ name: 'fieldA', input: { value: 'e2e member' }, },
 		]);
 
 		browser.adminUIInitialFormScreen.save();
@@ -38,17 +43,17 @@ module.exports = {
 	},
 	'Relationship field should show correctly in the edit form': function(browser) {
 		browser.adminUIItemScreen.assertFieldUIVisible([
-			{ name: 'fieldB', modelTestConfig: RelationshipModelTestConfig, }
+			{ name: 'fieldB',}
 		]);
 
 		browser.adminUIItemScreen.assertFieldInputs([
-			{ name: 'name', input: { value: 'Relationship Field Test 1' }, modelTestConfig: RelationshipModelTestConfig },
-			{ name: 'fieldA', input: { value: 'e2e member' }, modelTestConfig: RelationshipModelTestConfig },
+			{ name: 'name', input: { value: 'Relationship Field Test 1' }, },
+			{ name: 'fieldA', input: { value: 'e2e member' }, },
 		])
 	},
 	'Relationship field can be filled via the edit form': function(browser) {
 		browser.adminUIItemScreen.fillFieldInputs([
-			{ name: 'fieldB', input: { option: 'option2' }, modelTestConfig: RelationshipModelTestConfig },
+			{ name: 'fieldB', input: { option: 'option2' }, },
 		]);
 
 		browser.adminUIItemScreen.save();
@@ -57,9 +62,9 @@ module.exports = {
 		browser.adminUIItemScreen.assertFlashMessage('Your changes have been saved successfully');
 
 		browser.adminUIItemScreen.assertFieldInputs([
-			{ name: 'name', input: { value: 'Relationship Field Test 1' }, modelTestConfig: RelationshipModelTestConfig },
-			{ name: 'fieldA', input: { value: 'e2e member' }, modelTestConfig: RelationshipModelTestConfig },
-			{ name: 'fieldB', input: { value: 'e2e user' }, modelTestConfig: RelationshipModelTestConfig },
+			{ name: 'name', input: { value: 'Relationship Field Test 1' }, },
+			{ name: 'fieldA', input: { value: 'e2e member' }, },
+			{ name: 'fieldB', input: { value: 'e2e user' }, },
 		])
 	},
 };

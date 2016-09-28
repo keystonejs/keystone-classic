@@ -1,4 +1,4 @@
-var UserModelTestConfig = require('../../../modelTestConfig/UserModelTestConfig');
+var ModelTestConfig = require('../../../modelTestConfig/UserModelTestConfig');
 
 module.exports = {
 	before: function (browser) {
@@ -8,6 +8,8 @@ module.exports = {
 		browser.adminUIItemScreen = browser.page.adminUIItemScreen();
 		browser.adminUIInitialFormScreen = browser.page.adminUIInitialForm();
 		browser.adminUIDeleteConfirmation = browser.page.adminUIDeleteConfirmation();
+
+		browser.adminUIListScreen.setDefaultModelTestConfig(ModelTestConfig);
 
 		browser.adminUIApp.gotoSigninScreen();
 
@@ -20,7 +22,7 @@ module.exports = {
 		browser.adminUIApp.openList({section: 'access', list: 'User'});
 
 		browser.adminUIListScreen.clickItemFieldValue([
-			{ row: 2, column: 2, name: 'name', modelTestConfig: UserModelTestConfig, }
+			{ row: 2, column: 2, name: 'name',}
 		]);
 
 		browser.adminUIApp.waitForItemScreen();

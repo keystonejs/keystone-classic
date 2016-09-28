@@ -1,4 +1,4 @@
-var UserModelTestConfig = require('../../../modelTestConfig/UserModelTestConfig');
+var ModelTestConfig = require('../../../modelTestConfig/UserModelTestConfig');
 
 module.exports = {
 	before: function (browser) {
@@ -8,6 +8,7 @@ module.exports = {
 		browser.adminUIItemScreen = browser.page.adminUIItemScreen();
 		browser.adminUIInitialFormScreen = browser.page.adminUIInitialForm();
 		browser.adminUIDeleteConfirmation = browser.page.adminUIDeleteConfirmation();
+		browser.adminUIListScreen.setDefaultModelTestConfig(ModelTestConfig);
 
 		browser.adminUIApp.gotoSigninScreen();
 
@@ -69,46 +70,46 @@ module.exports = {
 	},
 	'List screen user item must show a name': function (browser) {
 		browser.adminUIListScreen.assertItemFieldUIVisible([
-			{ row: 1, column: 2, name: 'name', modelTestConfig: UserModelTestConfig, },
-			{ row: 2, column: 2, name: 'name', modelTestConfig: UserModelTestConfig, },
+			{ row: 1, column: 2, name: 'name',},
+			{ row: 2, column: 2, name: 'name',},
 		]);
 
 		browser.adminUIListScreen.assertItemFieldValueEquals([
-			{ row: 1, column: 2, name: 'name', value: 'e2e member', modelTestConfig: UserModelTestConfig, },
-			{ row: 2, column: 2, name: 'name', value: 'e2e user', modelTestConfig: UserModelTestConfig, },
+			{ row: 1, column: 2, name: 'name', value: 'e2e member',},
+			{ row: 2, column: 2, name: 'name', value: 'e2e user',},
 		]);
 	},
 	'List screen user item must show an email': function (browser) {
 		browser.adminUIListScreen.assertItemFieldUIVisible([
-			{ row: 1, column: 3, name: 'email', modelTestConfig: UserModelTestConfig, },
-			{ row: 2, column: 3, name: 'email', modelTestConfig: UserModelTestConfig, },
+			{ row: 1, column: 3, name: 'email',},
+			{ row: 2, column: 3, name: 'email',},
 		]);
 
 		browser.adminUIListScreen.assertItemFieldValueEquals([
-			{ row: 1, column: 3, name: 'email', value: 'member@test.e2e', modelTestConfig: UserModelTestConfig, },
-			{ row: 2, column: 3, name: 'email', value: 'user@test.e2e', modelTestConfig: UserModelTestConfig, },
+			{ row: 1, column: 3, name: 'email', value: 'member@test.e2e',},
+			{ row: 2, column: 3, name: 'email', value: 'user@test.e2e',},
 		]);
 	},
 	'List screen user item must have a Is Admin column': function (browser) {
 		browser.adminUIListScreen.assertItemFieldUIVisible([
-			{ row: 1, column: 4, name: 'isAdmin', modelTestConfig: UserModelTestConfig, },
-			{ row: 2, column: 4, name: 'isAdmin', modelTestConfig: UserModelTestConfig, },
+			{ row: 1, column: 4, name: 'isAdmin',},
+			{ row: 2, column: 4, name: 'isAdmin',},
 		]);
 
 		browser.adminUIListScreen.assertItemFieldValueEquals([
-			{ row: 1, column: 4, name: 'isAdmin', value: 'false', modelTestConfig: UserModelTestConfig, },
-			{ row: 2, column: 4, name: 'isAdmin', value: 'true', modelTestConfig: UserModelTestConfig, },
+			{ row: 1, column: 4, name: 'isAdmin', value: 'false',},
+			{ row: 2, column: 4, name: 'isAdmin', value: 'true',},
 		]);
 	},
 	'List screen user item must have a Is Member column': function (browser) {
 		browser.adminUIListScreen.assertItemFieldUIVisible([
-			{ row: 1, column: 5, name: 'isMember', modelTestConfig: UserModelTestConfig, },
-			{ row: 2, column: 5, name: 'isMember', modelTestConfig: UserModelTestConfig, },
+			{ row: 1, column: 5, name: 'isMember',},
+			{ row: 2, column: 5, name: 'isMember',},
 		]);
 
 		browser.adminUIListScreen.assertItemFieldValueEquals([
-			{ row: 1, column: 5, name: 'isMember', value: 'true', modelTestConfig: UserModelTestConfig, },
-			{ row: 2, column: 5, name: 'isMember', value: 'false', modelTestConfig: UserModelTestConfig, },
+			{ row: 1, column: 5, name: 'isMember', value: 'true',},
+			{ row: 2, column: 5, name: 'isMember', value: 'false',},
 		]);
 	},
 };

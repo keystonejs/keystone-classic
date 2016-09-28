@@ -1,7 +1,7 @@
 // TODO:  Currently the tests here only fill in the name field of the user list form.  That's because the other
 //		  fields in the user list do not have corresponding page object support, yet.  When they do revisit filling
 //		  all the fields.
-var UserModelTestConfig = require('../../../modelTestConfig/UserModelTestConfig');
+var ModelTestConfig = require('../../../modelTestConfig/UserModelTestConfig');
 
 module.exports = {
 	before: function (browser) {
@@ -12,6 +12,10 @@ module.exports = {
 		browser.adminUIInitialFormScreen = browser.page.adminUIInitialForm();
 		browser.adminUIDeleteConfirmation = browser.page.adminUIDeleteConfirmation();
 		browser.adminUIResetConfirmationScreen = browser.page.adminUIResetConfirmation();
+
+		browser.adminUIListScreen.setDefaultModelTestConfig(ModelTestConfig);
+		browser.adminUIItemScreen.setDefaultModelTestConfig(ModelTestConfig);
+		browser.adminUIInitialFormScreen.setDefaultModelTestConfig(ModelTestConfig);
 
 		browser.adminUIApp.gotoSigninScreen();
 
@@ -24,7 +28,7 @@ module.exports = {
 		browser.adminUIApp.openList({section: 'access', list: 'User'});
 
 		browser.adminUIListScreen.clickItemFieldValue([
-			{ row: 2, column: 2, name: 'name', modelTestConfig: UserModelTestConfig, }
+			{ row: 2, column: 2, name: 'name',}
 		]);
 
 		browser.adminUIApp.waitForItemScreen();
@@ -39,11 +43,11 @@ module.exports = {
 		browser.adminUIApp.waitForInitialFormScreen();
 
 		browser.adminUIInitialFormScreen.fillFieldInputs([
-			{ name: 'name', input: { firstName: 'First 1', lastName: 'Last 1' }, modelTestConfig: UserModelTestConfig, },
+			{ name: 'name', input: { firstName: 'First 1', lastName: 'Last 1' },},
 		]);
 
 		browser.adminUIInitialFormScreen.assertFieldInputs([
-			{ name: 'name', input: { firstName: 'First 1', lastName: 'Last 1' }, modelTestConfig: UserModelTestConfig, },
+			{ name: 'name', input: { firstName: 'First 1', lastName: 'Last 1' },},
 		]);
 
 		browser.adminUIInitialFormScreen.save();
@@ -57,24 +61,24 @@ module.exports = {
 	},
 	'Item screen should allow saving an item with changes': function (browser) {
 		browser.adminUIItemScreen.fillFieldInputs([
-			{ name: 'name', input: { firstName: 'First 2', lastName: 'Last 2' }, modelTestConfig: UserModelTestConfig, },
+			{ name: 'name', input: { firstName: 'First 2', lastName: 'Last 2' },},
 		]);
-		
+
 		browser.adminUIItemScreen.assertFieldInputs([
-			{ name: 'name', input: { firstName: 'First 2', lastName: 'Last 2' }, modelTestConfig: UserModelTestConfig, },
+			{ name: 'name', input: { firstName: 'First 2', lastName: 'Last 2' },},
 		]);
-		
+
 		browser.adminUIItemScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 		browser.adminUIItemScreen.assertFlashMessage('Your changes have been saved successfully');
 	},
 	'Item screen should allow resetting an item with changes': function (browser) {
 		browser.adminUIItemScreen.fillFieldInputs([
-			{ name: 'name', input: { firstName: 'First 3', lastName: 'Last 3' }, modelTestConfig: UserModelTestConfig, },
+			{ name: 'name', input: { firstName: 'First 3', lastName: 'Last 3' },},
 		]);
 
 		browser.adminUIItemScreen.assertFieldInputs([
-			{ name: 'name', input: { firstName: 'First 3', lastName: 'Last 3' }, modelTestConfig: UserModelTestConfig, },
+			{ name: 'name', input: { firstName: 'First 3', lastName: 'Last 3' },},
 		]);
 
 		browser.adminUIItemScreen.reset();
@@ -83,7 +87,7 @@ module.exports = {
 		browser.adminUIApp.waitForItemScreen();
 
 		browser.adminUIItemScreen.assertFieldInputs([
-			{ name: 'name', input: { firstName: 'First 2', lastName: 'Last 2' }, modelTestConfig: UserModelTestConfig, },
+			{ name: 'name', input: { firstName: 'First 2', lastName: 'Last 2' },},
 		]);
 	},
 	'Item screen should allow deleting an item': function (browser) {

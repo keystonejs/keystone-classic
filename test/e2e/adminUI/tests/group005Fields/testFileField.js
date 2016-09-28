@@ -1,8 +1,13 @@
 var fieldTests = require('./commonFieldTestUtils.js');
-var FileModelTestConfig = require('../../../modelTestConfig/FileModelTestConfig');
+var ModelTestConfig = require('../../../modelTestConfig/FileModelTestConfig');
 
 module.exports = {
-	before: fieldTests.before,
+	before: function (browser) {
+		fieldTests.before(browser);
+		browser.adminUIInitialFormScreen.setDefaultModelTestConfig(ModelTestConfig);
+		browser.adminUIItemScreen.setDefaultModelTestConfig(ModelTestConfig);
+		browser.adminUIListScreen.setDefaultModelTestConfig(ModelTestConfig);
+	},
 	after: fieldTests.after,
 	'File field should show correctly in the initial modal': function (browser) {
 		browser.adminUIApp.openList({section: 'fields', list: 'File'});
@@ -11,7 +16,7 @@ module.exports = {
 		browser.adminUIApp.waitForInitialFormScreen();
 
 		browser.adminUIInitialFormScreen.assertFieldUIVisible([
-			{ name: 'name', modelTestConfig: FileModelTestConfig, }, 
+			{ name: 'name',},
 		]);
 
 		browser.adminUIInitialFormScreen.cancel();
@@ -24,10 +29,10 @@ module.exports = {
 		browser.adminUIApp.waitForInitialFormScreen();
 
 		browser.adminUIInitialFormScreen.fillFieldInputs([
-			{ name: 'name', input: { value: 'File Field Test 1' }, modelTestConfig: FileModelTestConfig, }, 
+			{ name: 'name', input: { value: 'File Field Test 1' },},
 		]);
 		browser.adminUIInitialFormScreen.assertFieldInputs([
-			{ name: 'name', input: { value: 'File Field Test 1' }, modelTestConfig: FileModelTestConfig, }, 
+			{ name: 'name', input: { value: 'File Field Test 1' },},
 		]);
 
 		browser.adminUIInitialFormScreen.save();
@@ -35,13 +40,13 @@ module.exports = {
 	},
 	'File field should show correctly in the edit form': function(browser) {
 		browser.adminUIItemScreen.assertFieldUIVisible([
-			{ name: 'name', modelTestConfig: FileModelTestConfig, }, 
-			{ name: 'fieldA', modelTestConfig: FileModelTestConfig, }, 
-			{ name: 'fieldB', modelTestConfig: FileModelTestConfig, }, 
+			{ name: 'name',},
+			{ name: 'fieldA',},
+			{ name: 'fieldB',},
 		]);
 
 		browser.adminUIItemScreen.assertFieldInputs([
-			{ name: 'name', input: { value: 'File Field Test 1' }, modelTestConfig: FileModelTestConfig, }, 
+			{ name: 'name', input: { value: 'File Field Test 1' },},
 		]);
 	},
 };

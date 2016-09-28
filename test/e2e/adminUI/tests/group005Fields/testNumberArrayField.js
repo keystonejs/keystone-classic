@@ -1,8 +1,13 @@
 var fieldTests = require('./commonFieldTestUtils.js');
-var NumberArrayModelTestConfig = require('../../../modelTestConfig/NumberArrayModelTestConfig');
+var ModelTestConfig = require('../../../modelTestConfig/NumberArrayModelTestConfig');
 
 module.exports = {
-	before: fieldTests.before,
+	before: function (browser) {
+		fieldTests.before(browser);
+		browser.adminUIInitialFormScreen.setDefaultModelTestConfig(ModelTestConfig);
+		browser.adminUIItemScreen.setDefaultModelTestConfig(ModelTestConfig);
+		browser.adminUIListScreen.setDefaultModelTestConfig(ModelTestConfig);
+	},
 	after: fieldTests.after,
 	'NumberArray field should show correctly in the initial modal': function (browser) {
 		browser.adminUIApp.openList({section: 'fields', list: 'NumberArray'});
@@ -11,7 +16,7 @@ module.exports = {
 		browser.adminUIApp.waitForInitialFormScreen();
 
 		browser.adminUIInitialFormScreen.assertFieldUIVisible([
-			{ name: 'name', modelTestConfig: NumberArrayModelTestConfig, }, 
+			{ name: 'name',},
 		]);
 
 		browser.adminUIInitialFormScreen.cancel();
@@ -24,11 +29,11 @@ module.exports = {
 		browser.adminUIApp.waitForInitialFormScreen();
 
 		browser.adminUIInitialFormScreen.fillFieldInputs([
-			{ name: 'name', input: { value: 'NumberArray Field Test 1' }, modelTestConfig: NumberArrayModelTestConfig, }, 
+			{ name: 'name', input: { value: 'NumberArray Field Test 1' },},
 		]);
 
 		browser.adminUIInitialFormScreen.assertFieldInputs([
-			{ name: 'name', input: { value: 'NumberArray Field Test 1' }, modelTestConfig: NumberArrayModelTestConfig, }, 
+			{ name: 'name', input: { value: 'NumberArray Field Test 1' },},
 		]);
 
 		browser.adminUIInitialFormScreen.save();
@@ -36,46 +41,46 @@ module.exports = {
 	},
 	'NumberArray field should show correctly in the edit form': function(browser) {
 		browser.adminUIItemScreen.assertFieldUIVisible([
-			{ name: 'name', modelTestConfig: NumberArrayModelTestConfig, }, 
-			{ name: 'fieldA', modelTestConfig: NumberArrayModelTestConfig, }, 
-			{ name: 'fieldB', modelTestConfig: NumberArrayModelTestConfig, }, 
+			{ name: 'name',},
+			{ name: 'fieldA',},
+			{ name: 'fieldB',},
 		]);
 
 		browser.adminUIItemScreen.assertFieldInputs([
-			{ name: 'name', input: { value: 'NumberArray Field Test 1' }, modelTestConfig: NumberArrayModelTestConfig, }, 
+			{ name: 'name', input: { value: 'NumberArray Field Test 1' },},
 		]);
 
 		browser.adminUIItemScreen.clickFieldUI([
-			{ name: 'fieldA', click: 'addButton', modelTestConfig: NumberArrayModelTestConfig, },
+			{ name: 'fieldA', click: 'addButton',},
 		]);
 
 		browser.adminUIItemScreen.assertFieldUIVisible([
-			{ name: 'fieldA', options: { 'numberInputs': ['number1'] }, modelTestConfig: NumberArrayModelTestConfig, }, 
+			{ name: 'fieldA', options: { 'numberInputs': ['number1'] },},
 		]);
 
 		browser.adminUIItemScreen.clickFieldUI([
-			{ name: 'fieldA', click: 'addButton', modelTestConfig: NumberArrayModelTestConfig, },
+			{ name: 'fieldA', click: 'addButton',},
 		]);
 
 		browser.adminUIItemScreen.assertFieldUIVisible([
-			{ name: 'fieldA', options: { 'numberInputs': ['number1', 'number2'] }, modelTestConfig: NumberArrayModelTestConfig, }, 
+			{ name: 'fieldA', options: { 'numberInputs': ['number1', 'number2'] },},
 		]);
 
 		browser.adminUIItemScreen.clickFieldUI([
-			{ name: 'fieldB', click: 'addButton', modelTestConfig: NumberArrayModelTestConfig, },
-			{ name: 'fieldB', click: 'addButton', modelTestConfig: NumberArrayModelTestConfig, },
+			{ name: 'fieldB', click: 'addButton',},
+			{ name: 'fieldB', click: 'addButton',},
 		]);
 
 		browser.adminUIItemScreen.assertFieldUIVisible([
-			{ name: 'fieldB', options: { 'numberInputs': ['number1', 'number2'] }, modelTestConfig: NumberArrayModelTestConfig, }, 
+			{ name: 'fieldB', options: { 'numberInputs': ['number1', 'number2'] },},
 		]);
 	},
 	'NumberArray field can be filled via the edit form': function(browser) {
 		browser.adminUIItemScreen.fillFieldInputs([
-			{ name: 'fieldA', input: { number1: '1', number2: '2' }, modelTestConfig: NumberArrayModelTestConfig, }, 
+			{ name: 'fieldA', input: { number1: '1', number2: '2' },},
 		]);
 		browser.adminUIItemScreen.fillFieldInputs([
-			{ name: 'fieldB', input: { number1: '3', number2: '4' }, modelTestConfig: NumberArrayModelTestConfig, }, 
+			{ name: 'fieldB', input: { number1: '3', number2: '4' },},
 		]);
 
 		browser.adminUIItemScreen.save();
@@ -84,9 +89,9 @@ module.exports = {
 		browser.adminUIItemScreen.assertFlashMessage('Your changes have been saved successfully');
 
 		browser.adminUIItemScreen.assertFieldInputs([
-			{ name: 'name', input: { value: 'NumberArray Field Test 1' }, modelTestConfig: NumberArrayModelTestConfig, }, 
-			{ name: 'fieldA', input: { number1: '1', number2: '2' }, modelTestConfig: NumberArrayModelTestConfig, }, 
-			{ name: 'fieldB', input: { number1: '3', number2: '4' }, modelTestConfig: NumberArrayModelTestConfig, }, 
+			{ name: 'name', input: { value: 'NumberArray Field Test 1' },},
+			{ name: 'fieldA', input: { number1: '1', number2: '2' },},
+			{ name: 'fieldB', input: { number1: '3', number2: '4' },},
 		]);
 	},
 };

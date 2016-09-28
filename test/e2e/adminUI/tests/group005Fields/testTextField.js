@@ -1,8 +1,13 @@
 var fieldTests = require('./commonFieldTestUtils.js');
-var TextModelTestConfig = require('../../../modelTestConfig/TextModelTestConfig');
+var ModelTestConfig = require('../../../modelTestConfig/TextModelTestConfig');
 
 module.exports = {
-	before: fieldTests.before,
+	before: function (browser) {
+		fieldTests.before(browser);
+		browser.adminUIInitialFormScreen.setDefaultModelTestConfig(ModelTestConfig);
+		browser.adminUIItemScreen.setDefaultModelTestConfig(ModelTestConfig);
+		browser.adminUIListScreen.setDefaultModelTestConfig(ModelTestConfig);
+	},
 	after: fieldTests.after,
 	'Text field should show correctly in the initial modal': function (browser) {
 		browser.adminUIApp.openList({section: 'fields', list: 'Text'});
@@ -11,8 +16,8 @@ module.exports = {
 		browser.adminUIApp.waitForInitialFormScreen();
 
 		browser.adminUIInitialFormScreen.assertFieldUIVisible([
-			{ name: 'name', modelTestConfig: TextModelTestConfig, },
-			{ name: 'fieldA', modelTestConfig: TextModelTestConfig, }
+			{ name: 'name',},
+			{ name: 'fieldA',}
 		]);
 
 		browser.adminUIInitialFormScreen.cancel();
@@ -25,12 +30,12 @@ module.exports = {
 		browser.adminUIApp.waitForInitialFormScreen();
 
 		browser.adminUIInitialFormScreen.fillFieldInputs([
-			{ name: 'name', input: { value: 'Text Field Test 1' }, modelTestConfig: TextModelTestConfig },
-			{ name: 'fieldA', input: { value: 'Some test text for field A' }, modelTestConfig: TextModelTestConfig },
+			{ name: 'name', input: { value: 'Text Field Test 1' }, },
+			{ name: 'fieldA', input: { value: 'Some test text for field A' }, },
 		]);
 		browser.adminUIInitialFormScreen.assertFieldInputs([
-			{ name: 'name', input: { value: 'Text Field Test 1' }, modelTestConfig: TextModelTestConfig },
-			{ name: 'fieldA', input: { value: 'Some test text for field A' }, modelTestConfig: TextModelTestConfig },
+			{ name: 'name', input: { value: 'Text Field Test 1' }, },
+			{ name: 'fieldA', input: { value: 'Some test text for field A' }, },
 		]);
 
 		browser.adminUIInitialFormScreen.save();
@@ -38,18 +43,18 @@ module.exports = {
 	},
 	'Text field should show correctly in the edit form': function(browser) {
 		browser.adminUIItemScreen.assertFieldUIVisible([
-			{ name: 'fieldA', modelTestConfig: TextModelTestConfig, },
-			{ name: 'fieldB', modelTestConfig: TextModelTestConfig, }
+			{ name: 'fieldA',},
+			{ name: 'fieldB',}
 		]);
 
 		browser.adminUIItemScreen.assertFieldInputs([
-			{ name: 'name', input: { value: 'Text Field Test 1' }, modelTestConfig: TextModelTestConfig },
-			{ name: 'fieldA', input: { value: 'Some test text for field A' }, modelTestConfig: TextModelTestConfig },
+			{ name: 'name', input: { value: 'Text Field Test 1' }, },
+			{ name: 'fieldA', input: { value: 'Some test text for field A' }, },
 		])
 	},
 	'Text field can be filled via the edit form': function(browser) {
 		browser.adminUIItemScreen.fillFieldInputs([
-			{ name: 'fieldB', input: { value: 'Some test text for field B' }, modelTestConfig: TextModelTestConfig },
+			{ name: 'fieldB', input: { value: 'Some test text for field B' }, },
 		]);
 		browser.adminUIItemScreen.save();
 		browser.adminUIApp.waitForItemScreen();
@@ -57,9 +62,9 @@ module.exports = {
 		browser.adminUIItemScreen.assertFlashMessage('Your changes have been saved successfully');
 
 		browser.adminUIItemScreen.assertFieldInputs([
-			{ name: 'name', input: { value: 'Text Field Test 1' }, modelTestConfig: TextModelTestConfig },
-			{ name: 'fieldA', input: { value: 'Some test text for field A' }, modelTestConfig: TextModelTestConfig },
-			{ name: 'fieldB', input: { value: 'Some test text for field B' }, modelTestConfig: TextModelTestConfig },
+			{ name: 'name', input: { value: 'Text Field Test 1' }, },
+			{ name: 'fieldA', input: { value: 'Some test text for field A' }, },
+			{ name: 'fieldB', input: { value: 'Some test text for field B' }, },
 		])
 	},
 };
