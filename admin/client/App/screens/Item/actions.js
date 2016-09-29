@@ -3,8 +3,11 @@ import {
 	LOAD_DATA,
 	DATA_LOADING_SUCCESS,
 	DATA_LOADING_ERROR,
-	DELETE_ITEM,
 } from './constants';
+
+import {
+	loadItems,
+} from '../List/actions';
 
 /**
  * Select an item
@@ -108,10 +111,7 @@ export function deleteItem (id, router) {
 			if (err) {
 				alert('Error deleting item, please try again!');
 			} else {
-				dispatch({
-					type: DELETE_ITEM,
-					id,
-				});
+				dispatch(loadItems());
 			}
 		});
 	};
