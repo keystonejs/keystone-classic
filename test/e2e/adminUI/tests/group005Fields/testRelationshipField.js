@@ -1,5 +1,6 @@
 var fieldTests = require('./commonFieldTestUtils.js');
 var ModelTestConfig = require('../../../modelTestConfig/RelationshipModelTestConfig');
+var UserModelTestConfig = require('../../../modelTestConfig/UserModelTestConfig');
 
 module.exports = {
 	before: function (browser) {
@@ -67,4 +68,15 @@ module.exports = {
 			{ name: 'fieldB', input: { value: 'e2e user' }, },
 		])
 	},
+	'Clicking on the relationship navigates to the relavent item': function (browser) {
+		browser.adminUIApp.openList({section: 'fields', list: 'Relationship'});
+		browser.adminUIApp.waitForListScreen();
+		browser.adminUIListScreen.clickItemFieldValue([
+			{ name: 'fieldA', row: 1, column: 3 }
+		]);
+		browser.adminUIApp.waitForItemScreen();
+		browser.adminUIItemScreen.assertFieldUIVisible([
+			{ name: 'name', modelTestConfig: UserModelTestConfig }
+		]);
+	}
 };
