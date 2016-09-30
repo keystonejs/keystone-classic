@@ -191,7 +191,7 @@ const ListView = React.createClass({
 		});
 	},
 	handleManagementSelect (selection) {
-		if (selection === 'all') this.checkAllTableItems();
+		if (selection === 'all') this.checkAllItems();
 		if (selection === 'none') this.uncheckAllTableItems();
 		if (selection === 'visible') this.checkAllTableItems();
 		return false;
@@ -209,7 +209,7 @@ const ListView = React.createClass({
 		);
 	},
 	renderManagement () {
-		const { checkedItems, manageMode } = this.state;
+		const { checkedItems, manageMode, selectAllItemsLoading } = this.state;
 		const { currentList } = this.props;
 
 		return (
@@ -223,6 +223,7 @@ const ListView = React.createClass({
 				itemsPerPage={this.props.lists.page.size}
 				nodelete={currentList.nodelete}
 				noedit={currentList.noedit}
+				selectAllItemsLoading={selectAllItemsLoading}
 			/>
 		);
 	},
@@ -326,6 +327,22 @@ const ListView = React.createClass({
 		});
 		this.setState({
 			checkedItems: checkedItems,
+		});
+	},
+	checkAllItems () {
+		const checkedItems = { ...this.state.checkedItems };
+		// Just in case this API call takes a long time, we'll update the select all button with
+		// a spinner.
+		this.setState({ selectAllItemsLoading: true });
+		var self = this;
+		this.props.currentList.loadItems({ expandRelationshipFilters: false, filters: {} }, function (err, data) {
+			data.results.forEach(item => {
+				checkedItems[item.id] = true;
+			});
+			self.setState({
+				checkedItems: checkedItems,
+				selectAllItemsLoading: false,
+			});
 		});
 	},
 	uncheckAllTableItems () {
