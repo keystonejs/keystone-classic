@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import Field from '../Field';
 import React from 'react';
 import tinymce from 'tinymce';
@@ -36,7 +35,7 @@ module.exports = Field.create({
 		return {
 			id: getId(),
 			isFocused: false,
-      wysiwygActive: false,
+			wysiwygActive: false,
 		};
 	},
 
@@ -55,34 +54,34 @@ module.exports = Field.create({
 
 		this._currentValue = this.props.value;
 		tinymce.init(opts);
-    this.setState({ wysiwygActive: true });
+		this.setState({ wysiwygActive: true });
 	},
 
-  removeWysiwyg (state) {
-    removeTinyMCEInstance(tinymce.get(state.id));
-    this.setState({ wysiwygActive: false });
-  },
+	removeWysiwyg (state) {
+		removeTinyMCEInstance(tinymce.get(state.id));
+		this.setState({ wysiwygActive: false });
+	},
 
 	componentDidUpdate (prevProps, prevState) {
 		if (prevState.isCollapsed && !this.state.isCollapsed) {
 			this.initWysiwyg();
 		}
-    
-    if (this.props.wysiwyg) {
-      if (evalDependsOn(this.props.dependsOn, this.props.values) ) {
-        if (!this.state.wysiwygActive) {
-          this.initWysiwyg();
-        }
-      } else if (this.state.wysiwygActive) {
-        this.removeWysiwyg(prevState);
-      }
-    }
+
+		if (this.props.wysiwyg) {
+			if (evalDependsOn(this.props.dependsOn, this.props.values)) {
+				if (!this.state.wysiwygActive) {
+					this.initWysiwyg();
+				}
+			} else if (this.state.wysiwygActive) {
+				this.removeWysiwyg(prevState);
+			}
+		}
 	},
 
 	componentDidMount () {
-    if (evalDependsOn(this.props.dependsOn, this.props.values)) {
-      this.initWysiwyg();
-    }
+		if (evalDependsOn(this.props.dependsOn, this.props.values)) {
+			this.initWysiwyg();
+		}
 	},
 
 	componentWillReceiveProps (nextProps) {
