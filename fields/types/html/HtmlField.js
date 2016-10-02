@@ -4,11 +4,6 @@ import tinymce from 'tinymce';
 import { FormInput } from 'elemental';
 import evalDependsOn from '../../utils/evalDependsOn';
 
-/**
- * TODO:
- * - Remove dependency on underscore
- */
-
 var lastId = 0;
 
 function getId () {
