@@ -3,6 +3,7 @@ import Field from '../Field';
 import React from 'react';
 import tinymce from 'tinymce';
 import { FormInput } from 'elemental';
+import evalDependsOn from '../../utils/evalDependsOn';
 
 /**
  * TODO:
@@ -35,6 +36,7 @@ module.exports = Field.create({
 		return {
 			id: getId(),
 			isFocused: false,
+      wysiwygActive: false,
 		};
 	},
 
@@ -53,29 +55,34 @@ module.exports = Field.create({
 
 		this._currentValue = this.props.value;
 		tinymce.init(opts);
+    this.setState({ wysiwygActive: true });
 	},
+
+  removeWysiwyg (state) {
+    removeTinyMCEInstance(tinymce.get(state.id));
+    this.setState({ wysiwygActive: false });
+  },
 
 	componentDidUpdate (prevProps, prevState) {
 		if (prevState.isCollapsed && !this.state.isCollapsed) {
 			this.initWysiwyg();
 		}
-
-		if (!_.isEqual(this.props.currentDependencies, prevProps.currentDependencies)) {
-			if (_.isEqual(prevProps.dependsOn, prevProps.currentDependencies)) {
-				var instance = tinymce.get(prevState.id);
-				if (instance) {
-					removeTinyMCEInstance(instance);
-				}
-			}
-
-			if (_.isEqual(this.props.dependsOn, this.props.currentDependencies)) {
-				this.initWysiwyg();
-			}
-		}
+    
+    if (this.props.wysiwyg) {
+      if (evalDependsOn(this.props.dependsOn, this.props.values) ) {
+        if (!this.state.wysiwygActive) {
+          this.initWysiwyg();
+        }
+      } else if (this.state.wysiwygActive) {
+        this.removeWysiwyg(prevState);
+      }
+    }
 	},
 
 	componentDidMount () {
-		this.initWysiwyg();
+    if (evalDependsOn(this.props.dependsOn, this.props.values)) {
+      this.initWysiwyg();
+    }
 	},
 
 	componentWillReceiveProps (nextProps) {
