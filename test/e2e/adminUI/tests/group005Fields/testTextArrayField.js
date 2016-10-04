@@ -84,7 +84,7 @@ module.exports = {
 		browser.adminUIItemScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 
-		browser.adminUIItemScreen.assertFlashMessage('Your changes have been saved successfully');
+		browser.adminUIItemScreen.assertElementTextEquals('flashMessage', 'Your changes have been saved successfully');
 
 		browser.adminUIItemScreen.assertFieldInputs([
 			{ name: 'fieldA', input: { text1: 'Test text 1', text2: 'Test text 2' }, },

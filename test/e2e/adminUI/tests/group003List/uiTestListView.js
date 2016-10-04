@@ -25,30 +25,30 @@ module.exports = {
 		browser.end();
 	},
 	'List screen must show a search bar': function (browser) {
-		browser.adminUIListScreen.assertSearchInputFieldVisible();
+		browser.adminUIListScreen.assertElementIsVisible('searchInputField');
 	},
 	'List screen must show a search field clear icon': function (browser) {
-		browser.adminUIListScreen.assertSearchInputClearIconVisible();
+		browser.adminUIListScreen.assertElementIsVisible('searchInputFieldClearIcon');
 	},
 	'List screen must show a filter input': function (browser) {
-		browser.adminUIListScreen.assertFilterDropDownVisible();
+		browser.adminUIListScreen.assertElementIsVisible('filterDropdown');
 	},
 	'List screen must show a column input': function (browser) {
-		browser.adminUIListScreen.assertColumnSelectionDropdownVisible();
+		browser.adminUIListScreen.assertElementIsVisible('columnSelectionDropdown');
 	},
 	'List screen must show a download input': function (browser) {
-		browser.adminUIListScreen.assertDownloadDropdownVisible();
+		browser.adminUIListScreen.assertElementIsVisible('downloadDropdown');
 	},
 	// TODO:  For some reason the expand table width input control does not show in saucelabs' Firefox 44...why?
 	//		It shows fine with local selenium server and Firefox 44.0.2
 	// 'List screen must show an expand table width input': function (browser) {
-	// 	browser.adminUIListScreen.assertExpandTableWidthInputVisible();
+	// 	browser.adminUIListScreen.assertElementIsVisible('expandTableIcon');
 	// },
 	'List screen must show a create list item button': function (browser) {
-		browser.adminUIListScreen.assertCreateMoreItemsButtonVisible();
+		browser.adminUIListScreen.assertElementIsVisible('createItemButton');
 	},
 	'List screen must show a page item count': function (browser) {
-		browser.adminUIListScreen.assertPageItemCountTextVisible();
+		browser.adminUIListScreen.assertElementIsVisible('pageItemCount');
 	},
 	'List screen must show a name column header': function (browser) {
 		browser.adminUIListScreen.assertItemListHeaderVisible({ column: 1 });

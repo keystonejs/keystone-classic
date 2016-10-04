@@ -102,11 +102,11 @@ module.exports = {
 			.click('@nameListSubmenu')
 			.waitForListScreen();
 
-		browser.adminUIListScreen
-			.click('@singleItemDeleteIcon');
+		browser.adminUIListScreen.clickDeleteItemIcon([
+			{ row: 1, column: 1 }
+		])
 
-		browser.adminUIDeleteConfirmation
-			.waitForElementVisible('@deleteButton');
+		browser.adminUIApp.waitForDeleteConfirmationScreen();
 
 		browser.adminUIDeleteConfirmation
 			.click('@deleteButton');
