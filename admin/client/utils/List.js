@@ -96,7 +96,7 @@ List.prototype.createItem = function (formData, callback) {
 		url: `${Keystone.adminPath}/api/${this.path}/create`,
 		responseType: 'json',
 		method: 'POST',
-		headers: Keystone.csrf.header,
+		headers: assign({}, Keystone.csrf.header),
 		body: formData,
 	}, (err, resp, data) => {
 		if (err) callback(err);
@@ -124,7 +124,7 @@ List.prototype.updateItem = function (id, formData, callback) {
 		url: `${Keystone.adminPath}/api/${this.path}/${id}`,
 		responseType: 'json',
 		method: 'POST',
-		headers: Keystone.csrf.header,
+		headers: assign({}, Keystone.csrf.header),
 		body: formData,
 	}, (err, resp, data) => {
 		if (err) return callback(err);
@@ -309,7 +309,7 @@ List.prototype.deleteItems = function (itemIds, callback) {
 	xhr({
 		url: url,
 		method: 'POST',
-		headers: Keystone.csrf.header,
+		headers: assign({}, Keystone.csrf.header),
 		json: {
 			ids: itemIds,
 		},
@@ -329,7 +329,7 @@ List.prototype.reorderItems = function (item, oldSortOrder, newSortOrder, pageOp
 	xhr({
 		url: url,
 		method: 'POST',
-		headers: Keystone.csrf.header,
+		headers: assign({}, Keystone.csrf.header),
 	}, (err, resp, body) => {
 		if (err) return callback(err);
 		try {
