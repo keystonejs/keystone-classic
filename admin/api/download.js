@@ -1,12 +1,13 @@
 var _ = require('underscore');
 var async = require('async');
 var baby = require('babyparse');
-var keystone = require('../../');
 var moment = require('moment');
 
 var FN_ARGS = /^function\s*[^\(]*\(\s*([^\)]*)\)/m;
 
 exports = module.exports = function(req, res) {
+
+	var keystone = req.keystone;
 
 	var filters = req.list.processFilters(req.query.q);
 	var queryFilters = req.list.getSearchFilters(req.query.search, filters);

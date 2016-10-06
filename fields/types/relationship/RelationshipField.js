@@ -117,10 +117,17 @@ module.exports = Field.create({
 	},
 
 	buildOptionQuery: function (input) {
-		return 'context=relationship&q=' + input +
+		var value = '';
+		if(typeof input === 'string' && input.length) {
+			value = input;
+		}else if(typeof input === 'object' && input[0] && input[0].value) {
+			value = input[0].value;
+		}
+		var filters = this.buildFilters();
+		return 'context=relationship&q=' + value +
 				'&list=' + Keystone.list.path +
 				'&field=' + this.props.path +
-				'&' + this.buildFilters();
+				(filters ? '&' + filters : '');
 	},
 
 	getOptions: function(input, callback) {

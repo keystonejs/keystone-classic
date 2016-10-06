@@ -1,9 +1,10 @@
-var keystone = require('../../../');
 var session = require('../../../lib/session');
 var url = require('url');
 
 exports = module.exports = function(req, res) {
 
+	var keystone = req.keystone;
+	
 	function renderView() {
 		keystone.render(req, res, 'signin', {
 			submitted: req.body,
