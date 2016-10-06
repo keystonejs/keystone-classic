@@ -57,7 +57,7 @@ module.exports = {
 	'Item screen should allow saving an item without changes': function (browser) {
 		browser.adminUIItemScreen.save();
 
-		browser.adminUIItemScreen.assertFlashMessage('Your changes have been saved successfully');
+		browser.adminUIItemScreen.assertElementTextEquals('flashMessage', 'Your changes have been saved successfully');
 	},
 	'Item screen should allow saving an item with changes': function (browser) {
 		browser.adminUIItemScreen.fillFieldInputs([
@@ -70,7 +70,7 @@ module.exports = {
 
 		browser.adminUIItemScreen.save();
 		browser.adminUIApp.waitForItemScreen();
-		browser.adminUIItemScreen.assertFlashMessage('Your changes have been saved successfully');
+		browser.adminUIItemScreen.assertElementTextEquals('flashMessage', 'Your changes have been saved successfully');
 	},
 	'Item screen should allow resetting an item with changes': function (browser) {
 		browser.adminUIItemScreen.fillFieldInputs([
