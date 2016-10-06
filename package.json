@@ -54,7 +54,7 @@
     "less-middleware": "2.2.0",
     "letsencrypt-express": "2.0.3",
     "list-to-array": "1.1.0",
-    "lodash": "4.16.3",
+    "lodash": "4.16.4",
     "marked": "0.3.6",
     "method-override": "2.3.6",
     "mime-types": "2.1.12",
