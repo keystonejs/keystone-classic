@@ -130,7 +130,6 @@ var HomeView = React.createClass({
 	renderOrphanedLists () {
 		const {user_abilities} = this.props;
 		const visibles = Keystone.orphanedLists.filter(({key}) => (user_abilities.indexOf(key) !== -1 ));
-		console.log(visibles);
 		if (!visibles.length) return;
 		let sectionLabel = 'Other';
 		return (

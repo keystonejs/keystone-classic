@@ -227,8 +227,23 @@ var EditForm = React.createClass({
 	},
 	renderFormElements () {
 		var headings = 0;
+		const {isAdmin} = Keystone.user;
 
-		return this.props.list.uiElements.map((el) => {
+		return this.props.list.uiElements.filter((el) =>{
+			if (isAdmin) {
+				return true;
+			} else {
+				if (el.type === 'heading' && el.content == "Permissions") {
+					return false;
+				}
+
+				if (el.type === 'field' && el.field == "isAdmin") {
+					return false;
+				}
+
+				return true;
+			}
+		}).map((el) => {
 			if (el.type === 'heading') {
 				headings++;
 				el.options.values = this.state.values;
