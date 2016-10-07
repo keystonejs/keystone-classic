@@ -25,8 +25,8 @@ function InlineGroupSection ({
 		aphroditeStyles: [
 			classes.contiguous,
 			classes['contiguous__' + position],
-			!!active && classes.active,
-			!!grow && classes.grow,
+			active ? classes.active : null,
+			grow ? classes.grow : null,
 			aphroditeStyles,
 		],
 		...props,

@@ -1,7 +1,6 @@
 import { css, StyleSheet } from 'aphrodite/no-important';
 import React, { Component, PropTypes } from 'react';
 import styles from './styles';
-import concatClassnames from '../../../utils/concatClassnames';
 
 const commonClasses = StyleSheet.create(styles.common);
 const stylesheetCache = {};
@@ -44,7 +43,7 @@ class Button extends Component {
 			block ? commonClasses.block : null,
 			disabled ? commonClasses.disabled : null,
 			active ? variantClasses.active : null,
-			...concatClassnames(aphroditeStyles)
+			...aphroditeStyles
 		);
 		if (className) {
 			props.className += (' ' + className);
@@ -63,17 +62,12 @@ class Button extends Component {
 	}
 };
 
-const stylesShape = {
-	_definition: PropTypes.object,
-	_name: PropTypes.string,
-};
-
 Button.propTypes = {
 	active: PropTypes.bool,
-	aphroditeStyles: PropTypes.oneOfType([
-		PropTypes.arrayOf(PropTypes.shape(stylesShape)),
-		PropTypes.shape(stylesShape),
-	]),
+	aphroditeStyles: PropTypes.arrayOf(PropTypes.shape({
+		_definition: PropTypes.object,
+		_name: PropTypes.string,
+	})),
 	block: PropTypes.bool,
 	color: PropTypes.oneOf(BUTTON_COLORS),
 	component: PropTypes.oneOfType([
@@ -86,6 +80,7 @@ Button.propTypes = {
 	variant: PropTypes.oneOf(BUTTON_VARIANTS),
 };
 Button.defaultProps = {
+	aphroditeStyles: [],
 	color: 'default',
 	variant: 'fill',
 };
