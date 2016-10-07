@@ -46,6 +46,8 @@ module.exports = function createDynamicRouter (keystone) {
 
 	// #3: Home route
 	router.get('/', require('../routes/index'));
+	// user abilities
+	router.all('/api/user_abilities', require('../api/user_abilities'));
 
 	// #4: Cloudinary and S3 specific APIs
 	// TODO: poor separation of concerns; should / could this happen elsewhere?

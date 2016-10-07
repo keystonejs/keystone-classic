@@ -12,6 +12,7 @@ import ListTile from './components/ListTile';
 import AlertMessages from '../../shared/AlertMessages';
 import {
 	loadCounts,
+	loadUserAbilities
 } from './actions';
 
 var HomeView = React.createClass({
@@ -20,6 +21,7 @@ var HomeView = React.createClass({
 	// from the API
 	componentDidMount () {
 		this.props.dispatch(loadCounts());
+		this.props.dispatch(loadUserAbilities());
 	},
 	// Certain section name have an icon associated with the for a nicer view
 	getHeadingIconClasses (navSectionKey) {
@@ -64,7 +66,10 @@ var HomeView = React.createClass({
 	},
 	renderFlatNav () {
 		var keys = Object.keys(Keystone.lists);
-		const lists = keys.map((key) => {
+		const {user_abilities} = this.props;
+		const lists = keys.filter((key) => {
+			return user_abilities.indexOf(key) !== -1;
+		}).map((key) => {
 			var list = Keystone.lists[key];
 			var href = list.external ? list.path : `${Keystone.adminPath}/${list.path}`;
 			return (
@@ -81,9 +86,19 @@ var HomeView = React.createClass({
 		return <div className="dashboard-group__lists">{lists}</div>;
 	},
 	renderGroupedNav () {
+		const {user_abilities} = this.props;
 		return (
 			<div>
-				{Keystone.nav.sections.map((navSection) => {
+				{Keystone.nav.sections.map((section) => {
+					const lists = section.lists.filter((l) => {
+						return user_abilities.indexOf(l.key) !== -1;
+					});
+					return Object.assign({}, section, {
+						lists
+					});
+				}).filter((section) => {
+					return section.lists.length > 0
+				}).map((navSection) => {
 					return (
 						<div className="dashboard-group" key={navSection.key} data-section-label={navSection.label}>
 							<div className="dashboard-group__heading">
@@ -113,7 +128,10 @@ var HomeView = React.createClass({
 		);
 	},
 	renderOrphanedLists () {
-		if (!Keystone.orphanedLists.length) return;
+		const {user_abilities} = this.props;
+		const visibles = Keystone.orphanedLists.filter(({key}) => (user_abilities.indexOf(key) !== -1 ));
+		console.log(visibles);
+		if (!visibles.length) return;
 		let sectionLabel = 'Other';
 		return (
 			<div className="dashboard-group" data-section-label={sectionLabel}>
@@ -122,7 +140,7 @@ var HomeView = React.createClass({
 					{sectionLabel}
 				</div>
 				<div className="dashboard-group__lists">
-					{Keystone.orphanedLists.map((list) => {
+					{visibles.map((list) => {
 						var href = list.external ? list.path : `${Keystone.adminPath}/${list.path}`;
 						return (
 							<ListTile
@@ -164,4 +182,5 @@ module.exports = connect((state) => ({
 	counts: state.home.counts,
 	loading: state.home.loading,
 	error: state.home.error,
+	user_abilities: state.home.user_abilities
 }))(HomeView);
