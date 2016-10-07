@@ -97,6 +97,7 @@
   "devDependencies": {
     "browserify-middleware": "7.1.0",
     "codeclimate-test-reporter": "0.4.0",
+    "connect-mongo": "^1.3.2",
     "core-assert": "0.2.1",
     "disc": "1.3.2",
     "enzyme": "2.4.1",
