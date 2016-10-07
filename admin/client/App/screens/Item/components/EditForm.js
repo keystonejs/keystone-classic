@@ -92,41 +92,22 @@ var EditForm = React.createClass({
 		values[event.path] = event.value;
 		this.setState({ values });
 	},
-	confirmReset (event) {
-		const confirmationDialog = (
-			<ConfirmationDialog
-				confirmationLabel="Reset"
-				isOpen
-				onCancel={this.removeConfirmationDialog}
-				onConfirmation={this.handleReset}
-			>
-				<p>Reset your changes to <strong>{this.props.data.name}</strong>?</p>
-			</ConfirmationDialog>
-		);
-		event.preventDefault();
-		this.setState({ confirmationDialog });
+
+	toggleDeleteDialog () {
+		this.setState({
+			deleteDialogIsOpen: !this.state.deleteDialogIsOpen,
+		});
+	},
+	toggleResetDialog () {
+		this.setState({
+			resetDialogIsOpen: !this.state.resetDialogIsOpen,
+		});
 	},
 	handleReset () {
 		this.setState({
 			values: assign({}, this.state.lastValues || this.props.data.fields),
-			confirmationDialog: null,
+			resetDialogIsOpen: false,
 		});
-	},
-	confirmDelete () {
-		const confirmationDialog = (
-			<ConfirmationDialog
-				confirmationLabel="Delete"
-				isOpen
-				onCancel={this.removeConfirmationDialog}
-				onConfirmation={this.handleDelete}
-			>
-				Are you sure you want to delete <strong>{this.props.data.name}?</strong>
-				<br />
-				<br />
-				This cannot be undone.
-			</ConfirmationDialog>
-		);
-		this.setState({ confirmationDialog });
 	},
 	handleDelete () {
 		const { data } = this.props;
@@ -293,14 +274,14 @@ var EditForm = React.createClass({
 					>
 						{loadingButtonText}
 					</LoadingButton>
-					<Button disabled={loading} onClick={this.confirmReset} variant="link" color="cancel" data-button="reset">
+					<Button disabled={loading} onClick={this.toggleResetDialog} variant="link" color="cancel" data-button="reset">
 						<ResponsiveText
 							hiddenXS="reset changes"
 							visibleXS="reset"
 						/>
 					</Button>
 					{!this.props.list.nodelete && (
-						<Button disabled={loading} onClick={this.confirmDelete} variant="link" color="delete" style={styles.deleteButton} data-button="delete">
+						<Button disabled={loading} onClick={this.toggleDeleteDialog} variant="link" color="delete" style={styles.deleteButton} data-button="delete">
 							<ResponsiveText
 								hiddenXS={`delete ${this.props.list.singular.toLowerCase()}`}
 								visibleXS="delete"
@@ -395,7 +376,25 @@ var EditForm = React.createClass({
 					<Grid.Col large="one-quarter"><span /></Grid.Col>
 				</Grid.Row>
 				{this.renderFooterBar()}
-				{this.state.confirmationDialog}
+				<ConfirmationDialog
+					confirmationLabel="Reset"
+					isOpen={this.state.resetDialogIsOpen}
+					onCancel={this.toggleResetDialog}
+					onConfirmation={this.handleReset}
+				>
+					<p>Reset your changes to <strong>{this.props.data.name}</strong>?</p>
+				</ConfirmationDialog>
+				<ConfirmationDialog
+					confirmationLabel="Delete"
+					isOpen={this.state.deleteDialogIsOpen}
+					onCancel={this.toggleDeleteDialog}
+					onConfirmation={this.handleDelete}
+				>
+					Are you sure you want to delete <strong>{this.props.data.name}?</strong>
+					<br />
+					<br />
+					This cannot be undone.
+				</ConfirmationDialog>
 			</form>
 		);
 	},
