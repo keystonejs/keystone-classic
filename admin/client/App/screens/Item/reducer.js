@@ -7,6 +7,7 @@ import {
 	LOAD_DATA,
 	DATA_LOADING_SUCCESS,
 	DATA_LOADING_ERROR,
+	LOAD_RELATIONSHIP_DATA,
 } from './constants';
 
 const initialState = {
@@ -15,6 +16,7 @@ const initialState = {
 	loading: false,
 	ready: false,
 	error: null,
+	relationshipData: {},
 };
 
 function item (state = initialState, action) {
@@ -42,6 +44,13 @@ function item (state = initialState, action) {
 				loading: false,
 				ready: true,
 				error: action.error,
+			});
+		case LOAD_RELATIONSHIP_DATA:
+			return assign({}, state, {
+				relationshipData: {
+					...state.relationshipData,
+					[action.relationshipPath]: action.data,
+				},
 			});
 		default:
 			return state;
