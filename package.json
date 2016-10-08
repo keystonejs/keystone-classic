@@ -54,7 +54,7 @@
     "less-middleware": "2.2.0",
     "letsencrypt-express": "2.0.3",
     "list-to-array": "1.1.0",
-    "lodash": "4.16.3",
+    "lodash": "4.16.4",
     "marked": "0.3.6",
     "method-override": "2.3.6",
     "mime-types": "2.1.12",
@@ -71,7 +71,7 @@
     "react-addons-css-transition-group": "15.3.2",
     "react-alt-text": "2.0.0",
     "react-color": "2.3.2",
-    "react-day-picker": "2.4.1",
+    "react-day-picker": "2.5.0",
     "react-dnd": "2.1.4",
     "react-dnd-html5-backend": "2.1.2",
     "react-dom": "15.3.2",
@@ -97,6 +97,7 @@
   "devDependencies": {
     "browserify-middleware": "7.1.0",
     "codeclimate-test-reporter": "0.4.0",
+    "connect-mongo": "^1.3.2",
     "core-assert": "0.2.1",
     "disc": "1.3.2",
     "enzyme": "2.4.1",
@@ -105,7 +106,7 @@
     "eslint-plugin-react": "5.2.2",
     "istanbul": "0.4.5",
     "keystone-email": "1.0.5",
-    "keystone-nightwatch-e2e": "^0.1.9",
+    "keystone-nightwatch-e2e": "^0.1.10",
     "mocha": "3.1.0",
     "must": "0.13.2",
     "proxyquire": "1.7.10",
@@ -117,7 +118,7 @@
     "supertest": "1.2.0",
     "uglify-js": "2.7.3",
     "updtr": "0.2.1",
-    "watch": "0.19.2"
+    "watch": "0.19.3"
   },
   "browserify": {
     "transform": [

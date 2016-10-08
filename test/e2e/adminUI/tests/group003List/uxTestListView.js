@@ -43,7 +43,7 @@ module.exports = {
 
 		browser.adminUIApp.openList({section: 'fields', list: 'Name'});
 
-		browser.adminUIListScreen.assertPageItemCountTextEquals('Showing 1 Name');
+		browser.adminUIListScreen.assertElementTextEquals('pageItemCount', 'Showing 1 Name');
 
 		browser.adminUIListScreen.assertItemFieldValueEquals([
 			{ row: 1, column: 2, name: 'name', value: 'Name Field Test 1', }
@@ -69,7 +69,7 @@ module.exports = {
 
 		browser.adminUIApp.openList({section: 'fields', list: 'Name'});
 
-		browser.adminUIListScreen.assertPageItemCountTextEquals('Showing 2 Names');
+		browser.adminUIListScreen.assertElementTextEquals('pageItemCount','Showing 2 Names');
 
 		browser.adminUIListScreen.assertItemFieldValueEquals([
 			{ row: 1, column: 2, name: 'name', value: 'Name Field Test 1',},
@@ -108,7 +108,7 @@ module.exports = {
 
 		browser.adminUIApp.waitForListScreen();
 
-		browser.adminUIListScreen.assertPageItemCountTextEquals('Showing 1 Name');
+		browser.adminUIListScreen.assertElementTextEquals('pageItemCount', 'Showing 1 Name');
 
 		browser.adminUIListScreen.assertItemFieldValueEquals([
 			{ row: 1, column: 2, name: 'name', value: 'Name Field Test 2',},
@@ -119,7 +119,7 @@ module.exports = {
 
 		browser.adminUIApp.waitForListScreen();
 
-		browser.adminUIListScreen.assertPageItemCountTextEquals('Showing 2 Names');
+		browser.adminUIListScreen.assertElementTextEquals('pageItemCount', 'Showing 2 Names');
 
 		browser.adminUIListScreen.assertItemFieldValueEquals([
 			{ row: 1, column: 2, name: 'name', value: 'Name Field Test 1',},
@@ -138,7 +138,7 @@ module.exports = {
 
 		browser.adminUIApp.waitForListScreen();
 
-		browser.adminUIListScreen.assertPageItemCountTextEquals('Showing 1 Name');
+		browser.adminUIListScreen.assertElementTextEquals('pageItemCount', 'Showing 1 Name');
 
 		browser.adminUIListScreen.assertItemFieldValueEquals([
 			{ row: 1, column: 2, name: 'name', value: 'Name Field Test 2',},
@@ -158,7 +158,7 @@ module.exports = {
 
 		browser.adminUIApp.waitForListScreen();
 
-		browser.adminUIListScreen.assertNoItemsFoundTextEquals('No names found…');
+		browser.adminUIListScreen.assertElementTextEquals('noItemsFoundText', 'No names found…');
 	},
 
 	// UNDO ANY STATE CHANGES -- THIS TEST SHOULD RUN LAST

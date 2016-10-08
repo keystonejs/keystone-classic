@@ -98,7 +98,7 @@ module.exports = {
 		browser.adminUIItemScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 
-		browser.adminUIItemScreen.assertFlashMessage('Your changes have been saved successfully');
+		browser.adminUIItemScreen.assertElementTextEquals('flashMessage', 'Your changes have been saved successfully');
 
 		/* TODO Pending fix of timezone issues which are causing Travis CI to fail
 		browser.adminUIItemScreen.assertFieldInputs([
