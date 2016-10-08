@@ -4,7 +4,6 @@ module.exports = {
 		browser.adminUISigninScreen = browser.page.adminUISignin();
 
 		browser.adminUIApp.gotoSigninScreen();
-		browser.adminUIApp.waitForSigninScreen();
 	},
 	after: function (browser) {
 		browser.end();
