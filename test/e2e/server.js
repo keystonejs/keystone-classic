@@ -1,7 +1,6 @@
 var async = require('async');
 var keystone = require('../..');
 var ReactEngine = require('react-engine');
-//var view = require('react-engine/lib/expressView');
 var engine = ReactEngine.server.create({});
 var request = require('superagent');
 var moment = require('moment');
