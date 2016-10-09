@@ -14,12 +14,7 @@ module.exports = {
 		browser.adminUIInitialFormScreen.setDefaultModelTestConfig(ModelTestConfig);
 
 		browser.adminUIApp.gotoSigninScreen();
-
-		browser.adminUIApp.waitForSigninScreen();
-
 		browser.adminUISigninScreen.signin();
-
-		browser.adminUIApp.waitForHomeScreen();
 	},
 	after: function (browser) {
 		browser.adminUIApp.signout();

@@ -12,12 +12,7 @@ module.exports = {
 		browser.adminUIListScreen.setDefaultModelTestConfig(ModelTestConfig);
 
 		browser.adminUIApp.gotoSigninScreen();
-
-		browser.adminUIApp.waitForSigninScreen();
-
 		browser.adminUISigninScreen.signin();
-
-		browser.adminUIApp.waitForHomeScreen();
 
 		browser.adminUIApp.openList({section: 'access', list: 'User'});
 

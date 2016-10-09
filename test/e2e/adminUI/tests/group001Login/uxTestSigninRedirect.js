@@ -12,7 +12,7 @@ module.exports = {
 			end();
 	},
 	'AdminUI should allow users to login and redirect to custom url': function (browser) {
-		browser.adminUISigninScreen.signin();
+		browser.adminUISigninScreen.signin({wait: false});
 		browser.adminUIApp.waitForListScreen();
 		browser.assert.urlEquals(browser.adminUIApp.url + 'users');
 	},

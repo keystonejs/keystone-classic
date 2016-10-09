@@ -7,12 +7,7 @@ module.exports = {
 		browser.adminUIInitialFormScreen = browser.page.adminUIInitialForm();
 
 		browser.adminUIApp.gotoSigninScreen();
-
-		browser.adminUIApp.waitForSigninScreen();
-
 		browser.adminUISigninScreen.signin();
-
-		browser.adminUIApp.waitForHomeScreen();
 	},
 	after: function (browser) {
 		browser.adminUIApp.signout();
