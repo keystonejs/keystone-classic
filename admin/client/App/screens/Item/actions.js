@@ -4,6 +4,7 @@ import {
 	DATA_LOADING_SUCCESS,
 	DATA_LOADING_ERROR,
 	DRAG_MOVE_ITEM,
+	DRAG_RESET_ITEMS,
 	LOAD_RELATIONSHIP_DATA,
 } from './constants';
 
@@ -184,5 +185,11 @@ export function moveItem ({ prevIndex, newIndex, relationshipPath, newSortOrder 
 		newIndex,
 		relationshipPath,
 		newSortOrder,
+	};
+}
+
+export function resetItems () {
+	return {
+		type: DRAG_RESET_ITEMS,
 	};
 }

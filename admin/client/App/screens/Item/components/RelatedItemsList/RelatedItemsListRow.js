@@ -5,6 +5,7 @@ import { Columns } from 'FieldTypes';
 
 import {
 	reorderItems,
+	resetItems,
 	moveItem,
 } from '../../actions';
 
@@ -65,7 +66,7 @@ const dragItem = {
 	endDrag (props, monitor, component) {
 		// Dropped outside of the drop target, reset rows
 		if (!monitor.didDrop()) {
-			// props.dispatch(resetItems(props.id));
+			props.dispatch(resetItems());
 			return;
 		}
 
@@ -75,7 +76,7 @@ const dragItem = {
 
 		// Dropping on self
 		if (prevSortOrder === newSortOrder) {
-			//  props.dispatch(resetItems(props.id));
+			props.dispatch(resetItems());
 			return;
 		}
 

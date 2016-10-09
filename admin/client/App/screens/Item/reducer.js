@@ -8,6 +8,7 @@ import {
 	DATA_LOADING_SUCCESS,
 	DATA_LOADING_ERROR,
 	DRAG_MOVE_ITEM,
+	DRAG_RESET_ITEMS,
 	LOAD_RELATIONSHIP_DATA,
 } from './constants';
 
@@ -21,6 +22,7 @@ const initialState = {
 	drag: {
 		clonedItems: false,
 		newSortOrder: null,
+		relationshipPath: false,
 	},
 };
 
@@ -74,14 +76,36 @@ function item (state = initialState, action) {
 				drag: {
 					newSortOrder: action.newSortOrder,
 					clonedItems: clonedItems,
+					relationshipPath: action.relationshipPath,
 				},
 				relationshipData: {
 					...state.relationshipData,
 					[action.relationshipPath]: newRelationshipData,
 				},
 			});
+		case DRAG_RESET_ITEMS:
+			const originalRelationshipData = assign({}, state.relationshipData[state.drag.relationshipPath], {
+				results: state.drag.clonedItems,
+			});
+			return assign({}, state, {
+				drag: {
+					newSortOrder: null,
+					clonedItems: false,
+					relationshipPath: false,
+				},
+				relationshipData: {
+					...state.relationshipData,
+					[state.drag.relationshipPath]: originalRelationshipData,
+				},
+			});
 		case LOAD_RELATIONSHIP_DATA:
 			return assign({}, state, {
+				// Reset drag and drop when relationship data is loaded
+				drag: {
+					newSortOrder: null,
+					clonedItems: false,
+					relationshipPath: false,
+				},
 				relationshipData: {
 					...state.relationshipData,
 					[action.relationshipPath]: action.data,
