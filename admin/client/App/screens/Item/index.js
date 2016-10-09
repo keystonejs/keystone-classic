@@ -84,7 +84,7 @@ var ItemView = React.createClass({
 					{keys.map(key => {
 						const relationship = relationships[key];
 						const refList = listsByKey[relationship.ref];
-						const { currentList, params, relationshipData } = this.props;
+						const { currentList, params, relationshipData, drag } = this.props;
 						return (
 							<RelatedItemsList
 								key={relationship.path}
@@ -93,6 +93,7 @@ var ItemView = React.createClass({
 								relatedItemId={params.itemId}
 								relationship={relationship}
 								items={relationshipData[relationship.path]}
+								dragNewSortOrder={drag.newSortOrder}
 								dispatch={this.props.dispatch}
 							/>
 						);
@@ -179,4 +180,5 @@ module.exports = connect((state) => ({
 	error: state.item.error,
 	currentList: state.lists.currentList,
 	relationshipData: state.item.relationshipData,
+	drag: state.item.drag,
 }))(ItemView);

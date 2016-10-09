@@ -7,6 +7,7 @@ import {
 	LOAD_DATA,
 	DATA_LOADING_SUCCESS,
 	DATA_LOADING_ERROR,
+	DRAG_MOVE_ITEM,
 	LOAD_RELATIONSHIP_DATA,
 } from './constants';
 
@@ -17,6 +18,10 @@ const initialState = {
 	ready: false,
 	error: null,
 	relationshipData: {},
+	drag: {
+		clonedItems: false,
+		newSortOrder: null,
+	},
 };
 
 function item (state = initialState, action) {
@@ -44,6 +49,36 @@ function item (state = initialState, action) {
 				loading: false,
 				ready: true,
 				error: action.error,
+			});
+		case DRAG_MOVE_ITEM:
+			const currentItems = state.relationshipData[action.relationshipPath].results;
+			// Cache a copy of the current items to reset the items when dismissing a drag and drop if a cached copy doesn't already exist
+			const clonedItems = state.drag.clonedItems || currentItems;
+			const item = currentItems[action.prevIndex];
+			// Remove item at prevIndex from array and save that array in
+			// itemsWithoutItem
+			let itemsWithoutItem = currentItems
+				.slice(0, action.prevIndex)
+				.concat(
+					currentItems.slice(
+						action.prevIndex + 1,
+						currentItems.length
+					)
+				);
+			// Add item back in at new index
+			itemsWithoutItem.splice(action.newIndex, 0, item);
+			const newRelationshipData = assign({}, state.relationshipData[action.relationshipPath], {
+				results: itemsWithoutItem,
+			});
+			return assign({}, state, {
+				drag: {
+					newSortOrder: action.newSortOrder,
+					clonedItems: clonedItems,
+				},
+				relationshipData: {
+					...state.relationshipData,
+					[action.relationshipPath]: newRelationshipData,
+				},
 			});
 		case LOAD_RELATIONSHIP_DATA:
 			return assign({}, state, {

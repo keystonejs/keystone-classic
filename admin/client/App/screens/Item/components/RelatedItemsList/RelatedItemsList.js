@@ -11,6 +11,7 @@ import { TABLE_CONTROL_COLUMN_WIDTH } from '../../../../../constants';
 const RelatedItemsList = React.createClass({
 	propTypes: {
 		dispatch: React.PropTypes.func.isRequired,
+		dragNewSortOrder: React.PropTypes.number,
 		items: React.PropTypes.array,
 		list: React.PropTypes.object.isRequired,
 		refList: React.PropTypes.object.isRequired,

@@ -5,6 +5,7 @@ import { Columns } from 'FieldTypes';
 
 import {
 	reorderItems,
+	moveItem,
 } from '../../actions';
 
 import ListControl from '../../../List/components/ListControl';
@@ -34,16 +35,18 @@ class RelatedItemsListRow extends Component {
 }
 RelatedItemsListRow.propTypes = {
 	columns: PropTypes.array.isRequired,
-	dispatch: React.PropTypes.func.isRequired,
+	dispatch: PropTypes.func.isRequired,
+	dragNewSortOrder: React.PropTypes.number,
+	index: PropTypes.number,
 	item: PropTypes.object.isRequired,
 	refList: PropTypes.object.isRequired,
-	relatedItemId: React.PropTypes.string.isRequired,
-	relationship: React.PropTypes.object.isRequired,
+	relatedItemId: PropTypes.string.isRequired,
+	relationship: PropTypes.object.isRequired,
 	// Injected by React DnD:
-	isDragging: React.PropTypes.bool,         // eslint-disable-line react/sort-prop-types
-	connectDragSource: React.PropTypes.func,  // eslint-disable-line react/sort-prop-types
-	connectDropTarget: React.PropTypes.func,  // eslint-disable-line react/sort-prop-types
-	connectDragPreview: React.PropTypes.func, // eslint-disable-line react/sort-prop-types
+	isDragging: PropTypes.bool,         // eslint-disable-line react/sort-prop-types
+	connectDragSource: PropTypes.func,  // eslint-disable-line react/sort-prop-types
+	connectDropTarget: PropTypes.func,  // eslint-disable-line react/sort-prop-types
+	connectDragPreview: PropTypes.func, // eslint-disable-line react/sort-prop-types
 };
 
 module.exports = exports = RelatedItemsListRow;
@@ -67,11 +70,8 @@ const dragItem = {
 		}
 
 		const draggedItem = props.item;
-		const droppedOn = monitor.getDropResult();
-		const droppedOnItem = droppedOn.item;
-
 		const prevSortOrder = draggedItem.sortOrder;
-		const newSortOrder = droppedOnItem.sortOrder;
+		const newSortOrder = props.dragNewSortOrder;
 
 		// Dropping on self
 		if (prevSortOrder === newSortOrder) {
@@ -108,7 +108,13 @@ const dropItem = {
 			return;
 		}
 
-		// props.dispatch(moveItem(dragged, over, props));
+		// Since the items are moved on hover, we need to store the new sort order from the dragged over item so we can use it to reorder when the item is dropped.
+		props.dispatch(moveItem({
+			prevIndex: dragged,
+			newIndex: over,
+			relationshipPath: props.relationship.path,
+			newSortOrder: props.item.sortOrder,
+		}));
 		monitor.getItem().index = over;
 	},
 };

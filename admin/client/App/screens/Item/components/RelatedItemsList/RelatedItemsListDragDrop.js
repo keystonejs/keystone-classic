@@ -8,9 +8,10 @@ class RelatedItemsListDragDrop extends Component {
 		const { items } = this.props;
 		return (
 			<tbody>
-				{items.results.map((item) => {
+				{items.results.map((item, i) => {
 					return (<Sortable
 						key={item.id}
+						index={i}
 						item={item}
 						{...this.props}
 					/>);
@@ -22,6 +23,7 @@ class RelatedItemsListDragDrop extends Component {
 RelatedItemsListDragDrop.propTypes = {
 	columns: PropTypes.array.isRequired,
 	dispatch: React.PropTypes.func.isRequired,
+	dragNewSortOrder: React.PropTypes.number,
 	items: PropTypes.array.isRequired,
 	list: PropTypes.object.isRequired,
 	refList: PropTypes.object.isRequired,

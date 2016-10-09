@@ -3,6 +3,7 @@ import {
 	LOAD_DATA,
 	DATA_LOADING_SUCCESS,
 	DATA_LOADING_ERROR,
+	DRAG_MOVE_ITEM,
 	LOAD_RELATIONSHIP_DATA,
 } from './constants';
 
@@ -173,5 +174,15 @@ export function reorderItems ({ columns, refList, relationship, relatedItemId, i
 				// }
 			}
 		);
+	};
+}
+
+export function moveItem ({ prevIndex, newIndex, relationshipPath, newSortOrder }) {
+	return {
+		type: DRAG_MOVE_ITEM,
+		prevIndex,
+		newIndex,
+		relationshipPath,
+		newSortOrder,
 	};
 }
