@@ -1,7 +1,6 @@
 var async = require('async');
 var keystone = require('../..');
 var ReactEngine = require('react-engine');
-var view = require('react-engine/lib/expressView');
 var engine = ReactEngine.server.create({});
 var request = require('superagent');
 var moment = require('moment');
@@ -80,13 +79,11 @@ function runKeystone(cb) {
 
 		'mongo': mongoUri,
 
-		'less': 'public',
-		'static': 'public',
+		'static': 'frontend',
 		'favicon': 'adminuiCustom/favicon.ico',
-		'views': 'templates/views',
-		'view engine': '.jsx',
-		'custom engine': engine,
-		'view': view,
+		'less': 'frontend',
+		'views': 'frontend',
+		'view engine': 'jade',
 
 		'auto update': true,
 		'session': true,

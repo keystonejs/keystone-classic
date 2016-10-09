@@ -70,7 +70,7 @@
     "react": "15.3.2",
     "react-addons-css-transition-group": "15.3.2",
     "react-alt-text": "2.0.0",
-    "react-color": "2.3.2",
+    "react-color": "2.3.3",
     "react-day-picker": "2.5.0",
     "react-dnd": "2.1.4",
     "react-dnd-html5-backend": "2.1.2",
@@ -106,7 +106,7 @@
     "eslint-plugin-react": "5.2.2",
     "istanbul": "0.4.5",
     "keystone-email": "1.0.5",
-    "keystone-nightwatch-e2e": "^0.1.10",
+    "keystone-nightwatch-e2e": "^0.1.11",
     "mocha": "3.1.0",
     "must": "0.13.2",
     "proxyquire": "1.7.10",
@@ -118,7 +118,7 @@
     "supertest": "1.2.0",
     "uglify-js": "2.7.3",
     "updtr": "0.2.1",
-    "watch": "0.19.3"
+    "watch": "1.0.1"
   },
   "browserify": {
     "transform": [
