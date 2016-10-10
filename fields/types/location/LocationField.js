@@ -119,7 +119,7 @@ module.exports = Field.create({
 					name={this.getInputName(path + '.' + fieldPath)}
 					onChange={this.makeChanger(fieldPath)}
 					placeholder={label}
-					value={value[fieldPath]}
+					value={value[fieldPath] || ''}
 				/>
 			</NestedFormField>
 		);
@@ -135,7 +135,7 @@ module.exports = Field.create({
 							name={this.getInputName(path + '.suburb')}
 							onChange={this.makeChanger('suburb')}
 							placeholder="Suburb"
-							value={value.suburb}
+							value={value.suburb || ''}
 						/>
 					</Grid.Col>
 					<Grid.Col small="one-third" data-field-location-path={path + '.state'}>
@@ -143,7 +143,7 @@ module.exports = Field.create({
 							name={this.getInputName(path + '.state')}
 							onChange={this.makeChanger('state')}
 							placeholder="State"
-							value={value.state}
+							value={value.state || ''}
 						/>
 					</Grid.Col>
 				</Grid.Row>
@@ -161,7 +161,7 @@ module.exports = Field.create({
 							name={this.getInputName(path + '.postcode')}
 							onChange={this.makeChanger('postcode')}
 							placeholder="Post Code"
-							value={value.postcode}
+							value={value.postcode || ''}
 						/>
 					</Grid.Col>
 					<Grid.Col small="two-thirds" data-field-location-path={path + '.country'}>
@@ -169,7 +169,7 @@ module.exports = Field.create({
 							name={this.getInputName(path + '.country')}
 							onChange={this.makeChanger('country')}
 							placeholder="Country"
-							value={value.country}
+							value={value.country || ''}
 						/>
 					</Grid.Col>
 				</Grid.Row>
@@ -191,7 +191,7 @@ module.exports = Field.create({
 							name={this.getInputName(paths.geo + '[1]')}
 							onChange={this.makeGeoChanger(1)}
 							placeholder="Latitude"
-							value={geo[1]}
+							value={geo[1] || ''}
 						/>
 					</Grid.Col>
 					<Grid.Col small="one-half" data-field-location-path="longitude">
@@ -199,7 +199,7 @@ module.exports = Field.create({
 							name={this.getInputName(paths.geo + '[0]')}
 							onChange={this.makeGeoChanger(0)}
 							placeholder="Longitude"
-							value={geo[0]}
+							value={geo[0] || ''}
 						/>
 					</Grid.Col>
 				</Grid.Row>
