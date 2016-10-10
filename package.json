@@ -106,7 +106,7 @@
     "eslint-plugin-react": "5.2.2",
     "istanbul": "0.4.5",
     "keystone-email": "1.0.5",
-    "keystone-nightwatch-e2e": "^0.1.11",
+    "keystone-nightwatch-e2e": "^0.1.12",
     "mocha": "3.1.1",
     "must": "0.13.2",
     "proxyquire": "1.7.10",
