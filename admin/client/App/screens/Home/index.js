@@ -11,9 +11,9 @@ import { plural } from '../../../utils/string';
 import ListTile from './components/ListTile';
 import AlertMessages from '../../shared/AlertMessages';
 import {
-	loadCounts,
-	loadUserAbilities
+	loadCounts
 } from './actions';
+import {transformMenu} from '../../components/Navigation/transform';
 
 var HomeView = React.createClass({
 	displayName: 'HomeView',
@@ -21,7 +21,6 @@ var HomeView = React.createClass({
 	// from the API
 	componentDidMount () {
 		this.props.dispatch(loadCounts());
-		this.props.dispatch(loadUserAbilities());
 	},
 	// Certain section name have an icon associated with the for a nicer view
 	getHeadingIconClasses (navSectionKey) {
@@ -66,11 +65,11 @@ var HomeView = React.createClass({
 	},
 	renderFlatNav () {
 		var keys = Object.keys(Keystone.lists);
-		const {user_abilities} = this.props;
+		const {abilities} = this.props;
 		const {isAdmin} = Keystone.user;
 
 		const lists = keys.filter((key) => {
-			return isAdmin || user_abilities.indexOf(key) !== -1;
+			return isAdmin || abilities.indexOf(key) !== -1;
 		}).map((key) => {
 			var list = Keystone.lists[key];
 			var href = list.external ? list.path : `${Keystone.adminPath}/${list.path}`;
@@ -88,24 +87,10 @@ var HomeView = React.createClass({
 		return <div className="dashboard-group__lists">{lists}</div>;
 	},
 	renderGroupedNav () {
-		const {user_abilities} = this.props;
-		const {isAdmin} = Keystone.user;
+		const {abilities} = this.props;
 		return (
 			<div>
-				{Keystone.nav.sections.map((section) => {
-					if (isAdmin) {
-						return section;
-					}
-
-					const lists = section.lists.filter((l) => {
-						return user_abilities.indexOf(l.key) !== -1;
-					});
-					return Object.assign({}, section, {
-						lists
-					});
-				}).filter((section) => {
-					return section.lists.length > 0
-				}).map((navSection) => {
+				{transformMenu(Keystone.nav.sections, abilities).map((navSection) => {
 					return (
 						<div className="dashboard-group" key={navSection.key} data-section-label={navSection.label}>
 							<div className="dashboard-group__heading">
@@ -135,10 +120,10 @@ var HomeView = React.createClass({
 		);
 	},
 	renderOrphanedLists () {
-		const {user_abilities} = this.props;
+		const {abilities} = this.props;
 		const visibles = Keystone.user.isAdmin
 									? Keystone.orphanedLists
-									: Keystone.orphanedLists.filter(({key}) => (user_abilities.indexOf(key) !== -1 ));
+									: Keystone.orphanedLists.filter(({key}) => (abilities.indexOf(key) !== -1 ));
 
 		if (!visibles.length) return;
 		let sectionLabel = 'Other';
@@ -191,5 +176,5 @@ module.exports = connect((state) => ({
 	counts: state.home.counts,
 	loading: state.home.loading,
 	error: state.home.error,
-	user_abilities: state.home.user_abilities
+	abilities: state.permissions.abilities
 }))(HomeView);

@@ -4,7 +4,7 @@
 
 import React from 'react';
 import { Container } from 'elemental';
-
+import { connect } from 'react-redux';
 import SecondaryNavItem from './NavItem';
 
 var SecondaryNavigation = React.createClass({
@@ -31,8 +31,12 @@ var SecondaryNavigation = React.createClass({
 	},
 	// Render the navigation
 	renderNavigation (lists) {
-		const navigation = Object.keys(lists).map((key) => {
-			const list = lists[key];
+		const {isAdmin} = Keystone.user;
+		const {abilities} = this.props;
+
+		const navigation = lists.filter(({key}) => {
+			return isAdmin || abilities.indexOf(key) !== -1;
+		}).map((list) => {
 			// Get the link and the classname
 			const href = list.external ? list.path : `${Keystone.adminPath}/${list.path}`;
 			const className = (this.props.currentListKey && this.props.currentListKey === list.path) ? 'active' : null;
@@ -68,4 +72,7 @@ var SecondaryNavigation = React.createClass({
 	},
 });
 
-module.exports = SecondaryNavigation;
+module.exports = connect((state) => ({
+	abilities: state.permissions.abilities
+}))(SecondaryNavigation);
+

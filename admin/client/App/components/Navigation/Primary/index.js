@@ -6,6 +6,8 @@
 import React from 'react';
 import { Container } from 'elemental';
 import PrimaryNavItem from './NavItem';
+import { connect } from 'react-redux';
+import {transformMenu} from '../transform';
 
 var PrimaryNavigation = React.createClass({
 	displayName: 'PrimaryNavigation',
@@ -83,7 +85,9 @@ var PrimaryNavigation = React.createClass({
 	renderNavigation () {
 		if (!this.props.sections || !this.props.sections.length) return null;
 
-		return this.props.sections.map((section) => {
+		const {abilities} = this.props;
+
+		return transformMenu(this.props.sections, abilities).map((section) => {
 			// Get the link and the class name
 			const href = section.lists[0].external ? section.lists[0].path : `${Keystone.adminPath}/${section.lists[0].path}`;
 			const className = (this.props.currentSectionKey && this.props.currentSectionKey === section.key) ? 'primary-navbar__item--active' : null;
@@ -102,7 +106,6 @@ var PrimaryNavigation = React.createClass({
 	},
 	render () {
 		if (!this.state.navIsVisible) return null;
-
 		return (
 			<nav className="primary-navbar">
 				<Container clearfix>
@@ -121,4 +124,6 @@ var PrimaryNavigation = React.createClass({
 	},
 });
 
-module.exports = PrimaryNavigation;
+module.exports = connect((state) => ({
+	abilities: state.permissions.abilities
+}))(PrimaryNavigation);
