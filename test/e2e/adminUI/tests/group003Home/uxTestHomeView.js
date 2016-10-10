@@ -10,7 +10,6 @@ module.exports = {
 		browser.adminUIDeleteConfirmation = browser.page.adminUIDeleteConfirmation();
 
 		browser.adminUIApp.gotoSigninScreen();
-
 		browser.adminUISigninScreen.signin();
 	},
 	after: function (browser) {
@@ -18,35 +17,41 @@ module.exports = {
 		browser.end();
 	},
 	'Home view should allow navigating to a list of items': function (browser) {
-		browser.adminUIApp.openList({section: 'Access', list: 'User'});
+		browser.adminUIHomeScreen.openList({group: 'Access', list: 'User'});
 	},
 	'Home view should allow clicking a card list item such as Users to should show the list of those items': function (browser) {
 		browser.adminUIApp.gotoHomeScreen();
 
-		browser.adminUIHomeScreen.section.accessGroup.section.users
-			.click('@label');
-
-		browser.adminUIApp
-			.waitForListScreen();
+		browser.adminUIHomeScreen.clickTabUI({
+			name: 'Access',
+			click: 'label',
+			tab: { list: 'User', items: '2 Items' },
+		})
 	},
 	'Home view should allow an admin to create a new list item such as a user': function (browser) {
 		browser.adminUIApp.gotoHomeScreen();
 
-		browser.adminUIHomeScreen.section.accessGroup.section.users
-			.click('@plusIconLink');
-
-		browser.adminUIInitialFormScreen.section.form
-			.waitForElementVisible('@createButton');
+		browser.adminUIHomeScreen.clickTabUI({
+			name: 'Access',
+			click: 'plusIconLink',
+			tab: { list: 'User', items: '2 Items' },
+		});
 	},
 	'Home view should allow an admin to create a new list item and increment the item count': function (browser) {
 		browser.adminUIApp.gotoHomeScreen();
 
-		browser.adminUIHomeScreen.section.fieldsGroup.section.names
-			.expect.element('@itemCount').text.to.equal('0 Items');
-		browser.adminUIHomeScreen.section.fieldsGroup.section.names
-			.click('@plusIconLink');
+		browser.adminUIHomeScreen.assertTabTextEquals({
+			name: 'Fields',
+			tabs: [
+				{ list: 'Name', items: '0 Items' },
+			],
+		});
 
-		browser.adminUIApp.waitForInitialFormScreen();
+		browser.adminUIHomeScreen.clickTabUI({
+			name: 'Fields',
+			click: 'plusIconLink',
+			tab: { list: 'Name', items: '0 Items' },
+		});
 
 		browser.adminUIInitialFormScreen.fillFieldInputs([
 			{name: 'name', input: { value: 'Name Field Test' }, modelTestConfig: NameModelTestConfig,},
@@ -58,20 +63,12 @@ module.exports = {
 		browser.adminUIApp.waitForItemScreen();
 		browser.adminUIApp.gotoHomeScreen();
 
-		browser.adminUIHomeScreen.section.fieldsGroup.section.names
-			.expect.element('@itemCount').text.to.equal('1 Item');
-	},
-	'Home view should be accessible from any other non-modal view by clicking the Home link': function (browser) {
-		browser.adminUIApp.gotoHomeScreen();
-
-		browser.adminUIHomeScreen.section.accessGroup.section.users
-			.click('@label');
-		browser.adminUIApp
-			.waitForListScreen();
-
-		browser.adminUIApp
-			.click('@homeIconLink')
-			.waitForHomeScreen();
+		browser.adminUIHomeScreen.assertTabTextEquals({
+			name: 'Fields',
+			tabs: [
+				{ list: 'Name', items: '1 Item' },
+			],
+		});
 	},
 	// UNDO ANY STATE CHANGES -- THIS TEST SHOULD RUN LAST
 	'Home view ... undoing any state changes': function (browser) {
