@@ -12,6 +12,7 @@ module.exports = {
 		browser.end();
 	},
 	'Home view should have a dashboard header': function (browser) {
+		// TODO: implement the 'e2e' text assertion
 		browser.adminUIHomeScreen.assertElementIsVisible({ element: 'dashboardHeader' });
 	},
 	'Home view should have an Access group with the specified tabs configuration': function (browser) {
