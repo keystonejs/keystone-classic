@@ -3,6 +3,9 @@ import {
 	LOAD_DATA,
 	DATA_LOADING_SUCCESS,
 	DATA_LOADING_ERROR,
+	DRAG_MOVE_ITEM,
+	DRAG_RESET_ITEMS,
+	LOAD_RELATIONSHIP_DATA,
 } from './constants';
 
 import {
@@ -58,6 +61,23 @@ export function loadItemData () {
 	};
 }
 
+export function loadRelationshipItemData ({ columns, refList, relationship, relatedItemId }) {
+	return (dispatch, getState) => {
+		refList.loadItems({
+			columns: columns,
+			filters: [{
+				field: refList.fields[relationship.refPath],
+				value: { value: relatedItemId },
+			}],
+		}, (err, items) => {
+			// // TODO: indicate pagination & link to main list view
+			// this.setState({ items });
+			dispatch(relationshipDataLoaded(relationship.path, items));
+		});
+	};
+}
+
+
 /**
  * Called when data of the current item is loaded
  *
@@ -70,6 +90,14 @@ export function dataLoaded (data) {
 		data,
 	};
 }
+
+export function relationshipDataLoaded (path, data) {
+	return {
+		type: LOAD_RELATIONSHIP_DATA,
+		relationshipPath: path,
+		data,
+	};
+};
 
 /**
  * Called when there was an error during the loading of the current item data,
@@ -114,5 +142,54 @@ export function deleteItem (id, router) {
 				dispatch(loadItems());
 			}
 		});
+	};
+}
+
+export function reorderItems ({ columns, refList, relationship, relatedItemId, item, prevSortOrder, newSortOrder }) {
+	return (dispatch, getState) => {
+		// Send the item, previous sortOrder and the new sortOrder
+		// we should get the proper list and new page results in return
+		refList.reorderItems(
+			item,
+			prevSortOrder,
+			newSortOrder,
+			{
+				columns: columns,
+				filters: [{
+					field: refList.fields[relationship.refPath],
+					value: { value: relatedItemId },
+				}],
+			},
+			(err, items) => {
+				dispatch(relationshipDataLoaded(relationship.path, items));
+				// If err, flash the row alert
+				// if (err) {
+				// 	dispatch(resetItems(item.id));
+				// 	// return this.resetItems(this.findItemById[item.id]);
+				// } else {
+				// 	dispatch(itemsLoaded(items));
+				// 	dispatch(setRowAlert({
+				// 		success: item.id,
+				// 		fail: false,
+				// 	}));
+				// }
+			}
+		);
+	};
+}
+
+export function moveItem ({ prevIndex, newIndex, relationshipPath, newSortOrder }) {
+	return {
+		type: DRAG_MOVE_ITEM,
+		prevIndex,
+		newIndex,
+		relationshipPath,
+		newSortOrder,
+	};
+}
+
+export function resetItems () {
+	return {
+		type: DRAG_RESET_ITEMS,
 	};
 }
