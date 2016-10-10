@@ -180,11 +180,11 @@ module.exports = Field.create({
 
 	renderLightbox () {
 		const { value } = this.props;
-		if (!value || !Object.keys(value).length) return;
+
+		if (!value || !value.public_id) return;
 
 		return (
 			<Lightbox
-				backdropClosesModal
 				currentImage={0}
 				images={[{ src: this.getImageSource(600) }]}
 				isOpen={this.state.lightboxIsVisible}
