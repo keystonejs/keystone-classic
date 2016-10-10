@@ -10,7 +10,7 @@ The client consists of two separate bundles: `Signin` and `App`.
 
 `App` consists of three parts: The Homepage (Dashboard with lists), the List view and the single Item view.
 
-Both of these have a separate Pug (Jade) template that is rendered in the backend, [`admin/server/templates/signin.jade`](../server/templates/signin.jade) and [`admin/server/templates/index.jade`](../server/templates/index.jade). This where the data for the `App` bundle is injected too.
+Both of these have a separate EJS template that is rendered in the backend, [`admin/server/templates/signin.html`](../server/templates/signin.html) and [`admin/server/templates/index.html`](../server/templates/index.html). This where the data for the `App` bundle is injected too.
 
 ## Folder structure
 

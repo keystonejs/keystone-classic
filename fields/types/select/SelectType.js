@@ -55,10 +55,10 @@ util.inherits(select, FieldType);
 select.prototype.addToSchema = function (schema) {
 	var field = this;
 	this.paths = {
-		data: this.options.dataPath || this._path.append('Data'),
-		label: this.options.labelPath || this._path.append('Label'),
-		options: this.options.optionsPath || this._path.append('Options'),
-		map: this.options.optionsMapPath || this._path.append('OptionsMap'),
+		data: this.options.dataPath || this.path + 'Data',
+		label: this.options.labelPath || this.path + 'Label',
+		options: this.options.optionsPath || this.path + 'Options',
+		map: this.options.optionsMapPath || this.path + 'OptionsMap',
 	};
 	schema.path(this.path, _.defaults({
 		type: this._nativeType,

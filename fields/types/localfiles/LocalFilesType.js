@@ -67,16 +67,16 @@ localfiles.prototype.addToSchema = function (schema) {
 
 	var paths = this.paths = {
 		// fields
-		filename: this._path.append('.filename'),
-		path: this._path.append('.path'),
-		originalname: this._path.append('.originalname'),
-		size: this._path.append('.size'),
-		filetype: this._path.append('.filetype'),
+		filename: this.path + '.filename',
+		path: this.path + '.path',
+		originalname: this.path + '.originalname',
+		size: this.path + '.size',
+		filetype: this.path + '.filetype',
 		// virtuals
-		exists: this._path.append('.exists'),
-		upload: this._path.append('_upload'),
-		action: this._path.append('_action'),
-		order: this._path.append('_order'),
+		exists: this.path + '.exists',
+		upload: this.path + '_upload',
+		action: this.path + '_action',
+		order: this.path + '_order',
 	};
 
 	var schemaPaths = new mongoose.Schema({

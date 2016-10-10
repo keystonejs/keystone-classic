@@ -35,7 +35,7 @@
         "acceptSslCerts": true
       },
       "exclude": [
-        "test/e2e/adminUI/tests/group005Fields/commonFieldTestUtils.js",
+        "test/e2e/adminUI/tests/group006Fields/commonFieldTestUtils.js",
         "test/e2e/adminUI/tests/group999FixMe/*"
       ]
     },

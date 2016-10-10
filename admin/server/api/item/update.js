@@ -12,7 +12,11 @@ module.exports = function (req, res) {
 				var error = err.error === 'database error' ? err.detail : err;
 				return res.apiError(status, error);
 			}
-			res.json(req.list.getData(item));
+			// Reload the item from the database to prevent save hooks or other
+			// application specific logic from messing with the values in the item
+			req.list.model.findById(req.params.id, function (err, updatedItem) {
+				res.json(req.list.getData(updatedItem));
+			});
 		});
 	});
 };
