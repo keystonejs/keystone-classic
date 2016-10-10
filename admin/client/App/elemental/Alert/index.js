@@ -7,10 +7,14 @@ const classes = StyleSheet.create(styles);
 
 // clone children if a class exists for the tagname
 const cloneWithClassnames = (c) => {
-	if (!c.type || !classes[c.type]) return c;
+	const type = c.type && c.type.displayName
+		? c.type.displayName
+		: c.type || null;
+
+	if (!type || !classes[type]) return c;
 
 	return cloneElement(c, {
-		className: css(classes[c.type]),
+		className: css(classes[type]),
 	});
 };
 
