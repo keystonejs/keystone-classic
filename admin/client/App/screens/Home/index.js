@@ -67,8 +67,10 @@ var HomeView = React.createClass({
 	renderFlatNav () {
 		var keys = Object.keys(Keystone.lists);
 		const {user_abilities} = this.props;
+		const {isAdmin} = Keystone.user;
+
 		const lists = keys.filter((key) => {
-			return user_abilities.indexOf(key) !== -1;
+			return isAdmin || user_abilities.indexOf(key) !== -1;
 		}).map((key) => {
 			var list = Keystone.lists[key];
 			var href = list.external ? list.path : `${Keystone.adminPath}/${list.path}`;
@@ -87,9 +89,14 @@ var HomeView = React.createClass({
 	},
 	renderGroupedNav () {
 		const {user_abilities} = this.props;
+		const {isAdmin} = Keystone.user;
 		return (
 			<div>
 				{Keystone.nav.sections.map((section) => {
+					if (isAdmin) {
+						return section;
+					}
+
 					const lists = section.lists.filter((l) => {
 						return user_abilities.indexOf(l.key) !== -1;
 					});
@@ -129,7 +136,10 @@ var HomeView = React.createClass({
 	},
 	renderOrphanedLists () {
 		const {user_abilities} = this.props;
-		const visibles = Keystone.orphanedLists.filter(({key}) => (user_abilities.indexOf(key) !== -1 ));
+		const visibles = Keystone.user.isAdmin
+									? Keystone.orphanedLists
+									: Keystone.orphanedLists.filter(({key}) => (user_abilities.indexOf(key) !== -1 ));
+
 		if (!visibles.length) return;
 		let sectionLabel = 'Other';
 		return (
