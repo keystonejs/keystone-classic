@@ -9,6 +9,12 @@ const classes = StyleSheet.create(styles);
 // NOTE must NOT be functional component to allow `refs`
 
 class FormInput extends Component {
+	blur () {
+		this.target.blur();
+	}
+	focus () {
+		this.target.focus();
+	}
 	render () {
 		const {
 			aphroditeStyles,

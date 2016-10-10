@@ -68,13 +68,16 @@ var DateFilter = React.createClass({
 		};
 	},
 	componentDidMount () {
-		// focus the text input
-		if (this.props.filter.mode === 'between') {
-			findDOMNode(this.refs[this.state.activeInputField]).focus();
-		} else {
-			this.refs.input.focus();
-		}
+		this.__isMounted = true;
 	},
+	componentWillUnmount () {
+		this.__isMounted = false;
+	},
+
+	// ==============================
+	// METHODS
+	// ==============================
+
 	updateFilter (value) {
 		this.props.onChange({ ...this.props.filter, ...value });
 	},
@@ -88,6 +91,7 @@ var DateFilter = React.createClass({
 		this.setFocus(mode);
 	},
 	setFocus (mode) {
+		// give the UI a moment to render
 		if (mode === 'between') {
 			setTimeout(() => {
 				findDOMNode(this.refs[this.state.activeInputField]).focus();
@@ -99,15 +103,19 @@ var DateFilter = React.createClass({
 		}
 	},
 	handleInputChange (e) {
-		const { value } = e.target;
-		let { month } = this.state;
-		// Change the current month only if the value entered by the user is a valid
-		// date, according to the `L` format
-		if (moment(value, 'L', true).isValid()) {
-			month = moment(value, 'L').toDate();
-		}
-		this.updateFilter({ value: value });
-		this.setState({ month }, this.showCurrentDate);
+		// TODO @jedwatson
+		// Entering virtually any value will return an "Invalid date", so I'm
+		// temporarily disabling user entry. This entire component needs review.
+
+		// const { value } = e.target;
+		// let { month } = this.state;
+		// // Change the current month only if the value entered by the user is a valid
+		// // date, according to the `L` format
+		// if (moment(value, 'L', true).isValid()) {
+		// 	month = moment(value, 'L').toDate();
+		// }
+		// this.updateFilter({ value: value });
+		// this.setState({ month }, this.showCurrentDate);
 	},
 	setActiveField (field) {
 		this.setState({
@@ -136,8 +144,16 @@ var DateFilter = React.createClass({
 		this.updateFilter({ value: day });
 	},
 	showCurrentDate () {
-		this.refs.daypicker.showMonth(this.state.month);
+		// give the UI a moment to render
+		setTimeout(() => {
+			this.refs.daypicker.showMonth(this.state.month);
+		}, 50);
 	},
+
+	// ==============================
+	// RENDERERS
+	// ==============================
+
 	renderToggle () {
 		const { filter } = this.props;
 		return (
@@ -172,8 +188,10 @@ var DateFilter = React.createClass({
 						<Grid.Row xsmall="one-half" gutter={10}>
 							<Grid.Col>
 								<FormInput
+									autoFocus
 									ref="after"
 									placeholder="From"
+									onChange={this.handleInputChange}
 									onFocus={() => this.setActiveField('after')}
 									value={moment(filter.after).format(this.props.format)}
 								/>
@@ -182,6 +200,7 @@ var DateFilter = React.createClass({
 								<FormInput
 									ref="before"
 									placeholder="To"
+									onChange={this.handleInputChange}
 									onFocus={() => this.setActiveField('before')}
 									value={moment(filter.before).format(this.props.format)}
 								/>
@@ -203,6 +222,7 @@ var DateFilter = React.createClass({
 				<div>
 					<div style={{ marginBottom: '1em' }}>
 						<FormInput
+							autoFocus
 							ref="input"
 							placeholder={placeholder}
 							value={moment(filter.value).format(this.props.format)}
