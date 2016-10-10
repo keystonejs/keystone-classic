@@ -36,4 +36,12 @@ module.exports = {
 		backgroundColor: theme.input.background.disabled,
 		pointerEvents: 'none',
 	},
+
+	// sizes
+	'FormInput__size--small': {
+		fontSize: theme.font.size.small,
+	},
+	'FormInput__size--large': {
+		fontSize: theme.font.size.large,
+	},
 };

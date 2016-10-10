@@ -212,7 +212,7 @@ var EditForm = React.createClass({
 			nameFieldProps.inputProps = {
 				className: 'item-name-field',
 				placeholder: nameField.label,
-				size: 'lg',
+				size: 'large',
 			};
 			return wrapNameField(
 				React.createElement(Fields[nameField.type], nameFieldProps)
@@ -227,6 +227,13 @@ var EditForm = React.createClass({
 		var headings = 0;
 
 		return this.props.list.uiElements.map((el, index) => {
+			// Don't render the name field if it is the header since it'll be rendered in BIG above
+			// the list. (see renderNameField method, this is the reverse check of the one it does)
+			if (
+				this.props.list.nameField
+				&& el.field === this.props.list.nameField.path
+				&& this.props.list.nameFieldIsFormHeader
+			) return;
 
 			if (el.type === 'heading') {
 				headings++;

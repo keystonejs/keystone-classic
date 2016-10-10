@@ -17,6 +17,7 @@ class FormInput extends Component {
 			id,
 			multiline,
 			noedit,
+			size,
 			...props,
 		} = this.props;
 
@@ -28,6 +29,7 @@ class FormInput extends Component {
 		props.id = id || formFieldId;
 		props.className = css(
 			classes.FormInput,
+			classes['FormInput__size--' + size],
 			disabled ? classes['FormInput--disabled'] : null,
 			formLayout ? classes['FormInput--form-layout-' + formLayout] : null,
 			...concatClassnames(aphroditeStyles)
@@ -60,9 +62,11 @@ FormInput.propTypes = {
 		PropTypes.shape(stylesShape),
 	]),
 	multiline: PropTypes.bool,
+	size: PropTypes.oneOf(['default', 'small', 'large']),
 	type: PropTypes.string,
 };
 FormInput.defaultProps = {
+	size: 'default',
 	type: 'text',
 };
 FormInput.contextTypes = {
