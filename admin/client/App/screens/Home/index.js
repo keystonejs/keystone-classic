@@ -11,9 +11,9 @@ import { plural } from '../../../utils/string';
 import ListTile from './components/ListTile';
 import AlertMessages from '../../shared/AlertMessages';
 import {
-	loadCounts
+	loadCounts,
 } from './actions';
-import {transformMenu} from '../../components/Navigation/transform';
+import { transformMenu } from '../../components/Navigation/transform';
 
 var HomeView = React.createClass({
 	displayName: 'HomeView',
@@ -65,8 +65,8 @@ var HomeView = React.createClass({
 	},
 	renderFlatNav () {
 		var keys = Object.keys(Keystone.lists);
-		const {abilities} = this.props;
-		const {isAdmin} = Keystone.user;
+		const { abilities } = this.props;
+		const { isAdmin } = Keystone.user;
 
 		const lists = keys.filter((key) => {
 			return isAdmin || abilities.indexOf(key) !== -1;
@@ -87,7 +87,7 @@ var HomeView = React.createClass({
 		return <div className="dashboard-group__lists">{lists}</div>;
 	},
 	renderGroupedNav () {
-		const {abilities} = this.props;
+		const { abilities } = this.props;
 		return (
 			<div>
 				{transformMenu(Keystone.nav.sections, abilities).map((navSection) => {
@@ -120,10 +120,10 @@ var HomeView = React.createClass({
 		);
 	},
 	renderOrphanedLists () {
-		const {abilities} = this.props;
+		const { abilities } = this.props;
 		const visibles = Keystone.user.isAdmin
 									? Keystone.orphanedLists
-									: Keystone.orphanedLists.filter(({key}) => (abilities.indexOf(key) !== -1 ));
+									: Keystone.orphanedLists.filter(({ key }) => (abilities.indexOf(key) !== -1));
 
 		if (!visibles.length) return;
 		let sectionLabel = 'Other';
@@ -176,5 +176,5 @@ module.exports = connect((state) => ({
 	counts: state.home.counts,
 	loading: state.home.loading,
 	error: state.home.error,
-	abilities: state.permissions.abilities
+	abilities: state.permissions.abilities,
 }))(HomeView);

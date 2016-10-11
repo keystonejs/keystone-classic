@@ -18,7 +18,7 @@ const reducers = combineReducers({
 	item: itemReducer,
 	home: homeReducer,
 	routing: routerReducer,
-	permissions: userAbilities
+	permissions: userAbilities,
 });
 
 const logger = createLogger();

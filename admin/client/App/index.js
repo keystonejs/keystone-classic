@@ -12,7 +12,7 @@ import PrimaryNavigation from './components/Navigation/Primary';
 import SecondaryNavigation from './components/Navigation/Secondary';
 import Footer from './components/Footer';
 import {
-	loadUserAbilities
+	loadUserAbilities,
 } from './abilities/actions';
 
 var App = React.createClass({
@@ -23,7 +23,7 @@ var App = React.createClass({
 	},
 
 	render () {
-		const {props} = this;
+		const { props } = this;
 		// If we're on either a list or an item view
 		let currentList, currentSection;
 		if (props.params.listId) {
@@ -72,9 +72,9 @@ var App = React.createClass({
 				/>
 			</div>
 		);
-	}
+	},
 });
 
 module.exports = connect((state) => ({
-	abilities: state.permissions.abilities
+	abilities: state.permissions.abilities,
 }))(App);

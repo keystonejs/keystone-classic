@@ -1,14 +1,14 @@
 import {
 	LOAD_USER_ABILITIES,
 	USER_ABILITIES_LOADING_SUCCESS,
-	USER_ABILITIES_LOADING_ERROR
+	USER_ABILITIES_LOADING_ERROR,
 } from './constants';
 
 
 const initialState = {
 	loading: false,
 	error: null,
-	abilities: []
+	abilities: [],
 };
 
 export default function userAbilities (state = initialState, action) {
@@ -21,13 +21,13 @@ export default function userAbilities (state = initialState, action) {
 			return Object.assign({}, state, {
 				loading: false,
 				abilities: action.abilities,
-				error: null
+				error: null,
 			});
 		case USER_ABILITIES_LOADING_ERROR:
 			console.log(action.error);
 			return Object.assign({}, state, {
 				loading: false,
-				error: action.error
+				error: action.error,
 			});
 		default:
 			return state;

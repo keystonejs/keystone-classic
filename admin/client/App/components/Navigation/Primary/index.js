@@ -7,7 +7,7 @@ import React from 'react';
 import { Container } from 'elemental';
 import PrimaryNavItem from './NavItem';
 import { connect } from 'react-redux';
-import {transformMenu} from '../transform';
+import { transformMenu } from '../transform';
 
 var PrimaryNavigation = React.createClass({
 	displayName: 'PrimaryNavigation',
@@ -84,8 +84,7 @@ var PrimaryNavigation = React.createClass({
 	// Render the navigation
 	renderNavigation () {
 		if (!this.props.sections || !this.props.sections.length) return null;
-
-		const {abilities} = this.props;
+		const { abilities } = this.props;
 
 		return transformMenu(this.props.sections, abilities).map((section) => {
 			// Get the link and the class name
@@ -125,5 +124,5 @@ var PrimaryNavigation = React.createClass({
 });
 
 module.exports = connect((state) => ({
-	abilities: state.permissions.abilities
+	abilities: state.permissions.abilities,
 }))(PrimaryNavigation);

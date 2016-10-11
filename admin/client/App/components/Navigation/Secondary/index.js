@@ -31,10 +31,10 @@ var SecondaryNavigation = React.createClass({
 	},
 	// Render the navigation
 	renderNavigation (lists) {
-		const {isAdmin} = Keystone.user;
-		const {abilities} = this.props;
+		const { isAdmin } = Keystone.user;
+		const { abilities } = this.props;
 
-		const navigation = lists.filter(({key}) => {
+		const navigation = lists.filter(({ key }) => {
 			return isAdmin || abilities.indexOf(key) !== -1;
 		}).map((list) => {
 			// Get the link and the classname
@@ -73,6 +73,6 @@ var SecondaryNavigation = React.createClass({
 });
 
 module.exports = connect((state) => ({
-	abilities: state.permissions.abilities
+	abilities: state.permissions.abilities,
 }))(SecondaryNavigation);
 

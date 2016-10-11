@@ -2,7 +2,7 @@ import xhr from 'xhr';
 import {
 	LOAD_USER_ABILITIES,
 	USER_ABILITIES_LOADING_SUCCESS,
-	USER_ABILITIES_LOADING_ERROR
+	USER_ABILITIES_LOADING_ERROR,
 } from './constants';
 import { NETWORK_ERROR_RETRY_DELAY } from '../../constants';
 

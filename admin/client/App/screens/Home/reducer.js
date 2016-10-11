@@ -1,13 +1,13 @@
 import {
 	LOAD_COUNTS,
 	COUNTS_LOADING_SUCCESS,
-	COUNTS_LOADING_ERROR
+	COUNTS_LOADING_ERROR,
 } from './constants';
 
 const initialState = {
 	counts: {},
 	loading: false,
-	error: null
+	error: null,
 };
 
 function home (state = initialState, action) {

@@ -1,8 +1,6 @@
 var React = require('react');
-var ReactDOM = require('react-dom');
 
 var Button = require('elemental').Button;
-var FormField = require('elemental').FormField;
 var FormInput = require('elemental').FormInput;
 var FormSelect = require('elemental').FormSelect;
 var InputGroup = require('elemental').InputGroup;
@@ -22,7 +20,7 @@ module.exports = {
 	getInitialState: function () {
 		return {
 			values: Array.isArray(this.props.value) ? this.props.value.map(newItem) : this.props.value,
-			options: this.props.defaultValue.map((m) => ({label:m, value:m}))
+			options: this.props.defaultValue.map((m) => ({ label: m, value: m })),
 		};
 	},
 
@@ -37,7 +35,7 @@ module.exports = {
 	addItem: function () {
 		var newValues = this.state.values.concat(newItem(''));
 		this.setState({
-			values: newValues
+			values: newValues,
 		});
 		this.valueChanged(reduceValues(newValues));
 	},
@@ -45,7 +43,7 @@ module.exports = {
 	removeItem: function (i) {
 		var newValues = _.without(this.state.values, i);
 		this.setState({
-			values: newValues
+			values: newValues,
 		});
 		this.valueChanged(reduceValues(newValues));
 	},
@@ -124,5 +122,5 @@ module.exports = {
 	// Override shouldCollapse to check for array length
 	shouldCollapse: function () {
 		return this.props.collapse && !this.props.value.length;
-	}
+	},
 };
