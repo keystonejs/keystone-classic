@@ -30,7 +30,7 @@ with a real keystone app server.
 
         drivers
             <browser drivers>                   => all required browser drivers
-            
+
         updates                                 => all schema update/migration files
            0.0.1-updates-e2e.js                 => keystone updates
 
@@ -50,12 +50,12 @@ from keystone's root directory:
         - Make sure that you have Firefox(or Chrome) installed.  Firefox is the default browser used.
           Using Chrome requires specifying a different --env parameter (see below).  For any tests below
           you may replace the "--env default" parameter with one of the following:
-          
+
             --env chrome, if you are on a linux 64-bit system
             --env chrome-linux32, if you are on a linux 32-bit system
             --env chrome-mac32, if you are on a mac system
             --env chrome-win32, if you are on a windows system
-            
+
         - Make sure that you have a local mongo instance running.
         - Make sure that port 3000 is available; if not please tell the e2e server what port it
           should bind to.  For example, to use port 9999 do the following (in a bash shell):
@@ -65,28 +65,28 @@ from keystone's root directory:
     Running in your local environment using all defaults (good to do before doing a commit):
 
         npm run test-e2e
-        
+
     If the above npm run command does not work for you then there are some issues with selenium and some platforms.
     Try the following instead:
-    
+
         npm run test-e2e-bg
 
     If you are in active development and just want to run a single group in your local environment:
 
         node test/e2e/server.js --env default --config ./test/e2e/adminUI/nightwatch.json --group test/e2e/adminUI/tests/<group>
-        
-        or, if the above doesn't work in your platform try: 
-        
-        node test/e2e/server.js --env default --selenium-in-background --config ./test/e2e/adminUI/nightwatch-no-process.json --group test/e2e/adminUI/tests/<group> 
+
+        or, if the above doesn't work in your platform try:
+
+        node test/e2e/server.js --env default --selenium-in-background --config ./test/e2e/adminUI/nightwatch-no-process.json --group test/e2e/adminUI/tests/<group>
 
     Running a single test in your local environment:
 
         node test/e2e/server.js --env default --config ./test/e2e/adminUI/nightwatch.json --test test/e2e/adminUI/tests/<group>/<test>
-        
-        or, if the above doesn't work in your platform try: 
-        
-        node test/e2e/server.js --env default --selenium-in-background --config ./test/e2e/adminUI/nightwatch-no-process.json --test test/e2e/adminUI/tests/<group>/<test> 
-        
+
+        or, if the above doesn't work in your platform try:
+
+        node test/e2e/server.js --env default --selenium-in-background --config ./test/e2e/adminUI/nightwatch-no-process.json --test test/e2e/adminUI/tests/<group>/<test>
+
 
     Travis builds will run:
 
@@ -205,3 +205,6 @@ Here are some don'ts that may cross your mind as good ideas but shouldn't:
     objects.  For the most part we are sticking to that suggestion.  The only place where we currently do assertions
     is in the field type definitions, since the fields know better about their contained path elements.  So please
     try not to add assertions anywhere else in page objects as doing so may have subtle pitfalls.
+
+
+http://localhost:4444/selenium-server/driver/?cmd=shutDownSeleniumServer

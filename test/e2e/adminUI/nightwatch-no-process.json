@@ -109,6 +109,16 @@
         "webdriver.chrome.driver": "test/e2e/drivers/chrome/mac32/chromedriver"
       }
     },
+    "chrome-mac64": {
+      "desiredCapabilities": {
+        "browserName": "chrome",
+        "javascriptEnabled": true,
+        "acceptSslCerts": true
+      },
+      "cli_args": {
+        "webdriver.chrome.driver": "test/e2e/drivers/chrome/mac64/chromedriver"
+      }
+    },
     "chrome-linux64": {
       "desiredCapabilities": {
         "browserName": "chrome",
