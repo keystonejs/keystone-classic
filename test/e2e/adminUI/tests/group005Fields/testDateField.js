@@ -62,6 +62,11 @@ module.exports = {
 				'fieldB': {value: '2016-01-02'}
 			}
 		});
+		// since the datepicker popup remains open
+		// when filling out the form clicking on the Save button
+		// has no effect. We need either click elsewhere in the page
+		// or click twice save
+		browser.itemPage.getBodyFocus();
 		browser.itemPage.save();
 		browser.app.waitForItemScreen();
 		browser.itemPage.assertFlashMessage('Your changes have been saved successfully');

@@ -145,6 +145,7 @@ module.exports = {
 		deleteButton: '.EditForm-container button[class="Button Button--link-delete u-float-right"]',
 		deleteButtonText: '.EditForm-container button[class="Button Button--link-delete u-float-right"] span',
 		firstRelationshipItemLink: 'div.Relationships > div > div > div > table > tbody > tr > td > a',
+		fucusBody: 'body',
 	},
 	commands: [{
 		//
@@ -216,6 +217,10 @@ module.exports = {
 		navitageToFirstRelationship: function() {
 			return this
 				.click('@firstRelationshipItemLink');
+		},
+		getBodyFocus: function() {
+			return this
+				.click('@fucusBody');
 		},
 	}],
 };
