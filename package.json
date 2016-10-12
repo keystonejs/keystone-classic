@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "aphrodite": "0.6.0",
-    "async": "2.0.1",
+    "async": "2.1.0",
     "asyncdi": "1.1.0",
     "babel-core": "6.17.0",
     "babel-plugin-transform-object-assign": "6.8.0",
