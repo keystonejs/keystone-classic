@@ -17,6 +17,12 @@ module.exports = {
 				.setValue('@passwordInput', 'test')
 				.click('@submitButton');
 		},
+		signinNotAdmin: function () {
+			return this
+				.setValue('@emailInput', 'notadmin@test.e2e')
+				.setValue('@passwordInput', 'test')
+				.click('@submitButton');
+		},
 		assertUI: function () {
 			this
 				.expect.element('@emailInput').to.be.visible;

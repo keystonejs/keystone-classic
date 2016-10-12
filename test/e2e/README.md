@@ -206,5 +206,7 @@ Here are some don'ts that may cross your mind as good ideas but shouldn't:
     is in the field type definitions, since the fields know better about their contained path elements.  So please
     try not to add assertions anywhere else in page objects as doing so may have subtle pitfalls.
 
-
+if you get an error about selenium already running just use the link below
 http://localhost:4444/selenium-server/driver/?cmd=shutDownSeleniumServer
+
+Be carefull about keystone based projects running at the same time as the 2e2 test

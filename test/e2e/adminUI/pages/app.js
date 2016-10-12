@@ -22,8 +22,8 @@ module.exports = {
 		homeIconLink: '.primary-navbar [data-section-label="octicon-home"] a',
 		frontPageIcon: '.primary-navbar [data-section-label="octicon-globe"]',
 		frontPageIconLink: '.primary-navbar [data-section-label="octicon-globe"] a',
-		logoutIcon: '.primary-navbar [data-section-label="octicon-sign-out"]',
-		logoutIconLink: '.primary-navbar [data-section-label="octicon-sign-out"] a',
+		logoutIcon: '.primary-navbar a .octicon-sign-out',
+		logoutIconLink: '.primary-navbar [title="Sign Out"]',
 
 		// LIST NAV MENU
 		accessMenu: '.primary-navbar [data-section-label="Access"]',

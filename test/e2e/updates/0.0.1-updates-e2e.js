@@ -1,6 +1,6 @@
 /*
- This updates finds the e2e User and sets its properties, including setting the isAdmin property to true.  
- e2e will check that setting in the admin UI.  
+ This updates finds the e2e User and sets its properties, including setting the isAdmin property to true.
+ e2e will check that setting in the admin UI.
  */
 exports.options = {
 	verbose: true,
@@ -26,5 +26,15 @@ exports.create = {
 		isAdmin: true,
 		isMember: true,
 		__ref: 'e2e_member'
+	},
+	{
+		'name.first': 'e2e',
+		'name.last': 'notadmin',
+		'name.full': 'e2e notadmin',
+		email: 'notadmin@test.e2e',
+		password: 'test',
+		isAdmin: false,
+		isMember: false,
+		__ref: 'e2e_not_admin'
 	}],
 };
