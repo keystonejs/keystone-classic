@@ -10,6 +10,10 @@ module.exports = {
 			locateStrategy: 'xpath',
 			selector: '//tbody/tr[2]/td[contains(concat(" ", normalize-space(@class), " "), "ItemList__col--control ItemList__col--delete")][1]',
 		},
+		thirdItemDeleteIcon: {
+			locateStrategy: 'xpath',
+			selector: '//tbody/tr[3]/td[contains(concat(" ", normalize-space(@class), " "), "ItemList__col--control ItemList__col--delete")][1]',
+		},
 		itemDeleteIcon: '.Table.ItemList .ItemList__col--control.ItemList__col--delete',
 		searchInputField: '.ListHeader__searchbar-input',
 		searchInputFieldClearIcon: '.ListHeader__search__icon',
@@ -48,9 +52,17 @@ module.exports = {
 			locateStrategy: 'xpath',
 			selector: '//tbody/tr[2]/td[2]',
 		},
+		thirdItemFirstColumnValue: {
+			locateStrategy: 'xpath',
+			selector: '//tbody/tr[3]/td[2]',
+		},
 		secondItemSecondColumnValue: {
 			locateStrategy: 'xpath',
 			selector: '//tbody/tr[2]/td[3]',
+		},
+		thirdItemSecondColumnValue: {
+			locateStrategy: 'xpath',
+			selector: '//tbody/tr[3]/td[3]',
 		},
 		secondItemThirdColumnValue: {
 			locateStrategy: 'xpath',
@@ -60,13 +72,25 @@ module.exports = {
 			locateStrategy: 'xpath',
 			selector: '//tbody/tr[1]/td[4]/div/span[contains(@class, "octicon-x")]',
 		},
+		secondUserItemIsNotAdmin: {
+			locateStrategy: 'xpath',
+			selector: '//tbody/tr[2]/td[4]/div/span[contains(@class, "octicon-x")]',
+		},
 		firstUserItemIsMember: {
 			locateStrategy: 'xpath',
 			selector: '//tbody/tr[1]/td[5]/div/span[contains(@class, "octicon-check")]',
 		},
-		secondUserItemIsAdmin: {
+		thirdUserItemIsAdmin: {
 			locateStrategy: 'xpath',
-			selector: '//tbody/tr[2]/td[4]/div/span[contains(@class, "octicon-check")]',
+			selector: '//tbody/tr[3]/td[4]/div/span[contains(@class, "octicon-check")]',
+		},
+		thirdUserItemIsAdmin: {
+			locateStrategy: 'xpath',
+			selector: '//tbody/tr[3]/td[4]/div/span[contains(@class, "octicon-check")]',
+		},
+		thirdUserItemIsNotMember: {
+			locateStrategy: 'xpath',
+			selector: '//tbody/tr[3]/td[5]/div/span[contains(@class, "octicon-x")]',
 		},
 		secondUserItemIsNotMember: {
 			locateStrategy: 'xpath',

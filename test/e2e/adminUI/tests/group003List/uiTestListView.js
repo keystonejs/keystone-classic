@@ -77,6 +77,8 @@ module.exports = {
 			.expect.element('@firstItemDeleteIcon').to.be.visible;
 		browser.listPage
 			.expect.element('@secondItemDeleteIcon').to.be.visible;
+		browser.listPage
+			.expect.element('@thirdItemDeleteIcon').to.be.visible;
 	},
 	'List screen user item must have a name value': function (browser) {
 		browser.listPage
@@ -89,7 +91,13 @@ module.exports = {
 			.expect.element('@secondItemFirstColumnValue').to.be.visible;
 
 		browser.listPage
-			.expect.element('@secondItemFirstColumnValue').text.to.equal('e2e user');
+			.expect.element('@secondItemFirstColumnValue').text.to.equal('e2e notadmin');
+
+		browser.listPage
+			.expect.element('@thirdItemFirstColumnValue').to.be.visible;
+
+		browser.listPage
+			.expect.element('@thirdItemFirstColumnValue').text.to.equal('e2e user');
 	},
 	'List screen user item must have a value in the email column': function (browser) {
 		browser.listPage
@@ -102,7 +110,13 @@ module.exports = {
 			.expect.element('@secondItemSecondColumnValue').to.be.visible;
 
 		browser.listPage
-			.expect.element('@secondItemSecondColumnValue').text.to.equal('user@test.e2e');
+			.expect.element('@secondItemSecondColumnValue').text.to.equal('notadmin@test.e2e');
+
+		browser.listPage
+			.expect.element('@thirdItemSecondColumnValue').to.be.visible;
+
+		browser.listPage
+			.expect.element('@thirdItemSecondColumnValue').text.to.equal('user@test.e2e');
 	},
 	'List screen user item must have a value in the Is Admin column': function (browser) {
 		browser.listPage
@@ -113,10 +127,10 @@ module.exports = {
 	},
 	'List screen user item must be an Admin and not a Member': function (browser) {
 		browser.listPage
-			.expect.element('@secondUserItemIsAdmin').to.be.visible;
+			.expect.element('@thirdUserItemIsAdmin').to.be.visible;
 
 		browser.listPage
-			.expect.element('@secondUserItemIsNotMember').to.be.visible;
+			.expect.element('@thirdUserItemIsNotMember').to.be.visible;
 	},
 	'List screen member item must be a Member and not an Admin': function (browser) {
 		browser.listPage
@@ -124,5 +138,12 @@ module.exports = {
 
 		browser.listPage
 			.expect.element('@firstUserItemIsNotAdmin').to.be.visible;
+	},
+	'List screen user item must not be neither Admin nor Member': function (browser) {
+		browser.listPage
+			.expect.element('@secondUserItemIsNotAdmin').to.be.visible;
+
+		browser.listPage
+			.expect.element('@secondUserItemIsNotMember').to.be.visible;
 	},
 };
