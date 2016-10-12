@@ -24,6 +24,7 @@ module.exports = {
 		frontPageIconLink: '.primary-navbar [data-section-label="octicon-globe"] a',
 		logoutIcon: '.primary-navbar a .octicon-sign-out',
 		logoutIconLink: '.primary-navbar [title="Sign Out"]',
+		userFirstName: '.primary-navbar [title="User"]',
 
 		// LIST NAV MENU
 		accessMenu: '.primary-navbar [data-section-label="Access"]',

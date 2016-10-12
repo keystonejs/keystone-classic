@@ -34,13 +34,16 @@ module.exports = {
 		browser.app.expect.element('@fieldListsMenu')
 			.text.to.equal('Fields');
 	},
-	'Home view should have a Front Page Icon': function (browser) {
-		browser.app.expect.element('@frontPageIcon')
+	'Home view should have a the User first name': function (browser) {
+		/*
+		* The Front Page icon was replaced with the current user name
+		*/
+		browser.app.expect.element('@userFirstName')
 			.to.be.visible;
 	},
-	'Home view should have a Front Page link': function (browser) {
-		browser.app.expect.element('@frontPageIconLink')
-			.to.have.attribute('title').which.contains('Front page - e2e');
+	'Home view should have a link to the current user': function (browser) {
+		browser.app.expect.element('@userFirstName')
+			.to.have.attribute('title').which.contains('User');
 	},
 	'Home view should have a Logout icon': function (browser) {
 		browser.app.expect.element('@logoutIcon')

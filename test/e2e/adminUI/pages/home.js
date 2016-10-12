@@ -3,7 +3,7 @@ var dashboardGroup = require('./dashboardGroup');
 var accessdashboardGroup = dashboardGroup({
 	groupName: 'Access',
 	tabs: [
-		{name: 'users', items: '2 Items'},
+		{name: 'users', items: '3 Items'}, // 1 for each user
 	],
 });
 
