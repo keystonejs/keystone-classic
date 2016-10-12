@@ -49,7 +49,7 @@ module.exports = {
 
 		browser.itemPage
 			.expect.element('@readOnlyNameHeader')
-			.text.to.equal('e2e user');
+			.text.to.equal('e2e notadmin');
 	},
 	'Item screen should show an item id label': function (browser) {
 		browser.itemPage
