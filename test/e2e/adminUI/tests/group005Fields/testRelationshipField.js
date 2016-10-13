@@ -66,7 +66,7 @@ module.exports = {
 			fields: {
 				'name': {value: 'Relationship Field Test 1'},
 				'fieldA': {value: 'e2e member'},
-				'fieldB': {value: 'e2e user'}
+				'fieldB': {value: 'e2e notadmin'}
 			}
 		})
 	},

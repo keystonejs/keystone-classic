@@ -1,6 +1,7 @@
 var fieldTests = require('./commonFieldTestUtils.js');
 
 module.exports = {
+	'@disabled': true,
 	before: fieldTests.before,
 	after: fieldTests.after,
 	'NumberArray field should show correctly in the initial modal': function (browser) {
