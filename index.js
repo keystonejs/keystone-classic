@@ -46,12 +46,12 @@ var Keystone = function () {
 	// init environment defaults
 	this.set('env', process.env.NODE_ENV || 'development');
 
-	this.set('port', process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT);
-	this.set('host', process.env.HOST || process.env.IP || process.env.OPENSHIFT_NODEJS_IP);
+	this.set('port', process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || '3000');
+	this.set('host', process.env.HOST || process.env.IP || process.env.OPENSHIFT_NODEJS_IP) || '0.0.0.0';
 	this.set('listen', process.env.LISTEN);
 
 	this.set('ssl', process.env.SSL);
-	this.set('ssl port', process.env.SSL_PORT);
+	this.set('ssl port', process.env.SSL_PORT || '3001');
 	this.set('ssl host', process.env.SSL_HOST || process.env.SSL_IP);
 	this.set('ssl key', process.env.SSL_KEY);
 	this.set('ssl cert', process.env.SSL_CERT);
