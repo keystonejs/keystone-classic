@@ -36,13 +36,13 @@ User.add({
 });
 
 User.schema.virtual('canAccessKeystone').get(function () {
-	return this.isAdmin;
+	return !this.isMember;
 });
 
 User.schema.methods.managementLists = function() {
   return {
 		then: function(cb) {
-			cb([])
+			cb(['User', 'Date'])
 		}
 	}
 };

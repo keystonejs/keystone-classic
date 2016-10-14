@@ -129,6 +129,10 @@ module.exports = {
 		navigateToFirstItem: function() {
 			return this
 				.click('@firstItemLink');
+		},
+		navigateToSecondItem: function() {
+			return this
+				.click('@secondItemLink');
 		}
 	}],
 };
