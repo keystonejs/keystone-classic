@@ -6,7 +6,6 @@
  * @api private
  */
 
-var async = require('async');
 var letsencrypt = require('letsencrypt-express');
 
 module.exports = function (keystone, app) {
