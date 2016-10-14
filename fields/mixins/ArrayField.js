@@ -21,13 +21,14 @@ function reduceValues (values) {
 }
 
 module.exports = {
-	getInitialState: function () {
-		const _isArray = Array.isArray(this.props.defaultValue);
+	isArray: function(){
+		return Array.isArray(this.props.defaultValue);
+	},
 
+	getInitialState: function () {
 		return {
 			values: Array.isArray(this.props.value) ? this.props.value.map(newItem) : this.props.value,
-			options: _isArray ? this.props.defaultValue.map((m) => ({ label: m, value: m })) : [],
-			isArray: _isArray,
+			options: this.isArray() ? this.props.defaultValue.map((m) => ({ label: m, value: m })) : [],
 		};
 	},
 
@@ -45,7 +46,7 @@ module.exports = {
 			values: newValues,
 		}, () => {
 			if (!this.state.values.length) return;
-			if(this.state.isArray) return;
+			if(this.isArray()) return;
 			ReactDOM.findDOMNode(this.refs['item_' + this.state.values.length]).focus();
 		});
 		this.valueChanged(reduceValues(newValues));
@@ -56,7 +57,7 @@ module.exports = {
 		this.setState({
 			values: newValues,
 		}, function () {
-			if(this.state.isArray) return;
+			if(this.isArray()) return;
 			ReactDOM.findDOMNode(this.refs.button).focus();
 		});
 		this.valueChanged(reduceValues(newValues));
@@ -65,7 +66,7 @@ module.exports = {
 	updateItem: function (i, newValue) {
 		var updatedValues = this.state.values;
 		const strValue = typeof newValue === 'string' ? newValue : (newValue.value || newValue.target.value);
-		if (reduceValues(updatedValues).indexOf(newValue) >= 0 && this.state.isArray) {
+		if (reduceValues(updatedValues).indexOf(newValue) >= 0 && this.isArray()) {
 			alert(`${newValue} is already selected`);
 			return;
 		}
@@ -99,7 +100,7 @@ module.exports = {
 		const Input = this.getInputComponent ? this.getInputComponent() : FormInput;
 
 		return (
-			this.state.isArray
+			this.isArray()
 			? <InputGroup id={item.key}>
 				<InputGroup.Section grow>
 					<FormSelect

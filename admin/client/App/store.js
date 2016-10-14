@@ -21,7 +21,7 @@ const reducers = combineReducers({
 	permissions: userAbilities,
 });
 
-const logger = createLogger();
+//const logger = createLogger();
 // Create the store
 const store = createStore(
 	reducers,
@@ -30,7 +30,7 @@ const store = createStore(
 			// Support thunked actions and react-router-redux
 			thunk,
 			routerMiddleware(browserHistory),
-			logger
+			//logger
 		),
 		// Support the Chrome DevTools extension
 		window.devToolsExtension ? window.devToolsExtension() : f => f

@@ -23,6 +23,7 @@ var RelationshipList = require('./lists/relationship');
 var SelectList = require('./lists/select');
 var TextareaList = require('./lists/textarea');
 var TextArrayList = require('./lists/textArray');
+var TextArraySelectList = require('./lists/textArraySelect');
 var TextList = require('./lists/text');
 var UrlList = require('./lists/url');
 var UserList = require('./lists/user');
@@ -69,6 +70,7 @@ module.exports = {
 				selectList: new SelectList(),
 				textareaList: new TextareaList(),
 				textarrayList: new TextArrayList(),
+				textarrayselectList: new TextArraySelectList(),
 				textList: new TextList(),
 				urlList: new UrlList(),
 				userList: new UserList(),

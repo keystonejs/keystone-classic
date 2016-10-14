@@ -55,6 +55,7 @@ module.exports = {
 		selectListSubmenu: '.secondary-navbar [data-list-path="selects"]',
 		textareaListSubmenu: '.secondary-navbar [data-list-path="textareas"]',
 		textarrayListSubmenu: '.secondary-navbar [data-list-path="text-arrays"]',
+		textarrayselectListSubmenu: '.secondary-navbar [data-list-path="text-array-selects"]',
 		textListSubmenu: '.secondary-navbar [data-list-path="texts"]',
 		urlListSubmenu: '.secondary-navbar [data-list-path="urls"]',
 

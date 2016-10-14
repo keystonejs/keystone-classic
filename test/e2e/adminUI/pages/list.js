@@ -116,6 +116,7 @@ module.exports = {
 			locateStrategy: 'xpath',
 			selector: '//tbody/tr[2]/td/a[contains(@class, "ItemList__value ItemList__value--text")][1]',
 		},
+		newItemButton: '.Button--default',
 	},
 	commands: [{
 		deleteItem: function (selector) {
@@ -133,6 +134,10 @@ module.exports = {
 		navigateToSecondItem: function() {
 			return this
 				.click('@secondItemLink');
+		},
+		addNewItem: function() {
+			return this
+				.click('@newItemButton');
 		}
 	}],
 };

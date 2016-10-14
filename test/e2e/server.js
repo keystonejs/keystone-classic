@@ -76,6 +76,7 @@ keystone.set('nav', {
 		'selects',
 		'texts',
 		'text-arrays',
+		'text-array-selects',
 		'textareas',
 		'urls',
 	],
