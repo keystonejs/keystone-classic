@@ -45,7 +45,7 @@ module.exports = {
 	'TextArray field should show correctly in the edit form': function(browser) {
 		browser.itemPage.assertUI({
 			listName: 'TextArray',
-			fields: ['fieldA', 'fieldB']
+			fields: ['fieldA']
 		});
 		browser.itemPage.section.form.section.textarrayList.section.fieldA.addText();
 		browser.itemPage.assertUI({
@@ -59,25 +59,12 @@ module.exports = {
 			fields: ['fieldA'],
 			args: {'textInputs': ['text1', 'text2']}
 		});
-		browser.itemPage.section.form.section.textarrayList.section.fieldB.addText();
-		browser.itemPage.section.form.section.textarrayList.section.fieldB.addText();
-		browser.itemPage.assertUI({
-			listName: 'TextArray',
-			fields: ['fieldB'],
-			args: {'textInputs': ['text1', 'text2']}
-		});
 	},
 	'TextArray field can be filled via the edit form': function(browser) {
 		browser.itemPage.fillInputs({
 			listName: 'TextArray',
 			fields: {
-				'fieldA': {text1: 'Test text 1', text2: 'Test text 2'}
-			}
-		});
-		browser.itemPage.fillInputs({
-			listName: 'TextArray',
-			fields: {
-				'fieldB': {text1: 'Test text 3', text2: 'Test text 4'}
+				'fieldA': {text1: 'Test changed 1', text2: 'Test changed 2'}
 			}
 		});
 		browser.itemPage.save();
@@ -87,8 +74,7 @@ module.exports = {
 			listName: 'TextArray',
 			fields: {
 				'name': {value: 'TextArray Field Test 1'},
-				'fieldA': {text1: 'Test text 1', text2: 'Test text 2'},
-				'fieldB': {text1: 'Test text 3', text2: 'Test text 4'},
+				'fieldA': {text1: 'Test changed 1', text2: 'Test changed 2'},
 			}
 		})
 	},

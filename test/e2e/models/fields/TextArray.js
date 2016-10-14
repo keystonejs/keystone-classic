@@ -20,12 +20,9 @@ TextArray.add({
 	fieldA: {
 		type: Types.TextArray,
 	},
-	fieldB: {
-		type: Types.TextArray,
-	},
 });
 
-TextArray.defaultColumns = 'name, fieldA, fieldB';
+TextArray.defaultColumns = 'name, fieldA';
 TextArray.register();
 
 module.exports = TextArray;

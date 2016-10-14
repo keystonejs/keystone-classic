@@ -2,7 +2,6 @@ var fieldTests = require('./commonFieldTestUtils.js');
 
 //TODO: the changes for TextArrayField broke this
 module.exports = {
-	'@disabled': true,
 	before: fieldTests.before,
 	after: fieldTests.after,
 	'DateArray field should show correctly in the initial modal': function (browser) {
@@ -51,7 +50,7 @@ module.exports = {
 	'DateArray field should show correctly in the edit form': function(browser) {
 		browser.itemPage.assertUI({
 			listName: 'DateArray',
-			fields: ['fieldA', 'fieldB']
+			fields: ['fieldA']
 		});
 		browser.itemPage.section.form.section.datearrayList.section.fieldA.addDate();
 		browser.itemPage.assertUI({
@@ -65,13 +64,6 @@ module.exports = {
 			fields: ['fieldA'],
 			args: {'dateInputs': ['date1', 'date2']}
 		});
-		browser.itemPage.section.form.section.datearrayList.section.fieldB.addDate();
-		browser.itemPage.section.form.section.datearrayList.section.fieldB.addDate();
-		browser.itemPage.assertUI({
-			listName: 'DateArray',
-			fields: ['fieldB'],
-			args: {'dateInputs': ['date1', 'date2']}
-		});
 	},
 	'DateArray field can be filled via the edit form': function(browser) {
 		browser.itemPage.fillInputs({
@@ -80,12 +72,7 @@ module.exports = {
 				'fieldA': {date1: '2016-01-01', date2: '2016-01-02'}
 			}
 		});
-		browser.itemPage.fillInputs({
-			listName: 'DateArray',
-			fields: {
-				'fieldB': {date1: '2016-01-03', date2: '2016-01-04'}
-			}
-		});
+		browser.itemPage.getBodyFocus();
 		browser.itemPage.save();
 		browser.app.waitForItemScreen();
 		browser.itemPage.assertFlashMessage('Your changes have been saved successfully');

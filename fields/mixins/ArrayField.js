@@ -1,11 +1,15 @@
 var React = require('react');
+var ReactDOM = require('react-dom');
 
 var Button = require('elemental').Button;
 var FormInput = require('elemental').FormInput;
 var FormSelect = require('elemental').FormSelect;
 var InputGroup = require('elemental').InputGroup;
+var FormInput = require('elemental').FormInput;
+var FormField = require('elemental').FormField;
 
 var lastId = 0;
+var ENTER_KEYCODE = 13;
 
 function newItem (value) {
 	lastId = lastId + 1;
@@ -18,9 +22,12 @@ function reduceValues (values) {
 
 module.exports = {
 	getInitialState: function () {
+		const _isArray = Array.isArray(this.props.defaultValue);
+
 		return {
 			values: Array.isArray(this.props.value) ? this.props.value.map(newItem) : this.props.value,
-			options: this.props.defaultValue.map((m) => ({ label: m, value: m })),
+			options: _isArray ? this.props.defaultValue.map((m) => ({ label: m, value: m })) : [],
+			isArray: _isArray,
 		};
 	},
 
@@ -36,6 +43,10 @@ module.exports = {
 		var newValues = this.state.values.concat(newItem(''));
 		this.setState({
 			values: newValues,
+		}, () => {
+			if (!this.state.values.length) return;
+			if(this.state.isArray) return;
+			ReactDOM.findDOMNode(this.refs['item_' + this.state.values.length]).focus();
 		});
 		this.valueChanged(reduceValues(newValues));
 	},
@@ -44,19 +55,23 @@ module.exports = {
 		var newValues = _.without(this.state.values, i);
 		this.setState({
 			values: newValues,
+		}, function () {
+			if(this.state.isArray) return;
+			ReactDOM.findDOMNode(this.refs.button).focus();
 		});
 		this.valueChanged(reduceValues(newValues));
 	},
 
 	updateItem: function (i, newValue) {
 		var updatedValues = this.state.values;
-		if (reduceValues(updatedValues).indexOf(newValue) >= 0) {
+		const strValue = typeof newValue === 'string' ? newValue : (newValue.value || newValue.target.value);
+		if (reduceValues(updatedValues).indexOf(newValue) >= 0 && this.state.isArray) {
 			alert(`${newValue} is already selected`);
 			return;
 		}
 
 		var updateIndex = updatedValues.indexOf(i);
-		updatedValues[updateIndex].value = newValue;
+		updatedValues[updateIndex].value = this.cleanInput ? this.cleanInput(strValue) : strValue;
 		this.setState({
 			values: updatedValues,
 		});
@@ -64,7 +79,6 @@ module.exports = {
 	},
 
 	valueChanged: function (values) {
-		console.log(values);
 		this.props.onChange({
 			path: this.props.path,
 			value: values,
@@ -82,9 +96,11 @@ module.exports = {
 
 	renderItem: function (item, index) {
 		const value = this.processInputValue ? this.processInputValue(item.value) : item.value;
+		const Input = this.getInputComponent ? this.getInputComponent() : FormInput;
 
 		return (
-			<InputGroup id={item.key}>
+			this.state.isArray
+			? <InputGroup id={item.key}>
 				<InputGroup.Section grow>
 					<FormSelect
 						name={this.props.path}
@@ -100,6 +116,12 @@ module.exports = {
 				</InputGroup.Section>
 
 			</InputGroup>
+			: <FormField key={item.key}>
+				<Input ref={'item_' + (index + 1)} name={this.props.path} value={value} onChange={this.updateItem.bind(this, item)} onKeyDown={this.addItemOnEnter} autoComplete="off" />
+				<Button type="link-cancel" onClick={this.removeItem.bind(this, item)} className="keystone-relational-button">
+					<span className="octicon octicon-x" />
+				</Button>
+			</FormField>
 		);
 	},
 
@@ -122,5 +144,12 @@ module.exports = {
 	// Override shouldCollapse to check for array length
 	shouldCollapse: function () {
 		return this.props.collapse && !this.props.value.length;
+	},
+
+	addItemOnEnter: function (event) {
+		if (event.keyCode === ENTER_KEYCODE) {
+			this.addItem();
+			event.preventDefault();
+		}
 	},
 };

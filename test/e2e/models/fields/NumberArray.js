@@ -19,13 +19,10 @@ NumberArray.add({
 	},
 	fieldA: {
 		type: Types.NumberArray,
-	},
-	fieldB: {
-		type: Types.NumberArray,
-	},
+	}
 });
 
-NumberArray.defaultColumns = 'name, fieldA, fieldB';
+NumberArray.defaultColumns = 'name, fieldA';
 NumberArray.register();
 
 module.exports = NumberArray;

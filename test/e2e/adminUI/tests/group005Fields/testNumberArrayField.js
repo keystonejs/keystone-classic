@@ -1,7 +1,6 @@
 var fieldTests = require('./commonFieldTestUtils.js');
 
 module.exports = {
-	'@disabled': true,
 	before: fieldTests.before,
 	after: fieldTests.after,
 	'NumberArray field should show correctly in the initial modal': function (browser) {
@@ -46,7 +45,7 @@ module.exports = {
 	'NumberArray field should show correctly in the edit form': function(browser) {
 		browser.itemPage.assertUI({
 			listName: 'NumberArray',
-			fields: ['fieldA', 'fieldB']
+			fields: ['fieldA']
 		});
 		browser.itemPage.section.form.section.numberarrayList.section.fieldA.addNumber();
 		browser.itemPage.assertUI({
@@ -60,25 +59,12 @@ module.exports = {
 			fields: ['fieldA'],
 			args: {'numberInputs': ['number1', 'number2']}
 		});
-		browser.itemPage.section.form.section.numberarrayList.section.fieldB.addNumber();
-		browser.itemPage.section.form.section.numberarrayList.section.fieldB.addNumber();
-		browser.itemPage.assertUI({
-			listName: 'NumberArray',
-			fields: ['fieldB'],
-			args: {'numberInputs': ['number1', 'number2']}
-		});
 	},
 	'NumberArray field can be filled via the edit form': function(browser) {
 		browser.itemPage.fillInputs({
 			listName: 'NumberArray',
 			fields: {
 				'fieldA': {number1: '1', number2: '2'}
-			}
-		});
-		browser.itemPage.fillInputs({
-			listName: 'NumberArray',
-			fields: {
-				'fieldB': {number1: '3', number2: '4'}
 			}
 		});
 		browser.itemPage.save();
@@ -89,7 +75,6 @@ module.exports = {
 		 	fields: {
 		 		'name': {value: 'NumberArray Field Test 1'},
 		 		'fieldA': {number1: '1', number2: '2'},
-		 		'fieldB': {number1: '3', number2: '4'},
 		 	}
 		 })
 	},

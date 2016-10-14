@@ -19,13 +19,10 @@ DateArray.add({
 	},
 	fieldA: {
 		type: Types.DateArray,
-	},
-	fieldB: {
-		type: Types.DateArray,
-	},
+	}
 });
 
-DateArray.defaultColumns = 'name, fieldA, fieldB';
+DateArray.defaultColumns = 'name, fieldA';
 DateArray.register();
 
 module.exports = DateArray;

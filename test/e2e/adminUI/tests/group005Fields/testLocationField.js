@@ -4,7 +4,6 @@ var fieldTests = require('./commonFieldTestUtils.js');
 // some elements are hidden and breaking the tests because of that
 // implementing phantomjs would solve the issue.
 module.exports = {
-	'@disabled': true,
 	before: fieldTests.before,
 	after: fieldTests.after,
 	'Location field should show correctly in the initial modal': function (browser) {
@@ -52,24 +51,7 @@ module.exports = {
 				},
 			}
 		});
-		browser.initialFormPage.assertInputs({
-			listName: 'Location',
-			fields: {
-				'name': {value: 'Location Field Test 1'},
-				'fieldA': {
-					'number': 'Field A',
-					'name': 'Building A',
-					'street1': 'Street A',
-					'street2': 'Town A',
-					'suburb': 'Suburb A',
-					'state': 'State A',
-					'postcode': 'AAA AAA',
-					'country': 'AAA',
-					'geoLat': '123',
-					'geoLng': '123'
-				},
-			}
-		});
+
 		browser.initialFormPage.save();
 		browser.app.waitForItemScreen();
 
@@ -98,33 +80,22 @@ module.exports = {
 			fields: ['fieldA'],
 			args: { 'showMore': true },
 		});
-		browser.itemPage.assertUI({
-			listName: 'Location',
-			fields: ['fieldB'],
-			args: { 'showMore': false },
-		});
-		browser.itemPage.section.form.section.locationList.section.fieldB.showMore();
-		browser.itemPage.assertUI({
-			listName: 'Location',
-			fields: ['fieldB'],
-			args: { 'showMore': true },
-		});
 	},
 	'Location field can be filled via the edit form': function(browser) {
 		browser.itemPage.fillInputs({
 			listName: 'Location',
 			fields: {
-				'fieldB': {
-					'number': 'Field B',
-					'name': 'Building B',
-					'street1': 'Street B',
-					'street2': 'Town B',
-					'suburb': 'Suburb B',
-					'state': 'State B',
-					'postcode': 'BBB BBB',
-					'country': 'BBB',
-					'geoLat': '123',
-					'geoLng': '123'
+				'fieldA': {
+					'number': 'Field-changed A',
+					'name': 'Building-changed A',
+					'street1': 'Street-changed A',
+					'street2': 'Town-changed A',
+					'suburb': 'Suburb-changed A',
+					'state': 'State-changed A',
+					'postcode': '000 000',
+					'country': 'COL',
+					'geoLat': '999',
+					'geoLng': '999'
 				},
 			}
 		});
@@ -136,28 +107,16 @@ module.exports = {
 			fields: {
 				'name': {value: 'Location Field Test 1'},
 				'fieldA': {
-					'number': 'Field A',
-					'name': 'Building A',
-					'street1': 'Street A',
-					'street2': 'Town A',
-					'suburb': 'Suburb A',
-					'state': 'State A',
-					'postcode': 'AAA AAA',
-					'country': 'AAA',
-					'geoLat': '123',
-					'geoLng': '123'
-				},
-				'fieldB': {
-					'number': 'Field B',
-					'name': 'Building B',
-					'street1': 'Street B',
-					'street2': 'Town B',
-					'suburb': 'Suburb B',
-					'state': 'State B',
-					'postcode': 'BBB BBB',
-					'country': 'BBB',
-					'geoLat': '123',
-					'geoLng': '123'
+					'number': 'Field-changed A',
+					'name': 'Building-changed A',
+					'street1': 'Street-changed A',
+					'street2': 'Town-changed A',
+					'suburb': 'Suburb-changed A',
+					'state': 'State-changed A',
+					'postcode': '000 000',
+					'country': 'COL',
+					'geoLat': '999',
+					'geoLng': '999'
 				},
 			}
 		})

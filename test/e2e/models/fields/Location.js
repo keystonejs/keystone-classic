@@ -21,12 +21,9 @@ Location.add({
 		type: Types.Location,
 		initial: true,
 	},
-	fieldB: {
-		type: Types.Location,
-	},
 });
 
-Location.defaultColumns = 'name, fieldA, fieldB';
+Location.defaultColumns = 'name, fieldA';
 Location.register();
 
 module.exports = Location;
