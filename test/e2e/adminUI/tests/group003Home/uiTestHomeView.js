@@ -17,30 +17,30 @@ module.exports = {
 	},
 	'Home view should have an Access group with the specified tabs configuration': function (browser) {
 		browser.adminUIHomeScreen.assertTabUIVisible({
-			name: 'Access',
+			groupName: 'Access',
 			tabs: [
-				{ list: 'User', items: '2 Items' },
+				{ listName: 'User', items: '2 Items' },
 			],
 		});
 	},
 	'Home view should have a Fields group with the specified tabs configuration': function (browser) {
 		browser.adminUIHomeScreen.assertTabUIVisible({
-			name: 'Fields',
+			groupName: 'Fields',
 			tabs: [
-				{ list: 'Boolean', items: '0 Items' },
-				{ list: 'Code', items: '0 Items' },
-				{ list: 'Email', items: '0 Items' },
-				{ list: 'Name', items: '0 Items' },
-				{ list: 'Number', items: '0 Items' },
-				{ list: 'Select', items: '0 Items' },
+				{ listName: 'Boolean', items: '0 Items' },
+				{ listName: 'Code', items: '0 Items' },
+				{ listName: 'Email', items: '0 Items' },
+				{ listName: 'Name', items: '0 Items' },
+				{ listName: 'Number', items: '0 Items' },
+				{ listName: 'Select', items: '0 Items' },
 			],
 		});
 	},
 	'Home view should have an Other group with the specified tabs configuration': function (browser) {
 		browser.adminUIHomeScreen.assertTabUIVisible({
-			name: 'Other',
+			groupName: 'Other',
 			tabs: [
-				{ list: 'OtherList', items: '0 Items' },
+				{ listName: 'OtherList', items: '0 Items' },
 			],
 		});
 	},
