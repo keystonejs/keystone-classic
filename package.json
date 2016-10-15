@@ -59,7 +59,7 @@
     "method-override": "2.3.6",
     "mime-types": "2.1.12",
     "moment": "2.15.1",
-    "mongoose": "4.6.1",
+    "mongoose": "4.6.2",
     "morgan": "1.7.0",
     "multer": "0.1.8",
     "numeral": "1.5.3",
