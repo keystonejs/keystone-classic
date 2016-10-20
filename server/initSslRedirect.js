@@ -1,7 +1,9 @@
 module.exports = function (keystone, app) {
 	var portString;
 	function sslRedirect (req, res, next) {
-		if (!req.secure) {
+		if (req.secure) {
+			next();
+		} else {
 			// Don't redirect connections from localhost
 			if (req.ip === '127.0.0.1') {
 				return next();
