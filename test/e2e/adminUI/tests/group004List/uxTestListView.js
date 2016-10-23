@@ -27,10 +27,12 @@ module.exports = {
 
 		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.adminUIInitialFormScreen.fillFieldInputs([
+		browser.adminUIInitialFormScreen.fillFieldInputs({
+			fields: [
 				{ name: 'name', input: { value: 'Name Field Test 1' }, },
 				{ name: 'fieldA', input: { firstName: 'First 1', lastName: 'Last 1' }, },
-			]);
+			],
+		});
 
 		browser.adminUIInitialFormScreen.save();
 
@@ -53,10 +55,12 @@ module.exports = {
 
 		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.adminUIInitialFormScreen.fillFieldInputs([
+		browser.adminUIInitialFormScreen.fillFieldInputs({
+			fields: [
 				{ name: 'name', input: { value: 'Name Field Test 2' }, },
 				{ name: 'fieldA', input: { firstName: 'First 2', lastName: 'Last 2' }, },
-		]);
+			],
+		});
 
 		// TODO: refactor
 		browser.adminUIInitialFormScreen.section.form

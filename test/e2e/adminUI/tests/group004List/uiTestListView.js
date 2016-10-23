@@ -5,9 +5,6 @@ module.exports = {
 		browser.adminUIApp = browser.page.adminUIApp();
 		browser.adminUISigninScreen = browser.page.adminUISignin();
 		browser.adminUIListScreen = browser.page.adminUIListScreen();
-		browser.adminUIItemScreen = browser.page.adminUIItemScreen();
-		browser.adminUIInitialFormScreen = browser.page.adminUIInitialForm();
-		browser.adminUIDeleteConfirmation = browser.page.adminUIDeleteConfirmation();
 		browser.adminUIListScreen.setDefaultModelTestConfig(ModelTestConfig);
 
 		browser.adminUIApp.gotoSigninScreen();
