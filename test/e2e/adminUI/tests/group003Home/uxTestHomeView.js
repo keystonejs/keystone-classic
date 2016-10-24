@@ -17,46 +17,48 @@ module.exports = {
 		browser.end();
 	},
 	'Home view should allow navigating to a list of items': function (browser) {
-		browser.adminUIHomeScreen.openList({group: 'Access', list: 'User'});
+		browser.adminUIHomeScreen.openList({ groupName: 'Access', listName: 'User' });
 	},
 	'Home view should allow clicking a card list item such as Users to should show the list of those items': function (browser) {
 		browser.adminUIApp.gotoHomeScreen();
 
 		browser.adminUIHomeScreen.clickTabUI({
-			name: 'Access',
+			groupName: 'Access',
 			click: 'label',
-			tab: { list: 'User', items: '2 Items' },
+			tab: { listName: 'User', items: '2 Items' },
 		})
 	},
 	'Home view should allow an admin to create a new list item such as a user': function (browser) {
 		browser.adminUIApp.gotoHomeScreen();
 
 		browser.adminUIHomeScreen.clickTabUI({
-			name: 'Access',
+			groupName: 'Access',
 			click: 'plusIconLink',
-			tab: { list: 'User', items: '2 Items' },
+			tab: { listName: 'User', items: '2 Items' },
 		});
 	},
 	'Home view should allow an admin to create a new list item and increment the item count': function (browser) {
 		browser.adminUIApp.gotoHomeScreen();
 
 		browser.adminUIHomeScreen.assertTabTextEquals({
-			name: 'Fields',
+			groupName: 'Fields',
 			tabs: [
-				{ list: 'Name', items: '0 Items' },
+				{ listName: 'Name', items: '0 Items' },
 			],
 		});
 
 		browser.adminUIHomeScreen.clickTabUI({
-			name: 'Fields',
+			groupName: 'Fields',
 			click: 'plusIconLink',
-			tab: { list: 'Name', items: '0 Items' },
+			tab: { listName: 'Name', items: '0 Items' },
 		});
 
-		browser.adminUIInitialFormScreen.fillFieldInputs([
-			{name: 'name', input: { value: 'Name Field Test' }, modelTestConfig: NameModelTestConfig,},
-			{name: 'fieldA', input: { firstName: 'First', lastName: 'Last' }, modelTestConfig: NameModelTestConfig,},
-		]);
+		browser.adminUIInitialFormScreen.fillFieldInputs({
+			fields: [
+				{ name: 'name', input: { value: 'Name Field Test' }, modelTestConfig: NameModelTestConfig, },
+				{ name: 'fieldA', input: { firstName: 'First', lastName: 'Last' }, modelTestConfig: NameModelTestConfig, },
+			],
+		});
 
 		browser.adminUIInitialFormScreen.save();
 
@@ -64,9 +66,9 @@ module.exports = {
 		browser.adminUIApp.gotoHomeScreen();
 
 		browser.adminUIHomeScreen.assertTabTextEquals({
-			name: 'Fields',
+			groupName: 'Fields',
 			tabs: [
-				{ list: 'Name', items: '1 Item' },
+				{ listName: 'Name', items: '1 Item' },
 			],
 		});
 	},
@@ -75,11 +77,13 @@ module.exports = {
 		// Delete the Name Field added
 		browser.adminUIApp.gotoHomeScreen();
 
-		browser.adminUIApp.openList({section: 'Fields', list: 'Name'});
+		browser.adminUIApp.openList({ section: 'Fields', list: 'Name' });
 
-		browser.adminUIListScreen.clickDeleteItemIcon([
-			{ row: 1, column: 1 }
-		])
+		browser.adminUIListScreen.clickDeleteItemIcon({
+			icons: [
+				{ row: 1, column: 1 }
+			],
+		})
 
 		browser.adminUIApp.waitForDeleteConfirmationScreen();
 
