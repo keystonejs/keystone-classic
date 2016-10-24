@@ -10,43 +10,53 @@ module.exports = {
 	},
 	after: fieldTests.after,
 	'File field should show correctly in the initial modal': function (browser) {
-		browser.adminUIApp.openList({section: 'fields', list: 'File'});
+		browser.adminUIApp.openList({ section: 'fields', list: 'File' });
 
 		browser.adminUIListScreen.clickCreateItemButton();
 		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.adminUIInitialFormScreen.assertFieldUIVisible([
-			{ name: 'name',},
-		]);
+		browser.adminUIInitialFormScreen.assertFieldUIVisible({
+			fields: [
+				{ name: 'name', },
+			],
+		});
 
 		browser.adminUIInitialFormScreen.cancel();
 		browser.adminUIApp.waitForListScreen();
 	},
-	'File field can be filled via the initial modal': function(browser) {
-		browser.adminUIApp.openList({section: 'fields', list: 'File'});
+	'File field can be filled via the initial modal': function (browser) {
+		browser.adminUIApp.openList({ section: 'fields', list: 'File' });
 
 		browser.adminUIListScreen.clickCreateItemButton();
 		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.adminUIInitialFormScreen.fillFieldInputs([
-			{ name: 'name', input: { value: 'File Field Test 1' },},
-		]);
-		browser.adminUIInitialFormScreen.assertFieldInputs([
-			{ name: 'name', input: { value: 'File Field Test 1' },},
-		]);
+		browser.adminUIInitialFormScreen.fillFieldInputs({
+			fields: [
+				{ name: 'name', input: { value: 'File Field Test 1' }, },
+			],
+		});
+		browser.adminUIInitialFormScreen.assertFieldInputs({
+			fields: [
+				{ name: 'name', input: { value: 'File Field Test 1' }, },
+			],
+		});
 
 		browser.adminUIInitialFormScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 	},
-	'File field should show correctly in the edit form': function(browser) {
-		browser.adminUIItemScreen.assertFieldUIVisible([
-			{ name: 'name',},
-			{ name: 'fieldA',},
-			{ name: 'fieldB',},
-		]);
+	'File field should show correctly in the edit form': function (browser) {
+		browser.adminUIItemScreen.assertFieldUIVisible({
+			fields: [
+				{ name: 'name', },
+				{ name: 'fieldA', },
+				{ name: 'fieldB', },
+			],
+		});
 
-		browser.adminUIItemScreen.assertFieldInputs([
-			{ name: 'name', input: { value: 'File Field Test 1' },},
-		]);
+		browser.adminUIItemScreen.assertFieldInputs({
+			fields: [
+				{ name: 'name', input: { value: 'File Field Test 1' }, },
+			],
+		});
 	},
 };
