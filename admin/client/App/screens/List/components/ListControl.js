@@ -5,7 +5,7 @@ var ListControl = React.createClass({
 	propTypes: {
 		dragSource: React.PropTypes.func,
 		onClick: React.PropTypes.func,
-		type: React.PropTypes.oneOf(['check', 'delete', 'sortable']).isRequired,
+		type: React.PropTypes.oneOf(['check', 'delete', 'duplicate', 'sortable']).isRequired,
 	},
 	renderControl () {
 		var icon = 'octicon octicon-';
@@ -22,6 +22,9 @@ var ListControl = React.createClass({
 		}
 		if (this.props.type === 'sortable') {
 			icon += 'three-bars';
+		}
+		if (this.props.type === 'duplicate') {
+			icon += 'diff';
 		}
 
 		var renderButton = (

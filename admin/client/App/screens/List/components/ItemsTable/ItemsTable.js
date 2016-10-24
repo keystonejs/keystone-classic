@@ -11,6 +11,7 @@ const ItemsTable = React.createClass({
 		checkedItems: PropTypes.object.isRequired,
 		columns: PropTypes.array.isRequired,
 		deleteTableItem: PropTypes.func.isRequired,
+		duplicateTableItem: PropTypes.func.isRequired,
 		handleSortSelect: PropTypes.func.isRequired,
 		items: PropTypes.object.isRequired,
 		list: PropTypes.object.isRequired,
@@ -26,6 +27,9 @@ const ItemsTable = React.createClass({
 		if (!this.props.list.nodelete) {
 			cols.unshift(
 				<col width={TABLE_CONTROL_COLUMN_WIDTH} key="delete" />
+			);
+			cols.unshift(
+				<col width={TABLE_CONTROL_COLUMN_WIDTH} key="duplicate" />
 			);
 		}
 
@@ -46,7 +50,7 @@ const ItemsTable = React.createClass({
 		let listControlCount = 0;
 
 		if (this.props.list.sortable) listControlCount++;
-		if (!this.props.list.nodelete) listControlCount++;
+		if (!this.props.list.nodelete) listControlCount += 2;
 
 		// set active sort
 		const activeSortPath = this.props.activeSort.paths[0];
@@ -105,6 +109,7 @@ const ItemsTable = React.createClass({
 					return (
 						<TableRow key={item.id}
 							deleteTableItem={this.props.deleteTableItem}
+							duplicateTableItem={this.props.duplicateTableItem}
 							index={i}
 							sortOrder={item.sortOrder || 0}
 							id={item.id}
