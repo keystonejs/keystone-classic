@@ -17,7 +17,12 @@ function location (list, path, options) {
 	this._underscoreMethods = ['format', 'googleLookup', 'kmFrom', 'milesFrom'];
 	this._fixedSize = 'full';
 	this._properties = ['enableMapsAPI'];
-	this.enableMapsAPI = (options.geocodeGoogle === true || (options.geocodeGoogle !== false && keystone.get('google server api key'))) ? true : false;
+	this.enableMapsAPI = (options.enableImprove === true || (options.enableImprove !== false && keystone.get('google server api key'))) ? true : false;
+
+	// Throw on invalid options in 4.0 (remove for 5.0)
+	if ('geocodeGoogle' in options) {
+		throw new Error('The geocodeGoogle option for Location fields has been renamed to enableImprove');
+	}
 
 	if (!options.defaults) {
 		options.defaults = {};
@@ -171,6 +176,60 @@ location.prototype.isModified = function (item) {
 	|| item.isModified(this.paths.postcode)
 	|| item.isModified(this.paths.country)
 	|| item.isModified(this.paths.geo);
+};
+
+location.prototype.getInputFromData = function (data) {
+	// Allow JSON structured data
+	var input = this.getValueFromData(data);
+
+	// If there is no structured data, look for the flat paths
+	if (!input) {
+		input = {
+			number: data[this.paths.number],
+			name: data[this.paths.name],
+			street1: data[this.paths.street1],
+			street2: data[this.paths.street2],
+			suburb: data[this.paths.suburb],
+			state: data[this.paths.state],
+			postcode: data[this.paths.postcode],
+			country: data[this.paths.country],
+			geo: data[this.paths.geo],
+			geo_lat: data[this.paths.geo],
+			geo_lng: data[this.paths.geo],
+			improve: data[this.paths_improve],
+			overwrite: data[this.paths_improve_overwrite],
+		};
+	}
+
+	return input;
+};
+
+/**
+ * Validates that a value for this field has been provided in a data object
+ */
+location.prototype.validateInput = function (data, callback) {
+	// var input = this.getInputFromData(data);
+	// TODO: We should strictly check for types in input here
+	utils.defer(callback, true);
+};
+
+/**
+ * Validates that input has been provided
+ * TODO: Needs test coverage
+ */
+location.prototype.validateRequiredInput = function (item, data, callback) {
+	var result = true;
+	var input = this.getInputFromData(data);
+	var currentValue = item.get(this.path);
+	this.requiredPaths.forEach(function (path) {
+		// ignore missing values if they already exist in the item
+		if (input[path] === undefined && currentValue[path]) return;
+		// falsy values mean the input is invalid
+		if (!input[path]) {
+			result = false;
+		}
+	});
+	utils.defer(callback, result);
 };
 
 /**

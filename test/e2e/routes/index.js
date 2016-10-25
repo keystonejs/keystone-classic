@@ -1,5 +1,5 @@
 module.exports = function(app) {
-	app.all('*', function(req, res, next) {
-		res.redirect('/keystone')
+	app.get('/', function (req, res) {
+		res.render('index');
 	});
 };

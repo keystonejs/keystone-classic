@@ -15,6 +15,12 @@ describe('<Item /> reducer', () => {
 			loading: false,
 			ready: false,
 			error: null,
+			relationshipData: {},
+			drag: {
+				clonedItems: false,
+				newSortOrder: null,
+				relationshipPath: false,
+			},
 		});
 	});
 

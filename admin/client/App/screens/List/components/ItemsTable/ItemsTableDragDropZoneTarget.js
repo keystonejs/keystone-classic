@@ -57,46 +57,39 @@ const dropTarget = {
 		const item = monitor.getItem();
 		item.goToPage = props.page;
 		item.prevSortOrder = item.sortOrder;
-		// if the new page is greater, we will place the item at the beginning of the page
-		// if the new page is less, we will place the item at the end of the page
+		// Work out the new sort order. If the new page is greater, we'll put it at the start of the page, and
+		// if it's smaller we'll put it at the end of the page.
 		item.newSortOrder = (targetPage < page) ? (targetPage * pageSize) : (targetPage * pageSize - (pageSize - 1));
-
 		return item;
 	},
+	/*
+	* TODO Work out if it's possible to implement this in a way that works.
 	hover (props, monitor, component) {
 		if (timeoutID) {
 			return;
 		}
-		const { page, currentPage, drag } = props;
-		const original = drag;
+		const { page, currentPage } = props;
 
 		// self
 		if (page === currentPage) {
 			return;
 		}
+
 		if (monitor.isOver()) {
 			timeoutID = setTimeout(() => {
-				const newIndex = (original.page === page) ? original.index : (currentPage < page) ? 0 : props.pageSize;
-				props.dispatch(setCurrentPage(page));
-				monitor.getItem().index = newIndex;
+				// If user hovers over the target for a while change the page.
+				// TODO Get this working. Currently, it looks like it's going to work, but when you
+				// drop onto a new page, no drop events are fired, and react-dnd doesn't have a way to
+				// manually force them to happen. Not sure what to do here.
+				props.dispatch(setCurrentPage(props.page));
+
 
 				clearTimeout(timeoutID);
 				timeoutID = false;
 			}, 750);
 		}
 	},
-	canDrop (props, monitor) {
-		// if we drop on a page target, move the item to the correct first or last position in the new page
-		// if we want to stop this behaviour set return false
-		if (!Keystone.devMode) return;
-
-		const original = props.drag;
-		// self
-		if (original.page === props.page) {
-			return false;
-		}
-		return true;
-	},
+	*/
 };
 /**
  * Specifies the props to inject into your component.

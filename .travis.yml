@@ -14,28 +14,35 @@ matrix:
       script:
         - npm run test-e2e-saucelabs-group
       env:
-        - JOB=e2e GROUP=group005Fields
+        - JOB=e2e GROUP=group006Fields
     - node_js: '6'
       addons:
         sauce_connect: true
       script:
         - npm run test-e2e-saucelabs-group
       env:
-        - JOB=e2e GROUP=group004Item
+        - JOB=e2e GROUP=group005Item
     - node_js: '6'
       addons:
         sauce_connect: true
       script:
         - npm run test-e2e-saucelabs-group
       env:
-        - JOB=e2e GROUP=group003List
+        - JOB=e2e GROUP=group004List
     - node_js: '6'
       addons:
         sauce_connect: true
       script:
         - npm run test-e2e-saucelabs-group
       env:
-        - JOB=e2e GROUP=group002Home
+        - JOB=e2e GROUP=group003Home
+    - node_js: '6'
+      addons:
+        sauce_connect: true
+      script:
+        - npm run test-e2e-saucelabs-group
+      env:
+        - JOB=e2e GROUP=group002App
     - node_js: '6'
       addons:
         sauce_connect: true

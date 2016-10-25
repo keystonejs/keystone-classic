@@ -259,12 +259,6 @@ var EditForm = React.createClass({
 				if (typeof Fields[field.type] !== 'function') {
 					return React.createElement(InvalidFieldType, { type: field.type, path: field.path, key: field.path });
 				}
-				if (props.dependsOn) {
-					props.currentDependencies = {};
-					Object.keys(props.dependsOn).forEach(dep => {
-						props.currentDependencies[dep] = this.state.values[dep];
-					});
-				}
 				props.key = field.path;
 				if (index === 0 && this.state.focusFirstField) {
 					props.autoFocus = true;
