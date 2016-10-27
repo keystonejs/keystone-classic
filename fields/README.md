@@ -22,7 +22,7 @@ The Type is the part of the field users use in their Keystone models, e.g. `post
 
 - `updateItem`: Saves and updates the corresponding data to a field to the database whenever a user submits a form in the admin interface.
 
-  ```JS
+	```JS
 	Field.prototype.updateItem = function (item, data, callback) {
 		// Utility function to get that exact field value from all the form data
 		var value = this.getValueFromData(data);
