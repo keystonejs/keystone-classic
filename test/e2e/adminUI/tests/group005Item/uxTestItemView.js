@@ -63,36 +63,36 @@ module.exports = {
 	'Item screen should allow saving an item without changes': function (browser) {
 		browser.adminUIItemScreen.save();
 
-		browser.adminUIItemScreen.assertElementTextEquals({ element: 'flashMessage', text: 'Your changes have been saved successfully' });
+		browser.adminUIItemScreen.assertElementTextEquals({ element: '@flashMessage', text: 'Your changes have been saved successfully' });
 	},
 	'Item screen should allow saving an item with changes': function (browser) {
 		browser.adminUIItemScreen.fillFieldInputs({
 			fields: [
-			{ name: 'name', input: { firstName: 'First 2', lastName: 'Last 2' }, },
-		],
+				{ name: 'name', input: { firstName: 'First 2', lastName: 'Last 2' }, },
+			],
 		});
 
 		browser.adminUIItemScreen.assertFieldInputs({
 			fields: [
-			{ name: 'name', input: { firstName: 'First 2', lastName: 'Last 2' }, },
-		],
+				{ name: 'name', input: { firstName: 'First 2', lastName: 'Last 2' }, },
+			],
 		});
 
 		browser.adminUIItemScreen.save();
 		browser.adminUIApp.waitForItemScreen();
-		browser.adminUIItemScreen.assertElementTextEquals({ element: 'flashMessage', text: 'Your changes have been saved successfully' });
+		browser.adminUIItemScreen.assertElementTextEquals({ element: '@flashMessage', text: 'Your changes have been saved successfully' });
 	},
 	'Item screen should allow resetting an item with changes': function (browser) {
 		browser.adminUIItemScreen.fillFieldInputs({
 			fields: [
-			{ name: 'name', input: { firstName: 'First 3', lastName: 'Last 3' }, },
-		],
+				{ name: 'name', input: { firstName: 'First 3', lastName: 'Last 3' }, },
+			],
 		});
 
 		browser.adminUIItemScreen.assertFieldInputs({
 			fields: [
-			{ name: 'name', input: { firstName: 'First 3', lastName: 'Last 3' }, },
-		],
+				{ name: 'name', input: { firstName: 'First 3', lastName: 'Last 3' }, },
+			],
 		});
 
 		browser.adminUIItemScreen.reset();
@@ -102,8 +102,8 @@ module.exports = {
 
 		browser.adminUIItemScreen.assertFieldInputs({
 			fields: [
-			{ name: 'name', input: { firstName: 'First 2', lastName: 'Last 2' }, },
-		],
+				{ name: 'name', input: { firstName: 'First 2', lastName: 'Last 2' }, },
+			],
 		});
 	},
 	'Item screen should allow deleting an item': function (browser) {

@@ -12,36 +12,42 @@ module.exports = {
 		browser.end();
 	},
 	'Home view should have a dashboard header': function (browser) {
-		// TODO: implement the 'e2e' text assertion
-		browser.adminUIHomeScreen.assertElementIsVisible({ element: 'dashboardHeader' });
+		browser.adminUIHomeScreen.assertElementIsVisible({ element: '@dashboardHeader' });
+		browser.adminUIHomeScreen.assertElementTextEquals({ element: '@dashboardHeader', text: 'e2e' });
 	},
 	'Home view should have an Access group with the specified tabs configuration': function (browser) {
-		browser.adminUIHomeScreen.assertTabUIVisible({
-			groupName: 'Access',
-			tabs: [
-				{ listName: 'User', items: '2 Items' },
-			],
-		});
+		browser.adminUIHomeScreen
+			.configureTabUI({
+				groupName: 'Access',
+				tabs: [
+					{ listName: 'User', items: '2 Items' },
+				],
+			})
+			.assertTabUIVisible({ groupName: 'Access' });
 	},
 	'Home view should have a Fields group with the specified tabs configuration': function (browser) {
-		browser.adminUIHomeScreen.assertTabUIVisible({
-			groupName: 'Fields',
-			tabs: [
-				{ listName: 'Boolean', items: '0 Items' },
-				{ listName: 'Code', items: '0 Items' },
-				{ listName: 'Email', items: '0 Items' },
-				{ listName: 'Name', items: '0 Items' },
-				{ listName: 'Number', items: '0 Items' },
-				{ listName: 'Select', items: '0 Items' },
-			],
-		});
+		browser.adminUIHomeScreen
+			.configureTabUI({
+				groupName: 'Fields',
+				tabs: [
+					{ listName: 'Boolean', items: '0 Items' },
+					{ listName: 'Code', items: '0 Items' },
+					{ listName: 'Email', items: '0 Items' },
+					{ listName: 'Name', items: '0 Items' },
+					{ listName: 'Number', items: '0 Items' },
+					{ listName: 'Select', items: '0 Items' },
+				],
+			})
+			.assertTabUIVisible({ groupName: 'Fields' });
 	},
 	'Home view should have an Other group with the specified tabs configuration': function (browser) {
-		browser.adminUIHomeScreen.assertTabUIVisible({
-			groupName: 'Other',
-			tabs: [
-				{ listName: 'OtherList', items: '0 Items' },
-			],
-		});
+		browser.adminUIHomeScreen
+			.configureTabUI({
+				groupName: 'Other',
+				tabs: [
+					{ listName: 'OtherList', items: '0 Items' },
+				],
+			})
+			.assertTabUIVisible({ groupName: 'Other' });
 	},
 };
