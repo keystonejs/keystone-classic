@@ -17,19 +17,19 @@ module.exports = {
 		browser.end();
 	},
 	'List screen must show a search bar': function (browser) {
-		browser.adminUIListScreen.assertElementIsVisible({ element: 'searchInputField' });
+		browser.adminUIListScreen.assertElementIsVisible({ element: '@searchInputField' });
 	},
 	'List screen must show a search field clear icon': function (browser) {
-		browser.adminUIListScreen.assertElementIsVisible({ element: 'searchInputFieldClearIcon' });
+		browser.adminUIListScreen.assertElementIsVisible({ element: '@searchInputFieldClearIcon' });
 	},
 	'List screen must show a filter input': function (browser) {
-		browser.adminUIListScreen.assertElementIsVisible({ element: 'filterDropdown' });
+		browser.adminUIListScreen.assertElementIsVisible({ element: '@filterDropdown' });
 	},
 	'List screen must show a column input': function (browser) {
-		browser.adminUIListScreen.assertElementIsVisible({ element: 'columnSelectionDropdown' });
+		browser.adminUIListScreen.assertElementIsVisible({ element: '@columnSelectionDropdown' });
 	},
 	'List screen must show a download input': function (browser) {
-		browser.adminUIListScreen.assertElementIsVisible({ element: 'downloadDropdown' });
+		browser.adminUIListScreen.assertElementIsVisible({ element: '@downloadDropdown' });
 	},
 	// TODO:  For some reason the expand table width input control does not show in saucelabs' Firefox 44...why?
 	//		It shows fine with local selenium server and Firefox 44.0.2
@@ -37,10 +37,10 @@ module.exports = {
 	// 	browser.adminUIListScreen.assertElementIsVisible({ element: 'expandTableIcon' });
 	// },
 	'List screen must show a create list item button': function (browser) {
-		browser.adminUIListScreen.assertElementIsVisible({ element: 'createItemButton' });
+		browser.adminUIListScreen.assertElementIsVisible({ element: '@createItemButton' });
 	},
 	'List screen must show a page item count': function (browser) {
-		browser.adminUIListScreen.assertElementIsVisible({ element: 'pageItemCount' });
+		browser.adminUIListScreen.assertElementIsVisible({ element: '@pageItemCount' });
 	},
 	'List screen must show a name column header': function (browser) {
 		browser.adminUIListScreen.assertListHeaderVisible({ headerColumn: 1 });
