@@ -71,7 +71,6 @@ export function moveItem (prevIndex, newIndex, options) {
 export function reorderItems (item, prevSortOrder, newSortOrder, goToPage) {
 	// // reset drag
 	// defaultDrag();
-
 	return (dispatch, getState) => {
 		if (goToPage) {
 			// TODO FIGURE OUT IF THIS IS A RACE CONDITION
@@ -97,7 +96,7 @@ export function reorderItems (item, prevSortOrder, newSortOrder, goToPage) {
 				if (err) {
 					dispatch(resetItems(item.id));
 					// return this.resetItems(this.findItemById[item.id]);
-				} else if (typeof items !== 'object' && items && items.results) {
+				} else {
 					dispatch(itemsLoaded(items));
 					dispatch(setRowAlert({
 						success: item.id,

@@ -1,7 +1,7 @@
 module.exports = {
 	before: function (browser) {
 		browser.adminUIApp = browser.page.adminUIApp();
-		browser.adminUISignin = browser.page.adminUISignin();
+		browser.adminUISigninScreen = browser.page.adminUISignin();
 		browser.adminUIListScreen = browser.page.adminUIListScreen();
 		browser.adminUIItemScreen = browser.page.adminUIItemScreen();
 		browser.adminUIInitialFormScreen = browser.page.adminUIInitialForm();
@@ -9,7 +9,7 @@ module.exports = {
 		browser.adminUIApp.gotoHomeScreen();
 		browser.adminUIApp.waitForSigninScreen();
 
-		browser.adminUISignin.signin();
+		browser.adminUISigninScreen.signin();
 		browser.adminUIApp.waitForHomeScreen();
 	},
 	after: function (browser) {
@@ -47,7 +47,7 @@ module.exports = {
 			}
 		});
 
-		browser.adminUIInitialFormScreen.assertFieldUINotPresent({
+		browser.adminUIInitialFormScreen.assertFieldDOMNotPresent({
 			listName: 'DependsOn',
 			fields: ['dependent'],
 			args: {
@@ -90,7 +90,7 @@ module.exports = {
 		});
 
 		// The dependency condition is no longer met, field should not be visible.
-		browser.adminUIItemScreen.assertFieldUINotPresent({
+		browser.adminUIItemScreen.assertFieldDOMNotPresent({
 			listName: 'DependsOn',
 			fields: ['dependent'],
 			args: {

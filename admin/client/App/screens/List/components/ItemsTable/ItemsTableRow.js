@@ -88,47 +88,27 @@ const dragItem = {
 		return { ...send };
 	},
 	endDrag (props, monitor, component) {
-
 		if (!monitor.didDrop()) {
 			props.dispatch(resetItems(props.id));
 			return;
 		}
-
-		const base = props.drag;
 		const page = props.currentPage;
-		const droppedOn = monitor.getDropResult();
-		// some drops provide the data for us in prevSortOrder
-		const prevSortOrder = typeof droppedOn.prevSortOrder === 'number' ? droppedOn.prevSortOrder : props.sortOrder;
-		// use a given newSortOrder prop or retrieve from the cloned items list
-		let newSortOrder = typeof droppedOn.newSortOrder === 'number' ? droppedOn.newSortOrder : droppedOn.index;
+		const pageSize = props.pageSize;
 
-		// self
-		if (prevSortOrder === newSortOrder) {
-			if (base.page !== page) {
-				// we were dropped on ourself, but not on our original page
-				if (droppedOn.index === 0) {
-					// item is first in the list
-					// save to the sortOrder of the 2nd item - 1
-					// newSortOrder = CurrentListStore.findClonedItemByIndex(1).sortOrder - 1;
-					droppedOn.goToPage = Number(page) - 1;
-				} else {
-					// item is last in the list
-					// save to the sortOrder of the 2nd to last item - 1
-					// newSortOrder = CurrentListStore.findClonedItemByIndex(droppedOn.index - 1).sortOrder + 1;
-					droppedOn.goToPage = Number(page) + 1;
-				}
-				if (!newSortOrder || !droppedOn.goToPage) {
-					// something is wrong so reset
-					this.props.dispatch(resetItems(props.id));
-					return;
-				}
-			} else {
-				props.dispatch(resetItems(props.id));
-				return;
-			}
-		}
-		// dropped on a target
-		// droppedOn.goToPage is an optional page override for dropping items on a new page target
+		// If we were dropped onto a page change target, then droppedOn.prevSortOrder etc will be
+		// set by that target, and we should use those values. If we were just dropped onto a new row
+		// then we need to calculate these values ourselves.
+		const droppedOn = monitor.getDropResult();
+
+		const prevSortOrder = droppedOn.prevSortOrder || props.sortOrder;
+		// To explain the following line, suppose we are on page 3 and there are 10 items per page.
+		// Previous to this page, there are (3 - 1)*10 = 20 items before us. If we have index 6
+		// on this page, then we're the 7th item to display (index starts from 0), and so we
+		// want to update the display order to 20 + 7 = 27.
+		const newSortOrder = droppedOn.newSortOrder || (page - 1) * pageSize + droppedOn.index + 1;
+
+		// If we were dropped on a page change target, then droppedOn.gotToPage will be set, and we should
+		// pass this to reorderItems, which will then change the page for the user.
 		props.dispatch(reorderItems(props.item, prevSortOrder, newSortOrder, Number(droppedOn.goToPage)));
 	},
 };
