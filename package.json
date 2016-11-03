@@ -80,7 +80,7 @@
     "react-markdown": "2.4.2",
     "react-redux": "4.4.5",
     "react-router": "2.8.1",
-    "react-router-redux": "4.0.6",
+    "react-router-redux": "4.0.7",
     "react-select": "1.0.0-rc.1",
     "redux": "3.6.0",
     "redux-saga": "^0.12.0",
