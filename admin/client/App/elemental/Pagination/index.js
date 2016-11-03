@@ -22,7 +22,7 @@ class Pagination extends Component {
 			}
 		}
 		return (
-			<div className={css(classes.count)}>{count}</div>
+			<div className={css(classes.count)} data-e2e-pagination-count>{count}</div>
 		);
 	}
 	renderPages () {

@@ -32,7 +32,7 @@ function Alert ({
 	);
 	props.children = Children.map(children, cloneWithClassnames);
 
-	return <Component {...props} />;
+	return <Component {...props} data-alert-type={color} />;
 };
 
 Alert.propTypes = {

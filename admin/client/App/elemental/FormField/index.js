@@ -53,7 +53,7 @@ class FormField extends Component {
 		) : null;
 
 		return (
-			<div {...props}>
+			<div {...props} htmlFor={htmlFor}>
 				{componentLabel}
 				{children}
 			</div>

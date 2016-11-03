@@ -16,7 +16,7 @@ function BlankState ({
 
 	return (
 		<Component {...props}>
-			{!!heading && <h2 className={css(classes.heading)}>{heading}</h2>}
+			{!!heading && <h2 data-e2e-blank-state-heading className={css(classes.heading)}>{heading}</h2>}
 			{children}
 		</Component>
 	);
