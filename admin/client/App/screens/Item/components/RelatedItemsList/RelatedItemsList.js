@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
-import { Alert, BlankState, Center, Spinner } from '../../../elemental';
+import { Alert, BlankState, Center, Spinner } from '../../../../elemental';
 
 import DragDrop from './RelatedItemsListDragDrop';
 import ListRow from './RelatedItemsListRow';
