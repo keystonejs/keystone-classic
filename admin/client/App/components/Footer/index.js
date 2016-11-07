@@ -4,7 +4,9 @@
  */
 
 import React from 'react';
-import { Container } from 'elemental';
+import { css, StyleSheet } from 'aphrodite/no-important';
+import { Container } from '../../elemental';
+import theme from '../../../theme';
 
 var Footer = React.createClass({
 	displayName: 'Footer',
@@ -24,7 +26,7 @@ var Footer = React.createClass({
 		return (
 			<span>
 				<span> Signed in as </span>
-				<a href={`${Keystone.adminPath}/${User.path}/${user.id}`} tabIndex="-1" className="keystone-footer__link">
+				<a href={`${Keystone.adminPath}/${User.path}/${user.id}`} tabIndex="-1" className={css(classes.link)}>
 					{user.name}
 				</a>
 				<span>.</span>
@@ -35,12 +37,12 @@ var Footer = React.createClass({
 		const { backUrl, brand, appversion, version } = this.props;
 
 		return (
-			<footer className="keystone-footer">
+			<footer className={css(classes.footer)} data-keystone-footer>
 				<Container>
 					<a
 						href={backUrl}
 						tabIndex="-1"
-						className="keystone-footer__link"
+						className={css(classes.link)}
 					>
 						{brand + (appversion ? (' ' + appversion) : '')}
 					</a>
@@ -48,7 +50,7 @@ var Footer = React.createClass({
 					<a
 						href="http://keystonejs.com"
 						target="_blank"
-						className="keystone-footer__link"
+						className={css(classes.link)}
 						tabIndex="-1"
 					>
 						KeystoneJS
@@ -58,6 +60,28 @@ var Footer = React.createClass({
 				</Container>
 			</footer>
 		);
+	},
+});
+
+/* eslint quote-props: ["error", "as-needed"] */
+const linkHoverAndFocus = {
+	color: theme.color.gray60,
+	outline: 'none',
+};
+const classes = StyleSheet.create({
+	footer: {
+		boxShadow: '0 -1px 0 rgba(0, 0, 0, 0.1)',
+		color: theme.color.gray40,
+		fontSize: theme.font.size.small,
+		paddingBottom: 30,
+		paddingTop: 40,
+		textAlign: 'center',
+	},
+	link: {
+		color: theme.color.gray60,
+
+		':hover': linkHoverAndFocus,
+		':focus': linkHoverAndFocus,
 	},
 });
 

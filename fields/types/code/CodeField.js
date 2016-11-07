@@ -3,7 +3,7 @@ import CodeMirror from 'codemirror';
 import Field from '../Field';
 import React from 'react';
 import { findDOMNode } from 'react-dom';
-import { FormInput } from 'elemental';
+import { FormInput } from '../../../admin/client/App/elemental';
 import classnames from 'classnames';
 
 /**
