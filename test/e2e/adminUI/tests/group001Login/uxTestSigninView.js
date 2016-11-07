@@ -10,10 +10,10 @@ module.exports = {
 	},
 	'Signin page should allow users to login': function (browser) {
 		browser.adminUISigninScreen.signin();
-		browser.adminUIApp.assertElementIsVisible({element: 'homeScreen'});
+		browser.adminUIApp.assertElementIsVisible({ element: '@homeScreen' });
 	},
 	'Signin page should be presented upon signout': function (browser) {
 		browser.adminUIApp.signout();
-		browser.adminUIApp.assertElementIsVisible({element: 'signinScreen'});
+		browser.adminUIApp.assertElementIsVisible({ element: '@signinScreen' });
 	},
 };

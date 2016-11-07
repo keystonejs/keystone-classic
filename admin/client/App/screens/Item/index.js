@@ -15,7 +15,7 @@ import CreateForm from '../../shared/CreateForm';
 import Alert from '../../elemental/Alert';
 import EditForm from './components/EditForm';
 import EditFormHeader from './components/EditFormHeader';
-import RelatedItemsList from './components/RelatedItemsList';
+import RelatedItemsList from './components/RelatedItemsList/RelatedItemsList';
 // import FlashMessages from '../../shared/FlashMessages';
 
 import {
@@ -85,13 +85,17 @@ var ItemView = React.createClass({
 					{keys.map(key => {
 						const relationship = relationships[key];
 						const refList = listsByKey[relationship.ref];
+						const { currentList, params, relationshipData, drag } = this.props;
 						return (
 							<RelatedItemsList
 								key={relationship.path}
-								list={this.props.currentList}
+								list={currentList}
 								refList={refList}
-								relatedItemId={this.props.params.itemId}
+								relatedItemId={params.itemId}
 								relationship={relationship}
+								items={relationshipData[relationship.path]}
+								dragNewSortOrder={drag.newSortOrder}
+								dispatch={this.props.dispatch}
 							/>
 						);
 					})}
@@ -186,4 +190,6 @@ module.exports = connect((state) => ({
 	ready: state.item.ready,
 	error: state.item.error,
 	currentList: state.lists.currentList,
+	relationshipData: state.item.relationshipData,
+	drag: state.item.drag,
 }))(ItemView);
