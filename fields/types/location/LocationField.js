@@ -272,7 +272,7 @@ module.exports = Field.create({
 		const { label, path } = this.props;
 		return (
 			<div data-field-name={path} data-field-type="location">
-				<FormField label={label}>
+				<FormField label={label} htmlFor={path}>
 					{showMore}
 				</FormField>
 				{this.renderField('number', 'PO Box / Shop', true, true)}

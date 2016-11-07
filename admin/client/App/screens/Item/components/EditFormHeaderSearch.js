@@ -33,6 +33,7 @@ class EditFormHeaderSearch extends Component {
 					aphroditeStyles={classes.glyph}
 					color={theme.color.gray40}
 					name="search"
+					data-e2e-search-icon
 				/>
 				<FormInput
 					aphroditeStyles={classes.input}
@@ -57,6 +58,7 @@ class EditFormHeaderSearch extends Component {
 				position="left"
 				variant="link"
 				style={{ paddingLeft: '0.7em' }}
+				data-e2e-search-icon
 				>
 				Search
 			</GlyphButton>

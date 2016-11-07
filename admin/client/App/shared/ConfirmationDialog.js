@@ -34,10 +34,10 @@ function ConfirmationDialog ({
 				<Modal.Body {...props}>{children}</Modal.Body>
 			)}
 			<Modal.Footer>
-				<Button autoFocus size="small" color={confirmationType} onClick={onConfirmation}>
+				<Button autoFocus size="small" data-button-type="confirm" color={confirmationType} onClick={onConfirmation}>
 					{confirmationLabel}
 				</Button>
-				<Button size="small" variant="link" color="cancel" onClick={onCancel}>
+				<Button size="small" data-button-type="cancel" variant="link" color="cancel" onClick={onCancel}>
 					{cancelLabel}
 				</Button>
 			</Modal.Footer>
