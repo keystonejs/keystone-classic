@@ -175,7 +175,7 @@ module.exports = {
 
 		browser.adminUIApp.waitForListScreen();
 
-		browser.adminUIListScreen.assertElementTextEquals({ element: '@noItemsFoundText', text: 'No names found...' });
+		browser.adminUIListScreen.assertElementTextEquals({ element: '@noItemsFoundText', text: 'No names found…' });
 	},
 
 	// UNDO ANY STATE CHANGES -- THIS TEST SHOULD RUN LAST

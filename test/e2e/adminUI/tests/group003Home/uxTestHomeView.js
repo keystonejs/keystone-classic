@@ -10,7 +10,6 @@ module.exports = {
 		browser.adminUIDeleteConfirmation = browser.page.adminUIDeleteConfirmation();
 
 		browser.adminUIApp.gotoSigninScreen();
-
 		browser.adminUISigninScreen.signin();
 	},
 	after: function (browser) {

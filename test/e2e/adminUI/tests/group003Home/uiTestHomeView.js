@@ -5,7 +5,6 @@ module.exports = {
 		browser.adminUIHomeScreen = browser.page.adminUIHomeScreen();
 
 		browser.adminUIApp.gotoSigninScreen();
-
 		browser.adminUISigninScreen.signin();
 	},
 	after: function (browser) {
