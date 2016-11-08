@@ -1,6 +1,6 @@
 import React from 'react';
 import Field from '../Field';
-import { Button, FormInput } from 'elemental';
+import { GlyphButton, FormInput } from '../../../admin/client/App/elemental';
 
 module.exports = Field.create({
 	displayName: 'URLField',
@@ -19,20 +19,24 @@ module.exports = Field.create({
 		if (!this.props.value) return null;
 
 		return (
-			<Button type="link" onClick={this.openValue} className="keystone-relational-button" title={'Open ' + this.props.value + ' in a new tab'}>
-				<span className="octicon octicon-link" />
-			</Button>
+			<GlyphButton
+				className="keystone-relational-button"
+				glyph="link"
+				onClick={this.openValue}
+				title={'Open ' + this.props.value + ' in a new tab'}
+				variant="link"
+			/>
 		);
 	},
 	renderField () {
 		return (
 			<FormInput
-				name={this.getInputName(this.props.path)}
-				ref="focusTarget"
-				value={this.props.value}
-				onChange={this.valueChanged}
 				autoComplete="off"
+				name={this.getInputName(this.props.path)}
+				onChange={this.valueChanged}
+				ref="focusTarget"
 				type="url"
+				value={this.props.value}
 			/>
 		);
 	},
@@ -45,6 +49,11 @@ module.exports = Field.create({
 		);
 	},
 	renderValue () {
-		return <FormInput noedit onClick={this.openValue}>{this.props.value}</FormInput>;
+		const { value } = this.props;
+		return (
+			<FormInput noedit onClick={value && this.openValue}>
+				{value}
+			</FormInput>
+		);
 	},
 });

@@ -38,7 +38,7 @@ class ResponsiveText extends Component {
 	}
 	render () {
 		const {
-			component,
+			component: Component,
 			hiddenLG,
 			hiddenMD,
 			hiddenSM,
@@ -50,7 +50,6 @@ class ResponsiveText extends Component {
 			...props,
 		} = this.props;
 		const { windowWidth } = this.state;
-		const Component = component;
 
 		let text;
 

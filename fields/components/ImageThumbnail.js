@@ -48,14 +48,14 @@ ImageThumbnail.defaultProps = {
 /* eslint quote-props: ["error", "as-needed"] */
 const GUTTER_WIDTH = 4;
 const hoverAndFocusStyles = {
-	borderColor: theme.input.border.colorFocus,
+	borderColor: theme.input.border.color.focus,
 	outline: 'none',
 };
 const classes = StyleSheet.create({
 	base: {
 		backgroundColor: 'white',
 		borderRadius: theme.borderRadius.default,
-		border: `1px solid ${theme.input.border.color}`,
+		border: `1px solid ${theme.input.border.color.default}`,
 		display: 'inline-block',
 		height: 'auto',
 		lineHeight: '1',

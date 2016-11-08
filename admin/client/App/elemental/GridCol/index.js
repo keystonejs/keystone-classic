@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 
 import { StyleSheet, css } from 'aphrodite/no-important';
 
-import { theme } from '../../site';
+import theme from '../../../theme';
 
 const WIDTHS = {
 	'one-whole': '100%',

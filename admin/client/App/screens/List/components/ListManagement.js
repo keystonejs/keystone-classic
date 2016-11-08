@@ -1,5 +1,11 @@
 import React, { PropTypes } from 'react';
-import { Button, GlyphButton, InlineGroup as Group, InlineGroupSection as Section, Spinner } from '../../../elemental';
+import {
+	Button,
+	GlyphButton,
+	InlineGroup as Group,
+	InlineGroupSection as Section,
+	Spinner,
+} from '../../../elemental';
 
 function ListManagement ({
 	checkedItemCount,

@@ -1,7 +1,11 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 
-import { FormField, FormInput, FormSelect } from 'elemental';
+import {
+	FormField,
+	FormInput,
+	FormSelect,
+} from '../../../admin/client/App/elemental';
 
 const MODE_OPTIONS = [
 	{ label: 'Contains', value: 'contains' },
@@ -42,11 +46,13 @@ var TextArrayFilter = React.createClass({
 	updateFilter (value) {
 		this.props.onChange({ ...this.props.filter, ...value });
 	},
-	selectMode (mode) {
+	selectMode (e) {
+		const mode = e.target.value;
 		this.updateFilter({ mode });
 		findDOMNode(this.refs.focusTarget).focus();
 	},
-	selectPresence (presence) {
+	selectPresence (e) {
+		const presence = e.target.value;
 		this.updateFilter({ presence });
 		findDOMNode(this.refs.focusTarget).focus();
 	},
@@ -62,11 +68,27 @@ var TextArrayFilter = React.createClass({
 
 		return (
 			<div>
-				<FormSelect options={PRESENCE_OPTIONS} onChange={this.selectPresence} value={presence.value} />
-				<FormSelect options={MODE_OPTIONS} onChange={this.selectMode} value={mode.value} />
 				<FormField>
-					<FormInput autoFocus ref="focusTarget" value={this.props.filter.value} onChange={this.updateValue} placeholder={placeholder} />
+					<FormSelect
+						onChange={this.selectPresence}
+						options={PRESENCE_OPTIONS}
+						value={presence.value}
+					/>
 				</FormField>
+				<FormField>
+					<FormSelect
+						onChange={this.selectMode}
+						options={MODE_OPTIONS}
+						value={mode.value}
+					/>
+				</FormField>
+				<FormInput
+					autoFocus
+					onChange={this.updateValue}
+					placeholder={placeholder}
+					ref="focusTarget"
+					value={this.props.filter.value}
+				/>
 			</div>
 		);
 	},

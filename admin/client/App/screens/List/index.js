@@ -6,15 +6,17 @@
 import React from 'react';
 // import { findDOMNode } from 'react-dom'; // TODO re-implement focus when ready
 import numeral from 'numeral';
-import {
-	BlankState,
-	Container,
-	Pagination,
-	Spinner,
-} from 'elemental';
 import { connect } from 'react-redux';
 
-import { GlyphButton } from '../../elemental';
+import {
+	BlankState,
+	Center,
+	Container,
+	Glyph,
+	GlyphButton,
+	Pagination,
+	Spinner,
+} from '../../elemental';
 
 import ListFilters from './components/Filtering/ListFilters';
 import ListHeaderTitle from './components/ListHeaderTitle';
@@ -175,12 +177,12 @@ const ListView = React.createClass({
 				isOpen: true,
 				label: 'Delete',
 				body: (
-					<p>
+					<div>
 						Are you sure you want to delete {itemCount}?
 						<br />
 						<br />
 						This cannot be undone.
-					</p>
+					</div>
 				),
 				onConfirmation: () => {
 					this.props.dispatch(deleteItems(itemIds));
@@ -200,12 +202,13 @@ const ListView = React.createClass({
 		const props = this.state.confirmationDialog;
 		return (
 			<ConfirmationDialog
-				isOpen={props.isOpen}
-				body={props.body}
 				confirmationLabel={props.label}
+				isOpen={props.isOpen}
 				onCancel={this.removeConfirmationDialog}
 				onConfirmation={props.onConfirmation}
-			/>
+			>
+				{props.body}
+			</ConfirmationDialog>
 		);
 	},
 	renderManagement () {
@@ -363,12 +366,12 @@ const ListView = React.createClass({
 				isOpen: true,
 				label: 'Delete',
 				body: (
-					<p>
-						Are you sure you want to delete <strong>${item.name}</strong>?
+					<div>
+						Are you sure you want to delete <strong>{item.name}</strong>?
 						<br />
 						<br />
 						This cannot be undone.
-					</p>
+					</div>
 				),
 				onConfirmation: () => {
 					this.props.dispatch(deleteItem(item.id));
@@ -441,8 +444,7 @@ const ListView = React.createClass({
 						}] }}
 					/>
 				) : null}
-				<BlankState style={{ marginTop: 40 }}>
-					<BlankState.Heading>No {this.props.currentList.plural.toLowerCase()} found&hellip;</BlankState.Heading>
+				<BlankState heading={`No ${this.props.currentList.plural.toLowerCase()} found...`} style={{ marginTop: 40 }}>
 					{button}
 				</BlankState>
 			</Container>
@@ -479,9 +481,9 @@ const ListView = React.createClass({
 						/>
 					) : null}
 					{(this.props.loading) ? (
-						<div className="centered-loading-indicator">
-							<Spinner size="md" />
-						</div>
+						<Center height="50vh">
+							<Spinner />
+						</Center>
 					) : (
 						<div>
 							<ItemsTable
@@ -516,17 +518,23 @@ const ListView = React.createClass({
 		matching = matching ? ' found matching ' + matching : '.';
 		return (
 			<BlankState style={{ marginTop: 20, marginBottom: 20 }}>
-				<span className="octicon octicon-search" style={{ fontSize: 32, marginBottom: 20 }} />
-				<BlankState.Heading>No {this.props.currentList.plural.toLowerCase()}{matching}</BlankState.Heading>
+				<Glyph
+					name="search"
+					size="medium"
+					style={{ marginBottom: 20 }}
+				/>
+				<h2 style={{ color: 'inherit' }}>
+					No {this.props.currentList.plural.toLowerCase()}{matching}
+				</h2>
 			</BlankState>
 		);
 	},
 	render () {
 		if (!this.props.ready) {
 			return (
-				<div className="centered-loading-indicator" data-screen-id="list">
-					<Spinner size="md" />
-				</div>
+				<Center height="50vh" data-screen-id="list">
+					<Spinner />
+				</Center>
 			);
 		}
 		return (

@@ -1,6 +1,6 @@
 import React from 'react';
 import Field from '../Field';
-import { FormInput } from 'elemental';
+import { FormInput } from '../../../admin/client/App/elemental';
 
 module.exports = Field.create({
 	displayName: 'NumberField',
@@ -19,11 +19,11 @@ module.exports = Field.create({
 	renderField () {
 		return (
 			<FormInput
+				autoComplete="off"
 				name={this.getInputName(this.props.path)}
+				onChange={this.valueChanged}
 				ref="focusTarget"
 				value={this.props.value}
-				onChange={this.valueChanged}
-				autoComplete="off"
 			/>
 		);
 	},

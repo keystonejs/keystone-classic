@@ -6,7 +6,7 @@ import classnames from 'classnames';
 import ListFiltersAddForm from './ListFiltersAddForm';
 import Popout from '../../../../shared/Popout';
 import PopoutList from '../../../../shared/Popout/PopoutList';
-import { FormField, FormInput } from 'elemental';
+import { FormInput } from '../../../../elemental';
 import ListHeaderButton from '../ListHeaderButton';
 
 import { setFilter } from '../../actions';
@@ -36,7 +36,12 @@ var ListFiltersAdd = React.createClass({
 		this.setState({ isOpen: true }, this.focusSearch);
 	},
 	closePopout () {
-		this.setState({ isOpen: false, selectedField: false, searchString: '', innerHeight: 0 });
+		this.setState({
+			innerHeight: 0,
+			isOpen: false,
+			searchString: '',
+			selectedField: false,
+		});
 	},
 	setPopoutHeight (height) {
 		this.setState({ innerHeight: Math.min(this.props.maxHeight, height) });
@@ -69,14 +74,21 @@ var ListFiltersAdd = React.createClass({
 		if (searchString) {
 			filteredFilters = filteredFilters
 				.filter(filter => filter.type !== 'heading')
-				.filter(filter => new RegExp(searchString).test(filter.field.label.toLowerCase()));
+				.filter(filter => new RegExp(searchString)
+				.test(filter.field.label.toLowerCase()));
 		}
 
-		var popoutList = filteredFilters.map((el, i) => {
+		const popoutList = filteredFilters.map((el, i) => {
 			if (el.type === 'heading') {
-				return <PopoutList.Heading key={'heading_' + i}>{el.content}</PopoutList.Heading>;
+				return (
+					<PopoutList.Heading key={'heading_' + i}>
+						{el.content}
+					</PopoutList.Heading>
+				);
 			}
-			var filterIsActive = activeFilterPaths.length && (activeFilterPaths.indexOf(el.field.path) > -1);
+
+			const filterIsActive = activeFilterPaths.length && (activeFilterPaths.indexOf(el.field.path) > -1);
+
 			return (
 				<PopoutList.Item
 					key={'item_' + el.field.path}
@@ -88,12 +100,23 @@ var ListFiltersAdd = React.createClass({
 			);
 		});
 
+		const formFieldStyles = {
+			borderBottom: '1px dashed rgba(0, 0, 0, 0.1)',
+			marginBottom: '1em',
+			paddingBottom: '1em',
+		};
+
 		return (
 			<Popout.Pane onLayout={this.setPopoutHeight} key="list">
 				<Popout.Body>
-					<FormField style={{ borderBottom: '1px dashed rgba(0,0,0,0.1)', paddingBottom: '1em' }}>
-						<FormInput ref="search" value={this.state.searchString} onChange={this.updateSearch} placeholder="Find a filter..." />
-					</FormField>
+					<div style={formFieldStyles}>
+						<FormInput
+							onChange={this.updateSearch}
+							placeholder="Find a filter..."
+							ref="search"
+							value={this.state.searchString}
+						/>
+					</div>
 					{popoutList}
 				</Popout.Body>
 			</Popout.Pane>
@@ -116,8 +139,10 @@ var ListFiltersAdd = React.createClass({
 		);
 	},
 	render () {
-		const { selectedField } = this.state;
-		const popoutBodyStyle = this.state.innerHeight ? { height: this.state.innerHeight } : null;
+		const { isOpen, selectedField } = this.state;
+		const popoutBodyStyle = this.state.innerHeight
+			? { height: this.state.innerHeight }
+			: null;
 		const popoutPanesClassname = classnames('Popout__panes', {
 			'Popout__scrollable-area': !selectedField,
 		});
@@ -125,13 +150,13 @@ var ListFiltersAdd = React.createClass({
 		return (
 			<div>
 				<ListHeaderButton
-					active={this.state.isOpen}
-					id="listHeaderFilterButton"
+					active={isOpen}
 					glyph="eye"
+					id="listHeaderFilterButton"
 					label="Filter"
-					onClick={this.state.isOpen ? this.closePopout : this.openPopout}
+					onClick={isOpen ? this.closePopout : this.openPopout}
 				/>
-				<Popout isOpen={this.state.isOpen} onCancel={this.closePopout} relativeToID="listHeaderFilterButton">
+				<Popout isOpen={isOpen} onCancel={this.closePopout} relativeToID="listHeaderFilterButton">
 					<Popout.Header
 						leftAction={selectedField ? this.navigateBack : null}
 						leftIcon={selectedField ? 'chevron-left' : null}
