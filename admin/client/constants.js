@@ -37,6 +37,9 @@ exports.spacing = {
 	xl: 80,
 };
 
+// TODO Export this var from styled-components
+exports.STYLED_COMPONENTS_CONTEXT_CHANNEL = '__styled-components__';
+
 // table constants
 
 exports.TABLE_CONTROL_COLUMN_WIDTH = 26;  // icon + padding
