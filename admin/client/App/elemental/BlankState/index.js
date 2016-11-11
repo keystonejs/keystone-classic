@@ -1,24 +1,36 @@
-import { css, StyleSheet } from 'aphrodite/no-important';
+import styled from 'styled-components';
 import React, { PropTypes } from 'react';
-import theme from '../../../theme';
 
 function BlankState ({
-	className,
 	children,
 	heading,
 	component: Component,
 	...props,
 }) {
-	props.className = css(
-		classes.container,
-		className
-	);
+	const Comp = styled(Component)`
+		text-align: center;
+
+		background-color: ${props => props.theme.blankstate.background};
+		border-radius: ${props => props.theme.blankstate.borderRadius};
+		color: ${props => props.theme.blankstate.color};
+		padding-bottom: ${props => props.theme.blankstate.paddingVertical};
+		padding-left: ${props => props.theme.blankstate.paddingHorizontal};
+		padding-right: ${props => props.theme.blankstate.paddingHorizontal};
+		padding-top: ${props => props.theme.blankstate.paddingVertical};
+	`;
+
+	const Heading = styled.h2`
+		color: inherit;
+		&:last-child {
+			margin-bottom: 0;
+		}
+	`;
 
 	return (
-		<Component {...props}>
-			{!!heading && <h2 data-e2e-blank-state-heading className={css(classes.heading)}>{heading}</h2>}
+		<Comp {...props}>
+			{!!heading && <Heading data-e2e-blank-state-heading>{heading}</Heading>}
 			{children}
-		</Component>
+		</Comp>
 	);
 };
 
@@ -32,28 +44,5 @@ BlankState.propTypes = {
 BlankState.defaultProps = {
 	component: 'div',
 };
-
-/* eslint quote-props: ["error", "as-needed"] */
-
-const classes = StyleSheet.create({
-	container: {
-		backgroundColor: theme.blankstate.background,
-		borderRadius: theme.blankstate.borderRadius,
-		color: theme.blankstate.color,
-		paddingBottom: theme.blankstate.paddingVertical,
-		paddingLeft: theme.blankstate.paddingHorizontal,
-		paddingRight: theme.blankstate.paddingHorizontal,
-		paddingTop: theme.blankstate.paddingVertical,
-		textAlign: 'center',
-	},
-
-	heading: {
-		color: 'inherit',
-
-		':last-child': {
-			marginBottom: 0,
-		},
-	},
-});
 
 module.exports = BlankState;
