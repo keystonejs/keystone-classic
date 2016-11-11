@@ -47,7 +47,7 @@
     "fs-extra": "1.0.0",
     "grappling-hook": "3.0.0",
     "i": "0.3.5",
-    "kerberos": "0.0.21",
+    "kerberos": "0.0.22",
     "keystone-storage-namefunctions": "1.1.1",
     "keystone-utils": "0.4.0",
     "knox": "0.9.2",
