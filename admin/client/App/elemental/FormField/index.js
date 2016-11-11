@@ -2,6 +2,7 @@ import { StyleSheet, css } from 'aphrodite/no-important';
 import React, { Component, PropTypes } from 'react';
 
 import styles from './styles';
+import { STYLED_COMPONENTS_CONTEXT_CHANNEL } from '../../../constants'
 import FormLabel from '../FormLabel';
 
 const classes = StyleSheet.create(styles);
@@ -72,9 +73,11 @@ FormField.contextTypes = {
 		PropTypes.number,
 		PropTypes.string,
 	]),
+	[STYLED_COMPONENTS_CONTEXT_CHANNEL]: PropTypes.func,
 };
 FormField.childContextTypes = {
 	formFieldId: PropTypes.string,
+	[STYLED_COMPONENTS_CONTEXT_CHANNEL]: PropTypes.func,
 };
 FormField.propTypes = {
 	aphroditeStyles: PropTypes.oneOfType([

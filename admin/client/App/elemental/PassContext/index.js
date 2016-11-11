@@ -1,5 +1,7 @@
 import { Children, Component, PropTypes } from 'react';
 
+import { STYLED_COMPONENTS_CONTEXT_CHANNEL } from '../../../constants';
+
 // Pass the Lightbox context through to the Portal's descendents
 // StackOverflow discussion http://goo.gl/oclrJ9
 
@@ -17,6 +19,7 @@ PassContext.propTypes = {
 };
 PassContext.childContextTypes = {
 	onClose: PropTypes.func,
+	[STYLED_COMPONENTS_CONTEXT_CHANNEL]: PropTypes.func,
 };
 
 export default PassContext;

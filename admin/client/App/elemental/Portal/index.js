@@ -1,8 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import Transition from 'react-addons-css-transition-group';
 import { render } from 'react-dom';
-import PassContext from '../PassContext';
 
+import PassContext from '../PassContext';
+import { STYLED_COMPONENTS_CONTEXT_CHANNEL } from '../../../constants';
 
 export default class Portal extends Component {
 	constructor () {
@@ -48,6 +49,8 @@ export default class Portal extends Component {
 	}
 }
 
+// eslint-disable-next-line quote-props
 Portal.contextTypes = {
 	onClose: PropTypes.func,
+	[STYLED_COMPONENTS_CONTEXT_CHANNEL]: PropTypes.func,
 };
