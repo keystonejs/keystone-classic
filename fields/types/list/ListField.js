@@ -23,7 +23,7 @@ const ItemDom = ({ name, id, onRemove, children }) => (
 		{children}
 		<div style={{ textAlign: 'right', paddingBottom: 10 }}>
 			<Button size="xsmall" color="danger" onClick={onRemove}>
-				remove
+				Remove
 			</Button>
 		</div>
 	</div>
