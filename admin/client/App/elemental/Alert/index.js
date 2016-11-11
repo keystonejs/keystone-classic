@@ -1,42 +1,32 @@
-import { css, StyleSheet } from 'aphrodite/no-important';
-import React, { cloneElement, Children, PropTypes } from 'react';
-import styles from './styles';
-import colors from './colors';
-
-const classes = StyleSheet.create(styles);
-
-// clone children if a class exists for the tagname
-const cloneWithClassnames = (c) => {
-	const type = c.type && c.type.displayName
-		? c.type.displayName
-		: c.type || null;
-
-	if (!type || !classes[type]) return c;
-
-	return cloneElement(c, {
-		className: css(classes[type]),
-	});
-};
+import styled, { css } from 'styled-components';
+import React, { PropTypes } from 'react';
 
 function Alert ({
-	children,
-	className,
 	color,
 	component: Component,
-	...props,
+	...outerProps,
 }) {
-	props.className = css(
-		classes.alert,
-		classes[color],
-		className
-	);
-	props.children = Children.map(children, cloneWithClassnames);
+	if (color === 'error') color = 'danger';
+	const Comp = styled(Component)`
+		border-color: transparent;
+		color: inherit;
 
-	return <Component {...props} data-alert-type={color} />;
+		${props => props.strong && css`font-weight: 500;`}
+		border-radius: ${props => props.theme.alert.borderRadius};
+		border-style: solid;
+		border-width: ${props => props.theme.alert.borderWidth};
+		margin: ${props => props.theme.alert.margin};
+		padding: ${props => props.theme.alert.padding};
+		background-color: ${props => props.theme.alert.color[color].background};
+		border-color: ${props => props.theme.alert.color[color].border};
+		color: ${props => props.theme.alert.color[color].text};
+	`;
+
+	return <Comp {...outerProps} data-alert-type={color} />;
 };
 
 Alert.propTypes = {
-	color: PropTypes.oneOf(Object.keys(colors)).isRequired,
+	color: PropTypes.oneOf(['danger', 'error', 'info', 'success', 'warning']).isRequired,
 	component: PropTypes.oneOfType([
 		PropTypes.func,
 		PropTypes.string,
