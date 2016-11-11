@@ -8,7 +8,7 @@
     "url": "https://github.com/keystonejs/keystone.git"
   },
   "dependencies": {
-    "aphrodite": "0.6.0",
+    "aphrodite": "1.1.0",
     "async": "2.1.2",
     "asyncdi": "1.1.0",
     "babel-core": "6.18.2",
