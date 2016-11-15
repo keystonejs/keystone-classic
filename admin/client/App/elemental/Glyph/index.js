@@ -19,7 +19,7 @@ function Glyph ({
 	name,
 	size,
 	style,
-	...props,
+	...props
 }) {
 	const colorIsValidType = Object.keys(colors).includes(color);
 	props.className = css(

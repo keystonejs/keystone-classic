@@ -8,7 +8,7 @@ function ModalHeader ({
 	className,
 	showCloseButton,
 	text,
-	...props,
+	...props
 }, {
 	onClose,
 }) {

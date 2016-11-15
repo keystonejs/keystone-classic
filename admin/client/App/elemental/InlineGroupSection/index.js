@@ -14,7 +14,7 @@ function InlineGroupSection ({
 	contiguous,
 	grow,
 	position,
-	...props,
+	...props
 }) {
 	// evaluate position
 	const separate = position === 'last' || position === 'middle';

@@ -5,7 +5,7 @@ import theme from '../../../theme';
 function ModalFooter ({
 	align,
 	className,
-	...props,
+	...props
 }) {
 	return (
 		<div {...props} className={css(classes.footer, classes['align__' + align], className)} />

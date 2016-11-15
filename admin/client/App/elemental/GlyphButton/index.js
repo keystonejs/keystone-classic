@@ -12,7 +12,7 @@ function GlyphButton ({
 	glyphSize,
 	glyphStyle,
 	position,
-	...props,
+	...props
 }) {
 	const isDefault = position === 'default';
 	const isLeft = position === 'left';

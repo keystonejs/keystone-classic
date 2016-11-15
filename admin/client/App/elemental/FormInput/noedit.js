@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 import { css, StyleSheet } from 'aphrodite/no-important';
 
 import theme from '../../../theme';
@@ -13,7 +13,7 @@ function FormInputNoedit ({
 	multiline,
 	noedit, // NOTE not used, just removed from props
 	type,
-	...props,
+	...props
 }) {
 	props.className = css(
 		classes.noedit,

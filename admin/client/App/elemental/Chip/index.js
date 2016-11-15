@@ -13,7 +13,7 @@ function Chip ({
 	label,
 	onClear,
 	onClick,
-	...props,
+	...props
 }) {
 	props.className = css(
 		classes.chip,

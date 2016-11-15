@@ -26,7 +26,7 @@ class FormField extends Component {
 			htmlFor,
 			label,
 			offsetAbsentLabel,
-			...props,
+			...props
 		} = this.props;
 
 		props.className = css(

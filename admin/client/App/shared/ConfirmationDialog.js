@@ -14,7 +14,7 @@ function ConfirmationDialog ({
 	isOpen,
 	onCancel,
 	onConfirmation,
-	...props,
+	...props
 }) {
 	// Property Violation
 	if (children && html) {

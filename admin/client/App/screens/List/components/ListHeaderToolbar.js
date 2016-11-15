@@ -73,7 +73,7 @@ function ListHeaderToolbar ({
 	columnsAvailable,
 	columnsActive,
 
-	...props,
+	...props
 }) {
 	return (
 		<Group block aphroditeStyles={classes.wrapper}>

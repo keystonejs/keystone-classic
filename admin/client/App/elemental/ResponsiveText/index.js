@@ -47,7 +47,7 @@ class ResponsiveText extends Component {
 			visibleMD,
 			visibleSM,
 			visibleXS,
-			...props,
+			...props
 		} = this.props;
 		const { windowWidth } = this.state;
 

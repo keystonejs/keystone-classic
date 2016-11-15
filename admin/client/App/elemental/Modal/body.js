@@ -4,7 +4,7 @@ import theme from '../../../theme';
 
 function ModalBody ({
 	className,
-	...props,
+	...props
 }) {
 	return (
 		<div

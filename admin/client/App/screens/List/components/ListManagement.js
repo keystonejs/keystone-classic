@@ -18,7 +18,7 @@ function ListManagement ({
 	nodelete,
 	noedit,
 	selectAllItemsLoading,
-	...props,
+	...props
 }) {
 	// do not render if there's no results
 	// or if edit/delete unavailable on the list

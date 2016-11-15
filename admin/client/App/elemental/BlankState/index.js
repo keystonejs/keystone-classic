@@ -7,7 +7,7 @@ function BlankState ({
 	children,
 	heading,
 	component: Component,
-	...props,
+	...props
 }) {
 	props.className = css(
 		classes.container,

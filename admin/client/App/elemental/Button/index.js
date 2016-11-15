@@ -31,7 +31,7 @@ class Button extends Component {
 			disabled,
 			size,
 			variant,
-			...props,
+			...props
 		} = this.props;
 
 		// get the styles

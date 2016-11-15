@@ -9,7 +9,7 @@ function LabelledControl ({
 	inline,
 	label,
 	title,
-	...props,
+	...props
 }) {
 	const labelClassName = css(
 		classes.wrapper,

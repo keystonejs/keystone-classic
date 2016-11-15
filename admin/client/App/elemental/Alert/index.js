@@ -23,7 +23,7 @@ function Alert ({
 	className,
 	color,
 	component: Component,
-	...props,
+	...props
 }) {
 	props.className = css(
 		classes.alert,
