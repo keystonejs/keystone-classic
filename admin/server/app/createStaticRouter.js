@@ -11,6 +11,7 @@ var express = require('express');
 var less = require('less-middleware');
 var path = require('path');
 var str = require('string-to-stream');
+var _ = require('lodash');
 
 function buildFieldTypesStream (fieldTypes) {
 	var src = '';
@@ -19,12 +20,12 @@ function buildFieldTypesStream (fieldTypes) {
 		src += 'exports.' + i + 's = {\n';
 		types.forEach(function (type) {
 			if (typeof fieldTypes[type] !== 'string') return;
-			src += type + ': require("../../fields/types/' + type + '/' + fieldTypes[type] + i + '"),\n';
+			src += type + ': require("types/' + type + '/' + fieldTypes[type] + i + '"),\n';
 		});
 		// Append ID and Unrecognised column types
 		if (i === 'Column') {
-			src += 'id: require("../../fields/components/columns/IdColumn"),\n';
-			src += '__unrecognised__: require("../../fields/components/columns/InvalidColumn"),\n';
+			src += 'id: require("components/columns/IdColumn"),\n';
+			src += '__unrecognised__: require("components/columns/InvalidColumn"),\n';
 		}
 
 		src += '};\n';
@@ -36,10 +37,12 @@ module.exports = function createStaticRouter (keystone) {
 	var router = express.Router();
 
 	/* Prepare browserify bundles */
+	var builtinFieldsPath = path.resolve(__dirname, '../../../fields')
+	var browserifyPaths = _.union(keystone.get('custom fields paths') || [], [builtinFieldsPath]);
 	var bundles = {
-		fields: browserify(buildFieldTypesStream(keystone.fieldTypes), 'FieldTypes'),
-		signin: browserify('./Signin/index.js'),
-		admin: browserify('./App/index.js'),
+		fields: browserify(buildFieldTypesStream(keystone.fieldTypes), 'FieldTypes', browserifyPaths),
+		signin: browserify('./Signin/index.js', undefined, browserifyPaths),
+		admin: browserify('./App/index.js', undefined, browserifyPaths),
 	};
 
 	// prebuild static resources on the next tick in keystone dev mode; this
