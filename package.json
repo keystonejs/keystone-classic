@@ -117,7 +117,7 @@
     "superagent": "2.3.0",
     "supertest": "2.0.1",
     "uglify-js": "2.7.4",
-    "updtr": "0.2.2",
+    "updtr": "0.2.3",
     "watch": "1.0.1"
   },
   "browserify": {
