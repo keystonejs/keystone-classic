@@ -37,7 +37,7 @@ module.exports = function createStaticRouter (keystone) {
 	var router = express.Router();
 
 	/* Prepare browserify bundles */
-	var builtinFieldsPath = path.resolve(__dirname, '../../../fields')
+	var builtinFieldsPath = path.resolve(__dirname, '../../../fields');
 	var browserifyPaths = _.union(keystone.get('custom fields paths') || [], [builtinFieldsPath]);
 	var bundles = {
 		fields: browserify(buildFieldTypesStream(keystone.fieldTypes), 'FieldTypes', browserifyPaths),

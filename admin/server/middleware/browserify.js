@@ -5,7 +5,7 @@ var moment = require('moment');
 var packages = require('../../client/packages');
 var path = require('path');
 
-var babelrc = fs.readJsonSync(path.resolve(__dirname, '../../../.babelrc'), {throws: false}) || {};
+var babelrc = fs.readJsonSync(path.resolve(__dirname, '../../../.babelrc'), { throws: false }) || {};
 var basedir = path.resolve(__dirname + '/../../client/');
 var devMode = process.env.KEYSTONE_DEV === 'true';
 var devWriteBundles = process.env.KEYSTONE_WRITE_BUNDLES === 'true';
