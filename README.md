@@ -140,6 +140,63 @@ Keystone's field types include:
 
 Keystone also has [Relationship fields](http://keystonejs.com/docs/database#relationships) for managing one-to-many and many-to-many relationships between different models.
 
+### Custom Field Types
+
+You can register custom field types via
+
+```js
+keystone.addFieldType({name: 'MyAwesomeness', path: '/absolute/path/to/where/this/type/can/be/required/from'});
+```
+
+When using custom field types, you must also provide an array of absolute paths to where your custom field types can be resolved from. These absolute paths are used as the `paths` [option for browserify](https://www.npmjs.com/package/browserify#browserifyfiles--opts) in order to bundle and babel transform your react (jsx) components. Also, field types in these custom paths must be organized in sub-folders named equal to the sub-folders in [keystone/fields](https://github.com/keystonejs/keystone/tree/master/fields) since their require paths are [compiled with a directory structure in mind](https://github.com/keystonejs/keystone/blob/master/admin/server/app/createStaticRouter.js#L15).
+
+```
+project
+│   index.js
+│
+└───node_modules
+│    │
+│    └───keystone
+│        │
+│        └───fields
+│           │
+│           └───types
+│               │
+│               └───date
+|                   │   DateColumn.js
+|                   │   DateField.js
+|                   │   DateFilter.js
+|                   │   DateType.js
+│
+└───fields
+|   │
+|   └───types
+|       │
+|       └───date
+|           │   MyAwesomenessColumn.js
+|           │   MyAwesomenessField.js
+|           │   MyAwesomenessFilter.js
+|           │   MyAwesomenessType.js
+```
+
+That said, in order to load `MyAwesomeness` field type into your keystone instance, this is what you have to do:
+
+```js
+var path = require('path');
+var keystone = require('keystone');
+
+keystone.init({
+    ... // put your other init stuff here
+    'custom fields paths': [path.resolve('./fields')],
+});
+
+keystone.addFieldType({
+    name: 'MyAwesomeness',
+    path: require.resolve('./fields/types/MyAwesomenessType'),
+});
+```
+
+
 ### Running KeystoneJS in Production
 
 When you deploy your KeystoneJS app to production, be sure to set your `ENV` environment variable to `production`.
