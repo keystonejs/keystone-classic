@@ -8,14 +8,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Signin from './Signin';
+import { ThemeProvider } from 'styled-components';
+
+import theme from '../theme';
 
 ReactDOM.render(
-	<Signin
-		brand={Keystone.brand}
-		from={Keystone.from}
-		logo={Keystone.logo}
-		user={Keystone.user}
-		userCanAccessKeystone={Keystone.userCanAccessKeystone}
-	/>,
+	<ThemeProvider theme={theme}>
+		<Signin
+			brand={Keystone.brand}
+			from={Keystone.from}
+			logo={Keystone.logo}
+			user={Keystone.user}
+			userCanAccessKeystone={Keystone.userCanAccessKeystone}
+		/>
+	</ThemeProvider>,
 	document.getElementById('signin-view')
 );
