@@ -2,280 +2,162 @@
 // Button
 // ==============================
 
+import { css } from 'styled-components';
 import { gradientVertical } from '../../../utils/css';
 import { darken, fade, lighten } from '../../../utils/color';
-import theme from '../../../theme';
 
-
-// Common Styles
-// ----------------
-
-exports.common = {
-	// Base Button
-	// ----------------
-	base: {
-		'appearance': 'none',
-		'background': 'none',
-		'borderWidth': theme.button.borderWidth,
-		'borderStyle': 'solid',
-		'borderColor': 'transparent',
-		'borderRadius': theme.button.borderRadius,
-		'cursor': 'pointer',
-		'display': 'inline-block',
-		'fontWeight': theme.button.font.weight,
-		'height': theme.component.height,
-		'lineHeight': theme.component.lineHeight,
-		'marginBottom': 0,
-		'padding': `0 ${theme.button.paddingHorizontal}`,
-		'outline': 0,
-		'textAlign': 'center',
-		'touchAction': 'manipulation',
-		'userSelect': 'none',
-		'verticalAlign': 'middle',
-		'whiteSpace': 'nowrap',
-
-		':hover': {
-			color: theme.button.default.textColor,
-			textDecoration: 'none',
-		},
-		':focus': {
-			color: theme.button.default.textColor,
-			textDecoration: 'none',
-		},
-	},
-	// Block Display
-	// ----------------
-	block: {
-		display: 'block',
-		width: '100%',
-	},
-	// Disabled
-	// ----------------
-	disabled: {
-		opacity: 0.4,
-		pointerEvents: 'none',
-	},
-	// Sizes
-	// ----------------
-	large: {
-		fontSize: theme.font.size.large,
-	},
-	default: {
-		fontSize: theme.font.size.default,
-	},
-	small: {
-		fontSize: theme.font.size.small,
-	},
-	xsmall: {
-		fontSize: theme.font.size.xsmall,
-		lineHeight: '1.9',
-		paddingLeft: '.66em',
-		paddingRight: '.66em',
-	},
-};
-
-
-// Fill Variant
-// ----------------
-function buttonFillVariant (textColor, bgColor) {
-	const hoverStyles = {
-		...gradientVertical(lighten(bgColor, 10), darken(bgColor, 5)),
-		borderColor: `${darken(bgColor, 5)} ${darken(bgColor, 10)} ${darken(bgColor, 15)}`,
-		boxShadow: '0 1px 0 rgba(0,0,0,0.1)',
-		color: textColor,
-		outline: 'none',
-	};
-	const focusStyles = {
-		...gradientVertical(lighten(bgColor, 10), darken(bgColor, 5)),
-		borderColor: `${darken(bgColor, 5)} ${darken(bgColor, 10)} ${darken(bgColor, 15)}`,
-		boxShadow: `0 0 0 3px ${fade(bgColor, 25)}`,
-		color: textColor,
-		outline: 'none',
-	};
-	const activeStyles = {
-		backgroundColor: darken(bgColor, 10),
-		backgroundImage: 'none',
-		borderColor: `${darken(bgColor, 25)} ${darken(bgColor, 15)} ${darken(bgColor, 10)}`,
-		boxShadow: 'inset 0 1px 2px rgba(0, 0, 0, 0.1)',
-	};
-	return {
-		base: {
-			...gradientVertical(lighten(bgColor, 5), darken(bgColor, 10), bgColor),
-			'borderColor': `${darken(bgColor, 10)} ${darken(bgColor, 20)} ${darken(bgColor, 25)}`,
-			'boxShadow': 'inset 0 1px 0 rgba(255, 255, 255, 0.1)',
-			'color': textColor,
-			'fontWeight': 400,
-			'textShadow': '0 -1px 0 rgba(0, 0, 0, 0.25)',
-
-			':hover': hoverStyles,
-			':focus': focusStyles,
-			':active': activeStyles,
-		},
-		active: activeStyles,
-	};
-}
-// TODO: This is pretty hacky, needs to be consolidated with the Variant() method
-// above (needs more theme variables to be implemented though)
-function buttonFillDefault () {
-	const borderColor = theme.input.border.color.default;
-	const hoverStyles = {
-		...gradientVertical('#fff', '#eee'),
-		borderColor: `${darken(borderColor, 5)} ${darken(borderColor, 5)} ${darken(borderColor, 10)}`,
-		boxShadow: '0 1px 0 rgba(0,0,0,0.1)',
-		color: theme.color.text,
-	};
-	const focusStyles = {
-		borderColor: theme.color.primary,
-		boxShadow: `0 0 0 3px ${fade(theme.color.primary, 10)}`,
-		color: theme.color.text,
-		outline: 'none',
-	};
-	const activeStyles = {
-		background: '#e6e6e6',
-		borderColor: darken(borderColor, 10),
-		boxShadow: 'inset 0 1px 2px rgba(0, 0, 0, 0.1)',
-		color: theme.color.text,
-	};
-	return {
-		base: {
-			...gradientVertical('#fafafa', '#eaeaea'),
-			'borderColor': `${borderColor} ${darken(borderColor, 6)} ${darken(borderColor, 12)}`,
-			'color': theme.color.text,
-			'textShadow': '0 1px 0 white',
-
-			':hover': hoverStyles,
-			':focus': focusStyles,
-			':active': activeStyles,
-		},
-
-		// gross hack
-		active: {
-			...activeStyles,
-
-			':hover': activeStyles,
-			':focus': {
-				...activeStyles,
-				...focusStyles,
-				boxShadow: `0 0 0 3px ${fade(theme.color.primary, 10)}, inset 0 1px 2px rgba(0, 0, 0, 0.1)`,
-			},
-			':active': activeStyles,
-		},
-	};
-}
-exports.fill = (color) => {
-	switch (color) {
-		case 'default':
-			return buttonFillDefault();
-		case 'cancel':
-		case 'delete':
-			return buttonFillVariant('white', theme.button.danger.bgColor);
-		default:
-			return buttonFillVariant('white', theme.button[color].bgColor);
+// Base styles
+const base = css`
+	appearance: none;
+	background: none;
+	border-width: ${props => props.theme.button.borderWidth};
+	border-style: solid;
+	border-color: transparent;
+	border-radius: ${props => props.theme.button.borderRadius};
+	cursor: pointer;
+	display: inline-block;
+	font-weight: ${props => props.theme.button.font.weight};
+	height: ${props => props.theme.component.height};
+	line-height: ${props => props.theme.component.lineHeight};
+	margin-bottom: 0;
+	padding: 0 ${props => props.theme.button.paddingHorizontal};
+	outline: 0;
+	text-align: center;
+	touch-action: manipulation;
+	user-select: none;
+	vertical-align: middle;
+	white-space: nowrap;
+	&:hover,
+	&:focus {
+		color: ${props => props.theme.button.default.textColor};
+		text-decoration: none;
 	}
-};
 
+	/* Types */
+	${props => props.block && css`
+		display: block;
+		width: 100%;
+	`}
+	${props => props.disabled && css`
+		opacity: 0.4;
+		pointer-events: none;
+	`}
+`;
 
-// Hollow Variant
-// ----------------
-function buttonHollowVariant (textColor, borderColor) {
-	const focusAndHoverStyles = {
-		backgroundImage: 'none',
-		backgroundColor: fade(borderColor, 15),
-		borderColor: darken(borderColor, 15),
-		boxShadow: 'none',
-		color: textColor,
-		outline: 'none',
-	};
-	const focusOnlyStyles = {
-		boxShadow: `0 0 0 3px ${fade(borderColor, 10)}`,
-	};
-	const activeStyles = {
-		backgroundColor: fade(borderColor, 35),
-		borderColor: darken(borderColor, 25),
-		boxShadow: 'none',
-	};
+// Size adaptations
+const sizes = css`
+	font-size: ${props => props.theme.font.size.default};
+	font-size: ${props => props.theme.font.size[props.size]};
+	${props => props.size === 'xsmall' && css`
+		line-height: 1.9em;
+		padding-left: .66em;
+		padding-right: .66em;
+	`};
+`;
 
-	return {
-		base: {
-			'background': 'none',
-			'borderColor': borderColor,
-			'color': textColor,
+// Hollow styles
+const hollow = css`
+	background: none;
+	border-color: ${props => props.theme.button[props.color].borderColor};
+	color: ${props => props.theme.button[props.color].bgColor};
 
-			':hover': focusAndHoverStyles,
-			':focus ': Object.assign({}, focusAndHoverStyles, focusOnlyStyles),
-			':active': activeStyles,
-		},
-		active: activeStyles,
-	};
-};
-exports.hollow = (color) => {
-	// TODO: better handling of cancel and delete colors
-	if (color === 'cancel' || color === 'delete') color = 'danger';
-
-	return buttonHollowVariant(theme.button[color].bgColor, theme.button[color].borderColor);
-};
-
-
-// Link Variant
-// ----------------
-function buttonLinkVariant (textColor, hoverColor) {
-	const hoverStyles = {
-		color: hoverColor,
-		textDecoration: 'underline',
-	};
-	return {
-		base: {
-			'background': 'none',
-			'border': 0,
-			'boxShadow': 'none',
-			'color': textColor,
-			'fontWeight': 'normal',
-			'outline': 'none',
-
-			':hover': hoverStyles,
-			':focus': hoverStyles,
-			':active': hoverStyles,
-		},
-		active: hoverStyles,
-	};
-};
-function buttonLinkDelete () {
-	const styles = buttonLinkVariant(theme.color.gray40, theme.color.danger);
-	const hoverStyles = {
-		...gradientVertical(lighten(theme.color.danger, 10), darken(theme.color.danger, 10)),
-		backgroundColor: theme.color.danger,
-		borderColor: `${darken(theme.color.danger, 4)} ${darken(theme.color.danger, 8)} ${darken(theme.color.danger, 12)}`,
-		boxShadow: '0 1px 0 rgba(0,0,0,0.1)',
-		color: 'white',
-		textDecoration: 'none',
-	};
-	const activeStyles = {
-		backgroundColor: darken(theme.color.danger, 4),
-		backgroundImage: 'none',
-		borderColor: `${darken(theme.color.danger, 12)} ${darken(theme.color.danger, 8)} ${darken(theme.color.danger, 8)}`,
-		boxShadow: 'inset 0 1px 2px rgba(0, 0, 0, 0.1)',
-		color: 'white',
-	};
-	return {
-		base: {
-			...styles.base,
-			':hover': hoverStyles,
-			':focus': hoverStyles,
-			':active': activeStyles,
-		},
-		active: activeStyles,
-	};
-}
-
-exports.link = (color) => {
-	switch (color) {
-		case 'default':
-			return buttonLinkVariant(theme.color.link, theme.color.linkHover);
-		case 'cancel':
-			return buttonLinkVariant(theme.color.gray40, theme.color.danger);
-		case 'delete':
-			return buttonLinkDelete();
-		default:
-			return buttonLinkVariant(theme.color[color], theme.color[color]);
+	&:hover,
+	&:focus {
+		background-image: none;
+		background-color: ${props => fade(props.theme.button[props.color].borderColor, 15)};
+		border-color: ${props => darken(props.theme.button[props.color].borderColor, 15)};
+		box-shadow: none;
+		color: ${props => props.theme.button[props.color].bgColor};
 	}
-};
+
+	&:focus {
+		box-shadow: 0 0 0 3px ${props => fade(props.theme.button[props.color].borderColor, 10)};
+	}
+
+	&:active {
+		background-color: ${props => fade(props.theme.button[props.color].borderColor, 35)};
+		border-color: ${props => darken(props.theme.button[props.color].borderColor, 25)};
+		box-shadow: none;
+	}
+`;
+
+// Filled styles
+const fill = css`
+	${props => ({
+		...gradientVertical(
+			lighten(props.theme.button[props.color].bgColor, 5),
+			darken(props.theme.button[props.color].bgColor, 10),
+			props.theme.button[props.color].bgColor
+		),
+	})}
+	border-color: ${props => darken(props.theme.button[props.color].bgColor, 10)} ${props => darken(props.theme.button[props.color].bgColor, 20)} ${props => darken(props.theme.button[props.color].bgColor, 25)};
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+	color: white;
+	font-weight: 400;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+
+	&:hover,
+	&:focus {
+		${props => ({
+			...gradientVertical(
+				lighten(props.theme.button[props.color].bgColor, 10),
+				darken(props.theme.button[props.color].bgColor, 5)
+			),
+		})}
+		border-color: ${props => darken(props.theme.button[props.color].bgColor, 5)} ${props => darken(props.theme.button[props.color].bgColor, 10)} ${props => darken(props.theme.button[props.color].bgColor, 15)};
+		box-shadow: 0 1px 0 rgba(0,0,0,0.1);
+		color: white;
+		outline: none;
+	}
+
+	&:focus {
+		box-shadow: 0 0 0 3px ${props => fade(props.theme.button[props.color].bgColor, 25)};
+	}
+
+	&:active {
+		background-color: ${props => darken(props.theme.button[props.color].bgColor, 10)};
+		background-image: none;
+		border-color: ${props => darken(props.theme.button[props.color].bgColor, 25)} ${props => darken(props.theme.button[props.color].bgColor, 15)} ${props => darken(props.theme.button[props.color].bgColor, 10)};
+		box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+	}
+`;
+
+// Link styles
+const link = (textColor, hoverColor) => (
+	css`
+		background: none;
+		border: 0;
+		box-shadow: none;
+		color: ${textColor};
+		font-weight: normal;
+		outline: none;
+
+		&:hover,
+		&:focus,
+		&:active {
+			color: ${hoverColor};
+			text-decoration: underline;
+		}
+
+		${props => props.color === 'danger' && css`
+			&:hover {
+				${{ ...gradientVertical(lighten(hoverColor, 10), darken(hoverColor, 10)) }}
+				background-color: ${hoverColor};
+				border-color: ${darken(hoverColor, 4)} ${darken(hoverColor, 8)} ${darken(hoverColor, 12)};
+				box-shadow: 0 1px 0 rgba(0,0,0,0.1);
+				color: white;
+				text-decoration: none;
+			}
+
+			&:active {
+				background-color: ${darken(hoverColor, 4)};
+				background-image: none;
+				border-color: ${darken(hoverColor, 12)} ${darken(hoverColor, 8)} ${darken(hoverColor, 8)};
+				box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+				color: white;
+			}
+		`}
+	`
+);
+
+export { base, sizes, hollow, fill, link };

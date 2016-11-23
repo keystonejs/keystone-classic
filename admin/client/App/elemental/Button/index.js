@@ -1,17 +1,7 @@
-import { css, StyleSheet } from 'aphrodite/no-important';
+import styled from 'styled-components';
 import React, { Component, PropTypes } from 'react';
-import styles from './styles';
 
-const commonClasses = StyleSheet.create(styles.common);
-const stylesheetCache = {};
-function getStyleSheet (variant, color) {
-	const cacheKey = `${variant}-${color}`;
-	if (!stylesheetCache[cacheKey]) {
-		const variantStyles = styles[variant](color);
-		stylesheetCache[cacheKey] = StyleSheet.create(variantStyles);
-	}
-	return stylesheetCache[cacheKey];
-}
+import { base, sizes, hollow, fill, link } from './styles';
 
 const BUTTON_SIZES = ['large', 'medium', 'small', 'xsmall'];
 const BUTTON_VARIANTS = ['fill', 'hollow', 'link'];
@@ -22,32 +12,9 @@ const BUTTON_COLORS = ['default', 'primary', 'success', 'warning', 'danger', 'ca
 class Button extends Component {
 	render () {
 		var {
-			active,
-			aphroditeStyles,
-			block,
-			className,
-			color,
 			component: Tag,
-			disabled,
-			size,
-			variant,
 			...props,
 		} = this.props;
-
-		// get the styles
-		const variantClasses = getStyleSheet(variant, color);
-		props.className = css(
-			commonClasses.base,
-			commonClasses[size],
-			variantClasses.base,
-			block ? commonClasses.block : null,
-			disabled ? commonClasses.disabled : null,
-			active ? variantClasses.active : null,
-			...aphroditeStyles
-		);
-		if (className) {
-			props.className += (' ' + className);
-		}
 
 		// return an anchor or button
 		if (!Tag) {
@@ -57,18 +24,44 @@ class Button extends Component {
 		if (Tag === 'button' && !props.type) {
 			props.type = 'button';
 		}
+		if (props.color === 'cancel' || props.color === 'delete') props.color = 'danger';
 
-		return <Tag {...props} />;
+		const Component = styled(Tag)`
+			${base}
+			${sizes}
+
+			${props => props.variant === 'hollow' && hollow}
+			${props => props.variant === 'fill' && fill}
+			${props => {
+				if (props.variant === 'link') {
+					let textColor, hoverColor;
+					switch (props.color) {
+						case 'default':
+							textColor = props.theme.color.link;
+							hoverColor = props.theme.color.linkHover;
+							break;
+						case 'danger':
+							textColor = props.theme.color.gray40;
+							hoverColor = props.theme.color.danger;
+							break;
+						default:
+							textColor = props.theme.color[props.color];
+							hoverColor = props.theme.color[props.color];
+							break;
+					}
+					return link(textColor, hoverColor);
+				}
+			}}
+		`;
+
+		return <Component {...props} />;
 	}
 };
 
 Button.propTypes = {
 	active: PropTypes.bool,
-	aphroditeStyles: PropTypes.arrayOf(PropTypes.shape({
-		_definition: PropTypes.object,
-		_name: PropTypes.string,
-	})),
 	block: PropTypes.bool,
+	className: PropTypes.string,
 	color: PropTypes.oneOf(BUTTON_COLORS),
 	component: PropTypes.oneOfType([
 		PropTypes.func,
@@ -80,7 +73,6 @@ Button.propTypes = {
 	variant: PropTypes.oneOf(BUTTON_VARIANTS),
 };
 Button.defaultProps = {
-	aphroditeStyles: [],
 	color: 'default',
 	variant: 'fill',
 };
