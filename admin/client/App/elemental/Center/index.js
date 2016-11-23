@@ -1,20 +1,18 @@
-import React, { Component, PropTypes } from 'react';
-import { StyleSheet, css } from 'aphrodite/no-important';
-import styles from './styles';
-
-const classes = StyleSheet.create(styles);
+import React, { PropTypes } from 'react';
+import styled from 'styled-components';
 
 function Center ({
-	className,
 	component: Component,
-	height,
-	style,
 	...props,
 }) {
-	props.className = css(classes.center, className);
-	props.style = { height, ...style };
+	const Comp = styled(Component)`
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: ${props => props.height};
+	`;
 
-	return <Component {...props} />;
+	return <Comp {...props} />;
 };
 Center.propTypes = {
 	component: PropTypes.oneOfType([
