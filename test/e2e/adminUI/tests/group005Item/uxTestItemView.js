@@ -25,11 +25,13 @@ module.exports = {
 
 		browser.adminUIApp.waitForHomeScreen();
 
-		browser.adminUIApp.openList({section: 'access', list: 'User'});
+		browser.adminUIApp.openList({ section: 'access', list: 'User' });
 
-		browser.adminUIListScreen.clickItemFieldValue([
-			{ row: 2, column: 2, name: 'name',}
-		]);
+		browser.adminUIListScreen.clickItemFieldValue({
+			fields: [
+				{ row: 2, column: 2, name: 'name', }
+			],
+		});
 
 		browser.adminUIApp.waitForItemScreen();
 	},
@@ -42,13 +44,17 @@ module.exports = {
 
 		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.adminUIInitialFormScreen.fillFieldInputs([
-			{ name: 'name', input: { firstName: 'First 1', lastName: 'Last 1' },},
-		]);
+		browser.adminUIInitialFormScreen.fillFieldInputs({
+			fields: [
+				{ name: 'name', input: { firstName: 'First 1', lastName: 'Last 1' }, },
+			],
+		});
 
-		browser.adminUIInitialFormScreen.assertFieldInputs([
-			{ name: 'name', input: { firstName: 'First 1', lastName: 'Last 1' },},
-		]);
+		browser.adminUIInitialFormScreen.assertFieldInputs({
+			fields: [
+				{ name: 'name', input: { firstName: 'First 1', lastName: 'Last 1' }, },
+			],
+		});
 
 		browser.adminUIInitialFormScreen.save();
 		browser.adminUIApp.waitForItemScreen();
@@ -57,38 +63,48 @@ module.exports = {
 	'Item screen should allow saving an item without changes': function (browser) {
 		browser.adminUIItemScreen.save();
 
-		browser.adminUIItemScreen.assertElementTextEquals('flashMessage', 'Your changes have been saved successfully');
+		browser.adminUIItemScreen.assertElementTextEquals({ element: '@flashMessage', text: 'Your changes have been saved successfully' });
 	},
 	'Item screen should allow saving an item with changes': function (browser) {
-		browser.adminUIItemScreen.fillFieldInputs([
-			{ name: 'name', input: { firstName: 'First 2', lastName: 'Last 2' },},
-		]);
+		browser.adminUIItemScreen.fillFieldInputs({
+			fields: [
+				{ name: 'name', input: { firstName: 'First 2', lastName: 'Last 2' }, },
+			],
+		});
 
-		browser.adminUIItemScreen.assertFieldInputs([
-			{ name: 'name', input: { firstName: 'First 2', lastName: 'Last 2' },},
-		]);
+		browser.adminUIItemScreen.assertFieldInputs({
+			fields: [
+				{ name: 'name', input: { firstName: 'First 2', lastName: 'Last 2' }, },
+			],
+		});
 
 		browser.adminUIItemScreen.save();
 		browser.adminUIApp.waitForItemScreen();
-		browser.adminUIItemScreen.assertElementTextEquals('flashMessage', 'Your changes have been saved successfully');
+		browser.adminUIItemScreen.assertElementTextEquals({ element: '@flashMessage', text: 'Your changes have been saved successfully' });
 	},
 	'Item screen should allow resetting an item with changes': function (browser) {
-		browser.adminUIItemScreen.fillFieldInputs([
-			{ name: 'name', input: { firstName: 'First 3', lastName: 'Last 3' },},
-		]);
+		browser.adminUIItemScreen.fillFieldInputs({
+			fields: [
+				{ name: 'name', input: { firstName: 'First 3', lastName: 'Last 3' }, },
+			],
+		});
 
-		browser.adminUIItemScreen.assertFieldInputs([
-			{ name: 'name', input: { firstName: 'First 3', lastName: 'Last 3' },},
-		]);
+		browser.adminUIItemScreen.assertFieldInputs({
+			fields: [
+				{ name: 'name', input: { firstName: 'First 3', lastName: 'Last 3' }, },
+			],
+		});
 
 		browser.adminUIItemScreen.reset();
 		browser.adminUIApp.waitForResetConfirmationScreen();
 		browser.adminUIResetConfirmationScreen.reset();
 		browser.adminUIApp.waitForItemScreen();
 
-		browser.adminUIItemScreen.assertFieldInputs([
-			{ name: 'name', input: { firstName: 'First 2', lastName: 'Last 2' },},
-		]);
+		browser.adminUIItemScreen.assertFieldInputs({
+			fields: [
+				{ name: 'name', input: { firstName: 'First 2', lastName: 'Last 2' }, },
+			],
+		});
 	},
 	'Item screen should allow deleting an item': function (browser) {
 		browser.adminUIItemScreen.delete();

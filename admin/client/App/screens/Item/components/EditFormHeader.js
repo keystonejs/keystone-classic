@@ -4,11 +4,11 @@ import { connect } from 'react-redux';
 
 import Toolbar from './Toolbar';
 import ToolbarSection from './Toolbar/ToolbarSection';
-import { FormIconField, FormInput, ResponsiveText } from 'elemental';
+import EditFormHeaderSearch from './EditFormHeaderSearch';
 import { Link } from 'react-router';
 
 import Drilldown from './Drilldown';
-import { GlyphButton } from '../../../elemental';
+import { GlyphButton, ResponsiveText } from '../../../elemental';
 
 export const EditFormHeader = React.createClass({
 	displayName: 'EditFormHeader',
@@ -103,7 +103,12 @@ export const EditFormHeader = React.createClass({
 		var list = this.props.list;
 		return (
 			<form action={`${Keystone.adminPath}/${list.path}`} className="EditForm__header__search">
-				<FormIconField iconPosition="left" iconColor="primary" iconKey="search" className="EditForm__header__search-field">
+				<EditFormHeaderSearch
+					value={this.state.searchString}
+					onChange={this.searchStringChanged}
+					onKeyUp={this.handleEscapeKey}
+				/>
+				{/* <GlyphField glyphColor="#999" glyph="search">
 					<FormInput
 						ref="searchField"
 						type="search"
@@ -112,8 +117,9 @@ export const EditFormHeader = React.createClass({
 						onChange={this.searchStringChanged}
 						onKeyUp={this.handleEscapeKey}
 						placeholder="Search"
-						className="EditForm__header__search-input" />
-				</FormIconField>
+						style={{ paddingLeft: '2.3em' }}
+					/>
+				</GlyphField> */}
 			</form>
 		);
 	},

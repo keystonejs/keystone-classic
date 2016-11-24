@@ -2,14 +2,14 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import demand from 'must';
 import ConfirmationDialog from '../ConfirmationDialog';
-import { Modal, ModalBody, ModalFooter, Button } from 'elemental';
+import { Modal, Button } from '../../elemental';
 
 describe('<ConfirmationDialog />', () => {
 	it('should render a Modal with a body and a footer', () => {
 		const component = shallow(<ConfirmationDialog />);
-		demand(component.find(Modal).length).equal(1);
-		demand(component.find(ModalBody).length).equal(1);
-		demand(component.find(ModalFooter).length).equal(1);
+		demand(component.find(Modal.Dialog).length).equal(1);
+		demand(component.find(Modal.Body).length).equal(1);
+		demand(component.find(Modal.Footer).length).equal(1);
 	});
 
 	// TODO fix this test

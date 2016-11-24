@@ -10,61 +10,75 @@ module.exports = {
 	},
 	after: fieldTests.after,
 	'Number field should show correctly in the initial modal': function (browser) {
-		browser.adminUIApp.openList({section: 'fields', list: 'Number'});
+		browser.adminUIApp.openList({ section: 'fields', list: 'Number' });
 
 		browser.adminUIListScreen.clickCreateItemButton();
 		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.adminUIInitialFormScreen.assertFieldUIVisible([
-			{ name: 'name',},
-			{ name: 'fieldA',}
-		]);
+		browser.adminUIInitialFormScreen.assertFieldUIVisible({
+			fields: [
+				{ name: 'name', },
+				{ name: 'fieldA', }
+			],
+		});
 
 		browser.adminUIInitialFormScreen.cancel();
 		browser.adminUIApp.waitForListScreen();
 	},
-	'Number field can be filled via the initial modal': function(browser) {
-		browser.adminUIApp.openList({section: 'fields', list: 'Number'});
+	'Number field can be filled via the initial modal': function (browser) {
+		browser.adminUIApp.openList({ section: 'fields', list: 'Number' });
 
 		browser.adminUIListScreen.clickCreateItemButton();
 		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.adminUIInitialFormScreen.fillFieldInputs([
-			{ name: 'name', input: { value: 'Number Field Test 1' }, },
-			{ name: 'fieldA', input: { value: '1' }, },
-		]);
-		browser.adminUIInitialFormScreen.assertFieldInputs([
-			{ name: 'name', input: { value: 'Number Field Test 1' }, },
-			{ name: 'fieldA', input: { value: '1' }, },
-		]);
+		browser.adminUIInitialFormScreen.fillFieldInputs({
+			fields: [
+				{ name: 'name', input: { value: 'Number Field Test 1' }, },
+				{ name: 'fieldA', input: { value: '1' }, },
+			],
+		});
+		browser.adminUIInitialFormScreen.assertFieldInputs({
+			fields: [
+				{ name: 'name', input: { value: 'Number Field Test 1' }, },
+				{ name: 'fieldA', input: { value: '1' }, },
+			],
+		});
 
 		browser.adminUIInitialFormScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 	},
-	'Number field should show correctly in the edit form': function(browser) {
-		browser.adminUIItemScreen.assertFieldUIVisible([
-			{ name: 'fieldA',},
-			{ name: 'fieldB',}
-		]);
+	'Number field should show correctly in the edit form': function (browser) {
+		browser.adminUIItemScreen.assertFieldUIVisible({
+			fields: [
+				{ name: 'fieldA', },
+				{ name: 'fieldB', }
+			],
+		});
 
-		browser.adminUIItemScreen.assertFieldInputs([
-			{ name: 'name', input: { value: 'Number Field Test 1' }, },
-			{ name: 'fieldA', input: { value: '1' }, },
-		])
+		browser.adminUIItemScreen.assertFieldInputs({
+			fields: [
+				{ name: 'name', input: { value: 'Number Field Test 1' }, },
+				{ name: 'fieldA', input: { value: '1' }, },
+			],
+		})
 	},
-	'Number field can be filled via the edit form': function(browser) {
-		browser.adminUIItemScreen.fillFieldInputs([
-			{ name: 'fieldB', input: { value: '2' }, },
-		]);
+	'Number field can be filled via the edit form': function (browser) {
+		browser.adminUIItemScreen.fillFieldInputs({
+			fields: [
+				{ name: 'fieldB', input: { value: '2' }, },
+			],
+		});
 		browser.adminUIItemScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 
-		browser.adminUIItemScreen.assertElementTextEquals('flashMessage', 'Your changes have been saved successfully');
+		browser.adminUIItemScreen.assertElementTextEquals({ element: '@flashMessage', text: 'Your changes have been saved successfully' });
 
-		browser.adminUIItemScreen.assertFieldInputs([
-			{ name: 'name', input: { value: 'Number Field Test 1' }, },
-			{ name: 'fieldA', input: { value: '1' }, },
-			{ name: 'fieldB', input: { value: '2' }, },
-		])
+		browser.adminUIItemScreen.assertFieldInputs({
+			fields: [
+				{ name: 'name', input: { value: 'Number Field Test 1' }, },
+				{ name: 'fieldA', input: { value: '1' }, },
+				{ name: 'fieldB', input: { value: '2' }, },
+			],
+		})
 	},
 };

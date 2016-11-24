@@ -9,8 +9,7 @@ import _ from 'lodash';
 import async from 'async';
 import React, { cloneElement } from 'react';
 import Field from '../Field';
-import { FormField, FormNote } from 'elemental';
-import { Button } from '../../../admin/client/App/elemental';
+import { Button, FormField, FormNote } from '../../../admin/client/App/elemental';
 import Lightbox from 'react-images';
 import cloudinaryResize from '../../../admin/client/utils/cloudinaryResize';
 import Thumbnail from './CloudinaryImagesThumbnail';
@@ -46,7 +45,7 @@ module.exports = Field.create({
 	},
 	buildInitialState (props) {
 		const uploadFieldPath = `CloudinaryImages-${props.path}-${++uploadInc}`;
-		const thumbnails = props.value.map((img, index) => {
+		const thumbnails = props.value ? props.value.map((img, index) => {
 			return this.getThumbnail({
 				value: img,
 				imageSourceSmall: cloudinaryResize(img.public_id, {
@@ -59,7 +58,7 @@ module.exports = Field.create({
 					width: 900,
 				}),
 			}, index);
-		});
+		}) : [];
 		return { thumbnails, uploadFieldPath };
 	},
 	getThumbnail (props, index) {

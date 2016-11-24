@@ -4,7 +4,7 @@ import { css, StyleSheet } from 'aphrodite/no-important';
 class GridRow extends Component {
 	getChildContext () {
 		return {
-			gutter: this.props.gutter || 0,
+			gutter: this.props.gutter,
 			xsmall: this.props.xsmall,
 			small: this.props.small,
 			medium: this.props.medium,
@@ -45,6 +45,7 @@ GridRow.propTypes = {
 };
 
 GridRow.defaultProps = {
+	gutter: 0,
 	xsmall: 'one-whole',
 };
 

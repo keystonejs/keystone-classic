@@ -10,62 +10,76 @@ module.exports = {
 	},
 	after: fieldTests.after,
 	'Select field should show correctly in the initial modal': function (browser) {
-		browser.adminUIApp.openList({section: 'fields', list: 'Select'});
+		browser.adminUIApp.openList({ section: 'fields', list: 'Select' });
 
 		browser.adminUIListScreen.clickCreateItemButton();
 		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.adminUIInitialFormScreen.assertFieldUIVisible([
-			{ name: 'name',},
-			{ name: 'fieldA', options: {'placeholder': true},}
-		]);
+		browser.adminUIInitialFormScreen.assertFieldUIVisible({
+			fields: [
+				{ name: 'name', },
+				{ name: 'fieldA', options: { 'placeholder': true }, }
+			],
+		});
 
 		browser.adminUIInitialFormScreen.cancel();
 		browser.adminUIApp.waitForListScreen();
 	},
-	'Select field can be filled via the initial modal': function(browser) {
-		browser.adminUIApp.openList({section: 'fields', list: 'Select'});
+	'Select field can be filled via the initial modal': function (browser) {
+		browser.adminUIApp.openList({ section: 'fields', list: 'Select' });
 
 		browser.adminUIListScreen.clickCreateItemButton();
 		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.adminUIInitialFormScreen.fillFieldInputs([
-			{ name: 'name', input: { value: 'Select Field Test 1' }, },
-			{ name: 'fieldA', input: { value: 'One' }, },
-		]);
-		browser.adminUIInitialFormScreen.assertFieldInputs([
-			{ name: 'name', input: { value: 'Select Field Test 1' }, },
-			{ name: 'fieldA', input: { value: 'One' }, },
-		]);
+		browser.adminUIInitialFormScreen.fillFieldInputs({
+			fields: [
+				{ name: 'name', input: { value: 'Select Field Test 1' }, },
+				{ name: 'fieldA', input: { value: 'One' }, },
+			],
+		});
+		browser.adminUIInitialFormScreen.assertFieldInputs({
+			fields: [
+				{ name: 'name', input: { value: 'Select Field Test 1' }, },
+				{ name: 'fieldA', input: { value: 'One' }, },
+			],
+		});
 
 		browser.adminUIInitialFormScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 	},
-	'Select field should show correctly in the edit form': function(browser) {
-		browser.adminUIItemScreen.assertFieldUIVisible([
-			{ name: 'fieldA', options: {'placeholder': false},},
-			{ name: 'fieldB', options: {'placeholder': true},}
-		]);
+	'Select field should show correctly in the edit form': function (browser) {
+		browser.adminUIItemScreen.assertFieldUIVisible({
+			fields: [
+				{ name: 'fieldA', options: { 'placeholder': false }, },
+				{ name: 'fieldB', options: { 'placeholder': true }, }
+			],
+		});
 
-		browser.adminUIItemScreen.assertFieldInputs([
-			{ name: 'name', input: { value: 'Select Field Test 1' }, },
-			{ name: 'fieldA', input: { value: 'One' }, },
-		])
+		browser.adminUIItemScreen.assertFieldInputs({
+			fields: [
+				{ name: 'name', input: { value: 'Select Field Test 1' }, },
+				{ name: 'fieldA', input: { value: 'One' }, },
+			],
+		})
 	},
-	'Select field can be filled via the edit form': function(browser) {
-		browser.adminUIItemScreen.fillFieldInputs([
-			{ name: 'fieldB', input: { value: 'Two' }, },
-		]);
+	'Select field can be filled via the edit form': function (browser) {
+		browser.adminUIItemScreen.fillFieldInputs({
+			fields: [
+				{ name: 'fieldB', input: { value: 'Two' }, },
+			],
+		});
 
 		browser.adminUIItemScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 
-		browser.adminUIItemScreen.assertElementTextEquals('flashMessage', 'Your changes have been saved successfully');
+		browser.adminUIItemScreen.assertElementTextEquals({ element: '@flashMessage', text: 'Your changes have been saved successfully' });
 
-		browser.adminUIItemScreen.assertFieldInputs([
-			{ name: 'name', input: { value: 'Select Field Test 1' }, },
-			{ name: 'fieldA', input: { value: 'One' }, },
-			{ name: 'fieldB', input: { value: 'Two' }, },
-		])
+		browser.adminUIItemScreen.assertFieldInputs({
+			fields: [
+				{ name: 'name', input: { value: 'Select Field Test 1' }, },
+				{ name: 'fieldA', input: { value: 'One' }, },
+				{ name: 'fieldB', input: { value: 'Two' }, },
+			],
+		})
 	},
 };

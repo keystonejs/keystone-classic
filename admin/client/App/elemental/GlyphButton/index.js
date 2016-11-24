@@ -10,20 +10,26 @@ function GlyphButton ({
 	glyph,
 	glyphColor,
 	glyphSize,
+	glyphStyle,
 	position,
-	...props,
+	...props
 }) {
 	const isDefault = position === 'default';
 	const isLeft = position === 'left';
 	const isRight = position === 'right';
 
-	const glyphStyles = {};
-	if (isLeft) glyphStyles.marginRight = '0.5em';
-	if (isRight) glyphStyles.marginLeft = '0.5em';
+	const offset = {};
+	if (isLeft) offset.marginRight = '0.5em';
+	if (isRight) offset.marginLeft = '0.5em';
+
+	const glyphStyles = {
+		...offset,
+		...glyphStyle,
+	};
 
 	const icon = (
 		<Glyph
-			className={classes.glyph}
+			aphroditeStyles={classes.glyph}
 			color={glyphColor}
 			name={glyph}
 			size={glyphSize}
@@ -47,9 +53,11 @@ GlyphButton.propTypes = {
 	glyph: PropTypes.string,
 	glyphColor: PropTypes.string,
 	glyphSize: PropTypes.string,
+	glyphStyle: PropTypes.object,
 	position: PropTypes.oneOf(['default', 'left', 'right']),
 };
 GlyphButton.defaultProps = {
+	glyphStyle: {},
 	position: 'default', // no margin, assumes no children
 };
 

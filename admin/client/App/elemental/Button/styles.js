@@ -117,7 +117,7 @@ function buttonFillVariant (textColor, bgColor) {
 // TODO: This is pretty hacky, needs to be consolidated with the Variant() method
 // above (needs more theme variables to be implemented though)
 function buttonFillDefault () {
-	const borderColor = theme.input.border.color;
+	const borderColor = theme.input.border.color.default;
 	const hoverStyles = {
 		...gradientVertical('#fff', '#eee'),
 		borderColor: `${darken(borderColor, 5)} ${darken(borderColor, 5)} ${darken(borderColor, 10)}`,

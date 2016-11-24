@@ -4,13 +4,25 @@
  */
 
 import React from 'react';
-import { Container } from 'elemental';
+import { Container } from './elemental';
 import { Link } from 'react-router';
+import { css, StyleSheet } from 'aphrodite/no-important';
 
 import MobileNavigation from './components/Navigation/Mobile';
 import PrimaryNavigation from './components/Navigation/Primary';
 import SecondaryNavigation from './components/Navigation/Secondary';
 import Footer from './components/Footer';
+
+const classes = StyleSheet.create({
+	wrapper: {
+		display: 'flex',
+		flexDirection: 'column',
+		minHeight: '100vh',
+	},
+	body: {
+		flexGrow: 1,
+	},
+});
 
 const App = (props) => {
 	const listsByPath = require('../utils/lists').listsByPath;
@@ -38,8 +50,8 @@ const App = (props) => {
 	// Default current section key to dashboard
 	const currentSectionKey = (currentSection && currentSection.key) || 'dashboard';
 	return (
-		<div className="keystone-wrapper">
-			<header className="keystone-header">
+		<div className={css(classes.wrapper)}>
+			<header>
 				<MobileNavigation
 					brand={Keystone.brand}
 					currentListKey={props.params.listId}
@@ -62,9 +74,9 @@ const App = (props) => {
 					/>
 				) : null}
 			</header>
-			<div className="keystone-body">
+			<main className={css(classes.body)}>
 				{children}
-			</div>
+			</main>
 			<Footer
 				appversion={Keystone.appversion}
 				backUrl={Keystone.backUrl}

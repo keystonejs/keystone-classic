@@ -1,6 +1,6 @@
 import Field from '../Field';
 import React from 'react';
-import { FormInput } from 'elemental';
+import { FormInput } from '../../../admin/client/App/elemental';
 
 module.exports = Field.create({
 	displayName: 'TextareaField',

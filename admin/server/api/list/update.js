@@ -9,7 +9,7 @@ module.exports = function (req, res) {
 	if (!keystone.security.csrf.validate(req)) {
 		return res.apiError(403, 'invalid csrf');
 	}
-	var updateCount = 0;
+	// var updateCount = 0;
 	async.map(req.body.items, function (data, done) {
 		req.list.model.findById(data.id, function (err, item) {
 			if (err) return done({ statusCode: 500, error: 'database error', detail: err, id: data.id });
@@ -21,7 +21,7 @@ module.exports = function (req, res) {
 					err.statusCode = err.error === 'validation errors' ? 400 : 500;
 					return done(err);
 				}
-				updateCount++;
+				// updateCount++;
 				done(null, req.query.returnData ? req.list.getData(item) : item.id);
 			});
 		});

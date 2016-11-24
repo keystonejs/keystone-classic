@@ -10,85 +10,113 @@ module.exports = {
 	},
 	after: fieldTests.after,
 	'TextArray field should show correctly in the initial modal': function (browser) {
-		browser.adminUIApp.openList({section: 'fields', list: 'TextArray'});
+		browser.adminUIApp.openList({ section: 'fields', list: 'TextArray' });
 
 		browser.adminUIListScreen.clickCreateItemButton();
 		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.adminUIInitialFormScreen.assertFieldUIVisible([
-			{ name: 'name',},
-		]);
+		browser.adminUIInitialFormScreen.assertFieldUIVisible({
+			fields: [
+				{ name: 'name', },
+			],
+		});
 
 		browser.adminUIInitialFormScreen.cancel();
 		browser.adminUIApp.waitForListScreen();
 	},
-	'TextArray field can be filled via the initial modal': function(browser) {
-		browser.adminUIApp.openList({section: 'fields', list: 'TextArray'});
+	'TextArray field can be filled via the initial modal': function (browser) {
+		browser.adminUIApp.openList({ section: 'fields', list: 'TextArray' });
 
 		browser.adminUIListScreen.clickCreateItemButton();
 		browser.adminUIApp.waitForInitialFormScreen();
 
-		browser.adminUIInitialFormScreen.fillFieldInputs([
-			{ name: 'name', input: { value: 'TextArray Field Test 1' }, },
-		]);
-		browser.adminUIInitialFormScreen.assertFieldInputs([
-			{ name: 'name', input: { value: 'TextArray Field Test 1' }, },
-		]);
+		browser.adminUIInitialFormScreen.fillFieldInputs({
+			fields: [
+				{ name: 'name', input: { value: 'TextArray Field Test 1' }, },
+			],
+		});
+		browser.adminUIInitialFormScreen.assertFieldInputs({
+			fields: [
+				{ name: 'name', input: { value: 'TextArray Field Test 1' }, },
+			],
+		});
 
 		browser.adminUIInitialFormScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 	},
-	'TextArray field should show correctly in the edit form': function(browser) {
-		browser.adminUIItemScreen.assertFieldUIVisible([
-			{ name: 'fieldA',},
-			{ name: 'fieldB',},
-		]);
+	'TextArray field should show correctly in the edit form': function (browser) {
+		browser.adminUIItemScreen.assertFieldUIVisible({
+			fields: [
+				{ name: 'fieldA', },
+				{ name: 'fieldB', },
+			],
+		});
 
-		browser.adminUIItemScreen.assertFieldInputs([
-			{ name: 'name', input: { value: 'TextArray Field Test 1' }, },
-		]);
+		browser.adminUIItemScreen.assertFieldInputs({
+			fields: [
+				{ name: 'name', input: { value: 'TextArray Field Test 1' }, },
+			],
+		});
 
-		browser.adminUIItemScreen.clickFieldUI([
-			{ name: 'fieldA', 'click': 'addButton', },
-		]);
+		browser.adminUIItemScreen.clickFieldUI({
+			fields: [
+				{ name: 'fieldA', 'click': 'addButton', },
+			],
+		});
 
-		browser.adminUIItemScreen.assertFieldUIVisible([
-			{ name: 'fieldA', options: {'textInputs': ['text1']},},
-		]);
+		browser.adminUIItemScreen.assertFieldUIVisible({
+			fields: [
+				{ name: 'fieldA', options: { 'textInputs': ['text1'] }, },
+			],
+		});
 
-		browser.adminUIItemScreen.clickFieldUI([
-			{ name: 'fieldA', 'click': 'addButton', },
-		]);
+		browser.adminUIItemScreen.clickFieldUI({
+			fields: [
+				{ name: 'fieldA', 'click': 'addButton', },
+			],
+		});
 
-		browser.adminUIItemScreen.assertFieldUIVisible([
-			{ name: 'fieldA', options: {'textInputs': ['text1', 'text2']},},
-		]);
+		browser.adminUIItemScreen.assertFieldUIVisible({
+			fields: [
+				{ name: 'fieldA', options: { 'textInputs': ['text1', 'text2'] }, },
+			],
+		});
 
-		browser.adminUIItemScreen.clickFieldUI([
-			{ name: 'fieldB', 'click': 'addButton', },
-		]);
+		browser.adminUIItemScreen.clickFieldUI({
+			fields: [
+				{ name: 'fieldB', 'click': 'addButton', },
+			],
+		});
 
-		browser.adminUIItemScreen.clickFieldUI([
-			{ name: 'fieldB', 'click': 'addButton', },
-		]);
+		browser.adminUIItemScreen.clickFieldUI({
+			fields: [
+				{ name: 'fieldB', 'click': 'addButton', },
+			],
+		});
 
-		browser.adminUIItemScreen.assertFieldUIVisible([
-			{ name: 'fieldB', options: {'textInputs': ['text1', 'text2']},},
-		]);
+		browser.adminUIItemScreen.assertFieldUIVisible({
+			fields: [
+				{ name: 'fieldB', options: { 'textInputs': ['text1', 'text2'] }, },
+			],
+		});
 	},
-	'TextArray field can be filled via the edit form': function(browser) {
-		browser.adminUIItemScreen.fillFieldInputs([
-			{ name: 'fieldA', input: { text1: 'Test text 1', text2: 'Test text 2' }, },
-			{ name: 'fieldB', input: { text1: 'Test text 3', text2: 'Test text 4' }, },
-		]);
+	'TextArray field can be filled via the edit form': function (browser) {
+		browser.adminUIItemScreen.fillFieldInputs({
+			fields: [
+				{ name: 'fieldA', input: { text1: 'Test text 1', text2: 'Test text 2' }, },
+				{ name: 'fieldB', input: { text1: 'Test text 3', text2: 'Test text 4' }, },
+			],
+		});
 		browser.adminUIItemScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 
-		browser.adminUIItemScreen.assertElementTextEquals('flashMessage', 'Your changes have been saved successfully');
+		browser.adminUIItemScreen.assertElementTextEquals({ element: '@flashMessage', text: 'Your changes have been saved successfully' });
 
-		browser.adminUIItemScreen.assertFieldInputs([
-			{ name: 'fieldA', input: { text1: 'Test text 1', text2: 'Test text 2' }, },
-			{ name: 'fieldB', input: { text1: 'Test text 3', text2: 'Test text 4' }, },
-		])
+		browser.adminUIItemScreen.assertFieldInputs({
+			fields: [
+				{ name: 'fieldA', input: { text1: 'Test text 1', text2: 'Test text 2' }, },
+				{ name: 'fieldB', input: { text1: 'Test text 3', text2: 'Test text 4' }, },
+			],
+		})
 	},
 };
