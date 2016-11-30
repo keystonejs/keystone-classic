@@ -18,10 +18,26 @@ var Footer = React.createClass({
 		User: React.PropTypes.object, // eslint-disable-line react/sort-prop-types
 		version: React.PropTypes.string,
 	},
+
+	renderUserRole(role) {
+		if(!role || !role.key) {
+			return (
+				<span>(no role)</span>
+			);
+		}
+
+		return (
+			<span>[{role.key}]</span>
+		);
+	},
+
 	// Render the user
 	renderUser () {
 		const { User, user } = this.props;
 		if (!user) return null;
+
+		console.log("RENDER USER");
+		console.log(this.props);
 
 		return (
 			<span>
@@ -30,6 +46,7 @@ var Footer = React.createClass({
 					{user.name}
 				</a>
 				<span>.</span>
+				{this.renderUserRole(Keystone.user.role)}
 			</span>
 		);
 	},
