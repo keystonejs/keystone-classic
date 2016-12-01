@@ -10,6 +10,8 @@ const assign = require('object-assign');
 // Filters for truthy elements in an array
 const truthy = (i) => i;
 
+const isIE11 = !!window.MSInputMethodContext && !!document.documentMode;
+
 /**
  * Get the columns of a list, structured by fields and headings
  *
@@ -92,6 +94,35 @@ const List = function (options) {
  * @param  {Function} callback Called after the API call
  */
 List.prototype.createItem = function (formData, callback) {
+	if (isIE11) {
+	   window.jQuery.ajax({
+			 url: `${Keystone.adminPath}/api/${this.path}/create`,
+			 type: 'POST',
+			 cache: false,
+			 dataType: 'json',
+			 processData: false,
+			 contentType: false,
+			 headers: assign({}, Keystone.csrf.header),
+			 data: formData,
+		  })
+		  .done(function(data, textStatus, jqXHR) {
+			 if (jqXHR.status === 200) {
+				callback(null, data);
+			 } else {
+				// NOTE: xhr callback will be called with an Error if
+				//  there is an error in the browser that prevents
+				//  sending the request. A HTTP 500 response is not
+				//  going to cause an error to be returned.
+				callback(data, null);
+			 }
+		  })
+		  .fail(function(jqXHR, textStatus, errorThrown) {
+			 return callback(errorThrown);
+		  });
+
+	   return;
+	}
+
 	xhr({
 		url: `${Keystone.adminPath}/api/${this.path}/create`,
 		responseType: 'json',
@@ -100,6 +131,9 @@ List.prototype.createItem = function (formData, callback) {
 		body: formData,
 	}, (err, resp, data) => {
 		if (err) callback(err);
+		if (typeof data === 'string') {
+		   data = JSON.parse(data);
+		}
 		if (resp.statusCode === 200) {
 			callback(null, data);
 		} else {
@@ -120,6 +154,31 @@ List.prototype.createItem = function (formData, callback) {
  * @param  {Function} callback Called after the API call
  */
 List.prototype.updateItem = function (id, formData, callback) {
+	if (isIE11) {
+	   window.jQuery.ajax({
+			 url: `${Keystone.adminPath}/api/${this.path}/${id}`,
+			 type: 'POST',
+			 cache: false,
+			 dataType: 'json',
+			 processData: false,
+			 contentType: false,
+			 headers: assign({}, Keystone.csrf.header),
+			 data: formData,
+		  })
+		  .done(function(data, textStatus, jqXHR) {
+			 if (jqXHR.status === 200) {
+				callback(null, data);
+			 } else {
+				callback(data);
+			 }
+		  })
+		  .fail(function(jqXHR, textStatus, errorThrown) {
+			 return callback(errorThrown);
+		  });
+
+	   return;
+	}
+
 	xhr({
 		url: `${Keystone.adminPath}/api/${this.path}/${id}`,
 		responseType: 'json',
@@ -128,6 +187,9 @@ List.prototype.updateItem = function (id, formData, callback) {
 		body: formData,
 	}, (err, resp, data) => {
 		if (err) return callback(err);
+		if (typeof data === 'string') {
+		   data = JSON.parse(data);
+		}
 		if (resp.statusCode === 200) {
 			callback(null, data);
 		} else {
@@ -234,6 +296,9 @@ List.prototype.loadItem = function (itemId, options, callback) {
 		responseType: 'json',
 	}, (err, resp, data) => {
 		if (err) return callback(err);
+		if (typeof data === 'string') {
+		   data = JSON.parse(data);
+		}
 		// Pass the data as result or error, depending on the statusCode
 		if (resp.statusCode === 200) {
 			callback(null, data);
@@ -257,6 +322,9 @@ List.prototype.loadItems = function (options, callback) {
 		responseType: 'json',
 	}, (err, resp, data) => {
 		if (err) callback(err);
+		if (typeof data === 'string') {
+		   data = JSON.parse(data);
+		}
 		// Pass the data as result or error, depending on the statusCode
 		if (resp.statusCode === 200) {
 			callback(null, data);
