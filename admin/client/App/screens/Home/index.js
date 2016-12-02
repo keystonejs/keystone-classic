@@ -61,6 +61,10 @@ var HomeView = React.createClass({
 						<div>
 							{/* Render nav with sections */}
 							{Keystone.nav.sections.map((navSection) => {
+								// if(navSection.key === 'users' && Keystone.user.role.key === 'contributor') {
+								// 	return;
+								// }
+
 								return (
 									<Section key={navSection.key} id={navSection.key} label={navSection.label}>
 										<Lists

@@ -25,6 +25,38 @@ module.exports = function IndexRoute (req, res) {
 		backUrl = '/';
 	}
 
+	/* Restricting NAV */
+	const user = req.user;
+	if(user && user.role) {
+		const acl = {
+			'contributor': {
+				'restricted': [
+					'users',
+					'PostCategory',
+					'homepage',
+					'about'
+				]
+			}
+		};
+
+		console.log(`Restricting nav for ${user.role.key}`);
+
+		function restrictNav(navList) {
+			return navList.filter(section => {
+				const access = acl[user.role.key];
+
+				if(section.lists) {
+					section.lists = restrictNav(section.lists);
+				}
+
+				return !access || (access.restricted.indexOf(section.key) === -1);
+			});
+		}
+
+		keystone.nav.sections = restrictNav(keystone.nav.sections);
+	}
+	/* Restricting NAV */
+
 	var keystoneData = {
 		adminPath: '/' + keystone.get('admin path'),
 		appversion: keystone.get('appversion'),
