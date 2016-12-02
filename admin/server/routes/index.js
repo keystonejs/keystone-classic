@@ -28,32 +28,63 @@ module.exports = function IndexRoute (req, res) {
 	/* Restricting NAV */
 	const user = req.user;
 	if(user && user.role) {
+		// Restricted sections
 		const acl = {
-			'contributor': {
-				'restricted': [
-					'users',
-					'PostCategory',
-					'homepage',
-					'about'
-				]
-			}
+			'contributor': [
+				'users',
+				'PostCategory',
+				'homepage',
+				'about'
+			]
 		};
 
 		console.log(`Restricting nav for ${user.role.key}`);
 
-		function restrictNav(navList) {
-			return navList.filter(section => {
-				const access = acl[user.role.key];
+		const access = acl[user.role.key];
 
-				if(section.lists) {
-					section.lists = restrictNav(section.lists);
-				}
-
-				return !access || (access.restricted.indexOf(section.key) === -1);
-			});
+		/**
+		 * Evaluate if section is accessible
+		 * Section is accessible by default if there is no ACL entry for user.role.key
+		 *
+		 * @param {String} key
+		 *
+		 * @return {Boolean}
+		 */
+		function isSectionAccessible(key) {
+			return !access || (access.indexOf(key) === -1);
 		}
 
-		keystone.nav.sections = restrictNav(keystone.nav.sections);
+		function restrictNav(section) {
+			if(section.lists && Array.isArray(section.lists)) {
+				section.lists = section.lists.filter(restrictNav);
+			}
+
+			return isSectionAccessible(section.key);
+		}
+
+		keystone.nav.sections = keystone.nav.sections.filter(restrictNav);
+
+		// Removing restricted SECTIONS
+		Object.keys(keystone.nav.by.section).forEach(key => {
+			const section = keystone.nav.by.section[key];
+
+			if(section.lists && Array.isArray(section.lists)) {
+				section.lists = section.lists.filter(restrictNav);
+			}
+
+			if(!isSectionAccessible(section.key)) {
+				delete keystone.nav.by.section[key];
+			}
+		});
+
+		// Removing restricted LISTS
+		Object.keys(keystone.nav.by.list).forEach(listId => {
+			const section = keystone.nav.by.list[listId];
+
+			if(!isSectionAccessible(section.key)) {
+				delete keystone.nav.by.list[listId];
+			}
+		});
 	}
 	/* Restricting NAV */
 
