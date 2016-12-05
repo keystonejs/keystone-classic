@@ -21,8 +21,6 @@ Keystone.User = listsByKey[Keystone.userList];
 const { adminPath } = Keystone;
 
 const doRender = () => {
-	const Routes = require('./Routes').default;
-
 	return ReactDOM.render(
 		<Routes {...{ store, history, adminPath }}/>,
 		document.getElementById('react-root')
