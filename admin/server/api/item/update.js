@@ -6,7 +6,8 @@ module.exports = function (req, res) {
 	req.list.model.findById(req.params.id, function (err, item) {
 		if (err) return res.status(500).json({ error: 'database error', detail: err });
 		if (!item) return res.status(404).json({ error: 'not found', id: req.params.id });
-		req.list.updateItem(item, req.body, { files: req.files, user: req.user }, function (err) {
+
+		function returnItem (err) {
 			if (err) {
 				var status = err.error === 'validation errors' ? 400 : 500;
 				var error = err.error === 'database error' ? err.detail : err;
@@ -17,6 +18,46 @@ module.exports = function (req, res) {
 			req.list.model.findById(req.params.id, function (err, updatedItem) {
 				res.json(req.list.getData(updatedItem));
 			});
-		});
+		}
+
+		if (item.isDraftable && req.user.role.key === 'contributor') {
+			// CASE: Edititng FROM A DRAFT
+
+			req.list.model.find({
+				isDraft: true,
+				originalItem: req.params.id,
+			})
+			.limit(1)
+			.then(draftItem => {
+				// Results are still an array
+				draftItem = draftItem[0];
+
+				if(!draftItem) {
+					draftItem = new req.list.model();
+				}
+
+				const body = Object.assign({}, req.body, {
+					name: `${req.body.name} [DRAFT]`,
+					isDraft: true,
+					originalItem: req.params.id,
+				});
+
+				req.list.updateItem(draftItem, body, {
+					files: req.files,
+					ignoreNoEdit: true,
+					user: req.user,
+				}, function() {
+					req.list.updateItem(item, {
+						hasDraft: true,
+						draftItem: draftItem.id,
+					}, {
+						ignoreNoEdit: true,
+						user: req.user,
+					}, returnItem);
+				});
+			});
+		} else {
+			req.list.updateItem(item, req.body, { files: req.files, user: req.user }, returnItem);
+		}
 	});
 };
