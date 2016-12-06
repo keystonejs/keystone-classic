@@ -74,7 +74,7 @@ module.exports = Field.create({
 			: href
 				? <a href={this.props.value.url} target="_blank">{this.props.value.filename}</a>
 				: this.props.value.filename;
-			//: this.props.value.filename;
+			// : this.props.value.filename;
 	},
 
 	// ==============================
