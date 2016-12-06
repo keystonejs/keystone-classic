@@ -68,10 +68,13 @@ module.exports = Field.create({
 	hasExisting () {
 		return this.props.value && !!this.props.value.filename;
 	},
-	getFilename () {
+	getFilename (href) {
 		return this.state.userSelectedFile
 			? this.state.userSelectedFile.name
-			: this.props.value.filename;
+			: href
+				? <a href={this.props.value.url} target="_blank">{this.props.value.filename}</a>
+				: this.props.value.filename;
+			//: this.props.value.filename;
 	},
 
 	// ==============================
