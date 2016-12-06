@@ -7,7 +7,7 @@ module.exports = function (req, res) {
 		if (err) return res.status(500).json({ error: 'database error', detail: err });
 		if (!item) return res.status(404).json({ error: 'not found', id: req.params.id });
 
-		function returnItem (err) {
+		function returnItem (err, itemId) {
 			if (err) {
 				var status = err.error === 'validation errors' ? 400 : 500;
 				var error = err.error === 'database error' ? err.detail : err;
@@ -15,14 +15,14 @@ module.exports = function (req, res) {
 			}
 			// Reload the item from the database to prevent save hooks or other
 			// application specific logic from messing with the values in the item
-			req.list.model.findById(req.params.id, function (err, updatedItem) {
+			req.list.model.findById(itemId || req.params.id, function (err, updatedItem) {
 				res.json(req.list.getData(updatedItem));
 			});
 		}
 
-		if (item.isDraftable && req.user.role.key === 'contributor') {
-			// CASE: Edititng FROM A DRAFT
-
+		// CASE: Edititng FROM A DRAFT - done
+		// EDITING FROM THE ORIGINAL ITEM
+		if (item.isDraftable && req.user.role.key === 'contributor' && !item.isDraft) {
 			req.list.model.find({
 				isDraft: true,
 				originalItem: req.params.id,
@@ -37,7 +37,7 @@ module.exports = function (req, res) {
 				}
 
 				const body = Object.assign({}, req.body, {
-					name: `${req.body.name} [DRAFT]`,
+					// name: `${req.body.name} [DRAFT]`,
 					isDraft: true,
 					originalItem: req.params.id,
 				});
@@ -52,12 +52,73 @@ module.exports = function (req, res) {
 						draftItem: draftItem.id,
 					}, {
 						ignoreNoEdit: true,
-						user: req.user,
 					}, returnItem);
 				});
 			});
+
+		// TODO: This will happen as long as a user does not have role.contributor
+		// Should introduce additional checks?
 		} else {
-			req.list.updateItem(item, req.body, { files: req.files, user: req.user }, returnItem);
+			// TODO: When saving as an admin, remove draft, save the original data
+			// If this is a draft && user is not contributor
+			// Find original item, or create it, update it
+			// Remove this item
+			if(item.isDraft && req.user.role.key !== 'contributor') {
+				req.list
+					.model
+					.findById(item.originalItem)
+					.then(originalItem => {
+						// Create new item if original doesn't exist
+						if(!originalItem) {
+							originalItem = new req.list.model();
+						}
+
+						req.list.updateItem(originalItem, req.body, {
+							files: req.files,
+							user: req.user
+						}, function() {
+							item.remove(error => {
+								if(error) console.log(error);
+
+								// res.redirect(`/admin/assets/${originalItem.id}`);
+								// NOTE: This doesn't result in redirect
+								// Passing the ID just doesn't break it
+								returnItem(undefined, originalItem.id);
+							});
+						});
+					});
+
+			// If this is not a draft
+			// update this item (original)
+			// remove draft anyway
+			} else {
+				const draftItemId = item.draftItem;
+				const body = Object.assign({}, req.body, {
+					hasDraft: false,
+					draftItem: null,
+				});
+
+				req.list.updateItem(item, body, {
+					files: req.files,
+					ignoreNoEdit: true,
+					user: req.user
+				}, function() {
+					if(draftItemId) {
+						req.list
+							.model
+							.findById(draftItemId)
+							.then(draftItem => {
+								draftItem.remove(error => {
+									if(error) console.log(error);
+
+									returnItem();
+								});
+							});
+					} else {
+						returnItem();
+					}
+				});
+			}
 		}
 	});
 };
