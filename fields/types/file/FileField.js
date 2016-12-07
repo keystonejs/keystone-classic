@@ -130,7 +130,7 @@ module.exports = Field.create({
 			<div>
 				{(this.hasFile() && !this.state.removeExisting) ? (
 					<FileChangeMessage href={href} target="_blank">
-						{this.getFilename()}
+						{this.getFilename(href)}
 					</FileChangeMessage>
 				) : null}
 				{this.renderChangeMessage()}
