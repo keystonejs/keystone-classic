@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { DropTarget, DragSource } from 'react-dnd';
 
-import { Columns } from 'FieldTypes';
+import { Columns } from '../../../../../../../fields';
 
 import {
 	reorderItems,
