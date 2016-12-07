@@ -9,7 +9,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
-import Routes from './Routes';
 import store from './store';
 
 // Sync the browser history to the Redux store
@@ -21,6 +20,7 @@ Keystone.User = listsByKey[Keystone.userList];
 const { adminPath } = Keystone;
 
 const doRender = () => {
+	let Routes = require('./Routes').default;
 	return ReactDOM.render(
 		<Routes {...{ store, history, adminPath }}/>,
 		document.getElementById('react-root')
