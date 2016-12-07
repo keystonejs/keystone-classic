@@ -5,27 +5,56 @@ var path = require('path');
 var templatePath = path.resolve(__dirname, '../templates/index.html');
 
 const acl = {
-	'contributor': {
+	contributor: {
 		users: [
 			'User',
-			'UserRole'
+			'UserRole',
 		],
 		shared: [
-			'PostCategory'
+			'PostCategory',
 		],
 		homepage: [
 			'Benefit',
-			'DesOverview'
+			'DesOverview',
 		],
 		about: [
 			'AboutSection',
 			'AboutPrinciple',
 			'AboutFeature',
 			'AboutProcessItem',
-			'Skill'
-		]
-	}
+			'Skill',
+		],
+	},
 };
+
+/**
+ * Evaluate if section is accessible
+ * Section is accessible by default if there is no ACL entry for user.role.key
+ *
+ * @param {string} key
+ *
+ * @return {boolean}
+ */
+function isSectionAccessible (key, access) {
+	return !access || !access.includes(key);
+}
+
+/**
+ * Filter out sections that should not be visible to a given user
+ *
+ * @param {Object[]} sections
+ * @param {string[]} access
+ *
+ * @return {*}
+ */
+function restrictNav (sections, access) {
+	if (Array.isArray(sections) && access) {
+		return sections
+			.filter(section => isSectionAccessible(section.key, access));
+	}
+
+	return sections;
+}
 
 module.exports = function IndexRoute (req, res) {
 	var keystone = req.keystone;
@@ -35,7 +64,6 @@ module.exports = function IndexRoute (req, res) {
 	});
 
 	var UserList = keystone.list(keystone.get('user model'));
-	const UserRole = keystone.list('UserRole');
 
 	var orphanedLists = keystone.getOrphanedLists().map(function (list) {
 		return _.pick(list, ['key', 'label', 'path']);
@@ -52,43 +80,22 @@ module.exports = function IndexRoute (req, res) {
 	const user = req.user;
 
 	keystone.roleNav = keystone.roleNav || {
-		default: _.cloneDeep(keystone.nav)
+		default: _.cloneDeep(keystone.nav),
 	};
 
-	if(user && user.role && !keystone.roleNav[user.role.key]) {
+	if (user && user.role && !keystone.roleNav[user.role.key]) {
 		keystone.roleNav[user.role.key] = _.cloneDeep(keystone.roleNav.default);
 	}
 
-	if(user && user.role && acl[user.role.key]) {
+	if (user && user.role && acl[user.role.key]) {
 		console.log(`Restricting nav for ${user.role.key}`);
 
 		const access = acl[user.role.key];
 
-		/**
-		 * Evaluate if section is accessible
-		 * Section is accessible by default if there is no ACL entry for user.role.key
-		 *
-		 * @param {String} key
-		 *
-		 * @return {Boolean}
-		 */
-		function isSectionAccessible(key, access) {
-			return !access || !access.includes(key);
-		}
-
-		function restrictNav(sections, access) {
-			if(Array.isArray(sections) && access) {
-				return sections
-					.filter(section => isSectionAccessible(section.key, access));
-			}
-
-			return sections;
-		}
-
 		keystone.roleNav[user.role.key].sections
-			.forEach(function(section, index, sections) {
-				section.lists = restrictNav(section.lists, access[section.key])
-				if(section.lists.length === 0) {
+			.forEach(function (section, index, sections) {
+				section.lists = restrictNav(section.lists, access[section.key]);
+				if (section.lists.length === 0) {
 					sections.splice(sections.indexOf(section), 1);
 				}
 			});

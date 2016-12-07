@@ -6,7 +6,7 @@ module.exports = function (req, res) {
 
 	let body = req.body;
 
-	if(req.user.role.key === 'contributor') {
+	if (req.user.role.key === 'contributor') {
 		body = Object.assign({}, body, {
 			isDraft: true,
 		});

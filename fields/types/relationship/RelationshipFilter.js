@@ -71,7 +71,7 @@ var RelationshipFilter = React.createClass({
 			}, (err, resp, data) => {
 				if (err || !data) return next(err);
 				if (typeof data === 'string') {
-				   data = JSON.parse(data);
+					data = JSON.parse(data);
 				}
 				this.cacheItem(data);
 				next(err, data);
@@ -122,7 +122,7 @@ var RelationshipFilter = React.createClass({
 				return;
 			}
 			if (typeof data === 'string') {
-			   data = JSON.parse(data);
+				data = JSON.parse(data);
 			}
 			data.results.forEach(this.cacheItem);
 			if (thenPopulateValue) {

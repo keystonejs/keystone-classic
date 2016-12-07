@@ -20,7 +20,6 @@ module.exports = function (req, res) {
 	}
 
 
-
 	// if(isContributor) {
 	// 	req.list
 	// 		.model
@@ -52,8 +51,8 @@ module.exports = function (req, res) {
 		.then(function (result) {
 			const isContributor = req.user && req.user.role.key === 'contributor';
 
-			if(isContributor && result) {
-				throw 'unauthorized';
+			if (isContributor && result) {
+				throw new Error('unauthorized');
 			}
 
 			return;
@@ -70,17 +69,17 @@ module.exports = function (req, res) {
 					// TODO: Wanted to use this:
 					// async.parallel(toDelete, next);
 
-					function onItemDelete(err, item) {
+					function onItemDelete (err, item) {
 						if (err) return next(err);
 						deletedCount++;
 						deletedIds.push(item.id);
 					}
 
 					item.remove(function (err) {
-						onItemDelete(err, item)
+						onItemDelete(err, item);
 
 						// If item has draft, delete it too
-						if(item.draftItem) {
+						if (item.draftItem) {
 							req.list
 								.model
 								.findById(item.draftItem)
@@ -104,7 +103,7 @@ module.exports = function (req, res) {
 			});
 		}, error => {
 			console.log('Refusing to delete ' + req.list.key + ' items; Not authorised to delete');
-			return res.apiError(401, error, 'As a contributor you can not delete the original item.');
+			return res.apiError(401, error.message, 'As a contributor you can not delete the original item.');
 		})
 		.catch(error => {
 			console.log(error);

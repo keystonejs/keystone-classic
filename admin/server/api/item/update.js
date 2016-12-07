@@ -32,7 +32,7 @@ module.exports = function (req, res) {
 				// Results are still an array
 				draftItem = draftItem[0];
 
-				if(!draftItem) {
+				if (!draftItem) {
 					draftItem = new req.list.model();
 				}
 
@@ -46,7 +46,7 @@ module.exports = function (req, res) {
 					files: req.files,
 					ignoreNoEdit: true,
 					user: req.user,
-				}, function() {
+				}, function () {
 					req.list.updateItem(item, {
 						hasDraft: true,
 						draftItem: draftItem.id,
@@ -63,22 +63,22 @@ module.exports = function (req, res) {
 			// If this is a draft && user is not contributor
 			// Find original item, or create it, update it
 			// Remove this item
-			if(item.isDraft && req.user.role.key !== 'contributor') {
+			if (item.isDraft && req.user.role.key !== 'contributor') {
 				req.list
 					.model
 					.findById(item.originalItem)
 					.then(originalItem => {
 						// Create new item if original doesn't exist
-						if(!originalItem) {
+						if (!originalItem) {
 							originalItem = new req.list.model();
 						}
 
 						req.list.updateItem(originalItem, req.body, {
 							files: req.files,
-							user: req.user
-						}, function() {
+							user: req.user,
+						}, function () {
 							item.remove(error => {
-								if(error) console.log(error);
+								if (error) console.log(error);
 
 								// res.redirect(`/admin/assets/${originalItem.id}`);
 								// NOTE: This doesn't result in redirect
@@ -101,15 +101,15 @@ module.exports = function (req, res) {
 				req.list.updateItem(item, body, {
 					files: req.files,
 					ignoreNoEdit: true,
-					user: req.user
-				}, function() {
-					if(draftItemId) {
+					user: req.user,
+				}, function () {
+					if (draftItemId) {
 						req.list
 							.model
 							.findById(draftItemId)
 							.then(draftItem => {
 								draftItem.remove(error => {
-									if(error) console.log(error);
+									if (error) console.log(error);
 
 									returnItem();
 								});
