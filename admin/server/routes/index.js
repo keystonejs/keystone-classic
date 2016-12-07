@@ -4,6 +4,29 @@ var path = require('path');
 
 var templatePath = path.resolve(__dirname, '../templates/index.html');
 
+const acl = {
+	'contributor': {
+		users: [
+			'User',
+			'UserRole'
+		],
+		shared: [
+			'PostCategory'
+		],
+		homepage: [
+			'Benefit',
+			'DesOverview'
+		],
+		about: [
+			'AboutSection',
+			'AboutPrinciple',
+			'AboutFeature',
+			'AboutProcessItem',
+			'Skill'
+		]
+	}
+};
+
 module.exports = function IndexRoute (req, res) {
 	var keystone = req.keystone;
 	var lists = {};
@@ -27,17 +50,16 @@ module.exports = function IndexRoute (req, res) {
 
 	/* Restricting NAV */
 	const user = req.user;
-	if(user && user.role) {
-		// Restricted sections
-		const acl = {
-			'contributor': [
-				'users',
-				'PostCategory',
-				'homepage',
-				'about'
-			]
-		};
 
+	keystone.roleNav = keystone.roleNav || {
+		default: _.cloneDeep(keystone.nav)
+	};
+
+	if(user && user.role && !keystone.roleNav[user.role.key]) {
+		keystone.roleNav[user.role.key] = _.cloneDeep(keystone.roleNav.default);
+	}
+
+	if(user && user.role && acl[user.role.key]) {
 		console.log(`Restricting nav for ${user.role.key}`);
 
 		const access = acl[user.role.key];
@@ -50,42 +72,50 @@ module.exports = function IndexRoute (req, res) {
 		 *
 		 * @return {Boolean}
 		 */
-		function isSectionAccessible(key) {
-			return !access || (access.indexOf(key) === -1);
+		function isSectionAccessible(key, access) {
+			return !access || !access.includes(key);
 		}
 
-		function restrictNav(section) {
-			if(section.lists && Array.isArray(section.lists)) {
-				section.lists = section.lists.filter(restrictNav);
+		function restrictNav(sections, access) {
+			if(Array.isArray(sections) && access) {
+				return sections
+					.filter(section => isSectionAccessible(section.key, access));
 			}
 
-			return isSectionAccessible(section.key);
+			return sections;
 		}
 
-		keystone.nav.sections = keystone.nav.sections.filter(restrictNav);
+		keystone.roleNav[user.role.key].sections
+			.forEach(function(section, index, sections) {
+				section.lists = restrictNav(section.lists, access[section.key])
+				if(section.lists.length === 0) {
+					sections.splice(sections.indexOf(section), 1);
+				}
+			});
 
-		// Removing restricted SECTIONS
-		Object.keys(keystone.nav.by.section).forEach(key => {
-			const section = keystone.nav.by.section[key];
+		// // Removing restricted SECTIONS
+		// Object.keys(keystone.nav.by.section).forEach(key => {
+		// 	const section = keystone.nav.by.section[key];
 
-			if(section.lists && Array.isArray(section.lists)) {
-				section.lists = section.lists.filter(restrictNav);
-			}
+		// 	if(section.lists && Array.isArray(section.lists)) {
+		// 		section.lists = section.lists.filter(restrictNav);
+		// 	}
 
-			if(!isSectionAccessible(section.key)) {
-				delete keystone.nav.by.section[key];
-			}
-		});
+		// 	if(!isSectionAccessible(section.key, access)) {
+		// 		delete keystone.nav.by.section[key];
+		// 	}
+		// });
 
-		// Removing restricted LISTS
-		Object.keys(keystone.nav.by.list).forEach(listId => {
-			const section = keystone.nav.by.list[listId];
+		// // Removing restricted LISTS
+		// Object.keys(keystone.nav.by.list).forEach(listId => {
+		// 	const section = keystone.nav.by.list[listId];
 
-			if(!isSectionAccessible(section.key)) {
-				delete keystone.nav.by.list[listId];
-			}
-		});
+		// 	if(!isSectionAccessible(section.key, access)) {
+		// 		delete keystone.nav.by.list[listId];
+		// 	}
+		// });
 	}
+	keystone.nav = keystone.roleNav[user.role.key];
 	/* Restricting NAV */
 
 	var keystoneData = {
