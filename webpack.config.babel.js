@@ -108,7 +108,6 @@ export const getHot = (options = {}) => {
 	const { adminPath = '/keystone' } = options;
 	const hmrPath = `${adminPath}/__webpack_hmr`.replace('//', '/');
 	const hotStuff = [
-		'react-hot-loader/patch',
 		`webpack-hot-middleware/client?path=${hmrPath}`,
 	];
 	const base = getBase(options);
