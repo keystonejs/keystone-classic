@@ -9,8 +9,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
-import Routes from './Routes';
+import OrigRoutes from './Routes';
 import store from './store';
+
+let Routes = OrigRoutes;
 
 // Sync the browser history to the Redux store
 const history = syncHistoryWithStore(browserHistory, store);
@@ -21,8 +23,6 @@ Keystone.User = listsByKey[Keystone.userList];
 const { adminPath } = Keystone;
 
 const doRender = () => {
-	const Routes = require('./Routes').default;
-
 	return ReactDOM.render(
 		<Routes {...{ store, history, adminPath }}/>,
 		document.getElementById('react-root')
@@ -31,7 +31,10 @@ const doRender = () => {
 
 // Support hot reloading
 if (module.hot) {
-	module.hot.accept('./Routes', doRender);
+	module.hot.accept('./Routes', () => {
+		Routes = require('./Routes').default;
+		doRender();
+	});
 }
 
 doRender();
