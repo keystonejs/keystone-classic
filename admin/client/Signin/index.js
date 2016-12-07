@@ -8,17 +8,31 @@
 import qs from 'qs';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Signin from './Signin';
+import OrigSignin from './Signin';
+
+let Signin = OrigSignin;
 
 const params = qs.parse(window.location.search.replace(/^\?/, ''));
 
-ReactDOM.render(
-	<Signin
-		brand={Keystone.brand}
-		from={params.from}
-		logo={Keystone.logo}
-		user={Keystone.user}
-		userCanAccessKeystone={Keystone.userCanAccessKeystone}
-	/>,
-	document.getElementById('signin-view')
-);
+const doRender = () => {
+	ReactDOM.render(
+		<Signin
+			brand={Keystone.brand}
+			from={params.from}
+			logo={Keystone.logo}
+			user={Keystone.user}
+			userCanAccessKeystone={Keystone.userCanAccessKeystone}
+		/>,
+		document.getElementById('signin-view')
+	);
+};
+
+// Support hot reloading
+if (module.hot) {
+	module.hot.accept('./Signin', () => {
+		Signin = require('./Signin').default;
+		doRender();
+	});
+}
+
+doRender();
