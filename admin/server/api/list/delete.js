@@ -41,8 +41,6 @@ module.exports = function (req, res) {
 			if (isContributor && result) {
 				throw new Error('unauthorized');
 			}
-
-			return;
 		})
 		.then(function () {
 			var deletedCount = 0;
@@ -53,9 +51,6 @@ module.exports = function (req, res) {
 					return res.apiError('database error', err);
 				}
 				async.forEachLimit(results, 10, function (item, next) {
-					// TODO: Wanted to use this:
-					// async.parallel(toDelete, next);
-
 					function onItemDelete (err, item) {
 						if (err) return next(err);
 						deletedCount++;
@@ -65,20 +60,61 @@ module.exports = function (req, res) {
 					item.remove(function (err) {
 						onItemDelete(err, item);
 
+						let updateOriginal = Promise.resolve();
+
+						if (item.originalItem) {
+							updateOriginal.then(() => {
+								return req.list
+									.model
+									.findById(item.originalItem)
+									.then(function (result) {
+										return new Promise((resolve, reject) => {
+											if (!result || !result.draftItem) {
+												return resolve();
+											}
+											const data = {
+												draftItem: undefined,
+												hasDraft: false,
+											};
+
+											const options = {
+												ignoreNoEdit: true,
+											};
+
+											req.list.updateItem(result, data, options, (error) => {
+												if (error) {
+													reject(error);
+												}
+
+												resolve();
+											});
+										});
+									});
+							});
+						}
+
 						// If item has draft, delete it too
 						if (item.draftItem) {
-							req.list
-								.model
-								.findById(item.draftItem)
-								.then(item => {
-									item.remove(function (err) {
-										onItemDelete(err, item);
-										next();
+							updateOriginal.then(() => {
+								return req.list
+									.model
+									.findById(item.draftItem)
+									.then(item => {
+										return new Promise((resolve, reject) => {
+											item.remove(function (err) {
+												onItemDelete(err, item);
+												if (err) {
+													reject(err);
+												}
+
+												resolve(item);
+											});
+										});
 									});
-								});
-						} else {
-							next();
+							});
 						}
+
+						updateOriginal.then(next, next);
 					});
 				}, function () {
 					return res.json({
