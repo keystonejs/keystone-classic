@@ -19,19 +19,6 @@ module.exports = function (req, res) {
 		ids = [ids];
 	}
 
-
-	// if(isContributor) {
-	// 	req.list
-	// 		.model
-	// 		.findById(ids[0])
-	// 		.then(result => {
-	// 			if(!result.isDraft) {
-	// 				console.log('Refusing to delete ' + req.list.key + ' items; Not authorised to delete');
-	// 				return res.apiError(401, 'unauthorized', 'As a contributor you can not delete the original item.');
-	// 			}
-	// 		});
-	// }
-
 	if (req.user) {
 		var checkResourceId = (keystone.get('user model') === req.list.key);
 

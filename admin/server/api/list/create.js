@@ -4,16 +4,14 @@ module.exports = function (req, res) {
 		return res.apiError(403, 'invalid csrf');
 	}
 
-	let body = req.body;
-
 	if (req.user.role.key === 'contributor') {
-		body = Object.assign({}, body, {
+		Object.assign(req.body, {
 			isDraft: true,
 		});
 	}
 
 	var item = new req.list.model();
-	req.list.updateItem(item, body, {
+	req.list.updateItem(item, req.body, {
 		files: req.files,
 		ignoreNoEdit: true,
 		user: req.user,

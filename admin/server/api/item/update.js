@@ -23,102 +23,88 @@ module.exports = function (req, res) {
 		// CASE: Edititng FROM A DRAFT - done
 		// EDITING FROM THE ORIGINAL ITEM
 		if (item.isDraftable && req.user.role.key === 'contributor' && !item.isDraft) {
-			req.list.model.find({
+			return req.list.model.findOne({
 				isDraft: true,
 				originalItem: req.params.id,
 			})
-			.limit(1)
 			.then(draftItem => {
-				// Results are still an array
-				draftItem = draftItem[0];
-
 				if (!draftItem) {
 					draftItem = new req.list.model();
 				}
 
-				const body = Object.assign({}, req.body, {
-					// name: `${req.body.name} [DRAFT]`,
+				Object.assign(req.body, {
 					isDraft: true,
 					originalItem: req.params.id,
 				});
 
-				req.list.updateItem(draftItem, body, {
+				req.list.updateItem(draftItem, req.body, {
 					files: req.files,
 					ignoreNoEdit: true,
 					user: req.user,
 				}, function () {
-					req.list.updateItem(item, {
+					const data = {
 						hasDraft: true,
 						draftItem: draftItem.id,
-					}, {
+					};
+
+					const options = {
 						ignoreNoEdit: true,
-					}, returnItem);
+					};
+
+					req.list.updateItem(item, data, options, returnItem);
 				});
 			});
+		}
 
-		// TODO: This will happen as long as a user does not have role.contributor
-		// Should introduce additional checks?
-		} else {
-			// TODO: When saving as an admin, remove draft, save the original data
-			// If this is a draft && user is not contributor
-			// Find original item, or create it, update it
-			// Remove this item
-			if (item.isDraft && req.user.role.key !== 'contributor') {
-				req.list
-					.model
-					.findById(item.originalItem)
-					.then(originalItem => {
-						// Create new item if original doesn't exist
-						if (!originalItem) {
-							originalItem = new req.list.model();
-						}
+		// If this is a draft && user is not contributor
+		// Find original item, or create it, update it
+		// Remove this item
+		if (item.isDraft && req.user.role.key !== 'contributor') {
+			return req.list
+				.model
+				.findById(item.originalItem)
+				.then(originalItem => {
+					// Create new item if original doesn't exist
+					if (!originalItem) {
+						originalItem = new req.list.model();
+					}
 
-						req.list.updateItem(originalItem, req.body, {
-							files: req.files,
-							user: req.user,
-						}, function () {
-							item.remove(error => {
-								if (error) console.log(error);
+					req.list.updateItem(originalItem, req.body, {
+						files: req.files,
+						user: req.user,
+					}, function () {
+						item.remove(error => {
+							if (error) console.log(error);
 
-								// res.redirect(`/admin/assets/${originalItem.id}`);
-								// NOTE: This doesn't result in redirect
-								// Passing the ID just doesn't break it
-								returnItem(undefined, originalItem.id);
-							});
+							// NOTE: This doesn't result in redirect
+							// Passing the ID just doesn't break it
+							returnItem(undefined, originalItem.id);
 						});
 					});
-
-			// If this is not a draft
-			// update this item (original)
-			// remove draft anyway
-			} else {
-				const draftItemId = item.draftItem;
-				const body = Object.assign({}, req.body, {
-					hasDraft: false,
-					draftItem: null,
 				});
-
-				req.list.updateItem(item, body, {
-					files: req.files,
-					ignoreNoEdit: true,
-					user: req.user,
-				}, function () {
-					if (draftItemId) {
-						req.list
-							.model
-							.findById(draftItemId)
-							.then(draftItem => {
-								draftItem.remove(error => {
-									if (error) console.log(error);
-
-									returnItem();
-								});
-							});
-					} else {
-						returnItem();
-					}
-				});
-			}
 		}
+
+		// If this is not a draft update this item (original)
+		// remove draft anyway
+		const draftItemId = item.draftItem;
+		const body = Object.assign({}, req.body, {
+			hasDraft: false,
+			draftItem: null,
+		});
+
+		return req.list.updateItem(item, body, {
+			files: req.files,
+			ignoreNoEdit: true,
+			user: req.user,
+		}, function () {
+			if (draftItemId) {
+				req.list
+					.model
+					.findById(draftItemId)
+					.then(draftItem => draftItem.remove(returnItem));
+			} else {
+				returnItem();
+			}
+		});
 	});
 };

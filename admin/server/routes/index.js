@@ -99,28 +99,6 @@ module.exports = function IndexRoute (req, res) {
 					sections.splice(sections.indexOf(section), 1);
 				}
 			});
-
-		// // Removing restricted SECTIONS
-		// Object.keys(keystone.nav.by.section).forEach(key => {
-		// 	const section = keystone.nav.by.section[key];
-
-		// 	if(section.lists && Array.isArray(section.lists)) {
-		// 		section.lists = section.lists.filter(restrictNav);
-		// 	}
-
-		// 	if(!isSectionAccessible(section.key, access)) {
-		// 		delete keystone.nav.by.section[key];
-		// 	}
-		// });
-
-		// // Removing restricted LISTS
-		// Object.keys(keystone.nav.by.list).forEach(listId => {
-		// 	const section = keystone.nav.by.list[listId];
-
-		// 	if(!isSectionAccessible(section.key, access)) {
-		// 		delete keystone.nav.by.list[listId];
-		// 	}
-		// });
 	}
 	keystone.nav = keystone.roleNav[user.role.key];
 	/* Restricting NAV */
