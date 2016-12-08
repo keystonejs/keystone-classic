@@ -1,5 +1,5 @@
 import { css, StyleSheet } from 'aphrodite/no-important';
-import React, { cloneElement, Children, Component, PropTypes } from 'react';
+import React, { cloneElement, Children, PropTypes } from 'react';
 
 // NOTE: only accepts InlineGroupSection as a single child
 
@@ -10,7 +10,7 @@ function InlineGroup ({
 	className,
 	component: Component,
 	contiguous,
-	...props,
+	...props
 }) {
 	// prepare group className
 	props.className = css(

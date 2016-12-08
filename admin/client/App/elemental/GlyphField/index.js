@@ -11,7 +11,7 @@ function GlyphField ({
 	glyphColor,
 	glyphSize,
 	position,
-	...props,
+	...props
 }) {
 	const isLeft = position === 'left';
 	const isRight = position === 'right';

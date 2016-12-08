@@ -10,7 +10,7 @@ function Container ({
 	clearFloatingChildren,
 	component: Component,
 	width,
-	...props,
+	...props
 }) {
 	props.className = css(
 		classes.container,

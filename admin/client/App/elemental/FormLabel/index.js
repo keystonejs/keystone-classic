@@ -10,7 +10,7 @@ function FormLabel ({
 	component: Component,
 	cropText,
 	htmlFor,
-	...props,
+	...props
 },
 {
 	formFieldId,

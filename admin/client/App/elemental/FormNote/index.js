@@ -9,7 +9,7 @@ function FormNote ({
 	children,
 	component: Component,
 	html,
-	...props,
+	...props
 }) {
 	props.className = css(classes.note, className);
 

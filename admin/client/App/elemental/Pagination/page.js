@@ -5,7 +5,7 @@ import theme from '../../../theme';
 function Page ({
 	disabled,
 	selected,
-	...props,
+	...props
 }) {
 	props.className = css(
 		classes.page,

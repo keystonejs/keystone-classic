@@ -19,14 +19,14 @@ ListHeaderButton.propTypes = {
 // otherwise render the label
 const classes = StyleSheet.create({
 	glyph: {
-		display: 'none',
+		'display': 'none',
 
 		'@media (max-width: 500px)': {
 			display: 'inline-block',
 		},
 	},
 	label: {
-		display: 'inline-block',
+		'display': 'inline-block',
 
 		'@media (max-width: 500px)': {
 			display: 'none',

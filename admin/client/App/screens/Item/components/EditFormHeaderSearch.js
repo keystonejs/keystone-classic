@@ -24,7 +24,7 @@ class EditFormHeaderSearch extends Component {
 			onChange,
 			onKeyUp,
 			value,
-			...props,
+			...props
 		} = this.props;
 
 		return focused ? (

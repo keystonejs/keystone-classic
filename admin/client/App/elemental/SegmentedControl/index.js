@@ -14,7 +14,7 @@ function SegmentedControl ({
 	onChange,
 	options,
 	value,
-	...props,
+	...props
 }) {
 	props.className = css(
 		classes.control,

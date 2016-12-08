@@ -24,7 +24,7 @@ class FormInput extends Component {
 			multiline,
 			noedit,
 			size,
-			...props,
+			...props
 		} = this.props;
 
 		// NOTE return a different component for `noedit`

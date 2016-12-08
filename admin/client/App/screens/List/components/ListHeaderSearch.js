@@ -11,7 +11,7 @@ function ListHeaderSearch ({
 	handleClear,
 	handleKeyup,
 	value,
-	...props,
+	...props
 }) {
 	return (
 		<div {...props} className={css(classes.wrapper)}>

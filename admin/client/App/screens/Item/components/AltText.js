@@ -39,7 +39,7 @@ class AltText extends Component {
 			modified,
 			modifier, // eslint-disable-line no-unused-vars
 			normal,
-			...props,
+			...props
 		} = this.props;
 
 		props.children = this.state.modified

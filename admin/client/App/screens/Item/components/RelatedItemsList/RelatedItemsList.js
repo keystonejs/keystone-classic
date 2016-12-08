@@ -110,7 +110,7 @@ const RelatedItemsList = React.createClass({
 		// add sort col when available
 		if (this.isSortable()) {
 			cells.unshift(
-				<th width={TABLE_CONTROL_COLUMN_WIDTH} key="sortable"></th>
+				<th width={TABLE_CONTROL_COLUMN_WIDTH} key="sortable" />
 			);
 		}
 

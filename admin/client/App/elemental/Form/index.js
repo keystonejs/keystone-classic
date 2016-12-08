@@ -18,7 +18,7 @@ class Form extends Component {
 			component: Component,
 			labelWidth, // eslint-disable-line no-unused-vars
 			layout,
-			...props,
+			...props
 		} = this.props;
 
 		props.className = css(
