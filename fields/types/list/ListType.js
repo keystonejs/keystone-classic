@@ -190,7 +190,7 @@ list.prototype.updateItem = function (item, data, files, callback) {
 		values = [];
 	}
 	if (!Array.isArray(values)) {
-		if (typeof values === 'object' && values[0] !== undefined) {
+		if (typeof values === 'object' && values.hasOwnProperty('0')) {
 			// Cast an object with numeric keys to an array
 			values.length = Object.getOwnPropertyNames(values).length;
 			values = Array.prototype.slice.call(values);
