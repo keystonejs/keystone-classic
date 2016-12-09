@@ -118,7 +118,7 @@ module.exports = Field.create({
 	renderUI () {
 		const { label, value } = this.props;
 		return (
-			<div>
+			<div className="FormFieldList">
 				<h3 data-things="whatever">{label}</h3>
 				{this.shouldRenderField() ? (
 					this.renderItems()
