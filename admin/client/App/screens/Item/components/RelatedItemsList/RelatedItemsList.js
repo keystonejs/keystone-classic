@@ -131,7 +131,7 @@ const RelatedItemsList = React.createClass({
 		return (
 			<div className="Relationship">
 				<h3 className="Relationship__link"><Link to={listHref}>{this.props.refList.label}</Link></h3>
-				{this.state.items ? this.renderItems() : loadingElement}
+				{this.props.items ? this.renderItems() : loadingElement}
 			</div>
 		);
 	},
