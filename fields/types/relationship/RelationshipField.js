@@ -218,7 +218,7 @@ module.exports = Field.create({
 					{this.renderSelect()}
 				</Section>
 				<Section>
-					<Button onClick={this.openCreate} type="success">+</Button>
+					<Button onClick={this.openCreate} type="button">+</Button>
 				</Section>
 				<CreateForm
 					list={listsByKey[this.props.refList.key]}
