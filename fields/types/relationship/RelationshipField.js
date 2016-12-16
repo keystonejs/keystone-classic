@@ -213,12 +213,12 @@ module.exports = Field.create({
 		// TODO: Implement this somewhere higher in the app, it breaks the encapsulation of the RelationshipField component
 		const CreateForm = require('../../../admin/client/App/shared/CreateForm');
 		return (
-			<Group>
+			<Group block>
 				<Section grow>
 					{this.renderSelect()}
 				</Section>
 				<Section>
-					<Button onClick={this.openCreate} type="button">+</Button>
+					<Button onClick={this.openCreate}>+</Button>
 				</Section>
 				<CreateForm
 					list={listsByKey[this.props.refList.key]}
