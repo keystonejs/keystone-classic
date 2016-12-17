@@ -1,6 +1,8 @@
 var objectAssign = require('object-assign');
-var TextFieldTestObject = require('../fieldTestObjects/TextFieldTestObject');
-var DateArrayFieldTestObject = require('../fieldTestObjects/DateArrayFieldTestObject');
+var fieldTestObjectsPath = require('keystone-nightwatch-e2e').fieldTestObjectsPath;
+var path = require('path');
+var TextFieldTestObject = require(path.resolve(fieldTestObjectsPath, 'TextFieldTestObject'));
+var DateArrayFieldTestObject = require(path.resolve(fieldTestObjectsPath, 'DateArrayFieldTestObject'));
 
 module.exports = function DateArrayModelTestConfig (config) {
 	return {

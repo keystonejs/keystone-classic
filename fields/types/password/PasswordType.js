@@ -30,7 +30,6 @@ function password (list, path, options) {
 	this._fixedSize = 'full';
 	// You can't sort on password fields
 	options.nosort = true;
-	options.nofilter = true; // TODO: remove this when 0.4 is merged
 	this.workFactor = options.workFactor || 10;
 	password.super_.call(this, list, path, options);
 	for (var key in this.options.complexity) {
@@ -62,8 +61,8 @@ password.prototype.addToSchema = function (schema) {
 	var needs_hashing = '__' + field.path + '_needs_hashing';
 
 	this.paths = {
-		confirm: this.options.confirmPath || this._path.append('_confirm'),
-		hash: this.options.hashPath || this._path.append('_hash'),
+		confirm: this.options.confirmPath || this.path + '_confirm',
+		hash: this.options.hashPath || this.path + '_hash',
 	};
 
 	schema.path(this.path, _.defaults({
@@ -115,6 +114,18 @@ password.prototype.addFilterToQuery = function (filter) {
 	var query = {};
 	query[this.path] = (filter.exists) ? { $ne: null } : null;
 	return query;
+};
+
+/**
+ * Retrieves the field value
+ *
+ * Password fields  values are returned as booleans to indicate whether a value
+ * has been set or not, so that we don't leak hashed passwords via API
+ *
+ * @api public
+ */
+password.prototype.getData = function (item) {
+	return item.get(this.path) ? true : false;
 };
 
 /**

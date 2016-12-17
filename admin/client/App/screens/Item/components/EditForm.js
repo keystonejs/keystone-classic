@@ -2,13 +2,13 @@ import React from 'react';
 import moment from 'moment';
 import assign from 'object-assign';
 import {
-	Col,
 	Form,
 	FormField,
 	FormInput,
+	Grid,
 	ResponsiveText,
-	Row,
-} from 'elemental';
+} from '../../../elemental';
+
 // import { css, StyleSheet } from 'aphrodite/no-important';
 import { Fields } from 'FieldTypes';
 import { fade } from '../../../../utils/color';
@@ -59,8 +59,14 @@ var EditForm = React.createClass({
 			confirmationDialog: null,
 			loading: false,
 			lastValues: null, // used for resetting
-			focusFirstField: true,
+			focusFirstField: !this.props.list.nameField && !this.props.list.nameFieldIsFormHeader,
 		};
+	},
+	componentDidMount () {
+		this.__isMounted = true;
+	},
+	componentWillUnmount () {
+		this.__isMounted = false;
 	},
 	getFieldProps (field) {
 		const props = assign({}, field);
@@ -86,36 +92,22 @@ var EditForm = React.createClass({
 		values[event.path] = event.value;
 		this.setState({ values });
 	},
-	confirmReset (event) {
-		const confirmationDialog = (
-			<ConfirmationDialog
-				isOpen
-				body={<p>Reset your changes to <strong>{this.props.data.name}</strong>?</p>}
-				confirmationLabel="Reset"
-				onCancel={this.removeConfirmationDialog}
-				onConfirmation={this.handleReset}
-			/>
-		);
-		event.preventDefault();
-		this.setState({ confirmationDialog });
+
+	toggleDeleteDialog () {
+		this.setState({
+			deleteDialogIsOpen: !this.state.deleteDialogIsOpen,
+		});
+	},
+	toggleResetDialog () {
+		this.setState({
+			resetDialogIsOpen: !this.state.resetDialogIsOpen,
+		});
 	},
 	handleReset () {
 		this.setState({
 			values: assign({}, this.state.lastValues || this.props.data.fields),
-			confirmationDialog: null,
+			resetDialogIsOpen: false,
 		});
-	},
-	confirmDelete () {
-		const confirmationDialog = (
-			<ConfirmationDialog
-				isOpen
-				body={<p>Are you sure you want to delete <strong>{this.props.data.name}?</strong><br /><br />This cannot be undone.</p>}
-				confirmationLabel="Delete"
-				onCancel={this.removeConfirmationDialog}
-				onConfirmation={this.handleDelete}
-			/>
-		);
-		this.setState({ confirmationDialog });
 	},
 	handleDelete () {
 		const { data } = this.props;
@@ -220,7 +212,7 @@ var EditForm = React.createClass({
 			nameFieldProps.inputProps = {
 				className: 'item-name-field',
 				placeholder: nameField.label,
-				size: 'lg',
+				size: 'large',
 			};
 			return wrapNameField(
 				React.createElement(Fields[nameField.type], nameFieldProps)
@@ -237,14 +229,11 @@ var EditForm = React.createClass({
 		return this.props.list.uiElements.map((el, index) => {
 			// Don't render the name field if it is the header since it'll be rendered in BIG above
 			// the list. (see renderNameField method, this is the reverse check of the one it does)
-			if (this.props.list.nameField && el.field === this.props.list.nameField.path && this.props.list.nameFieldIsFormHeader) {
-				if (this.state.focusFirstField) {
-					this.setState({
-						focusFirstField: false,
-					});
-				}
-				return;
-			}
+			if (
+				this.props.list.nameField
+				&& el.field === this.props.list.nameField.path
+				&& this.props.list.nameFieldIsFormHeader
+			) return;
 
 			if (el.type === 'heading') {
 				headings++;
@@ -259,12 +248,6 @@ var EditForm = React.createClass({
 				if (typeof Fields[field.type] !== 'function') {
 					return React.createElement(InvalidFieldType, { type: field.type, path: field.path, key: field.path });
 				}
-				if (props.dependsOn) {
-					props.currentDependencies = {};
-					Object.keys(props.dependsOn).forEach(dep => {
-						props.currentDependencies[dep] = this.state.values[dep];
-					});
-				}
 				props.key = field.path;
 				if (index === 0 && this.state.focusFirstField) {
 					props.autoFocus = true;
@@ -274,6 +257,10 @@ var EditForm = React.createClass({
 		}, this);
 	},
 	renderFooterBar () {
+		if (this.props.list.noedit && this.props.list.nodelete) {
+			return null;
+		}
+
 		const { loading } = this.state;
 		const loadingButtonText = loading ? 'Saving' : 'Save';
 
@@ -283,23 +270,27 @@ var EditForm = React.createClass({
 		return (
 			<FooterBar style={styles.footerbar}>
 				<div style={styles.footerbarInner}>
-					<LoadingButton
-						color="primary"
-						disabled={loading}
-						loading={loading}
-						onClick={this.updateItem}
-						data-button="update"
-					>
-						{loadingButtonText}
-					</LoadingButton>
-					<Button disabled={loading} onClick={this.confirmReset} variant="link" color="cancel" data-button="reset">
-						<ResponsiveText
-							hiddenXS="reset changes"
-							visibleXS="reset"
-						/>
-					</Button>
+					{!this.props.list.noedit && (
+						<LoadingButton
+							color="primary"
+							disabled={loading}
+							loading={loading}
+							onClick={this.updateItem}
+							data-button="update"
+						>
+							{loadingButtonText}
+						</LoadingButton>
+					)}
+					{!this.props.list.noedit && (
+						<Button disabled={loading} onClick={this.toggleResetDialog} variant="link" color="cancel" data-button="reset">
+							<ResponsiveText
+								hiddenXS="reset changes"
+								visibleXS="reset"
+							/>
+						</Button>
+					)}
 					{!this.props.list.nodelete && (
-						<Button disabled={loading} onClick={this.confirmDelete} variant="link" color="delete" style={styles.deleteButton} data-button="delete">
+						<Button disabled={loading} onClick={this.toggleDeleteDialog} variant="link" color="delete" style={styles.deleteButton} data-button="delete">
 							<ResponsiveText
 								hiddenXS={`delete ${this.props.list.singular.toLowerCase()}`}
 								visibleXS="delete"
@@ -382,19 +373,37 @@ var EditForm = React.createClass({
 		return (
 			<form ref="editForm" className="EditForm-container">
 				{(this.state.alerts) ? <AlertMessages alerts={this.state.alerts} /> : null}
-				<Row>
-					<Col lg="3/4">
-						<Form type="horizontal" className="EditForm" component="div">
+				<Grid.Row>
+					<Grid.Col large="three-quarters">
+						<Form layout="horizontal" component="div">
 							{this.renderNameField()}
 							{this.renderKeyOrId()}
 							{this.renderFormElements()}
 							{this.renderTrackingMeta()}
 						</Form>
-					</Col>
-					<Col lg="1/4"><span /></Col>
-				</Row>
+					</Grid.Col>
+					<Grid.Col large="one-quarter"><span /></Grid.Col>
+				</Grid.Row>
 				{this.renderFooterBar()}
-				{this.state.confirmationDialog}
+				<ConfirmationDialog
+					confirmationLabel="Reset"
+					isOpen={this.state.resetDialogIsOpen}
+					onCancel={this.toggleResetDialog}
+					onConfirmation={this.handleReset}
+				>
+					<p>Reset your changes to <strong>{this.props.data.name}</strong>?</p>
+				</ConfirmationDialog>
+				<ConfirmationDialog
+					confirmationLabel="Delete"
+					isOpen={this.state.deleteDialogIsOpen}
+					onCancel={this.toggleDeleteDialog}
+					onConfirmation={this.handleDelete}
+				>
+					Are you sure you want to delete <strong>{this.props.data.name}?</strong>
+					<br />
+					<br />
+					This cannot be undone.
+				</ConfirmationDialog>
 			</form>
 		);
 	},

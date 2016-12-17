@@ -5,10 +5,15 @@ module.exports = function (req, res) {
 	}
 
 	var item = new req.list.model();
-	req.list.updateItem(item, req.body, { files: req.files }, function (err) {
+	req.list.updateItem(item, req.body, {
+		files: req.files,
+		ignoreNoEdit: true,
+		user: req.user,
+	}, function (err) {
 		if (err) {
-			res.status(err.error === 'validation errors' ? 400 : 500);
-			return res.json(err);
+			var status = err.error === 'validation errors' ? 400 : 500;
+			var error = err.error === 'database error' ? err.detail : err;
+			return res.apiError(status, error);
 		}
 		res.json(req.list.getData(item));
 	});

@@ -8,13 +8,6 @@ describe('Path', function () {
 		});
 	});
 
-	describe('.prototype.append', function () {
-		it('must return the path appended to the given part', function () {
-			var path = new Path('foo.example.dir');
-			path.append('.com').must.equal('foo.example.dir.com');
-		});
-	});
-
 	describe('.prototype.addTo', function () {
 		it('must return an hierarchical object from path', function () {
 			var path = new Path('foo.example.dir.file');

@@ -13,7 +13,7 @@ function ItemsTableValue ({
 	padded,
 	to,
 	truncate,
-	...props,
+	...props
 }) {
 	// TODO remove in the next release
 	if (href) {

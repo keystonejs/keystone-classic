@@ -17,7 +17,12 @@ function location (list, path, options) {
 	this._underscoreMethods = ['format', 'googleLookup', 'kmFrom', 'milesFrom'];
 	this._fixedSize = 'full';
 	this._properties = ['enableMapsAPI'];
-	this.enableMapsAPI = (options.geocodeGoogle === true || (options.geocodeGoogle !== false && keystone.get('google server api key'))) ? true : false;
+	this.enableMapsAPI = (options.enableImprove === true || (options.enableImprove !== false && keystone.get('google server api key'))) ? true : false;
+
+	// Throw on invalid options in 4.0 (remove for 5.0)
+	if ('geocodeGoogle' in options) {
+		throw new Error('The geocodeGoogle option for Location fields has been renamed to enableImprove');
+	}
 
 	if (!options.defaults) {
 		options.defaults = {};
@@ -54,20 +59,20 @@ location.prototype.addToSchema = function (schema) {
 	var options = this.options;
 
 	var paths = this.paths = {
-		number: this._path.append('.number'),
-		name: this._path.append('.name'),
-		street1: this._path.append('.street1'),
-		street2: this._path.append('.street2'),
-		suburb: this._path.append('.suburb'),
-		state: this._path.append('.state'),
-		postcode: this._path.append('.postcode'),
-		country: this._path.append('.country'),
-		geo: this._path.append('.geo'),
-		geo_lat: this._path.append('.geo_lat'),
-		geo_lng: this._path.append('.geo_lng'),
-		serialised: this._path.append('.serialised'),
-		improve: this._path.append('_improve'),
-		overwrite: this._path.append('_improve_overwrite'),
+		number: this.path + '.number',
+		name: this.path + '.name',
+		street1: this.path + '.street1',
+		street2: this.path + '.street2',
+		suburb: this.path + '.suburb',
+		state: this.path + '.state',
+		postcode: this.path + '.postcode',
+		country: this.path + '.country',
+		geo: this.path + '.geo',
+		geo_lat: this.path + '.geo_lat',
+		geo_lng: this.path + '.geo_lng',
+		serialised: this.path + '.serialised',
+		improve: this.path + '_improve',
+		overwrite: this.path + '_improve_overwrite',
 	};
 
 	var getFieldDef = function (type, key) {
@@ -173,6 +178,60 @@ location.prototype.isModified = function (item) {
 	|| item.isModified(this.paths.geo);
 };
 
+location.prototype.getInputFromData = function (data) {
+	// Allow JSON structured data
+	var input = this.getValueFromData(data);
+
+	// If there is no structured data, look for the flat paths
+	if (!input) {
+		input = {
+			number: data[this.paths.number],
+			name: data[this.paths.name],
+			street1: data[this.paths.street1],
+			street2: data[this.paths.street2],
+			suburb: data[this.paths.suburb],
+			state: data[this.paths.state],
+			postcode: data[this.paths.postcode],
+			country: data[this.paths.country],
+			geo: data[this.paths.geo],
+			geo_lat: data[this.paths.geo],
+			geo_lng: data[this.paths.geo],
+			improve: data[this.paths_improve],
+			overwrite: data[this.paths_improve_overwrite],
+		};
+	}
+
+	return input;
+};
+
+/**
+ * Validates that a value for this field has been provided in a data object
+ */
+location.prototype.validateInput = function (data, callback) {
+	// var input = this.getInputFromData(data);
+	// TODO: We should strictly check for types in input here
+	utils.defer(callback, true);
+};
+
+/**
+ * Validates that input has been provided
+ * TODO: Needs test coverage
+ */
+location.prototype.validateRequiredInput = function (item, data, callback) {
+	var result = true;
+	var input = this.getInputFromData(data);
+	var currentValue = item.get(this.path);
+	this.requiredPaths.forEach(function (path) {
+		// ignore missing values if they already exist in the item
+		if (input[path] === undefined && currentValue[path]) return;
+		// falsy values mean the input is invalid
+		if (!input[path]) {
+			result = false;
+		}
+	});
+	utils.defer(callback, result);
+};
+
 /**
  * Validates that a value for this field has been provided in a data object
  *
@@ -257,42 +316,18 @@ location.prototype.updateItem = function (item, data, callback) {
 		item.set(paths.geo, (lat && lng) ? [lng, lat] : undefined);
 	}
 
-	process.nextTick(callback);
-};
-
-/**
- * Returns a callback that handles a standard form submission for the field
- *
- * Handles:
- * - `field.paths.improve` in `req.body` - improves data via `.googleLookup()`
- * - `field.paths.overwrite` in `req.body` - in conjunction with `improve`, overwrites existing data
- */
-location.prototype.getRequestHandler = function (item, req, paths, callback) {
-	var field = this;
-	if (utils.isFunction(paths)) {
-		callback = paths;
-		paths = field.paths;
-	} else if (!paths) {
-		paths = field.paths;
-	}
-	callback = callback || function () {};
-	return function () {
-		var update = req.body[paths.overwrite] ? 'overwrite' : true;
-		if (req.body && req.body[paths.improve]) {
-			field.googleLookup(item, false, update, function () {
-				callback();
-			});
-		} else {
+	var doGoogleLookup = this.getValueFromData(data, '_improve');
+	if (doGoogleLookup) {
+		var googleUpdateMode = this.getValueFromData(data, '_improve_overwrite') ? 'overwrite' : true;
+		this.googleLookup(item, false, googleUpdateMode, function (err, location, result) {
+			// TODO: we are currently discarding the error; it should probably be
+			// sent back in the response, needs consideration
 			callback();
-		}
-	};
-};
+		});
+		return;
+	}
 
-/**
- * Immediately handles a standard form submission for the field (see `getRequestHandler()`)
- */
-location.prototype.handleRequest = function (item, req, paths, callback) {
-	this.getRequestHandler(item, req, paths, callback)();
+	process.nextTick(callback);
 };
 
 /**
@@ -311,7 +346,7 @@ function doGoogleGeocodeRequest (address, region, callback) {
 		address: address,
 	};
 
-	if (arguments.length === 2 && _.isFunction(region)) {
+	if (arguments.length === 2 && typeof region === 'function') {
 		callback = region;
 		region = null;
 	}
@@ -363,7 +398,7 @@ function doGoogleGeocodeRequest (address, region, callback) {
  */
 location.prototype.googleLookup = function (item, region, update, callback) {
 
-	if (_.isFunction(update)) {
+	if (typeof update === 'function') {
 		callback = update;
 		update = false;
 	}
@@ -396,8 +431,7 @@ location.prototype.googleLookup = function (item, region, update, callback) {
 
 		_.forEach(result.address_components, function (val) {
 			if (_.indexOf(val.types, 'street_number') >= 0) {
-				location.street1 = location.street1 || [];
-				location.street1.push(val.long_name);
+				location.street1 = [val.long_name];
 			}
 			if (_.indexOf(val.types, 'route') >= 0) {
 				location.street1 = location.street1 || [];

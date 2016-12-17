@@ -2,8 +2,11 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import moment from 'moment';
 import DayPicker from 'react-day-picker';
-
-import { FormField, FormInput, FormRow, FormSelect } from 'elemental';
+import {
+	FormInput,
+	FormSelect,
+	Grid,
+} from '../../../admin/client/App/elemental';
 
 const PRESENCE_OPTIONS = [
 	{ label: 'At least one element', value: 'some' },
@@ -73,11 +76,13 @@ var DateFilter = React.createClass({
 	updateFilter (value) {
 		this.props.onChange({ ...this.props.filter, ...value });
 	},
-	selectPresence (presence) {
+	selectPresence (e) {
+		const presence = e.target.value;
 		this.updateFilter({ presence });
 		findDOMNode(this.refs.input).focus();
 	},
-	selectMode (mode) {
+	selectMode (e) {
+		const mode = e.target.value;
 		this.updateFilter({ mode });
 		if (mode === 'between') {
 			setTimeout(() => { findDOMNode(this.refs[this.state.activeInputField]).focus(); }, 200);
@@ -136,18 +141,20 @@ var DateFilter = React.createClass({
 		if (mode.value === 'between') {
 			controls = (
 				<div>
-					<FormRow>
-						<FormField width="one-half">
-							<FormInput ref="after" placeholder="From" onFocus={(e) => { this.setActiveField('after'); }} value={moment(filter.after).format(this.props.format)} />
-						</FormField>
-						<FormField width="one-half">
-							<FormInput ref="before" placeholder="To" onFocus={(e) => { this.setActiveField('before'); }} value={moment(filter.before).format(this.props.format)} />
-						</FormField>
-					</FormRow>
+					<div style={{ marginBottom: '1em' }}>
+						<Grid.Row xsmall="one-half" gutter={10}>
+							<Grid.Col>
+								<FormInput ref="after" placeholder="From" onFocus={(e) => { this.setActiveField('after'); }} value={moment(filter.after).format(this.props.format)} />
+							</Grid.Col>
+							<Grid.Col>
+								<FormInput ref="before" placeholder="To" onFocus={(e) => { this.setActiveField('before'); }} value={moment(filter.before).format(this.props.format)} />
+							</Grid.Col>
+						</Grid.Row>
+					</div>
 					<div style={{ position: 'relative' }}>
 						<DayPicker
-							modifiers={modifiers}
 							className="DayPicker--chrome"
+							modifiers={modifiers}
 							onDayClick={this.switchBetweenActiveInputFields}
 						/>
 						<DayPickerIndicator />
@@ -157,21 +164,21 @@ var DateFilter = React.createClass({
 		} else {
 			controls = (
 				<div>
-					<FormField>
+					<div style={{ marginBottom: '1em' }}>
 						<FormInput
-							ref="input"
-							placeholder={placeholder}
-							value={moment(filter.value).format(this.props.format)}
 							onChange={this.handleInputChange}
 							onFocus={this.showCurrentDate}
+							placeholder={placeholder}
+							ref="input"
+							value={moment(filter.value).format(this.props.format)}
 						/>
-					</FormField>
+					</div>
 					<div style={{ position: 'relative' }}>
 						<DayPicker
-							ref="daypicker"
-							modifiers={modifiers}
 							className="DayPicker--chrome"
+							modifiers={modifiers}
 							onDayClick={this.selectDay}
+							ref="daypicker"
 						/>
 						<DayPickerIndicator />
 					</div>
@@ -188,8 +195,20 @@ var DateFilter = React.createClass({
 
 		return (
 			<div>
-				<FormSelect options={PRESENCE_OPTIONS} onChange={this.selectPresence} value={presence.value} />
-				<FormSelect options={MODE_OPTIONS} onChange={this.selectMode} value={mode.value} />
+				<div style={{ marginBottom: '1em' }}>
+					<FormSelect
+						onChange={this.selectPresence}
+						options={PRESENCE_OPTIONS}
+						value={presence.value}
+					/>
+				</div>
+				<div style={{ marginBottom: '1em' }}>
+					<FormSelect
+						onChange={this.selectMode}
+						options={MODE_OPTIONS}
+						value={mode.value}
+					/>
+				</div>
 				{this.renderControls()}
 			</div>
 		);

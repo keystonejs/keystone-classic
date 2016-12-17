@@ -17,14 +17,6 @@ module.exports = function (req, res) {
 		return res.status(401).json({ error: 'fields must be undefined, a string, or an array' });
 	}
 
-	if (req.list.tracking && req.list.tracking.createdBy) {
-		query.populate(req.list.tracking.createdBy);
-	}
-
-	if (req.list.tracking && req.list.tracking.updatedBy) {
-		query.populate(req.list.tracking.updatedBy);
-	}
-
 	query.exec(function (err, item) {
 
 		if (err) return res.status(500).json({ err: 'database error', detail: err });

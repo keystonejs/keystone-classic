@@ -9,7 +9,7 @@ function ListHeaderTitle ({
 	availableColumns,
 	handleSortSelect,
 	title,
-	...props,
+	...props
 }) {
 	return (
 		<h2 className={css(classes.heading)} {...props}>

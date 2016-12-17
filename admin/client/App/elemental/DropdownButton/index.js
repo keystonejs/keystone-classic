@@ -4,7 +4,6 @@ import React from 'react';
 import { css, StyleSheet } from 'aphrodite/no-important';
 import Button from '../Button';
 
-
 function DropdownButton ({ children, ...props }) {
 	return (
 		<Button {...props}>
@@ -14,17 +13,18 @@ function DropdownButton ({ children, ...props }) {
 	);
 };
 
-// general: border color is inherited from the Button so no need to define
-// marginTop: whilst vertically centered, it appears to be too low because
-// of lowercase chars next to it
+// NOTE
+// 1: take advantage of `currentColor` by leaving border top color undefined
+// 2: even though the arrow is vertically centered, visually it appears too low
+//    because of lowercase characters beside it
 const classes = StyleSheet.create({
 	arrow: {
 		borderLeft: '0.3em solid transparent',
 		borderRight: '0.3em solid transparent',
-		borderTop: '0.3em solid',
+		borderTop: '0.3em solid', // 1
 		display: 'inline-block',
 		height: 0,
-		marginTop: '-0.125em',
+		marginTop: '-0.125em', // 2
 		verticalAlign: 'middle',
 		width: 0,
 

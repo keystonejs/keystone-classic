@@ -11,20 +11,45 @@ const classes = StyleSheet.create(styles);
 // FIXME static octicon classes leaning on Elemental to avoid duplicate
 // font and CSS; inflating the project size
 
-function Glyph ({ className, color, component, name, size, ...props }) {
-	const Component = component;
+function Glyph ({
+	aphroditeStyles,
+	className,
+	color,
+	component: Component,
+	name,
+	size,
+	style,
+	...props
+}) {
+	const colorIsValidType = Object.keys(colors).includes(color);
 	props.className = css(
 		classes.glyph,
-		classes['color__' + color],
+		colorIsValidType && classes['color__' + color],
 		classes['size__' + size],
-		className
+		aphroditeStyles
 	) + ` ${octicons[name]}`;
+	if (className) {
+		props.className += (' ' + className);
+	}
+
+	// support random color strings
+	props.style = {
+		color: !colorIsValidType ? color : null,
+		...style,
+	};
 
 	return <Component {...props} />;
 };
 
 Glyph.propTypes = {
-	color: PropTypes.oneOf(Object.keys(colors)),
+	aphroditeStyles: PropTypes.shape({
+		_definition: PropTypes.object,
+		_name: PropTypes.string,
+	}),
+	color: PropTypes.oneOfType([
+		PropTypes.oneOf(Object.keys(colors)),
+		PropTypes.string, // support random color strings
+	]),
 	name: PropTypes.oneOf(Object.keys(octicons)).isRequired,
 	size: PropTypes.oneOf(Object.keys(sizes)),
 };

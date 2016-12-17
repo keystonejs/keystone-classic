@@ -20,8 +20,6 @@ var moduleRoot = (function (_rootPath) {
 
 /**
  * Keystone Class
- *
- * @api public
  */
 var Keystone = function () {
 	grappling.mixin(this).allowHooks('pre:static', 'pre:bodyparser', 'pre:session', 'pre:logger', 'pre:admin', 'pre:routes', 'pre:render', 'updates', 'signin', 'signout');
@@ -48,12 +46,12 @@ var Keystone = function () {
 	// init environment defaults
 	this.set('env', process.env.NODE_ENV || 'development');
 
-	this.set('port', process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT);
-	this.set('host', process.env.HOST || process.env.IP || process.env.OPENSHIFT_NODEJS_IP);
+	this.set('port', process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || '3000');
+	this.set('host', process.env.HOST || process.env.IP || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0');
 	this.set('listen', process.env.LISTEN);
 
 	this.set('ssl', process.env.SSL);
-	this.set('ssl port', process.env.SSL_PORT);
+	this.set('ssl port', process.env.SSL_PORT || '3001');
 	this.set('ssl host', process.env.SSL_HOST || process.env.SSL_IP);
 	this.set('ssl key', process.env.SSL_KEY);
 	this.set('ssl cert', process.env.SSL_CERT);
@@ -111,10 +109,11 @@ Keystone.prototype.prefixModel = function (key) {
 
 /* Attach core functionality to Keystone.prototype */
 Keystone.prototype.createItems = require('./lib/core/createItems');
+Keystone.prototype.createRouter = require('./lib/core/createRouter');
 Keystone.prototype.getOrphanedLists = require('./lib/core/getOrphanedLists');
 Keystone.prototype.importer = require('./lib/core/importer');
 Keystone.prototype.init = require('./lib/core/init');
-Keystone.prototype.initDatabase = require('./lib/core/initDatabase');
+Keystone.prototype.initDatabaseConfig = require('./lib/core/initDatabaseConfig');
 Keystone.prototype.initExpressApp = require('./lib/core/initExpressApp');
 Keystone.prototype.initExpressSession = require('./lib/core/initExpressSession');
 Keystone.prototype.initNav = require('./lib/core/initNav');
@@ -134,8 +133,6 @@ Keystone.prototype.routes = function () {
 
 /**
  * The exports object is an instance of Keystone.
- *
- * @api public
  */
 var keystone = module.exports = new Keystone();
 
@@ -170,11 +167,7 @@ keystone.utils = utils;
  * to the module root (where the keystone project is being consumed from).
  *
  * ####Example:
- *
  *     var models = keystone.import('models');
- *
- * @param {String} dirname
- * @api public
  */
 
 Keystone.prototype.import = function (dirname) {
@@ -229,8 +222,6 @@ Keystone.prototype.applyUpdates = function (callback) {
 
 /**
  * Logs a configuration error to the console
- *
- * @api public
  */
 
 Keystone.prototype.console = {};
@@ -243,8 +234,6 @@ Keystone.prototype.console.err = function (type, msg) {
 
 /**
  * Keystone version
- *
- * @api public
  */
 
 keystone.version = require('./package.json').version;

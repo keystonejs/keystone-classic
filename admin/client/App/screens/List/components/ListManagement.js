@@ -1,5 +1,11 @@
 import React, { PropTypes } from 'react';
-import { Button, GlyphButton, InlineGroup as Group, InlineGroupSection as Section } from '../../../elemental';
+import {
+	Button,
+	GlyphButton,
+	InlineGroup as Group,
+	InlineGroupSection as Section,
+	Spinner,
+} from '../../../elemental';
 
 function ListManagement ({
 	checkedItemCount,
@@ -11,11 +17,12 @@ function ListManagement ({
 	itemsPerPage,
 	nodelete,
 	noedit,
-	...props,
+	selectAllItemsLoading,
+	...props
 }) {
 	// do not render if there's no results
 	// or if edit/delete unavailable on the list
-	if (!itemCount || (nodelete /* && noedit */)) return null;
+	if (!itemCount || (nodelete && noedit)) return null;
 
 	const buttonNoteStyles = { color: '#999', fontWeight: 'normal' };
 
@@ -35,26 +42,27 @@ function ListManagement ({
 	);
 
 	// select buttons
-	// TODO: implement selecting all items across multiple pages
-	const selectAllButton = null; /* itemCount > itemsPerPage && (
+	const allVisibleButtonIsActive = checkedItemCount === itemCount;
+	const pageVisibleButtonIsActive = checkedItemCount === itemsPerPage;
+	const noneButtonIsActive = !checkedItemCount;
+	const selectAllButton = itemCount > itemsPerPage && (
 		<Section>
 			<Button
+				active={allVisibleButtonIsActive}
 				onClick={() => handleSelect('all')}
 				title="Select all rows (including those not visible)">
-				All <small style={buttonNoteStyles}>({itemCount})</small>
+				{selectAllItemsLoading ? <Spinner/> : 'All'} <small style={buttonNoteStyles}>({itemCount})</small>
 			</Button>
 		</Section>
-	); */
+	);
 
-	const allVisibleButtonIsActive = checkedItemCount === Math.min(itemCount, itemsPerPage);
-	const noneButtonIsActive = !checkedItemCount;
 	const selectButtons = isOpen ? (
 		<Section>
 			<Group contiguous>
 				{selectAllButton}
 				<Section>
-					<Button active={allVisibleButtonIsActive} onClick={() => handleSelect('visible')} title="Select all rows">
-						{itemCount > itemsPerPage ? 'All Visible ' : 'All '}
+					<Button active={pageVisibleButtonIsActive} onClick={() => handleSelect('visible')} title="Select all rows">
+						{itemCount > itemsPerPage ? 'Page ' : 'All '}
 						<small style={buttonNoteStyles}>({itemCount > itemsPerPage ? itemsPerPage : itemCount})</small>
 					</Button>
 				</Section>
@@ -101,6 +109,7 @@ ListManagement.propTypes = {
 	itemsPerPage: PropTypes.number,
 	nodelete: PropTypes.bool,
 	noedit: PropTypes.bool,
+	selectAllItemsLoading: PropTypes.bool,
 };
 
 module.exports = ListManagement;

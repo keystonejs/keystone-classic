@@ -21,7 +21,7 @@ function select (list, path, options) {
 		throw new Error('Select fields require an options array.');
 	}
 	this.ops = options.options.map(function (i) {
-		var op = _.isString(i) ? { value: i.trim(), label: utils.keyToLabel(i) } : i;
+		var op = typeof i === 'string' ? { value: i.trim(), label: utils.keyToLabel(i) } : i;
 		if (!_.isObject(op)) {
 			op = { label: '' + i, value: '' + i };
 		}
@@ -55,10 +55,10 @@ util.inherits(select, FieldType);
 select.prototype.addToSchema = function (schema) {
 	var field = this;
 	this.paths = {
-		data: this.options.dataPath || this._path.append('Data'),
-		label: this.options.labelPath || this._path.append('Label'),
-		options: this.options.optionsPath || this._path.append('Options'),
-		map: this.options.optionsMapPath || this._path.append('OptionsMap'),
+		data: this.options.dataPath || this.path + 'Data',
+		label: this.options.labelPath || this.path + 'Label',
+		options: this.options.optionsPath || this.path + 'Options',
+		map: this.options.optionsMapPath || this.path + 'OptionsMap',
 	};
 	schema.path(this.path, _.defaults({
 		type: this._nativeType,

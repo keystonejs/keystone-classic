@@ -8,12 +8,10 @@ const classes = StyleSheet.create(styles);
 function Container ({
 	className,
 	clearFloatingChildren,
-	component,
+	component: Component,
 	width,
-	...props,
+	...props
 }) {
-	const Component = component;
-
 	props.className = css(
 		classes.container,
 		classes[width],

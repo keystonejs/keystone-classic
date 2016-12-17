@@ -31,7 +31,7 @@ file.prototype.addToSchema = function (schema) {
 	this.paths = {};
 	// add field paths from the storage schema
 	Object.keys(this.storage.schema).forEach(function (path) {
-		field.paths[path] = field._path.append('.' + path);
+		field.paths[path] = field.path + '.' + path;
 	});
 
 	var schemaPaths = this._path.addTo({}, this.storage.schema);

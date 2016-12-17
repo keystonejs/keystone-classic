@@ -2,65 +2,53 @@
  * Renders a confirmation dialog modal
  */
 
-import React, { Component, PropTypes } from 'react';
-import vkey from 'vkey';
-import { Modal, ModalBody, ModalFooter, Button } from 'elemental';
+import React, { PropTypes } from 'react';
+import { Button, Modal } from '../elemental';
 
-class ConfirmationDialog extends Component {
-	constructor () {
-		super();
-		this.handleKeyPress = this.handleKeyPress.bind(this);
+function ConfirmationDialog ({
+	cancelLabel,
+	children,
+	confirmationLabel,
+	confirmationType,
+	html,
+	isOpen,
+	onCancel,
+	onConfirmation,
+	...props
+}) {
+	// Property Violation
+	if (children && html) {
+		console.error('Warning: FormNote cannot render `children` and `html`. You must provide one or the other.');
 	}
 
-	componentDidMount () {
-		document.body.addEventListener('keyup', this.props.onCancel, false);
-	}
-
-	componentWillUnmount () {
-		document.body.removeEventListener('keyup', this.props.onCancel, false);
-	}
-
-	handleKeyPress (evt) {
-		if (vkey[evt.keyCode] === '<escape>') {
-			this.props.onCancel();
-		}
-	}
-
-	render () {
-		const {
-			cancelLabel,
-			confirmationLabel,
-			confirmationType,
-			isOpen,
-			onCancel,
-			onConfirmation,
-		} = this.props;
-
-		return (
-			<Modal
-				backdropClosesModal
-				isOpen={isOpen}
-				onCancel={onCancel}
-				width={400}
-			>
-				<ModalBody>{this.props.body || <span />}</ModalBody>
-				<ModalFooter>
-					<Button autoFocus size="sm" type={confirmationType} onClick={onConfirmation}>
-						{confirmationLabel}
-					</Button>
-					<Button size="sm" type="link-cancel" onClick={onCancel}>
-						{cancelLabel}
-					</Button>
-				</ModalFooter>
-			</Modal>
-		);
-	}
+	return (
+		<Modal.Dialog
+			backdropClosesModal
+			isOpen={isOpen}
+			onClose={onCancel}
+			width={400}
+		>
+			{html ? (
+				<Modal.Body {...props} dangerouslySetInnerHTML={{ __html: html }} />
+			) : (
+				<Modal.Body {...props}>{children}</Modal.Body>
+			)}
+			<Modal.Footer>
+				<Button autoFocus size="small" data-button-type="confirm" color={confirmationType} onClick={onConfirmation}>
+					{confirmationLabel}
+				</Button>
+				<Button size="small" data-button-type="cancel" variant="link" color="cancel" onClick={onCancel}>
+					{cancelLabel}
+				</Button>
+			</Modal.Footer>
+		</Modal.Dialog>
+	);
 };
 ConfirmationDialog.propTypes = {
 	body: PropTypes.string,
 	cancelLabel: PropTypes.string,
 	confirmationLabel: PropTypes.string,
-	confirmationType: PropTypes.oneOf(['danger', 'warning', 'primary']),
+	confirmationType: PropTypes.oneOf(['danger', 'primary', 'success', 'warning']),
 	onCancel: PropTypes.func,
 	onConfirmation: PropTypes.func,
 };
