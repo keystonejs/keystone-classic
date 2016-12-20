@@ -1,5 +1,7 @@
 var objectAssign = require('object-assign');
-var TextFieldTestObject = require('../fieldTestObjects/TextFieldTestObject');
+var fieldTestObjectsPath = require('keystone-nightwatch-e2e').fieldTestObjectsPath;
+var path = require('path');
+var TextFieldTestObject = require(path.resolve(fieldTestObjectsPath, 'TextFieldTestObject'));
 
 module.exports = function TextModelTestConfig (config) {
 	return {

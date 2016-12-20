@@ -9,7 +9,13 @@
  * @api private
  */
 
-var https = require('https');
+var https;
+try {
+	// Use spdy if available
+	https = require('spdy');
+} catch (e) {
+	https = require('https');
+}
 var tls = require('tls');
 var fs = require('fs');
 
@@ -17,7 +23,7 @@ module.exports = function (keystone, app, created, callback) {
 
 	var ssl = keystone.get('ssl');
 	var host = keystone.get('ssl host') || keystone.get('host');
-	var port = keystone.get('ssl port') || 3001;
+	var port = keystone.get('ssl port');
 	var message = (ssl === 'only') ? keystone.get('name') + ' (SSL) is ready on ' : 'SSL Server is ready on ';
 	var sniFunc;
 
@@ -57,7 +63,7 @@ module.exports = function (keystone, app, created, callback) {
 		};
 	}
 
-	if ((!options.key || !options.cert) && !options.pfx) {
+	if ((!options.key || !options.cert) && !options.pfx && !keystone.get('letsencrypt')) {
 		if (sniFunc) {
 			// We populate the config with what sniFunc returns for localhost
 			var localCtx = sniFunc('localhost');
@@ -85,12 +91,6 @@ module.exports = function (keystone, app, created, callback) {
 		callback(err, message);
 	}
 
-	if (host) {
-		message += 'https://' + host + ':' + port;
-		keystone.httpsServer = server.listen(port, host, ready);
-	} else {
-		message += 'https://localhost:' + port;
-		keystone.httpsServer = server.listen(port, ready);
-	}
-
+	message += 'https://' + host + ':' + port;
+	keystone.httpsServer = server.listen(port, host, ready);
 };

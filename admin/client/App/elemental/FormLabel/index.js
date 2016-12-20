@@ -1,39 +1,68 @@
 import { StyleSheet, css } from 'aphrodite/no-important';
-import classnames from 'classnames';
 import React, { PropTypes } from 'react';
 import styles from './styles';
 
 const classes = StyleSheet.create(styles);
 
-const FormLabel = (props, context) => {
-	const { formFieldId, formLayout } = context;
-	const { className, component, htmlFor } = props;
-	const consumedProps = Object.assign({}, props);
-	consumedProps.htmlFor = htmlFor || formFieldId;
-	delete consumedProps.component;
-
-	consumedProps.className = classnames(
-		css(classes.FormLabel), {
-			[css(classes['FormLabel--form-layout-' + formLayout])]: formLayout,
-		}, className
+function FormLabel ({
+	aphroditeStyles,
+	className,
+	component: Component,
+	cropText,
+	htmlFor,
+	...props
+},
+{
+	formFieldId,
+	formLayout,
+	labelWidth,
+}) {
+	props.htmlFor = htmlFor || formFieldId;
+	props.className = css(
+		classes.FormLabel,
+		formLayout ? classes['FormLabel--form-layout-' + formLayout] : null,
+		cropText ? classes['FormLabel--crop-text'] : null,
+		aphroditeStyles
 	);
+	if (className) {
+		props.className += (' ' + className);
+	}
+	if (labelWidth) {
+		props.style = {
+			width: labelWidth,
+			...props.style,
+		};
+	}
 
-	return React.createElement(component, consumedProps);
+	return <Component {...props} />;
 };
 
-
-FormLabel.contextTypes = {
-	formLayout: PropTypes.oneOf(['basic', 'horizontal', 'inline']),
-	formFieldId: PropTypes.string,
+const stylesShape = {
+	_definition: PropTypes.object,
+	_name: PropTypes.string,
 };
+
 FormLabel.propTypes = {
+	aphroditeStyles: PropTypes.oneOfType([
+		PropTypes.arrayOf(PropTypes.shape(stylesShape)),
+		PropTypes.shape(stylesShape),
+	]),
 	component: PropTypes.oneOfType([
 		PropTypes.string,
 		PropTypes.func,
 	]),
+	cropText: PropTypes.bool,
 };
 FormLabel.defaultProps = {
 	component: 'label',
+};
+FormLabel.contextTypes = {
+	formLayout: PropTypes.oneOf(['basic', 'horizontal', 'inline']),
+	formFieldId: PropTypes.string,
+	labelWidth: PropTypes.oneOfType([
+		PropTypes.number,
+		PropTypes.string,
+	]),
 };
 
 module.exports = FormLabel;

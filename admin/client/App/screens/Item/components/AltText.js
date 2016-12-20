@@ -35,14 +35,12 @@ class AltText extends Component {
 	render () {
 		// NOTE `modifier` is declared to remove it from `props`, though never used
 		const {
-			component,
+			component: Component,
 			modified,
 			modifier, // eslint-disable-line no-unused-vars
 			normal,
-			...props,
+			...props
 		} = this.props;
-
-		const Component = component;
 
 		props.children = this.state.modified
 			? modified

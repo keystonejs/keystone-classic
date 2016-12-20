@@ -37,8 +37,8 @@ markdown.prototype.validateRequiredInput = TextType.prototype.validateRequiredIn
 markdown.prototype.addToSchema = function (schema) {
 
 	var paths = this.paths = {
-		md: this._path.append('.md'),
-		html: this._path.append('.html'),
+		md: this.path + '.md',
+		html: this.path + '.html',
 	};
 
 	var markedOptions = this.markedOptions;

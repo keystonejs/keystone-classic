@@ -4,7 +4,6 @@ var async = require('async');
 var FieldType = require('../Type');
 var keystone = require('../../../');
 var util = require('util');
-var utils = require('keystone-utils');
 
 function getEmptyValue () {
 	return {
@@ -31,9 +30,6 @@ function cloudinaryimages (list, path, options) {
 	this._underscoreMethods = ['format'];
 	this._fixedSize = 'full';
 	this._properties = ['select', 'selectPrefix', 'autoCleanup', 'publicID', 'folder', 'filenameAsPublicID'];
-
-	// TODO: implement filtering, usage disabled for now
-	options.nofilter = true;
 
 	cloudinaryimages.super_.call(this, list, path, options);
 
@@ -75,12 +71,11 @@ cloudinaryimages.prototype.addToSchema = function (schema) {
 
 	this.paths = {
 		// virtuals
-		folder: this._path.append('.folder'),
+		folder: this.path + '.folder',
 		// form paths
-		upload: this._path.append('_upload'),
-		uploads: this._path.append('_uploads'),
-		action: this._path.append('_action'),
-		order: this._path.append('_order'),
+		upload: this.path + '_upload',
+		uploads: this.path + '_uploads',
+		action: this.path + '_action',
 	};
 
 	var ImageSchema = new mongoose.Schema({
@@ -352,126 +347,4 @@ cloudinaryimages.prototype.updateItem = function (item, data, files, callback) {
 	});
 };
 
-/**
- * Returns a callback that handles a standard form submission for the field
- *
- * Expected form parts are
- * - `field.paths.action` in `req.body` in syntax `delete:public_id,public_id|remove:public_id,public_id`
- * - `field.paths.upload` in `req.files` (uploads the images to cloudinary)
- */
-cloudinaryimages.prototype.getRequestHandler = function (item, req, paths, callback) {
-
-	var cloudinary = require('cloudinary');
-	var field = this;
-
-	if (utils.isFunction(paths)) {
-		callback = paths;
-		paths = field.paths;
-	} else if (!paths) {
-		paths = field.paths;
-	}
-
-	callback = callback || function () {};
-
-	return function () {
-
-		// Order
-		if (req.body[paths.order]) {
-			var images = item.get(field.path);
-			var newOrder = req.body[paths.order].split(',');
-
-			images.sort(function (a, b) {
-				return (newOrder.indexOf(a.public_id) > newOrder.indexOf(b.public_id)) ? 1 : -1;
-			});
-		}
-
-		// Removals & Deletes
-		if (req.body && req.body[paths.action]) {
-			var actions = req.body[paths.action].split('|');
-
-			actions.forEach(function (action) {
-				action = action.split(':');
-				var method = action[0];
-				var ids = action[1];
-
-				if (!method.match(/^(remove|delete)$/) || !ids) return;
-
-				ids.split(',').forEach(function (id) {
-					field.removeImage(item, id, method);
-				});
-			});
-		}
-
-		// Upload References (direct uploading)
-		if (req.body[paths.uploads]) {
-			var uploads = JSON.parse(req.body[paths.uploads]);
-
-			uploads.forEach(function (file) {
-				item.get(field.path).push(file);
-			});
-		}
-
-		// Upload Data (form submissions)
-		if (req.files && req.files[paths.upload]) {
-			var files = [].concat(req.files[paths.upload]);
-
-			var tp = keystone.get('cloudinary prefix') || '';
-
-			if (tp.length) {
-				tp += '_';
-			}
-
-			var uploadOptions = {
-				tags: [tp + field.list.path + '_' + field.path, tp + field.list.path + '_' + field.path + '_' + item.id],
-			};
-
-			if (keystone.get('cloudinary folders')) {
-				uploadOptions.folder = item.get(paths.folder);
-			}
-
-			if (keystone.get('cloudinary prefix')) {
-				uploadOptions.tags.push(keystone.get('cloudinary prefix'));
-			}
-
-			if (keystone.get('env') !== 'production') {
-				uploadOptions.tags.push(tp + 'dev');
-			}
-
-
-			async.each(files, function (file, next) {
-
-				if (!file.size) return next();
-
-				if (field.options.filenameAsPublicID) {
-					uploadOptions.public_id = file.originalname.substring(0, file.originalname.lastIndexOf('.'));
-				}
-
-				cloudinary.uploader.upload(file.path, function (result) {
-					if (result.error) {
-						return next(result.error);
-					} else {
-						item.get(field.path).push(result);
-						return next();
-					}
-				}, uploadOptions);
-
-			}, function (err) {
-				return callback(err);
-			});
-		} else {
-			return callback();
-		}
-	};
-};
-
-/**
- * Immediately handles a standard form submission for the field (see `getRequestHandler()`)
- */
-cloudinaryimages.prototype.handleRequest = function (item, req, paths, callback) {
-	this.getRequestHandler(item, req, paths, callback)();
-};
-
-/*!
- * Export class
- */
 module.exports = cloudinaryimages;

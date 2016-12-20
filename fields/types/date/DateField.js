@@ -2,7 +2,12 @@ import DateInput from '../../components/DateInput';
 import Field from '../Field';
 import moment from 'moment';
 import React from 'react';
-import { Button, InputGroup, FormInput } from 'elemental';
+import {
+	Button,
+	FormInput,
+	InlineGroup as Group,
+	InlineGroupSection as Section,
+} from '../../../admin/client/App/elemental';
 
 /*
 TODO: Implement yearRange Prop, or deprecate for max / min values (better)
@@ -67,8 +72,8 @@ module.exports = Field.create({
 			? value.format(this.props.inputFormat)
 			: this.props.value;
 		return (
-			<InputGroup>
-				<InputGroup.Section grow>
+			<Group>
+				<Section grow>
 					<DateInput
 						format={this.props.inputFormat}
 						name={this.getInputName(this.props.path)}
@@ -76,11 +81,11 @@ module.exports = Field.create({
 						ref="dateInput"
 						value={value}
 					/>
-				</InputGroup.Section>
-				<InputGroup.Section>
+				</Section>
+				<Section>
 					<Button onClick={this.setToday}>Today</Button>
-				</InputGroup.Section>
-			</InputGroup>
+				</Section>
+			</Group>
 		);
 	},
 

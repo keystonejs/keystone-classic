@@ -11,7 +11,7 @@ function ListHeaderSearch ({
 	handleClear,
 	handleKeyup,
 	value,
-	...props,
+	...props
 }) {
 	return (
 		<div {...props} className={css(classes.wrapper)}>
@@ -20,7 +20,6 @@ function ListHeaderSearch ({
 				onChange={handleChange}
 				onKeyUp={handleKeyup}
 				placeholder="Search"
-				focusInput={focusInput}
 				value={value}
 			/>
 			<button

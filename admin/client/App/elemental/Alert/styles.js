@@ -23,6 +23,14 @@ const headingTagnames = {};
 	headingTagnames[tag] = { color: 'inherit' };
 });
 
+const linkStyles = {
+	color: 'inherit',
+	textDecoration: 'underline',
+
+	':hover': { color: 'inherit' },
+	':focus': { color: 'inherit' },
+};
+
 module.exports = {
 	alert: {
 		borderColor: 'transparent',
@@ -34,13 +42,8 @@ module.exports = {
 	},
 
 	// tagnames
-	a: {
-		color: 'inherit',
-		textDecoration: 'underline',
-
-		':hover': { color: 'inherit' },
-		':focus': { color: 'inherit' },
-	},
+	a: linkStyles,
+	Link: linkStyles,
 	strong: {
 		fontWeight: 500,
 	},

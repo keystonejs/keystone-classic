@@ -69,6 +69,8 @@ file.updateItem(item, {
 
 ### Upload a new file (result will be stored in the field)
 
+To upload a new file, you can use either updateItem, or you can use the upload method below.
+
 ```js
 file.updateItem(item, {
 	// data object contains a reference to a path in the files object
@@ -83,6 +85,8 @@ file.updateItem(item, {
 	}
 });
 ```
+
+The `path` option is the only required option when you're uploading, and it must be the path of the file stored on the server to upload to your storage provider.
 
 ### Remove the file
 
@@ -112,7 +116,36 @@ To reset the field value _without_ deleting the stored file, provide an empty / 
 
 ### `upload`
 
-> TODO
+This method uploads a file using your storage provider. You can call it directly on the list:
+
+```js
+List.fields.fieldName.upload({
+	path: '/path/to/temporary/file.txt',
+}, (err) => { /* done */ });
+```
+
+or you can call it using an underscore method on an item:
+
+```js
+item._.fieldName.upload({
+	path: '/path/to/temporary/file.txt',
+}, (err) => { /* done */ });
+```
+
+The options parameter can accept any options that are passed in normally by multer. It expects at a minimum the `path` property when you're uploading; the other fields are optional. A full example object looks like this:
+
+```js
+{
+	filename: 'xyz123.jpg',
+	size: '43233',
+	mimetype: 'image/jpeg',
+	path: '/public/uploads',
+	originalname: 'photo.jpg',
+	url: '/uploads/xyz123.jpg',
+}
+```
+
+There is no way to upload directly from a buffer at the moment, you must upload from a file.
 
 ### `remove`
 

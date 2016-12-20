@@ -2,7 +2,14 @@ import DateInput from '../../components/DateInput';
 import Field from '../Field';
 import moment from 'moment';
 import React from 'react';
-import { Button, FormField, FormInput, FormNote, InputGroup } from 'elemental';
+import {
+	Button,
+	FormField,
+	FormInput,
+	FormNote,
+	InlineGroup as Group,
+	InlineGroupSection as Section,
+} from '../../../admin/client/App/elemental';
 
 module.exports = Field.create({
 
@@ -102,21 +109,43 @@ module.exports = Field.create({
 		var input;
 		if (this.shouldRenderField()) {
 			input = (
-				<InputGroup>
-					<InputGroup.Section grow>
-						<DateInput ref="dateInput" name={this.getInputName(this.props.paths.date)} value={this.state.dateValue} format={this.dateInputFormat} onChange={this.dateChanged} />
-					</InputGroup.Section>
-					<InputGroup.Section grow>
-						<FormInput name={this.getInputName(this.props.paths.time)} value={this.state.timeValue} placeholder="HH:MM:SS am/pm" onChange={this.timeChanged} autoComplete="off" />
-					</InputGroup.Section>
-					<InputGroup.Section>
-						<Button onClick={this.setNow}>Now</Button>
-					</InputGroup.Section>
-					<input type="hidden" name={this.getInputName(this.props.paths.tzOffset)} value={this.state.tzOffsetValue} />
-				</InputGroup>
+				<div>
+					<Group>
+						<Section grow>
+							<DateInput
+								format={this.dateInputFormat}
+								name={this.getInputName(this.props.paths.date)}
+								onChange={this.dateChanged}
+								ref="dateInput"
+								value={this.state.dateValue}
+							/>
+						</Section>
+						<Section grow>
+							<FormInput
+								autoComplete="off"
+								name={this.getInputName(this.props.paths.time)}
+								onChange={this.timeChanged}
+								placeholder="HH:MM:SS am/pm"
+								value={this.state.timeValue}
+							/>
+						</Section>
+						<Section>
+							<Button onClick={this.setNow}>Now</Button>
+						</Section>
+					</Group>
+					<input
+						name={this.getInputName(this.props.paths.tzOffset)}
+						type="hidden"
+						value={this.state.tzOffsetValue}
+					/>
+				</div>
 			);
 		} else {
-			input = <FormInput noedit>{this.format(this.props.value, this.props.formatString)}</FormInput>;
+			input = (
+				<FormInput noedit>
+					{this.format(this.props.value, this.props.formatString)}
+				</FormInput>
+			);
 		}
 		return (
 			<FormField label={this.props.label} className="field-type-datetime" htmlFor={this.getInputName(this.props.path)}>

@@ -1,6 +1,8 @@
 var objectAssign = require('object-assign');
-var TextFieldTestObject = require('../fieldTestObjects/TextFieldTestObject');
-var MoneyFieldTestObject = require('../fieldTestObjects/MoneyFieldTestObject');
+var fieldTestObjectsPath = require('keystone-nightwatch-e2e').fieldTestObjectsPath;
+var path = require('path');
+var TextFieldTestObject = require(path.resolve(fieldTestObjectsPath, 'TextFieldTestObject'));
+var MoneyFieldTestObject = require(path.resolve(fieldTestObjectsPath, 'MoneyFieldTestObject'));
 
 module.exports = function MoneyModelTestConfig (config) {
 	return {
