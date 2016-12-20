@@ -266,7 +266,10 @@ module.exports = Field.create({
 	renderImageToolbar () {
 		return (
 			<div key={this.props.path + '_toolbar'} className="image-toolbar">
-				<Button onClick={this.triggerFileBrowser}>
+				<Button
+					onClick={this.triggerFileBrowser}
+					disabled={this.state.removeExisting}
+				>
 					{this.hasImage() ? 'Change' : 'Upload'} Image
 				</Button>
 				{this.hasImage() ? this.renderClearButton() : null}
