@@ -265,7 +265,10 @@ module.exports = Field.create({
 	renderImageToolbar () {
 		return (
 			<div key={this.props.path + '_toolbar'} className="image-toolbar">
-				<Button onClick={this.triggerFileBrowser}>
+				<Button
+					onClick={this.triggerFileBrowser}
+					disabled={this.state.removeExisting}
+				>
 					{this.hasImage() ? 'Change' : 'Upload'} Image
 				</Button>
 				{this.hasImage() ? this.renderClearButton() : null}
@@ -292,7 +295,7 @@ module.exports = Field.create({
 		if (this.state.userSelectedFile || this.state.removeExisting) {
 			const value = this.state.userSelectedFile
 				? `upload:${this.state.uploadFieldPath}`
-				: '';
+				: `upload:remove`;
 			return (
 				<input
 					name={this.getInputName(this.props.path)}
