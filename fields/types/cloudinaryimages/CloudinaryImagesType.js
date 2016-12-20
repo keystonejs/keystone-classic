@@ -335,8 +335,18 @@ cloudinaryimages.prototype.updateItem = function (item, data, files, callback) {
 
 	async.map(values, function (value, next) {
 		if (typeof value === 'object' && 'public_id' in value) {
+			// Setting "autoCleanup" the property "remove:true" removes the file and resets the field
+			if (field.options.autoCleanup && value.public_id && value.remove) {
+				cloudinary.uploader.destroy(value.public_id, function (result) {
+					if (result.error) {
+						return next(result.error);
+					} else {
+						// Remove value
+						return next();
+					}
+				});
 			// Cloudinary Image data provided
-			if (value.public_id) {
+			} else if (value.public_id) {
 				// Default the object with empty values
 				var v = assign(getEmptyValue(), value);
 				return next(null, v);

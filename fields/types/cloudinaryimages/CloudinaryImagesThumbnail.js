@@ -26,9 +26,16 @@ function CloudinaryImagesThumbnail ({
 		</Button>
 	) : null;
 
-	const input = (!isQueued && !isDeleted && value) ? (
-		<input type="hidden" name={inputName} value={JSON.stringify(value)} />
-	) : null;
+	function renderInput () {
+		if (!isQueued && value) {
+			if (isDeleted) value.remove = true;
+			return (
+				<input type="hidden" name={inputName} value={JSON.stringify(value)} />
+			);
+		} else {
+			return null;
+		}
+	}
 
 	// provide gutter for the images
 	const imageStyles = {
@@ -49,7 +56,7 @@ function CloudinaryImagesThumbnail ({
 				<img src={imageSourceSmall} style={{ height: 90 }} />
 			</ImageThumbnail>
 			{actionButton}
-			{input}
+			{renderInput()}
 		</div>
 	);
 
