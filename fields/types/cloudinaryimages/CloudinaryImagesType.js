@@ -48,15 +48,16 @@ util.inherits(cloudinaryimages, FieldType);
  */
 cloudinaryimages.prototype.getFolder = function () {
 	var folder = null;
-
 	if (keystone.get('cloudinary folders') || this.options.folder) {
 		if (typeof this.options.folder === 'string') {
 			folder = this.options.folder;
 		} else {
-			folder = this.list.path + '/' + this.path;
+			var folderList = keystone.get('cloudinary prefix') ? [keystone.get('cloudinary prefix')] : [];
+			folderList.push(this.list.path);
+			folderList.push(this.path);
+			folder = folderList.join('/');
 		}
 	}
-
 	return folder;
 };
 
@@ -90,27 +91,9 @@ cloudinaryimages.prototype.addToSchema = function (schema) {
 		secure_url: String,
 	});
 
-	// Generate cloudinary folder used to upload/select images
-	var folder = function (item) { // eslint-disable-line no-unused-vars
-		var folderValue = '';
-
-		if (keystone.get('cloudinary folders')) {
-			if (field.options.folder) {
-				folderValue = field.options.folder;
-			} else {
-				var folderList = keystone.get('cloudinary prefix') ? [keystone.get('cloudinary prefix')] : [];
-				folderList.push(field.list.path);
-				folderList.push(field.path);
-				folderValue = folderList.join('/');
-			}
-		}
-
-		return folderValue;
-	};
-
 	// The .folder virtual returns the cloudinary folder used to upload/select images
 	schema.virtual(field.paths.folder).get(function () {
-		return folder(this);
+		return ImageSchema.folder.apply(this);
 	});
 
 	var src = function (img, options) {
@@ -130,6 +113,9 @@ cloudinaryimages.prototype.addToSchema = function (schema) {
 		}
 		return options;
 	};
+	ImageSchema.method('folder', function (options) {
+		return this.getFolder();
+	});
 	ImageSchema.method('src', function (options) {
 		return src(this, options);
 	});
