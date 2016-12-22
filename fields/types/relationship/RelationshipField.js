@@ -198,7 +198,7 @@ module.exports = Field.create({
 			);
 		}
 
-		body.push(<Select multi={this.props.many} onChange={this.updateValue} name={this.props.path} asyncOptions={this.getOptions} value={this.state.expandedValues} />);
+		body.push(<Select multi={this.props.many} onChange={this.updateValue} name={this.props.path} asyncOptions={this.getOptions} value={this.state.expandedValues} cacheAsyncResults={false} />);
 
 		return body;
 	}
