@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-no-bind */
 
 import assign from 'object-assign';
+import { css, StyleSheet } from 'aphrodite/no-important';
 import React from 'react';
 import Field from '../Field';
 import Domify from 'react-domify';
@@ -118,7 +119,7 @@ module.exports = Field.create({
 	renderUI () {
 		const { label, value } = this.props;
 		return (
-			<div className="ListField-container">
+			<div className={css(classes.container)}>
 				<h3 data-things="whatever">{label}</h3>
 				{this.shouldRenderField() ? (
 					this.renderItems()
@@ -128,5 +129,13 @@ module.exports = Field.create({
 				{this.renderNote()}
 			</div>
 		);
+	},
+});
+
+const classes = StyleSheet.create({
+	container: {
+		marginTop: '2em',
+		paddingLeft: '2em',
+		boxShadow: '-3px 0 0 rgba(0, 0, 0, 0.1)',
 	},
 });
