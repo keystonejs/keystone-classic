@@ -225,14 +225,20 @@ module.exports = Field.create({
 		const { value, secure } = this.props;
 		if (!value || !value.length) return;
 
-		const images = value.map(image => ({
-			src: cloudinaryResize(image.public_id, {
-				...RESIZE_DEFAULTS,
-				height: 600,
-				width: 900,
-				secure,
-			}),
-		}));
+		const images = value.map((image) => {
+			const updatedImage = {
+				src: cloudinaryResize(image.public_id, {
+					...RESIZE_DEFAULTS,
+					height: 600,
+					width: 900,
+				}),
+				caption: `Type: ${image.resource_type}`,
+			};
+			if (image.resource_type === 'video') {
+				updatedImage.src = updatedImage.src.replace('image/upload', 'video/upload');
+			}
+			return updatedImage;
+		});
 
 		return (
 			<Lightbox
