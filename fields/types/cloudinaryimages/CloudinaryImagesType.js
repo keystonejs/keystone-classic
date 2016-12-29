@@ -288,6 +288,7 @@ cloudinaryimages.prototype.updateItem = function (item, data, files, callback) {
 		var tagPrefix = keystone.get('cloudinary prefix') || '';
 		var uploadOptions = {
 			tags: [],
+			resource_type: 'auto',
 		};
 		if (tagPrefix.length) {
 			uploadOptions.tags.push(tagPrefix);
@@ -338,12 +339,14 @@ cloudinaryimages.prototype.updateItem = function (item, data, files, callback) {
 			// Setting "autoCleanup" the property "remove:true" removes the file and resets the field
 			if (field.options.autoCleanup && value.public_id && value.remove) {
 				cloudinary.uploader.destroy(value.public_id, function (result) {
-					if (result.error) {
-						return next(result.error);
+					if (result.error || result === 'not found') {
+						return next(result.error || 'not found');
 					} else {
 						// Remove value
 						return next();
 					}
+				}, {
+					resource_type: value.resource_type,
 				});
 			// Cloudinary Image data provided
 			} else if (value.public_id) {
