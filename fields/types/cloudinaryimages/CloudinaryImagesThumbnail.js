@@ -37,6 +37,14 @@ function CloudinaryImagesThumbnail ({
 		}
 	}
 
+	function renderPreview () {
+		if (/^data:video/.test(imageSourceSmall)) {
+			return <video src={imageSourceSmall} height={90}>NO PREVIEW</video>;
+		} else {
+			return <img src={imageSourceSmall} style={{ height: 90 }} />;
+		}
+	}
+
 	// provide gutter for the images
 	const imageStyles = {
 		float: 'left',
@@ -53,7 +61,7 @@ function CloudinaryImagesThumbnail ({
 				mask={mask}
 				target={!!imageSourceLarge && '__blank'}
 			>
-				<img src={imageSourceSmall} style={{ height: 90 }} />
+				{renderPreview()}
 			</ImageThumbnail>
 			{actionButton}
 			{renderInput()}
