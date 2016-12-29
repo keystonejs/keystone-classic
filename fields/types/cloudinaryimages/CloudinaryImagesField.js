@@ -16,8 +16,8 @@ import Thumbnail from './CloudinaryImagesThumbnail';
 import HiddenFileInput from '../../components/HiddenFileInput';
 import FileChangeMessage from '../../components/FileChangeMessage';
 
-const SUPPORTED_TYPES = ['image/*', 'application/pdf', 'application/postscript'];
-const SUPPORTED_REGEX = new RegExp(/^image\/|application\/pdf|application\/postscript/g);
+const SUPPORTED_TYPES = ['video/*', 'image/*', 'application/pdf', 'application/postscript'];
+const SUPPORTED_REGEX = new RegExp(/^video\/|image\/|application\/pdf|application\/postscript/g);
 const RESIZE_DEFAULTS = {
 	crop: 'fit',
 	format: 'jpg',
@@ -46,7 +46,7 @@ module.exports = Field.create({
 	buildInitialState (props) {
 		const uploadFieldPath = `CloudinaryImages-${props.path}-${++uploadInc}`;
 		const thumbnails = props.value ? props.value.map((img, index) => {
-			return this.getThumbnail({
+			const options = {
 				value: img,
 				imageSourceSmall: cloudinaryResize(img.public_id, {
 					...RESIZE_DEFAULTS,
@@ -57,7 +57,12 @@ module.exports = Field.create({
 					height: 600,
 					width: 900,
 				}),
-			}, index);
+			};
+			if (img.resource_type === 'video') {
+				options.imageSourceSmall = options.imageSourceSmall.replace('image/upload', 'video/upload');
+				options.imageSourceLarge = options.imageSourceLarge.replace('image/upload', 'video/upload');
+			}
+			return this.getThumbnail(options, index);
 		}) : [];
 		return { thumbnails, uploadFieldPath };
 	},
