@@ -38,16 +38,33 @@ function CloudinaryImagesThumbnail ({
 	}
 
 	function renderPreview () {
-		if (/^data:video/.test(imageSourceSmall)) {
+		if (value.resource_type === 'video') {
 			return <video src={imageSourceSmall} height={90}>NO PREVIEW</video>;
 		} else {
 			return <img src={imageSourceSmall} style={{ height: 90 }} />;
 		}
 	}
 
+	function renderIcons () {
+		const glyphStyles = {
+			position: 'absolute',
+			top: 10,
+			left: 10,
+			padding: 4,
+			color: '#FFF',
+			backgroundColor: 'rgba(0,0,0,0.5)',
+			pointerEvents: 'none',
+		};
+
+		if (value.resource_type === 'video') {
+			return <i style={glyphStyles} className="octicon octicon-device-camera-video" />;
+		}
+	}
+
 	// provide gutter for the images
 	const imageStyles = {
 		float: 'left',
+		position: 'relative',
 		marginBottom: 10,
 		marginRight: 10,
 	};
@@ -63,6 +80,7 @@ function CloudinaryImagesThumbnail ({
 			>
 				{renderPreview()}
 			</ImageThumbnail>
+			{renderIcons()}
 			{actionButton}
 			{renderInput()}
 		</div>
