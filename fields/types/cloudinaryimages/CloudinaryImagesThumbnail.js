@@ -26,6 +26,8 @@ function CloudinaryImagesThumbnail ({
 		</Button>
 	) : null;
 
+	const isVideo = value && value.resource_type === 'video' || /^data:video/.test(imageSourceSmall);
+
 	function renderInput () {
 		if (!isQueued && value) {
 			if (isDeleted) value.remove = true;
@@ -38,7 +40,7 @@ function CloudinaryImagesThumbnail ({
 	}
 
 	function renderPreview () {
-		if (value.resource_type === 'video') {
+		if (isVideo) {
 			return <video src={imageSourceSmall} height={90}>NO PREVIEW</video>;
 		} else {
 			return <img src={imageSourceSmall} style={{ height: 90 }} />;
@@ -56,7 +58,7 @@ function CloudinaryImagesThumbnail ({
 			pointerEvents: 'none',
 		};
 
-		if (value.resource_type === 'video') {
+		if (isVideo) {
 			return <i style={glyphStyles} className="octicon octicon-device-camera-video" />;
 		}
 	}
