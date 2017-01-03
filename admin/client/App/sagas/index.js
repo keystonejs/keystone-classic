@@ -8,8 +8,9 @@ import { loadItems } from '../screens/List/actions';
 /**
  * Load the items
  */
-function * loadTheItems () {
+function * filterTheItems () {
 	yield put(loadItems());
+	yield updateParams();
 }
 
 /**
@@ -32,7 +33,7 @@ function * rootSaga () {
 	// If one of the other active properties changes, update the query params and load the new items
 	yield fork(takeLatest, [actions.SET_ACTIVE_SORT, actions.SET_ACTIVE_COLUMNS, actions.SET_CURRENT_PAGE, actions.SET_ACTIVE_LIST], updateParams);
 	// Whenever the filters change or another list is loaded, load the items
-	yield fork(takeLatest, [actions.INITIAL_LIST_LOAD, actions.ADD_FILTER, actions.CLEAR_FILTER, actions.CLEAR_ALL_FILTERS], loadTheItems);
+	yield fork(takeLatest, [actions.INITIAL_LIST_LOAD, actions.ADD_FILTER, actions.CLEAR_FILTER, actions.CLEAR_ALL_FILTERS], filterTheItems);
 }
 
 export default rootSaga;
