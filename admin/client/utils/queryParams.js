@@ -45,3 +45,11 @@ export function stringifyColumns (columns, defaultColumnPaths) {
 	if (columnString === defaultColumnPaths) columnString = undefined;
 	return columnString;
 }
+
+export function parametizeFilters (filterArray) {
+	return filterArray.map((filter) => {
+		return Object.assign({
+			path: filter.field.path,
+		}, filter.value);
+	});
+}
