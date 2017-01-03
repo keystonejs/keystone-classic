@@ -73,8 +73,18 @@ export function clearAllFilters () {
 	};
 }
 
+// This is being used on first page load to set all filters from params
+export function setActiveFilters (filters) {
+	return (dispatch) => {
+		filters.forEach((filter) => {
+			const path = filter.path;
+			delete filter.path;
+			dispatch(setFilter(path, filter));
+		});
+	};
+}
+
 export function setFilter (path, value) {
-	// TODO Get rid of this action, just use addFilter
 	return (dispatch, getState) => {
 		const state = getState();
 		const activeFilters = state.active.filters;
