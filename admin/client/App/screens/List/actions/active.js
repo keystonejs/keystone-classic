@@ -8,6 +8,22 @@ import {
 	SET_ACTIVE_LIST,
 } from '../constants';
 
+/*
+* This method is a util, but has such a specific use that it is being left within
+* the file that uses it.
+*/
+function createFilterObject (path, value, currentListFields) {
+	const field = currentListFields[path];
+	if (!field) {
+		console.warn('Invalid Filter path specified:', path);
+		return;
+	}
+	return {
+		field,
+		value,
+	};
+}
+
 /**
  * Active actions
  */
@@ -53,12 +69,6 @@ export function setActiveList (list, id) {
 /**
  * Filtering actions
  */
-function addFilter (filter) {
-	return {
-		type: ADD_FILTER,
-		filter,
-	};
-}
 
 export function clearFilter (path) {
 	return {
@@ -96,16 +106,14 @@ export function setFilter (path, value) {
 			filter.value = value;
 		// Otherwise construct a new one
 		} else {
-			const field = currentList.fields[path];
-			if (!field) {
-				console.warn('Invalid Filter path specified:', path);
+			filter = createFilterObject(path, value, currentList.fields);
+			if (!filter) {
 				return;
 			}
-			filter = {
-				field,
-				value,
-			};
 		}
-		dispatch(addFilter(filter));
+		dispatch({
+			type: ADD_FILTER,
+			filter,
+		});
 	};
 }
