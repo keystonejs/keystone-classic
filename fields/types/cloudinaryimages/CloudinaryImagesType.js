@@ -16,6 +16,7 @@ function getEmptyValue () {
 		width: 0,
 		height: 0,
 		secure_url: '',
+		etag: '',
 	};
 }
 
@@ -111,6 +112,7 @@ cloudinaryimages.prototype.addToSchema = function (schema) {
 		width: Number,
 		height: Number,
 		secure_url: String,
+		etag: String,
 	});
 
 	// The .folder virtual returns the cloudinary folder used to upload/select images
