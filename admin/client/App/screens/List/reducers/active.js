@@ -9,6 +9,7 @@ import {
 	SET_ACTIVE_SORT,
 	SET_ACTIVE_COLUMNS,
 	SET_ACTIVE_LIST,
+	SET_FILTERS,
 } from '../constants';
 
 const initialState = {
@@ -55,6 +56,10 @@ function active (state = initialState, action) {
 				filters: _.unionWith([action.filter], state.filters, (stateFilter, actionFilter) => {
 					return stateFilter.field.path === actionFilter.field.path;
 				}),
+			});
+		case SET_FILTERS:
+			return assign({}, state, {
+				filters: action.filters,
 			});
 		case CLEAR_FILTER:
 			let newFilters = _.filter(state.filters, (filter) => {
