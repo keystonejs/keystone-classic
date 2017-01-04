@@ -37,6 +37,7 @@ var Keystone = function () {
 		'model prefix': null,
 		'module root': moduleRoot,
 		'frame guard': 'sameorigin',
+		'cache admin bundles': true,
 	};
 	this._redirects = {};
 
@@ -124,6 +125,7 @@ Keystone.prototype.populateRelated = require('./lib/core/populateRelated');
 Keystone.prototype.redirect = require('./lib/core/redirect');
 Keystone.prototype.start = require('./lib/core/start');
 Keystone.prototype.wrapHTMLError = require('./lib/core/wrapHTMLError');
+Keystone.prototype.createKeystoneHash = require('./lib/core/createKeystoneHash');
 
 /* Deprecation / Change warnings for 0.4 */
 Keystone.prototype.routes = function () {
