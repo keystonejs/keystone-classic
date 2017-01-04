@@ -108,7 +108,7 @@ const ListView = React.createClass({
 				case 'filters':
 					try {
 						const filters = JSON.parse(query[key]);
-						setActiveFilters(filters);
+						this.props.dispatch(setActiveFilters(filters));
 					} catch (e) {
 						console.warn('Invalid filter provided');
 					}
