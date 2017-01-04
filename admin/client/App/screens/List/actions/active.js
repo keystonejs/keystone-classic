@@ -6,6 +6,7 @@ import {
 	SET_ACTIVE_SORT,
 	SET_ACTIVE_COLUMNS,
 	SET_ACTIVE_LIST,
+	SET_FILTERS,
 } from '../constants';
 
 /*
@@ -85,11 +86,20 @@ export function clearAllFilters () {
 
 // This is being used on first page load to set all filters from params
 export function setActiveFilters (filters) {
-	return (dispatch) => {
-		filters.forEach((filter) => {
+	return (dispatch, getState) => {
+		const currentList = getState().lists.currentList;
+		// For each filter, assemble it from the current list's fields
+		const assembledFilters = filters.map((filter) => {
 			const path = filter.path;
-			delete filter.path;
-			dispatch(setFilter(path, filter));
+			const value = Object.assign({}, filter);
+			delete value.path;
+			return createFilterObject(path, value, currentList.fields);
+		});
+		// Remove any filters that were not able to be assembled
+		const nonEmptyFilters = assembledFilters.filter(filter => filter);
+		dispatch({
+			type: SET_FILTERS,
+			filters: nonEmptyFilters,
 		});
 	};
 }
