@@ -46,7 +46,17 @@ export function stringifyColumns (columns, defaultColumnPaths) {
 	return columnString;
 }
 
+
+/**
+ * Flattens filters from state into the minimum needed object to be used as a url
+ * param
+ *
+ * @param  {Object} filterArray         The array of filters from state
+ */
 export function parametizeFilters (filterArray) {
+	if (!filterArray || filterArray.length === 0) {
+		return;
+	}
 	return filterArray.map((filter) => {
 		return Object.assign({
 			path: filter.field.path,
