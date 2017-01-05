@@ -39,14 +39,6 @@ function CloudinaryImagesThumbnail ({
 		}
 	}
 
-	function renderPreview () {
-		if (isVideo) {
-			return <video src={imageSourceSmall} height={90}>NO PREVIEW</video>;
-		} else {
-			return <img src={imageSourceSmall} style={{ height: 90 }} />;
-		}
-	}
-
 	function renderIcons () {
 		const glyphStyles = {
 			position: 'absolute',
@@ -80,7 +72,7 @@ function CloudinaryImagesThumbnail ({
 				mask={mask}
 				target={!!imageSourceLarge && '__blank'}
 			>
-				{renderPreview()}
+				<img src={imageSourceSmall} style={{ height: 90 }} />
 			</ImageThumbnail>
 			{renderIcons()}
 			{actionButton}
