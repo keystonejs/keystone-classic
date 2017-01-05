@@ -62,8 +62,6 @@ module.exports = Field.create({
 			if (img.resource_type === 'video') {
 				options.imageSourceLarge = options.imageSourceLarge.replace('image/upload', 'video/upload');
 				options.imageSourceSmall = options.imageSourceSmall.replace('image/upload', 'video/upload');
-				// Force JPG thumbnail for videos, else would return the actual video
-				options.imageSourceSmall = options.imageSourceSmall + '.jpg';
 			}
 			return this.getThumbnail(options, index);
 		}) : [];

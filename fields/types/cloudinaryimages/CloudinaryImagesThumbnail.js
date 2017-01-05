@@ -55,6 +55,15 @@ function CloudinaryImagesThumbnail ({
 		}
 	}
 
+	function renderPreview () {
+		if (isVideo && isQueued) {
+			return <video src={imageSourceSmall} height={90}>NO PREVIEW</video>;
+		} else {
+			// Force JPG thumbnail for videos, else would return the actual video
+			return <img src={imageSourceSmall + (isVideo ? '.jpg' : '')} style={{ height: 90 }}/>;
+		}
+	}
+
 	// provide gutter for the images
 	const imageStyles = {
 		float: 'left',
@@ -72,7 +81,7 @@ function CloudinaryImagesThumbnail ({
 				mask={mask}
 				target={!!imageSourceLarge && '__blank'}
 			>
-				<img src={imageSourceSmall} style={{ height: 90 }} />
+				{renderPreview()}
 			</ImageThumbnail>
 			{renderIcons()}
 			{actionButton}
