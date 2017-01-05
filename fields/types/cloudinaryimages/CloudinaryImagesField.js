@@ -58,9 +58,12 @@ module.exports = Field.create({
 					width: 900,
 				}),
 			};
+			// Cloudinary video paths are slightly diferent than image paths
 			if (img.resource_type === 'video') {
-				options.imageSourceSmall = options.imageSourceSmall.replace('image/upload', 'video/upload');
 				options.imageSourceLarge = options.imageSourceLarge.replace('image/upload', 'video/upload');
+				options.imageSourceSmall = options.imageSourceSmall.replace('image/upload', 'video/upload');
+				// Force JPG thumbnail for videos, else would return the actual video
+				options.imageSourceSmall = options.imageSourceSmall + '.jpg';
 			}
 			return this.getThumbnail(options, index);
 		}) : [];
@@ -230,7 +233,7 @@ module.exports = Field.create({
 					height: 600,
 					width: 900,
 				}),
-				caption: `Type: ${image.resource_type}`,
+				caption: `[${image.resource_type}] [${image.format}] ${image.public_id}`,
 			};
 			if (image.resource_type === 'video') {
 				updatedImage.src = updatedImage.src.replace('image/upload', 'video/upload');
