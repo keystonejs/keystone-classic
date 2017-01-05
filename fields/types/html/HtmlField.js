@@ -19,7 +19,7 @@ function getId () {
 function removeTinyMCEInstance (editor) {
 	var oldLength = tinymce.editors.length;
 	tinymce.remove(editor);
-	if (oldLength === tinymce.editors.length) {
+	if (tinymce.editors.remove != undefined && oldLength === tinymce.editors.length) {
 		tinymce.editors.remove(editor);
 	}
 }
