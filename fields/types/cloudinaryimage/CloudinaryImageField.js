@@ -309,6 +309,7 @@ module.exports = Field.create({
 					name={this.props.paths.select}
 					id={'field_' + this.props.paths.select}
 					asyncOptions={getOptions}
+					cacheAsyncResults={false}
 				/>
 			</div>
 		);
