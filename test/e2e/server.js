@@ -8,10 +8,6 @@ var mongoose = require('mongoose');
 var path = require('path');
 var keystoneNightwatchE2e = require('keystone-nightwatch-e2e');
 
-// Set app-specific env for nightwatch session
-process.env['SELENIUM_SERVER'] = keystoneNightwatchE2e.seleniumPath;
-process.env['PAGE_OBJECTS_PATH'] = keystoneNightwatchE2e.pageObjectsPath;
-
 // determine the mongo uri and database name
 var dbName = '/e2e' + (process.env.KEYSTONEJS_PORT || 3000);
 var mongoUri = 'mongodb://' + (process.env.KEYSTONEJS_HOST || 'localhost') + dbName;
@@ -161,7 +157,6 @@ function runKeystone(cb) {
 function start() {
 	var runTests = process.argv.indexOf('--notest') === -1;
 	var dropDB = process.argv.indexOf('--nodrop') === -1;
-	var runSelenium = !(process.argv.indexOf('--selenium-in-background') === -1);
 
 	async.series([
 
@@ -184,8 +179,7 @@ function start() {
 		function (cb) {
 			if (runTests) {
 				runE2E({
-					keystone: keystone,
-					runSelenium: runSelenium
+					keystone: keystone
 				}, cb);
 			} else {
 				cb();
