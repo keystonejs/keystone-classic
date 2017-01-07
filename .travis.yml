@@ -3,6 +3,7 @@ node_js:
 - '6'
 env:
   global:
+    - SAUCE_USERNAME=jstockwin1
     - KEYSTONE_PREBUILD_ADMIN=true
   matrix:
     - JOB=lint-and-test-cov
