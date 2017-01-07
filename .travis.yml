@@ -83,3 +83,5 @@ addons:
     - mongodb-3.2-precise
     packages:
     - mongodb-org-server
+  jwt:
+    secure: EDmMTTPbjAwagS9jR5G9yMa7cyO3gdNuQGQ53NEcBKbM7CfUq+mtlyF1XGaLo8n9VseRgtw2RbxqztUgER3irlWpQu82t6DIJylYJpGy2oiAFimN2xp94p3HGatuCF4BMkRVBUvbtvmfFpZf4HKT5nup1MGvKVrUyZuQPObm9rQ=
