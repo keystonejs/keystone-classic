@@ -3,49 +3,38 @@ node_js:
 - '6'
 env:
   global:
+    - SAUCE_USERNAME=jstockwin1
     - KEYSTONE_PREBUILD_ADMIN=true
   matrix:
     - JOB=lint-and-test-cov
 matrix:
   include:
     - node_js: '6'
-      addons:
-        sauce_connect: true
       script:
         - npm run test-e2e-saucelabs-group
       env:
         - JOB=e2e GROUP=group006Fields
     - node_js: '6'
-      addons:
-        sauce_connect: true
       script:
         - npm run test-e2e-saucelabs-group
       env:
         - JOB=e2e GROUP=group005Item
     - node_js: '6'
-      addons:
-        sauce_connect: true
       script:
         - npm run test-e2e-saucelabs-group
       env:
         - JOB=e2e GROUP=group004List
     - node_js: '6'
-      addons:
-        sauce_connect: true
       script:
         - npm run test-e2e-saucelabs-group
       env:
         - JOB=e2e GROUP=group003Home
     - node_js: '6'
-      addons:
-        sauce_connect: true
       script:
         - npm run test-e2e-saucelabs-group
       env:
         - JOB=e2e GROUP=group002App
     - node_js: '6'
-      addons:
-        sauce_connect: true
       script:
         - npm run test-e2e-saucelabs-group
       env:
@@ -95,3 +84,5 @@ addons:
     - mongodb-3.2-precise
     packages:
     - mongodb-org-server
+  jwt:
+    secure: EDmMTTPbjAwagS9jR5G9yMa7cyO3gdNuQGQ53NEcBKbM7CfUq+mtlyF1XGaLo8n9VseRgtw2RbxqztUgER3irlWpQu82t6DIJylYJpGy2oiAFimN2xp94p3HGatuCF4BMkRVBUvbtvmfFpZf4HKT5nup1MGvKVrUyZuQPObm9rQ=
