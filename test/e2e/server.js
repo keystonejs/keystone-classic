@@ -7,6 +7,7 @@ var moment = require('moment');
 var mongoose = require('mongoose');
 var path = require('path');
 var keystoneNightwatchE2e = require('keystone-nightwatch-e2e');
+var sauceConnectLauncher = require('sauce-connect-launcher');
 
 // Set app-specific env for nightwatch session
 process.env['SELENIUM_SERVER'] = keystoneNightwatchE2e.seleniumPath;
@@ -157,6 +158,48 @@ function runKeystone(cb) {
 	});
 }
 
+sauceConnection = null;
+
+function sauceConnectLog (message) {
+	console.log([moment().format('HH:mm:ss:SSS')] + ' Sauce Connect: ' + message);
+}
+
+function startSauceConnect (done) {
+	if (process.env.SAUCE_ACCESS_KEY !== undefined) {
+		console.log([moment().format('HH:mm:ss:SSS')] + ' e2e: Starting Sauce Connect');
+		sauceConnectLauncher({
+			username: process.env.SAUCE_USERNAME,
+			accessKey: process.env.SAUCE_ACCESS_KEY,
+			tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER,
+			connectRetries: 5,
+			logger: sauceConnectLog
+		}, function (err, sauceConnectProcess) {
+			if (err) {
+				console.log([moment().format('HH:mm:ss:SSS')] + ' e2e: There was an error starting Sauce Connect');
+				done(err);
+			}
+			console.log([moment().format('HH:mm:ss:SSS')] + ' e2e: Sauce Connect Ready');
+			sauceConnection = sauceConnectProcess;
+			done();
+		})
+	} else {
+		done();
+	}
+}
+
+function stopSauceConnect (done) {
+	if (process.env.SAUCE_ACCESS_KEY !== undefined && sauceConnection !== null) {
+		console.log([moment().format('HH:mm:ss:SSS')] + ' e2e: Stopping Sauce Connect');
+		sauceConnection.close(function () {
+			console.log([moment().format('HH:mm:ss:SSS')] + ' e2e: Sauce Connect Stopped');
+			done();
+		})
+	} else {
+		done();
+	}
+}
+
+
 // Function that bootstraps the e2e test service
 function start() {
 	var runTests = process.argv.indexOf('--notest') === -1;
@@ -182,6 +225,10 @@ function start() {
 		},
 
 		function (cb) {
+			startSauceConnect(cb);
+		},
+
+		function (cb) {
 			if (runTests) {
 				runE2E({
 					keystone: keystone,
@@ -190,6 +237,10 @@ function start() {
 			} else {
 				cb();
 			}
+		},
+
+		function (cb) {
+			stopSauceConnect(cb);
 		}
 
 	], function(err) {
