@@ -194,16 +194,18 @@ function start() {
 
 	], function(err) {
 		var exitProcess = false;
+		var exitCode = 0;
 		if (err) {
 			console.error([moment().format('HH:mm:ss:SSS')] + ' e2e: ' + err);
 			exitProcess = true;
+			exitCode = 1;
 		}
 		if (runTests) {
 			exitProcess = true;
 		}
 		if (exitProcess) {
 			console.error([moment().format('HH:mm:ss:SSS')] + ' e2e: exiting');
-			process.exit();
+			process.exit(exitCode);
 		}
 	});
 }
