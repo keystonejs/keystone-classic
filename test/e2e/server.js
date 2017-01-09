@@ -9,8 +9,8 @@ var path = require('path');
 var keystoneNightwatchE2e = require('keystone-nightwatch-e2e');
 
 // Set app-specific env for nightwatch session
-process.env['SELENIUM_SERVER'] = keystoneNightwatchE2e.seleniumPath;
-process.env['PAGE_OBJECTS_PATH'] = keystoneNightwatchE2e.pageObjectsPath;
+process.env.KNE_TEST_PATHS = 'test/e2e/adminUI/tests';
+process.env.KNE_EXCLUDE_TEST_PATHS = 'test/e2e/adminUI/tests/group006Fields/commonFieldTestUtils.js,test/e2e/adminUI/tests/group999FixMe/*';
 
 // determine the mongo uri and database name
 var dbName = '/e2e' + (process.env.KEYSTONEJS_PORT || 3000);
