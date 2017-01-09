@@ -114,7 +114,7 @@
     "react-addons-test-utils": "15.4.1",
     "react-engine": "4.2.1",
     "rimraf": "2.5.4",
-    "sinon": "1.17.6",
+    "sinon": "1.17.7",
     "superagent": "3.3.1",
     "supertest": "2.0.1",
     "uglify-js": "2.7.5",
