@@ -91,6 +91,7 @@ localfile.prototype.addToSchema = function() {
 		filename:		String,
 		originalname:   String,
 		path:			String,
+		webpath:		String,
 		size:			Number,
 		filetype:		String
 	});
@@ -124,6 +125,7 @@ localfile.prototype.addToSchema = function() {
 		item.set(field.path, {
 			filename: '',
 			path: '',
+			webpath: '',
 			size: 0,
 			filetype: ''
 		});
@@ -278,6 +280,7 @@ localfile.prototype.uploadFile = function(item, file, update, callback) {
 				filename: filename,
 				originalname: file.originalname,
 				path: field.options.dest,
+				webpath: field.options.prefix ? field.options.prefix : field.options.dest,
 				size: file.size,
 				filetype: filetype
 			};
