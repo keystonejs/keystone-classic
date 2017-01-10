@@ -185,17 +185,19 @@ list.prototype.updateItem = function (item, data, files, callback) {
 
 	var field = this;
 	var values = this.getValueFromData(data);
-	// Don't update the value when it is undefined
-	if (values === undefined) {
-		return utils.defer(callback);
-	}
-	// Reset the value when null or an empty string is provided
-	if (values === null || values === '') {
+	// Reset the value when no value or null or an empty string is provided
+	if (values === undefined || values === null || values === '') {
 		values = [];
 	}
-	// Wrap non-array values in an array
 	if (!Array.isArray(values)) {
-		values = [values];
+		if (typeof values === 'object' && values.hasOwnProperty('0')) {
+			// Cast an object with numeric keys to an array
+			values.length = Object.getOwnPropertyNames(values).length;
+			values = Array.prototype.slice.call(values);
+		} else {
+			// Wrap non-array values in an array
+			values = [values];
+		}
 	}
 	// NOTE - this method will overwrite the entire array, which is less specific
 	// than it could be. Concurrent saves could lead to race conditions, but we
