@@ -1,9 +1,9 @@
 var bodyParser = require('body-parser');
 var express = require('express');
 var multer = require('multer');
+var safeRequire = require('../../../lib/safeRequire');
 
 module.exports = function createDynamicRouter (keystone) {
-
 	// ensure keystone nav has been initialised
 	// TODO: move this elsewhere (on demand generation, or client-side?)
 	if (!keystone.nav) {
@@ -25,6 +25,24 @@ module.exports = function createDynamicRouter (keystone) {
 		req.keystone = keystone;
 		next();
 	});
+
+	var healthcheckConfig = keystone.get('healthchecks');
+	if (healthcheckConfig) {
+		var endpoint = '/server-health';
+		var healthcheck = safeRequire('keystone-healthchecks', 'healthchecks');
+
+		if (healthcheckConfig === true) {
+			var userListName = keystone.get('user model');
+			var userModel = keystone.list(userListName).model;
+			var canQueryMongo = healthcheck.healthchecks.canQueryMongo(userModel);
+
+			healthcheckConfig = {
+				canQueryMongo: canQueryMongo,
+			};
+		}
+
+		router.use(endpoint, healthcheck.createRoute(healthcheckConfig));
+	}
 
 	// Init API request helpers
 	router.use('/api', require('../middleware/apiError'));
