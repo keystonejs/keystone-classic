@@ -12,6 +12,7 @@ module.exports = {
 	embedly:          require('../../fields/types/embedly/EmbedlyField'),
 	geopoint:         require('../../fields/types/geopoint/GeoPointField'),
 	html:             require('../../fields/types/html/HtmlField'),
+	json:             require('../../fields/types/json/JsonField'),
 	key:              require('../../fields/types/key/KeyField'),
 	localfile:  	  require('../../fields/types/localfile/LocalFileField'),
 	localfiles:       require('../../fields/types/localfiles/LocalFilesField'),
