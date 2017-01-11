@@ -85,10 +85,43 @@ export function clearAllFilters () {
 }
 
 // This is being used on first page load to set all filters from params
+var counter = 0;
 export function setActiveFilters (filters) {
+	console.log('HELLO? THIS IS THE SETACTIVEFILTERS FN', filters);
+	counter++;
+	console.log(`THIS METHOD HAS BEEN EXECUTED ${counter} TIMES`);
+	if (counter >= 10) {
+		console.log('BAILING OUT');
+		return;
+	}
+
 	return (dispatch, getState) => {
-		const currentList = getState().lists.currentList;
-		// For each filter, assemble it from the current list's fields
+
+		let filterString = '';
+		const { active, lists } = getState();
+		const { currentList } = lists;
+		const { manuallyUpdatedUrl } = active;
+
+		if (typeof filters === 'string') {
+			filterString = filters;
+
+			// if (manuallyUpdatedUrl) {
+			// 	console.log('manually updated url');
+			// 	return {
+			// 		filterString,
+			// 		type: 'UNSET_MANUALLY_UPDATED_URL',
+			// 	};
+			// }
+			try {
+				filters = JSON.parse(filters);
+				console.log('PARSED FILTER', filters);
+			} catch (e) {
+				console.log('invalid filters provided');
+				return;
+			}
+		}
+
+		// For each filter, assemble it from the current list's
 		const assembledFilters = filters.map((filter) => {
 			const path = filter.path;
 			const value = Object.assign({}, filter);
@@ -100,6 +133,7 @@ export function setActiveFilters (filters) {
 		dispatch({
 			type: SET_FILTERS,
 			filters: nonEmptyFilters,
+			cachedFilterString: filterString,
 		});
 	};
 }

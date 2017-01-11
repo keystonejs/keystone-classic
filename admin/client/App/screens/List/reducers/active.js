@@ -15,6 +15,7 @@ import {
 const initialState = {
 	columns: [],
 	filters: [],
+	cachedFilterString: '',
 	search: '',
 	sort: {
 		input: '',
@@ -36,6 +37,7 @@ function active (state = initialState, action) {
 				filters: [],
 				search: '',
 				sort: action.list.expandSort(action.list.defaultSort),
+				cachedFilterString: '',
 			});
 		case SET_ACTIVE_SEARCH:
 			return assign({}, state, {
@@ -53,6 +55,7 @@ function active (state = initialState, action) {
 			return assign({}, state, {
 				// Override existing filter with field path,
 				// otherwise add to filters array
+				manuallyUpdatedUrl: true,
 				filters: _.unionWith([action.filter], state.filters, (stateFilter, actionFilter) => {
 					return stateFilter.field.path === actionFilter.field.path;
 				}),
@@ -60,6 +63,7 @@ function active (state = initialState, action) {
 		case SET_FILTERS:
 			return assign({}, state, {
 				filters: action.filters,
+				cachedFilterString: action.cachedFilterString,
 			});
 		case CLEAR_FILTER:
 			let newFilters = _.filter(state.filters, (filter) => {
@@ -71,6 +75,15 @@ function active (state = initialState, action) {
 		case CLEAR_ALL_FILTERS:
 			return assign({}, state, {
 				filters: [],
+			});
+		case 'UNSET_MANUALLY_UPDATED_URL':
+			return assign({}, state, {
+				manuallyUpdatedUrl: false,
+				cachedFilterString: action.filterString,
+			});
+		case 'RESET_CACHE':
+			return assign({}, state, {
+				cachedFilterString: '',
 			});
 		default:
 			return state;

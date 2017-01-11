@@ -69,7 +69,7 @@ const ListView = React.createClass({
 		// side routed page before, we need to initialize the list and parse
 		// possibly specified query parameters
 		this.props.dispatch(selectList(this.props.params.listId));
-		this.parseQueryParams();
+		this.parseQueryParams(true);
 		this.props.dispatch(loadInitialItems());
 		const isNoCreate = this.props.lists.data[this.props.params.listId].nocreate;
 		const shouldOpenCreate = this.props.location.search === '?create';
@@ -82,13 +82,25 @@ const ListView = React.createClass({
 		// again with the new list id
 		if (nextProps.params.listId !== this.props.params.listId) {
 			this.props.dispatch(selectList(nextProps.params.listId));
+
 		}
+
+		console.log('is loading', this.props.lists.loading);
+		if (!this.props.lists.loading) {
+			this.parseQueryParams();
+		}
+
+	},
+	componentWillUnmount () {
+		this.props.dispatch({
+			type: 'RESET_CACHE',
+		});
 	},
 	/**
 	 * Parse the current query parameters and change the state accordingly
 	 * Only called when directly opening a list
 	 */
-	parseQueryParams () {
+	parseQueryParams (initialLoad) {
 		const query = this.props.location.query;
 		Object.keys(query).forEach((key) => {
 			switch (key) {
@@ -99,19 +111,17 @@ const ListView = React.createClass({
 					this.props.dispatch(setCurrentPage(query[key]));
 					break;
 				case 'search':
-					// Fill the search input field with the current search
 					this.props.dispatch(setActiveSearch(query[key]));
 					break;
 				case 'sort':
 					this.props.dispatch(setActiveSort(query[key]));
 					break;
 				case 'filters':
-					try {
-						const filters = JSON.parse(query[key]);
-						this.props.dispatch(setActiveFilters(filters));
-					} catch (e) {
-						console.warn('Invalid filter provided');
+					console.log('filtering');
+					if (!initialLoad && (query[key] !== this.props.active.cachedFilterString)) {
+						return;
 					}
+					this.props.dispatch(setActiveFilters(query[key]));
 					break;
 			}
 		});
