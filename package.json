@@ -57,7 +57,7 @@
     "lodash": "4.17.4",
     "marked": "0.3.6",
     "method-override": "2.3.7",
-    "mime-types": "2.1.13",
+    "mime-types": "2.1.14",
     "moment": "2.17.1",
     "mongoose": "4.7.6",
     "morgan": "1.7.0",
