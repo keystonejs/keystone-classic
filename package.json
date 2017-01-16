@@ -92,7 +92,8 @@
     "string-to-stream": "1.1.0",
     "vkey": "1.0.1",
     "watchify": "3.7.0",
-    "xhr": "2.3.1"
+    "xhr": "2.3.1",
+    "keystone-email": "1.0.5"
   },
   "devDependencies": {
     "browserify-middleware": "7.1.0",
@@ -107,7 +108,6 @@
     "eslint-config-keystone-react": "1.0.0",
     "eslint-plugin-react": "6.9.0",
     "istanbul": "0.4.5",
-    "keystone-email": "1.0.5",
     "keystone-nightwatch-e2e": "0.2.5",
     "mocha": "3.2.0",
     "must": "0.13.4",
