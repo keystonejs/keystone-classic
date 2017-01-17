@@ -1,3 +1,5 @@
+var safeRequire = require('../../../lib/safeRequire');
+
 function createHealthchecksHandler (keystone) {
 	var healthcheck = safeRequire('keystone-healthchecks', 'healthchecks');
 	var healthcheckConfig = keystone.get('healthchecks');
@@ -8,11 +10,11 @@ function createHealthchecksHandler (keystone) {
 		// user model. This validates we can successfully query the database.
 		if (keystone.get('user model')) {
 			var User = keystone.list(keystone.get('user model'));
-			healthcheckConfig.canQueryUsers = healthcheck.healthchecks.canQueryList(User);
+			healthcheckConfig.canQueryUsers = healthcheck.healthchecks.canQueryListFactory(User);
 		}
 	}
 
-	router.use(endpoint, healthcheck.createRoute(healthcheckConfig));
+	return healthcheck.createRoute(healthcheckConfig);
 }
 
 module.exports = createHealthchecksHandler;

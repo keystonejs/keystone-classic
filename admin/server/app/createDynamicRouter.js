@@ -1,7 +1,6 @@
 var bodyParser = require('body-parser');
 var express = require('express');
 var multer = require('multer');
-var safeRequire = require('../../../lib/safeRequire');
 
 module.exports = function createDynamicRouter (keystone) {
 	// ensure keystone nav has been initialised
