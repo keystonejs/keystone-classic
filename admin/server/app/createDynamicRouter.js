@@ -26,22 +26,8 @@ module.exports = function createDynamicRouter (keystone) {
 		next();
 	});
 
-	var healthcheckConfig = keystone.get('healthchecks');
-	if (healthcheckConfig) {
-		var endpoint = '/server-health';
-		var healthcheck = safeRequire('keystone-healthchecks', 'healthchecks');
-
-		if (healthcheckConfig === true) {
-			var userListName = keystone.get('user model');
-			var userModel = keystone.list(userListName).model;
-			var canQueryMongo = healthcheck.healthchecks.canQueryMongo(userModel);
-
-			healthcheckConfig = {
-				canQueryMongo: canQueryMongo,
-			};
-		}
-
-		router.use(endpoint, healthcheck.createRoute(healthcheckConfig));
+	if (keystone.get('healthchecks')) {
+		router.use('/server-health', require('./createHealthchecksHandler')(keystone));
 	}
 
 	// Init API request helpers
