@@ -1,4 +1,4 @@
-import { updateQueryParams, stringifyColumns } from '../../utils/queryParams';
+import { updateQueryParams, stringifyColumns, parametizeFilters } from '../../utils/queryParams';
 import { replace } from 'react-router-redux';
 import { select, put } from 'redux-saga/effects';
 import {
@@ -20,6 +20,7 @@ export default function * updateParams () {
 	if (sort === currentList.defaultSort) sort = undefined;
 	let columns = stringifyColumns(activeState.columns, currentList.defaultColumnPaths);
 	let search = activeState.search;
+	let filters = parametizeFilters(activeState.filters);
 	if (page === 1) page = undefined;
 
 	const newParams = updateQueryParams({
@@ -27,6 +28,7 @@ export default function * updateParams () {
 		columns,
 		sort,
 		search,
+		filters,
 	}, location);
 
 	// TODO: Starting or clearing a search pushes a new history state, but updating
