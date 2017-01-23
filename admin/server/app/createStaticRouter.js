@@ -11,22 +11,34 @@ var express = require('express');
 var less = require('less-middleware');
 var path = require('path');
 var str = require('string-to-stream');
+var compose = require('../../../fields/utils/compose');
 
-function buildFieldTypesStream (fieldTypes) {
-	var src = '';
-	var types = Object.keys(fieldTypes);
-	['Column', 'Field', 'Filter'].forEach(function (i) {
-		src += 'exports.' + i + 's = {\n';
-		types.forEach(function (type) {
-			if (typeof fieldTypes[type] !== 'string') return;
-			src += type + ': require("../../fields/types/' + type + '/' + fieldTypes[type] + i + '"),\n';
+function buildFieldTypesStream (next) {
+	return (fieldTypes) => {
+		var types = Object.keys(fieldTypes);
+		var sections = { Columns: {}, Fields: {}, Filters: {} };
+		['Column', 'Field', 'Filter'].forEach(i => {
+			types.forEach(type => {
+				sections[i + 's'][type] = '../../fields/types/' + type + '/' + fieldTypes[type] + i;
+			});
+			if (i === 'Column') {
+				sections[i + 's'].id = '../../fields/components/columns/IdColumn';
+				sections[i + 's'].__unrecognised__ = '../../fields/components/columns/InvalidColumn';
+			}
 		});
-		// Append ID and Unrecognised column types
-		if (i === 'Column') {
-			src += 'id: require("../../fields/components/columns/IdColumn"),\n';
-			src += '__unrecognised__: require("../../fields/components/columns/InvalidColumn"),\n';
-		}
+		return next(sections);
+	};
+}
 
+function finalFieldsSrcStream (sections) {
+	sections = sections || { Columns: {}, Fields: {}, Filters: {} };
+	var src = '';
+	Object.keys(sections).forEach(section => {
+		src += 'module.exports.' + section + ' = {\n';
+		Object.keys(sections[section]).forEach(type => {
+			const path = sections[section][type];
+			src += type + ': require("' + path + '"), \n';
+		});
 		src += '};\n';
 	});
 	return str(src);
@@ -34,10 +46,15 @@ function buildFieldTypesStream (fieldTypes) {
 
 module.exports = function createStaticRouter (keystone) {
 	var router = express.Router();
+	if (typeof keystone.middlewareFieldTypes !== 'function') {
+		keystone.middlewareFieldTypes = next => sections => next(sections);
+	}
+
+	const makeFieldTypeSrcStream = compose(buildFieldTypesStream, keystone.middlewareFieldTypes)(finalFieldsSrcStream);
 
 	/* Prepare browserify bundles */
 	var bundles = {
-		fields: browserify(buildFieldTypesStream(keystone.fieldTypes), 'FieldTypes'),
+		fields: browserify(makeFieldTypeSrcStream(keystone.fieldTypes), 'FieldTypes', keystone.fieldsLookupPaths || []),
 		signin: browserify('./Signin/index.js'),
 		admin: browserify('./App/index.js'),
 	};

@@ -26,7 +26,7 @@ function logError (file, err) {
 	console.log(ts() + chalk.red('error building ' + chalk.underline(file) + ':') + '\n' + err.message);
 }
 
-module.exports = function (file, name) {
+module.exports = function (file, name, lookupPaths) {
 	var b;
 	var building = false;
 	var queue = [];
@@ -34,6 +34,8 @@ module.exports = function (file, name) {
 	var src;
 	var logName = typeof file === 'string' ? file.replace(/^\.\//, '') : name;
 	var fileName = logName;
+	var moreLookupPaths = lookupPaths || [];
+
 	if (fileName.substr(-3) !== '.js') fileName += '.js';
 	function writeBundle (buff) {
 		if (devWriteBundles) {
@@ -57,7 +59,8 @@ module.exports = function (file, name) {
 		var babelify = require('babelify');
 		var browserify = require('browserify');
 		var watchify = require('watchify');
-		var opts = { basedir: basedir };
+		var opts = { basedir: basedir, paths: moreLookupPaths };
+		console.log(opts);
 		if (devMode) {
 			logInit(logName);
 			opts.debug = true;
