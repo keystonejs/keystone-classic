@@ -6,7 +6,9 @@ describe('safeRequire', function () {
 	describe('given a library that is not installed', function () {
 		beforeEach(function () {
 			this.oldExit = process.exit;
-			process.exit = status => demand(status).eql(1);
+			process.exit = function (status) {
+				return demand(status).eql(1);
+			}
 		});
 
 		afterEach(function () {
