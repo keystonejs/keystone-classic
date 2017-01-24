@@ -38,9 +38,10 @@ import {
 	setActiveSort,
 	setCurrentPage,
 	selectList,
-	loadInitialItems,
 	setActiveFilters,
 } from './actions';
+
+import isEqual from 'lodash/isEqual';
 
 import {
 	deleteItem,
@@ -69,8 +70,7 @@ const ListView = React.createClass({
 		// side routed page before, we need to initialize the list and parse
 		// possibly specified query parameters
 		this.props.dispatch(selectList(this.props.params.listId));
-		this.parseQueryParams(true);
-		this.props.dispatch(loadInitialItems());
+
 		const isNoCreate = this.props.lists.data[this.props.params.listId].nocreate;
 		const shouldOpenCreate = this.props.location.search === '?create';
 		this.setState({
@@ -80,51 +80,13 @@ const ListView = React.createClass({
 	componentWillReceiveProps (nextProps) {
 		// We've opened a new list from the client side routing, so initialize
 		// again with the new list id
+
 		if (nextProps.params.listId !== this.props.params.listId) {
 			this.props.dispatch(selectList(nextProps.params.listId));
-
-		}
-
-		console.log('is loading', this.props.lists.loading);
-		if (!this.props.lists.loading) {
-			this.parseQueryParams();
 		}
 
 	},
 	componentWillUnmount () {
-		this.props.dispatch({
-			type: 'RESET_CACHE',
-		});
-	},
-	/**
-	 * Parse the current query parameters and change the state accordingly
-	 * Only called when directly opening a list
-	 */
-	parseQueryParams (initialLoad) {
-		const query = this.props.location.query;
-		Object.keys(query).forEach((key) => {
-			switch (key) {
-				case 'columns':
-					this.props.dispatch(setActiveColumns(query[key]));
-					break;
-				case 'page':
-					this.props.dispatch(setCurrentPage(query[key]));
-					break;
-				case 'search':
-					this.props.dispatch(setActiveSearch(query[key]));
-					break;
-				case 'sort':
-					this.props.dispatch(setActiveSort(query[key]));
-					break;
-				case 'filters':
-					console.log('filtering');
-					if (!initialLoad && (query[key] !== this.props.active.cachedFilterString)) {
-						return;
-					}
-					this.props.dispatch(setActiveFilters(query[key]));
-					break;
-			}
-		});
 	},
 
 	// ==============================
