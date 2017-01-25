@@ -6,7 +6,24 @@ import {
 	SET_ACTIVE_SORT,
 	SET_ACTIVE_COLUMNS,
 	SET_ACTIVE_LIST,
+	SET_FILTERS,
 } from '../constants';
+
+/*
+* This method is a util, but has such a specific use that it is being left within
+* the file that uses it.
+*/
+function createFilterObject (path, value, currentListFields) {
+	const field = currentListFields[path];
+	if (!field) {
+		console.warn('Invalid Filter path specified:', path);
+		return;
+	}
+	return {
+		field,
+		value,
+	};
+}
 
 /**
  * Active actions
@@ -53,12 +70,6 @@ export function setActiveList (list, id) {
 /**
  * Filtering actions
  */
-function addFilter (filter) {
-	return {
-		type: ADD_FILTER,
-		filter,
-	};
-}
 
 export function clearFilter (path) {
 	return {
@@ -73,8 +84,27 @@ export function clearAllFilters () {
 	};
 }
 
+// This is being used on first page load to set all filters from params
+export function setActiveFilters (filters) {
+	return (dispatch, getState) => {
+		const currentList = getState().lists.currentList;
+		// For each filter, assemble it from the current list's fields
+		const assembledFilters = filters.map((filter) => {
+			const path = filter.path;
+			const value = Object.assign({}, filter);
+			delete value.path;
+			return createFilterObject(path, value, currentList.fields);
+		});
+		// Remove any filters that were not able to be assembled
+		const nonEmptyFilters = assembledFilters.filter(filter => filter);
+		dispatch({
+			type: SET_FILTERS,
+			filters: nonEmptyFilters,
+		});
+	};
+}
+
 export function setFilter (path, value) {
-	// TODO Get rid of this action, just use addFilter
 	return (dispatch, getState) => {
 		const state = getState();
 		const activeFilters = state.active.filters;
@@ -86,16 +116,14 @@ export function setFilter (path, value) {
 			filter.value = value;
 		// Otherwise construct a new one
 		} else {
-			const field = currentList.fields[path];
-			if (!field) {
-				console.warn('Invalid Filter path specified:', path);
+			filter = createFilterObject(path, value, currentList.fields);
+			if (!filter) {
 				return;
 			}
-			filter = {
-				field,
-				value,
-			};
 		}
-		dispatch(addFilter(filter));
+		dispatch({
+			type: ADD_FILTER,
+			filter,
+		});
 	};
 }

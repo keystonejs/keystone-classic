@@ -39,6 +39,7 @@ import {
 	setCurrentPage,
 	selectList,
 	loadInitialItems,
+	setActiveFilters,
 } from './actions';
 
 import {
@@ -103,6 +104,14 @@ const ListView = React.createClass({
 					break;
 				case 'sort':
 					this.props.dispatch(setActiveSort(query[key]));
+					break;
+				case 'filters':
+					try {
+						const filters = JSON.parse(query[key]);
+						this.props.dispatch(setActiveFilters(filters));
+					} catch (e) {
+						console.warn('Invalid filter provided');
+					}
 					break;
 			}
 		});

@@ -11,11 +11,13 @@ import ReactDOM from 'react-dom';
 import Signin from './Signin';
 
 const params = qs.parse(window.location.search.replace(/^\?/, ''));
+const from = typeof params.from === 'string' && params.from.charAt(0) === '/'
+	? params.from : undefined;
 
 ReactDOM.render(
 	<Signin
 		brand={Keystone.brand}
-		from={params.from}
+		from={from}
 		logo={Keystone.logo}
 		user={Keystone.user}
 		userCanAccessKeystone={Keystone.userCanAccessKeystone}

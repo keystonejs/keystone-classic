@@ -7,6 +7,18 @@ module.exports = Field.create({
 	statics: {
 		type: 'Textarea',
 	},
+	renderValue () {
+		const { height } = this.props;
+
+		const styles = {
+			height: height,
+			whiteSpace: 'pre-wrap',
+			overflowY: 'auto',
+		};
+		return (
+			<FormInput multiline noedit style={styles}>{this.props.value}</FormInput>
+		);
+	},
 	renderField () {
 		const { height, path, style, value } = this.props;
 
