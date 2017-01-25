@@ -11,32 +11,32 @@ matrix:
   include:
     - node_js: '6'
       script:
-        - npm run test-e2e-saucelabs-group
+        - travis_retry npm run test-e2e-saucelabs-group
       env:
         - JOB=e2e GROUP=group006Fields
     - node_js: '6'
       script:
-        - npm run test-e2e-saucelabs-group
+        - travis_retry npm run test-e2e-saucelabs-group
       env:
         - JOB=e2e GROUP=group005Item
     - node_js: '6'
       script:
-        - npm run test-e2e-saucelabs-group
+        - travis_retry npm run test-e2e-saucelabs-group
       env:
         - JOB=e2e GROUP=group004List
     - node_js: '6'
       script:
-        - npm run test-e2e-saucelabs-group
+        - travis_retry npm run test-e2e-saucelabs-group
       env:
         - JOB=e2e GROUP=group003Home
     - node_js: '6'
       script:
-        - npm run test-e2e-saucelabs-group
+        - travis_retry npm run test-e2e-saucelabs-group
       env:
         - JOB=e2e GROUP=group002App
     - node_js: '6'
       script:
-        - npm run test-e2e-saucelabs-group
+        - travis_retry npm run test-e2e-saucelabs-group
       env:
         - JOB=e2e GROUP=group001Login
     - node_js: '6'
