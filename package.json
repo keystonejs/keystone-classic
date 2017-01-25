@@ -91,8 +91,8 @@
     "serve-favicon": "2.3.2",
     "string-to-stream": "1.1.0",
     "vkey": "1.0.1",
-    "watchify": "3.7.0",
-    "xhr": "2.3.1"
+    "watchify": "3.8.0",
+    "xhr": "2.3.3"
   },
   "devDependencies": {
     "browserify-middleware": "7.1.0",
