@@ -191,17 +191,21 @@ module.exports = Field.create({
 
 	renderSelect (noedit) {
 		return (
-			<Select.Async
-				multi={this.props.many}
-				disabled={noedit}
-				loadOptions={this.loadOptions}
-				labelKey="name"
-				name={this.getInputName(this.props.path)}
-				onChange={this.valueChanged}
-				simpleValue
-				value={this.state.value}
-				valueKey="id"
-			/>
+			<div>
+				{/* This input element fools Safari's autocorrect in certain situations that completely break react-select */}
+				<input type="text" style={{ position: 'absolute', width: 1, height: 1, zIndex: -1, opacity: 0 }} tabIndex="-1"/>
+				<Select.Async
+					multi={this.props.many}
+					disabled={noedit}
+					loadOptions={this.loadOptions}
+					labelKey="name"
+					name={this.getInputName(this.props.path)}
+					onChange={this.valueChanged}
+					simpleValue
+					value={this.state.value}
+					valueKey="id"
+				/>
+			</div>
 		);
 	},
 
