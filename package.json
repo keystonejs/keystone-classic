@@ -111,7 +111,7 @@
     "keystone-nightwatch-e2e": "0.2.14",
     "mocha": "3.2.0",
     "must": "0.13.4",
-    "proxyquire": "1.7.10",
+    "proxyquire": "1.7.11",
     "react-addons-test-utils": "15.4.2",
     "react-engine": "4.2.1",
     "rimraf": "2.5.4",
