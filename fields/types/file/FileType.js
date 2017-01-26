@@ -30,19 +30,39 @@ util.inherits(file, FieldType);
 
 /**
  * Registers the field on the List's Mongoose Schema.
+ *
+ * Add a virtual with get() for .displayfilename
  */
 file.prototype.addToSchema = function (schema) {
 
 	var field = this;
 
-	this.paths = {};
+	this.paths = {
+		displayfilename: this.path + '.displayfilename',
+	};
+
 	// add field paths from the storage schema
 	Object.keys(this.storage.schema).forEach(function (path) {
 		field.paths[path] = field.path + '.' + path;
 	});
-
+	var paths = this.paths;
 	var schemaPaths = this._path.addTo({}, this.storage.schema);
+
 	schema.add(schemaPaths);
+
+	// add virtual get() fot .displayfilename
+	// fallbacks to regular .filename
+	schema.virtual(paths.displayfilename).get(function () {
+		var displayname = this.get(paths.displayname);
+		var filename = this.get(paths.filename);
+		if (typeof displayname === 'string') {
+			var extRegex = /(?:\.([^.]+))?$/;
+			var extension = extRegex.exec(filename)[1];
+			var dashed = displayname.split(' ').join('-');
+			return dashed + '.' + extension;
+		}
+		return filename;
+	});
 
 	this.bindUnderscoreMethods();
 };
