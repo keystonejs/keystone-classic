@@ -25,14 +25,17 @@ const buildInitialState = (props) => ({
 });
 
 module.exports = Field.create({
+	displayName: 'FileField',
 	propTypes: {
 		autoCleanup: PropTypes.bool,
 		collapse: PropTypes.bool,
 		label: PropTypes.string,
 		note: PropTypes.string,
+		onChange: PropTypes.func.isRequired,
 		path: PropTypes.string.isRequired,
 		value: PropTypes.shape({
 			filename: PropTypes.string,
+			displayname: PropTypes.string,
 			// TODO: these are present but not used in the UI,
 			//       should we start using them?
 			// filetype: PropTypes.string,
@@ -62,6 +65,9 @@ module.exports = Field.create({
 	// HELPERS
 	// ==============================
 
+	shouldRenderDisplayName () {
+		return this.props.displayname;
+	},
 	hasFile () {
 		return this.hasExisting() || !!this.state.userSelectedFile;
 	},
@@ -115,6 +121,17 @@ module.exports = Field.create({
 	},
 	undoRemove () {
 		this.setState(buildInitialState(this.props));
+	},
+	handleNameChange (event) {
+		const { value = {}, path, onChange } = this.props;
+		const displayname = event.target.value;
+		onChange({
+			path,
+			value: {
+				...value,
+				displayname,
+			},
+		});
 	},
 
 	// ==============================
@@ -191,7 +208,7 @@ module.exports = Field.create({
 		}
 	},
 	renderUI () {
-		const { label, note, path } = this.props;
+		const { label, note, path, value = {} } = this.props;
 		const buttons = (
 			<div style={this.hasFile() ? { marginTop: '1em' } : null}>
 				<Button onClick={this.triggerFileBrowser}>
@@ -208,6 +225,19 @@ module.exports = Field.create({
 						<div>
 							{this.hasFile() && this.renderFileNameAndChangeMessage()}
 							{buttons}
+							{this.shouldRenderDisplayName()
+								? <div style={{ marginTop: '1em' }}>
+									<span>Display Name</span>
+									<FormInput
+										style={{ marginTop: '1em' }}
+										autoComplete="off"
+										name="displayname"
+										onChange={this.handleNameChange}
+										placeholder="Display Name"
+										value={value.displayname}
+									/>
+								</div>
+								: null}
 							<HiddenFileInput
 								key={this.state.uploadFieldPath}
 								name={this.state.uploadFieldPath}

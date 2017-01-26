@@ -10,12 +10,19 @@ var debug = require('debug')('keystone:fields:file');
 function file (list, path, options) {
 	this._underscoreMethods = ['format', 'upload', 'remove', 'reset'];
 	this._fixedSize = 'full';
+	this.displayname = options.displayname || false;
+	this._properties = ['displayname'];
 
 	if (!options.storage) {
 		throw new Error('Invalid Configuration\n\n'
 			+ 'File fields (' + list.key + '.' + path + ') require storage to be provided.');
 	}
 	this.storage = options.storage;
+
+	if (options.displayname) {
+		this.storage.schema.displayname = String;
+	}
+
 	file.super_.call(this, list, path, options);
 }
 file.properName = 'File';
@@ -167,6 +174,11 @@ file.prototype.updateItem = function (item, data, files, callback) {
 		uploadedFile = files[value.substr(7)];
 	} else {
 		uploadedFile = this.getValueFromData(files) || this.getValueFromData(files, '_upload');
+	}
+
+	// Update displayname
+	if (data.displayname) {
+		item.set(this.paths.displayname, data.displayname);
 	}
 
 	// Ensure a valid file was uploaded, else null out the value
