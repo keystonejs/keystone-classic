@@ -12,12 +12,14 @@ import {
 	SET_FILTERS,
 	QUERY_HAS_CHANGED,
 	REPLACE_CACHED_QUERY,
+	CLEAR_CACHED_QUERY,
 } from '../constants';
 
 const initialState = {
 	columns: [],
 	filters: [],
 	search: '',
+	currentPage: 1,
 	sort: {
 		input: '',
 		isDefaultSort: false,
@@ -56,7 +58,7 @@ function active (state = initialState, action) {
 			return assign({}, state, {
 				// Override existing filter with field path,
 				// otherwise add to filters array
-				filters: _.unionWith([action.filters], state.filters, (stateFilter, actionFilter) => {
+				filters: _.unionWith([action.filter], state.filters, (stateFilter, actionFilter) => {
 					return stateFilter.field.path === actionFilter.field.path;
 				}),
 			});
@@ -82,20 +84,22 @@ function active (state = initialState, action) {
 				filters,
 				columns,
 				currentPage,
-				cachedQuery
 			} = action.parsedQuery;
 
 			return assign({}, state, {
 				search,
-				sort,
-				filters,
-				columns,
-				currentPage,
-				cachedQuery
+				sort: sort || initialState.sort,
+				filters: filters || initialState.filters,
+				columns: columns || initialState.columns,
+				currentPage: currentPage || initialState.currentPage,
 			});
 		case REPLACE_CACHED_QUERY:
 			return assign({}, state, {
-				cachedQuery: action.cachedQuery
+				cachedQuery: action.cachedQuery,
+			});
+		case CLEAR_CACHED_QUERY:
+			return assign({}, state, {
+				cachedQuery: {},
 			});
 		default:
 			return state;

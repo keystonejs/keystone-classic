@@ -1,6 +1,7 @@
 import {
 	CLEAR_FILTER,
 	CLEAR_ALL_FILTERS,
+	CLEAR_CACHED_QUERY,
 	SET_ACTIVE_SEARCH,
 	SELECT_ACTIVE_SORT,
 	SELECT_ACTIVE_COLUMNS,
@@ -63,5 +64,12 @@ export function setFilter (path, value) {
 	return {
 		type: SELECT_FILTER,
 		filter: { path, value },
+	};
+}
+
+
+export function clearCachedQuery () {
+	return {
+		type: CLEAR_CACHED_QUERY,
 	};
 }

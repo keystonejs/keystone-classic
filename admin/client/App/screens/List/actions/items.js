@@ -5,7 +5,6 @@ import {
 } from '../constants';
 
 import { NETWORK_ERROR_RETRY_DELAY } from '../../../../constants';
-
 export function loadItems (options = {}) {
 	return (dispatch, getState) => {
 		let currentLoadCounter = getState().lists.loadCounter + 1;
@@ -33,8 +32,6 @@ export function loadItems (options = {}) {
 			// If they are the same, then this is the latest fetch request, we may resolve this normally.
 			// If these are not the same, then it means that this is not the latest fetch request.
 			// BAIL OUT!
-			console.log(getState().active.id);
-			console.log((getState().lists.loadCounter));
 
 			if (getState().active.id !== currentList.id) return;
 			if (getState().lists.loadCounter > currentLoadCounter) return;

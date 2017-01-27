@@ -1,24 +1,43 @@
-import { filtersParser, filterParser } from './filters.js';
+import { filtersParser, filterParser, createFilterObject } from './filters.js';
+
+/**
+ * Returns an array of expanded columns object, given a list of columns and currentList object.
+ *
+ * @param { String } columns, a string representation of a list of columns.
+ * @param { Object } the current instantiation of the List prototype used for the <List/> scene
+ * @return { Array } of { Objects } as an expanded representation of the column values passed in.
+ */
 
 function columnsParser (columns, currentList) {
-	if (!columns) return currentList.expandColumns(currentList.defaultColumns);
 	if (!currentList) {
 		console.warn('No currentList is selected');
 		return;
+	}
+	if (!columns || columns.length === 0) {
+		return currentList.expandColumns(currentList.defaultColumns);
 	}
 	return currentList.expandColumns(columns);
 };
 
+/**
+ * Returns an expanded sort object, given a sort path and currentList object.
+ *
+ * @param { String } path, a string representation of a list of columns.
+ * @param { Object } the current instantiation of the List prototype used for the <List/> scene
+ * @return { Object } an expanded representation of the sort path passed in.
+ */
+
 function sortParser (path, currentList) {
-	if (!path) return currentList.expandSort(currentList.defaultSort);
 	if (!currentList) {
 		console.warn('No currentList is selected');
 		return;
 	}
+	if (!path) return currentList.expandSort(currentList.defaultSort);
 	return currentList.expandSort(path);
 }
 
 export {
+	createFilterObject,
 	filtersParser,
 	filterParser,
 	sortParser,

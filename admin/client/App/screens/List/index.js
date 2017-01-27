@@ -33,15 +33,12 @@ import { listsByPath } from '../../../utils/lists';
 
 import {
 	deleteItems,
-	setActiveColumns,
 	setActiveSearch,
 	setActiveSort,
 	setCurrentPage,
 	selectList,
-	setActiveFilters,
+	clearCachedQuery,
 } from './actions';
-
-import isEqual from 'lodash/isEqual';
 
 import {
 	deleteItem,
@@ -87,6 +84,7 @@ const ListView = React.createClass({
 
 	},
 	componentWillUnmount () {
+		this.props.dispatch(clearCachedQuery());
 	},
 
 	// ==============================

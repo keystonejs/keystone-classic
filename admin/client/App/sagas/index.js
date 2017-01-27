@@ -17,7 +17,7 @@ function * debouncedSearch () {
 	yield call(updateParams);
 }
 
-function * setActiveColumnsSaga () {
+export function * setActiveColumnsSaga () {
 	while (true) {
 		const { columns } = yield take(actions.SELECT_ACTIVE_COLUMNS);
 		const { currentList } = yield select(state => state.lists);
@@ -26,7 +26,7 @@ function * setActiveColumnsSaga () {
 	}
 }
 
-function * setActiveSortSaga () {
+export function * setActiveSortSaga () {
 	while (true) {
 		const { path } = yield take(actions.SELECT_ACTIVE_SORT);
 		const { currentList } = yield select(state => state.lists);
@@ -36,14 +36,14 @@ function * setActiveSortSaga () {
 	}
 }
 
-function * setActiveFilterSaga () {
+export function * setActiveFilterSaga () {
 	while (true) {
 		const { filter } = yield take(actions.SELECT_FILTER);
 		const { currentList } = yield select(state => state.lists);
 		const activeFilters = yield select(state => state.active.filters);
-		const filters = filterParser(filter, activeFilters, currentList);
+		const updatedFilter = filterParser(filter, activeFilters, currentList);
 
-		yield put({ type: actions.ADD_FILTER, filters });
+		yield put({ type: actions.ADD_FILTER, filter: updatedFilter });
 	}
 }
 

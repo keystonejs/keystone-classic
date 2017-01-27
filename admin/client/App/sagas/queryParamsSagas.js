@@ -1,6 +1,6 @@
 import { updateQueryParams, stringifyColumns, parametizeFilters } from '../../utils/queryParams';
 import { replace } from 'react-router-redux';
-import { select, put } from 'redux-saga/effects';
+import { select, put, call } from 'redux-saga/effects';
 
 import * as actions from '../screens/List/constants';
 
@@ -21,7 +21,9 @@ export function * updateParams () {
 
 	// Get the data into the right format, set the defaults
 	let sort = activeState.sort.rawInput;
+
 	if (sort === currentList.defaultSort) sort = undefined;
+
 	let columns = stringifyColumns(activeState.columns, currentList.defaultColumnPaths);
 	let search = activeState.search;
 
@@ -51,6 +53,7 @@ export function * updateParams () {
 
 export function * evalQueryParams () {
 	const { pathname, query } = yield select(state => state.routing.locationBeforeTransitions);
+
 	const { cachedQuery } = yield select(state => state.active);
 	const { currentList } = yield select(state => state.lists);
 
@@ -60,13 +63,12 @@ export function * evalQueryParams () {
 		yield put({ type: actions.QUERY_HAS_NOT_CHANGED });
 		yield put(loadItems());
 	} else {
-		const parsedQuery = parseQueryParams(query, currentList);
+		const parsedQuery = yield call(parseQueryParams, query, currentList);
 		yield put({ type: actions.QUERY_HAS_CHANGED, parsedQuery });
 	}
 }
 
 export function parseQueryParams (query, currentList) {
-	console.log(query);
 	const columns = columnsParser(query.columns, currentList);
 	const sort = sortParser(query.sort, currentList);
 	const filters = filtersParser(query.filters, currentList);

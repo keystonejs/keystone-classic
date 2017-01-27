@@ -1,15 +1,27 @@
+import isPlainObject from 'lodash/isPlainObject';
+import isArray from 'lodash/isArray';
+import isObject from 'lodash/isObject';
+
+/**
+ * Returns an array of expanded filter objects,
+ * given (a string representation | an array of filters) and a currentList object.
+ *
+ * @param { String|Array } Either a string representation of an array of filter objects, or an array of filter objects.
+ * @param { Object } the current instantiation of the List prototype used for the <List/> scene
+ * @return { Array } of { Objects } as an expanded representation of the filters passed in.
+ **/
 
 export function filtersParser (filters, currentList) {
-	if (!filters) return [];
-
 	if (typeof filters === 'string') {
 		try {
 			filters = JSON.parse(filters);
 		} catch (e) {
-			console.log('invalid filters provided');
+			console.warn('Invalid filters provided', filters);
 			return;
 		}
 	}
+
+	if (!filters) return [];
 
 	const assembledFilters = filters.map(filter => {
 		const path = filter.path;
@@ -23,10 +35,27 @@ export function filtersParser (filters, currentList) {
 	return filters;
 }
 
+/**
+ * Returns an array of expanded filter objects,
+ * given (a string representation | an array of filters) and a currentList object.
+ *
+ * @param { Object } Filter object  containing the following key value pairs {path} and {value}.
+ * @param { Array } of { Objects } an array of the currently active filters.
+ * @param { Object } the current instantiation of the List prototype used for the <List/> scene
+ * @return { Object } an expanded representation of the passed in filter { Object }.
+ **/
+
+
 export function filterParser ({ path, value }, activeFilters, currentList) {
+	if (!activeFilters || !isArray(activeFilters)) {
+		console.warn('activeFilters must be an array');
+		return;
+	}
+	if (!currentList || !isObject(currentList) || isArray(currentList)) {
+		console.warn('currentList must be a plain object', currentList);
+		return;
+	}
 	let filter = activeFilters.filter(i => i.field.path === path)[0];
-	console.log(path, value);
-	console.log(filter);
 	if (filter) {
 		filter.value = value;
 	} else {
@@ -43,12 +72,31 @@ export function filterParser ({ path, value }, activeFilters, currentList) {
 * the file that uses it.
 */
 
-function createFilterObject (path, value, currentListFields) {
+/**
+ * Returns a filter object
+ * given a path, a value, and the fields within an instance of the List prototype.
+ *
+ * @param { String } filter path
+ * @param { Object } of filter values.
+ * @param { Object } of fields from the current instance of the List prototype.
+ * @return { Object } a filter comprised of the:filters.js
+ *	- corresponding field value within the current List,
+ *	- and the passed in value { Object }.
+ **/
+
+export function createFilterObject (path, value, currentListFields) {
+	if (!currentListFields || !isPlainObject(currentListFields)) {
+		console.warn('currentListFields must be a plain object', currentListFields);
+		return;
+	}
+
 	const field = currentListFields[path];
+
 	if (!field) {
 		console.warn('Invalid Filter path specified:', path);
 		return;
 	}
+
 	return {
 		field,
 		value,

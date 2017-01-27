@@ -21,6 +21,7 @@ export const SET_ACTIVE_LIST = 'app/List/SET_ACTIVE_LIST';
 export const QUERY_HAS_CHANGED = 'app/List/QUERY_HAS_CHANGED';
 export const QUERY_HAS_NOT_CHANGED = 'app/List/QUERY_HAS_NOT_CHANGED';
 export const REPLACE_CACHED_QUERY = 'app/List/REPLACE_CACHED_QUERY';
+export const CLEAR_CACHED_QUERY = 'app/List/CLEAR_CACHED_QUERY';
 
 // Filtering
 export const ADD_FILTER = 'app/List/ADD_FILTER';
