@@ -1,5 +1,6 @@
 import demand from 'must';
 import { columnsParser, sortParser, filtersParser, filterParser, createFilterObject } from '../index';
+import sinon from 'sinon';
 
 describe('<List> query parsers', function () {
 	beforeEach(function () {
@@ -35,8 +36,10 @@ describe('<List> query parsers', function () {
 
 		this.currentList = {
 			fields: this.fields,
-			expandSort: sort => sort,
-			expandColumn: columns => columns,
+			defaultColumns: { columns: '__DEFAULT_COLUMNS__' },
+			defaultSort: { sort: '__DEFAULT_SORT__' },
+			expandColumns: sinon.spy(),
+			expandSort: sinon.spy(),
 		};
 
 		this.path = 'name';
@@ -46,29 +49,57 @@ describe('<List> query parsers', function () {
 	});
 	describe('columnsParser()', function () {
 		describe('If an empty columns array is added', function () {
-			it('should return default columns');
+			it('should call expandColumns with default columns', function () {
+				const columns = [];
+				columnsParser(columns, this.currentList);
+				const result = this.currentList.expandColumns.getCall(0).args[0];
+
+				demand(result).eql(this.currentList.defaultColumns);
+			});
 		});
 		describe('If the input columns are undefined', function () {
-			it('should return default columns');
+			it('should call expandColumns with default columns', function () {
+				const columns = void 0;
+				columnsParser(columns, this.currentList);
+				const result = this.currentList.expandColumns.getCall(0).args[0];
+
+				demand(result).eql(this.currentList.defaultColumns);
+			});
 		});
 		describe('If currentList does not exist', function () {
-			it('returns undefined', function () {
+			it('throws an Error', function () {
 				const columns = ['name', 'email'];
-				const expectedResult = void 0;
-				demand(columnsParser(columns, null)).eql(expectedResult);
+				let e = void 0;
+				try {
+					columnsParser(columns, null);
+				} catch (error) {
+					e = error;
+				}
+				demand(e.message).eql('No currentList selected');
 			});
 		});
 	});
 
 	describe('sortParser()', function () {
 		describe('If no path is specified', function () {
-			it('should return the default sort object');
+			it('should return the default sort object', function () {
+				const path = void 0;
+				sortParser(path, this.currentList);
+				const result = this.currentList.expandSort.getCall(0).args[0];
+
+				demand(result).eql(this.currentList.defaultSort);
+			});
 		});
 		describe('If currentList does not exist', function () {
-			it('returns undefined', function () {
+			it('throws an Error', function () {
 				const path = 'email';
-				const expectedResult = void 0;
-				demand(sortParser(path, null)).eql(expectedResult);
+				let e = void 0;
+				try {
+					sortParser(path, null);
+				} catch (error) {
+					e = error;
+				}
+				demand(e.message).eql('No currentList selected');
 			});
 		});
 	});
@@ -107,6 +138,7 @@ describe('<List> query parsers', function () {
 			});
 		});
 	});
+
 	describe('filtersParser()', function () {
 		describe('Given no matching fields are found', function () {
 			it('returns an empty array', function () {
@@ -158,9 +190,9 @@ describe('<List> query parsers', function () {
 			});
 		});
 		describe('If provided with an invalid stringified filters array', function () {
-			it('returns null', function () {
+			it('returns an empty array', function () {
 				const stringifiedFilters = 'jemena';
-				const expectedResult = void 0;
+				const expectedResult = [];
 				demand(filtersParser(stringifiedFilters, this.currentList)).eql(expectedResult);
 			});
 		});
@@ -180,18 +212,27 @@ describe('<List> query parsers', function () {
 			});
 		});
 		describe('Given that activeFilters is not an array', function () {
-			it('returns undefined', function () {
+			it('throws an error', function () {
 				const invalidActiveFilters = 'hello there';
-				const expectedResult = void 0;
-				demand(filterParser(this.addedFilter, invalidActiveFilters, this.currentList)).eql(expectedResult);
+				let e = void 0;
+				try {
+					filterParser(this.addedFilter, invalidActiveFilters, this.currentList);
+				} catch (error) {
+					e = error;
+				}
+				demand(e.message).eql('activeFilters must be an array');
 			});
 		});
 		describe('Given that currentList is not a valid object', function () {
-			it('returns undefined', function () {
-				const expectedResult = void 0;
+			it('throws an error', function () {
+				let e = void 0;
 				const invalidList = void 0;
-
-				demand(filterParser({ }, this.activeFilters, invalidList)).eql(expectedResult);
+				try {
+					filterParser({}, this.activeFilters, invalidList);
+				} catch (error) {
+					e = error;
+				}
+				demand(e.message).eql('No currentList selected');
 			});
 		});
 		describe('Given that the filter does not exist in activeFilters', function () {

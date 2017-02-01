@@ -10,8 +10,7 @@ import { filtersParser, filterParser, createFilterObject } from './filters.js';
 
 function columnsParser (columns, currentList) {
 	if (!currentList) {
-		console.warn('No currentList is selected');
-		return;
+		throw new Error('No currentList selected');
 	}
 	if (!columns || columns.length === 0) {
 		return currentList.expandColumns(currentList.defaultColumns);
@@ -29,8 +28,7 @@ function columnsParser (columns, currentList) {
 
 function sortParser (path, currentList) {
 	if (!currentList) {
-		console.warn('No currentList is selected');
-		return;
+		throw new Error('No currentList selected');
 	}
 	if (!path) return currentList.expandSort(currentList.defaultSort);
 	return currentList.expandSort(path);

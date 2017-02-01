@@ -7,6 +7,8 @@ import React from 'react';
 // import { findDOMNode } from 'react-dom'; // TODO re-implement focus when ready
 import numeral from 'numeral';
 import { connect } from 'react-redux';
+import blacklist from 'blacklist';
+import isEqual from 'lodash/isEqual';
 
 import {
 	BlankState,
@@ -77,14 +79,26 @@ const ListView = React.createClass({
 	componentWillReceiveProps (nextProps) {
 		// We've opened a new list from the client side routing, so initialize
 		// again with the new list id
-
-		if (nextProps.params.listId !== this.props.params.listId) {
-			this.props.dispatch(selectList(nextProps.params.listId));
+		if (this.props.lists.ready && nextProps.lists.ready) {
+			this.checkForQueryChange(nextProps);
 		}
-
 	},
 	componentWillUnmount () {
 		this.props.dispatch(clearCachedQuery());
+	},
+	checkForQueryChange (nextProps) {
+		const { query } = nextProps.location;
+		const { cachedQuery } = nextProps.active;
+		const attenuatedQuery = blacklist(query, 'search');
+		const attenuatedCache = blacklist(cachedQuery, 'search');
+
+		if (nextProps.location.pathname !== this.props.location.pathname) {
+			return this.props.dispatch(selectList(nextProps.params.listId));
+		}
+
+		if (!isEqual(attenuatedQuery, attenuatedCache)) {
+			return this.props.dispatch(selectList(nextProps.params.listId));
+		}
 	},
 
 	// ==============================

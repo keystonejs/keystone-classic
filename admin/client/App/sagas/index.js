@@ -2,7 +2,7 @@ import { takeLatest, delay } from 'redux-saga';
 import { fork, select, put, take, call } from 'redux-saga/effects';
 
 import * as actions from '../screens/List/constants';
-import { updateParams, evalQueryParams } from './queryParamsSagas';
+import { updateParams, evalQueryParams, setNewQuery } from './queryParamsSagas';
 import { columnsParser, sortParser, filterParser } from '../parsers';
 
 /**
@@ -21,7 +21,7 @@ export function * setActiveColumnsSaga () {
 	while (true) {
 		const { columns } = yield take(actions.SELECT_ACTIVE_COLUMNS);
 		const { currentList } = yield select(state => state.lists);
-		const newColumns = columnsParser(columns, currentList);
+		const newColumns = yield call(columnsParser, columns, currentList);
 		yield put({ type: actions.SET_ACTIVE_COLUMNS, columns: newColumns });
 	}
 }
@@ -30,7 +30,7 @@ export function * setActiveSortSaga () {
 	while (true) {
 		const { path } = yield take(actions.SELECT_ACTIVE_SORT);
 		const { currentList } = yield select(state => state.lists);
-		const sort = sortParser(path, currentList);
+		const sort = yield call(sortParser, path, currentList);
 
 		yield put({ type: actions.SET_ACTIVE_SORT, sort });
 	}
@@ -41,7 +41,7 @@ export function * setActiveFilterSaga () {
 		const { filter } = yield take(actions.SELECT_FILTER);
 		const { currentList } = yield select(state => state.lists);
 		const activeFilters = yield select(state => state.active.filters);
-		const updatedFilter = filterParser(filter, activeFilters, currentList);
+		const updatedFilter = yield call(filterParser, filter, activeFilters, currentList);
 
 		yield put({ type: actions.ADD_FILTER, filter: updatedFilter });
 	}

@@ -1,6 +1,7 @@
-import { updateQueryParams, stringifyColumns, parametizeFilters } from '../../utils/queryParams';
-import { replace } from 'react-router-redux';
+import { updateQueryParams, stringifyColumns, parametizeFilters, validateSort, validatePage } from '../../utils/queryParams';
+import { replace, push } from 'react-router-redux';
 import { select, put, call } from 'redux-saga/effects';
+import blacklist from 'blacklist';
 
 import * as actions from '../screens/List/constants';
 
@@ -9,6 +10,22 @@ import { loadItems } from '../screens/List/actions';
 import isEqual from 'lodash/isEqual';
 import { columnsParser, sortParser, filtersParser } from '../parsers';
 
+export function * urlUpdate (query, cache, pathname) {
+	const blacklistedField = 'search';
+	const attenuatedQuery = blacklist(query, blacklistedField);
+	const attenuatedCache = blacklist(cache, blacklistedField);
+	if (!isEqual(attenuatedQuery, attenuatedCache)) {
+		yield put(push({
+			pathname,
+			query,
+		}));
+	} else {
+		yield put(replace({
+			pathname,
+			query,
+		}));
+	}
+}
 /**
  * Update the query params based on the current state
  */
@@ -17,10 +34,11 @@ export function * updateParams () {
 	const activeState = yield select((state) => state.active);
 	const currentList = yield select((state) => state.lists.currentList);
 	const location = yield select((state) => state.routing.locationBeforeTransitions);
-	let page = yield select((state) => state.lists.page.index);
+	const { index } = yield select((state) => state.lists.page);
 
 	// Get the data into the right format, set the defaults
-	let sort = activeState.sort.rawInput;
+	let sort = validateSort(activeState.sort.rawInput, currentList.defaultSort);
+	let page = validatePage(index, 1);
 
 	if (sort === currentList.defaultSort) sort = undefined;
 
@@ -28,7 +46,6 @@ export function * updateParams () {
 	let search = activeState.search;
 
 	let filters = parametizeFilters(activeState.filters);
-	if (page === 1) page = undefined;
 
 	const newParams = updateQueryParams({
 		page,
@@ -42,11 +59,7 @@ export function * updateParams () {
 	// the current search replaces it for nicer history navigation support
 
 	yield put({ type: actions.REPLACE_CACHED_QUERY, cachedQuery: newParams });
-	yield put(replace({
-		pathname: location.pathname,
-		query: newParams,
-	}));
-
+	yield * urlUpdate(newParams, activeState.cachedQuery, location.pathname);
 	yield put(loadItems());
 }
 

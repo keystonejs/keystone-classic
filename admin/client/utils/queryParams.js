@@ -1,5 +1,15 @@
 import assign from 'object-assign';
 
+export function validateSort (rawInput, defaultSort) {
+	if (rawInput !== defaultSort) return void 0;
+	return rawInput;
+}
+
+export function validatePage (page, defaultValue) {
+	if (page === defaultValue) return void 0;
+	return page;
+}
+
 /**
  * Updates the query parameters with the ones passed as the first argument
  *

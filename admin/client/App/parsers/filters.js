@@ -17,7 +17,7 @@ export function filtersParser (filters, currentList) {
 			filters = JSON.parse(filters);
 		} catch (e) {
 			console.warn('Invalid filters provided', filters);
-			return;
+			filters = void 0;
 		}
 	}
 
@@ -31,7 +31,6 @@ export function filtersParser (filters, currentList) {
 	});
 
 	filters = assembledFilters.filter(filter => filter);
-
 	return filters;
 }
 
@@ -48,20 +47,23 @@ export function filtersParser (filters, currentList) {
 
 export function filterParser ({ path, value }, activeFilters, currentList) {
 	if (!activeFilters || !isArray(activeFilters)) {
-		console.warn('activeFilters must be an array');
-		return;
+		throw new Error('activeFilters must be an array');
 	}
-	if (!currentList || !isObject(currentList) || isArray(currentList)) {
-		console.warn('currentList must be a plain object', currentList);
-		return;
+	if (!currentList) {
+		throw new Error('No currentList selected');
 	}
+
+	if (!isObject(currentList) || isArray(currentList)) {
+		throw new Error('currentList is expected to be an { Object }', currentList);
+	}
+
 	let filter = activeFilters.filter(i => i.field.path === path)[0];
 	if (filter) {
 		filter.value = value;
 	} else {
 		filter = createFilterObject(path, value, currentList.fields);
 		if (!filter) {
-			return;
+			return void 0;
 		}
 	}
 	return filter;
