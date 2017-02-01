@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { css, StyleSheet } from 'aphrodite/no-important';
+import { css } from 'glamor';
 import Button from '../Button';
 import Spinner from '../Spinner';
 import theme from '../../../theme';
@@ -52,7 +52,7 @@ LoadingButton.defaultProps = {
 	loading: false,
 };
 
-const classes = StyleSheet.create({
+const classes = {
 	spinner: {
 		display: 'inline-block',
 		overflow: 'hidden',
@@ -60,6 +60,6 @@ const classes = StyleSheet.create({
 		transition: 'width 200ms ease-out',
 		verticalAlign: 'middle',
 	},
-});
+};
 
 module.exports = LoadingButton;

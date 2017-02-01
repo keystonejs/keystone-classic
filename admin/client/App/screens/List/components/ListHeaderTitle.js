@@ -1,4 +1,4 @@
-import { css, StyleSheet } from 'aphrodite/no-important';
+import { css } from 'glamor';
 import React, { PropTypes } from 'react';
 import theme from '../../../../theme';
 
@@ -30,13 +30,13 @@ ListHeaderTitle.propTypes = {
 	title: PropTypes.string,
 };
 
-const classes = StyleSheet.create({
+const classes = {
 	heading: {
 		[`@media (max-width: ${theme.breakpoint.mobileMax})`]: {
 			fontSize: '1.25em',
 			fontWeight: 500,
 		},
 	},
-});
+};
 
 module.exports = ListHeaderTitle;

@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { css, StyleSheet } from 'aphrodite/no-important';
+import { css } from 'glamor';
 import theme from '../../../theme';
 
 function ModalFooter ({
@@ -23,7 +23,7 @@ ModalFooter.defaultProps = {
 	align: 'left',
 };
 
-const classes = StyleSheet.create({
+const classes = {
 	footer: {
 		borderTop: `2px solid ${theme.color.gray10}`,
 		display: 'flex',
@@ -43,6 +43,6 @@ const classes = StyleSheet.create({
 	align__right: {
 		justifyContent: 'flex-end',
 	},
-});
+};
 
 module.exports = ModalFooter;

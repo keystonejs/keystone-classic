@@ -1,5 +1,5 @@
 import { SketchPicker } from 'react-color';
-import { css, StyleSheet } from 'aphrodite/no-important';
+import { css } from 'glamor';
 import Field from '../Field';
 import React from 'react';
 import {
@@ -113,7 +113,7 @@ const ColorField = Field.create({
 });
 
 /* eslint quote-props: ["error", "as-needed"] */
-const classes = StyleSheet.create({
+const classes = {
 	button: {
 		background: 'white',
 		padding: 4,
@@ -144,6 +144,6 @@ const classes = StyleSheet.create({
 		height: '100%',
 		width: '100%',
 	},
-});
+};
 
 module.exports = ColorField;

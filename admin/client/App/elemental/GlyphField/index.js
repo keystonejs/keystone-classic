@@ -1,7 +1,6 @@
 /* eslint quote-props: ["error", "as-needed"] */
 
 import React, { PropTypes } from 'react';
-import { StyleSheet } from 'aphrodite/no-important';
 import Field from '../FormField';
 import Glyph from '../Glyph';
 
@@ -52,7 +51,7 @@ GlyphField.defaultProps = {
 	position: 'left',
 };
 
-const classes = StyleSheet.create({
+const classes = {
 	wrapper: {
 		alignItems: 'center',
 		display: 'flex',
@@ -62,6 +61,6 @@ const classes = StyleSheet.create({
 		marginTop: '-0.125em', // fix icon alignment
 		verticalAlign: 'middle',
 	},
-});
+};
 
 module.exports = GlyphField;
