@@ -1,13 +1,40 @@
 import assign from 'object-assign';
+import blacklist from 'blacklist';
+import isEqual from 'lodash/isEqual';
 
-export function validateSort (rawInput, defaultSort) {
-	if (rawInput !== defaultSort) return void 0;
-	return rawInput;
+export function checkForQueryChange (nextProps, thisProps) {
+	const { query } = nextProps.location;
+	const { cachedQuery } = nextProps.active;
+
+	const parsedQuery = Object.assign(
+		{},
+		query,
+		{ page: parseInt(query.page) }
+	);
+
+	if (!parsedQuery.page) delete parsedQuery.page;
+
+	const attenuatedQuery = blacklist(parsedQuery, 'search');
+	const attenuatedCache = blacklist(cachedQuery, 'search');
+
+	if (nextProps.location.pathname !== thisProps.location.pathname) return true;
+
+	if (!isEqual(attenuatedQuery, attenuatedCache)) return true;
+
+	return false;
 }
 
-export function validatePage (page, defaultValue) {
-	if (page === defaultValue) return void 0;
-	return page;
+export function normaliseValue (value, benchmark) {
+	if (value === benchmark) return void 0;
+	return value;
+}
+
+export function createSortQueryParams (rawInput, defaultSort) {
+	return normaliseValue(rawInput, defaultSort);
+}
+
+export function createPageQueryParams (page, defaultValue) {
+	return normaliseValue(page, defaultValue);
 }
 
 /**

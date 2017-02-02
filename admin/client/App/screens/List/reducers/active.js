@@ -19,7 +19,6 @@ const initialState = {
 	columns: [],
 	filters: [],
 	search: '',
-	currentPage: 1,
 	sort: {
 		input: '',
 		isDefaultSort: false,
@@ -83,7 +82,6 @@ function active (state = initialState, action) {
 				sort,
 				filters,
 				columns,
-				currentPage,
 			} = action.parsedQuery;
 
 			return assign({}, state, {
@@ -91,7 +89,6 @@ function active (state = initialState, action) {
 				sort: sort || initialState.sort,
 				filters: filters || initialState.filters,
 				columns: columns || initialState.columns,
-				currentPage: currentPage || initialState.currentPage,
 			});
 		case REPLACE_CACHED_QUERY:
 			return assign({}, state, {

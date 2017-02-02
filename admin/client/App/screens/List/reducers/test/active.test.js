@@ -27,7 +27,6 @@ describe('<List> reducer active', () => {
 				rawInput: '',
 			},
 			cachedQuery: {},
-			currentPage: 1,
 		});
 	});
 
@@ -251,14 +250,12 @@ describe('<List> reducer active', () => {
 					filters: ['existing list of filters'],
 					sort: 'existing sort method',
 					search: 'existing search query',
-					currentPage: 1,
 				};
 				const parsedQuery = {
 					columns: ['newColA', 'newColB'],
 					filters: ['new list of filters'],
 					sort: 'new sort method',
 					search: 'new search query',
-					currentPage: 5,
 				};
 				const expectedState = parsedQuery;
 				const action = { type: QUERY_HAS_CHANGED, parsedQuery };
@@ -272,14 +269,12 @@ describe('<List> reducer active', () => {
 					filters: ['existing list of filters'],
 					sort: 'existing sort method',
 					search: 'existing search query',
-					currentPage: 5,
 				};
 				this.parsedQuery = {
 					columns: undefined,
 					filters: undefined,
 					sort: undefined,
 					search: 'new search query',
-					currentPage: undefined,
 				};
 				this.action = { type: QUERY_HAS_CHANGED, parsedQuery: this.parsedQuery };
 			});
@@ -298,12 +293,10 @@ describe('<List> reducer active', () => {
 
 				const defaultColumns = [];
 				const defaultFilters = [];
-				const defaultCurrentPage = 1;
 
 				demand(activeReducer(this.initialState, this.action).sort).eql(defaultSort);
 				demand(activeReducer(this.initialState, this.action).columns).eql(defaultColumns);
 				demand(activeReducer(this.initialState, this.action).filters).eql(defaultFilters);
-				demand(activeReducer(this.activeState, this.action).currentPage).eql(defaultCurrentPage);
 			});
 		});
 	});

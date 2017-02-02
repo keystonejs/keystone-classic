@@ -1,4 +1,4 @@
-import { updateQueryParams, stringifyColumns, parametizeFilters, validateSort, validatePage } from '../../utils/queryParams';
+import { updateQueryParams, stringifyColumns, parametizeFilters, createSortQueryParams, createPageQueryParams } from '../../utils/queryParams';
 import { replace, push } from 'react-router-redux';
 import { select, put, call } from 'redux-saga/effects';
 import blacklist from 'blacklist';
@@ -37,10 +37,8 @@ export function * updateParams () {
 	const { index } = yield select((state) => state.lists.page);
 
 	// Get the data into the right format, set the defaults
-	let sort = validateSort(activeState.sort.rawInput, currentList.defaultSort);
-	let page = validatePage(index, 1);
-
-	if (sort === currentList.defaultSort) sort = undefined;
+	let sort = createSortQueryParams(activeState.sort.rawInput, currentList.defaultSort);
+	let page = createPageQueryParams(index, 1);
 
 	let columns = stringifyColumns(activeState.columns, currentList.defaultColumnPaths);
 	let search = activeState.search;

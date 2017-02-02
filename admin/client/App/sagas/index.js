@@ -2,7 +2,7 @@ import { takeLatest, delay } from 'redux-saga';
 import { fork, select, put, take, call } from 'redux-saga/effects';
 
 import * as actions from '../screens/List/constants';
-import { updateParams, evalQueryParams, setNewQuery } from './queryParamsSagas';
+import { updateParams, evalQueryParams } from './queryParamsSagas';
 import { columnsParser, sortParser, filterParser } from '../parsers';
 
 /**

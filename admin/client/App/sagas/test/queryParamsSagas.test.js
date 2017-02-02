@@ -9,19 +9,19 @@ import { replace, push } from 'react-router-redux';
 
 describe('<List /> query param sagas', function () {
 	describe('* urlUpdate()', function () {
-		context('Given a query object and a cache object', function () {
-			context('If the query object sans search, is the same as the cache object sans search', function () {
+		describe('Given a query object and a cache object', function () {
+			describe('If the query object sans search, is the same as the cache object sans search', function () {
 				it('puts the result of replace called with the passed in pathname and query as arguments', function () {
 					const query = {
 						filter: [],
 						columns: [],
 						search: 'hello',
-					}
+					};
 					const cache = {
 						filter: [],
 						columns: [],
 						search: 'hello',
-					}
+					};
 					const pathname = '/somePath';
 					const generator = urlUpdate(query, cache, pathname);
 					const expectedResult = put(replace({
@@ -32,26 +32,26 @@ describe('<List /> query param sagas', function () {
 					demand(next.value).eql(expectedResult);
 				});
 			});
-			context('If the query object sans search, is different from the cache object sans search', function () {
+			describe('If the query object sans search, is different from the cache object sans search', function () {
 				it('puts the result of push called with the passed in pathname and query as arguments', function () {
 					const query = {
 						filter: [],
 						columns: [],
 						search: 'hello',
-					}
+					};
 					const cache = {
 						filter: ['some filter'],
 						columns: ['some columns'],
 						search: 'hello',
-					}
+					};
 					const pathname = '/somePath';
 					const generator = urlUpdate(query, cache, pathname);
-					const expectedResult = put(push({pathname, query}));
+					const expectedResult = put(push({ pathname, query }));
 					let next = generator.next();
 					demand(next.value).eql(expectedResult);
 				});
-			})
-		})
+			});
+		});
 
 	});
 	describe('* updateParams()', function () {

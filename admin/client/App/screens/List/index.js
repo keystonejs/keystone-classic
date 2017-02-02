@@ -7,8 +7,6 @@ import React from 'react';
 // import { findDOMNode } from 'react-dom'; // TODO re-implement focus when ready
 import numeral from 'numeral';
 import { connect } from 'react-redux';
-import blacklist from 'blacklist';
-import isEqual from 'lodash/isEqual';
 
 import {
 	BlankState,
@@ -32,6 +30,7 @@ import ItemsTable from './components/ItemsTable/ItemsTable';
 import UpdateForm from './components/UpdateForm';
 import { plural as pluralize } from '../../../utils/string';
 import { listsByPath } from '../../../utils/lists';
+import { checkForQueryChange } from '../../../utils/queryParams';
 
 import {
 	deleteItems,
@@ -68,37 +67,27 @@ const ListView = React.createClass({
 		// When we directly navigate to a list without coming from another client
 		// side routed page before, we need to initialize the list and parse
 		// possibly specified query parameters
+
 		this.props.dispatch(selectList(this.props.params.listId));
 
 		const isNoCreate = this.props.lists.data[this.props.params.listId].nocreate;
 		const shouldOpenCreate = this.props.location.search === '?create';
+
 		this.setState({
 			showCreateForm: (shouldOpenCreate && !isNoCreate) || Keystone.createFormErrors,
 		});
+
 	},
 	componentWillReceiveProps (nextProps) {
 		// We've opened a new list from the client side routing, so initialize
 		// again with the new list id
-		if (this.props.lists.ready && nextProps.lists.ready) {
-			this.checkForQueryChange(nextProps);
+		const isReady = this.props.lists.ready && nextProps.lists.ready;
+		if (isReady && checkForQueryChange(nextProps, this.props)) {
+			this.props.dispatch(selectList(nextProps.params.listId));
 		}
 	},
 	componentWillUnmount () {
 		this.props.dispatch(clearCachedQuery());
-	},
-	checkForQueryChange (nextProps) {
-		const { query } = nextProps.location;
-		const { cachedQuery } = nextProps.active;
-		const attenuatedQuery = blacklist(query, 'search');
-		const attenuatedCache = blacklist(cachedQuery, 'search');
-
-		if (nextProps.location.pathname !== this.props.location.pathname) {
-			return this.props.dispatch(selectList(nextProps.params.listId));
-		}
-
-		if (!isEqual(attenuatedQuery, attenuatedCache)) {
-			return this.props.dispatch(selectList(nextProps.params.listId));
-		}
 	},
 
 	// ==============================

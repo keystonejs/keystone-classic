@@ -2,7 +2,7 @@ import { setActiveColumnsSaga, setActiveSortSaga, setActiveFilterSaga } from '..
 import { filterParser, sortParser, columnsParser } from '../../parsers/index';
 import demand from 'must';
 import * as actions from '../../screens/List/constants.js';
-import { take, put, call } from 'redux-saga/effects';
+import { take, call } from 'redux-saga/effects';
 //
 describe('<List/> sagas', function () {
 	beforeEach(function () {
@@ -10,12 +10,12 @@ describe('<List/> sagas', function () {
 			lists: {
 				currentList: {
 					someKey: 'someValue',
-				}
+				},
 			},
 			active: {
 				filters: ['This is a filter', 'this is anotehr filter'],
-			}
-		}
+			},
+		};
 	});
 
 	describe('* setActiveFilterSaga()', function () {
@@ -55,7 +55,7 @@ describe('<List/> sagas', function () {
 				const action = {
 					type: actions.SELECT_ACTIVE_COLUMNS,
 					columns: ['columnA', 'columnB'],
-				}
+				};
 
 				let next = generator.next(action);
 				demand(next.value).eql(take(action.type));
@@ -81,7 +81,7 @@ describe('<List/> sagas', function () {
 				const action = {
 					type: actions.SELECT_ACTIVE_SORT,
 					path: '-name',
-				}
+				};
 
 				let next = generator.next(action);
 				demand(next.value).eql(take(action.type));
