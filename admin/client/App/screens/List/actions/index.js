@@ -50,6 +50,7 @@ import {
 	setActiveFilters,
 	setActiveSearch,
 	setActiveColumns,
+	clearCachedQuery,
 	setActiveSort,
 } from './active';
 
@@ -77,6 +78,7 @@ export {
 	setActiveSearch,
 	setActiveColumns,
 	setActiveSort,
+	clearCachedQuery,
 	loadItems,
 	itemsLoaded,
 	itemLoadingError,
