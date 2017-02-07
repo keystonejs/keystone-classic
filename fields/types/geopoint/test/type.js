@@ -92,7 +92,7 @@ exports.testFieldType = function (List) {
 			});
 		});
 
-		it('should validate string array input with undefined values', function (done) {
+		it('should validate string array input with empty string values', function (done) {
 			List.fields.geo.validateInput({
 				geo: ['', ''],
 			}, function (result) {
