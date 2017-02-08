@@ -68,7 +68,7 @@ class Sidebar extends React.Component {
 const Item = ({ url, title }) => (
   <li
     style={{
-      marginBottom: rhythm(1/4),
+      marginBottom: rhythm(1/2),
       width: '100%',
     }}
   >

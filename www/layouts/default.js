@@ -73,6 +73,7 @@ class DefaultLayout extends React.Component {
             width: '100%',
             [presets.Tablet]: {
               maxWidth: rhythm(37),
+              paddingTop: rhythm(1),
             }
           }}
         >
