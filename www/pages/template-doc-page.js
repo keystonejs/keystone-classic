@@ -1,58 +1,53 @@
-import React from 'react'
-import DocumentTitle from 'react-document-title'
-import { Link, browserHistory } from 'react-router'
-import get from 'lodash/get'
-import sortBy from 'lodash/sortBy'
-import { presets } from 'glamor'
-import { rhythm, scale } from '../utils/typography'
-import Container from 'components/Container';
-//import { sections, pages, basepath } from 'utilities/pages'
-//import Sidebar from 'components/Sidebar';
+import React from 'react';
+import DocumentTitle from 'react-document-title';
+import get from 'lodash/get';
+import { presets } from 'glamor';
+import { rhythm } from '../utils/typography';
 
 class MarkdownTemplate extends React.Component {
-  render () {
-    console.log(this.props.data)
-    const siteTitle = get(this.props, 'data.site.siteMetadata.title')
-    const title = get(this.props, 'data.markdownRemark.frontmatter.title')
-    const body = get(this.props, 'data.markdownRemark.html')
-    const path = get(this.props, 'data.markdownRemark.parent.relativePath')
+	render () {
+		console.log(this.props.data);
+		const siteTitle = get(this.props, 'data.site.siteMetadata.title');
+		const title = get(this.props, 'data.markdownRemark.frontmatter.title');
+		const body = get(this.props, 'data.markdownRemark.html');
+		const path = get(this.props, 'data.markdownRemark.parent.relativePath');
 
     // TODO add file path to Markdown schema.
-    const edit = `https://github.com/keystonejs/keystone/blob/master/docs/${path}`;
-    console.log(this.props.location)
+		const edit = `https://github.com/keystonejs/keystone/blob/master/docs/${path}`;
+		console.log(this.props.location);
 
-    return (
-      <DocumentTitle title={`${title} | ${siteTitle}`}>
-        <section
-          css={{
-            maxWidth: '100%',
-            paddingBottom: rhythm(1/2),
-            [presets.Tablet]: {
-              paddingTop: 0,
-            },
-          }}
+		return (
+			<DocumentTitle title={`${title} | ${siteTitle}`}>
+				<section
+					css={{
+						maxWidth: '100%',
+						paddingBottom: rhythm(1 / 2),
+						[presets.Tablet]: {
+							paddingTop: 0,
+						},
+					}}
         >
-          <h1 css={{ marginTop: 0 }}>{ title }</h1>
-          <a
-            href={ edit }
-            css={{
-              display: 'block',
-              marginBottom: rhythm(1),
-            }}
+					<h1 css={{ marginTop: 0 }}>{ title }</h1>
+					<a
+						href={edit}
+						css={{
+							display: 'block',
+							marginBottom: rhythm(1),
+						}}
           >
             Edit this Page
           </a>
 
-          <div
-            dangerouslySetInnerHTML={{ __html: body }}
+					<div
+						dangerouslySetInnerHTML={{ __html: body }}
           />
-        </section>
-      </DocumentTitle>
-    )
-  }
+				</section>
+			</DocumentTitle>
+		);
+	}
 }
 
-export default MarkdownTemplate
+export default MarkdownTemplate;
 
 export const pageQuery = `
 query MarkdownTemplate($slug: String!) {
@@ -74,4 +69,4 @@ query MarkdownTemplate($slug: String!) {
     }
   }
 }
-`
+`;
