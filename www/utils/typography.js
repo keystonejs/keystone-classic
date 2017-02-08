@@ -4,7 +4,7 @@ import { MOBILE_MEDIA_QUERY } from 'typography-breakpoint-constants'
 
 const theme = {
   baseFontSize: '16px',
-  scaleRatio: 2.25,
+  scaleRatio: 2,
   blockMarginBottom: 0.75,
   bodyWeight: 400,
   boldWeight: 700,
