@@ -7,6 +7,8 @@ import MenuIcon from 'react-icons/lib/md/menu'
 import gray from 'gray-percentage'
 import Headroom from 'react-headroom'
 
+import invertedLogo from '../images/logo-inverted.svg'
+
 export default ({ home = '/', location, openSidebar }) => {
   return (
     <Headroom
@@ -57,7 +59,7 @@ export default ({ home = '/', location, openSidebar }) => {
           }}
         >
           <img
-            src="http://keystonejs.com/images/logo-inverted.svg"
+            src={invertedLogo}
             css={{
               display: 'inline-block',
               height: rhythm(1),
