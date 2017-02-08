@@ -5,7 +5,7 @@ TODO: Needs Review and Spec
 var moment = require('moment');
 var assign = require('object-assign');
 
-module.exports = function (req, res) {
+module.exports = function (req, res, next) {
 	var baby = require('babyparse');
 	var keystone = req.keystone;
 
@@ -33,32 +33,16 @@ module.exports = function (req, res) {
 	}
 	var sort = req.list.expandSort(req.query.sort);
 	query.sort(sort.string);
-	query.exec(function (err, results) {
+	query.exec()
+	.then(function (results) {
 		var data;
-		var fields = [];
-		if (err) return res.apiError('database error', err);
 		if (format === 'csv') {
 			data = results.map(function (item) {
-				var row = req.list.getCSVData(item, {
-					expandRelationshipFields: req.query.expandRelationshipFields,
-					fields: req.query.select,
-					user: req.user,
-				});
-				// If nested values in the first item aren't present, babyparse
-				// won't add them even if they are present in others. So we
-				// add keys from all items to an array and explicitly provided
-				// the complete set to baby.unparse() below
-				Object.keys(row).forEach(function (i) {
-					if (fields.indexOf(i) === -1) fields.push(i);
-				});
-				return row;
+				return req.list.getCSV(item, req.query.select, req.query.expandRelationshipFields);
 			});
 			res.attachment(req.list.path + '-' + moment().format('YYYYMMDD-HHMMSS') + '.csv');
 			res.setHeader('Content-Type', 'application/octet-stream');
-			var content = baby.unparse({
-				data: data,
-				fields: fields,
-			}, {
+			var content = baby.unparse(data, {
 				delimiter: keystone.get('csv field delimiter') || ',',
 			});
 			res.end(content, 'utf-8');
@@ -68,5 +52,6 @@ module.exports = function (req, res) {
 			});
 			res.json(data);
 		}
-	});
+	})
+	.catch(next);
 };
