@@ -91,7 +91,7 @@ class DefaultLayout extends React.Component {
             css={{
               paddingLeft: 0,
               [presets.Tablet]: {
-                paddingLeft: rhythm(12),
+                paddingLeft: rhythm(11),
               }
             }}
           >

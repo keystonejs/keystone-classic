@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'gatsby-link';
-import { rhythm, scale } from '../utils/typography';
+import typography, { rhythm, scale } from '../utils/typography';
 import { merge, media, presets, style } from 'glamor'
 //import { sections, basepath } from 'utilities/pages'
 //import Sticky from 'react-stickynode'
@@ -16,14 +16,17 @@ class Sidebar extends React.Component {
       <nav
         className="sidebar"
         css={{
+          ...scale(-1/5),
+          lineHeight: typography.options.baseLineHeight,
           marginTop: rhythm(1/4),
           width: '100%',
           [presets.Tablet]: {
             display: 'block',
             position: 'fixed',
-            overflow: 'scroll',
+            overflowY: 'scroll',
             width: rhythm(10),
             float: 'left',
+            paddingRight: rhythm(1),
           },
         }}
       >

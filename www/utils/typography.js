@@ -4,6 +4,7 @@ import { MOBILE_MEDIA_QUERY } from 'typography-breakpoint-constants'
 
 const theme = {
   baseFontSize: '16px',
+  baseLineHeight: 1.45,
   scaleRatio: 2,
   blockMarginBottom: 0.75,
   bodyWeight: 400,
@@ -29,7 +30,7 @@ const theme = {
       paddingBottom: rhythm(1/2),
       marginLeft: 0,
       marginRight: 0,
-      borderLeft: `${rhythm(1/4)} solid #797979`,
+      borderLeft: `${rhythm(1/4)} solid #4a4a4a`,
     },
     'blockquote *:last-child': {
       marginBottom: 0,
@@ -62,7 +63,7 @@ const theme = {
         fontSize: 15 / 16 * 100 + '%'
       },
       blockquote: {
-        borderLeft: `${rhythm(3 / 16)} solid #797979`,
+        borderLeft: `${rhythm(3 / 16)} solid #4a4a4a`,
         marginLeft: rhythm(-3 / 4),
         marginRight: 0,
         paddingLeft: rhythm(9 / 16)
