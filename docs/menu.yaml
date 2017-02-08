@@ -1,0 +1,9 @@
+- title: Introduction
+  links:
+    KeystoneJS: /
+- title: Guides
+  links:
+    API File and Image Uploads: /guides/api-file-image-uploads/
+    How to create a blog with Keystone: /guides/how-to-create-a-blog-with-keystone/
+    How to send emails with Keystone: /guides/how-to-send-emails/
+    KeystoneJS v0.3.x to v4.0.0 Upgrade Guide: /guides/v-0-3-to-v-4-0-upgrade-guide/
