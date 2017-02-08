@@ -1,21 +1,28 @@
-import { css, StyleSheet } from 'aphrodite/no-important';
+import { css } from 'glamor';
 import React, { cloneElement, Children, PropTypes } from 'react';
-import styles from './styles';
+import classes from './styles';
 import colors from './colors';
-
-const classes = StyleSheet.create(styles);
 
 // clone children if a class exists for the tagname
 const cloneWithClassnames = (c) => {
-	if (!c.type || !classes[c.type]) return c;
+	const type = c.type && c.type.displayName
+		? c.type.displayName
+		: c.type || null;
+
+	if (!type || !classes[type]) return c;
 
 	return cloneElement(c, {
-		className: css(classes[c.type]),
+		className: css(classes[type]),
 	});
 };
 
-function Alert ({ children, className, color, component, ...props }) {
-	const Component = component;
+function Alert ({
+	children,
+	className,
+	color,
+	component: Component,
+	...props
+}) {
 	props.className = css(
 		classes.alert,
 		classes[color],
@@ -23,7 +30,7 @@ function Alert ({ children, className, color, component, ...props }) {
 	);
 	props.children = Children.map(children, cloneWithClassnames);
 
-	return <Component {...props} />;
+	return <Component {...props} data-alert-type={color} />;
 };
 
 Alert.propTypes = {

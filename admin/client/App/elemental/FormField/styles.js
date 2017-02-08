@@ -13,9 +13,11 @@ module.exports = {
 	// when inside a horizontal form
 
 	'FormField--form-layout-horizontal': {
-		display: 'table',
-		tableLayout: 'fixed',
-		width: '100%',
+		[`@media (min-width: ${theme.breakpoint.tabletLandscapeMin})`]: {
+			display: 'table',
+			tableLayout: 'fixed',
+			width: '100%',
+		},
 	},
 
 	// inside horizontal form

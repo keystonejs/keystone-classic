@@ -1,19 +1,15 @@
-import { css, StyleSheet } from 'aphrodite/no-important';
+import { css } from 'glamor';
 import React, { PropTypes } from 'react';
-import styles from './styles';
+import classes from './styles';
 import sizes from './sizes';
-
-const classes = StyleSheet.create(styles);
 
 function Container ({
 	className,
 	clearFloatingChildren,
-	component,
+	component: Component,
 	width,
-	...props,
+	...props
 }) {
-	const Component = component;
-
 	props.className = css(
 		classes.container,
 		classes[width],

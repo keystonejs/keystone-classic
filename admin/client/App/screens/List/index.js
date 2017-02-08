@@ -6,15 +6,17 @@
 import React from 'react';
 // import { findDOMNode } from 'react-dom'; // TODO re-implement focus when ready
 import numeral from 'numeral';
-import {
-	BlankState,
-	Container,
-	Pagination,
-	Spinner,
-} from 'elemental';
 import { connect } from 'react-redux';
 
-import { GlyphButton } from '../../elemental';
+import {
+	BlankState,
+	Center,
+	Container,
+	Glyph,
+	GlyphButton,
+	Pagination,
+	Spinner,
+} from '../../elemental';
 
 import ListFilters from './components/Filtering/ListFilters';
 import ListHeaderTitle from './components/ListHeaderTitle';
@@ -28,15 +30,15 @@ import ItemsTable from './components/ItemsTable/ItemsTable';
 import UpdateForm from './components/UpdateForm';
 import { plural as pluralize } from '../../../utils/string';
 import { listsByPath } from '../../../utils/lists';
+import { checkForQueryChange } from '../../../utils/queryParams';
 
 import {
 	deleteItems,
-	setActiveColumns,
 	setActiveSearch,
 	setActiveSort,
 	setCurrentPage,
 	selectList,
-	loadInitialItems,
+	clearCachedQuery,
 } from './actions';
 
 import {
@@ -65,45 +67,27 @@ const ListView = React.createClass({
 		// When we directly navigate to a list without coming from another client
 		// side routed page before, we need to initialize the list and parse
 		// possibly specified query parameters
+
 		this.props.dispatch(selectList(this.props.params.listId));
-		this.parseQueryParams();
-		this.props.dispatch(loadInitialItems());
+
 		const isNoCreate = this.props.lists.data[this.props.params.listId].nocreate;
 		const shouldOpenCreate = this.props.location.search === '?create';
+
 		this.setState({
 			showCreateForm: (shouldOpenCreate && !isNoCreate) || Keystone.createFormErrors,
 		});
+
 	},
 	componentWillReceiveProps (nextProps) {
 		// We've opened a new list from the client side routing, so initialize
 		// again with the new list id
-		if (nextProps.params.listId !== this.props.params.listId) {
+		const isReady = this.props.lists.ready && nextProps.lists.ready;
+		if (isReady && checkForQueryChange(nextProps, this.props)) {
 			this.props.dispatch(selectList(nextProps.params.listId));
 		}
 	},
-	/**
-	 * Parse the current query parameters and change the state accordingly
-	 * Only called when directly opening a list
-	 */
-	parseQueryParams () {
-		const query = this.props.location.query;
-		Object.keys(query).forEach((key) => {
-			switch (key) {
-				case 'columns':
-					this.props.dispatch(setActiveColumns(query[key]));
-					break;
-				case 'page':
-					this.props.dispatch(setCurrentPage(query[key]));
-					break;
-				case 'search':
-					// Fill the search input field with the current search
-					this.props.dispatch(setActiveSearch(query[key]));
-					break;
-				case 'sort':
-					this.props.dispatch(setActiveSort(query[key]));
-					break;
-			}
-		});
+	componentWillUnmount () {
+		this.props.dispatch(clearCachedQuery());
 	},
 
 	// ==============================
@@ -175,12 +159,12 @@ const ListView = React.createClass({
 				isOpen: true,
 				label: 'Delete',
 				body: (
-					<p>
+					<div>
 						Are you sure you want to delete {itemCount}?
 						<br />
 						<br />
 						This cannot be undone.
-					</p>
+					</div>
 				),
 				onConfirmation: () => {
 					this.props.dispatch(deleteItems(itemIds));
@@ -200,12 +184,13 @@ const ListView = React.createClass({
 		const props = this.state.confirmationDialog;
 		return (
 			<ConfirmationDialog
-				isOpen={props.isOpen}
-				body={props.body}
 				confirmationLabel={props.label}
+				isOpen={props.isOpen}
 				onCancel={this.removeConfirmationDialog}
 				onConfirmation={props.onConfirmation}
-			/>
+			>
+				{props.body}
+			</ConfirmationDialog>
 		);
 	},
 	renderManagement () {
@@ -363,12 +348,12 @@ const ListView = React.createClass({
 				isOpen: true,
 				label: 'Delete',
 				body: (
-					<p>
-						Are you sure you want to delete <strong>${item.name}</strong>?
+					<div>
+						Are you sure you want to delete <strong>{item.name}</strong>?
 						<br />
 						<br />
 						This cannot be undone.
-					</p>
+					</div>
 				),
 				onConfirmation: () => {
 					this.props.dispatch(deleteItem(item.id));
@@ -441,8 +426,7 @@ const ListView = React.createClass({
 						}] }}
 					/>
 				) : null}
-				<BlankState style={{ marginTop: 40 }}>
-					<BlankState.Heading>No {this.props.currentList.plural.toLowerCase()} found&hellip;</BlankState.Heading>
+				<BlankState heading={`No ${this.props.currentList.plural.toLowerCase()} found...`} style={{ marginTop: 40 }}>
 					{button}
 				</BlankState>
 			</Container>
@@ -479,9 +463,9 @@ const ListView = React.createClass({
 						/>
 					) : null}
 					{(this.props.loading) ? (
-						<div className="centered-loading-indicator">
-							<Spinner size="md" />
-						</div>
+						<Center height="50vh">
+							<Spinner />
+						</Center>
 					) : (
 						<div>
 							<ItemsTable
@@ -516,17 +500,23 @@ const ListView = React.createClass({
 		matching = matching ? ' found matching ' + matching : '.';
 		return (
 			<BlankState style={{ marginTop: 20, marginBottom: 20 }}>
-				<span className="octicon octicon-search" style={{ fontSize: 32, marginBottom: 20 }} />
-				<BlankState.Heading>No {this.props.currentList.plural.toLowerCase()}{matching}</BlankState.Heading>
+				<Glyph
+					name="search"
+					size="medium"
+					style={{ marginBottom: 20 }}
+				/>
+				<h2 style={{ color: 'inherit' }}>
+					No {this.props.currentList.plural.toLowerCase()}{matching}
+				</h2>
 			</BlankState>
 		);
 	},
 	render () {
 		if (!this.props.ready) {
 			return (
-				<div className="centered-loading-indicator" data-screen-id="list">
-					<Spinner size="md" />
-				</div>
+				<Center height="50vh" data-screen-id="list">
+					<Spinner />
+				</Center>
 			);
 		}
 		return (

@@ -1,6 +1,11 @@
 import React from 'react';
 
-import { FormField, FormInput, FormRow, SegmentedControl } from 'elemental';
+import {
+	FormField,
+	FormInput,
+	Grid,
+	SegmentedControl,
+} from '../../../admin/client/App/elemental';
 
 const DISTANCE_OPTIONS = [
 	{ label: 'Max distance (km)', value: 'max' },
@@ -68,54 +73,50 @@ var TextFilter = React.createClass({
 
 		return (
 			<div>
-				<FormRow>
-					<FormField
-						width="one-half"
-						label="Latitude"
-					>
-						<FormInput
-							autoFocus
-							ref="latitude"
-							type="number"
-							required="true"
-							step={0.01}
-							value={filter.lat}
-							onChange={this.changeLat}
-							placeholder={'Latitude'}
-						/>
-					</FormField>
-					<FormField
-						width="one-half"
-						label="Longitude"
-					>
-						<FormInput
-							ref="longitude"
-							type="number"
-							required="true"
-							step={0.01}
-							value={filter.lon}
-							onChange={this.changeLon}
-							placeholder={'Longitude'}
-						/>
-					</FormField>
-				</FormRow>
+				<Grid.Row xsmall="one-half" gutter={10}>
+					<Grid.Col>
+						<FormField label="Latitude" >
+							<FormInput
+								autoFocus
+								onChange={this.changeLat}
+								placeholder={'Latitude'}
+								ref="latitude"
+								required="true"
+								step={0.01}
+								type="number"
+								value={filter.lat}
+							/>
+						</FormField>
+					</Grid.Col>
+					<Grid.Col>
+						<FormField label="Longitude">
+							<FormInput
+								onChange={this.changeLon}
+								placeholder={'Longitude'}
+								ref="longitude"
+								required="true"
+								step={0.01}
+								type="number"
+								value={filter.lon}
+							/>
+						</FormField>
+					</Grid.Col>
+				</Grid.Row>
 				<FormField>
 					<SegmentedControl
 						equalWidthSegments
+						onChange={this.changeDistanceMode}
 						options={DISTANCE_OPTIONS}
 						value={this.props.filter.distance.mode}
-						onChange={this.changeDistanceMode}
 					/>
 				</FormField>
-				<FormField>
-					<FormInput
-						ref="distance"
-						type="number"
-						value={filter.distance.value}
-						onChange={this.changeDistanceValue}
-						placeholder={distanceModeVerb + ' distance from point'}
-					/>
-				</FormField>
+				<FormInput
+					onChange={this.changeDistanceValue}
+					placeholder={distanceModeVerb + ' distance from point'}
+					ref="distance"
+					type="number"
+					value={filter.distance.value}
+				/>
 			</div>
 		);
 	},

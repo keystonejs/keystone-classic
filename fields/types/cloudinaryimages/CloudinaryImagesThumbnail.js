@@ -12,7 +12,7 @@ function CloudinaryImagesThumbnail ({
 	shouldRenderActionButton,
 	toggleDelete,
 	value,
-	...props,
+	...props
 }) {
 	// render icon feedback for intent
 	let mask;

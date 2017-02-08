@@ -1,4 +1,3 @@
-import { StyleSheet } from 'aphrodite/no-important';
 import React, { PropTypes } from 'react';
 import {
 	GlyphButton,
@@ -73,11 +72,11 @@ function ListHeaderToolbar ({
 	columnsAvailable,
 	columnsActive,
 
-	...props,
+	...props
 }) {
 	return (
-		<Group block className={classes.wrapper}>
-			<Section grow className={classes.search}>
+		<Group block aphroditeStyles={classes.wrapper}>
+			<Section grow aphroditeStyles={classes.search}>
 				<ListHeaderSearch
 					handleChange={searchHandleChange}
 					handleClear={searchHandleClear}
@@ -85,30 +84,30 @@ function ListHeaderToolbar ({
 					value={searchValue}
 				/>
 			</Section>
-			<Section grow className={classes.buttons}>
+			<Section grow aphroditeStyles={classes.buttons}>
 				<Group block>
-					<Section className={classes.filter}>
+					<Section aphroditeStyles={classes.filter}>
 						<ListFiltersAdd
 							dispatch={dispatch}
 							activeFilters={filtersActive}
 							availableFilters={filtersAvailable}
 						/>
 					</Section>
-					<Section className={classes.columns}>
+					<Section aphroditeStyles={classes.columns}>
 						<ListColumnsForm
 							availableColumns={columnsAvailable}
 							activeColumns={columnsActive}
 							dispatch={dispatch}
 						/>
 					</Section>
-					<Section className={classes.download}>
+					<Section aphroditeStyles={classes.download}>
 						<ListDownloadForm
 							activeColumns={columnsActive}
 							dispatch={dispatch}
 							list={list}
 						/>
 					</Section>
-					<Section className={classes.expand}>
+					<Section aphroditeStyles={classes.expand}>
 						<ButtonDivider>
 							<GlyphButton
 								active={expandIsActive}
@@ -118,7 +117,7 @@ function ListHeaderToolbar ({
 							/>
 						</ButtonDivider>
 					</Section>
-					{createIsAvailable && <Section className={classes.create}>
+					{createIsAvailable && <Section aphroditeStyles={classes.create}>
 						<ButtonDivider>
 							<CreateButton
 								listName={createListName}
@@ -156,7 +155,7 @@ const tabletGrowStyles = {
 	},
 };
 
-const classes = StyleSheet.create({
+const classes = {
 	// main wrapper
 	wrapper: {
 		[`@media (max-width: ${theme.breakpoint.tabletPortraitMax})`]: {
@@ -192,6 +191,6 @@ const classes = StyleSheet.create({
 			minWidth: '100%',
 		},
 	},
-});
+};
 
 module.exports = ListHeaderToolbar;

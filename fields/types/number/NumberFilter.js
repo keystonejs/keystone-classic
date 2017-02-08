@@ -1,6 +1,12 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
-import { FormField, FormInput, FormRow, FormSelect } from 'elemental';
+import {
+	Form,
+	FormField,
+	FormInput,
+	FormSelect,
+	Grid,
+} from '../../../admin/client/App/elemental';
 
 const MODE_OPTIONS = [
 	{ label: 'Exactly', value: 'equals' },
@@ -68,8 +74,8 @@ var NumberFilter = React.createClass({
 		this.props.onChange({ ...this.props.filter, ...changedProp });
 	},
 	// Update the filter mode
-	selectMode (mode) {
-		this.updateFilter({ mode });
+	selectMode (e) {
+		this.updateFilter({ mode: e.target.value });
 
 		// focus on next tick
 		setTimeout(() => {
@@ -84,34 +90,32 @@ var NumberFilter = React.createClass({
 
 		if (mode.value === 'between') {
 			controls = (
-				<FormRow>
-					<FormField width="one-half" style={{ marginBottom: 0 }}>
+				<Grid.Row xsmall="one-half" gutter={10}>
+					<Grid.Col>
 						<FormInput
 							onChange={this.handleChangeBuilder('minValue')}
 							placeholder="Min."
 							ref="focusTarget"
 							type="number"
 						/>
-					</FormField>
-					<FormField width="one-half" style={{ marginBottom: 0 }}>
+					</Grid.Col>
+					<Grid.Col>
 						<FormInput
 							onChange={this.handleChangeBuilder('maxValue')}
 							placeholder="Max."
 							type="number"
 						/>
-					</FormField>
-				</FormRow>
+					</Grid.Col>
+				</Grid.Row>
 			);
 		} else {
 			controls = (
-				<FormField>
-					<FormInput
-						onChange={this.handleChangeBuilder('value')}
-						placeholder={placeholder}
-						ref="focusTarget"
-						type="number"
-					/>
-				</FormField>
+				<FormInput
+					onChange={this.handleChangeBuilder('value')}
+					placeholder={placeholder}
+					ref="focusTarget"
+					type="number"
+				/>
 			);
 		}
 
@@ -123,14 +127,16 @@ var NumberFilter = React.createClass({
 		const mode = MODE_OPTIONS.filter(i => i.value === filter.mode)[0];
 
 		return (
-			<div>
-				<FormSelect
-					onChange={this.selectMode}
-					options={MODE_OPTIONS}
-					value={mode.value}
-				/>
+			<Form component="div">
+				<FormField>
+					<FormSelect
+						onChange={this.selectMode}
+						options={MODE_OPTIONS}
+						value={mode.value}
+					/>
+				</FormField>
 				{this.renderControls(mode)}
-			</div>
+			</Form>
 		);
 	},
 

@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Filters } from 'FieldTypes';
-import { Pill } from 'elemental';
+import { Chip } from '../../../../elemental';
 
 import Popout from '../../../../shared/Popout';
 import { setFilter, clearFilter } from '../../actions';
@@ -52,11 +52,11 @@ class Filter extends Component {
 
 		return (
 			<span>
-				<Pill
+				<Chip
 					label={getFilterLabel(filter.field, filter.value)}
 					onClick={this.open}
 					onClear={this.removeFilter}
-					type="primary"
+					color="primary"
 					id={filterId}
 				/>
 				<Popout isOpen={this.state.isOpen} onCancel={this.close} relativeToID={filterId}>

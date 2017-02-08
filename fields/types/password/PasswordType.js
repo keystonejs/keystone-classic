@@ -117,6 +117,18 @@ password.prototype.addFilterToQuery = function (filter) {
 };
 
 /**
+ * Retrieves the field value
+ *
+ * Password fields  values are returned as booleans to indicate whether a value
+ * has been set or not, so that we don't leak hashed passwords via API
+ *
+ * @api public
+ */
+password.prototype.getData = function (item) {
+	return item.get(this.path) ? true : false;
+};
+
+/**
  * Formats the field value
  *
  * Password fields are always formatted as a random no. of asterisks,

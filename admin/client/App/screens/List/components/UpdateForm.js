@@ -5,7 +5,7 @@ import assign from 'object-assign';
 import { Fields } from 'FieldTypes';
 import InvalidFieldType from '../../../shared/InvalidFieldType';
 import { plural } from '../../../../utils/string';
-import { BlankState, Button, Form, Modal } from 'elemental';
+import { BlankState, Button, Form, Modal } from '../../../elemental';
 
 var UpdateForm = React.createClass({
 	displayName: 'UpdateForm',
@@ -85,9 +85,10 @@ var UpdateForm = React.createClass({
 		});
 
 		const fieldsUI = formFields.length ? formFields : (
-			<BlankState style={{ padding: '3em 2em' }}>
-				<BlankState.Heading style={{ fontSize: '1.5em' }}>Choose a field above to begin</BlankState.Heading>
-			</BlankState>
+			<BlankState
+				heading="Choose a field above to begin"
+				style={{ padding: '3em 2em' }}
+			/>
 		);
 
 		return (
@@ -102,24 +103,35 @@ var UpdateForm = React.createClass({
 		const formAction = `${Keystone.adminPath}/${list.path}`;
 
 		return (
-			<Form type="horizontal" action={formAction} noValidate="true">
-				<Modal.Header text={'Update ' + itemCount} onClose={this.handleClose} showCloseButton />
+			<Form layout="horizontal" action={formAction} noValidate="true">
+				<Modal.Header
+					onClose={this.handleClose}
+					showCloseButton
+					text={'Update ' + itemCount}
+				/>
 				<Modal.Body>
-					<Select ref="initialFocusTarget" onChange={this.updateOptions} options={this.getOptions()} value={this.state.fields} key="field-select" multi />
+					<Select
+						key="field-select"
+						multi
+						onChange={this.updateOptions}
+						options={this.getOptions()}
+						ref="initialFocusTarget"
+						value={this.state.fields}
+					/>
 					{this.renderFields()}
 				</Modal.Body>
 				<Modal.Footer>
-					<Button type="primary" submit>Update</Button>
-					<Button type="link-cancel" onClick={this.handleClose}>Cancel</Button>
+					<Button color="primary" submit>Update</Button>
+					<Button color="cancel" variant="link" onClick={this.handleClose}>Cancel</Button>
 				</Modal.Footer>
 			</Form>
 		);
 	},
 	render () {
 		return (
-			<Modal isOpen={this.props.isOpen} onCancel={this.handleClose} backdropClosesModal>
+			<Modal.Dialog isOpen={this.props.isOpen} onClose={this.handleClose} backdropClosesModal>
 				{this.renderForm()}
-			</Modal>
+			</Modal.Dialog>
 		);
 	},
 });

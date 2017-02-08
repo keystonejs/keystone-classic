@@ -39,7 +39,7 @@ module.exports = {
 			],
 		});
 		browser.adminUIInitialFormScreen.save();
-		browser.adminUIInitialFormScreen.assertElementTextEquals({ element: 'flashError', text: 'Passwords must match' });
+		browser.adminUIInitialFormScreen.assertElementTextEquals({ element: '@flashError', text: 'Passwords must match' });
 		browser.adminUIInitialFormScreen.fillFieldInputs({
 			fields: [
 				{ name: 'fieldA', input: { value: 'password1', confirm: 'password1' }, },
@@ -88,7 +88,7 @@ module.exports = {
 		browser.adminUIItemScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 
-		browser.adminUIItemScreen.assertElementTextEquals({ element: 'flashError', text: 'Passwords must match' });
+		browser.adminUIItemScreen.assertElementTextEquals({ element: '@flashError', text: 'Passwords must match' });
 
 		browser.adminUIItemScreen.fillFieldInputs({
 			fields: [
@@ -98,7 +98,7 @@ module.exports = {
 		browser.adminUIItemScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 
-		browser.adminUIItemScreen.assertElementTextEquals({ element: 'flashMessage', text: 'Your changes have been saved successfully' });
+		browser.adminUIItemScreen.assertElementTextEquals({ element: '@flashMessage', text: 'Your changes have been saved successfully' });
 
 		browser.adminUIItemScreen.assertFieldInputs({
 			fields: [

@@ -63,8 +63,8 @@ module.exports = {
 						'state': 'State A',
 						'postcode': 'AAA AAA',
 						'country': 'AAA',
-						'geoLat': '123',
-						'geoLng': '123'
+						'geoLat': '90',
+						'geoLng': '100'
 					},
 				},
 			],
@@ -83,8 +83,8 @@ module.exports = {
 						'state': 'State A',
 						'postcode': 'AAA AAA',
 						'country': 'AAA',
-						'geoLat': '123',
-						'geoLng': '123'
+						'geoLat': '90',
+						'geoLng': '100'
 					},
 				},
 			],
@@ -115,8 +115,8 @@ module.exports = {
 						'state': 'State A',
 						'postcode': 'AAA AAA',
 						'country': 'AAA',
-						'geoLat': '123',
-						'geoLng': '123'
+						'geoLat': '90',
+						'geoLng': '100'
 					},
 				},
 			],
@@ -150,8 +150,8 @@ module.exports = {
 						'state': 'State B',
 						'postcode': 'BBB BBB',
 						'country': 'BBB',
-						'geoLat': '123',
-						'geoLng': '123'
+						'geoLat': '90',
+						'geoLng': '100'
 					},
 				},
 			],
@@ -160,7 +160,7 @@ module.exports = {
 		browser.adminUIItemScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 
-		browser.adminUIItemScreen.assertElementTextEquals({ element: 'flashMessage', text: 'Your changes have been saved successfully' });
+		browser.adminUIItemScreen.assertElementTextEquals({ element: '@flashMessage', text: 'Your changes have been saved successfully' });
 
 		browser.adminUIItemScreen.assertFieldInputs({
 			fields: [
@@ -175,8 +175,8 @@ module.exports = {
 						'state': 'State A',
 						'postcode': 'AAA AAA',
 						'country': 'AAA',
-						'geoLat': '123',
-						'geoLng': '123'
+						'geoLat': '90',
+						'geoLng': '100'
 					},
 				},
 				{
@@ -189,8 +189,8 @@ module.exports = {
 						'state': 'State B',
 						'postcode': 'BBB BBB',
 						'country': 'BBB',
-						'geoLat': '123',
-						'geoLng': '123'
+						'geoLat': '90',
+						'geoLng': '100'
 					},
 				},
 			],

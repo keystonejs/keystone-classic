@@ -4,7 +4,7 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { Container } from 'elemental';
+import { Container } from '../../../elemental';
 
 import {
 	setActiveList,
@@ -76,7 +76,7 @@ var SecondaryNavigation = React.createClass({
 
 		return (
 			<nav className="secondary-navbar">
-				<Container clearfix>
+				<Container clearFloatingChildren>
 					{this.renderNavigation(this.props.lists)}
 				</Container>
 			</nav>

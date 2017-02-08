@@ -1,6 +1,6 @@
 import Field from '../Field';
 import React, { PropTypes } from 'react';
-import { FormInput } from 'elemental';
+import { FormInput } from '../../../admin/client/App/elemental';
 
 /*
 	TODO:
@@ -31,9 +31,11 @@ module.exports = Field.create({
 	},
 	renderValue () {
 		return this.props.value ? (
-			<FormInput noedit href={'mailto:' + this.props.value}>{this.props.value}</FormInput>
+			<FormInput noedit component="a" href={'mailto:' + this.props.value}>
+				{this.props.value}
+			</FormInput>
 		) : (
-			<FormInput noedit>(not set)</FormInput>
+			<FormInput noedit />
 		);
 	},
 });

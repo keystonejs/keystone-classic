@@ -2,7 +2,7 @@ import classnames from 'classnames';
 import evalDependsOn from '../utils/evalDependsOn.js';
 import React from 'react';
 import { findDOMNode } from 'react-dom';
-import { FormField, FormInput, FormNote } from 'elemental';
+import { FormField, FormInput, FormNote } from '../../admin/client/App/elemental';
 import blacklist from 'blacklist';
 import CollapsedFieldLabel from '../components/CollapsedFieldLabel';
 
@@ -60,7 +60,8 @@ var Base = module.exports.Base = {
 	},
 	renderNote () {
 		if (!this.props.note) return null;
-		return <FormNote note={this.props.note} />;
+
+		return <FormNote html={this.props.note} />;
 	},
 	renderField () {
 		const { autoFocus, value, inputProps } = this.props;
@@ -86,7 +87,7 @@ var Base = module.exports.Base = {
 			{ 'field-monospace': this.props.monospace }
 		);
 		return (
-			<FormField label={this.props.label} className={wrapperClassName} htmlFor={this.props.path}>
+			<FormField htmlFor={this.props.path} label={this.props.label} className={wrapperClassName} cropLabel>
 				<div className={'FormField__inner field-size-' + this.props.size}>
 					{this.shouldRenderField() ? this.renderField() : this.renderValue()}
 				</div>

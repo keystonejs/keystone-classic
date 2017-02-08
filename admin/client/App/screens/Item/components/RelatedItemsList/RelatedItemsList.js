@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
-import { Alert, Spinner } from 'elemental';
+import { Alert, BlankState, Center, Spinner } from '../../../../elemental';
 
 import DragDrop from './RelatedItemsListDragDrop';
 import ListRow from './RelatedItemsListRow';
@@ -26,7 +26,11 @@ const RelatedItemsList = React.createClass({
 		};
 	},
 	componentDidMount () {
+		this.__isMounted = true;
 		this.loadItems();
+	},
+	componentWillUnmount () {
+		this.__isMounted = false;
 	},
 	isSortable () {
 		// Check if the related items should be sortable. The referenced list has to
@@ -52,7 +56,7 @@ const RelatedItemsList = React.createClass({
 		// TODO: Move error to redux store
 		if (!refList.fields[relationship.refPath]) {
 			const err = (
-				<Alert type="danger">
+				<Alert color="danger">
 					<strong>Error:</strong> Related List <strong>{refList.label}</strong> has no field <strong>{relationship.refPath}</strong>
 				</Alert>
 			);
@@ -88,7 +92,10 @@ const RelatedItemsList = React.createClass({
 				</table>
 			</div>
 		) : (
-			<h4 className="Relationship__noresults">No related {this.props.refList.plural}</h4>
+			<BlankState
+				heading={`No related ${this.props.refList.plural.toLowerCase()}...`}
+				style={{ marginBottom: '3em' }}
+			/>
 		);
 	},
 	renderTableCols () {
@@ -103,7 +110,7 @@ const RelatedItemsList = React.createClass({
 		// add sort col when available
 		if (this.isSortable()) {
 			cells.unshift(
-				<th width={TABLE_CONTROL_COLUMN_WIDTH} key="sortable"></th>
+				<th width={TABLE_CONTROL_COLUMN_WIDTH} key="sortable" />
 			);
 		}
 
@@ -113,11 +120,18 @@ const RelatedItemsList = React.createClass({
 		if (this.state.err) {
 			return <div className="Relationship">{this.state.err}</div>;
 		}
+
 		const listHref = `${Keystone.adminPath}/${this.props.refList.path}`;
+		const loadingElement = (
+			<Center height={100}>
+				<Spinner />
+			</Center>
+		);
+
 		return (
 			<div className="Relationship">
 				<h3 className="Relationship__link"><Link to={listHref}>{this.props.refList.label}</Link></h3>
-				{this.props.items ? this.renderItems() : <Spinner size="sm" />}
+				{this.props.items ? this.renderItems() : loadingElement}
 			</div>
 		);
 	},

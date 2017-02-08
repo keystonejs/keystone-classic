@@ -3,7 +3,7 @@ import assign from 'object-assign';
 
 import Popout from '../../../shared/Popout';
 import PopoutList from '../../../shared/Popout/PopoutList';
-import { FormField, FormInput } from 'elemental';
+import { FormInput } from '../../../elemental';
 import ListHeaderButton from './ListHeaderButton';
 
 import { setActiveColumns } from '../actions';
@@ -81,6 +81,11 @@ var ListColumnsForm = React.createClass({
 		});
 	},
 	render () {
+		const formFieldStyles = {
+			borderBottom: '1px dashed rgba(0,0,0,0.1)',
+			marginBottom: '1em',
+			paddingBottom: '1em',
+		};
 		return (
 			<div>
 				<ListHeaderButton
@@ -93,9 +98,14 @@ var ListColumnsForm = React.createClass({
 				<Popout isOpen={this.state.isOpen} onCancel={() => this.togglePopout(false)} relativeToID="listHeaderColumnButton">
 					<Popout.Header title="Columns" />
 					<Popout.Body scrollable>
-						<FormField style={{ borderBottom: '1px dashed rgba(0,0,0,0.1)', paddingBottom: '1em' }}>
-							<FormInput autoFocus value={this.state.searchString} onChange={this.updateSearch} placeholder="Find a column..." />
-						</FormField>
+						<div style={formFieldStyles}>
+							<FormInput
+								autoFocus
+								onChange={this.updateSearch}
+								placeholder="Find a column..."
+								value={this.state.searchString}
+							/>
+						</div>
 						<PopoutList>
 							{this.renderColumns()}
 						</PopoutList>

@@ -1,6 +1,6 @@
 import React from 'react';
 import Field from '../Field';
-import { FormField, FormInput } from 'elemental';
+import { FormField, FormInput } from '../../../admin/client/App/elemental';
 import ImageThumbnail from '../../components/ImageThumbnail';
 import NestedFormField from '../../components/NestedFormField';
 

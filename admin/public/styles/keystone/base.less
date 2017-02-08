@@ -15,37 +15,10 @@
 
 // Deviate from Elemental to get the most out of the viewport
 
-.container {
-	max-width: @container-lg;
-	width: 100%;
-
-	@media (min-width: @screen-sm) {
-		padding-left:  @grid-gutter-width;
-		padding-right: @grid-gutter-width;
-	}
-}
 @media (max-width: @screen-xs-max) {
 	.Modal-dialog {
 		padding-top: @mobile-nav-bar-height + (@grid-gutter-width / 2);
 	}
-}
-
-
-
-
-// Progressive Enhancement
-// ------------------------------
-
-
-// sticky footer
-
-.keystone-wrapper {
-	.display-flex();
-	.flex-direction(column);
-	min-height: 100vh;
-}
-.keystone-body {
-	.flex-grow(1);
 }
 
 
@@ -56,25 +29,6 @@
 
 .code {
 	font-family: @font-family-monospace;
-}
-kbd {
-	background-color: @body-bg;
-	border-radius: 3px;
-	border: 1px solid @input-border-color;
-	border-bottom-color: darken(@input-border-color, 4%);
-	border-top-color: lighten(@input-border-color, 4%);
-	box-shadow: 0 1px 1px rgba(0,0,0,.12),0 2px 0 0 rgba(255,255,255,.7) inset;
-	display: inline-block;
-	font-family: Consolas,"Liberation Mono",Courier,monospace;
-	font-size: .85em;
-	font-weight: 700;
-	line-height: inherit;
-	padding: 1px 4px;
-	white-space: nowrap;
-
-	// little hack to tweak "visual-middle" alignment
-	position: relative;
-	top: -1px;
 }
 
 
@@ -91,67 +45,4 @@ kbd {
 
 .Select .Select-menu-outer {
 	z-index: 101;
-}
-
-
-
-
-// Body
-// ------------------------------
-
-.keystone-body {}
-
-
-
-
-// Footer
-// ------------------------------
-
-.keystone-footer {
-	box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.1);
-	color: @gray-light;
-	font-size: @font-size-sm;
-	padding-bottom: 30px;
-	padding-top: 40px;
-	text-align: center;
-}
-.keystone-footer__link {
-	color: @gray;
-
-	&:hover,
-	&:focus {
-		color: @gray;
-		outline: none;
-	}
-}
-
-
-// View
-// ------------------------------
-
-
-.centered-loading-indicator {
-	margin: 40px 0;
-	padding: 5em 0;
-	text-align: center;
-}
-
-
-
-
-// Page Header
-// ------------------------------
-
-.page-header {
-	border-bottom: 1px solid darken(@body-bg, 10%);
-	padding-bottom: 1em;
-	padding-top: 1em;
-	margin-bottom: 60px;
-	margin-top: 60px;
-
-	h1 {
-		font-weight: 200;
-		line-height: 1;
-		margin: 0;
-	}
 }

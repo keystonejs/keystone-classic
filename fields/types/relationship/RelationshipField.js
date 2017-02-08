@@ -4,7 +4,12 @@ import { listsByKey } from '../../../admin/client/utils/lists';
 import React from 'react';
 import Select from 'react-select';
 import xhr from 'xhr';
-import { Button, InputGroup } from 'elemental';
+import {
+	Button,
+	FormInput,
+	InlineGroup as Group,
+	InlineGroupSection as Section,
+} from '../../../admin/client/App/elemental';
 import _ from 'lodash';
 
 function compareValues (current, next) {
@@ -186,17 +191,21 @@ module.exports = Field.create({
 
 	renderSelect (noedit) {
 		return (
-			<Select.Async
-				multi={this.props.many}
-				disabled={noedit}
-				loadOptions={this.loadOptions}
-				labelKey="name"
-				name={this.getInputName(this.props.path)}
-				onChange={this.valueChanged}
-				simpleValue
-				value={this.state.value}
-				valueKey="id"
-			/>
+			<div>
+				{/* This input element fools Safari's autocorrect in certain situations that completely break react-select */}
+				<input type="text" style={{ position: 'absolute', width: 1, height: 1, zIndex: -1, opacity: 0 }} tabIndex="-1"/>
+				<Select.Async
+					multi={this.props.many}
+					disabled={noedit}
+					loadOptions={this.loadOptions}
+					labelKey="name"
+					name={this.getInputName(this.props.path)}
+					onChange={this.valueChanged}
+					simpleValue
+					value={this.state.value}
+					valueKey="id"
+				/>
+			</div>
 		);
 	},
 
@@ -208,24 +217,33 @@ module.exports = Field.create({
 		// TODO: Implement this somewhere higher in the app, it breaks the encapsulation of the RelationshipField component
 		const CreateForm = require('../../../admin/client/App/shared/CreateForm');
 		return (
-			<InputGroup>
-				<InputGroup.Section grow>
+			<Group block>
+				<Section grow>
 					{this.renderSelect()}
-				</InputGroup.Section>
-				<InputGroup.Section>
-					<Button onClick={this.openCreate} type="success">+</Button>
-				</InputGroup.Section>
+				</Section>
+				<Section>
+					<Button onClick={this.openCreate}>+</Button>
+				</Section>
 				<CreateForm
 					list={listsByKey[this.props.refList.key]}
 					isOpen={this.state.createIsOpen}
 					onCreate={this.onCreate}
 					onCancel={this.closeCreate} />
-			</InputGroup>
+			</Group>
 		);
 	},
 
 	renderValue () {
-		return this.renderSelect(true);
+		const { many } = this.props;
+		const { value } = this.state;
+		const props = {
+			children: value ? value.name : null,
+			component: value ? 'a' : 'span',
+			href: value ? value.href : null,
+			noedit: true,
+		};
+
+		return many ? this.renderSelect(true) : <FormInput {...props} />;
 	},
 
 	renderField () {

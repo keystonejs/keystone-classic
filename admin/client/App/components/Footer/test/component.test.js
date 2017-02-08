@@ -10,9 +10,9 @@ describe('<Footer />', () => {
 		demand(component.find('footer').length).eql(1);
 	});
 
-	it('should have a classname of "keystone-footer"', () => {
+	it('should have a data prop of "keystone-footer"', () => {
 		const component = shallow(<Footer />);
-		demand(component.prop('className')).eql('keystone-footer');
+		demand(component.prop('data-keystone-footer')).eql(true);
 	});
 
 	// TODO FIX THIS, possibly a test problem

@@ -1,34 +1,40 @@
-import { StyleSheet, css } from 'aphrodite/no-important';
-import blacklist from 'blacklist';
-import classnames from 'classnames';
+import { css } from 'glamor';
 import React, { Component, PropTypes } from 'react';
-import styles from './styles';
-
-const classes = StyleSheet.create(styles);
+import classes from './styles';
 
 class Form extends Component {
 	getChildContext () {
 		return {
 			formLayout: this.props.layout,
+			labelWidth: this.props.labelWidth,
 		};
 	}
 	render () {
-		const { className, component, layout } = this.props;
+		// NOTE `labelWidth` is declared to remove it from `props`, though never used
+		const {
+			className,
+			component: Component,
+			labelWidth, // eslint-disable-line no-unused-vars
+			layout,
+			...props
+		} = this.props;
 
-		const componentClass = classnames(
-			css(classes.Form),
-			css(classes['Form__' + layout]),
+		props.className = css(
+			classes.Form,
+			classes['Form__' + layout],
 			className
 		);
-		const consumedProps = blacklist(this.props, 'className', 'component', 'layout');
-		consumedProps.className = componentClass;
 
-		return React.createElement(component, consumedProps);
+		return <Component {...props} />;
 	}
 };
 
 Form.childContextTypes = {
 	formLayout: PropTypes.oneOf(['basic', 'horizontal', 'inline']),
+	labelWidth: PropTypes.oneOfType([
+		PropTypes.number,
+		PropTypes.string,
+	]),
 };
 Form.propTypes = {
 	children: PropTypes.node.isRequired,

@@ -1,7 +1,7 @@
 import Field from '../Field';
 import React from 'react';
 import tinymce from 'tinymce';
-import { FormInput } from 'elemental';
+import { FormInput } from '../../../admin/client/App/elemental';
 import evalDependsOn from '../../utils/evalDependsOn';
 
 /**
@@ -54,7 +54,9 @@ module.exports = Field.create({
 
 		this._currentValue = this.props.value;
 		tinymce.init(opts);
-		this.setState({ wysiwygActive: true });
+		if (evalDependsOn(this.props.dependsOn, this.props.values)) {
+			this.setState({ wysiwygActive: true });
+		}
 	},
 
 	removeWysiwyg (state) {
@@ -183,11 +185,6 @@ module.exports = Field.create({
 		return opts;
 	},
 
-	getFieldClassName () {
-		var className = this.props.wysiwyg ? 'wysiwyg' : 'code';
-		return className;
-	},
-
 	renderField () {
 		var className = this.state.isFocused ? 'is-focused' : '';
 		var style = {
@@ -195,13 +192,25 @@ module.exports = Field.create({
 		};
 		return (
 			<div className={className}>
-				<FormInput multiline style={style} onChange={this.valueChanged} id={this.state.id} className={this.getFieldClassName()} name={this.getInputName(this.props.path)} value={this.props.value} />
+				<FormInput
+					id={this.state.id}
+					multiline
+					name={this.getInputName(this.props.path)}
+					onChange={this.valueChanged}
+					className={this.props.wysiwyg ? 'wysiwyg' : 'code'}
+					style={style}
+					value={this.props.value}
+				/>
 			</div>
 		);
 	},
 
 	renderValue () {
-		return <FormInput multiline noedit value={this.props.value} />;
+		return (
+			<FormInput multiline noedit>
+				{this.props.value}
+			</FormInput>
+		);
 	},
 
 });

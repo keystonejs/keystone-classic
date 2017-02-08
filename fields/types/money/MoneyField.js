@@ -1,4 +1,4 @@
-import { FormInput } from 'elemental';
+import { FormInput } from '../../../admin/client/App/elemental';
 import Field from '../Field';
 import React, { PropTypes } from 'react';
 

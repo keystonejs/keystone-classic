@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert } from 'elemental';
+import { Alert } from '../elemental';
 
 import { upcase } from '../../utils/string';
 
@@ -64,7 +64,7 @@ var AlertMessages = React.createClass({
 			alertContent = messages;
 		}
 
-		return <Alert type="danger">{alertContent}</Alert>;
+		return <Alert color="danger">{alertContent}</Alert>;
 	},
 	render () {
 		let { error, success } = this.props.alerts;
@@ -78,16 +78,16 @@ var AlertMessages = React.createClass({
 					if (error.detail.name === 'ValidationError') {
 						return this.renderValidationErrors();
 					} else {
-						return <Alert type="danger">{upcase(error.error)}</Alert>;
+						return <Alert color="danger">{upcase(error.error)}</Alert>;
 					}
 				default:
-					return <Alert type="danger">{upcase(error.error)}</Alert>;
+					return <Alert color="danger">{upcase(error.error)}</Alert>;
 			}
 		}
 
 		if (success) {
 			// Render success alerts
-			return <Alert type="success">{upcase(success.success)}</Alert>;
+			return <Alert color="success">{upcase(success.success)}</Alert>;
 		}
 
 		return null; // No alerts, render nothing

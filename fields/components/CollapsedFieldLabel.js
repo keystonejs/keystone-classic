@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from 'elemental';
+import { Button } from '../../admin/client/App/elemental';
 
 // NOTE marginBottom of 1px stops things jumping around
 // TODO find out why this is necessary
@@ -13,7 +13,7 @@ function CollapsedFieldLabel ({ style, ...props }) {
 	};
 
 	return (
-		<Button type="link" style={__style__} {...props} />
+		<Button variant="link" style={__style__} {...props} />
 	);
 };
 

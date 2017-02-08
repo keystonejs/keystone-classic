@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { Pill } from 'elemental';
+import { Chip } from '../../../../elemental';
 import Filter from './Filter';
 
 import { clearAllFilters } from '../../actions';
@@ -24,7 +24,7 @@ const ListFilters = ({ dispatch, filters }) => {
 	// When more than 1, append the clear button
 	if (currentFilters.length > 1) {
 		currentFilters.push(
-			<Pill
+			<Chip
 				key="listFilters__clear"
 				label="Clear All"
 				onClick={dispatchClearAllFilters}

@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import demand from 'must';
 import FlashMessage from '../FlashMessage';
-import { Alert } from 'elemental';
+import { Alert } from '../../elemental';
 
 describe('<FlashMessage />', () => {
 	it('should render an Alert', () => {
@@ -13,7 +13,7 @@ describe('<FlashMessage />', () => {
 	it('should take the Alert type from the props', () => {
 		const type = 'danger';
 		const component = shallow(<FlashMessage type={type} message={{}} />);
-		demand(component.find(Alert).at(0).prop('type')).eql(type);
+		demand(component.find(Alert).at(0).prop('color')).eql(type);
 	});
 
 	it('should render a span if the message is a string', () => {

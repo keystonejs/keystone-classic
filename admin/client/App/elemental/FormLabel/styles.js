@@ -16,10 +16,21 @@ module.exports = {
 	// when inside a horizontal form
 
 	'FormLabel--form-layout-horizontal': {
-		display: 'table-cell',
-		lineHeight: theme.component.lineHeight, // fix
-		marginBottom: 0,
-		verticalAlign: 'text-top',
-		width: theme.form.label.width,
+		[`@media (min-width: ${theme.breakpoint.tabletLandscapeMin})`]: {
+			display: 'table-cell',
+			lineHeight: theme.component.lineHeight, // fix
+			marginBottom: 0,
+			paddingRight: 5,
+			verticalAlign: 'top',
+			width: theme.form.label.width,
+		},
+	},
+
+	// crop long text
+
+	'FormLabel--crop-text': {
+		overflow: 'hidden',
+		textOverflow: 'ellipsis',
+		whiteSpace: 'nowrap',
 	},
 };

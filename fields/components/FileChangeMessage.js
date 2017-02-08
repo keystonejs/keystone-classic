@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { FormInput } from 'elemental';
+import { FormInput } from '../../admin/client/App/elemental';
 import { fade } from '../../admin/client/utils/color';
 import theme from '../../admin/client/theme';
 

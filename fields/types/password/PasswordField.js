@@ -1,6 +1,11 @@
 import React from 'react';
 import Field from '../Field';
-import { Button, FormInput, InputGroup } from 'elemental';
+import {
+	Button,
+	FormInput,
+	InlineGroup as Group,
+	InlineGroupSection as Section,
+} from '../../../admin/client/App/elemental';
 
 module.exports = Field.create({
 
@@ -37,7 +42,7 @@ module.exports = Field.create({
 	},
 
 	renderValue () {
-		return <FormInput noedit>{this.props.value ? 'password set' : 'password not set'}</FormInput>;
+		return <FormInput noedit>{this.props.value ? 'Password Set' : ''}</FormInput>;
 	},
 
 	renderField () {
@@ -46,20 +51,41 @@ module.exports = Field.create({
 
 	renderFields () {
 		return (
-			<InputGroup>
-				<InputGroup.Section grow>
-					<FormInput type="password" name={this.getInputName(this.props.path)} placeholder="New password" ref="focusTarget" value={this.state.password} onChange={this.valueChanged.bind(this, 'password')} autoComplete="off" />
-				</InputGroup.Section>
-				<InputGroup.Section grow>
-					<FormInput type="password" name={this.getInputName(this.props.paths.confirm)} placeholder="Confirm new password" value={this.state.confirm} onChange={this.valueChanged.bind(this, 'confirm')} autoComplete="off" />
-				</InputGroup.Section>
-				{this.state.passwordIsSet ? <InputGroup.Section><Button onClick={this.onCancel}>Cancel</Button></InputGroup.Section> : null}
-			</InputGroup>
+			<Group block>
+				<Section grow>
+					<FormInput
+						autoComplete="off"
+						name={this.getInputName(this.props.path)}
+						onChange={this.valueChanged.bind(this, 'password')}
+						placeholder="New password"
+						ref="focusTarget"
+						type="password"
+						value={this.state.password}
+					/>
+				</Section>
+				<Section grow>
+					<FormInput
+						autoComplete="off"
+						name={this.getInputName(this.props.paths.confirm)}
+						onChange={this.valueChanged.bind(this, 'confirm')}
+						placeholder="Confirm new password" value={this.state.confirm}
+						type="password"
+					/>
+				</Section>
+				{this.state.passwordIsSet ? (
+					<Section>
+						<Button onClick={this.onCancel}>Cancel</Button>
+					</Section>
+				) : null}
+			</Group>
 		);
 	},
 
 	renderChangeButton () {
-		var label = this.state.passwordIsSet ? 'Change Password' : 'Set Password';
+		var label = this.state.passwordIsSet
+			? 'Change Password'
+			: 'Set Password';
+
 		return (
 			<Button ref="focusTarget" onClick={this.showChangeUI}>{label}</Button>
 		);

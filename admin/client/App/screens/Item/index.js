@@ -6,12 +6,13 @@
  */
 
 import React from 'react';
-import { Container, Spinner } from 'elemental';
+import { Center, Container, Spinner } from '../../elemental';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
 import { listsByKey } from '../../../utils/lists';
 import CreateForm from '../../shared/CreateForm';
+import Alert from '../../elemental/Alert';
 import EditForm from './components/EditForm';
 import EditFormHeader from './components/EditFormHeader';
 import RelatedItemsList from './components/RelatedItemsList/RelatedItemsList';
@@ -111,10 +112,12 @@ var ItemView = React.createClass({
 				&& detail.path === '_id') {
 				return (
 					<Container>
-						<p>Item not found!</p>
-						<Link to={`${Keystone.adminPath}/${this.props.routeParams.listId}`}>
-							Go to list
-						</Link>
+						<Alert color="danger" style={{ marginTop: '2em' }}>
+							No item matching id "{this.props.routeParams.itemId}".&nbsp;
+							<Link to={`${Keystone.adminPath}/${this.props.routeParams.listId}`}>
+								Got back to {this.props.routeParams.listId}?
+							</Link>
+						</Alert>
 					</Container>
 				);
 			}
@@ -124,20 +127,28 @@ var ItemView = React.createClass({
 			if (error.message === 'Internal XMLHttpRequest Error') {
 				return (
 					<Container>
-						<p>We encountered some network problems, please try refreshing!</p>
+						<Alert color="danger" style={{ marginTop: '2em' }}>
+							We encountered some network problems, please refresh.
+						</Alert>
 					</Container>
 				);
 			}
 		}
-		return (<p>Error!</p>);
+		return (
+			<Container>
+				<Alert color="danger" style={{ marginTop: '2em' }}>
+					An unknown error has ocurred, please refresh.
+				</Alert>
+			</Container>
+		);
 	},
 	render () {
 		// If we don't have any data yet, show the loading indicator
 		if (!this.props.ready) {
 			return (
-				<div className="centered-loading-indicator" data-screen-id="item">
-					<Spinner size="md" />
-				</div>
+				<Center height="50vh" data-screen-id="item">
+					<Spinner />
+				</Center>
 			);
 		}
 

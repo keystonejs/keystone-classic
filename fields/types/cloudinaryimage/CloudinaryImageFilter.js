@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { SegmentedControl } from 'elemental';
+import { SegmentedControl } from '../../../admin/client/App/elemental';
 
 const OPTIONS = [
 	{ label: 'Is Set', value: true },

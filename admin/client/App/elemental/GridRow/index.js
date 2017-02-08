@@ -1,10 +1,10 @@
 import React, { Component, PropTypes } from 'react';
-import { css, StyleSheet } from 'aphrodite/no-important';
+import { css } from 'glamor';
 
 class GridRow extends Component {
 	getChildContext () {
 		return {
-			gutter: this.props.gutter || 0,
+			gutter: this.props.gutter,
 			xsmall: this.props.xsmall,
 			small: this.props.small,
 			medium: this.props.medium,
@@ -45,14 +45,15 @@ GridRow.propTypes = {
 };
 
 GridRow.defaultProps = {
+	gutter: 0,
 	xsmall: 'one-whole',
 };
 
-const classes = StyleSheet.create({
+const classes = {
 	grid: {
 		display: 'flex',
 		flexWrap: 'wrap',
 	},
-});
+};
 
 module.exports = GridRow;

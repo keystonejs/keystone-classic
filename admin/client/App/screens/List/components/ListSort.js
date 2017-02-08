@@ -1,7 +1,8 @@
-import { FormNote, FormField, FormInput } from 'elemental';
+import { FormNote, FormField, FormInput } from '../../../elemental';
 import React, { PropTypes } from 'react';
 import vkey from 'vkey';
 
+import Kbd from '../../../shared/Kbd';
 import Popout from '../../../shared/Popout';
 import PopoutList from '../../../shared/Popout/PopoutList';
 
@@ -126,7 +127,7 @@ var ListSort = React.createClass({
 					</Popout.Body>
 
 					<Popout.Footer>
-						<FormNote>Hold <kbd>alt</kbd> to toggle ascending/descending</FormNote>
+						<FormNote>Hold <Kbd>alt</Kbd> to toggle ascending/descending</FormNote>
 					</Popout.Footer>
 				</Popout>
 			</span>

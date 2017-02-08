@@ -2,6 +2,7 @@ var fieldTests = require('./commonFieldTestUtils.js');
 var ModelTestConfig = require('../../../modelTestConfig/SelectModelTestConfig');
 
 module.exports = {
+	'@disabled': true,
 	before: function (browser) {
 		fieldTests.before(browser);
 		browser.adminUIInitialFormScreen.setDefaultModelTestConfig(ModelTestConfig);
@@ -72,7 +73,7 @@ module.exports = {
 		browser.adminUIItemScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 
-		browser.adminUIItemScreen.assertElementTextEquals({ element: 'flashMessage', text: 'Your changes have been saved successfully' });
+		browser.adminUIItemScreen.assertElementTextEquals({ element: '@flashMessage', text: 'Your changes have been saved successfully' });
 
 		browser.adminUIItemScreen.assertFieldInputs({
 			fields: [

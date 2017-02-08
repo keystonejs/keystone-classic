@@ -10,7 +10,6 @@ module.exports = function SigninRoute (req, res) {
 		adminPath: '/' + keystone.get('admin path'),
 		brand: keystone.get('brand'),
 		csrf: { header: {} },
-		from: req.query.from,
 		logo: keystone.get('signin logo'),
 		redirect: keystone.get('signin redirect'),
 		user: req.user ? {

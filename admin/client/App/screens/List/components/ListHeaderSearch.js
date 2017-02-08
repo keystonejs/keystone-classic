@@ -1,4 +1,4 @@
-import { css, StyleSheet } from 'aphrodite/no-important';
+import { css } from 'glamor';
 import React, { PropTypes } from 'react';
 import theme from '../../../../theme';
 import { darken } from '../../../../utils/color';
@@ -11,7 +11,7 @@ function ListHeaderSearch ({
 	handleClear,
 	handleKeyup,
 	value,
-	...props,
+	...props
 }) {
 	return (
 		<div {...props} className={css(classes.wrapper)}>
@@ -20,7 +20,6 @@ function ListHeaderSearch ({
 				onChange={handleChange}
 				onKeyUp={handleKeyup}
 				placeholder="Search"
-				focusInput={focusInput}
 				value={value}
 			/>
 			<button
@@ -51,7 +50,7 @@ const clearHoverAndFocusStyles = {
 	textDecoration: 'none',
 };
 
-const classes = StyleSheet.create({
+const classes = {
 	wrapper: {
 		position: 'relative',
 	},
@@ -74,6 +73,6 @@ const classes = StyleSheet.create({
 			color: darken(theme.color.danger, 10),
 		},
 	},
-});
+};
 
 module.exports = ListHeaderSearch;

@@ -1,7 +1,12 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 
-import { FormField, FormInput, FormSelect, SegmentedControl } from 'elemental';
+import {
+	FormField,
+	FormInput,
+	FormSelect,
+	SegmentedControl,
+} from '../../../admin/client/App/elemental';
 
 const INVERTED_OPTIONS = [
 	{ label: 'Matches', value: false },
@@ -42,7 +47,8 @@ var TextFilter = React.createClass({
 	updateFilter (value) {
 		this.props.onChange({ ...this.props.filter, ...value });
 	},
-	selectMode (mode) {
+	selectMode (e) {
+		const mode = e.target.value;
 		this.updateFilter({ mode });
 		findDOMNode(this.refs.focusTarget).focus();
 	},
@@ -61,12 +67,27 @@ var TextFilter = React.createClass({
 		return (
 			<div>
 				<FormField>
-					<SegmentedControl equalWidthSegments options={INVERTED_OPTIONS} value={filter.inverted} onChange={this.toggleInverted} />
+					<SegmentedControl
+						equalWidthSegments
+						onChange={this.toggleInverted}
+						options={INVERTED_OPTIONS}
+						value={filter.inverted}
+					/>
 				</FormField>
-				<FormSelect options={MODE_OPTIONS} onChange={this.selectMode} value={mode.value} />
 				<FormField>
-					<FormInput autoFocus ref="focusTarget" value={this.props.filter.value} onChange={this.updateValue} placeholder={placeholder} />
+					<FormSelect
+						onChange={this.selectMode}
+						options={MODE_OPTIONS}
+						value={mode.value}
+					/>
 				</FormField>
+				<FormInput
+					autoFocus
+					onChange={this.updateValue}
+					placeholder={placeholder}
+					ref="focusTarget"
+					value={this.props.filter.value}
+				/>
 			</div>
 		);
 	},

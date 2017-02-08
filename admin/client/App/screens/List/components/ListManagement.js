@@ -1,5 +1,11 @@
 import React, { PropTypes } from 'react';
-import { Button, GlyphButton, InlineGroup as Group, InlineGroupSection as Section, Spinner } from '../../../elemental';
+import {
+	Button,
+	GlyphButton,
+	InlineGroup as Group,
+	InlineGroupSection as Section,
+	Spinner,
+} from '../../../elemental';
 
 function ListManagement ({
 	checkedItemCount,
@@ -12,7 +18,7 @@ function ListManagement ({
 	nodelete,
 	noedit,
 	selectAllItemsLoading,
-	...props,
+	...props
 }) {
 	// do not render if there's no results
 	// or if edit/delete unavailable on the list

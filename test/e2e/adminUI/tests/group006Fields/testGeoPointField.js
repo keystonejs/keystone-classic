@@ -34,14 +34,14 @@ module.exports = {
 		browser.adminUIInitialFormScreen.fillFieldInputs({
 			fields: [
 				{ name: 'name', input: { value: 'GeoPoint Field Test 1' }, },
-				{ name: 'fieldA', input: { lat: '123', lng: '456' }, },
+				{ name: 'fieldA', input: { lat: '90', lng: '100' }, },
 			],
 		});
 
 		browser.adminUIInitialFormScreen.assertFieldInputs({
 			fields: [
 				{ name: 'name', input: { value: 'GeoPoint Field Test 1' }, },
-				{ name: 'fieldA', input: { lat: '123', lng: '456' }, },
+				{ name: 'fieldA', input: { lat: '90', lng: '100' }, },
 			],
 		});
 
@@ -60,27 +60,27 @@ module.exports = {
 		browser.adminUIItemScreen.assertFieldInputs({
 			fields: [
 				{ name: 'name', input: { value: 'GeoPoint Field Test 1' }, },
-				{ name: 'fieldA', input: { lat: '123', lng: '456' }, },
+				{ name: 'fieldA', input: { lat: '90', lng: '100' }, },
 			],
 		});
 	},
 	'GeoPoint field can be filled via the edit form': function (browser) {
 		browser.adminUIItemScreen.fillFieldInputs({
 			fields: [
-				{ name: 'fieldB', input: { lat: '789', lng: '246' }, },
+				{ name: 'fieldB', input: { lat: '50', lng: '60' }, },
 			],
 		});
 
 		browser.adminUIItemScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 
-		browser.adminUIItemScreen.assertElementTextEquals({ element: 'flashMessage', text: 'Your changes have been saved successfully' });
+		browser.adminUIItemScreen.assertElementTextEquals({ element: '@flashMessage', text: 'Your changes have been saved successfully' });
 
 		browser.adminUIItemScreen.assertFieldInputs({
 			fields: [
 				{ name: 'name', input: { value: 'GeoPoint Field Test 1' }, },
-				{ name: 'fieldA', input: { lat: '123', lng: '456' }, },
-				{ name: 'fieldB', input: { lat: '789', lng: '246' }, },
+				{ name: 'fieldA', input: { lat: '90', lng: '100' }, },
+				{ name: 'fieldB', input: { lat: '50', lng: '60' }, },
 			],
 		});
 	},
