@@ -82,6 +82,7 @@ class DefaultLayout extends React.Component {
 							display: 'none',
 							[presets.Tablet]: {
 								display: 'block',
+								float: 'left',
 							},
 						}}
           >
