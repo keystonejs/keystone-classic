@@ -40,7 +40,12 @@ module.exports = {
 					`gatsby-typegen-remark-copy-linked-files`,
 					`gatsby-typegen-remark-smartypants`,
 					`gatsby-typegen-remark-prismjs`,
-					`gatsby-typegen-remark-autolink-headers`,
+					{
+						resolve: `gatsby-typegen-remark-autolink-headers`,
+						options: {
+							offsetY: -46,
+						},
+					},
 				],
 			},
 		},
