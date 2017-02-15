@@ -2,7 +2,6 @@ var async = require('async');
 var keystone = require('../..');
 var ReactEngine = require('react-engine');
 var engine = ReactEngine.server.create({});
-var request = require('superagent');
 var moment = require('moment');
 var mongoose = require('mongoose');
 var path = require('path');
@@ -35,27 +34,6 @@ function dropTestDatabase(done) {
 			done(err);
 		}
 	});
-}
-
-// Function that checks if keystone is ready before starting testing
-function checkKeystoneReady (done) {
-	async.retry({
-		times: 10,
-		interval: 3000
-	}, function(done, result) {
-		console.log([moment().format('HH:mm:ss:SSS')] + ' e2e: checking if KeystoneJS ready for request');
-		request
-			.get('http://' + keystone.get('host') + ':' + keystone.get('port') + '/keystone')
-			.end(done);
-	}, function (err, result) {
-		if (!err) {
-			console.log([moment().format('HH:mm:ss:SSS')] + ' e2e: KeystoneJS Ready!');
-			done();
-		} else {
-			console.log([moment().format('HH:mm:ss:SSS')] + ' e2e: KeystoneJS does not appear ready!');
-			done(err);
-		}
-	})
 }
 
 // Function that starts the e2e common framework
@@ -174,10 +152,6 @@ function start() {
 
 		function (cb) {
 			runKeystone(cb);
-		},
-
-		function (cb) {
-			checkKeystoneReady(cb);
 		},
 
 		function (cb) {
