@@ -68,25 +68,23 @@ password.prototype.addToSchema = function (schema) {
 	schema.path(this.path, _.defaults({
 		type: String,
 		set: function (newValue) {
-			this[needs_hashing] = true;
+			this.set(needs_hashing, true);
 			return newValue;
 		},
 	}, this.options));
 
 	schema.virtual(this.paths.hash).set(function (newValue) {
 		this.set(field.path, newValue);
-		this[needs_hashing] = false;
+		this.set(needs_hashing, false);
 	});
 
 	schema.pre('save', function (next) {
-		if (!this.isModified(field.path) || !this[needs_hashing]) {
+		if (!this.isModified(field.path) || !this.get(needs_hashing)) {
 			return next();
 		}
-		// reset the [needs_hashing] flag so that new values can't be hashed more than once
-		// (inherited models double up on pre save handlers for password fields)
-		this[needs_hashing] = false;
 		if (!this.get(field.path)) {
 			this.set(field.path, undefined);
+			this.set(needs_hashing, false);
 			return next();
 		}
 		var item = this;
@@ -100,6 +98,9 @@ password.prototype.addToSchema = function (schema) {
 				}
 				// override the cleartext password with the hashed one
 				item.set(field.path, hash);
+				// reset [needs_hashing] so that new values can't be hashed more than once
+				// (inherited models double up on pre save handlers for password fields)
+				item.set(needs_hashing, false);
 				next();
 			});
 		});
