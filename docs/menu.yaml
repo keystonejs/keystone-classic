@@ -3,7 +3,46 @@
     KeystoneJS: /
 - title: Guides
   links:
+    Getting Started: /guides/getting-started/
     API File and Image Uploads: /guides/api-file-image-uploads/
     How to create a blog with Keystone: /guides/how-to-create-a-blog-with-keystone/
     How to send emails with Keystone: /guides/how-to-send-emails/
     KeystoneJS v0.3.x to v4.0.0 Upgrade Guide: /guides/v-0-3-to-v-4-0-upgrade-guide/
+- title: Configuration
+  links:
+    Keystone Configuration: /configuration/
+- title: Database
+  links:
+    Database Configuration: /database/
+- title: Field Types
+  links:
+    Azurefile: /field/azurefile/
+    Embedly: /field/embedly/
+    File: /field/file/
+    Localfile: /field/localfile/
+    s3file: /field/s-3-file/
+    Cloudinaryimage: /field/cloudinaryimage/
+    Boolean: /field/boolean/
+    Cloudinaryimages: /field/cloudinaryimages/
+    Code: /field/code/
+    Color: /field/color/
+    Date: /field/date/
+    Datearray: /field/datearray/
+    Datetime: /field/datetime/
+    Email: /field/email/
+    Geopoint: /field/geopoint/
+    Html: /field/html/
+    Key: /field/key/
+    Location: /field/location/
+    Markdown: /field/markdown/
+    Money: /field/money/
+    Name: /field/name/
+    Number: /field/number/
+    Numberarray: /field/numberarray/
+    Password: /field/password/
+    Relationship: /field/relationship/
+    Select: /field/select/
+    Text: /field/text/
+    Textarea: /field/textarea/
+    Textarray: /field/textarray/
+    Url: /field/url/

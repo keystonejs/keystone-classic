@@ -2,6 +2,7 @@ const _ = require('lodash');
 const path = require('path');
 const select = require('unist-util-select');
 const Promise = require('bluebird');
+const fs = require('fs');
 
 exports.createPages = ({ args }) => {
 	const { graphql } = args;
@@ -50,13 +51,15 @@ exports.modifyAST = ({ args }) => {
 	files.forEach((file) => {
 		const parsedFilePath = path.parse(file.relativePath);
 		let slug;
-		if (parsedFilePath.name !== `index`) {
-			slug = `/${_.kebabCase(parsedFilePath.dir)}/${_.kebabCase(parsedFilePath.name)}/`;
-		} else {
+		if (parsedFilePath.name === `index`) {
 			slug = `/${_.kebabCase(parsedFilePath.dir)}/`;
+		} else if (parsedFilePath.name.match(/Readme/i) && file.dir.match(/\/fields\/types\//)) {
+			slug = `/field/${_.kebabCase(parsedFilePath.dir)}/`;
+		} else {
+			slug = `/${_.kebabCase(parsedFilePath.dir)}/${_.kebabCase(parsedFilePath.name)}/`;
 		}
 
-    // If file isn't in subdirectory "dir" will be empty.
+		// If file isn't in subdirectory "dir" will be empty.
 		slug = slug.replace('//', '/');
 
 		file.children[0].slug = slug;

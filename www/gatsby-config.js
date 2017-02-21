@@ -18,6 +18,13 @@ module.exports = {
 				path: `${__dirname}/../docs`,
 			},
 		},
+		{
+			resolve: `gatsby-source-filesystem`,
+			options: {
+				name: `fields`,
+				path: `${__dirname}/../fields/types`,
+			},
+		},
 		`gatsby-parser-remark`,
 		`gatsby-parser-sharp`,
 		{
