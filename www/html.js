@@ -28,7 +28,6 @@ module.exports = React.createClass({
 						name="viewport"
 						content="width=device-width, initial-scale=1.0"
           />
-					<meta name="theme-color" content="#056EA1" />
 					{this.props.headComponents}
 					<GoogleFont typography={typography} />
 					<TypographyStyle typography={typography} />
