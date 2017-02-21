@@ -2,7 +2,6 @@ const _ = require('lodash');
 const path = require('path');
 const select = require('unist-util-select');
 const Promise = require('bluebird');
-const fs = require('fs');
 
 exports.createPages = ({ args }) => {
 	const { graphql } = args;
