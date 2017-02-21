@@ -27,7 +27,7 @@ class MarkdownTemplate extends React.Component {
 						},
 					}}
         >
-					<h1 css={{ marginTop: 0 }}>{ title }</h1>
+					<h1 css={{ marginTop: 0 }}>{title}</h1>
 					<a
 						href={edit}
 						css={{
