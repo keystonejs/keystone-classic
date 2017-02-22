@@ -409,6 +409,20 @@ Then set the s3 config option to an object containing your configuration (see ex
 
 Alternatively, set the S3_BUCKET, S3_KEY and S3_SECRET environment variables.
 
+## Embed.ly
+
+Embed.ly is a service that will parse a url (e.g. Youtube embed link) and return a whole lot of useful information, like the provider name, summary metadata, width and height of videos, as well as a clean link to use for embedding media in your views. They offer a free plan for up to 5,000 urls per month.
+
+The Embedly field type is an easy way to integrate their API with your KeystoneJS app.
+
+To configure KeystoneJS to support the Embed.ly API, simply sign up for an account, get your api key, and set the embedly api key option.
+
+This option will default to the EMBEDLY_API_KEY environment variable if it is set.
+
+```
+keystone.set('embedly api key', 'your-key');
+```
+
 # Application Updates
 
 Keystone includes an updates framework, which you can enable by setting the `auto update` option to `true`.
@@ -442,7 +456,7 @@ exports = module.exports = function(done) {
 };
 ```
 
-#Disabling the Admin UI
+# Disabling the Admin UI
 
 You can disable the Admin UI by setting the `headless` option to `true`.
 

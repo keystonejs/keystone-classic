@@ -31,8 +31,8 @@ Ensures a value has been provided. Empty strings are never valid, even if specif
 
 ## Options
 
-### `number` `Boolean`
-when `true`, causes the value of the field to be stored as a `Number` instead of a `String`
+### `number`
+`Boolean` when `true`, causes the value of the field to be stored as a `Number` instead of a `String`
 
 ```js
   { type: Types.Select, numeric: true, options: [{ value: 1, label: 'One' }, { value: 2, label: 'Two' }
