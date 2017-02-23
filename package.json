@@ -176,9 +176,5 @@
     "posttest-cov": "if [ -n \"$CODECLIMATE_REPO_TOKEN\" ]; then codeclimate-test-reporter < coverage/lcov.info; fi",
     "clean": "rimraf ./coverage",
     "fields-explorer": "node ./fields/explorer/server.js"
-  },
-  "engines": {
-    "node": ">= 0.12.0",
-    "npm": ">= 3.0.0"
   }
 }
