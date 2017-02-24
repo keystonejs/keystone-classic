@@ -219,10 +219,15 @@ relationship.prototype.updateItem = function (item, data, callback) {
 	if (item.populated(this.path)) {
 		throw new Error('fieldTypes.relationship.updateItem() Error - You cannot update populated relationships.');
 	}
+
+	var value = this.getValueFromData(data);
+	if (value === undefined) {
+		return process.nextTick(callback);
+	}
 	if (this.many) {
 		var arr = item.get(this.path);
 		var _old = arr.map(function (i) { return String(i); });
-		var _new = data[this.path];
+		var _new = value;
 		if (!utils.isArray(_new)) {
 			_new = String(_new || '').split(',');
 		}
@@ -232,9 +237,9 @@ relationship.prototype.updateItem = function (item, data, callback) {
 			item.set(this.path, _new);
 		}
 	} else {
-		if (data[this.path]) {
-			if (data[this.path] !== item.get(this.path)) {
-				item.set(this.path, data[this.path]);
+		if (value) {
+			if (value !== item.get(this.path)) {
+				item.set(this.path, value);
 			}
 		} else if (item.get(this.path)) {
 			item.set(this.path, null);
