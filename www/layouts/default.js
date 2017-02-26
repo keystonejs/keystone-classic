@@ -53,7 +53,8 @@ class DefaultLayout extends React.Component {
 						<div
 							css={{
 								background: 'white',
-								height: '100vh',
+								minHeight: '100vh',
+								height: '100%',
 								padding: rhythm(3 / 4),
 							}}
             >
