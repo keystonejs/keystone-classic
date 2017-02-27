@@ -51,11 +51,11 @@ exports.modifyAST = ({ args }) => {
 		const parsedFilePath = path.parse(file.relativePath);
 		let slug;
 		if (parsedFilePath.name === `index`) {
-			slug = `/${_.kebabCase(parsedFilePath.dir)}/`;
+			slug = `/${_.kebabCase(parsedFilePath.dir)}`;
 		} else if (parsedFilePath.name.match(/Readme/i) && file.dir.match(/\/fields\/types\//)) {
-			slug = `/field/${_.kebabCase(parsedFilePath.dir)}/`;
+			slug = `/field/${_.kebabCase(parsedFilePath.dir)}`;
 		} else {
-			slug = `/${_.kebabCase(parsedFilePath.dir)}/${_.kebabCase(parsedFilePath.name)}/`;
+			slug = `/${_.kebabCase(parsedFilePath.dir)}/${_.kebabCase(parsedFilePath.name)}`;
 		}
 
 		// If file isn't in subdirectory "dir" will be empty.
