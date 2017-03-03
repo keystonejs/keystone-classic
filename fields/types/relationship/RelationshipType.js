@@ -236,7 +236,7 @@ relationship.prototype.updateItem = function (item, data, callback) {
 			if (data[this.path] !== item.get(this.path)) {
 				item.set(this.path, data[this.path]);
 			}
-		} else if (item.get(this.path)) {
+		} else if (item.get(this.path) && !this.noedit) {
 			item.set(this.path, null);
 		}
 	}
