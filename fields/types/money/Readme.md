@@ -13,13 +13,13 @@ Input should either be a valid `Number`, or a string that can be converted to a 
 
 ## Options
 
-`format` `String` - formats the stored value using [numeraljs](http://numeraljs.com/).
+`format` `String` - formats the stored value using [numeraljs](http://numeraljs.com/). Defaults to `'$0,0.00'`
 
 ```js
 { type: Types.Money, format: '$0,0.00' }
 ```
 
-`currency` `String` - loads a predefined object of settings for a specific language, the language must exist as a .js in numeral/languages folder.
+`currency` `String` - loads a predefined object of settings for a specific language, the language must exist as a .js in numeral/locales folder.
 
 ```js
 { type: Types.Money, currency: 'en-gb' }
