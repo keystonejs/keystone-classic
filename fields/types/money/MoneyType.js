@@ -38,8 +38,8 @@ money.prototype.addFilterToQuery = NumberType.prototype.addFilterToQuery;
 money.prototype.format = function (item, format) {
 	if (this.currency) {
 		try {
-			numeral.language(this.currency, require('numeral/languages/' + this.currency));
-			numeral.language(this.currency);
+			numeral.locale(this.currency, require('numeral/locales/' + this.currency));
+			numeral.locale(this.currency);
 		} catch (err) {
 			throw new Error('FieldType.Money: options.currency failed to load.');
 		}

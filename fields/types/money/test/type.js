@@ -9,6 +9,8 @@ exports.initList = function (List) {
 			money: { type: MoneyType },
 		},
 		noFormat: { type: MoneyType, format: false },
+		withCurrency: { type: MoneyType, currency: 'en-gb' },
+		withCustomFormat: { type: MoneyType, format: '($ 0.00 a)' },
 	});
 };
 
@@ -87,6 +89,16 @@ exports.testFieldType = function (List) {
 			demand(testItem._.noFormat.format()).be(1234);
 			testItem.noFormat = -244;
 			demand(testItem._.noFormat.format()).be(-244);
+		});
+		it('should format at an item when .currency was provided as an option', function () {
+			var testItem = new List.model();
+			testItem.withCurrency = 1234;
+			demand(testItem._.withCurrency.format()).be('£1,234.00');
+		});
+		it('should format at an item with a .format option that is not the default', function () {
+			var testItem = new List.model();
+			testItem.withCustomFormat = 1234;
+			demand(testItem._.withCustomFormat.format()).be('£ 1.23 k');
 		});
 	});
 
