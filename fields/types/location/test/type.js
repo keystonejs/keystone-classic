@@ -237,6 +237,30 @@ exports.testFieldType = function (List) {
 
 	});
 
+	describe('kmFrom()', function () {
+		it('should return a number', function () {
+			var testItem = new List.model();
+
+			testItem.locationBasic = {
+				geo: [151.2093, -33.8688],
+			};
+			var diff = testItem._.locationBasic.kmFrom([151, -33]);
+			demand(diff).eql(98.5390186615803);
+		});
+	});
+
+	describe('milesFrom()', function () {
+		it('should return a number', function () {
+			var testItem = new List.model();
+
+			testItem.locationBasic = {
+				geo: [151.2093, -33.8688],
+			};
+			var diff = testItem._.locationBasic.milesFrom([151, -33]);
+			demand(diff).eql(61.23308348472711);
+		});
+	});
+
 	describe('addFilterToQuery', function () {
 		it('should allow to filter by street', function () {
 			var result = List.fields.locationBasic.addFilterToQuery({
