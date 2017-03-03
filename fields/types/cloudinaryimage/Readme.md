@@ -1,5 +1,6 @@
 # CloudinaryImage Field
 
+> Warning: the CloudinaryImage Field has been deprecated. Please use the [File](/field/File) and a storage adapter going forward.
 Stores an `Object` in the model.
 
 Displayed as an image upload field in the Admin UI.

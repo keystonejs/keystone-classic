@@ -10,7 +10,9 @@ Stores an `Array` of `Number` values in the model.
 
 ## Options
 
-`separator` `string` - is used to join values; defaults to `' | '`
+`separator` `string` - is used to join values when calling the `.format()` function. Defaults to `' | '`
+
+`format` `string` - string to be used as the default formatString in the `.format()` method (below). This defaults to `0,0[.][000000000000]`.
 
 ## Underscore methods
 
