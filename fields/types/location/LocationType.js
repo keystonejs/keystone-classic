@@ -505,17 +505,17 @@ function calculateDistance (point1, point2) {
 }
 
 /**
- * Returns the distance from a [lat, lng] point in kilometres
+ * Returns the distance from a [lng, lat] point in kilometres
  */
 location.prototype.kmFrom = function (item, point) {
-	return calculateDistance(this.get(this.paths.geo), point) * RADIUS_KM;
+	return calculateDistance(item.get(this.paths.geo), point) * RADIUS_KM;
 };
 
 /**
- * Returns the distance from a [lat, lng] point in miles
+ * Returns the distance from a [lng, lat] point in miles
  */
 location.prototype.milesFrom = function (item, point) {
-	return calculateDistance(this.get(this.paths.geo), point) * RADIUS_MILES;
+	return calculateDistance(item.get(this.paths.geo), point) * RADIUS_MILES;
 };
 
 /* Export Field Type */
