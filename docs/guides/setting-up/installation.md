@@ -2,7 +2,7 @@
 
 ## Introduction
 
-If you want to jump right in to a working keystone codebase, check out our [getting started guide](/guides/getting-started), which walks you through using our generator to get a keystone codebase up and running quickly. This tutorial will give you a deeper understanding of how keystone works so you can customise it to your needs.
+If you want to jump right in to a working keystone codebase, check out our [getting started guide](/guides/getting-started), which walks you through using our generator to get a keystone codebase up and running quickly. This tutorial will walk you through setting up a project, looking at what the core parts of keystone are and how to set them up.
 
 This guide assumes you are familiar with using npm to install packages, and javascript as a language.
 
@@ -10,12 +10,13 @@ We're going to be tackling this in three parts.
 
 Part 1 (this one here) will focus on installation and setting up our `keystone.js` file, which launch our app.
 
-[Part 2](/guides/setting-up/database-setup) will detail building keystone models and setting up your database.
+[Part 2](../database-setup) will detail building keystone models and setting up your database.
 
-[part 3](/guides/setting-up/routes) will go through setting up routes with keystone to serve both database information as well as website pages.
+[Part 3](../routing) will go through setting up routes with keystone to serve both database information as well as website pages.
+
+[Part 4](../post-route) will get a us a `POST` endpoint which we can use to post data to.
 
 Before we start, make sure you have [node](nodejs.org) and [mongo](https://www.mongodb.com/download-center?jmp=nav#community) installed.
-
 
 ## Installation
 Start by creating a new directory and then from within it run `npm init`. This will set us up with a `package.json` for you with the ability to set up some default options.
@@ -42,7 +43,7 @@ keystone.init({
 keystone.start();
 ```
 
-First we require keystone, then we run `keystone.init()`. This function sets up keystone's initial starting values. Here we are only providing it a cookie secret, however as we build up our application we are going to come back and add more options here. If you want to check out the full list of options, you can find them [here](TK).
+First we require keystone, then we run `keystone.init()`. This function sets up keystone's initial starting values. Here we are only providing it a cookie secret, however as we build up our application we are going to come back and add more options here. If you want to check out the full list of options, you can find them [here](/configuration).
 
 A `cookie secret` is the only option that is technically required to launch keystone, however we'll be fleshing this out as we complete our setup.
 
@@ -50,17 +51,17 @@ Finally, we call `keystone.start()`, which kicks off our keystone app.
 
 We can now check this runs. Run `node keystone.js` and you should be greeted with:
 
-```sh
+```
 ------------------------------------------------
 KeystoneJS Started:
 Keystone is ready on http://0.0.0.0:3000
 ------------------------------------------------
 ```
 
-Unfortunately all that's there is a 404 error page. We're going to solve that in [part 3](/guides/setting-up/routes). In [Part 2](/guides/setting-up/database-setup) we are going to focus on getting the database connected, and the admin UI up and running. You can do these two in either order.
+Unfortunately all that's there is a 404 error page. We're going to solve that in [part 3](../routing). In [Part 2](../database-setup) we are going to focus on getting the database connected, and the admin UI up and running. You can do these two in either order.
 
 ## Learn more about:
 
-- [keystone.init]()
-- [keystone.start]()
-- [keystone setup configuration](/guides/configuration)
+- [keystone.init](TK)
+- [keystone.start](TK)
+- [keystone setup configuration](/configuration)

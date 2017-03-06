@@ -42,6 +42,10 @@ exports.createPages = ({ args }) => {
 	});
 };
 
+function kebabify (string) {
+	return string.split('/').map(s => _.kebabCase(s)).join('/');
+}
+
 // Add custom slug.
 exports.modifyAST = ({ args }) => {
 	console.time(`local modifyAST`);
@@ -51,18 +55,17 @@ exports.modifyAST = ({ args }) => {
 		const parsedFilePath = path.parse(file.relativePath);
 		let slug;
 		if (parsedFilePath.name === `index`) {
-			slug = `/${_.kebabCase(parsedFilePath.dir)}`;
+			slug = `/${kebabify(parsedFilePath.dir)}`;
 		} else if (parsedFilePath.name.match(/Readme/i) && file.dir.match(/\/fields\/types\//)) {
-			slug = `/field/${_.kebabCase(parsedFilePath.dir)}`;
+			slug = `/field/${kebabify(parsedFilePath.dir)}`;
 		} else {
-			slug = `/${_.kebabCase(parsedFilePath.dir)}/${_.kebabCase(parsedFilePath.name)}`;
+			slug = `/${kebabify(parsedFilePath.dir)}/${kebabify(parsedFilePath.name)}`;
 		}
 
 		// If file isn't in subdirectory "dir" will be empty.
 		slug = slug.replace('//', '/');
 
 		file.children[0].slug = slug;
-
 		file.slug = slug;
 	});
 	console.timeEnd(`local modifyAST`);

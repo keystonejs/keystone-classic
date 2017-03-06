@@ -40,7 +40,7 @@ Event.defaultColumns = 'displayName, email';
 Event.register();
 ```
 
-We are going to be drawing together everything we added in both [part 2](TK) and [part 3](TK), so we recommend completing both of those.
+We are going to be drawing together everything we added in both [part 2](../database-setup) and [part 3](../routing), so we recommend completing both of those.
 
 Your source tree should look like the following:
 
@@ -64,7 +64,7 @@ If you want to grab all the code up to this point, then you can download it [fro
 
 ## Adding a `addEvent` view
 
-First we want our pair of new files to make up the route and the view, these chould be `routes/views/addEvent` and `templates/views/addEvent.pug`.
+First we want our pair of new files to make up the route and the view, these should be `routes/views/addEvent` and `templates/views/addEvent.pug`.
 
 As we are not a pug tutorial, here's a page we prepared earlier:
 

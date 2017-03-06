@@ -4,7 +4,7 @@ Keystone has an easy database integration with [mongodb](mongodb.com), and uses 
 
 ## Setup
 
-From [part 1](guides/setting-up/initial-setup), we should have the following files:
+From [Part 1](../initial-setup), we should have the following files:
 
 ```
 | our Project folder
@@ -24,8 +24,6 @@ keystone.init({
 
 keystone.start();
 ```
-
-If you did [part 3](guides/setting-up/routes) first, you will have more than this.
 
 ## Adding a `User` model
 
@@ -53,7 +51,7 @@ keystone.init({
 });
 ```
 
-If you want to read more about these options, you can find the documentation [here](/configuration)TK.
+If you want to read more about these options, you can find the documentation [here](/configuration).
 
 Finally, we are going to add a new line to the file, which is going to import our models. This should be placed after `keystone.init` but before `keystone.start`
 
@@ -188,7 +186,7 @@ exports.create = {
 
 ```
 
-This will create a user with these details (though the password will be hashed beore saving) when keystone is started up. If you want to know more about update scripts, you can find the information [here](TK).
+This will create a user with these details (though the password will be hashed before saving) when keystone is started up. If you want to know more about update scripts, you can find the information [here](TK).
 
 An important note is that you will likely end up committing your update scripts to your project, so you should not include sensitive information in here. Any passwords added in an update script should be manually changed afterwards.
 
@@ -196,7 +194,7 @@ An important note is that you will likely end up committing your update scripts 
 
 And now we're ready! We can run `node keystone.js` to start up our app.
 
-We can now navigate to localhost:3000/keystone and be presented with a login page. Log in using the email address and password you just added, and have a bit of a play around. In fact, here are two more models to make this easier. Add these in and then restart your app.
+We can now navigate to `localhost:3000/keystone` and be presented with a login page. Log in using the email address and password you just added, and have a bit of a play around. In fact, here are two more models to make this easier. Add these in and then restart your app.
 
 `models/Event.js`
 
@@ -234,13 +232,13 @@ Event.register();
 ```
 
 ## Next Steps
-You can do [part 3](/guides/setting-up/routes) of our setting up keystone guide, which walks you through adding your own pages to your site, or if you want to read more about any of the parts we set up, you can check out these links:
+Check out [part 3](../routing) of our setting up keystone guide, which walks you through adding your own pages to your site, or if you want to read more about any of the parts we set up, you can check out these links:
 
 learn more about:
 
-- [configuring keystone](/configuration)TK.
-- [importing models](/keystone/api/import)
-- [list of keystone fields](/keystone/fields/)
+- [configuring keystone](/configuration)
+- [importing models](/keystone/api/import)TK
+- [list of keystone fields](/keystone/fields/)TK
 - [keystone field options](/)TK
 - [update scripts](/)TK
-- [virtuals and schema methods](TK)
+- [virtuals and schema methods](/)TK

@@ -4,13 +4,13 @@ Keystone is designed to do much of the setup of running an [express](expressjs.c
 
 Here we are going to add a router to our keystone application, and set up a basic webpage. This will not rely on what was done in part 2.
 
-After that, we are going to set up an API endpoint to retrieve information about the events model, which will be relying on setup we did in [part 2](/guides/setting-up/models).
+After that, we are going to set up an API endpoint to retrieve information about the events model, which will be relying on setup we did in [Part 2](../database-setup).
 
 For our routing, we are going to be using [pug](pugjs.org) to render our views, however the principles will remain the same for other view engines.
 
 ## Setup
 
-From [part 1](guides/setting-up/initial-setup), we should have the following files:
+From [part 1](../installation), we should have the following files:
 
 ```
 | our Project folder
@@ -31,7 +31,7 @@ keystone.init({
 keystone.start();
 ```
 
-If you did [part 2](guides/setting-up/routes), you will have more than this, however we will leave off that until we get to looking at our api route.
+If you did [part 2](../database-setup), you will have more than this, however we will leave off that until we get to looking at our api route.
 
 ## Adding a new page view
 
@@ -60,7 +60,7 @@ keystone.init({
 
 Keystone will look for an installed npm package with the same name as the view engine, so we are going to have to install `pug` to get this working.
 
-```sh
+```
 $ npm install --save pug
 ```
 
@@ -184,14 +184,16 @@ Check out [pugjs.org](pugjs.org) if you want to know more about pug.
 
 Now, if we start our keystone app using `node keystone`, we should be able to visit the homepage and see it rendered!
 
+[Part 4](../post-route)
+
 ## Next Steps
 
 Learn more about:
 
-- [keystone.set]()
-- [init options]()
-- [pug documentation]()
-- [express documentation]()
-- [more about routing patterns]()
-- [adding middleware]()
+- [keystone.set]()TK
+- [init options](/configuration)
+- [pug](pugjs.org)
+- [express](expressjs.com)
+- [more about routing patterns]()TK
+- [adding middleware]()TK
 - [keystone.importer]()
