@@ -50,7 +50,7 @@
     "marked": "^0.3.5",
     "method-override": "^2.3.5",
     "moment": "^2.10.6",
-    "mongoose": "~3.8.35",
+    "mongoose": "^4.2.3",
     "morgan": "^1.6.1",
     "mpromise": "^0.5.5",
     "multer": "^0.1.8",
