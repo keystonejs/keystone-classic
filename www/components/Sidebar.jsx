@@ -5,8 +5,6 @@ import { merge, media, presets, style } from 'glamor';
 import Sticky from 'react-stickynode';
 
 import menuItems from '../../docs/menu.yaml';
-console.log(menuItems);
-
 class Sidebar extends React.Component {
 	render () {
 		return (

@@ -2,6 +2,7 @@
 
 Stores a `String` or `Number` in the model.
 Displayed as a select field in the Admin UI.
+Does not allow for multiple items to be selected. If you want to provide multiple values, you can use `TextArray` or `NumberArray`, although neither will have the same constrained input. You can limit the options using a pre-save hook.
 
 ```js
   { type: Types.Select, options: 'first, second, third' }
@@ -35,8 +36,9 @@ Ensures a value has been provided. Empty strings are never valid, even if specif
 `Boolean` when `true`, causes the value of the field to be stored as a `Number` instead of a `String`
 
 ```js
-  { type: Types.Select, numeric: true, options: [{ value: 1, label: 'One' }, { value: 2, label: 'Two' }
+  { type: Types.Select, numeric: true, options: [{ value: 1, label: 'One' }, { value: 2, label: 'Two' }] }
 ```
+
 ### `emptyOption` `Boolean`
 when `undefined || true`, includes a blank value as the first option in the `<select>` field.
 
