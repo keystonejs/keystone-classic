@@ -35,7 +35,7 @@ jQuery(function ($) {
 		switch (data.type) {
 
 			case 'list':
-				var href = data.path;
+				var href = '/' + data.path;
 				var label = 'Manage ' + data.plural;
 
 				if (data.id) {
