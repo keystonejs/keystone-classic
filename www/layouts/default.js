@@ -7,6 +7,7 @@ import Drawer from 'react-motion-drawer';
 require('../css/prism-coy.css');
 require('typeface-libre-franklin');
 require('typeface-ubuntu-mono');
+import { Scrollbars } from 'react-custom-scrollbars';
 
 class DefaultLayout extends React.Component {
 	constructor (props) {
@@ -32,6 +33,9 @@ class DefaultLayout extends React.Component {
 				this.htmlElement.style.overflow = 'visible';
 				this.bodyElement.style.overflow = 'visible';
 			}
+      // Always set the HTML overflowY to scroll so there's no weird jumping
+      // around.
+			this.htmlElement.style.overflowY = `scroll`;
 		}
     // const activeSection = basepath(this.props.location.pathname)
 		return (
@@ -83,11 +87,20 @@ class DefaultLayout extends React.Component {
 							display: 'none',
 							[presets.Tablet]: {
 								display: 'block',
+								position: 'fixed',
+								height: `100vh`,
 								float: 'left',
 							},
 						}}
           >
-						<Sidebar />
+						<Scrollbars
+							autoHeight
+							autoHeightMin={`calc(100vh - ${rhythm(5)})`}
+							universal
+							autoHide
+            >
+							<Sidebar />
+						</Scrollbars>
 					</div>
 					<div
 						css={{
