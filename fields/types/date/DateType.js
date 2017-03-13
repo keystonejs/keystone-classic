@@ -79,6 +79,10 @@ date.prototype.format = function (item, format) {
 	}
 };
 
+date.prototype.getData = function (item) {
+	var value = item.get(this.path);
+	return moment.utc(value).format('YYYY-MM-DD');
+}
 /**
  * Returns a new `moment` object with the field value
  */
@@ -93,13 +97,13 @@ date.prototype.moment = function (item) {
  * either the provided input format or the default for the field
  */
 date.prototype.parse = function (value, format, strict) {
-	var m = this.isUTC ? moment.utc : moment;
+	var m = moment.utc;
 	// TODO Check should maybe be if (typeof value === 'string')
 	// use the parseFormatString. Ever relevant?
 	if (typeof value === 'number' || value instanceof Date) {
 		return m(value);
 	} else {
-		return m(value, format || this.parseFormatString, strict);
+		return m(value);
 	}
 };
 
