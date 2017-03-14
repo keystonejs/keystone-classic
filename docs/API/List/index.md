@@ -34,5 +34,3 @@ A new list will be created with the following default options:
 It will merge the defaultOptions with the passed options, deferring to the passed options when both define it. While fields can be set up in the constructor, the common pattern is to use [.add()](../add) on the instance of the list.
 
 Once your list has been completed, you can need to call [.register()](../register).
-
-- Explain Inherits logic TK

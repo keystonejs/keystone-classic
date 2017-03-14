@@ -102,7 +102,7 @@ Routes can extend or change local variables by modifying `res.locals`.
 
 `static` String or Array
 : One or more paths to your application's static files. Setting this will include the `serve-static` middleware.
-If you're following the [recommended project structure](TK), this should be set to `'public'`.
+If you're following the [recommended project structure](/guides/getting-started/#project-structure), this should be set to `'public'`.
 
 `static options` Object
 : Optional config options that will be passed to the `serve-static` middleware ([see docs here](github.com/expressjs/serve-static)).
@@ -202,28 +202,28 @@ Exposes `onSocketServerCreated` event during `keystone.start()`
 
 The following options control your database configuration and user models / authentication:
 
-`mongo` String
+### `mongo` `String`
 : The url for your MongoDB connection.
 You should typically set this to `process.env.MONGO_URI || "mongodb://localhost/your-db"`
 
-`model prefix` String
+### `model prefix` `String`
 : A prefix to apply to all the mongodb collections used by the models.
 
-`auth` Mixed
+### `auth` `Mixed`
 : Whether to enable built-in auth for Keystone's Admin UI, or a custom function to use to authenticate users.
 When this is set to `false` (or not defined), Keystone's Admin UI will be open to the public (so set it!)
 If using a custom function, it should follow the standard for express middleware of `function(req, res, next)`. If a user is not logged in or should not access Keystone's Admin UI, use `res.redirect()` to redirect them - otherwise call the `next` callback to enable access.
 
-`user model` String
+### `user model` `String`
 : The key of the Keystone List for users, **required** if `auth` is set to true
 Typically this would be set to User.
 
-`cookie secret` String
+### `cookie secret` `String`
 The encryption key to use for your cookies. Passed to Express's cookie parser.
 It's a really good idea to set this to a long, random string.
 
-`session store` String or Function
-: Set this to mongo to use your MongoDB database to persist session data.
+### `session store` `String or Function`
+Set this to mongo to use your MongoDB database to persist session data.
 By default, Keystone will use the in-memory session store provided by Express, which should only be used in development because it does not scale past a single process, and leaks memory over time.
 Valid options are:
 - `mongo` (or `connect-mongo`)
