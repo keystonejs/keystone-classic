@@ -1,0 +1,16 @@
+{
+  "tests": "test/**.js",
+  "timeout": 10000,
+  "output": "nightmare-output",
+  "helpers": {
+    "Nightmare": {
+      "url": "http://localhost",
+      "show": false,
+      "restart": false
+    }
+  },
+  "include": {},
+  "bootstrap": false,
+  "mocha": {},
+  "name": "keystone"
+}

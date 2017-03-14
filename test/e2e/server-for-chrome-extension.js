@@ -180,31 +180,12 @@ function start() {
 			checkKeystoneReady(cb);
 		},
 
-		function (cb) {
-			if (runTests) {
-				runE2E({
-					keystone: keystone
-				}, cb);
-			} else {
-				cb();
-			}
-		}
-
 	], function(err) {
-		var exitProcess = false;
-		var exitCode = 0;
 		if (err) {
 			console.error([moment().format('HH:mm:ss:SSS')] + ' e2e: ' + err);
-			exitProcess = true;
-			exitCode = 1;
+			process.exit(1);
 		}
-		if (runTests) {
-			exitProcess = true;
-		}
-		if (exitProcess) {
-			console.error([moment().format('HH:mm:ss:SSS')] + ' e2e: exiting');
-			process.exit(exitCode);
-		}
+		console.log('Server running, please open chrome with the DayDream extension installed');
 	});
 }
 
