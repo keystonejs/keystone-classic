@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'gatsby-link';
-import Container from './Container';
+import Container from './container';
 import { rhythm, scale, options } from 'utils/typography';
 import { presets } from 'glamor';
 import MenuIcon from 'react-icons/lib/md/menu';
