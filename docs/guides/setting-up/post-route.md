@@ -171,7 +171,7 @@ We can call this like so:
 Event.updateItem(newEvent)
 ```
 
-`updateItem` has a lot of other great features for helping you ensure your data integrity, and we recommend reading the full documentation [here](TK) when you have time.
+`updateItem` has a lot of other great features for helping you ensure your data integrity, and we recommend reading the full documentation [here](/api/update-item) when you have time.
 
 This leaves us with a file looking like:
 
@@ -210,14 +210,5 @@ Event.updateItem(newEvent, function (err) {
 
 ## Next Steps
 
-- [updateItem](TK)
-
-
-
-
-
-
-
-
-
-You should have mongo installed, and it should be running. If you are not running it on the default port of 27017
+- [updateItem](/api/update-item)
+TK

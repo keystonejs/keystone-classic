@@ -3,10 +3,10 @@ title: How to create a blog with Keystone
 ---
 
 In this guide we will walk you through building a simple blog with
-Keystone based on free
+Keystone based on the free
 [Bootstrap-clean-blog](https://blackrockdigital.github.io/startbootstrap-clean-blog/)
-theme.  Our blog will have 3 page templates: index page with blog feed,
-single post and About us page.  See the final blog's source code
+theme.  Our blog will have 3 page templates; an index page with the blog feed,
+a single post page, and an 'About us' page.  See the final blog's source code
 [here](https://github.com/xyzteam2016/xyzcodeblog).
 
 ## Install prerequisites
@@ -40,7 +40,7 @@ yo keystone
 
 The generator will ask a couple of questions about the configuration.
 Go ahead and select the default options. Say `Y` when generator asks you
-if want you include a `Blog`.  In this guide, we will use `jade`
+if want you include a `Blog`.  In this guide, we will use `pug`
 templating engine, and `less` as a CSS pre-processor.
 
 Once you've selected your requirements, the generator will prepare the
@@ -69,11 +69,11 @@ By default, Boostrap is already included with Keystone, so we would only have to
 
 ### Editing templates
 
-First, let's re-build header and footer. Open `templates/layouts/default.jade` file which contains template's wrapper. Now by following Bootstrap theme's `index.html`, add fonts, extra navigation elements and theme's classes using Jade. If you are not familiar with Jade (recently renamed to pug), refer to the [official documentation](https://pugjs.org/api/getting-started.html).
+First, let's re-build header and footer. Open `templates/layouts/default.pug` file which contains template's wrapper. Now by following Bootstrap theme's `index.html`, add fonts, extra navigation elements and theme's classes using Jade. If you are not familiar with Jade (recently renamed to pug), refer to the [official documentation](https://pugjs.org/api/getting-started.html).
 
-Blog and post templates are a bit more tricky to modify. When you open `templates/views/blog.jade`, you will see a mixin which renders a feed of the latest posts where each post has title, brief, image (if it exists) and meta information. Existing `blog.jade` template already contains most of this elements. Let's add missing classes and post's brief by following theme's `index.html` file.
+Blog and post templates are a bit more tricky to modify. When you open `templates/views/blog.pug`, you will see a mixin which renders a feed of the latest posts where each post has title, brief, image (if it exists) and meta information. Existing `blog.pug` template already contains most of this elements. Let's add missing classes and post's brief by following theme's `index.html` file.
 
-In KeystoneJS, your data schema and models are controlled by [Lists](http://keystonejs.com/docs/database/). In our case, `Post` is a `List`, and we want to pull relevant data from its [fields](http://keystonejs.com/docs/database/#fields) or specify it's [options](http://keystonejs.com/docs/database/#fields-options) or [methods](http://keystonejs.com/docs/database/#fields-underscoremethods). This way, if we want to access post field data inside mixin, we will use the following syntax: `post.fieldname.subfieldname`. For example, to add post's brief, we will write `post.content.brief`. Similarly, if we want to check if image exists, we will access post image `exists` option, like this `if post.image.exists`, and if it results to true, we show a post's image scaled to fit within the specified width and height, like that `img(src=post._.image.fit(800,800))` using image's `fit` underscore method. For the full list of available fields and their options and methods, refer to (KeystoneJS documentation)[http://keystonejs.com/docs/database/]. Single post `post.jade` template can be modified in exactly same way as `blog.jade` file. The only difference is, in order to access field's data inside `post` template, you need to use `data.listname.fieldname.subfieldname` syntax.
+In KeystoneJS, your data schema and models are controlled by [Lists](http://keystonejs.com/docs/database/). In our case, `Post` is a [List](/api/list), and we want to pull relevant data from its [fields](http://keystonejs.com/docs/database/#fields) or specify it's [options](http://keystonejs.com/docs/database/#fields-options) or [methods](http://keystonejs.com/docs/database/#fields-underscoremethods). This way, if we want to access post field data inside mixin, we will use the following syntax: `post.fieldname.subfieldname`. For example, to add post's brief, we will write `post.content.brief`. Similarly, if we want to check if image exists, we will access post image `exists` option, like this `if post.image.exists`, and if it results to true, we show a post's image scaled to fit within the specified width and height, like that `img(src=post._.image.fit(800,800))` using image's `fit` underscore method. For the full list of available fields and their options and methods, refer to (KeystoneJS documentation)[http://keystonejs.com/docs/database/]. Single post `post.pug` template can be modified in exactly same way as `blog.pug` file. The only difference is, in order to access field's data inside `post` template, you need to use `data.listname.fieldname.subfieldname` syntax.
 
 ### Creating Pages
 
@@ -99,7 +99,7 @@ As the last step, specify which fields to display in `keystone/pages` in Admin U
 
 3) Now let's define a new route for page. Open `routes/index.js` file, navigate to 'Setup Route Bindings' section and add `app.get('/pages/:page', routes.views.page);` line.
 
-4) Now we are ready to add a template for our page. Go to `templates/views`, create `page.jade` file and copy-paste `post.jade` contents into it. You can access `page` fields and options similar way by using `data.list.fieldname.subfieldname` syntax. Remove post-only related code, and we are all set to move to the last step.
+4) Now we are ready to add a template for our page. Go to `templates/views`, create `page.pug` file and copy-paste `post.pug` contents into it. You can access `page` fields and options similar way by using `data.list.fieldname.subfieldname` syntax. Remove post-only related code, and we are all set to move to the last step.
 
 5) Add 'About' page link to navigation. Go to `routes/middleware.js` and add a new line to `res.locals.navLinks`
 

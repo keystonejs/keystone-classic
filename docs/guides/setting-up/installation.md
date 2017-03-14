@@ -62,6 +62,6 @@ Unfortunately all that's there is a 404 error page. We're going to solve that in
 
 ## Learn more about:
 
-- [keystone.init](TK)
-- [keystone.start](TK)
+- [keystone.init](/api/init)
+- [keystone.start](/api/start)
 - [keystone setup configuration](/configuration)

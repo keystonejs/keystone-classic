@@ -4,14 +4,17 @@ title: How to send emails with Keystone
 
 We often had to send emails in our Keystone projects, so we figured we
 might as well make that easier. With the standalone
-[`keystone-email`](http://npm.im/keystone-email) package with Mailgun
-and Mandrill integrations you'll be sending emails in less than 5
+[`keystone-email`](http://npm.im/keystone-email) package, containing Mailgun
+and Mandrill integrations, you'll be sending emails in less than 5
 minutes!
 
 ## Setup
 
-1. Install the `keystone-email package` in your project with `npm
-   install keystone-email --save`
+1. Install the `keystone-email package` in your project with
+
+```
+npm install keystone-email --save
+```
 
 That's everything there is to it from the Keystone side!
 
@@ -54,7 +57,7 @@ var Email = require('keystone-email');
 
 `keystone-email` uses templates. You can use whatever templating engine
 you prefer (set it via the `engine` option) but for this guide we'll be
-using `pug`! (formally called `jade`)
+using `pug`! (formerly called `jade`)
 
 Create another file in the root folder called `test-email.pug` and fill
 it with this content:
@@ -186,8 +189,8 @@ In a real world scenario you will almost always want to pass data into
 your templates, for example to say hi to your users by name. Let's do
 exactly that!
 
-First, adapt your template to accept data. In Pug (Jade) you use locals
-with the `#{ variable }` syntax. Change `test-email.pug` to have this
+First, adapt your template to accept data. In Pug you use locals
+with the `#{ recipient.variable }` syntax. Change `test-email.pug` to have this
 content:
 
 ```jade
@@ -197,8 +200,8 @@ doctype html
 html(lang="en")
   head
   body
-    h1 Hi #{ firstName }, this is your second email sent with Keystone!
-    p This is your full name: #{ firstName } #{ name }
+    h1 Hi %recipient.firstName% this is your second email sent with Keystone!
+    p This is your full name: %recipient.firstName% %recipient.name%
 ```
 
 As you can see above, we need to pass `firstName` and `name` to our

@@ -8,8 +8,8 @@ The options for KeystoneJS cover a range of behaviours, from how the express app
 
 There are three ways to set options:
 
-- Passing a `{ key: 'value' }` configuration `Object` to the `keystone.init(options)` method
-- Calling `keystone.set('key', 'value')`
+- Passing a `{ key: 'value' }` configuration `Object` to the [keystone.init(options)](/api/init) method
+- Calling [keystone.set('key', 'value')](/api/set)
 - Setting environment variables in `process.env`. Only some options support this (noted below).
 
 If you want to keep secret keys and configuration out of your codebase (especially important for open source projects, or projects where not all developers should have access to production config settings) the [dotenv](npmjs.org/package/dotenv) module makes this very easy to manage.
@@ -85,7 +85,7 @@ You should really **set this to `production` for your production servers** using
 If you're following the [recommended project structure](/guides/getting-started/#project-structure), this should be set to `"/templates/views"`.
 
 `view engine` String
-: The template engine to use by default. Any engine with express support should work. Jade is included with Keystone, but you will have to add any alternate engine to your project's dependencies in your `package.json`.
+: The template engine to use by default. Any engine with express support should work. You will need to install any view engine you intend to use in your project
 This option is set on the express app ([see docs here](expressjs.com/api.html)).
 
 `custom engine` Function
@@ -236,6 +236,7 @@ Valid options are:
 > The session configuration passed to Express is available via keystone.get('express session')
 
 **Example using custom express-session store**
+
 ```
 var keystone = require('keystone'),
     ConnectMemcached = require('connect-memcached')
@@ -251,10 +252,12 @@ keystone.init({
   }
 });
 ```
+
 `session store options` Object
 : This option allows you to override the default session store configuration, and is passed to the session store package.
 It is required when using the `connect-mongostore` store.
 **Example for connect-mongostore**
+
 ```
 "sessionStore": {
   "db": {
@@ -267,7 +270,9 @@ It is required when using the `connect-mongostore` store.
   }
 }
 ```
+
 **Example for connect-redis**
+
 ```
 "sessionStore": {
   "host": "", // Redis server hostname
@@ -279,6 +284,7 @@ It is required when using the `connect-mongostore` store.
   "url": "", // e.g. redis://user:pass@host:port/db
 }
 ```
+
 > NOTE
 > The session options are made available via `keystone.get('session options')`
 
@@ -400,15 +406,6 @@ keystone.set('default region', 'au'); // optional, will limit autocomplete resul
 > NOTE
 > The Places Geocoding API may only be used in conjunction with a Google map; geocoding results without displaying them on a map is prohibited. Please make sure your Keystone app complies with the Google Maps API License.
 
-## Amazon S3
-KeystoneJS supports [Amazon S3](http://aws.amazon.com/s3/) for file upload and hosting, with the [S3File] field type.
-
-To use the S3File field in your app, sign up for an account, create an S3 bucket, and get your key and secret.
-
-Then set the s3 config option to an object containing your configuration (see example below).
-
-Alternatively, set the S3_BUCKET, S3_KEY and S3_SECRET environment variables.
-
 ## Embed.ly
 
 Embed.ly is a service that will parse a url (e.g. Youtube embed link) and return a whole lot of useful information, like the provider name, summary metadata, width and height of videos, as well as a clean link to use for embedding media in your views. They offer a free plan for up to 5,000 urls per month.
@@ -443,6 +440,7 @@ Updates are only run once, and each completed update is logged in an `app_update
 
 **Update Script Example**
 Creates a new admin User
+
 ```
 var keystone = require('keystone'),
     User = keystone.list('User');

@@ -137,8 +137,8 @@ You may also selectively enable each field and optionally specify a custom field
 - `updatedAt` Boolean/String - when set to `true`, enables tracking when the item was last updated (using the default field name *updatedAt*). To use a custom field name set to a `String` with the desired name. Defaults to `false`.
 - `updatedBy` Boolean/String - when set to `true`, enables tracking which user last updated the item (using the default field name *updatedBy*). To use a custom field name set to a `String` with the desired name. Defaults to `false`.
 
-> NOTE
-> The createdBy and updatedBy fields are only automatically updated when adding/modifying items via the Keystone Admin UI. However, if you intend to add/modify items from within your own app, you must manually set the ._req_user property of the item to the currently logged on user (req.user) prior to saving the item, as shown in the example below.
+> NOTE: The createdBy and updatedBy fields are only automatically updated when adding/modifying items via the Keystone Admin UI. However, if you intend to add/modify items from within your own app, you must manually set the ._req_user property of the item to the currently logged on user (req.user) prior to saving the item, as shown in the example below.
+
 ```
 var item = new List.model();
 item.set({ field1: 'value1', field2: 'value2' });
@@ -481,6 +481,7 @@ function () {
 }
 ```
 **Example (asynchronous)**
+
 ```
 function (callback) { // BEWARE: MUST be called "callback" to allow asynchronous execution
 	list.model.findById(this.createdBy).exec(function(err, user){
@@ -494,6 +495,7 @@ function (callback) { // BEWARE: MUST be called "callback" to allow asynchronous
 Some field types include helpful **underscore methods**, which are available on the item at the field's path preceded by an underscore.
 
 **For example**: use the `format` underscore method of the `createdAt` `DateTime` field of the Posts List (above) like this
+
 ```
 var keystone = require('keystone'),
     Post = keystone.list('Post');
@@ -516,6 +518,7 @@ Stores references to ObjectIDs from another Model in an ObjectID field or array 
 Specify the related Model using the `ref` option. For a many-many relationship, set the `many` option to `true`.
 
 For example, if you wanted to link a **Post** model to a single **Author** and many **PostCategories**, you would do it like this:
+
 ```
 Post.add({
     author: { type: Types.Relationship, ref: 'User' },
@@ -530,6 +533,7 @@ You can filter a relationship field using the `filters` option.
 The `filters` option is an object of key/value pairs, in which the keys correspond to the fields of the related model to be filtered, and the values will either be literals or field names in the current model, the value of which will be used to filter the relationship.
 
 In the example below, the `author` field will only allow selection of a `User` whose `group` field is equal to 'admin'.
+
 ```
 Post.add({
     title: { type: String, required: true },
@@ -537,6 +541,7 @@ Post.add({
     author: { type: Types.Relationship, ref: 'User', filters: { group: 'admin' } }
 });
 ```
+
 You can also filter by the value of another field on the model. You do this setting the value of the filter to the name of the field, prefixed by a colon (:).
 
 In the example below, the `author` field will only allow selection of a `User` whose `group` field is equal to the value of the `category` field of the `Post` model.
@@ -548,9 +553,11 @@ Post.add({
     author: { type: Types.Relationship, ref: 'User', filters: { group: ':category' } }
 });
 ```
+
 Finally, you can also filter by the current model's `_id` field.
 
 In the example below, the `bestPost` field will only allow selection of a `Post` whose `author` field is equal to the `_id` of the current document.
+
 ```
 User.add({
     name: { type: String, required: true },
