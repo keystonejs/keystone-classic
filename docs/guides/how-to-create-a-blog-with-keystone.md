@@ -1,12 +1,19 @@
-# How to create a blog with Keystone
+---
+title: How to create a blog with Keystone
+---
 
-In this guide we will walk you through building a simple blog with Keystone based on free [Bootstrap-clean-blog](https://blackrockdigital.github.io/startbootstrap-clean-blog/) theme.
-Our blog will have 3 page templates: index page with blog feed, single post and About us page.
-See the final blog's source code [here](https://github.com/xyzteam2016/xyzcodeblog).
+In this guide we will walk you through building a simple blog with
+Keystone based on free
+[Bootstrap-clean-blog](https://blackrockdigital.github.io/startbootstrap-clean-blog/)
+theme.  Our blog will have 3 page templates: index page with blog feed,
+single post and About us page.  See the final blog's source code
+[here](https://github.com/xyzteam2016/xyzcodeblog).
 
 ## Install prerequisites
 
-Before you begin, make sure you have [Node.js](http://nodejs.org/download) 0.10+ and [MongoDB](http://www.mongodb.org/downloads) v2.4+ installed.
+Before you begin, make sure you have
+[Node.js](http://nodejs.org/download) 0.10+ and
+[MongoDB](http://www.mongodb.org/downloads) v2.4+ installed.
 
 ## Use the generator
 
@@ -32,10 +39,13 @@ yo keystone
 ```
 
 The generator will ask a couple of questions about the configuration.
-Go ahead and select the default options. Say `Y` when generator asks you if want you include a `Blog`.
-In this guide, we will use `jade` templating engine, and `less` as a CSS pre-processor.
+Go ahead and select the default options. Say `Y` when generator asks you
+if want you include a `Blog`.  In this guide, we will use `jade`
+templating engine, and `less` as a CSS pre-processor.
 
-Once you've selected your requirements, the generator will prepare the skeleton of your app, configure the files and install npm dependencies as required.
+Once you've selected your requirements, the generator will prepare the
+skeleton of your app, configure the files and install npm dependencies
+as required.
 
 ## Run it for the first time!
 
@@ -46,7 +56,8 @@ cd my-blog
 node keystone
 ```
 
-You can now go to your browser and check out your new project on port 3000 (open http://localhost:3000).
+You can now go to your browser and check out your new project on port
+3000 (open http://localhost:3000).
 
 ## Changing blog styles and templates
 
@@ -70,15 +81,15 @@ By default, there is no Page `Model` shipped with default Keystone project. Sinc
 
 1) Create a new `Page.js` file in `models` folder. Since it is very similar to post data model, you can copy-paste contents of `Post.js` and use it as a template changing all occurrences of `Post` to `Page`. New `Page` model doesn't require so many fields as `Post` model, it would be enough to add the following fields:
 
-```
+```javascript
 Page.add({
-	title: { type: String, required: true },
-	state: { type: Types.Select, options: 'draft, published, archived', default: 'draft', index: true },
-	image: { type: Types.CloudinaryImage },
-	content: {
-		brief: { type: Types.Html, wysiwyg: true, height: 150 },
-		extended: { type: Types.Html, wysiwyg: true, height: 400 },
-	},
+  title: { type: String, required: true },
+  state: { type: Types.Select, options: 'draft, published, archived', default: 'draft', index: true },
+  image: { type: Types.CloudinaryImage },
+  content: {
+    brief: { type: Types.Html, wysiwyg: true, height: 150 },
+    extended: { type: Types.Html, wysiwyg: true, height: 400 },
+  },
 });
 ```
 
@@ -92,7 +103,7 @@ As the last step, specify which fields to display in `keystone/pages` in Admin U
 
 5) Add 'About' page link to navigation. Go to `routes/middleware.js` and add a new line to `res.locals.navLinks`
 
-```
+```javascript
 res.locals.navLinks = [
   { label: 'About', key: 'about', href: '/pages/page/about' }, // adding About to blog navigation
   { label: 'Blog', key: 'blog', href: '/blog' },
@@ -101,11 +112,11 @@ res.locals.navLinks = [
 
 Last but not least, you may want to add `Pages` to Admin UI top navigation for easy access. To do so, open `keystone.js` file located in the root of your project and add a new route to `keystone.set(nav)`
 
-```
+```javascript
 keystone.set('nav', {
-	posts: ['posts', 'post-categories'],
-	users: 'users',
-	pages: 'pages', // adding pages to Admin UI nav
+  posts: ['posts', 'post-categories'],
+  users: 'users',
+  pages: 'pages', // adding pages to Admin UI nav
 });
 ```
 
@@ -129,6 +140,7 @@ git commit -m "Initial commit"
 ```
 
 Login to Heroku and create your app:
+
 ```sh
 heroku login
 heroku create my-blog
@@ -138,6 +150,7 @@ If you run the `heroku create` command without the name parameter, heroku will a
 The command will also automatically add a git remote `heroku`.
 
 If you want to use an existing git repository, you can add it by running the command:
+
 ```sh
 heroku git:remote -a my-blog
 ```

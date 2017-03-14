@@ -1,5 +1,6 @@
 # CloudinaryImage Field
 
+> Warning: the CloudinaryImage Field has been deprecated. Please use the [File](/field/File) and a storage adapter going forward.
 Stores an `Object` in the model.
 
 Displayed as an image upload field in the Admin UI.
@@ -31,12 +32,12 @@ Method to generate a public_id in Cloudinary for the uploaded file. Gets passed 
 }
 ```
 
-`whenExists` `string; default: 'retry'`
+`whenExists` `string; default: 'overwrite'`
 
 Specifies what to do when the file exists already. Can be one of `'retry'`, `'error'` or `'overwrite'`.
 
 ```js
-{ type: Types.CloudinaryImage, whenExists: 'overwrite' }
+{ type: Types.CloudinaryImage, whenExists: 'retry' }
 ```
 
 `retryAttempts` `number; default: 3`
