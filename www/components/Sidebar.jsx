@@ -26,6 +26,8 @@ class Sidebar extends React.Component {
       >
 				<div>
 					{menuItems.map((section) => {
+						console.log(section);
+
 						return (
 							<div
 								css={{

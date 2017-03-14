@@ -190,10 +190,10 @@ Now, if we start our keystone app using `node keystone`, we should be able to vi
 
 Learn more about:
 
-- [keystone.set]()TK
+- [keystone.set](/api/set)
 - [init options](/configuration)
 - [pug](pugjs.org)
 - [express](expressjs.com)
 - [more about routing patterns]()TK
 - [adding middleware]()TK
-- [keystone.importer]()
+- [keystone.importer](/api/importer)

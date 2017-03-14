@@ -72,7 +72,7 @@ FileUpload.register();
 ```
 
 A lot of the additional fields like `alt1`, or `category` are metadata
-and may be unnessessary for your purposes. I put them in the model as
+and may be unnecessary for your purposes. I put them in the model as
 suggestions.  Feel free to take them out, and it won't hurt anything if
 you leave them in
 
