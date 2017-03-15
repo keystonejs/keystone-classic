@@ -194,6 +194,4 @@ Learn more about:
 - [init options](/configuration)
 - [pug](pugjs.org)
 - [express](expressjs.com)
-- [more about routing patterns]()TK
-- [adding middleware]()TK
 - [keystone.importer](/api/importer)

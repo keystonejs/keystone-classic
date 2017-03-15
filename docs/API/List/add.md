@@ -1,9 +1,11 @@
-##### add({ fields }, 'prefix')
-Adds fields to a [keystone List](TK). Must be used before [register()](../register). This takes an object with all of the fields, as well as a prefix option TK- what does prefix do?.
+# Add
+
+## add(fields:object, prefix:string)
+Adds fields to a [keystone List](./). Must be used before [register()](./register). This takes an object with all of the fields, as well as a prefix option. The prefix will be added to the list's collection name in mongo.
 
 Example call:
 
-```
+```JS
 var Cat = new keystone.List('Cat');
 
 Cat.add({
@@ -14,8 +16,6 @@ Cat.add({
 
 Each field uses its key as the name of the field within the database.
 
-All fields must have a type, either `String`, `Number`, `Boolean`, or one of the defined [keystone field types](/List/fields/types)
+All fields must have a type, either `String`, `Number`, `Boolean`, or one of the defined [keystone field types](../field)
 
-The list of options available to all fields can be found [here](TK)TK. For Keystone fields, each has its own options.
-
-TK indents and heading and frigging indents what the heck?
+TK - indents, outdents and heading options need explanation

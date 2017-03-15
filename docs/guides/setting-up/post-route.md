@@ -1,6 +1,6 @@
 # Part 4 -  Adding data to the database from a form
 
-TK
+For the final part of this guide, we're going to set up an api endpoint, bringing together our routing configuration and database configuration, so we can see both working together.
 
 ## Setup
 
@@ -59,8 +59,6 @@ Your source tree should look like the following:
 |	|	|--index.pug
 |--keystone.js
 ```
-
-If you want to grab all the code up to this point, then you can download it [from github](TK). Once you have unzipped the folder, you will need to run `npm install` to add the node_modules.
 
 ## Adding a `addEvent` view
 
@@ -211,4 +209,3 @@ Event.updateItem(newEvent, function (err) {
 ## Next Steps
 
 - [updateItem](/api/update-item)
-TK

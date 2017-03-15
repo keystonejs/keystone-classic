@@ -55,7 +55,7 @@ exports.modifyAST = ({ args }) => {
 		if (parsedFilePath.name === `index`) {
 			slug = `/${kebabify(parsedFilePath.dir)}`;
 		} else if (parsedFilePath.name.match(/Readme/i) && file.dir.match(/\/fields\/types\//)) {
-			slug = `/field/${kebabify(parsedFilePath.dir)}`;
+			slug = `/api/field/${kebabify(parsedFilePath.dir)}`;
 		} else {
 			slug = `/${kebabify(parsedFilePath.dir)}/${kebabify(parsedFilePath.name)}`;
 		}

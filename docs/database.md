@@ -24,15 +24,17 @@ List Items are [mongoose documents](http://mongoosejs.com/docs/documents.html). 
 
 ### Usage
 
-`new keystone.List(key[, options]);`
+`new keystone.List(key:string [, options:object]);`
 
 The syntax for creating a **Keystone List** is very similar to the syntax for creating a Mongoose Schema, with the exception of the constructor, which is `var MyList = new keystone.List(key, options)`.
 
-Once you have created a new List, add fields to it using `MyList.add(fields)`, where fields is an object of keys (for field paths) and values (for field types, or options).
+Once you have created a new List, add fields to it using `MyList.add(fields:object)`, where fields is an object of keys (for field paths) and values (for field types, or options).
 
 Fields are defined by an object with a `type` property, which must be a valid Field Type or basic data type. Using the object syntax you can specify additional options for the field. Common field options and field-type-specific options are detailed in the fields documentation.
 
 When all the fields and options have been set on the list, call `MyList.register()` to register the list with Keystone and finalise its configuration.
+
+The options can be found [here](/api/list/options)
 
 ### Example
 
@@ -67,99 +69,13 @@ Post.register();
 ```
 
 > NOTE
-> This example implements the optional `map`, `autokey` and `defaultSort` options, described below.
+> This example implements the optional `map`, `autokey` and `defaultSort` options, see the [api documentation](/api/list/options) for more details.
 
 > NOTE
 > It also specifies `title`, `state`, `author` and `publishedAt` as the default columns to display in the Admin UI, with state and publishedAt being given column widths.
 
 > NOTE
-> The `author` field is a relationship with the `User` model, as described in the [getting started guide](TK).
-
-### Options
-
-Lists support the following options:
-
-`label` String
-: The label used for the list in the Admin UI. Defaults to a friendly form of `key`
-
-`path` String
-: The path used for the list in the Admin UI. Defaults to a slugified form of `key`.
-
-`singular` String
-: The singular label for the items in the list. Used in the Admin UI, defaults to a singular form of `label`.
-
-`plural` String
-: The plural label for the items in the list. Used in the Admin UI, defaults to a plural form of `singular`
-
-`schema` String
-Options for the Mongoose Schema for the List. Among other things, this option lets you specify a custom name for the collection. See the [mongoose schema docs](http://mongoosejs.com/docs/guide.html#options) for a list of available options.
-*Warning: do not modify the `id` or `_id` schema options; the default behaviour is required by Keystone*
-
-`drilldown` String
-: A space-delimited list of relationships to display as drilldown in the Admin UI
-
-`inherits` List
-: A list object that you would like to inherit fields from.
-
-`sortable` Boolean
-: Adds a hidden field `sortOrder` to the schema, and enables drag and drop sorting in the Admin UI
-
-`sortContext` String
-: A `List:relationship` pair to control when drag and drop sorting is available in the Admin UI
-
-`searchFields` String
-: A space-delimited list of paths to use for searching in Admin UI
-
-`defaultSort` String
-: The default column or path to sort on in the Admin UI
-
-`defaultColumns` String
-: A comma-delimited list of default columns to display in the Admin UI List View. You can specify width in either pixels or percent after a `|` pipe character.
-
-`map` Object
-: An object that maps fields to special **list** paths. Each path defaults to its key if a field with that key is added. Mappable paths include
-- name - the field that contains the name of the item, for display in the Admin UI
-
-`autokey` Object
-: Adds a plugin to the list that automatically generates a key for each document when it is saved, based on the value of another field or path. The value of the option should be an object with the following keys:
-- `from` String - the field or path to generate the key from, can be a space-delimited list of fields
-- `path` String - the path to store the key at
-- unique Boolean - whether the key should be unique or not
-- `fixed` Boolean - the key should be kept if it exists and it's non-empty. Defaults to `false`.
-*Autokey paths are automatically indexed; you may also want to include them in compound indexes.*
-
-`track` Boolean or Object
-: Adds a plugin to the list that automatically keeps track of when and who (i.e. which Keystone user) created and last updated an item.
-When set to `true` all tracking fields are enabled using their default names.
-You may also selectively enable each field and optionally specify a custom field name by setting `track` to an `object` with any or all the following fields:
-- `createdAt` Boolean/String - when set to `true`, enables tracking when the item was created (using the default field name *createdAt*). To use a custom field name set to a `String` with the desired name. Defaults to `false`.
-- `createdBy` Boolean/String - when set to `true`, enables tracking which user created the item (using the default field name *createdBy*). To use a custom field name set to a `String` with the desired name. Defaults to `false`.
-- `updatedAt` Boolean/String - when set to `true`, enables tracking when the item was last updated (using the default field name *updatedAt*). To use a custom field name set to a `String` with the desired name. Defaults to `false`.
-- `updatedBy` Boolean/String - when set to `true`, enables tracking which user last updated the item (using the default field name *updatedBy*). To use a custom field name set to a `String` with the desired name. Defaults to `false`.
-
-> NOTE: The createdBy and updatedBy fields are only automatically updated when adding/modifying items via the Keystone Admin UI. However, if you intend to add/modify items from within your own app, you must manually set the ._req_user property of the item to the currently logged on user (req.user) prior to saving the item, as shown in the example below.
-
-```
-var item = new List.model();
-item.set({ field1: 'value1', field2: 'value2' });
-item._req_user = req.user;
-item.save();
-```
-
-`noedit` Boolean
-: Prevents editing of items in the list through the Keystone Admin UI
-
-`nocreate` Boolean
-: Prevents creation of new items in the list through the Keystone Admin UI
-
-`nodelete` Boolean
-: Prevents deletion of items from the list through the Keystone Admin UI
-
-`hidden` Boolean
-Hides the list in the Keystone Admin UI
-
-> NOTE
-> If you're wondering how to control which navigation area Lists are categorised under in the Admin UI, check out the nav option in the KeystoneJS Configuration docs.
+> The `author` field is a relationship with the `User` model, as described in the [getting started guide](/guides/getting-started).
 
 ## Drilldown Example
 
@@ -308,15 +224,17 @@ var keystone = require('keystone'),
 
 When you call `exec` on a paginated query, it will return a lot of metadata along with the results:
 
-- `total`: all matching results (not just on this page)
-- `results`: array of results for this page
-- `currentPage`: the index of the current page
-- `totalPages`: the total number of pages
-- `pages`: array of pages to display
-- `previous`: index of the previous page, false if at the first page
-- `next`: index of the next page, false if at the last page
-- `first`: the index of the first result included
-- `last`: index of the last result included
+key | details
+---|---
+`total` | all matching results (not just on this page)
+`results` | array of results for this page
+`currentPage` | the index of the current page
+`totalPages` | the total number of pages
+`pages` | array of pages to display
+`previous` | index of the previous page, false if at the first page
+`next` | index of the next page, false if at the last page
+`first` | the index of the first result included
+`last` | index of the last result included
 
 ## Creating Items
 
@@ -414,33 +332,23 @@ All field types support several common options, which can specify database setti
 
 Common field options include:
 
-`label` String
-: The label of each field is generated from the field path; set this option to override the default.
-
-`required` Boolean
-: Validates that the field has a value before an item can be saved (also passed to mongoose and enforced using a database index).
-
-`initial` Boolean
-: Causes the field to be displayed in the **Create Item** form, in the Admin UI.
-
-`noedit` Boolean
-: Renders the field as read-only in the admin UI.
-
-`note` String
-: Is displayed with the field in the admin UI.
-
-`hidden` Boolean
-: The field will always be hidden in the Admin UI if this is set to `true`
+option | type | description
+--- | --- | ---
+`label` | `String` | The label of each field is generated from the field path; set this option to override the default.
+`required` | `Boolean` | Validates that the field has a value before an item can be saved (also passed to mongoose and enforced using a database index).
+`initial` | `Boolean` | Causes the field to be displayed in the **Create Item** form, in the Admin UI.
+`noedit` | `Boolean` | Renders the field as read-only in the admin UI.
+`note` | `String` | Is displayed with the field in the admin UI.
+`hidden` | `Boolean` | The field will always be hidden in the Admin UI if this is set to `true`
 
 ## Conditional Fields
 
 To improve the usability of the Admin UI, it is possible to hide fields when no value is set, or depending on the value of other fields.
 
-`collapse` Boolean
-: Displays an **+ add** link in the admin UI when the field has no value. Will completely hide field UI when `noedit` is also set to true, when the field has no value
-
-`dependsOn` Object
-: The field or header will only be displayed when the paths specified in the object match the current data for the item.
+option | type | description
+--- | --- | ---
+`collapse` | `Boolean` | Displays an **+ add** link in the admin UI when the field has no value. Will completely hide field UI when `noedit` is also set to true, when the field has no value
+`dependsOn` | `Object` | The field or header will only be displayed when the paths specified in the object match the current data for the item.
 You can target multiple values per path using an Array.
 **Example**
 ```
@@ -459,21 +367,17 @@ Keystone's fields support a simple syntax for configuring dynamically updated fi
 - The value of any other field (or fields) changes
 - The value of any other field (or fields) changes to a specific value
 
-To use the watching functionaliy, set the following two options:
+To use the watching functionality, set the following two options:
 
-`watch` Boolean or String or Object or Function
-: When `true`, the field value will be recalculated every time an item is saved.
+`watch` | Boolean or String or Object or Function | When `true`, the field value will be recalculated every time an item is saved.
 Provide a space-delimited list of paths to recalculate the field value whenever one of those paths changes.
 **For example**: `'author title state'`
 Provide an object of key / value pairs to recalculate the field value whenever one of those paths changes to the value specified.
 **For example**: `{'state': 'published', 'mainPost': true}`
 Provide a function that returns true/false whenever you want.
 **For example**: `function() { return this.author === this.editor; }`
-
-`value` Function
-: The function to generate the field value when a watched path is changed. Must return the new value, or accept a node-style `callback` argument, which can be called to set the field value asynchronously.
+`value` `Function` The function to generate the field value when a watched path is changed. Must return the new value, or accept a node-style `callback` argument, which can be called to set the field value asynchronously.
 The `this` context of the function will be the item being saved.
-
 **Example (synchronous)**
 ```
 function () {
@@ -591,15 +495,11 @@ User.relationship({ path: 'posts', ref: 'Post', refPath: 'author' });
 ```
 
 ### Options
-
-`path` String
-: the path of the relationship reference on the Model
-
-`ref` String
-: the key of the referred Model (the one that has the relationship field)
-
-`refPath` String
-: the path of the relationship being referred to in the referred Model
+option | type | description
+--- | --- | ---
+`path` | `String` | the path of the relationship reference on the Model
+`ref` | `String` | the key of the referred Model (the one that has the relationship field)
+`refPath` | `String` | the path of the relationship being referred to in the referred Model
 
 As you can see, the options provided to the `relationship` method mirror those of the relationship field it refers to.
 

@@ -1,37 +1,40 @@
-// TK TK TK TK
-We are expecting to find a list of all fields types
+# Field
+
+A field is a concept of a single 'field' in the admin UI, although it may be represented by an object or array in the database. Fields are designed to extend the [schema](/api/list).
+
+# Field types
+
+Keystone has a large number of field types that can be used to set up the data in your model. These field types will determine data validation, schema storage, and appearance in the keystone admin UI. These can be found on `keystone.Types`.
+
+While all field types have their own unique options, the options available to all field types can be found in the [database documentation](/database/#field-options).
+
+For more information on individual field types see:
 
 
-### keystone.Field
-The constructor for field types. Field defines the base parts of all keystone fields as well as default options, except when explicitly overriden. It also is responsible for providing each field with its needed default functions such as [updateItem()](/updateItem)TK, passing in the item. Most of these are better used and understood through their calls on [keystone.List](TK)TK, which calls these functions for each field on the list.
-
-Calls to `new Field()` are generally made only during field creation.
-
-This provides the following options to all fields
-
-- [getOptions()](../getOptions)TK
-- [getSize()](../getSize)TK
-- [getDefaultValue()](../getDefaultValue)TK
-- [getData()](../getData)TK
-- [getPreSaveWatcher()](../getPreSaveWatcher)TK
-- [addToSchema()](../addToSchema)TK
-- [bindUnderscoreMethods()](../bindUnderscoreMethods)TK
-- [underscoreMethod()](../underscoreMethod)TK
-- [format()](../format)TK
-- [isModified()](../isModified)TK
-- [validateInput()](../validateInput)TK
-- [validateRequiredInput()](../validateRequiredInput)TK
-- [inputIsValid()](../inputIsValid)TK
-- [updateItem()](../updateItem)TK
-- [getValueFromData()](../getValueFromData)TK
-- [size](../size)TK
-- [initial](../initial)TK
-- [required](../required)TK
-- [note](../note)TK
-- [col](../col)TK
-- [noedit](../noedit)TK
-- [nocol](../nocol)TK
-- [nosort](../nosort)TK
-- [collapse](../collapse)TK
-- [hidden](../hidden)TK
-- [dependsOn](../dependsOn)TK
+- [Boolean](./field/boolean)
+- [Cloudinaryimage](./field/cloudinaryimage)
+- [Cloudinaryimages](./field/cloudinaryimages)
+- [Code](./field/code)
+- [Color](./field/color)
+- [Date](./field/date)
+- [Datearray](./field/datearray)
+- [Datetime](./field/datetime)
+- [Email](./field/email)
+- [Embedly](./field/embedly)
+- [File](./field/file)
+- [Geopoint](./field/geopoint)
+- [Html](./field/html)
+- [Key](./field/key)
+- [Location](./field/location)
+- [Markdown](./field/markdown)
+- [Money](./field/money)
+- [Name](./field/name)
+- [Number](./field/number)
+- [Numberarray](./field/numberarray)
+- [Password](./field/password)
+- [Relationship](./field/relationship)
+- [Select](./field/select)
+- [Text](./field/text)
+- [Textarea](./field/textarea)
+- [Textarray](./field/textarray)
+- [Url](./field/url)

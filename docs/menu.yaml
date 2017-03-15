@@ -8,7 +8,7 @@
     How to create a blog with Keystone: /guides/how-to-create-a-blog-with-keystone/
     How to send emails with Keystone: /guides/how-to-send-emails/
     KeystoneJS v0.3.x to v4.0.0 Upgrade Guide: /guides/v-0-3-to-v-4-0-upgrade-guide/
-    Setting Up: /guides/setting-up/installation/
+    Setting Up: /guides/setting-up/
 - title: Configuration
   links:
     Keystone Configuration: /configuration/
@@ -17,33 +17,33 @@
     Database Configuration: /database/
 - title: Field Types
   links:
-    Azurefile: /field/azurefile/
-    Embedly: /field/embedly/
-    File: /field/file/
-    Localfile: /field/localfile/
-    s3file: /field/s-3-file/
-    Cloudinaryimage: /field/cloudinaryimage/
-    Boolean: /field/boolean/
-    Cloudinaryimages: /field/cloudinaryimages/
-    Code: /field/code/
-    Color: /field/color/
-    Date: /field/date/
-    Datearray: /field/datearray/
-    Datetime: /field/datetime/
-    Email: /field/email/
-    Geopoint: /field/geopoint/
-    Html: /field/html/
-    Key: /field/key/
-    Location: /field/location/
-    Markdown: /field/markdown/
-    Money: /field/money/
-    Name: /field/name/
-    Number: /field/number/
-    Numberarray: /field/numberarray/
-    Password: /field/password/
-    Relationship: /field/relationship/
-    Select: /field/select/
-    Text: /field/text/
-    Textarea: /field/textarea/
-    Textarray: /field/textarray/
-    Url: /field/url/
+    Azurefile: /api/field/azurefile/
+    Embedly: /api/field/embedly/
+    File: /api/field/file/
+    Localfile: /api/field/localfile/
+    s3file: /api/field/s-3-file/
+    Cloudinaryimage: /api/field/cloudinaryimage/
+    Boolean: /api/field/boolean/
+    Cloudinaryimages: /api/field/cloudinaryimages/
+    Code: /api/field/code/
+    Color: /api/field/color/
+    Date: /api/field/date/
+    Datearray: /api/field/datearray/
+    Datetime: /api/field/datetime/
+    Email: /api/field/email/
+    Geopoint: /api/field/geopoint/
+    Html: /api/field/html/
+    Key: /api/field/key/
+    Location: /api/field/location/
+    Markdown: /api/field/markdown/
+    Money: /api/field/money/
+    Name: /api/field/name/
+    Number: /api/field/number/
+    Numberarray: /api/field/numberarray/
+    Password: /api/field/password/
+    Relationship: /api/field/relationship/
+    Select: /api/field/select/
+    Text: /api/field/text/
+    Textarea: /api/field/textarea/
+    Textarray: /api/field/textarray/
+    Url: /api/field/url/
