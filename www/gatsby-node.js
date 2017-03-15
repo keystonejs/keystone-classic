@@ -8,37 +8,35 @@ exports.createPages = ({ args }) => {
 
 	return new Promise((resolve, reject) => {
 		const paths = [];
-		graphql(`
-      {
-        allMarkdownRemark(limit: 1000) {
-          edges {
-            node {
-              slug
-            }
-          }
-        }
-      }
-    `)
-    .then((result) => {
-	if (result.errors) {
-		console.log(result.errors);
-		reject(result.errors);
-	}
+		const articleComponent = path.resolve('templates/template-doc-layout.js');
+		graphql(`{
+				allMarkdownRemark(limit: 1000) {
+					edges {
+						node {
+							slug
+						}
+					}
+				}
+			}
+		`).then((result) => {
+			if (result.errors) {
+				console.error(result.errors);
+				reject(result.errors);
+			}
 
-	const articleComponent = path.resolve('./pages/template-doc-page.js');
-      // Create article routes.
-	_.each(result.data.allMarkdownRemark.edges, (edge) => {
-		paths.push({
-			path: edge.node.slug, // required
-			component: articleComponent,
-			context: {
-				slug: edge.node.slug,
-			},
+			// Create article routes.
+			result.data.allMarkdownRemark.edges.forEach((edge) => {
+				paths.push({
+					path: edge.node.slug, // required
+					component: articleComponent,
+					context: {
+						slug: edge.node.slug,
+					},
+				});
+			});
+
+			resolve(paths);
 		});
-	});
-
-	resolve(paths);
-});
 	});
 };
 

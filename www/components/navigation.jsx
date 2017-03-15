@@ -1,16 +1,15 @@
 import React from 'react';
 import Link from 'gatsby-link';
-import Container from './Container';
-import { rhythm, scale, options } from 'utils/typography';
+import { rhythm, scale } from 'utils/typography';
 import { presets } from 'glamor';
 import MenuIcon from 'react-icons/lib/md/menu';
 import gray from 'gray-percentage';
 import Headroom from 'react-headroom';
 
 import invertedLogo from '../images/logo-inverted.svg';
+import Container from './Container';
 
-export default (props) => {
-	const { home = '/', location, openSidebar } = props;
+export default ({ home = '/', openSidebar }) => {
 	return (
 		<Headroom
 			wrapperStyle={{
@@ -22,15 +21,8 @@ export default (props) => {
 				transition: 'background 250ms',
 			}}
 		>
-			<Container
-				style={{
-					margin: '0 auto',
-					maxWidth: rhythm(37),
-				}}
-			>
-				<div
-					onClick={openSidebar}
-				>
+			<Container>
+				<div onClick={openSidebar}>
 					<MenuIcon
 						fill={gray(85, 0, true)}
 						css={{
@@ -49,7 +41,7 @@ export default (props) => {
 								display: 'none',
 							},
 						}}
-				/>
+					/>
 				</div>
 				<Link
 					to={home}
@@ -58,7 +50,7 @@ export default (props) => {
 						lineHeight: rhythm(1),
 						textDecoration: 'none',
 					}}
-				>
+					>
 					<img
 						src={invertedLogo}
 						css={{
@@ -68,7 +60,7 @@ export default (props) => {
 							marginRight: rhythm(1 / 2),
 							verticalAlign: 'top',
 						}}
-				/>
+					/>
 					<h1
 						css={{
 							...scale(2 / 5),

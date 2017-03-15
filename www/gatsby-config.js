@@ -3,8 +3,11 @@ module.exports = {
 		title: 'KeystoneJS',
 	},
 	plugins: [
+		`gatsby-parser-remark`,
 		`gatsby-plugin-glamor`,
+		`gatsby-plugin-offline`,
 		`gatsby-plugin-sharp`,
+		`gatsby-typegen-filesystem`,
 		{
 			resolve: `gatsby-plugin-google-analytics`,
 			options: {
@@ -25,8 +28,6 @@ module.exports = {
 				path: `${__dirname}/../fields/types`,
 			},
 		},
-		`gatsby-parser-remark`,
-		`gatsby-parser-sharp`,
 		{
 			resolve: `gatsby-typegen-remark`,
 			options: {
@@ -56,7 +57,6 @@ module.exports = {
 				],
 			},
 		},
-		`gatsby-plugin-glamor`,
 		{
 			resolve: `gatsby-plugin-manifest`,
 			options: {
@@ -68,8 +68,5 @@ module.exports = {
 				display: `minimal-ui`,
 			},
 		},
-		`gatsby-plugin-offline`,
-		`gatsby-typegen-filesystem`,
-		`gatsby-typegen-sharp`,
 	],
 };

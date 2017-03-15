@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'gatsby-link';
 import typography, { rhythm, scale } from '../utils/typography';
-import { merge, media, presets, style } from 'glamor';
+import { presets } from 'glamor';
 
 import menuItems from '../../docs/menu.yaml';
 class Sidebar extends React.Component {
@@ -16,30 +16,29 @@ class Sidebar extends React.Component {
 					width: '100%',
 					[presets.Tablet]: {
 						display: 'block',
-            // position: 'fixed',
-            // overflowY: 'scroll',
+						// position: 'fixed',
+						// overflowY: 'scroll',
 						width: rhythm(10),
 						float: 'left',
 						paddingRight: rhythm(1),
 					},
 				}}
-      >
+			>
 				<div>
-					{menuItems.map((section) => {
-						console.log(section);
-
+					{menuItems.map((section, idx) => {
 						return (
 							<div
 								css={{
 									marginBottom: rhythm(1),
 								}}
-              >
+								key={idx}
+							>
 								<h3
 									css={{
 										marginBottom: rhythm(1 / 2),
 										marginTop: 0,
 									}}
-                >
+								>
 									{section.title}
 								</h3>
 								<ul
@@ -47,13 +46,14 @@ class Sidebar extends React.Component {
 										margin: 0,
 										listStyle: 'none',
 									}}
-                >
-									{Object.keys(section.links).map((title) => (
+								>
+									{Object.keys(section.links).map((title, idx) => (
 										<Item
-											url={section.links[title]}
+											key={idx}
 											title={title}
-                    />
-                  ))}
+											url={section.links[title]}
+										/>
+									))}
 								</ul>
 							</div>
 						);
@@ -70,7 +70,7 @@ const Item = ({ url, title }) => (
 			marginBottom: rhythm(1 / 2),
 			width: '100%',
 		}}
-  >
+	>
 		<Link
 			onlyActiveOnIndex
 			style={{
@@ -82,7 +82,7 @@ const Item = ({ url, title }) => (
 				textDecoration: 'underline',
 			}}
 			to={url}
-    >
+		>
 			{ title }
 		</Link>
 	</li>

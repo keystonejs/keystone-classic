@@ -13,7 +13,7 @@ if (process.env.NODE_ENV === `production`) {
 
 module.exports = React.createClass({
 	render () {
-    // TODO add react helmet rewind
+		// TODO add react helmet rewind
 		let css;
 		if (process.env.NODE_ENV === `production`) {
 			css = <style id="gatsby-inlined-css" dangerouslySetInnerHTML={{ __html: stylesStr }} />;
