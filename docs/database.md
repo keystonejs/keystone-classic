@@ -224,15 +224,17 @@ var keystone = require('keystone'),
 
 When you call `exec` on a paginated query, it will return a lot of metadata along with the results:
 
-- `total`: all matching results (not just on this page)
-- `results`: array of results for this page
-- `currentPage`: the index of the current page
-- `totalPages`: the total number of pages
-- `pages`: array of pages to display
-- `previous`: index of the previous page, false if at the first page
-- `next`: index of the next page, false if at the last page
-- `first`: the index of the first result included
-- `last`: index of the last result included
+key | details
+---|---
+`total` | all matching results (not just on this page)
+`results` | array of results for this page
+`currentPage` | the index of the current page
+`totalPages` | the total number of pages
+`pages` | array of pages to display
+`previous` | index of the previous page, false if at the first page
+`next` | index of the next page, false if at the last page
+`first` | the index of the first result included
+`last` | index of the last result included
 
 ## Creating Items
 
@@ -330,33 +332,23 @@ All field types support several common options, which can specify database setti
 
 Common field options include:
 
-`label` String
-: The label of each field is generated from the field path; set this option to override the default.
-
-`required` Boolean
-: Validates that the field has a value before an item can be saved (also passed to mongoose and enforced using a database index).
-
-`initial` Boolean
-: Causes the field to be displayed in the **Create Item** form, in the Admin UI.
-
-`noedit` Boolean
-: Renders the field as read-only in the admin UI.
-
-`note` String
-: Is displayed with the field in the admin UI.
-
-`hidden` Boolean
-: The field will always be hidden in the Admin UI if this is set to `true`
+option | type | description
+--- | --- | ---
+`label` | `String` | The label of each field is generated from the field path; set this option to override the default.
+`required` | `Boolean` | Validates that the field has a value before an item can be saved (also passed to mongoose and enforced using a database index).
+`initial` | `Boolean` | Causes the field to be displayed in the **Create Item** form, in the Admin UI.
+`noedit` | `Boolean` | Renders the field as read-only in the admin UI.
+`note` | `String` | Is displayed with the field in the admin UI.
+`hidden` | `Boolean` | The field will always be hidden in the Admin UI if this is set to `true`
 
 ## Conditional Fields
 
 To improve the usability of the Admin UI, it is possible to hide fields when no value is set, or depending on the value of other fields.
 
-`collapse` Boolean
-: Displays an **+ add** link in the admin UI when the field has no value. Will completely hide field UI when `noedit` is also set to true, when the field has no value
-
-`dependsOn` Object
-: The field or header will only be displayed when the paths specified in the object match the current data for the item.
+option | type | description
+--- | --- | ---
+`collapse` | `Boolean` | Displays an **+ add** link in the admin UI when the field has no value. Will completely hide field UI when `noedit` is also set to true, when the field has no value
+`dependsOn` | `Object` | The field or header will only be displayed when the paths specified in the object match the current data for the item.
 You can target multiple values per path using an Array.
 **Example**
 ```
@@ -375,21 +367,17 @@ Keystone's fields support a simple syntax for configuring dynamically updated fi
 - The value of any other field (or fields) changes
 - The value of any other field (or fields) changes to a specific value
 
-To use the watching functionaliy, set the following two options:
+To use the watching functionality, set the following two options:
 
-`watch` Boolean or String or Object or Function
-: When `true`, the field value will be recalculated every time an item is saved.
+`watch` | Boolean or String or Object or Function | When `true`, the field value will be recalculated every time an item is saved.
 Provide a space-delimited list of paths to recalculate the field value whenever one of those paths changes.
 **For example**: `'author title state'`
 Provide an object of key / value pairs to recalculate the field value whenever one of those paths changes to the value specified.
 **For example**: `{'state': 'published', 'mainPost': true}`
 Provide a function that returns true/false whenever you want.
 **For example**: `function() { return this.author === this.editor; }`
-
-`value` Function
-: The function to generate the field value when a watched path is changed. Must return the new value, or accept a node-style `callback` argument, which can be called to set the field value asynchronously.
+`value` `Function` The function to generate the field value when a watched path is changed. Must return the new value, or accept a node-style `callback` argument, which can be called to set the field value asynchronously.
 The `this` context of the function will be the item being saved.
-
 **Example (synchronous)**
 ```
 function () {
@@ -507,15 +495,11 @@ User.relationship({ path: 'posts', ref: 'Post', refPath: 'author' });
 ```
 
 ### Options
-
-`path` String
-: the path of the relationship reference on the Model
-
-`ref` String
-: the key of the referred Model (the one that has the relationship field)
-
-`refPath` String
-: the path of the relationship being referred to in the referred Model
+option | type | description
+--- | --- | ---
+`path` | `String` | the path of the relationship reference on the Model
+`ref` | `String` | the key of the referred Model (the one that has the relationship field)
+`refPath` | `String` | the path of the relationship being referred to in the referred Model
 
 As you can see, the options provided to the `relationship` method mirror those of the relationship field it refers to.
 
