@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Link from 'gatsby-link';
-import MenuIcon from 'react-icons/lib/md/menu';
+// import MenuIcon from 'react-icons/lib/md/menu';
 import DemoIcon from 'react-icons/lib/go/link-external';
 import GithubIcon from 'react-icons/lib/go/mark-github';
 import { presets } from 'glamor';
@@ -155,7 +155,7 @@ const styles = {
 		borderTopRightRadius: 3,
 		color: 'white',
 		display: 'block',
-		padding: `${rhythm(1 / 4)} ${rhythm(1)}`,
+		padding: `0.5em 1em`,
 		textDecoration: 'none',
 		transition: 'opacity 100ms',
 
