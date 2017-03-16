@@ -51,11 +51,12 @@ exports.modifyAST = ({ args }) => {
 	const files = select(ast, `File[extension="md"]`);
 	files.forEach((file) => {
 		const parsedFilePath = path.parse(file.relativePath);
+		let section = parsedFilePath.dir;
 		let slug;
-		if (parsedFilePath.name === `index`) {
-			slug = `/${kebabify(parsedFilePath.dir)}`;
-		} else if (parsedFilePath.name.match(/Readme/i) && file.dir.match(/\/fields\/types\//)) {
-			slug = `/api/field/${kebabify(parsedFilePath.dir)}`;
+
+		if (parsedFilePath.name.match(/Readme/i) && file.dir.match(/\/fields\/types\//)) {
+			section = 'api/field';
+			slug = `${section}/${kebabify(parsedFilePath.dir)}`;
 		} else {
 			slug = `/${kebabify(parsedFilePath.dir)}/${kebabify(parsedFilePath.name)}`;
 		}
@@ -65,6 +66,10 @@ exports.modifyAST = ({ args }) => {
 
 		file.children[0].slug = slug;
 		file.slug = slug;
+
+		section = _.startCase(section);
+		file.children[0].section = section;
+		file.section = section;
 	});
 	console.timeEnd(`local modifyAST`);
 	return files;

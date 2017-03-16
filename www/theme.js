@@ -26,7 +26,7 @@ export const breakpoint = {
 export const container = {
 	small: rhythm(12),
 	medium: rhythm(24),
-	large: rhythm(36),
+	large: rhythm(44),
 };
 
 // color

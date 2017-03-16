@@ -10,8 +10,8 @@ const theme = {
 	bodyWeight: 400,
 	boldWeight: 700,
 	headerWeight: 700,
-	bodyFontFamily: ['Libre Franklin', 'Century Gothic', 'sans-serif'],
-	headerFontFamily: ['Libre Franklin', 'Century Gothic', 'sans-serif'],
+	bodyFontFamily: ['Roboto', 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
+	headerFontFamily: ['Roboto', 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
 	plugins: [
 		new CodePlugin(),
 	],

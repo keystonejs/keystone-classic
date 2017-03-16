@@ -2,12 +2,11 @@ import React from 'react';
 import Navigation from 'components/navigation';
 import Sidebar from 'components/sidebar';
 import { rhythm } from 'utils/typography';
-import { presets } from 'glamor';
+import { compose, presets } from 'glamor';
 import Drawer from 'react-motion-drawer';
 import { Scrollbars } from 'react-custom-scrollbars';
 require('../css/prism-coy.css');
-require('typeface-libre-franklin');
-require('typeface-ubuntu-mono');
+require('typeface-roboto');
 
 import Container from '../components/Container';
 import Page from './template-doc-page';
@@ -44,6 +43,9 @@ class DocumentLayout extends React.Component {
 		const title = markdownRemark.frontmatter.title;
 		const body = markdownRemark.html;
 		const path = markdownRemark.parent.relativePath;
+		const edges = data.allMarkdownRemark.edges;
+
+		const sidebar = <Sidebar items={edges.map(e => e.node)} />;
 
 		// TODO add file path to Markdown schema
 		// NOTE pointing to `docs` until ready for `master`
@@ -77,7 +79,7 @@ class DocumentLayout extends React.Component {
 								padding: rhythm(3 / 4),
 							}}
 						>
-							<Sidebar />
+							{sidebar}
 						</div>
 					</div>
 				</Drawer>
@@ -99,7 +101,7 @@ class DocumentLayout extends React.Component {
 							universal
 							autoHide
 						>
-							<Sidebar />
+							{sidebar}
 						</Scrollbars>
 					</div>
 					<div
@@ -129,6 +131,18 @@ query MarkdownTemplate($slug: String!) {
 	site {
 		siteMetadata {
 			title
+		}
+	}
+	allMarkdownRemark {
+		edges {
+			node {
+				section
+				slug
+				headings {
+					value
+					depth
+				}
+			}
 		}
 	}
 	markdownRemark(slug: { eq: $slug }) {
