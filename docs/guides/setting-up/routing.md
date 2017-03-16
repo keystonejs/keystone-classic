@@ -1,4 +1,4 @@
-# Routing
+# Part 3: Routing
 
 Keystone is designed to do much of the setup of running an [express](expressjs.com) application out of your hands as well as allowing an easy configuration of the options.
 

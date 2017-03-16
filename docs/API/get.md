@@ -1,4 +1,6 @@
-# keystone.get(key:string)
+# Get
+
+## `keystone.get(key:String)`
 
 Retrieve a property from keystone's options. For information about keystone's options, see [configuration](/configuration) documentation.
 

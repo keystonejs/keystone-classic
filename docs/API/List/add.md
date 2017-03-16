@@ -1,6 +1,7 @@
 # Add
 
-## add(fields:object, prefix:string)
+## add(fields:Object, prefix:String)
+
 Adds fields to a [keystone List](./). Must be used before [register()](./register). This takes an object with all of the fields, as well as a prefix option. The prefix will be added to the list's collection name in mongo.
 
 Example call:

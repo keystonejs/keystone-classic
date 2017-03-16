@@ -1,6 +1,6 @@
 # Importer
 
-## `keystone.importer(relativeDirName:string)`
+## `keystone.importer(relativeDirName:String)`
 
 Returns a function that imports all javascript files in a directory, using the passed in directory as the relative path from which to make the search.
 

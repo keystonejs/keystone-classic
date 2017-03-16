@@ -1,6 +1,4 @@
----
-title: Keystone Setup Options
----
+# Keystone Setup Options
 
 ## Setting Options
 
@@ -18,16 +16,68 @@ If you want to keep secret keys and configuration out of your codebase (especial
 
 The following options control the branding, navigation and default export settings of the KeystoneJS application in the Admin UI:
 
-options | type | description
---- | --- | ---
-`name` | `String` | The name of the KeystoneJS application
-`brand` | `String` | Displayed in the top left hand corner of the Admin UI
-`module root` | `String` | This setting tells Keystone the root path of your app. By default, `module root` points to the path of the first script that required Keystone within your app. This default may be undesirable at times.<br /><br />Setting `module root` allows you to specify a custom root path for your app. Overriding the default `module root` may be useful, for example, when unit testing your app.<br /><br />`module root` is used by Keystone's `.getPath()` method to resolve/expand the paths of the `views`, `favicon`, `extensions`, `ssl cert`, `ssl key`, `ssl ca`, `emails`, and `updates` settings.<br /><br />When setting a custom `module root` you may use either an absolute or a relative path.<br /><br /><blockquote>NOTE: If a relative path is used, it will be considered relative to the location of the script from which the setting was made.</blockquote>
-`frame guard` | `String`/`Boolean` | This settings tells Keystone how to handle `iframe` tags. It does this by setting the response `X-Frame-Options` header. This header is used to protect against "ClickJacking" attacks.<br /><br />The default setting is `sameorigin`.<br /><br />Valid options are:<br /><br />- `"sameorigin"` allows requests from iframe tags that originate from the same server<br /><br />- `"deny"` denies requests form all iframe tags, regardless of origin<br /><br />- `true` (same as "deny" )<br /><br />- `false` disables frame guard
-`nav` | `Object` | An object that specifies the navigation structure for the Admin UI. Create a key for each section that should be visible in the primary navigation. Each key's value can be a single list path (as is seen in the URL when you view a list) or an array of list paths. When an array is used, secondary navigation is rendered in the Admin UI.<br /><br />The nav is also used to generate the links on the Admin UI home page; any lists that are registered but not included in the `nav` will be grouped at the bottom of the screen under the 'Other' heading.<br /><br />**Custom Navigation Example**<br /><br />If you had `User`, `Post` and `PostCategory` models, you could group the posts and post categories into a **Content** navigation item like this:<pre><code>keystone.set('nav', {<br />    'users': 'users',<br />    'content': ['posts', 'post-categories']<br />});</code></pre>
-`csv field delimiter` | `String` | Allow you to choose a custom field delimiter to be used for CSV export instead of the default comma.
-`app` | `Object` | Instance of Express to be used instead of the default instance.
-`mongoose` | `Object` | Instance of Mongoose to be used instead of the default instance.
+<h4 data-type="String"><code>name</code></h4>
+
+The name of the KeystoneJS application
+
+<h4 data-type="String"><code>name</code></h4>
+
+Displayed in the top left hand corner of the Admin UI
+
+<h4 data-type="String"><code>module root</code></h4>
+
+This setting tells Keystone the root path of your app. By default, `module root` points to the path of the first script that required Keystone within your app. This default may be undesirable at times.
+
+Setting `module root` allows you to specify a custom root path for your app. Overriding the default `module root` may be useful, for example, when unit testing your app.
+
+`module root` is used by Keystone's `.getPath()` method to resolve/expand the paths of the `views`, `favicon`, `extensions`, `ssl cert`, `ssl key`, `ssl ca`, `emails`, and `updates` settings.
+
+When setting a custom `module root` you may use either an absolute or a relative path.
+
+> NOTE: If a relative path is used, it will be considered relative to the location of the script from which the setting was made.
+
+<h4 data-type="String|Boolean"><code>frame guard</code></h4>
+
+This settings tells Keystone how to handle `iframe` tags. It does this by setting the response `X-Frame-Options` header. This header is used to protect against "ClickJacking" attacks.
+
+The default setting is `sameorigin`.
+
+Valid options are:
+
+- `"sameorigin"` allows requests from iframe tags that originate from the same server
+- `"deny"` denies requests form all iframe tags, regardless of origin
+- `true` (same as "deny" )
+- `false` disables frame guard
+
+<h4 data-type="Object"><code>nav</code></h4>
+
+An object that specifies the navigation structure for the Admin UI. Create a key for each section that should be visible in the primary navigation. Each key's value can be a single list path (as is seen in the URL when you view a list) or an array of list paths. When an array is used, secondary navigation is rendered in the Admin UI.
+
+The nav is also used to generate the links on the Admin UI home page; any lists that are registered but not included in the `nav` will be grouped at the bottom of the screen under the 'Other' heading.
+
+**Custom Navigation Example**
+
+If you had `User`, `Post` and `PostCategory` models, you could group the posts and post categories into a **Content** navigation item like this:
+
+```JS
+keystone.set('nav', {
+	'users': 'users',
+	'content': ['posts', 'post-categories']
+});
+```
+
+<h4 data-type="String"><code>csv field delimiter</code></h4>
+
+Allow you to choose a custom field delimiter to be used for CSV export instead of the default comma.
+
+<h4 data-type="Object"><code>app</code></h4>
+
+Instance of Express to be used instead of the default instance.
+
+<h4 data-type="Object"><code>mongoose</code></h4>
+
+Instance of Mongoose to be used instead of the default instance.
+
 > NOTE
 > The `app` and `mongoose` options replace the functionality of the `keystone.connect()` method which is now deprecated. Due to changes in Express 4, `keystone.connect()` no longer works as expected.
 
@@ -35,53 +85,104 @@ options | type | description
 
 The following options control the configuration of your web server and the express app:
 
-option | type | description
---- | --- | ---
-`env` | `String` | The environment setting to use. The keys **development** and **production** are supported, and this will have an impact on things like caching compiled templates. Defaults to `process.env.NODE_ENV || "development"`.
+<h4 data-type="String"><code>env</code></h4>
+
+The environment setting to use. The keys **development** and **production** are supported, and this will have an impact on things like caching compiled templates. Defaults to `process.env.NODE_ENV || "development"`.
+
 You should really **set this to `production` for your production servers** using the `NODE_ENV` environment variable. Several other modules expect this convention also.
-`port` | `Number` | The port to listen for request on. Defaults to `process.env.PORT || 3000`
-`host` | `String` | The ip address to listen for request on. Defaults to `process.env.IP || '127.0.0.1'`
+
+<h4 data-type="Number"><code>port</code></h4>
+
+The port to listen for request on. Defaults to `process.env.PORT || 3000`
+
+<h4 data-type="String"><code>host</code></h4>
+
+The ip address to listen for request on. Defaults to `process.env.IP || '127.0.0.1'`
+
 `port` must be set (either by option or env variable) or the `host` option will be ignored.
-`views` | `String` | The path to your application's **view templates**. This is required for using the `keystone.View` Class, and will also be set on the express app.
+
+<h4 data-type="String"><code>views</code></h4>
+
+The path to your application's **view templates**. This is required for using the `keystone.View` Class, and will also be set on the express app.
+
 If you're following the [recommended project structure](/guides/getting-started/#project-structure), this should be set to `"/templates/views"`.
-`view engine` | `String` | The template engine to use by default. Any engine with express support should work. You will need to install any view engine you intend to use in your project
+
+<h4 data-type="String"><code>view engine</code></h4>
+
+The template engine to use by default. Any engine with express support should work. You will need to install any view engine you intend to use in your project
+
 This option is set on the express app ([see docs here](expressjs.com/api.html)).
-`custom engine` | Function | If you want to use a custom template engine, set this option to the function that should be used to process your templates.
+
+<h4 data-type="Function"><code>custom engine</code></h4>
+
+If you want to use a custom template engine, set this option to the function that should be used to process your templates.
+
 [See below](/configuration/#alternative-view-engines) for an example of how to use the [Swig](https://github.com/paularmstrong/swig) template engine.
-`view cache` | `Boolean` | This option is passed through to Express, and controls whether compiled view templates are cached between requests.
-It defaults to `true` in production, or `false` otherwise so there is rarely any reason to set it explicitly.
-`locals` | `Object` | The default local variables to pass to your view templates.
-Routes can extend or change local variables by modifying `res.locals`.
-`static` `String` or `Array` | One or more paths to your application's static files. Setting this will include the `serve-static` middleware.
+
+<h4 data-type="Boolean"><code>view cache</code></h4>
+
+This option is passed through to Express, and controls whether compiled view templates are cached between requests. It defaults to `true` in production, or `false` otherwise so there is rarely any reason to set it explicitly.
+
+<h4 data-type="Object"><code>locals</code></h4>
+
+The default local variables to pass to your view templates. Routes can extend or change local variables by modifying `res.locals`.
+
+<h4 data-type="String|Array"><code>static</code></h4>
+
+One or more paths to your application's static files. Setting this will include the `serve-static` middleware.
+
 If you're following the [recommended project structure](/guides/getting-started/#project-structure), this should be set to `'public'`.
-`static options` | `Object` | Optional config options that will be passed to the `serve-static` middleware ([see docs here](github.com/expressjs/serve-static)).
-`less` | `String` or `Array` | If you want Keystone to automatically compile **.less** files into **.css** files, set this value to the same path as the `static` option.
+
+<h4 data-type="Object"><code>static options</code></h4>
+
+Optional config options that will be passed to the `serve-static` middleware ([see docs here](github.com/expressjs/serve-static)).
+
+<h4 data-type="String|Array"><code>less</code></h4>
+
+If you want Keystone to automatically compile **.less** files into **.css** files, set this value to the same path as the `static` option.
+
 When this option is set, any requests to a **.css** or **.min.css** file will first check for a **.less** file with the same name, and if one is found, the css file will be generated.
-`less options` | `Object` | Optional config options that will be passed to the `less` middleware; see [github.com/emberfeather/less.js-middleware](github.com/emberfeather/less.js-middleware) for more information.
-`sass` | `String` or `Array` | If you want Keystone to automatically compile **.sass** files into **.css** files, set this value to the same path as the `static` option.
+
+<h4 data-type="Object"><code>less options</code></h4>
+
+Optional config options that will be passed to the `less` middleware; see [github.com/emberfeather/less.js-middleware](github.com/emberfeather/less.js-middleware) for more information.
+
+<h4 data-type="String|Array"><code>sass</code></h4>
+
+If you want Keystone to automatically compile **.sass** files into **.css** files, set this value to the same path as the `static` option.
+
 When this option is set, any requests to a **.css** or **.min.css** file will first check for a **.sass** file with the same name, and if one is found, the css file will be generated.
-> NOTE
+
 > Note that enabling this option requires you to have specified the `node-sass` package as a dependency in your project's `package.json` file; it is not automatically included with Keystone.
-`sass options` | `Object` | Optional config options that will be passed to the `sass` middleware; see [github.com/sass/node-sass](github.com/sass/node-sass) for more information.
-`favicon` | `String` | The path to your application's favicon. Setting this will include the `serve-favicon` middleware. Should be relative to your project's root.
+
+<h4 data-type="Object"><code>sass options</code></h4>
+
+Optional config options that will be passed to the `sass` middleware; see [github.com/sass/node-sass](github.com/sass/node-sass) for more information.
+
+<h4 data-type="String"><code>favicon</code></h4>
+
+The path to your application's favicon. Setting this will include the `serve-favicon` middleware. Should be relative to your project's root.
 If you're following the [recommended project structure](/guides/getting-started/#project-structure), this should be set to `"/public/favicon.ico"`.
-`compress` | `Boolean` | Set this to true to enable HTTP compression. This will include the `compression` middleware ([see docs here](github.com/expressjs/compression)).
-`logger` | `String` | Set this to include the `morgan` middleware. The value will be passed to the middleware initialisation ([see docs here](github.com/expressjs/morgan)). Set this to `false` to disable logging altogether. Defaults to `:method :url :status :response-time ms`.
-`logger options` | `Object` | Optional config options that will be passed to the morgan middleware; see [github.com/expressjs/morgan](github.com/expressjs/morgan) for more information.
-`trust proxy` | `Boolean` | Set this to enable processing of the HTTP request `X-Forwarded-For` header. Extracted IP addresses will be available as the array `req.ips` ([see docs here](expressjs.com/en/api.html)).
 
-### Alternative View Engines
+<h4 data-type="Boolean"><code>compress</code></h4>
 
-By default, Keystone uses the **Jade** template engine for your views. Here's how you would set up a different engine, e.g. **Swig**.
+Set this to true to enable HTTP compression. This will include the `compression` middleware ([see docs here](github.com/expressjs/compression)).
 
-```
-var swig = require('swig');
-keystone.set('view engine', 'swig');
-keystone.set('custom engine', swig.renderFile);
-```
+<h4 data-type="String"><code>logger</code></h4>
+
+Set this to include the `morgan` middleware. The value will be passed to the middleware initialisation ([see docs here](github.com/expressjs/morgan)). Set this to `false` to disable logging altogether. Defaults to `:method :url :status :response-time ms`.
+
+<h4 data-type="Object"><code>logger options</code></h4>
+
+Optional config options that will be passed to the morgan middleware; see [github.com/expressjs/morgan](github.com/expressjs/morgan) for more information.
+
+<h4 data-type="Boolean"><code>trust proxy</code></h4>
+
+Set this to enable processing of the HTTP request `X-Forwarded-For` header. Extracted IP addresses will be available as the array `req.ips` ([see docs here](expressjs.com/en/api.html)).
 
 ### Exposes `onHttpServerCreated` event
-```
+
+```JS
 keystone.start({
     onHttpServerCreated: function() {
       var server = keystone.httpServer;
@@ -93,14 +194,25 @@ keystone.start({
 
 There are two ways to implement HTTPS for your KeystoneJS application: either use a web server (e.g. [NGINX](nginx.com)) or PAAS (e.g. [Heroku](heroku.com)) that handles it for you, or set the following options to use the [https server provided by node.js](https://nodejs.org/api/https.html).
 
-option | type | description
---- | --- | ---
-`ssl` | `Boolean` or `String` | Whether to start the SSL Server. Defaults to `false`.
+<h4 data-type="Boolean|String"><code>ssl</code></h4>
+
+Whether to start the SSL Server. Defaults to `false`.
+
 When set to `true`, both http and https servers will be started. If `ssl key` or `ssl cert` are invalid, just the http server will be started.
+
 When set to "only", only the https server will be started. If `ssl key` or `ssl cert` are invalid, KeystoneJS will not start.
-`ssl key` | `String` | The path to your SSL Key. Should be either absolute or relative to `process.cwd()` (which is usually your project root).
-`ssl cert` | `String` | The path to your SSL Certificate. Should be either absolute or relative to `process.cwd()` (which is usually your project root).
-`ssl ca` | `String` | The path to your SSL CA Bundle. Should be either absolute or relative to `process.cwd()` (which is usually your project root).
+
+<h4 data-type="String"><code>ssl key</code></h4>
+
+The path to your SSL Key. Should be either absolute or relative to `process.cwd()` (which is usually your project root).
+
+<h4 data-type="String"><code>ssl cert</code></h4>
+
+The path to your SSL Certificate. Should be either absolute or relative to `process.cwd()` (which is usually your project root).
+
+<h4 data-type="String"><code>ssl ca</code></h4>
+
+The path to your SSL CA Bundle. Should be either absolute or relative to `process.cwd()` (which is usually your project root).
 `ssl port` | `Number` | The port to start the SSL Server on. Defaults to `3001`.
 `ssl host` | `String` | The ip address to listen for request on. Defaults to `process.env.SSL_IP` or the value of the `host` option.
 Exposes `onHttpsServerCreated` event during `keystone.start()`
@@ -239,9 +351,9 @@ keystone.init({
 });
 ```
 
-# Services
+## Services
 
-## Google Analytics
+### Google Analytics
 
 Keystone has support for Google Analytics tracking in the Admin UI. To enable tracking, set the following configuration options:
 
@@ -253,7 +365,7 @@ option | type | description
 > NOTE
 > Note if you only want to include Google Analytics tracking in the front-end of your project, you should use different variable names from those above.
 
-## Google Maps
+### Google Maps
 
 Keystone's [Location field type](/field/location/) supports integration with the [Google Maps API](www.morethanamap.com/) to auto-improve values (including discovering latitude and longitude) via the [Places Autocomplete API](developers.google.com/places/web-service/autocomplete).
 
@@ -275,7 +387,7 @@ keystone.set('default region', 'au'); // optional, will limit autocomplete resul
 > NOTE
 > The Places Geocoding API may only be used in conjunction with a Google map; geocoding results without displaying them on a map is prohibited. Please make sure your Keystone app complies with the Google Maps API License.
 
-## Embed.ly
+### Embed.ly
 
 Embed.ly is a service that will parse a url (e.g. Youtube embed link) and return a whole lot of useful information, like the provider name, summary metadata, width and height of videos, as well as a clean link to use for embedding media in your views. They offer a free plan for up to 5,000 urls per month.
 
@@ -289,7 +401,7 @@ This option will default to the EMBEDLY_API_KEY environment variable if it is se
 keystone.set('embedly api key', 'your-key');
 ```
 
-# Application Updates
+## Application Updates
 
 Keystone includes an updates framework, which you can enable by setting the `auto update` option to `true`.
 
@@ -323,7 +435,7 @@ exports = module.exports = function(done) {
 };
 ```
 
-# Disabling the Admin UI
+## Disabling the Admin UI
 
 You can disable the Admin UI by setting the `headless` option to `true`.
 

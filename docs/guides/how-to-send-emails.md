@@ -1,6 +1,4 @@
----
-title: How to send emails with Keystone
----
+# How to send emails with Keystone
 
 We often had to send emails in our Keystone projects, so we figured we
 might as well make that easier. With the standalone

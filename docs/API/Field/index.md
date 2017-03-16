@@ -1,7 +1,3 @@
-# Field
-
-A field is a concept of a single 'field' in the admin UI, although it may be represented by an object or array in the database. Fields are designed to extend the [schema](/api/list).
-
 # Field types
 
 Keystone has a large number of field types that can be used to set up the data in your model. These field types will determine data validation, schema storage, and appearance in the keystone admin UI. These can be found on `keystone.Types`.

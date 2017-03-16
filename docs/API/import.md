@@ -1,6 +1,6 @@
 # Import
 
-## `keystone.import(directoryName:string)`
+## `keystone.import(directoryName:String)`
 
 Imports all javascript files in a directory, and returns the result as an object.  It uses the [module root](/configuration/#module-root) as the current directory for the directory chosen.The directory structure of the files is matched by the object structure.
 

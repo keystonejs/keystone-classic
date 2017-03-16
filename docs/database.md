@@ -1,6 +1,4 @@
----
-title: Database Options
----
+# Database Options
 
 ## Concepts
 
@@ -277,7 +275,7 @@ Post.model.findById(postId)
     });
 ```
 
-# Headings
+## Headings
 
 Define headings to display within the flow of your documents. Headings can be defined as a `String` or `Object` and can [depend on](http://keystonejs.com/docs/database/#dependsOn) another field value for display.
 ```
@@ -299,11 +297,11 @@ Person.add(
 > `heading` String - the text to display
 > `dependsOn` Object - heading will only be displayed when the paths specified in the object match the current data for the item. [dependsOn](http://keystonejs.com/docs/database/#dependsOn)
 
-# Fields
+## Fields
 
 When adding `fields` to `Lists`, you can either specify basic data types or Keystone Field Types.
 
-## Overview
+### Overview
 
 **Keystone Fields** allow you to easily add rich, functional fields to your application's models. They are designed to describe not just the structure of your data, but also the intention of your data. They provide:
 - Rich controls in Keystone's Admin UI
@@ -320,7 +318,7 @@ Number	    Number
 Date	      DateTime
 Boolean	    Boolean
 
-## Field Options
+### Field Options
 
 All field types support several common options, which can specify database settings (such as `index` and `default`), or can provide information for Keystone's Admin UI (such as `label`).
 
@@ -341,7 +339,7 @@ option | type | description
 `note` | `String` | Is displayed with the field in the admin UI.
 `hidden` | `Boolean` | The field will always be hidden in the Admin UI if this is set to `true`
 
-## Conditional Fields
+### Conditional Fields
 
 To improve the usability of the Admin UI, it is possible to hide fields when no value is set, or depending on the value of other fields.
 
@@ -349,7 +347,7 @@ option | type | description
 --- | --- | ---
 `collapse` | `Boolean` | Displays an **+ add** link in the admin UI when the field has no value. Will completely hide field UI when `noedit` is also set to true, when the field has no value
 `dependsOn` | `Object` | The field or header will only be displayed when the paths specified in the object match the current data for the item.
-You can target multiple values per path using an Array.
+You can target multiple values per path using an Array. The contents of dependsOn are passed to [expression match](npmjs.com/package/expression-match), if you want to form more complex queries.
 **Example**
 ```
 first: { type: String },
@@ -359,7 +357,7 @@ second: { type: String, dependsOn: { first: ['value1', '1', 2] } },
 third: { type: String, dependsOn: { first: 'value1' } }
 ```
 
-## Generated values and watching fields
+### Generated values and watching fields
 
 Keystone's fields support a simple syntax for configuring dynamically updated fields. You can set a field to update its value whenever:
 
@@ -394,7 +392,7 @@ function (callback) { // BEWARE: MUST be called "callback" to allow asynchronous
 }
 ```
 
-## Underscore Methods
+### Underscore Methods
 
 Some field types include helpful **underscore methods**, which are available on the item at the field's path preceded by an underscore.
 
@@ -409,11 +407,11 @@ Post.model.findById(postId).exec(function(err, post) {
 });
 ```
 
-# Relationships
+## Relationships
 
 Keystone enhances MongoDB's ability to store the ObjectIDs of related documents in a field (or many related ObjectIDs in an Array) with support for Relationship fields and Definitions in Models.
 
-## Relationship Fields
+### Relationship Fields
 
 **`ObjectId` or `Array` — Displayed as an auto-suggest field in the Admin UI**
 
@@ -485,7 +483,7 @@ Post.model.findOne().populate('author categories').exec(function(err, post) {
 > NOTE
 > Note that if no ObjectId is stored, or an invalid ObjectId is stored (e.g. a document has been deleted), author will be undefined in the example above.
 
-## Relationship Definitions
+### Relationship Definitions
 
 What if, in the example above, you wanted to see a list of the Posts by each Author? Because the relationship field is on the Post, you need to tell the Author (and the PostCategory) Model that it is being referred to. Doing so allows the Admin UI to represent the relationship from both sides.
 
@@ -506,7 +504,7 @@ As you can see, the options provided to the `relationship` method mirror those o
 > NOTE
 > Relationship definitions are optional; if you leave them out, the relationships simply won't be displayed in the Admin UI from the other side of the relationship. The relationship field will still work as expected.
 
-## Loading related items
+### Loading related items
 
 Filtering one-to-many related items is easy; simply specify the ID of the item you wish to filter on like any other value:
 

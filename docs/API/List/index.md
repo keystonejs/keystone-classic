@@ -1,8 +1,8 @@
-#List
+# List
+
+## `new keystone.List(key:String, options:Object)`
 
 List is the control point for constructing keystone's schema's, and related methods. It is used as a prototype in constructing new lists, before they are registered to keystone, which adds them to the schema.
-
-`new keystone.List(key:string, options:object)` - a constructor that takes in a key for the name of a list, as well as options for the list.
 
 See the [list options](../options) documentation for the full list of options.
 

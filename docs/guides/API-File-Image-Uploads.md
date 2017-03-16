@@ -1,6 +1,4 @@
----
-title: API File and Image Uploads
----
+# API File and Image Uploads
 
 This guide gives code examples on how to set up an API for File and
 Image transfers to your KeystoneJS installation. It also shows how to

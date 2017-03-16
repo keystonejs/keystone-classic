@@ -1,6 +1,5 @@
----
-title: Getting Started
----
+# Getting Started
+
 
 KeystoneJS makes it easy to build database-driven websites, applications and APIs in node.js.
 
@@ -22,8 +21,6 @@ To learn more about how things work under the hood, and how you can extend or re
 Keystone applies different settings in production and development modes. The environment will default to development, so you should set the `NODE_ENV` environment variable to `production` on your production servers for better performance.
 
 Your app can detect which environment it is running in by calling `keystone.get('env')`.
-
-# Getting Started
 
 ## Using the Yeoman Generator
 
@@ -124,7 +121,7 @@ We also recommend that your application will be simpler to build and maintain if
 
 This guide assumes you follow the recommendations above, however Keystone doesn't actually enforce any structure, so you're free to make changes to suit your application better.
 
-# Models
+## Models
 
 Before you can start your Keystone app, you'll need some data models.
 

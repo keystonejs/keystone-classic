@@ -1,6 +1,6 @@
 # Start
 
-## `keystone.start()`
+## `keystone.start([callbacks:Mixed])`
 
 This function starts keystone's processes running, connecting to the database and starting the server. Anything that needs to be done to set up either of these must be done before `keystone.start()` is run.
 

@@ -1,6 +1,4 @@
----
-title: How to create a blog with Keystone
----
+# How to create a blog with Keystone
 
 In this guide we will walk you through building a simple blog with
 Keystone based on the free

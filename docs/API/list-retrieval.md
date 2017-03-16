@@ -1,6 +1,6 @@
 # list
 
-## `keystone.list(listName:string)`
+## `keystone.list(listName:String)`
 
 A function used to retrieve a particular keystone list, so that items can be retrieved from the database, and saved to the database.
 
