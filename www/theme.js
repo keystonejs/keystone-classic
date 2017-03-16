@@ -26,12 +26,13 @@ export const breakpoint = {
 export const container = {
 	small: rhythm(12),
 	medium: rhythm(24),
-	large: rhythm(44),
+	large: rhythm(36),
 };
 
 // color
 export const color = {
-	blue: '#178CEA',
+	blue: '#1385E5',
+	blueDark: '#374e61',
 
 	// neutrals
 	gray90: '#1A1A1A',
@@ -49,8 +50,14 @@ export const color = {
 	gray05: '#F2F2F2',
 };
 
+// sidebar
+export const sidebar = {
+	width: 300,
+};
+
 export default {
 	breakpoint,
 	color,
 	container,
+	sidebar,
 };

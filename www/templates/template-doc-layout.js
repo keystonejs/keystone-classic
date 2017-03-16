@@ -8,10 +8,9 @@ import { Scrollbars } from 'react-custom-scrollbars';
 require('../css/prism-coy.css');
 require('typeface-roboto');
 
-import Container from '../components/Container';
 import Page from './template-doc-page';
 
-class DocumentLayout extends React.Component {
+export default class DocumentLayout extends React.Component {
 	constructor (props) {
 		super(props);
 		this.state = {
@@ -40,10 +39,13 @@ class DocumentLayout extends React.Component {
 
 		const { data, data: { markdownRemark } } = this.props;
 		const { title: siteTitle } = data.site.siteMetadata;
-		const title = markdownRemark.frontmatter.title;
+		const edges = data.allMarkdownRemark.edges;
 		const body = markdownRemark.html;
 		const path = markdownRemark.parent.relativePath;
-		const edges = data.allMarkdownRemark.edges;
+
+		// TODO must be a better way to do this
+		// also, `join` is because some pages still have multiple H1s
+		const title = markdownRemark.headings.filter(h => h.depth === 1).map(h => h.value).join(', ');
 
 		const sidebar = <Sidebar items={edges.map(e => e.node)} />;
 
@@ -59,14 +61,14 @@ class DocumentLayout extends React.Component {
 
 		return (
 			<div>
-				<Navigation
+				{/* <Navigation
 					home="/"
 					location={this.props.location}
 					openSidebar={() => {
 						this.setState({ sidebarOpen: true });
 					}}
-				/>
-				<Drawer
+				/> */}
+				{/* <Drawer
 					open={this.state.sidebarOpen}
 					onChange={(open) => this.setState({ sidebarOpen: open })}
 				>
@@ -82,50 +84,27 @@ class DocumentLayout extends React.Component {
 							{sidebar}
 						</div>
 					</div>
-				</Drawer>
-				<Container>
-					<div
-						css={{
-							display: 'none',
-							[presets.Tablet]: {
-								display: 'block',
-								position: 'fixed',
-								height: `100vh`,
-								float: 'left',
-							},
-						}}
-					>
-						<Scrollbars
-							autoHeight
-							autoHeightMin={`calc(100vh - ${rhythm(5)})`}
-							universal
-							autoHide
-						>
-							{sidebar}
-						</Scrollbars>
-					</div>
-					<div
-						css={{
-							paddingLeft: 0,
-							[presets.Tablet]: {
-								paddingLeft: rhythm(11),
-							},
-						}}
-					>
-						<Page
-							body={body}
-							editPath={editPath}
-							siteTitle={siteTitle}
-							title={title}
-						/>
-					</div>
-				</Container>
+				</Drawer> */}
+				{/* <Scrollbars
+					autoHeight
+					autoHeightMin={`calc(100vh - ${rhythm(5)})`}
+					universal
+					autoHide
+				>
+				</Scrollbars> */}
+				{sidebar}
+				<Page
+					body={body}
+					editPath={editPath}
+					siteTitle={siteTitle}
+					title={title}
+				/>
 			</div>
 		);
 	}
-}
+};
 
-export default DocumentLayout;
+// TODO only select headings of depth 1
 export const pageQuery = `
 query MarkdownTemplate($slug: String!) {
 	site {
@@ -152,10 +131,11 @@ query MarkdownTemplate($slug: String!) {
 			}
 		}
 		slug
-		html
-		frontmatter {
-			title
+		headings {
+			value
+			depth
 		}
+		html
 	}
 }
 `;

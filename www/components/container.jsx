@@ -1,5 +1,4 @@
 import React from 'react';
-import { rhythm } from 'utils/typography';
 import theme from '../theme';
 
 const styles = {
@@ -7,10 +6,11 @@ const styles = {
 		marginLeft: 'auto',
 		marginRight: 'auto',
 		maxWidth: theme.container.large,
-		padding: `${rhythm(1 / 2)} ${rhythm(1)}`,
+		paddingLeft: '1em',
+		paddingRight: '1em',
 	},
 };
 
 export default ({ style, ...props }) => (
-	<div style={Object.assign({}, styles.container, style)} {...props} />
+	<div css={[styles.container, style]} {...props} />
 );
