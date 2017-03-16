@@ -1,7 +1,7 @@
 var exec = require('child_process').exec;
 
 module.exports = function (options, done) {
-  exec('./node_modules/.bin/mocha "nightmares/*.js"', function(err, stdout, stderr) {
+  exec('./node_modules/.bin/mocha "nightmares/**/*.js"', function(err, stdout, stderr) {
 	console.log(`stdout: ${stdout}`);
 	console.log(`stderr: ${stderr}`);
 	if (err) {
