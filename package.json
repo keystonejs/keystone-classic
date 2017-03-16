@@ -96,7 +96,6 @@
   },
   "devDependencies": {
     "browserify-middleware": "7.1.0",
-    "codeceptjs": "^0.5.1",
     "codeclimate-test-reporter": "0.4.1",
     "connect-mongo": "1.3.2",
     "core-assert": "0.2.1",
@@ -178,7 +177,6 @@
     "posttest-cov": "if [ -n \"$CODECLIMATE_REPO_TOKEN\" ]; then codeclimate-test-reporter < coverage/lcov.info; fi",
     "clean": "rimraf ./coverage",
     "fields-explorer": "node ./fields/explorer/server.js",
-    "codeceptjs": "codeceptjs",
     "mocha": "mocha",
     "test-server": "node test/e2e/server-for-chrome-extension.js --env default"
   }
