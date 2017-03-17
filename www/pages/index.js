@@ -49,7 +49,7 @@ export default class HomePage extends Component {
 						</Col>
 					</Row>
 					<hr />
-					<p>How about <strong><Link to="/guides/getting-started">some docs</Link></strong>, because the homepage is a work in progress?</p>
+					<p>How about <strong><Link to="/introduction/getting-started" style={{ color: 'white' }}>some docs</Link></strong>, because the homepage is a work in progress?</p>
 				</Container>
 			</div>
 		);
