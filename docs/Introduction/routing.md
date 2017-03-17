@@ -4,13 +4,13 @@ Keystone is designed to do much of the setup of running an [express](expressjs.c
 
 Here we are going to add a router to our keystone application, and set up a basic webpage. This will not rely on what was done in part 2.
 
-After that, we are going to set up an API endpoint to retrieve information about the events model, which will be relying on setup we did in [Part 2](../database-setup).
+After that, we are going to set up an API endpoint to retrieve information about the events model, which will be relying on setup we did in [Part 2](/introduction/database-setup).
 
 For our routing, we are going to be using [pug](pugjs.org) to render our views, however the principles will remain the same for other view engines.
 
 ## Setup
 
-From [part 1](../installation), we should have the following files:
+From [part 1](/introduction/installation), we should have the following files:
 
 ```
 | our Project folder
@@ -31,7 +31,7 @@ keystone.init({
 keystone.start();
 ```
 
-If you did [part 2](../database-setup), you will have more than this, however we will leave off that until we get to looking at our api route.
+If you did [part 2](/introduction/database-setup), you will have more than this, however we will leave off that until we get to looking at our api route.
 
 ## Adding a new page view
 
@@ -184,14 +184,14 @@ Check out [pugjs.org](pugjs.org) if you want to know more about pug.
 
 Now, if we start our keystone app using `node keystone`, we should be able to visit the homepage and see it rendered!
 
-[Part 4](../post-route)
+[Part 4](/introduction/post-route)
 
 ## Next Steps
 
 Learn more about:
 
-- [keystone.set](/api/set)
+- [keystone.set](/methods/set)
 - [init options](/configuration)
 - [pug](pugjs.org)
 - [express](expressjs.com)
-- [keystone.importer](/api/importer)
+- [keystone.importer](/methods/importer)

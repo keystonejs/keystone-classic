@@ -4,7 +4,7 @@
 
 List is the control point for constructing keystone's schema's, and related methods. It is used as a prototype in constructing new lists, before they are registered to keystone, which adds them to the schema.
 
-See the [list options](../options) documentation for the full list of options.
+See the [list options](/list/options) documentation for the full list of options.
 
 For more on setting up a list see our [model guide](/guides/setting-up/database-setup).
 
@@ -31,6 +31,6 @@ A new list will be created with the following default options:
 };
 ```
 
-It will merge the defaultOptions with the passed options, deferring to the passed options when both define it. While fields can be set up in the constructor, the common pattern is to use [.add()](../add) on the instance of the list.
+It will merge the defaultOptions with the passed options, deferring to the passed options when both define it. While fields can be set up in the constructor, the common pattern is to use [.add()](/list/add) on the instance of the list.
 
-Once your list has been completed, you can need to call [.register()](../register).
+Once your list has been completed, you can need to call [.register()](/list/register).

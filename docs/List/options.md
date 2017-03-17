@@ -1,7 +1,6 @@
 # List Construction Options
 
-The following is a list of all options for the keystone List [constructor](../), and their effects on the created list. Note that many of these can also be set using the [new List options](./)
-
+The following is a list of all options for the keystone List [constructor](/list), and their effects on the created list. Note that many of these can also be set by the constructor when the list is created.
 
 <h4 data-type="String"><code>label</code></h4>
 
@@ -28,7 +27,7 @@ Options for the Mongoose Schema for the List. Among other things, this option le
 
 <h4 data-type="Boolean"><code>noedit</code></h4>
 
-Disable the item from being edited in the admin UI or by [updateItem](/api/list/update-item) when true by mapping `noedit` to all fields on the list.
+Disable the item from being edited in the admin UI or by [updateItem](/list/update-item) when true by mapping `noedit` to all fields on the list.
 
 <h4 data-type="Boolean"><code>nocreate</code></h4>
 
@@ -51,7 +50,7 @@ Sets up 4 fields that will be attached to the list; `createdAt`, `createdBy`, `u
 * createdBy is a relationship field to your [user model](/configuration/#user-model), which will be automatically set by the admin UI if the item is new.
 * udpatedBy is a relationship field to your [user model](/configuration/#user-model), which will be automatically set by the admin UI if the item is new or modified.
 
-If you want to update `createdBy` and `updatedBy` on server side saves, you can use [updateItem](/api/update-item) to pass in a user.
+If you want to update `createdBy` and `updatedBy` on server side saves, you can use [updateItem](/list/update-item) to pass in a user.
 
 Example:
 ```JS

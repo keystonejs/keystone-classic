@@ -4,7 +4,7 @@
 
 `Keystone.init` provides initial options to keystone. These are used to format and customise how keystone runs.
 
-Some properties can be provided to init but not to [set](../set):
+Some properties can be provided to init but not to [set](/methods/set):
 
 - cloudinary config
 - auth

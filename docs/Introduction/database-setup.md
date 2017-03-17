@@ -4,7 +4,7 @@ Keystone has an easy database integration with [mongodb](mongodb.com), and uses 
 
 ## Setup
 
-From [Part 1](../installation), we should have the following files:
+From [Part 1](/introduction/installation), we should have the following files:
 
 ```
 | our Project folder
@@ -61,7 +61,7 @@ keystone.import('models');
 
 The `import` method allows us to pull in an entire folder, in this case the entire models folder, and will allow us to add as many models as we want without having to come back and let keystone know we've added something new. New models will be noticed each time keystone starts.
 
-If you want to know more about `keystone.import()` the documentation is [here](/api/import).
+If you want to know more about `keystone.import()` the documentation is [here](/methods/import).
 
 ### Adding our model file
 
@@ -121,7 +121,7 @@ email: { type: keystone.Field.Types.Email, unique: true },
 Email is similar to password in that it is using a keystone-specific field type, in this case to ensure that when this field is filled, it has the shape of an email. In addition, we have passed a second option of `unique: true`, which forces the field to be unique within the database. No doubling up on email addresses for accounts.
 
 // The following para really needs more work. Needs lightness and timing
-If you want to know about all the field types keystone offers, you can find the information find the full list of options in the [field API docs](/api/field/list) Also, for the options like `unique` which are available to all fields, you can read more [here](api/fields), for when you are making your own models.
+If you want to know about all the field types keystone offers, you can find the information find the full list of options in the [field docs](/field) Also, for the options like `unique` which are available to all fields, you can read more [here](/methods/fieldsTK)TK, for when you are making your own models.
 
 There are three more parts we are going to need to get our user model working. The first is to register it to keystone. This will tell keystone to include it in its list of models. To do this, add the following line to the bottom of the file:
 
@@ -137,7 +137,7 @@ User.schema.virtual('canAccessKeystone').get(function () {
 });
 ```
 
-If you want to know more about virtuals and other schema methods, you can find the [schema documentation](api/list/schema).
+If you want to know more about virtuals and other schema methods, you can find the [schema documentation](/list/schema).
 
 The final part of setting up our user model is to define the default columns to be displayed in the admin UI.
 
@@ -232,13 +232,13 @@ Event.register();
 ```
 
 ## Next Steps
-Check out [part 3](../routing) of our setting up keystone guide, which walks you through adding your own pages to your site, or if you want to read more about any of the parts we set up, you can check out these links:
+Check out [part 3](/introduction/routing) of our setting up keystone guide, which walks you through adding your own pages to your site, or if you want to read more about any of the parts we set up, you can check out these links:
 
 learn more about:
 
 - [configuring keystone](/configuration)
-- [importing models](/api/import)
-- [list of keystone fields](/api/field/list)
-- [keystone field options](/api/fields)
+- [importing models](/methods/import)
+- [list of keystone fields](/field)
+- [keystone field options](/api/fields)TKTKTK
 - [update scripts](/configuration/#application-updates)
-- [virtuals and schema methods](/api/list/schema)
+- [virtuals and schema methods](/list/schema)

@@ -16,6 +16,6 @@ Example:
 keystone.set('port', 5050)
 ```
 
-`keystone.set(key:string)` - .set can also be called with a string and no value passed in. If there is only one argument, `keystone.set` will instead retrieve the value of the selected key from keystone. This is aliased as [keystone.get()](../get),
+There are middleware that can be added with `set` which will be automatically run for particular actions. For information on these see the [middleware](/methods/middleware) documentation.
 
-TK talk about hooks and global middleware setting
+`keystone.set(key:string)` - .set can also be called with a string and no value passed in. If there is only one argument, `keystone.set` will instead retrieve the value of the selected key from keystone. This is aliased as [keystone.get()](/methods/get),

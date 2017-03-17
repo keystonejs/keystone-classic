@@ -6,8 +6,8 @@ The options for KeystoneJS cover a range of behaviours, from how the express app
 
 There are three ways to set options:
 
-- Passing a `{ key: 'value' }` configuration `Object` to the [keystone.init(options)](/api/init) method
-- Calling [keystone.set('key', 'value')](/api/set)
+- Passing a `{ key: 'value' }` configuration `Object` to the [keystone.init(options)](/methods/init) method
+- Calling [keystone.set('key', 'value')](/methods/set)
 - Setting environment variables in `process.env`. Only some options support this (noted below).
 
 If you want to keep secret keys and configuration out of your codebase (especially important for open source projects, or projects where not all developers should have access to production config settings) the [dotenv](npmjs.org/package/dotenv) module makes this very easy to manage.
@@ -286,8 +286,10 @@ Valid options are:
 > Session store packages are not bundled with Keystone, so make sure you explicitly add the selected session store to your project's package.json.
 
 > The session configuration passed to Express is available via keystone.get('express session')
+
 **Example using custom express-session store**
-```
+
+```JS
 var keystone = require('keystone'),
     ConnectMemcached = require('connect-memcached')
 
@@ -311,7 +313,7 @@ It is required when using the `connect-mongostore` store.
 
 **Example for connect-mongostore**
 
-```
+```JS
 "sessionStore": {
   "db": {
     "name": "myDb",
@@ -326,7 +328,7 @@ It is required when using the `connect-mongostore` store.
 
 **Example for connect-redis**
 
-```
+```JS
 "sessionStore": {
   "host": "", // Redis server hostname
   "port": "", // Redis server port
@@ -405,19 +407,19 @@ Allow you to change the TinyMCE skin. Defaults to `keystone`. See [http://www.ti
 
 **Example using wysiwyg options**
 
-```
+```JS
 keystone.init({
-'wysiwyg override toolbar': false,
-'wysiwyg menubar': true,
-'wysiwyg skin': 'lightgray',
-'wysiwyg additional buttons': 'searchreplace visualchars,'
- + ' charmap ltr rtl pagebreak paste, forecolor backcolor,'
- +' emoticons media, preview print ',
-'wysiwyg additional plugins': 'example, table, advlist, anchor,'
- + ' autolink, autosave, bbcode, charmap, contextmenu, '
- + ' directionality, emoticons, fullpage, hr, media, pagebreak,'
- + ' paste, preview, print, searchreplace, textcolor,'
- + ' visualblocks, visualchars, wordcount',
+	'wysiwyg override toolbar': false,
+	'wysiwyg menubar': true,
+	'wysiwyg skin': 'lightgray',
+	'wysiwyg additional buttons': 'searchreplace visualchars,'
+	 + ' charmap ltr rtl pagebreak paste, forecolor backcolor,'
+	 +' emoticons media, preview print ',
+	'wysiwyg additional plugins': 'example, table, advlist, anchor,'
+	 + ' autolink, autosave, bbcode, charmap, contextmenu, '
+	 + ' directionality, emoticons, fullpage, hr, media, pagebreak,'
+	 + ' paste, preview, print, searchreplace, textcolor,'
+	 + ' visualblocks, visualchars, wordcount',
 });
 ```
 
@@ -457,7 +459,7 @@ Optional setting to limit autocomplete results to a specific region. This option
 
 Can be specified on a per-field basis by setting the `region` option on any `Location` field.
 
-```
+```JS
 keystone.set('google api key', 'your-browser-key');
 keystone.set('google server api key', 'your-server-key');
 keystone.set('default region', 'au'); // optional, will limit autocomplete results to Australia
@@ -477,7 +479,7 @@ To configure KeystoneJS to support the Embed.ly API, simply sign up for an accou
 
 This option will default to the EMBEDLY_API_KEY environment variable if it is set.
 
-```
+```JS
 keystone.set('embedly api key', 'your-key');
 ```
 
@@ -502,7 +504,7 @@ Updates are only run once, and each completed update is logged in an `app_update
 **Update Script Example**
 Creates a new admin User
 
-```
+```JS
 var keystone = require('keystone'),
     User = keystone.list('User');
 

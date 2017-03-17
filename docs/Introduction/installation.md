@@ -10,11 +10,11 @@ We're going to be tackling this in three parts.
 
 Part 1 (this one here) will focus on installation and setting up our `keystone.js` file, which launch our app.
 
-[Part 2](../database-setup) will detail building keystone models and setting up your database.
+[Part 2](/introduction/database-setup) will detail building keystone models and setting up your database.
 
-[Part 3](../routing) will go through setting up routes with keystone to serve both database information as well as website pages.
+[Part 3](/introduction/routing) will go through setting up routes with keystone to serve both database information as well as website pages.
 
-[Part 4](../post-route) will get a us a `POST` endpoint which we can use to post data to.
+[Part 4](/introduction/post-route) will get a us a `POST` endpoint which we can use to post data to.
 
 Before we start, make sure you have [node](nodejs.org) and [mongo](https://www.mongodb.com/download-center?jmp=nav#community) installed.
 
@@ -58,10 +58,10 @@ Keystone is ready on http://0.0.0.0:3000
 ------------------------------------------------
 ```
 
-Unfortunately all that's there is a 404 error page. We're going to solve that in [part 3](../routing). In [Part 2](../database-setup) we are going to focus on getting the database connected, and the admin UI up and running. You can do these two in either order.
+Unfortunately all that's there is a 404 error page. We're going to solve that in [part 3](/introduction/routing). In [Part 2](/introduction/database-setup) we are going to focus on getting the database connected, and the admin UI up and running. You can do these two in either order.
 
 ## Learn more about:
 
-- [keystone.init](/api/init)
-- [keystone.start](/api/start)
+- [keystone.init](/methods/init)
+- [keystone.start](/methods/start)
 - [keystone setup configuration](/configuration)

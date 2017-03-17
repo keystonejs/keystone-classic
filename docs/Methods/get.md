@@ -12,4 +12,4 @@ Example:
 keystone.get('env')
 ```
 
-> NOTE: `keystone.get` is an alias for [keystone.set](../set). As such, passing in a second argument will cause it to set the value of the keystone option to the second argument before returning the value.
+> NOTE: `keystone.get` is an alias for [keystone.set](/methods/set). As such, passing in a second argument will cause it to set the value of the keystone option to the second argument before returning the value.

@@ -32,14 +32,15 @@ Fields are defined by an object with a `type` property, which must be a valid Fi
 
 When all the fields and options have been set on the list, call `MyList.register()` to register the list with Keystone and finalise its configuration.
 
-The options can be found [here](/api/list/options)
+The options can be found [here](/list/options)
 
 ### Example
 
 A simple Post model for a blog might look like this:
 
 **Post.js**
-```
+
+```JS
 var keystone = require('keystone');
 var Types = keystone.Field.Types;
 
@@ -67,7 +68,7 @@ Post.register();
 ```
 
 > NOTE
-> This example implements the optional `map`, `autokey` and `defaultSort` options, see the [api documentation](/api/list/options) for more details.
+> This example implements the optional `map`, `autokey` and `defaultSort` options, see the [api documentation](/list/options) for more details.
 
 > NOTE
 > It also specifies `title`, `state`, `author` and `publishedAt` as the default columns to display in the Admin UI, with state and publishedAt being given column widths.
@@ -86,7 +87,8 @@ You can, however, set it to a `Relationship` field in the schema, and it will di
 If there would be several relationships that may be relevant to display in the drilldown list, you can separate their paths with spaces.
 
 **Example: Including the author in the drilldown for Posts**
-```
+
+```JS
 var Post = new keystone.List('Post', {
     autokey: { path: 'slug', from: 'title', unique: true },
     map: { name: 'title' },
@@ -102,7 +104,8 @@ The inheritance option can be used to allow a list to inherit its fields from an
 Parent lists may not themselves inherit from other lists.
 
 **Example: Inheriting List fields from other lists**
-```
+
+```JS
 var keystone = require('keystone');
 
 var BasePage = new keystone.List('BasePage', {
@@ -131,7 +134,8 @@ For example, in our **Post** list above, we might want to automatically set the 
 We might also want to add a method to check whether the post is published, rather than checking the `state` field value directly.
 
 Before calling `Post.register()`, we would add the following code:
-```
+
+```JS
 Post.schema.methods.isPublished = function() {
     return this.state == 'published';
 }
@@ -151,7 +155,8 @@ To query data, you can use any of the [mongoose query](http://mongoosejs.com/doc
 **For example**: to load the last 5 `posts` with the state `published`, populating the linked `author`, sorted by reverse published date:
 
 **Loading Posts**
-```
+
+```JS
 var keystone = require('keystone'),
     Post = keystone.list('Post');
 
@@ -172,7 +177,8 @@ There exists another way to work with events in Javascript that is included in m
 For example: load `100` posts, then do something asynchronous, then do something with result:
 
 **Loading Posts, doing something asynchronous, doing something**
-```
+
+```JS
 var keystone = require('keystone'),
     Post = keystone.list('Post');
 
@@ -193,53 +199,15 @@ Post.model.find()
 
 Pagination Querying
 
-To query data with pagination, you can use `List.paginate()`, it returns a query object, just as `List.model.find()` would. It supports the options
-
-- `page` - page to start at
-- `perPage` - number of results to return per page
-- `maxPages` - optional, causes the page calculation to omit pages from the beginning/middle/end(useful if you have lots of pages, and do not want them to wrap over several lines).
-
-**For example**: to load the `posts` with the `maxPages` 10 and `perPage` 10,which state is `published`, populating the linked `author` and `categories`, sorted by reverse published date:
-
-**Loading Posts with paginate**
-```
-var keystone = require('keystone'),
-    Post = keystone.list('Post');
-
- Post.paginate({
-		page: req.query.page || 1,
-		perPage: 10,
-		maxPages: 10
-	})
-	.where('state', 'published')
-	.sort('-publishedDate')
-	.populate('author categories')
-	.exec(function(err, results) {
-		locals.data.posts = results;
-		next(err);
-	});
-```
-
-When you call `exec` on a paginated query, it will return a lot of metadata along with the results:
-
-key | details
----|---
-`total` | all matching results (not just on this page)
-`results` | array of results for this page
-`currentPage` | the index of the current page
-`totalPages` | the total number of pages
-`pages` | array of pages to display
-`previous` | index of the previous page, false if at the first page
-`next` | index of the next page, false if at the last page
-`first` | the index of the first result included
-`last` | index of the last result included
+To query data with pagination, you can use [List.paginate](/methods/paginate).
 
 ## Creating Items
 
 To create new items, again use the [mongoose model](http://mongoosejs.com/docs/models.html):
 
 **Creating Posts**
-```
+
+```JS
 var keystone = require('keystone'),
     Post = keystone.list('Post');
 
@@ -258,14 +226,15 @@ newPost.save(function(err) {
 
 > Automatic keys
 > Because we set the `autokey` option on our `Post` list, it will have generated a unique key based on the `title` before it was saved to the database.
-> ```newPost.slug == 'new-post';```
+> `newPost.slug == 'new-post';`
 
 ## Deleting Items
 
 To delete items, first load the data, then use the `remove` method:
 
 **Deleting a Post**
-```
+
+```JS
 var keystone = require('keystone'),
     Post = keystone.list('Post');
 
@@ -277,8 +246,9 @@ Post.model.findById(postId)
 
 ## Headings
 
-Define headings to display within the flow of your documents. Headings can be defined as a `String` or `Object` and can [depend on](http://keystonejs.com/docs/database/#dependsOn) another field value for display.
-```
+Define headings to display within the flow of your documents. Headings can be defined as a `String` or `Object` and can [depend on](/database/#dependsOn) another field value for display.
+
+```JS
 Person.add(
 	'User',
 	{ name: { type: Types.Name, required: true, index: true, initial: true } },
@@ -294,8 +264,14 @@ Person.add(
 ```
 
 **Options**
-> `heading` String - the text to display
-> `dependsOn` Object - heading will only be displayed when the paths specified in the object match the current data for the item. [dependsOn](http://keystonejs.com/docs/database/#dependsOn)
+
+<h4 data-type="String"><code>heading</code></h4>
+
+The text to display
+
+<h4 data-type="Object"><code>dependsOn</code></h4>
+
+The heading will only be displayed when the paths specified in the object match the current data for the item. [dependsOn](http://keystonejs.com/docs/database/#dependsOn)
 
 ## Fields
 
@@ -330,26 +306,45 @@ All field types support several common options, which can specify database setti
 
 Common field options include:
 
-option | type | description
---- | --- | ---
-`label` | `String` | The label of each field is generated from the field path; set this option to override the default.
-`required` | `Boolean` | Validates that the field has a value before an item can be saved (also passed to mongoose and enforced using a database index).
-`initial` | `Boolean` | Causes the field to be displayed in the **Create Item** form, in the Admin UI.
-`noedit` | `Boolean` | Renders the field as read-only in the admin UI.
-`note` | `String` | Is displayed with the field in the admin UI.
-`hidden` | `Boolean` | The field will always be hidden in the Admin UI if this is set to `true`
+<h4 data-type="String"><code>label</code></h4>
+
+The label of each field is generated from the field path; set this option to override the default.
+
+<h4 data-type="Boolean"><code>required</code></h4>
+
+Validates that the field has a value before an item can be saved (also passed to mongoose and enforced using a database index).
+
+<h4 data-type="Boolean"><code>initial</code></h4>
+
+Causes the field to be displayed in the **Create Item** form, in the Admin UI.
+
+<h4 data-type="Boolean"><code>noedit</code></h4>
+
+Renders the field as read-only in the admin UI.
+
+<h4 data-type="String"><code>note</code></h4>
+
+Is displayed with the field in the admin UI.
+
+<h4 data-type="Boolean"><code>hidden</code></h4>
+
+The field will always be hidden in the Admin UI if this is set to `true`
 
 ### Conditional Fields
 
 To improve the usability of the Admin UI, it is possible to hide fields when no value is set, or depending on the value of other fields.
 
-option | type | description
---- | --- | ---
-`collapse` | `Boolean` | Displays an **+ add** link in the admin UI when the field has no value. Will completely hide field UI when `noedit` is also set to true, when the field has no value
-`dependsOn` | `Object` | The field or header will only be displayed when the paths specified in the object match the current data for the item.
-You can target multiple values per path using an Array. The contents of dependsOn are passed to [expression match](npmjs.com/package/expression-match), if you want to form more complex queries.
+<h4 data-type="Boolean"><code>collapse</code></h4>
+
+Displays an **+ add** link in the admin UI when the field has no value. Will completely hide field UI when `noedit` is also set to true, when the field has no value
+
+<h4 data-type="Object|Array"><code>dependsOn</code></h4>
+
+The field or header will only be displayed when the paths specified in the object match the current data for the item. You can target multiple values per path using an Array. The contents of dependsOn are passed to [expression match](npmjs.com/package/expression-match), if you want to form more complex queries.
+
 **Example**
-```
+
+```JS
 first: { type: String },
 // Will show if first === "value1", "1" or "2"
 second: { type: String, dependsOn: { first: ['value1', '1', 2] } },
@@ -367,24 +362,44 @@ Keystone's fields support a simple syntax for configuring dynamically updated fi
 
 To use the watching functionality, set the following two options:
 
-`watch` | Boolean or String or Object or Function | When `true`, the field value will be recalculated every time an item is saved.
+<h4 data-type="Mixed"><code>watch</code></h4>
+
+When `true`, the field value will be recalculated every time an item is saved.
+
 Provide a space-delimited list of paths to recalculate the field value whenever one of those paths changes.
-**For example**: `'author title state'`
+
+**For example**:
+
+`'author title state'`
+
 Provide an object of key / value pairs to recalculate the field value whenever one of those paths changes to the value specified.
-**For example**: `{'state': 'published', 'mainPost': true}`
+
+**For example**:
+
+`{'state': 'published', 'mainPost': true}`
+
 Provide a function that returns true/false whenever you want.
-**For example**: `function() { return this.author === this.editor; }`
-`value` `Function` The function to generate the field value when a watched path is changed. Must return the new value, or accept a node-style `callback` argument, which can be called to set the field value asynchronously.
+
+**For example**:
+
+`function() { return this.author === this.editor; }`
+
+<h4 data-type="Function"><code>value</code></h4>
+
+The function to generate the field value when a watched path is changed. Must return the new value, or accept a node-style `callback` argument, which can be called to set the field value asynchronously.
 The `this` context of the function will be the item being saved.
+
 **Example (synchronous)**
-```
+
+```JS
 function () {
     return this.total<=this.totalreceived ? true:false;
 }
 ```
+
 **Example (asynchronous)**
 
-```
+```JS
 function (callback) { // BEWARE: MUST be called "callback" to allow asynchronous execution
 	list.model.findById(this.createdBy).exec(function(err, user){
 		callback(err, user.name + "-" + Date.now());
@@ -398,7 +413,7 @@ Some field types include helpful **underscore methods**, which are available on 
 
 **For example**: use the `format` underscore method of the `createdAt` `DateTime` field of the Posts List (above) like this
 
-```
+```JS
 var keystone = require('keystone'),
     Post = keystone.list('Post');
 
@@ -421,7 +436,7 @@ Specify the related Model using the `ref` option. For a many-many relationship, 
 
 For example, if you wanted to link a **Post** model to a single **Author** and many **PostCategories**, you would do it like this:
 
-```
+```JS
 Post.add({
     author: { type: Types.Relationship, ref: 'User' },
     categories: { type: Types.Relationship, ref: 'PostCategory', many: true }
@@ -436,7 +451,7 @@ The `filters` option is an object of key/value pairs, in which the keys correspo
 
 In the example below, the `author` field will only allow selection of a `User` whose `group` field is equal to 'admin'.
 
-```
+```JS
 Post.add({
     title: { type: String, required: true },
     category: { type: Types.Select, options: 'user, editor, admin', default: 'user' },
@@ -448,7 +463,7 @@ You can also filter by the value of another field on the model. You do this sett
 
 In the example below, the `author` field will only allow selection of a `User` whose `group` field is equal to the value of the `category` field of the `Post` model.
 
-```
+```JS
 Post.add({
     title: { type: String, required: true },
     category: { type: Types.Select, options: 'user, editor, admin', default: 'user' },
@@ -460,20 +475,22 @@ Finally, you can also filter by the current model's `_id` field.
 
 In the example below, the `bestPost` field will only allow selection of a `Post` whose `author` field is equal to the `_id` of the current document.
 
-```
+```JS
 User.add({
     name: { type: String, required: true },
     group: { type: Types.Select, options: 'user, editor, admin', default: 'user' },
     bestPost: { type: Types.Relationship, ref: 'Post', filters: { author: ':_id' } }
 });
 ```
+
 > NOTE
 > You can only set filters on one-many relationships (i.e. when the many option is NOT set to true).
 
 ### Populating related data in queries
 
 You can populate related data for relationship fields thanks to [Mongoose's populate functionality](http://mongoosejs.com/docs/populate.html). To populate the author and category documents when loading a Post from the example above, you would do this:
-```
+
+```JS
 Post.model.findOne().populate('author categories').exec(function(err, post) {
     // the author is a fully populated User document
     console.log(post.author.name);
@@ -488,16 +505,24 @@ Post.model.findOne().populate('author categories').exec(function(err, post) {
 What if, in the example above, you wanted to see a list of the Posts by each Author? Because the relationship field is on the Post, you need to tell the Author (and the PostCategory) Model that it is being referred to. Doing so allows the Admin UI to represent the relationship from both sides.
 
 You do this by calling the `relationship` method on the `Model` like this:
-```
+
+```JS
 User.relationship({ path: 'posts', ref: 'Post', refPath: 'author' });
 ```
 
 ### Options
-option | type | description
---- | --- | ---
-`path` | `String` | the path of the relationship reference on the Model
-`ref` | `String` | the key of the referred Model (the one that has the relationship field)
-`refPath` | `String` | the path of the relationship being referred to in the referred Model
+
+<h4 data-type="String"><code>path</code></h4>
+
+the path of the relationship reference on the Model
+
+<h4 data-type="String"><code>ref</code></h4>
+
+the key of the referred Model (the one that has the relationship field)
+
+<h4 data-type="String"><code>refPath</code></h4>
+
+the path of the relationship being referred to in the referred Model
 
 As you can see, the options provided to the `relationship` method mirror those of the relationship field it refers to.
 
@@ -508,13 +533,15 @@ As you can see, the options provided to the `relationship` method mirror those o
 
 Filtering one-to-many related items is easy; simply specify the ID of the item you wish to filter on like any other value:
 
-```
+```JS
 Post.model.find().where('author', author.id).exec(function(err, posts) {
     // ...
 });
 ```
+
 To filter many-to-many related items, use an `in` condition and specify one (or more) ids as an array:
-```
+
+```JS
 Post.model.find().where('categories').in([category.id]).exec(function(err, posts) {
     // ...
 });
