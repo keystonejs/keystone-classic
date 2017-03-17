@@ -51,7 +51,7 @@ Finally, we call `keystone.start()`, which kicks off our keystone app.
 
 We can now check this runs. Run `node keystone.js` and you should be greeted with:
 
-```
+sh
 ------------------------------------------------
 KeystoneJS Started:
 Keystone is ready on http://0.0.0.0:3000

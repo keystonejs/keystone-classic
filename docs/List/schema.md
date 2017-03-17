@@ -6,7 +6,7 @@ The most common uses of this are to add pre-save, and post-save hooks, add a sch
 
 Example:
 
-```
+```JS
 User.schema.virtual('canAccessKeystone').get(function () {
 	if (this.isAdmin) return true;
 });

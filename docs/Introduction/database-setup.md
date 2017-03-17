@@ -6,7 +6,7 @@ Keystone has an easy database integration with [mongodb](mongodb.com), and uses 
 
 From [Part 1](/introduction/installation), we should have the following files:
 
-```
+```sh
 | our Project folder
 |--node_modules/
 |--package.json
@@ -71,7 +71,7 @@ First we need to create a directory called `models` and make a new file `User.js
 
 Our folder should now look like:
 
-```
+```sh
 | our Project folder
 |--node_modules/
 |--models

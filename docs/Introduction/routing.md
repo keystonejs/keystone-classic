@@ -12,7 +12,7 @@ For our routing, we are going to be using [pug](pugjs.org) to render our views, 
 
 From [part 1](/introduction/installation), we should have the following files:
 
-```
+```sh
 | our Project folder
 |--node_modules/
 |--package.json
@@ -60,7 +60,7 @@ keystone.init({
 
 Keystone will look for an installed npm package with the same name as the view engine, so we are going to have to install `pug` to get this working.
 
-```
+```sh
 $ npm install --save pug
 ```
 
@@ -76,7 +76,7 @@ Next, we need to add our `routes` files. We are going to construct them along ke
 
 First we are going to add a routes folder, and make an `index.js` file in it. Within our `routes` folder, add a `views` folder and then give that its own `index.js`. After this we should have a folder structure that looks like:
 
-```
+```sh
 | Our Project
 |--node_modules/
 |--routes
@@ -151,7 +151,7 @@ Our final step to having a view rendered is the view file itself, which we can u
 
 First we will need a new templates folder at the top level, and a views folder within that. In this views folder create a file `index.pug`. After this, our file structure should look like:
 
-```
+```sh
 | Our Project
 |--node_modules/
 |--routes
@@ -168,7 +168,7 @@ Note that the routes/views and templates/views are mirroring each other. It is a
 
 Our pug folder just needs a bit of content:
 
-```
+```jade
 doctype html
 html(lang="en")
   head

@@ -80,7 +80,7 @@ Now we are going to create an API that can be used to upload and
 download files to KeystoneJS. This is a two step process. The first step
 is add a few lines of code to the `routes/index.js` file:
 
-```javascript
+```JS
 var keystone = require('keystone');
 var middleware = require('./middleware');
 var importRoutes = keystone.importer(__dirname);

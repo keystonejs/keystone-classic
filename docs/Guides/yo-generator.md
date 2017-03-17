@@ -4,13 +4,13 @@ The easiest way to get started with KeystoneJS is to use our Yeoman Generator. T
 
 To use the generator, you will need to install yo if you have not.
 
-```
+```sh
 $ npm install -g yo
 ```
 
 Once you have yo, you will need to install the keystone generator.
 
-```
+```sh
 $ npm install -g generator-keystone
 ```
 Run `yo keystone` to create a new project. The generator will ask you questions about your project setup, and then generate the base files for you, before doing an npm install.
@@ -60,7 +60,7 @@ keystone.start();
 
 The yeoman generator comes with our suggested structure for keystone, designed to make it easy to begin development. Below is the folder structure liad out with explanations of each part.
 
-```
+```sh
 |--lib
 |  Custom libraries and other code
 |--models
@@ -107,7 +107,7 @@ We're going to start with the `User` model, which is special - we need it so tha
 
 This script initialises the `User` model. It doesn't need to export anything, but the model *must* be registered with Keystone.
 
-```
+```JS
 var keystone = require('keystone');
 var Types = keystone.Field.Types;
 
@@ -309,7 +309,7 @@ Pug comes with some great features to simplify templates - including using layou
 **templates/layouts/base.pug**
 The base layout for our view templates
 
-```
+```jade
 include ../mixins/flash-messages
 
 doctype html
@@ -345,7 +345,7 @@ We're also have a mixin file `templates/mixins/flash-messages.pug` which we can 
 **templates/mixins/flash-messages.pug**
 Our flash-messages mixin
 
-```
+```jade
 mixin flash-messages(messages)
     if messages
         #flash-messages.container
@@ -381,7 +381,7 @@ Use the `view engine` option to specify the template language you want to use.
 
 If you want to use a custom template engine, set the `custom engine` option as well. For instance, [ejs](embeddedjs.com/) is supported by express by default, but you might want to use [ejs.locals](github.com/RandomEtc/ejs-locals) as a template engine in order to benefit from get extensions.
 
-```
+```JS
 // Modified web.js to use the ejs-locals custom template engine.
 var keystone = require('keystone');
 var engine   = require('ejs-locals');

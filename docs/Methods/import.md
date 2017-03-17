@@ -8,7 +8,7 @@ Example:
 
 We have a file structure in our `module root` of:
 
-```
+```sh
 |-routes
 |--api
 |---route1.js

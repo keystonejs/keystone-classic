@@ -44,7 +44,7 @@ We are going to be drawing together everything we added in both [part 2](/introd
 
 Your source tree should look like the following:
 
-```
+```sh
 | Our Project
 |--node_modules/
 |--models
@@ -66,7 +66,7 @@ First we want our pair of new files to make up the route and the view, these sho
 
 As we are not a pug tutorial, here's a page we prepared earlier:
 
-```
+```jade
 TK
 ```
 

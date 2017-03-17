@@ -10,7 +10,7 @@ minutes!
 
 1. Install the `keystone-email package` in your project with
 
-```
+```sh
 npm install keystone-email --save
 ```
 
@@ -48,7 +48,7 @@ Now we're all setup to start sending emails!
 For exemplary purposes, create a `test-email.js` file in the root of
 your project and require `keystone-email`:
 
-```javascript
+```JS
 // test-email.js
 var Email = require('keystone-email');
 ```
@@ -77,7 +77,7 @@ Let's swap back to our `test-email.js` file and tell `keystone-email`
 which template we want to use. We pass that in as the first argument to
 `new Email()`:
 
-```javascript
+```JS
 // test-email.js
 var Email = require('keystone-email');
 
@@ -88,7 +88,7 @@ In the second argument, the email options, we tell it we want to use
 Mailgun as the email transport mechanism by setting `transport` to
 `mailgun` (surprisingly!):
 
-```javascript
+```JS
 // test-email.js
 var Email = require('keystone-email');
 
@@ -109,7 +109,7 @@ mailgun options,...) and as the last argument a callback.
 Since we don't have any data in our template yet, we'll simply set the
 `locals` to an empty object:
 
-```javascript
+```JS
 // test-email.js
 var Email = require('keystone-email');
 
@@ -123,7 +123,7 @@ The `senderOptions` are the meat of this function call. We need to tell
 to come `from`, what the `subject` is and finally the Mailgun API
 details and sandbox url:
 
-```javascript
+```JS
 // test-email.js
 var Email = require('keystone-email');
 
@@ -145,7 +145,7 @@ If you tried to run this, it would already work! 🎉 Let's add a callback
 though, to make sure we get errors logged if something goes wrong or a
 message logged if it goes right:
 
-```javascript
+```JS
 // test-email.js
 var Email = require('keystone-email');
 
@@ -172,7 +172,7 @@ new Email('test-email.pug', {
 Now run this file with `node test-email.js`, and you should see this
 logged in your console:
 
-```
+```JS
 📬 Successfully sent Mailgun test with result
  { id: '<somelongid@sandboxsomestuffhere.mailgun.org>',
   message: 'Queued. Thank you.'
@@ -206,14 +206,14 @@ As you can see above, we need to pass `firstName` and `name` to our
 template via the locals option. Go back to `test-email.js` and take a
 look at the `Email(...).send()` call we do:
 
-```javascript
+```JS
 new Email(/* ... */).send({}, {/* ... */}, function (err, result) {/* ... */});
 ```
 
 See that empty first argument? Specify your first name and your last
 name in there like so:
 
-```javascript
+```JS
 new Email(/* ... */).send({
   firstName: 'Max',
   name: 'Stoiber',
@@ -223,7 +223,7 @@ new Email(/* ... */).send({
 Now send another email with `node test-email.js`! This is the text you
 should see once you've received it:
 
-```
+```sh
 Hi Max, this is your second email sent with Keystone!
 
 Let's hope that this is your first and last name: Max Stoiber
