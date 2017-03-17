@@ -21,6 +21,7 @@ const SUPPORTED_REGEX = new RegExp(/^image\/|application\/pdf|application\/posts
 const RESIZE_DEFAULTS = {
 	crop: 'fit',
 	format: 'jpg',
+	secure: !!keystone.get('cloudinary secure')
 };
 
 let uploadInc = 1000;
