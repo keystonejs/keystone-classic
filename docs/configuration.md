@@ -213,49 +213,78 @@ The path to your SSL Certificate. Should be either absolute or relative to `proc
 <h4 data-type="String"><code>ssl ca</code></h4>
 
 The path to your SSL CA Bundle. Should be either absolute or relative to `process.cwd()` (which is usually your project root).
-`ssl port` | `Number` | The port to start the SSL Server on. Defaults to `3001`.
-`ssl host` | `String` | The ip address to listen for request on. Defaults to `process.env.SSL_IP` or the value of the `host` option.
+
+<h4 data-type="Number"><code>ssl port</code></h4>
+
+The port to start the SSL Server on. Defaults to `3001`.
+
+<h4 data-type="String"><code>ssl host</code></h4>
+
+The ip address to listen for request on. Defaults to `process.env.SSL_IP` or the value of the `host` option.
+
 Exposes `onHttpsServerCreated` event during `keystone.start()`
 
-> NOTE
 > WARNING: If you intend to enable SSL on your KeystoneJS app, make sure you're using Node.js `0.10.33` or newer. Node versions prior to `0.10.33` are susceptible to the POODLE (Padding Oracle On Downgraded Legacy Encryption) vulnerability, a man-in-the-middle attack that targets `SSLv3` (see [CVE-2014-3566](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-3566)). As of Node version `0.10.33`, the `SSLv2` and `SSLv3` protocols are disabled by default. For more information see the release notes for [Node v0.10.33 (Stable)](https://nodejs.org/en/blog/release/v0.10.33/).
 
 ## Unix Socket Web Server Option
 
 Express will listen to a unix socket for connections
 
-option | type | description
---- | --- | ---
-`unix socket` | String | Path to a writable unix socket. Should be either absolute or relative to `process.cwd()` (which is usually your project root). File will be removed first if present.
+<h4 data-type="String"><code>unix socket</code></h4>
+
+Path to a writable unix socket. Should be either absolute or relative to `process.cwd()` (which is usually your project root). File will be removed first if present.
+
 When set http and https servers are ignored.
+
 Exposes `onSocketServerCreated` event during `keystone.start()`
 
 ## Database and User Auth Options
 
 The following options control your database configuration and user models / authentication:
 
-option | type | description
---- | --- | ---
-`mongo` | `String` | The url for your MongoDB connection.
-You should typically set this to `process.env.MONGO_URI || "mongodb://localhost/your-db"`
-`model prefix` | `String` | A prefix to apply to all the mongodb collections used by the models.
-`auth` | `Mixed` | Whether to enable built-in auth for Keystone's Admin UI, or a custom function to use to authenticate users.
+<h4 data-type="String"><code>mongo</code></h3.9>
+
+The url for your MongoDB connection.
+
+You should typically set this to `process.env.MONGO_URI || "mongodb://localhost/your-db"`, which will cause it to default to localhost unless a MONGO_URI is explicitly provided in the environment.
+
+<h4 data-type="String"><code>model prefix</code></h4>
+
+A prefix to apply to all the mongodb collections used by the models.
+
+<h4 data-type="Mixed"><code>auth</code></h4>
+
+Whether to enable built-in auth for Keystone's Admin UI, or a custom function to use to authenticate users.
+
 When this is set to `false` (or not defined), Keystone's Admin UI will be open to the public (so set it!)
+
 If using a custom function, it should follow the standard for express middleware of `function(req, res, next)`. If a user is not logged in or should not access Keystone's Admin UI, use `res.redirect()` to redirect them - otherwise call the `next` callback to enable access.
-`user model` | `String` | The key of the Keystone List for users, **required** if `auth` is set to true
+
+<h4 data-type="String"><code>user model</code></h4>
+
+The key of the Keystone List for users, **required** if `auth` is set to true
 Typically this would be set to User.
-`cookie secret` | `String` | The encryption key to use for your cookies. Passed to Express's cookie parser.
+
+<h4 data-type="String"><code>cookie secret</code></h4>
+
+The encryption key to use for your cookies. Passed to Express's cookie parser.
+
 It's a really good idea to set this to a long, random string.
-`session store` | `String or Function` | Set this to mongo to use your MongoDB database to persist session data.
+
+<h4 data-type="String|Function"><code>session store</code></h4>
+
+Set this to mongo to use your MongoDB database to persist session data.
 By default, Keystone will use the in-memory session store provided by Express, which should only be used in development because it does not scale past a single process, and leaks memory over time.
+
 Valid options are:
+
 - `mongo` (or `connect-mongo`)
 - `connect-mongostore` (supports replica sets, but requires explicit configuration - see below)
 - `connect-redis`
 - `function(expressSession){ ... }`. You may specify a custom express-session store implementation by setting the `session store` property to a function that returns an express-session store implementation (see example below).
-> NOTE
+
 > Session store packages are not bundled with Keystone, so make sure you explicitly add the selected session store to your project's package.json.
-> NOTE
+
 > The session configuration passed to Express is available via keystone.get('express session')
 **Example using custom express-session store**
 ```
@@ -273,9 +302,15 @@ keystone.init({
   }
 });
 ```
-`session store options` | `Object` | This option allows you to override the default session store configuration, and is passed to the session store package.
+
+<h4 data-type="Object"><code>session store options</code></h4>
+
+This option allows you to override the default session store configuration, and is passed to the session store package.
+
 It is required when using the `connect-mongostore` store.
+
 **Example for connect-mongostore**
+
 ```
 "sessionStore": {
   "db": {
@@ -288,7 +323,9 @@ It is required when using the `connect-mongostore` store.
   }
 }
 ```
+
 **Example for connect-redis**
+
 ```
 "sessionStore": {
   "host": "", // Redis server hostname
@@ -300,18 +337,29 @@ It is required when using the `connect-mongostore` store.
   "url": "", // e.g. redis://user:pass@host:port/db
 }
 ```
-> NOTE
+
 > The session options are made available via `keystone.get('session options')`
-`back url` | `String` | `href` to use for the 'back to (site name)' link in the header of the Admin UI
-Defaults to `/`
-`signin url` | `String` | `href` to bounce visitors to when they fail the default auth check (e.g. not signed in)
-Defaults to `/keystone/signin`, only used when `auth` is set to `true`
-`signin redirect` | `String` | `href` to bounce visitors to after they successfully sign in via the built-in signin route
-Defaults to `/keystone`
-`signout url` | `String` | `href` for the signout link in the top right of the UI
-Defaults to `/keystone/signout` if `auth` is set to `true`
-`signout redirect` | `String` | `href` to bounce visitors to after they successfully sign out via the built-in sign out route
-Defaults to `/keystone`
+
+<h4 data-type="String"><code>back url</code></h4>
+
+A `href` string to use for the 'back to (site name)' link in the header of the Admin UI. Defaults to `/`.
+
+<h4 data-type="String"><code>signin url</code></h4>
+
+A `href` to bounce visitors to when they fail the default auth check (e.g. not signed in). Defaults to `/keystone/signin`, only used when `auth` is set to `true`/
+
+<h4 data-type="String"><code>signin redirect</code></h4>
+
+A `href` to bounce visitors to after they successfully sign in via the built-in signin route. Defaults to `/keystone`.
+
+<h4 data-type="String"><code>signout url</code></h4>
+
+A `href` for the signout link in the top right of the UI. Defaults to `/keystone/signout` if `auth` is set to `true`
+
+<h4 data-type="String"><code>signout redirect</code></h4>
+
+A `href` to bounce visitors to after they successfully sign out via the built-in sign out route. Defaults to `/keystone`
+
 
 For more information about setting up and using database models with Keystone, see the [database guide](/database/).
 
@@ -319,22 +367,44 @@ For more information about setting up and using database models with Keystone, s
 
 The following options control some ui options for the Admin backend:
 
-option | type | description
---- | --- | ---
-`wysiwyg images` | `Boolean` | Adds an image button which enables including images from other URLS in your WYSIWYG Editor.
-`wysiwyg cloudinary images` | Boolean | Adds an image upload button and enables cloudinary image uploads directly in your WYSIWYG Editor.
-`wysiwyg additional buttons` | String | Allows to add additional extra functionality buttons such as blockquote.
-A complete list of available buttons can be found at: [http://www.tinymce.com/wiki.php/Controls](http://www.tinymce.com/wiki.php/Controls)
-`wysiwyg additional plugins` | `String` | Allows for additional plugins to be activated which can be found at: [http://www.tinymce.com/wiki.php/Plugins](http://www.tinymce.com/wiki.php/Plugins)
-`wysiwyg additional options` | `Object` | Allows for additional TinyMCE options, such as `{ menubar: true }` to be modified.
-`wysiwyg override toolbar` | `Boolean` | This will remove the default set of buttons for wysiwyg mode. Use this with `wysiwyg additional buttons` and `wysiwyg additional plugins`. Defaults to `false`.
-`wysiwyg menubar` | `Boolean` | Show the menubar for wysiwyg editor. Defaults to `false`.
-See [http://www.tinymce.com/wiki.php/Configuration:menubar](http://www.tinymce.com/wiki.php/Configuration:menubar) for more details.
-`wysiwyg importcss` | `String` | Sets the `content_css` and configures the `importcss` plugin for TinyMCE.
-See [http://www.tinymce.com/wiki.php/Configuration:content_css](http://www.tinymce.com/wiki.php/Configuration:content_css) for more details.
-`wysiwyg skin` | `String` | Allow you to change the TinyMCE skin. Defaults to `keystone`.
-See [http://www.tinymce.com/wiki.php/Configuration:skin](http://www.tinymce.com/wiki.php/Configuration:skin) for more details.
+<h4 data-type="Boolean"><code>wysiwyg images</code></h4>
+
+Adds an image button which enables including images from other URLS in your WYSIWYG Editor.
+
+<h4 data-type="Boolean"><code>wysiwyg cloudinary images</code></h4>
+
+Adds an image upload button and enables cloudinary image uploads directly in your WYSIWYG Editor.
+
+<h4 data-type="String"><code>wysiwyg additional buttons</code></h4>
+
+Allows to add additional extra functionality buttons such as blockquote. A complete list of available buttons can be found at: [http://www.tinymce.com/wiki.php/Controls](http://www.tinymce.com/wiki.php/Controls)
+
+<h4 data-type="String"><code>wysiwyg additional plugins</code></h4>
+
+Allows for additional plugins to be activated which can be found at: [http://www.tinymce.com/wiki.php/Plugins](http://www.tinymce.com/wiki.php/Plugins)
+
+<h4 data-type="Object"><code>wysiwyg additional options</code></h4>
+
+Allows for additional TinyMCE options, such as `{ menubar: true }` to be modified.
+
+<h4 data-type="Boolean"><code>wysiwyg override toolbar</code></h4>
+
+This will remove the default set of buttons for wysiwyg mode. Use this with `wysiwyg additional buttons` and `wysiwyg additional plugins`. Defaults to `false`.
+
+<h4 data-type="Boolean"><code>wysiwyg menubar</code></h4>
+
+Show the menubar for wysiwyg editor. Defaults to `false`. See [http://www.tinymce.com/wiki.php/Configuration:menubar](http://www.tinymce.com/wiki.php/Configuration:menubar) for more details.
+
+<h4 data-type="String"><code>wysiwyg importcss</code></h4>
+
+Sets the `content_css` and configures the `importcss` plugin for TinyMCE. See [http://www.tinymce.com/wiki.php/Configuration:content_css](http://www.tinymce.com/wiki.php/Configuration:content_css) for more details.
+
+<h4 data-type="String"><code>wysiwyg skin</code></h4>
+
+Allow you to change the TinyMCE skin. Defaults to `keystone`. See [http://www.tinymce.com/wiki.php/Configuration:skin](http://www.tinymce.com/wiki.php/Configuration:skin) for more details.
+
 **Example using wysiwyg options**
+
 ```
 keystone.init({
 'wysiwyg override toolbar': false,
@@ -357,12 +427,14 @@ keystone.init({
 
 Keystone has support for Google Analytics tracking in the Admin UI. To enable tracking, set the following configuration options:
 
-option | type | description
---- | --- | ---
-`ga property` | `String` | Your Google Analytics Property. Will default to `process.env.GA_PROPERTY`.
-`ga domain` | `String` | Your Google Analytics Domain. Will default to `process.env.GA_DOMAIN`.
+<h4 data-type="String"><code>ga property</code></h4>
 
-> NOTE
+Your Google Analytics Property. Will default to `process.env.GA_PROPERTY`.
+
+<h4 data-type="String"><code>ga domain</code></h4>
+
+Your Google Analytics Domain. Will default to `process.env.GA_DOMAIN`.
+
 > Note if you only want to include Google Analytics tracking in the front-end of your project, you should use different variable names from those above.
 
 ### Google Maps
@@ -371,20 +443,28 @@ Keystone's [Location field type](/field/location/) supports integration with the
 
 To enable these features, [obtain an API Key from Google](https://code.google.com/apis/console/) and enable the Google Maps v3 and Google Places APIs for it, then set the following options:
 
-option | type | description
---- | --- | ---
-`google api key` | `String` | Your Google API browser key, used to authenticate the Javascript Maps API in the Admin UI. Will default to `process.env.GOOGLE_BROWSER_KEY`.
-`google server api key` | `String` | Your Google API server key, used to authenticate requests to the Maps API from the server. Will default to `process.env.GOOGLE_SERVER_KEY`.
-`default region` | String | Optional setting to limit autocomplete results to a specific region. This option takes a region code, specified as a [IANA language region](http://www.iana.org/assignments/language-subtag-registry/language-subtag-registry) subtag.
+<h4 data-type="String"><code>google api key</code></h4>
+
+Your Google API browser key, used to authenticate the Javascript Maps API in the Admin UI. Will default to `process.env.GOOGLE_BROWSER_KEY`.
+
+<h4 data-type="String"><code>google server api key</code></h4>
+
+Your Google API server key, used to authenticate requests to the Maps API from the server. Will default to `process.env.GOOGLE_SERVER_KEY`.
+
+<h4 data-type="String"><code>default region</code></h4>
+
+Optional setting to limit autocomplete results to a specific region. This option takes a region code, specified as a [IANA language region](http://www.iana.org/assignments/language-subtag-registry/language-subtag-registry) subtag.
+
 Can be specified on a per-field basis by setting the `region` option on any `Location` field.
+
 ```
 keystone.set('google api key', 'your-browser-key');
 keystone.set('google server api key', 'your-server-key');
 keystone.set('default region', 'au'); // optional, will limit autocomplete results to Australia
 ```
-> NOTE
+
 > Note that the use of the Places Geocoding API is subject to a query limit of 2,500 geolocation requests per day, except with an enterprise license.
-> NOTE
+
 > The Places Geocoding API may only be used in conjunction with a Google map; geocoding results without displaying them on a map is prohibited. Please make sure your Keystone app complies with the Google Maps API License.
 
 ### Embed.ly
