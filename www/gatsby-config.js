@@ -51,7 +51,7 @@ module.exports = {
 					{
 						resolve: `gatsby-typegen-remark-autolink-headers`,
 						options: {
-							offsetY: -46,
+							offsetY: 0,
 						},
 					},
 				],

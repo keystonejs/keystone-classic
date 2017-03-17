@@ -1,7 +1,5 @@
 import React, { Children, cloneElement, PropTypes } from 'react';
-import { compose } from 'glamor';
 import widthMap from './widths';
-import { rhythm } from '../../utils/typography';
 import theme from '../../theme';
 
 const propTypes = {
@@ -24,22 +22,25 @@ export function Row ({
 	large,
 	...props
 }) {
-	const tagStyles = compose({
-		display: 'flex',
-		flexWrap: 'wrap',
-		marginLeft: `-${rhythm(1)}`,
-		marginRight: `-${rhythm(1)}`,
-	});
 	const childProps = { small, medium, large };
 
 	return (
-		<Tag {...tagStyles} {...props}>
+		<Tag css={styles.row} {...props}>
 			{(small || medium || large)
 				? Children.map(children, (c) => cloneElement(c, childProps))
 				: children
 			}
 		</Tag>
 	);
+};
+
+const styles = {
+	row: {
+		display: 'flex',
+		flexWrap: 'wrap',
+		marginLeft: '-1em',
+		marginRight: '-1em',
+	},
 };
 
 Row.propTypes = propTypes;
@@ -54,20 +55,20 @@ export function Col ({
 	large,
 	...props
 }) {
-	const tagStyles = compose({
-		paddingLeft: rhythm(1),
-		paddingRight: rhythm(1),
+	const tagStyles = {
+		paddingLeft: '1em',
+		paddingRight: '1em',
 		width: small ? widthMap[small] : '100%',
-	}, {
+
 		[theme.breakpoint.mediumUp]: {
 			width: widthMap[medium],
 		},
 		[theme.breakpoint.largeUp]: {
 			width: widthMap[large],
 		},
-	});
+	};
 
-	return <Tag {...tagStyles} {...props} />;
+	return <Tag css={tagStyles} {...props} />;
 };
 
 Col.propTypes = propTypes;

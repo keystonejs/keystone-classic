@@ -33,6 +33,7 @@ const styles = {
 		marginRight: '1em',
 	},
 	title: {
+		color: 'inherit',
 		fontWeight: '300',
 	},
 	text: {

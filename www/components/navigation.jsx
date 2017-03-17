@@ -1,11 +1,11 @@
 import React from 'react';
 import Link from 'gatsby-link';
 import { rhythm, scale } from 'utils/typography';
-import { presets } from 'glamor';
 import MenuIcon from 'react-icons/lib/md/menu';
 import gray from 'gray-percentage';
 import Headroom from 'react-headroom';
 
+import theme from '../theme';
 import invertedLogo from '../images/logo-inverted.svg';
 import Container from './Container';
 
@@ -37,7 +37,8 @@ export default ({ home = '/', openSidebar }) => {
 							paddingRight: rhythm(1 / 2),
 							verticalAlign: 'middle',
 							width: 40,
-							[presets.Tablet]: {
+
+							[theme.breakpoint.mediumUp]: {
 								display: 'none',
 							},
 						}}

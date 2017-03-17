@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import DocumentTitle from 'react-document-title';
-import { presets } from 'glamor';
+import EditIcon from 'react-icons/lib/go/pencil';
 
 import { rhythm } from '../utils/typography';
 import theme from '../theme';
@@ -15,7 +15,10 @@ class DocumentPage extends Component {
 				<div css={styles.content}>
 					<Container width="medium">
 						<article css={styles.article}>
-							<a href={editPath} css={styles.anchor}>Edit this Page</a>
+							<a href={editPath} css={styles.edit} target="_blank">
+								<EditIcon css={styles.editIcon} />
+								Edit this page
+							</a>
 							<div dangerouslySetInnerHTML={{ __html: body }} />
 						</article>
 					</Container>
@@ -25,19 +28,43 @@ class DocumentPage extends Component {
 	}
 }
 
+/* eslint quote-props: ["error", "as-needed"] */
 const styles = {
 	content: {
-		[presets.Tablet]: {
-			marginLeft: theme.sidebar.width,
+		[theme.breakpoint.mediumUp]: {
+			marginLeft: theme.sidebar.widthSmall,
 			minHeight: '100vh',
+		},
+		[theme.breakpoint.largeUp]: {
+			marginLeft: theme.sidebar.widthLarge,
 		},
 	},
 	article: {
 		paddingBottom: rhythm(1),
 		paddingTop: rhythm(1),
+
+		[theme.breakpoint.mediumUp]: {
+			paddingBottom: rhythm(2),
+			paddingTop: rhythm(2),
+		},
 	},
-	anchor: {
+	edit: {
+		color: theme.color.gray40,
 		float: 'right',
+		display: 'inline-flex',
+		alignItems: 'center',
+		fontSize: '0.9em',
+		marginTop: rhythm(1),
+		textDecoration: 'none',
+		textTransform: 'uppercase',
+		transition: 'color 100ms',
+
+		':hover': {
+			color: theme.color.gray60,
+		},
+	},
+	editIcon: {
+		marginRight: '0.5em',
 	},
 };
 

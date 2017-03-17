@@ -69,11 +69,15 @@ const styles = {
 		textAlign: 'center',
 	},
 	intro__title: {
-		fontSize: 48,
-		fontWeight: '300',
+		color: 'inherit',
+		fontSize: '3em',
+		fontWeight: '200',
+		marginBottom: '1em',
 	},
 	intro__lead: {
-		fontSize: 24,
+		color: 'inherit',
+		fontSize: '1.2em',
+		fontWeight: '300',
 		opacity: '0.7',
 	},
 };

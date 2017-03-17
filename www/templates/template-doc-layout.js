@@ -1,31 +1,59 @@
 import React from 'react';
-import Navigation from 'components/navigation';
-import Sidebar from 'components/sidebar';
-import { rhythm } from 'utils/typography';
-import { compose, presets } from 'glamor';
-import Drawer from 'react-motion-drawer';
-import { Scrollbars } from 'react-custom-scrollbars';
 require('../css/prism-coy.css');
 require('typeface-roboto');
 
 import Page from './template-doc-page';
+import Navbar from '../components/Navbar';
 
 export default class DocumentLayout extends React.Component {
 	constructor (props) {
 		super(props);
-		this.state = {
-			sidebarOpen: false,
-		};
+
+		this.getNavItems = this.getNavItems.bind(this);
+
+		this.state = { sidebarOpen: false };
 	}
 	componentDidMount () {
 		// Create references to html/body elements
 		this.htmlElement = document.querySelector('html');
 		this.bodyElement = document.querySelector('body');
 	}
+	toggleNavigation (navIsOpen) {
+		this.setState({ navIsOpen });
+	}
+	getNavItems () {
+		const { edges } = this.props.data.allMarkdownRemark;
+		let currentSection;
+		const sections = {};
+
+		edges.forEach(({ node }) => {
+			const { section } = node;
+			const newSection = section !== currentSection;
+			currentSection = section;
+
+			if (newSection) sections[section] = [];
+		});
+
+		edges.forEach(({ node }) => {
+			const { headings, section, slug } = node;
+
+			const label = headings
+				.filter(h => h.depth === 1)
+				.map(h => h.value)[0]
+				|| '(no title)';
+
+			sections[section].push({ label, slug });
+		});
+
+		return Object.keys(sections).map(s => ({
+			section: s || '(no section)',
+			items: sections[s],
+		}));
+	}
 	render () {
 		// Freeze the background when the overlay is open.
 		if (this.htmlElement && this.bodyElement) {
-			if (this.state.mobileSidebarOpen) {
+			if (this.state.mobileNavbarOpen) {
 				this.htmlElement.style.overflow = 'hidden';
 				this.bodyElement.style.overflow = 'hidden';
 			} else {
@@ -39,15 +67,12 @@ export default class DocumentLayout extends React.Component {
 
 		const { data, data: { markdownRemark } } = this.props;
 		const { title: siteTitle } = data.site.siteMetadata;
-		const edges = data.allMarkdownRemark.edges;
 		const body = markdownRemark.html;
 		const path = markdownRemark.parent.relativePath;
 
 		// TODO must be a better way to do this
 		// also, `join` is because some pages still have multiple H1s
-		const title = markdownRemark.headings.filter(h => h.depth === 1).map(h => h.value).join(', ');
-
-		const sidebar = <Sidebar items={edges.map(e => e.node)} />;
+		const title = markdownRemark.headings.filter(h => h.depth === 1).sort((a, b) => a.value.localeCompare(b.value)).map(h => h.value).join(', ');
 
 		// TODO add file path to Markdown schema
 		// NOTE pointing to `docs` until ready for `master`
@@ -64,7 +89,7 @@ export default class DocumentLayout extends React.Component {
 				{/* <Navigation
 					home="/"
 					location={this.props.location}
-					openSidebar={() => {
+					openNavbar={() => {
 						this.setState({ sidebarOpen: true });
 					}}
 				/> */}
@@ -92,7 +117,11 @@ export default class DocumentLayout extends React.Component {
 					autoHide
 				>
 				</Scrollbars> */}
-				{sidebar}
+				<Navbar
+					items={this.getNavItems()}
+					openNavigation={() => this.toggleNavigation(true)}
+					closeNavigation={() => this.toggleNavigation(false)}
+				/>
 				<Page
 					body={body}
 					editPath={editPath}

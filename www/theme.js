@@ -6,10 +6,10 @@ import { rhythm } from 'utils/typography';
 
 // breakpoint
 export const breakpointNumeric = {
-	small: 600,
-	medium: 900,
-	large: 1200,
-	xlarge: 1500,
+	small: 400,
+	medium: 768,
+	large: 1024,
+	xlarge: 1440,
 };
 export const breakpoint = {
 	mediumUp: `@media (min-width: ${breakpointNumeric.small + 1}px)`,
@@ -25,14 +25,17 @@ export const breakpoint = {
 
 export const container = {
 	small: rhythm(12),
-	medium: rhythm(24),
-	large: rhythm(36),
+	medium: rhythm(36),
+	large: rhythm(44),
 };
 
 // color
 export const color = {
-	blue: '#1385E5',
+	blue: '#348dd9',
 	blueDark: '#374e61',
+
+	// social
+	twitter: '#1DA1F2',
 
 	// neutrals
 	gray90: '#1A1A1A',
@@ -52,7 +55,8 @@ export const color = {
 
 // sidebar
 export const sidebar = {
-	width: 300,
+	widthLarge: 300,
+	widthSmall: 240,
 };
 
 export default {

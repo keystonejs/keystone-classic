@@ -3,15 +3,17 @@ import CodePlugin from 'typography-plugin-code';
 import { MOBILE_MEDIA_QUERY } from 'typography-breakpoint-constants';
 
 const theme = {
-	baseFontSize: '16px',
+	baseFontSize: '15px',
 	baseLineHeight: 1.45,
-	scaleRatio: 2,
 	blockMarginBottom: 0.75,
-	bodyWeight: 400,
-	boldWeight: 700,
-	headerWeight: 700,
+	bodyColor: '#535353',
 	bodyFontFamily: ['Roboto', 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
+	bodyWeight: 300,
+	boldWeight: 500,
+	headerColor: '#123d62',
 	headerFontFamily: ['Roboto', 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
+	headerWeight: 400,
+	scaleRatio: 2,
 	plugins: [
 		new CodePlugin(),
 	],
@@ -22,15 +24,15 @@ const theme = {
 			marginBottom: rhythm(1 / 2),
 		},
 		'a': {
-			color: '#007cb1',
+			color: '#348dd9',
 		},
 		'blockquote': {
-			paddingLeft: rhythm(3 / 4),
-			paddingTop: rhythm(1 / 2),
-			paddingBottom: rhythm(1 / 2),
+			borderLeft: `${rhythm(1 / 4)} solid #4a4a4a`,
 			marginLeft: 0,
 			marginRight: 0,
-			borderLeft: `${rhythm(1 / 4)} solid #4a4a4a`,
+			paddingBottom: rhythm(1 / 2),
+			paddingLeft: rhythm(3 / 4),
+			paddingTop: rhythm(1 / 2),
 		},
 		'blockquote *:last-child': {
 			marginBottom: 0,
@@ -47,8 +49,8 @@ const theme = {
 		'h5 code': {
 			...scale(-1 / 5),
 		},
-		'tt,code': {
-			fontFamily: '"Ubuntu Mono", Consolas,"Roboto Mono","Liberation Mono",Menlo,Courier,monospace',
+		'tt, code': {
+			fontFamily: 'Monaco, Menlo, Courier, monospace',
 		},
 		'.gatsby-resp-image-link': {
 			marginLeft: rhythm(-3 / 4),
