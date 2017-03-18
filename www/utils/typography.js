@@ -20,8 +20,18 @@ const theme = {
 	overrideStyles: ({ rhythm, scale }) => ({
 		'h1,h2,h3,h4,h5,h6': {
 			lineHeight: 1.1,
-			marginTop: rhythm(1),
+			// marginTop: rhythm(1),
 			marginBottom: rhythm(1 / 2),
+		},
+		'h1': {
+			...scale(1.4),
+		},
+		'h2': {
+			...scale(1),
+			marginTop: '1.6em',
+		},
+		'h3': {
+			marginTop: '1.4em',
 		},
 		'a': {
 			color: '#348dd9',

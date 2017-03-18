@@ -31,19 +31,19 @@ class DocumentPage extends Component {
 /* eslint quote-props: ["error", "as-needed"] */
 const styles = {
 	content: {
-		[theme.breakpoint.mediumUp]: {
-			marginLeft: theme.sidebar.widthSmall,
+		[theme.breakpoint.largeUp]: {
+			marginLeft: theme.navbar.widthSmall,
 			minHeight: '100vh',
 		},
-		[theme.breakpoint.largeUp]: {
-			marginLeft: theme.sidebar.widthLarge,
+		[theme.breakpoint.xlargeUp]: {
+			marginLeft: theme.navbar.widthLarge,
 		},
 	},
 	article: {
 		paddingBottom: rhythm(1),
 		paddingTop: rhythm(1),
 
-		[theme.breakpoint.mediumUp]: {
+		[theme.breakpoint.largeUp]: {
 			paddingBottom: rhythm(2),
 			paddingTop: rhythm(2),
 		},

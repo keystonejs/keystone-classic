@@ -10,16 +10,6 @@ export default class DocumentLayout extends React.Component {
 		super(props);
 
 		this.getNavItems = this.getNavItems.bind(this);
-
-		this.state = { sidebarOpen: false };
-	}
-	componentDidMount () {
-		// Create references to html/body elements
-		this.htmlElement = document.querySelector('html');
-		this.bodyElement = document.querySelector('body');
-	}
-	toggleNavigation (navIsOpen) {
-		this.setState({ navIsOpen });
 	}
 	getNavItems () {
 		const { edges } = this.props.data.allMarkdownRemark;
@@ -51,26 +41,12 @@ export default class DocumentLayout extends React.Component {
 		}));
 	}
 	render () {
-		// Freeze the background when the overlay is open.
-		if (this.htmlElement && this.bodyElement) {
-			if (this.state.mobileNavbarOpen) {
-				this.htmlElement.style.overflow = 'hidden';
-				this.bodyElement.style.overflow = 'hidden';
-			} else {
-				this.htmlElement.style.overflow = 'visible';
-				this.bodyElement.style.overflow = 'visible';
-			}
-			// Always set the HTML overflowY to scroll so there's no weird jumping
-			// around.
-			this.htmlElement.style.overflowY = `scroll`;
-		}
-
 		const { data, data: { markdownRemark } } = this.props;
 		const { title: siteTitle } = data.site.siteMetadata;
 		const body = markdownRemark.html;
 		const path = markdownRemark.parent.relativePath;
 
-		// TODO must be a better way to do this
+		// TODO filtering/sorting should come from graphQL
 		// also, `join` is because some pages still have multiple H1s
 		const title = markdownRemark.headings.filter(h => h.depth === 1).sort((a, b) => a.value.localeCompare(b.value)).map(h => h.value).join(', ');
 
@@ -82,46 +58,10 @@ export default class DocumentLayout extends React.Component {
 
 		// console.log('data', this.props.data);
 		// console.log('location', this.props.location);
-		// const activeSection = basepath(this.props.location.pathname)
 
 		return (
 			<div>
-				{/* <Navigation
-					home="/"
-					location={this.props.location}
-					openNavbar={() => {
-						this.setState({ sidebarOpen: true });
-					}}
-				/> */}
-				{/* <Drawer
-					open={this.state.sidebarOpen}
-					onChange={(open) => this.setState({ sidebarOpen: open })}
-				>
-					<div onClick={() => this.setState({ sidebarOpen: false })}>
-						<div
-							css={{
-								background: 'white',
-								minHeight: '100vh',
-								height: '100%',
-								padding: rhythm(3 / 4),
-							}}
-						>
-							{sidebar}
-						</div>
-					</div>
-				</Drawer> */}
-				{/* <Scrollbars
-					autoHeight
-					autoHeightMin={`calc(100vh - ${rhythm(5)})`}
-					universal
-					autoHide
-				>
-				</Scrollbars> */}
-				<Navbar
-					items={this.getNavItems()}
-					openNavigation={() => this.toggleNavigation(true)}
-					closeNavigation={() => this.toggleNavigation(false)}
-				/>
+				<Navbar items={this.getNavItems()} />
 				<Page
 					body={body}
 					editPath={editPath}

@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import Link from 'gatsby-link';
-// import MenuIcon from 'react-icons/lib/md/menu';
+import MenuIcon from 'react-icons/lib/md/menu';
+import MenuClose from 'react-icons/lib/md/close';
 import DemoIcon from 'react-icons/lib/go/link-external';
 import GithubIcon from 'react-icons/lib/go/mark-github';
 import TwitterIcon from 'react-icons/lib/ti/social-twitter';
@@ -9,24 +10,51 @@ import typography from '../../utils/typography';
 import invertedLogo from '../../images/logo-inverted.svg';
 import theme from '../../theme';
 
+import { itemsShape } from './utils';
+import Menu from './Menu';
+
 class Navbar extends Component {
+	constructor (props) {
+		super(props);
+
+		this.toggleNavMenu = this.toggleNavMenu.bind(this);
+
+		this.state = { menuIsOpen: false };
+	}
+	toggleNavMenu (menuIsOpen) {
+		this.setState({ menuIsOpen });
+	}
 	render () {
+		const { menuIsOpen } = this.state;
+
 		return (
-			<aside css={styles.sidebar}>
-				<Link to="/" css={styles.header__brand}>
-					<img src={invertedLogo} height="60" css={{ margin: 0 }} />
-				</Link>
-				<div css={styles.header__links}>
-					<a href="http://demo.keystonejs.com" target="_blank" css={styles.header__link}>
-						<DemoIcon css={styles.header__linkIcon} />
-						Demo
-					</a>
-					<a href="https://github.com/keystonejs/keystone" target="_blank" css={styles.header__link}>
-						<GithubIcon css={styles.header__linkIcon} />
-						GitHub
-					</a>
+			<aside css={styles.navbar}>
+				<div css={styles.header}>
+					<Link to="/" css={styles.headerBrand}>
+						<img
+							src={invertedLogo}
+							css={styles.headerBrandIcon}
+						/>
+					</Link>
+					<div css={styles.header__links}>
+						<a href="http://demo.keystonejs.com" target="_blank" css={styles.header__link}>
+							<DemoIcon css={styles.header__linkIcon} />
+							Demo
+						</a>
+						<a href="https://github.com/keystonejs/keystone" target="_blank" css={styles.header__link}>
+							<GithubIcon css={styles.header__linkIcon} />
+							GitHub
+						</a>
+					</div>
+					<button onClick={() => this.toggleNavMenu(!menuIsOpen)} css={styles.menuButton}>
+						{menuIsOpen
+							? <MenuClose css={styles.menuIcon} />
+							: <MenuIcon css={styles.menuIcon} />}
+					</button>
 				</div>
-				<Menu items={this.props.items} />
+				<div css={[styles.menu, menuIsOpen && styles.menu__open]}>
+					<Menu items={this.props.items} />
+				</div>
 				<a href="https://twitter.com/keystonejs" target="_blank" css={styles.twitter}>
 					<TwitterIcon css={styles.twitterIcon} />
 					Twitter
@@ -38,53 +66,16 @@ class Navbar extends Component {
 
 Navbar.propTypes = {
 	closeNavigation: PropTypes.func.isRequired,
-	items: PropTypes.arrayOf(PropTypes.shape({
-		section: PropTypes.string,
-		items: PropTypes.shape({
-			label: PropTypes.string,
-			slug: PropTypes.string,
-		}),
-	})).isRequired,
+	items: itemsShape.isRequired,
+	menuIsOpen: PropTypes.bool.isRequired,
 	openNavigation: PropTypes.func.isRequired,
 };
 
-const Menu = ({ items }) => {
-	const list = items.map((section, idx) => {
-		return (
-			<ul key={idx} css={styles.menu}>
-				<li css={styles.section}>{section.section}</li>
-				{section.items.map(({ label, slug }) => (
-					<Item
-						key={slug}
-						title={label}
-						url={slug}
-					/>
-				))}
-			</ul>
-		);
-	});
-
-	return <nav>{list}</nav>;
-};
-
-function Item ({ title, url }) {
-	return (
-		<li css={styles.item}>
-			<Link
-				onlyActiveOnIndex
-				css={styles.link}
-				activeStyle={styles.link__active}
-				to={url}
-			>
-				{title}
-			</Link>
-		</li>
-	);
-};
+const mobileHeaderHeight = 60;
 
 /* eslint quote-props: ["error", "as-needed"] */
 const styles = {
-	sidebar: {
+	navbar: {
 		backgroundColor: theme.color.blueDark,
 		color: 'white',
 		fontSize: '0.9em',
@@ -92,28 +83,82 @@ const styles = {
 		lineHeight: typography.options.baseLineHeight,
 		width: '100%',
 
-		[theme.breakpoint.mediumUp]: {
+		[theme.breakpoint.largeUp]: {
 			bottom: 0,
 			height: '100%',
 			left: 0,
 			overflowY: 'auto',
 			position: 'fixed',
 			top: 0,
-			width: theme.sidebar.widthSmall,
+			width: theme.navbar.widthSmall,
 		},
-		[theme.breakpoint.largeUp]: {
-			width: theme.sidebar.widthLarge,
+		[theme.breakpoint.xlargeUp]: {
+			width: theme.navbar.widthLarge,
 		},
 	},
 
+	// mobile
+	menu: {
+		[theme.breakpoint.mediumDown]: {
+			backgroundColor: theme.color.blueDark,
+			display: 'none',
+			position: 'absolute',
+			top: mobileHeaderHeight,
+			width: '100%',
+		},
+	},
+	menu__open: {
+		[theme.breakpoint.mediumDown]: {
+			display: 'block',
+		},
+	},
+	menuButton: {
+		background: 'none',
+		border: 0,
+		color: 'white',
+		display: 'none',
+		fontSize: 32,
+		lineHeight: 0,
+		outline: 0,
+		padding: 0,
+
+		[theme.breakpoint.mediumDown]: {
+			display: 'inline-block',
+		},
+	},
+	menuIcon: {},
+
 	// header
-	header__brand: {
+	header: {
+		[theme.breakpoint.mediumDown]: {
+			alignItems: 'center',
+			borderBottom: `1px solid rgba(0, 0, 0, 0.1)`,
+			display: 'flex',
+			height: mobileHeaderHeight,
+			justifyContent: 'space-between',
+			paddingLeft: '1em',
+			paddingRight: '1em',
+		},
+	},
+	headerBrand: {
 		display: 'block',
 		lineHeight: 0,
-		padding: '2em 0',
 		textAlign: 'center',
 		textDecoration: 'none',
+
+		[theme.breakpoint.largeUp]: {
+			padding: '2em 0',
+		},
 	},
+	headerBrandIcon: {
+		height: 60,
+		margin: 0,
+
+		[theme.breakpoint.mediumDown]: {
+			height: 30,
+		},
+	},
+
 	header__links: {
 		display: 'flex',
 	},
@@ -122,7 +167,6 @@ const styles = {
 	},
 	header__link: {
 		alignItems: 'center',
-		backgroundColor: 'rgba(0, 0, 0, 0.3)',
 		color: 'white',
 		display: 'flex',
 		flex: 1,
@@ -141,53 +185,13 @@ const styles = {
 		':first-child': {
 			marginRight: 1,
 		},
-	},
-
-	// menu
-	menu: {
-		listStyle: 'none',
-		margin: 0,
-		paddingRight: '1em',
-	},
-
-	// item
-	item: {
-		fontWeight: 300,
-		margin: '0 0 2px',
-	},
-	section: {
-		fontSize: '1.3em',
-		marginTop: '1.8em',
-		opacity: 0.6,
-		padding: `0 1rem`,
-		textTransform: 'uppercase',
 
 		[theme.breakpoint.largeUp]: {
-			paddingLeft: `2rem`,
-			paddingRight: `2rem`,
+			backgroundColor: 'rgba(0, 0, 0, 0.3)',
 		},
 	},
-	link: {
-		borderBottomRightRadius: 3,
-		borderTopRightRadius: 3,
-		color: 'white',
-		display: 'block',
-		padding: `0.5em 1rem`,
-		textDecoration: 'none',
-		transition: 'opacity 100ms',
 
-		':hover': {
-			backgroundColor: 'rgba(255, 255, 255, 0.1)',
-		},
-		[theme.breakpoint.largeUp]: {
-			paddingLeft: `2rem`,
-			paddingRight: `2rem`,
-		},
-	},
-	link__active: {
-		backgroundColor: theme.color.blue,
-		opacity: 1,
-	},
+	menu__active: {},
 
 	// twitter
 	twitter: {
@@ -200,6 +204,10 @@ const styles = {
 		justifyContent: 'center',
 		padding: '0.75em 1em',
 		textDecoration: 'none',
+
+		[theme.breakpoint.mediumDown]: {
+			display: 'none',
+		},
 	},
 	twitterIcon: {
 		fontSize: 24,

@@ -9,7 +9,7 @@ export const breakpointNumeric = {
 	small: 400,
 	medium: 768,
 	large: 1024,
-	xlarge: 1440,
+	xlarge: 1280,
 };
 export const breakpoint = {
 	mediumUp: `@media (min-width: ${breakpointNumeric.small + 1}px)`,
@@ -25,7 +25,7 @@ export const breakpoint = {
 
 export const container = {
 	small: rhythm(12),
-	medium: rhythm(36),
+	medium: rhythm(38),
 	large: rhythm(44),
 };
 
@@ -53,8 +53,8 @@ export const color = {
 	gray05: '#F2F2F2',
 };
 
-// sidebar
-export const sidebar = {
+// navbar
+export const navbar = {
 	widthLarge: 300,
 	widthSmall: 240,
 };
@@ -63,5 +63,5 @@ export default {
 	breakpoint,
 	color,
 	container,
-	sidebar,
+	navbar,
 };
