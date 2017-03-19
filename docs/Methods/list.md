@@ -6,7 +6,7 @@ A function used to retrieve a particular keystone list, so that items can be ret
 
 Example:
 
-```JS
+```javascript
 var User = require('keystone').list('User');
 
 User.model.find({}, callback)

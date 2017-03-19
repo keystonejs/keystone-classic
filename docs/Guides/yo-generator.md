@@ -25,7 +25,7 @@ If you want more information about the generator, it can be found at [KeystoneJS
 
 The first place to look is the `keystone.js` file. This is the script that will run our keystone website, and is the file we use to set most of the keystone configuration options.
 
-```JS
+```javascript
 var keystone = require('keystone');
 keystone.init({
 
@@ -107,7 +107,7 @@ We're going to start with the `User` model, which is special - we need it so tha
 
 This script initialises the `User` model. It doesn't need to export anything, but the model *must* be registered with Keystone.
 
-```JS
+```javascript
 var keystone = require('keystone');
 var Types = keystone.Field.Types;
 
@@ -151,7 +151,7 @@ Keystone's [importer](/methods/importer) and Express's middleware support makes 
 
 This script imports your route controllers and binds them to URLs.
 
-```JS
+```javascript
 var keystone = require('keystone');
 var middleware = require('./middleware');
 var importRoutes = keystone.importer(__dirname);
@@ -209,7 +209,7 @@ Putting your common middleware in a separate `routes/middleware.js` file keeps y
 **routes/middleware.js**
 This script includes common middleware for your application routes
 
-```JS
+```javascript
 var _ = require('lodash');
 
 /**
@@ -381,7 +381,7 @@ Use the `view engine` option to specify the template language you want to use.
 
 If you want to use a custom template engine, set the `custom engine` option as well. For instance, [ejs](embeddedjs.com/) is supported by express by default, but you might want to use [ejs.locals](github.com/RandomEtc/ejs-locals) as a template engine in order to benefit from get extensions.
 
-```JS
+```javascript
 // Modified web.js to use the ejs-locals custom template engine.
 var keystone = require('keystone');
 var engine   = require('ejs-locals');
@@ -420,7 +420,7 @@ So to automatically add a new Admin User when your app first launches, you have 
 **updates/0.0.1-admin.js**
 Update script to add the first admin (change to your own name, email and password)
 
-```js
+```javascript
 var keystone = require('keystone');
 var User = keystone.list('User');
 

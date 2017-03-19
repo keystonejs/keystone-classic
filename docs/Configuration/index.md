@@ -59,7 +59,7 @@ The nav is also used to generate the links on the Admin UI home page; any lists 
 
 If you had `User`, `Post` and `PostCategory` models, you could group the posts and post categories into a **Content** navigation item like this:
 
-```JS
+```javascript
 keystone.set('nav', {
 	'users': 'users',
 	'content': ['posts', 'post-categories']
@@ -182,7 +182,7 @@ Set this to enable processing of the HTTP request `X-Forwarded-For` header. Extr
 
 ### Exposes `onHttpServerCreated` event
 
-```JS
+```javascript
 keystone.start({
     onHttpServerCreated: function() {
       var server = keystone.httpServer;
@@ -289,7 +289,7 @@ Valid options are:
 
 **Example using custom express-session store**
 
-```JS
+```javascript
 var keystone = require('keystone'),
     ConnectMemcached = require('connect-memcached')
 
@@ -313,7 +313,7 @@ It is required when using the `connect-mongostore` store.
 
 **Example for connect-mongostore**
 
-```JS
+```javascript
 "sessionStore": {
   "db": {
     "name": "myDb",
@@ -328,7 +328,7 @@ It is required when using the `connect-mongostore` store.
 
 **Example for connect-redis**
 
-```JS
+```javascript
 "sessionStore": {
   "host": "", // Redis server hostname
   "port": "", // Redis server port
@@ -407,7 +407,7 @@ Allow you to change the TinyMCE skin. Defaults to `keystone`. See [http://www.ti
 
 **Example using wysiwyg options**
 
-```JS
+```javascript
 keystone.init({
 	'wysiwyg override toolbar': false,
 	'wysiwyg menubar': true,
@@ -459,7 +459,7 @@ Optional setting to limit autocomplete results to a specific region. This option
 
 Can be specified on a per-field basis by setting the `region` option on any `Location` field.
 
-```JS
+```javascript
 keystone.set('google api key', 'your-browser-key');
 keystone.set('google server api key', 'your-server-key');
 keystone.set('default region', 'au'); // optional, will limit autocomplete results to Australia
@@ -479,7 +479,7 @@ To configure KeystoneJS to support the Embed.ly API, simply sign up for an accou
 
 This option will default to the EMBEDLY_API_KEY environment variable if it is set.
 
-```JS
+```javascript
 keystone.set('embedly api key', 'your-key');
 ```
 
@@ -504,7 +504,7 @@ Updates are only run once, and each completed update is logged in an `app_update
 **Update Script Example**
 Creates a new admin User
 
-```JS
+```javascript
 var keystone = require('keystone'),
     User = keystone.list('User');
 

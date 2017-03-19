@@ -40,7 +40,7 @@ A simple Post model for a blog might look like this:
 
 **Post.js**
 
-```JS
+```javascript
 var keystone = require('keystone');
 var Types = keystone.Field.Types;
 
@@ -88,7 +88,7 @@ If there would be several relationships that may be relevant to display in the d
 
 **Example: Including the author in the drilldown for Posts**
 
-```JS
+```javascript
 var Post = new keystone.List('Post', {
     autokey: { path: 'slug', from: 'title', unique: true },
     map: { name: 'title' },
@@ -105,7 +105,7 @@ Parent lists may not themselves inherit from other lists.
 
 **Example: Inheriting List fields from other lists**
 
-```JS
+```javascript
 var keystone = require('keystone');
 
 var BasePage = new keystone.List('BasePage', {
@@ -135,7 +135,7 @@ We might also want to add a method to check whether the post is published, rathe
 
 Before calling `Post.register()`, we would add the following code:
 
-```JS
+```javascript
 Post.schema.methods.isPublished = function() {
     return this.state == 'published';
 }
@@ -156,7 +156,7 @@ To query data, you can use any of the [mongoose query](http://mongoosejs.com/doc
 
 **Loading Posts**
 
-```JS
+```javascript
 var keystone = require('keystone'),
     Post = keystone.list('Post');
 
@@ -178,7 +178,7 @@ For example: load `100` posts, then do something asynchronous, then do something
 
 **Loading Posts, doing something asynchronous, doing something**
 
-```JS
+```javascript
 var keystone = require('keystone'),
     Post = keystone.list('Post');
 
@@ -207,7 +207,7 @@ To create new items, again use the [mongoose model](http://mongoosejs.com/docs/m
 
 **Creating Posts**
 
-```JS
+```javascript
 var keystone = require('keystone'),
     Post = keystone.list('Post');
 
@@ -234,7 +234,7 @@ To delete items, first load the data, then use the `remove` method:
 
 **Deleting a Post**
 
-```JS
+```javascript
 var keystone = require('keystone'),
     Post = keystone.list('Post');
 
@@ -248,7 +248,7 @@ Post.model.findById(postId)
 
 Define headings to display within the flow of your documents. Headings can be defined as a `String` or `Object` and can [depend on](/database/#dependsOn) another field value for display.
 
-```JS
+```javascript
 Person.add(
 	'User',
 	{ name: { type: Types.Name, required: true, index: true, initial: true } },
@@ -344,7 +344,7 @@ The field or header will only be displayed when the paths specified in the objec
 
 **Example**
 
-```JS
+```javascript
 first: { type: String },
 // Will show if first === "value1", "1" or "2"
 second: { type: String, dependsOn: { first: ['value1', '1', 2] } },
@@ -391,7 +391,7 @@ The `this` context of the function will be the item being saved.
 
 **Example (synchronous)**
 
-```JS
+```javascript
 function () {
     return this.total<=this.totalreceived ? true:false;
 }
@@ -399,7 +399,7 @@ function () {
 
 **Example (asynchronous)**
 
-```JS
+```javascript
 function (callback) { // BEWARE: MUST be called "callback" to allow asynchronous execution
 	list.model.findById(this.createdBy).exec(function(err, user){
 		callback(err, user.name + "-" + Date.now());
@@ -413,7 +413,7 @@ Some field types include helpful **underscore methods**, which are available on 
 
 **For example**: use the `format` underscore method of the `createdAt` `DateTime` field of the Posts List (above) like this
 
-```JS
+```javascript
 var keystone = require('keystone'),
     Post = keystone.list('Post');
 
@@ -436,7 +436,7 @@ Specify the related Model using the `ref` option. For a many-many relationship, 
 
 For example, if you wanted to link a **Post** model to a single **Author** and many **PostCategories**, you would do it like this:
 
-```JS
+```javascript
 Post.add({
     author: { type: Types.Relationship, ref: 'User' },
     categories: { type: Types.Relationship, ref: 'PostCategory', many: true }
@@ -451,7 +451,7 @@ The `filters` option is an object of key/value pairs, in which the keys correspo
 
 In the example below, the `author` field will only allow selection of a `User` whose `group` field is equal to 'admin'.
 
-```JS
+```javascript
 Post.add({
     title: { type: String, required: true },
     category: { type: Types.Select, options: 'user, editor, admin', default: 'user' },
@@ -463,7 +463,7 @@ You can also filter by the value of another field on the model. You do this sett
 
 In the example below, the `author` field will only allow selection of a `User` whose `group` field is equal to the value of the `category` field of the `Post` model.
 
-```JS
+```javascript
 Post.add({
     title: { type: String, required: true },
     category: { type: Types.Select, options: 'user, editor, admin', default: 'user' },
@@ -475,7 +475,7 @@ Finally, you can also filter by the current model's `_id` field.
 
 In the example below, the `bestPost` field will only allow selection of a `Post` whose `author` field is equal to the `_id` of the current document.
 
-```JS
+```javascript
 User.add({
     name: { type: String, required: true },
     group: { type: Types.Select, options: 'user, editor, admin', default: 'user' },
@@ -490,7 +490,7 @@ User.add({
 
 You can populate related data for relationship fields thanks to [Mongoose's populate functionality](http://mongoosejs.com/docs/populate.html). To populate the author and category documents when loading a Post from the example above, you would do this:
 
-```JS
+```javascript
 Post.model.findOne().populate('author categories').exec(function(err, post) {
     // the author is a fully populated User document
     console.log(post.author.name);
@@ -506,7 +506,7 @@ What if, in the example above, you wanted to see a list of the Posts by each Aut
 
 You do this by calling the `relationship` method on the `Model` like this:
 
-```JS
+```javascript
 User.relationship({ path: 'posts', ref: 'Post', refPath: 'author' });
 ```
 
@@ -533,7 +533,7 @@ As you can see, the options provided to the `relationship` method mirror those o
 
 Filtering one-to-many related items is easy; simply specify the ID of the item you wish to filter on like any other value:
 
-```JS
+```javascript
 Post.model.find().where('author', author.id).exec(function(err, posts) {
     // ...
 });
@@ -541,7 +541,7 @@ Post.model.find().where('author', author.id).exec(function(err, posts) {
 
 To filter many-to-many related items, use an `in` condition and specify one (or more) ids as an array:
 
-```JS
+```javascript
 Post.model.find().where('categories').in([category.id]).exec(function(err, posts) {
     // ...
 });

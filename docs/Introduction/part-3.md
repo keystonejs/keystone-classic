@@ -21,7 +21,7 @@ From [part 1](/introduction/installation), we should have the following files:
 
 We should have installed keystone. We need at least the following in our `keystone.js` folder:
 
-```JS
+```javascript
 var keystone = require('keystone');
 
 keystone.init({
@@ -43,14 +43,14 @@ Our two properties are `views` and `view engine`. The first allows us to set a f
 
 We are going to want to set them as:
 
-```JS
+```javascript
 	views: 'templates/views',
 	'view engine': 'pug',
 ```
 
 which will give us an init looking something like:
 
-```JS
+```javascript
 keystone.init({
 	'cookie secret': 'secure string goes here',
 	views: 'templates/views',
@@ -66,7 +66,7 @@ $ npm install --save pug
 
 Finally, we need to add a line to tell keystone where we plan to write our routes.
 
-```JS
+```javascript
 keystone.set('routes', require('./routes'));
 ```
 
@@ -96,7 +96,7 @@ This file is going to export a function, takes in the express app keystone has b
 
 The most basic form of it would look like:
 
-```JS
+```javascript
 exports = module.exports = function (app) {
 	app.get('/', routeFunction);
 };
@@ -106,7 +106,7 @@ For each route we want, we add a new item. Each takes in its own function that i
 
 What we are going to add is going to be slightly more complicated.
 
-```JS
+```javascript
 var keystone = require('keystone');
 var importRoutes = keystone.importer(__dirname);
 
@@ -129,7 +129,7 @@ This is a bit heavyweight for a single route, but makes it easy to add new route
 
 This is our first endpoint file, and is an important point for a lot of common patterns in setting up new routes. Let us jump right in to the code for this one.
 
-```JS
+```javascript
 module.exports = function (req, res) {
     res.send('Hello you learner, you');
 };
@@ -139,7 +139,7 @@ This is using express routing, which you can find out more about [at their websi
 
 What we are going to want in this instance is to render our first view. For that, we want our file to read:
 
-```JS
+```javascript
 module.exports = function (req, res) {
     res.render('index');
 };

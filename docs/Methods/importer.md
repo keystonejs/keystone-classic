@@ -6,7 +6,7 @@ Returns a function that imports all javascript files in a directory, using the p
 
 Example:
 
-```JS
+```javascript
 var importRoutes = keystone.importer(__dirname);
 
 var routes = {

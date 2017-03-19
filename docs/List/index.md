@@ -10,7 +10,7 @@ For more on setting up a list see our [model guide](/guides/setting-up/database-
 
 A new list will be created with the following default options:
 
-```JS
+```javascript
 {
 		schema: {
 			collection: keystone.prefixModel(key),

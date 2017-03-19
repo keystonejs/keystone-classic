@@ -15,7 +15,7 @@ From [Part 1](/introduction/installation), we should have the following files:
 
 We should have installed keystone. We need at least the following in our `keystone.js` folder:
 
-```JS
+```javascript
 var keystone = require('keystone');
 
 keystone.init({
@@ -41,7 +41,7 @@ Finally we want to set `'auto update'` to be `true`. This is going to make it ve
 
 Our init should now have at least the following properties:
 
-```JS
+```javascript
 keystone.init({
 	'cookie secret': 'secure string goes here',
 	'name': 'our-project',
@@ -55,7 +55,7 @@ If you want to read more about these options, you can find the documentation [he
 
 Finally, we are going to add a new line to the file, which is going to import our models. This should be placed after `keystone.init` but before `keystone.start`
 
-```JS
+```javascript
 keystone.import('models');
 ```
 
@@ -82,7 +82,7 @@ Our folder should now look like:
 
 In User.js, we are going to start by creating a new list. We'll need the following code:
 
-```JS
+```javascript
 var keystone = require('keystone');
 
 var User = new keystone.List('User');
@@ -90,7 +90,7 @@ var User = new keystone.List('User');
 
 We now have a User model from our constructor. This list doesn't have any properties yet, so isn't going to be very useful to us, so let's add some data fields below this code.
 
-```JS
+```javascript
 User.add({
 	displayName: { type: String },
 	email: { type: keystone.Field.Types.Email, unique: true },
@@ -100,13 +100,13 @@ User.add({
 
 This adds new fields to our model. Here we are adding a display name, as well as an email field and a password field. Let's break down the structure of these.
 
-```JS
+```javascript
 displayName: { type: String }
 ```
 
 This is our most basic field here. Every field needs a `type` property defined, and here we are using one of the base types in javascript to define what our field is.
 
-```JS
+```javascript
 password: { type: keystone.Field.Types.Password }
 ```
 
@@ -114,7 +114,7 @@ Our email field is using a keystone-specific field type. This adds a defined sha
 
 This takes care of a lot of our password security for us.
 
-```JS
+```javascript
 email: { type: keystone.Field.Types.Email, unique: true },
 ```
 
@@ -125,13 +125,13 @@ If you want to know about all the field types keystone offers, you can find the 
 
 There are three more parts we are going to need to get our user model working. The first is to register it to keystone. This will tell keystone to include it in its list of models. To do this, add the following line to the bottom of the file:
 
-```JS
+```javascript
 User.register();
 ```
 
 Next, as we want this to be our User model for logging in to the admin UI, we needs to add the property for `canAccessKeystone` to the model. We are going have a User model that allows all users to access to keystone, but you will likely want to implement more fine-grained control for your own apps. Add this above `User.register`:
 
-```JS
+```javascript
 User.schema.virtual('canAccessKeystone').get(function () {
 	return true;
 });
@@ -143,13 +143,13 @@ The final part of setting up our user model is to define the default columns to 
 
 Add this line just above `User.register`:
 
-```JS
+```javascript
 `User.defaultColumns = 'id, displayName, email';`
 ```
 
 Alright, that's our user model complete. We should now have a file that looks like this:
 
-```JS
+```javascript
 var keystone = require('keystone');
 
 var User = new keystone.List('User');
@@ -173,7 +173,7 @@ There's one more thing to do before we can launch our app. We need to have an in
 
 Make a new directory called `updates` and make a file `0.0.1-first-user.js` in it. Next we can just drop in the following code:
 
-```JS
+```javascript
 exports.create = {
 	User: [
 		{
@@ -198,7 +198,7 @@ We can now navigate to `localhost:3000/keystone` and be presented with a login p
 
 `models/Event.js`
 
-```JS
+```javascript
 var keystone = require('keystone');
 var Types = keystone.Field.Types;
 

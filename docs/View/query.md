@@ -6,7 +6,7 @@ Attaches a database query to be run before the render occurs, during the `queryQ
 
 Example:
 
-```JS
+```javascript
 var User = keystone.list('User');
 
 view.query('currentUser', User.model.findOne({ name: req.body.name }));

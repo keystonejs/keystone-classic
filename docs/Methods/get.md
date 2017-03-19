@@ -8,7 +8,7 @@ This can be used to retrieve information about keystone's running once it has st
 
 Example:
 
-```JS
+```javascript
 keystone.get('env')
 ```
 

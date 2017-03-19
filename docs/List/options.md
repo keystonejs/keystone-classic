@@ -53,7 +53,7 @@ Sets up 4 fields that will be attached to the list; `createdAt`, `createdBy`, `u
 If you want to update `createdBy` and `updatedBy` on server side saves, you can use [updateItem](/list/update-item) to pass in a user.
 
 Example:
-```JS
+```javascript
 Event.track = {
 	createdAt: true,
 	createdBy: true,
@@ -101,7 +101,7 @@ Defines the default columns to be displayed in the keystone admin UI list view. 
 Set up default columns before registering the list.
 
 Example:
-```JS
+```javascript
 Event.defaultColumns = 'name, displayName, email';
 ```
 
@@ -121,7 +121,7 @@ You can reverse the sort order by adding a `-` symbol before the field name.
 
 Example:
 
-```JS
+```javascript
 Event.defaultSort = '-createdAt'
 ```
 
@@ -133,7 +133,7 @@ You can make a list that inherits from another registered keystone list. This ca
 
 An example of inheritance would be:
 
-```JS
+```javascript
 var Post = new keystone.List('Post');
 Post.add({
 	name: { type: String, required: true },

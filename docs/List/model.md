@@ -4,7 +4,7 @@ Once you retrieve a list from keystone, the [mongoose](http://mongoosejs.com/) m
 
 Example:
 
-```JS
+```javascript
 var User = require('keystone').List('User');
 
 User.model.find({});

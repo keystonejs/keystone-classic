@@ -22,13 +22,13 @@ We have a file structure in our `module root` of:
 
 If in the `index.js` we call:
 
-```JS
+```javascript
 var routes = keystone.import('routes');
 ```
 
 We will be return an object that looks like:
 
-```JS
+```javascript
 {
     api: {
         route1: /* contents */

@@ -12,7 +12,7 @@ For information on setting up keystone, see the [installation guide](/guides/set
 
 Example:
 
-```JS
+```javascript
 keystone.set('port', 5050)
 ```
 

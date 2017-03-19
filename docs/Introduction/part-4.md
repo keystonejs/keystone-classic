@@ -6,7 +6,7 @@ For the final part of this guide, we're going to set up an api endpoint, bringin
 
 For part 4, we are going to use a second model, the Event model that was looked at briefly in part 2. Here it is again if you skipped it.
 
-```JS
+```javascript
 var keystone = require('keystone');
 var Types = keystone.Field.Types;
 
@@ -72,7 +72,7 @@ TK
 
 Next, we want to add a really simple route. The contents of `routes/views/addEvent.js` should be:
 
-```JS
+```javascript
 module.exports = function (req, res) {
 	res.render('addEvent');
 };
@@ -82,13 +82,13 @@ Finally, we want to add our new route to our `routes/index.js` and add our new p
 
 The new lines is:
 
-```JS
+```javascript
 app.get('/add-event', routes.views.addEvent)
 ```
 
 so we should now have in our index:
 
-```JS
+```javascript
 exports = module.exports = function (app) {
 	app.get('/', routes.views.index)
 	app.get('/add-event', routes.views.addEvent)
@@ -106,7 +106,7 @@ As this endpoint is not a view, we are going to have to modify our routes object
 
 First, we want to add a second property to our routes object to read in our api folder. Our routes object should end up looking like:
 
-```JS
+```javascript
 var routes = {
 	views: importRoutes('./views'),
 	api: importRoutes('./api'),
@@ -115,7 +115,7 @@ var routes = {
 
 Second we are gloing to add our new route to our app. As this is not a get request, we need to let the app know. We use this by changing the verb.
 
-```JS
+```javascript
 app.post('/api/event', api.event.post);
 ```
 
@@ -123,7 +123,7 @@ Next we can create our `routes/api/event/post` route. It's alright that the api 
 
 We start out the route much as we have before in the express style for a route:
 
-```JS
+```javascript
 module.exports = function (req, res) {
 }
 ```
@@ -136,7 +136,7 @@ The form data is located on the request object that is passed in, more specifica
 
 We can assign these to their own variables in our function to give us:
 
-```JS
+```javascript
 module.exports = function (req, res) {
 	if (!req.body.name || !req.body.startTime || !req.body.endTime) {
 		return res.sendError('incomplete data set');
@@ -148,7 +148,7 @@ module.exports = function (req, res) {
 
 Once we have checked the data, we can move to looking at how data is saved back to the database. We are going to need to require a few things before we come back to our route function.
 
-```JS
+```javascript
 var keystone = require('keystone');
 var Event = keystone.list('Event');
 ```
@@ -157,7 +157,7 @@ With these set up, we can start looking at how to save the data.
 
 First, we can create a new item, passing in values we want to use as our initial values.
 
-```JS
+```javascript
 var newEvent = new Event(req.body);
 ```
 
@@ -165,7 +165,7 @@ This will return us an object with the properties of an Event from our schema ho
 
 We can call this like so:
 
-```JS
+```javascript
 Event.updateItem(newEvent)
 ```
 
@@ -173,7 +173,7 @@ Event.updateItem(newEvent)
 
 This leaves us with a file looking like:
 
-```JS
+```javascript
 var keystone = require('keystone');
 var Event = keystone.list('Event');
 
@@ -193,7 +193,7 @@ module.exports = function (req, res) {
 
 The one flaw here is we never give a response to our waiting website to tell it when we have successfully added an event. We are going to do this in the callback to updateItem. We can also add in some more error checking.
 
-```JS
+```javascript
 Event.updateItem(newEvent, function (err) {
 	if (err) {
 		return res.sendError({

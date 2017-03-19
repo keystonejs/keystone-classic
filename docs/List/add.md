@@ -6,7 +6,7 @@ Adds fields to a [keystone List](/list/options). Must be used before [register()
 
 Example call:
 
-```JS
+```javascript
 var Cat = new keystone.List('Cat');
 
 Cat.add({

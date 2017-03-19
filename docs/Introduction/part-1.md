@@ -33,7 +33,7 @@ Your `keystone.js` file is the launch file for keystone, which will connect keys
 
 The minimum file we need to start keystone running is:
 
-```JS
+```javascript
 var keystone = require('keystone');
 
 keystone.init({
@@ -51,7 +51,7 @@ Finally, we call `keystone.start()`, which kicks off our keystone app.
 
 We can now check this runs. Run `node keystone.js` and you should be greeted with:
 
-sh
+```sh
 ------------------------------------------------
 KeystoneJS Started:
 Keystone is ready on http://0.0.0.0:3000

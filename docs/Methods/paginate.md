@@ -12,7 +12,7 @@ to load the `posts` with the `maxPages` 10 and `perPage` 10, with state is `publ
 
 **Loading Posts with paginate**
 
-```JS
+```javascript
 var keystone = require('keystone'),
    Post = keystone.list('Post');
 

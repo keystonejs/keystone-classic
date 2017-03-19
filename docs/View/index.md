@@ -4,7 +4,7 @@ Keystone has a concept of views, which are used to help with rendering a view fr
 
 `keystone.View` should be used within a route:
 
-```JS
+```javascript
 module.exports = function (req, res) {
 	var view = new keystone.View(req, res);
 

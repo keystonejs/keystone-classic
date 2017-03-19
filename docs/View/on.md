@@ -8,7 +8,7 @@ If the action is `init`, the function will be pushed on to the `initQueue`.
 
 Example:
 
-```JS
+```javascript
 view.on('init', function (next) {
 	/* an action */
 })
@@ -25,7 +25,7 @@ on a `POST` and `PUT` requests search the req.body for a matching value. On ever
 
 Example for post request:
 
-```JS
+```javascript
 view.on('post', { action: 'theAction' }, function(next) {
 	// respond to the action
 	next();
@@ -34,7 +34,7 @@ view.on('post', { action: 'theAction' }, function(next) {
 
 Example for get request:
 
-```JS
+```javascript
 view.on('get', { page: 2 }, function(next) {
 	// do something specifically on ?page=2
 	next();

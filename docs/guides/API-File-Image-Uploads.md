@@ -26,7 +26,7 @@ At any rate, below is an example model that leverages the `Types.File`
 introduced in KeystoneJS v4.0 Beta. This code should be copied into the
 file `models/FileUpload.js`.
 
-```JS
+```javascript
 var keystone = require('keystone');
 var Types = keystone.Field.Types;
 
@@ -80,7 +80,7 @@ Now we are going to create an API that can be used to upload and
 download files to KeystoneJS. This is a two step process. The first step
 is add a few lines of code to the `routes/index.js` file:
 
-```JS
+```javascript
 var keystone = require('keystone');
 var middleware = require('./middleware');
 var importRoutes = keystone.importer(__dirname);
@@ -125,7 +125,7 @@ The second step is to create the new file `routes/api/fileupload.js`. If
 the `routes/api` directory doesn't exist, you'll need to create it. Copy
 the code below into `routes/api/fileupload.js`.
 
-```JS
+```javascript
 var async = require('async'),
 keystone = require('keystone');
 var exec = require('child_process').exec;

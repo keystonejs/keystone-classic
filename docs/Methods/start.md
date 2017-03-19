@@ -10,7 +10,7 @@ If a function is passed in, it acts as a callback, being called once keystone ha
 
 Example:
 
-```JS
+```javascript
 keystone.start(function () {
 	console.log('Application is now running')
 })
