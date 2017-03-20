@@ -1,48 +1,9 @@
-# API Documentation
+# Methods
 
-## Sub components
+Keystone has a number of methods available to it to help you out. Each of these are documented here, and can be accessed off the keystone object. Note that keystone stores a single global state, so methods such as the [set](/methods/set) method apply globally off keystone.
 
-- [List](./list)
-	- [options](./list/options)
-	- [add](./list/add)
-	- [register](./list/register)
-	- [updateItem](./list/updateItem)
-- Setup methods
-	- [init](./init)
-	- [set](./set)
-	- [start](./start)
-- Other
-	- [list](./list)
-	- [import](./import)
-	- [importer](./importer)
-	- [get](./get)
-- Field Types
-	- [Boolean](./field/boolean)
-	- [Cloudinaryimage](./field/cloudinaryimage)
-	- [Cloudinaryimages](./field/cloudinaryimages)
-	- [Code](./field/code)
-	- [Color](./field/color)
-	- [Date](./field/date)
-	- [Datearray](./field/datearray)
-	- [Datetime](./field/datetime)
-	- [Email](./field/email)
-	- [Embedly](./field/embedly)
-	- [File](./field/file)
-	- [Geopoint](./field/geopoint)
-	- [Html](./field/html)
-	- [Key](./field/key)
-	- [Location](./field/location)
-	- [Markdown](./field/markdown)
-	- [Money](./field/money)
-	- [Name](./field/name)
-	- [Number](./field/number)
-	- [Numberarray](./field/numberarray)
-	- [Password](./field/password)
-	- [Relationship](./field/relationship)
-	- [Select](./field/select)
-	- [Text](./field/text)
-	- [Textarea](./field/textarea)
-	- [Textarray](./field/textarray)
-	- [Url](./field/url)
+In addition to these methods, there are several constructors and more complex features accessible through keystone.
 
-TKTKTKT
+- [new keystone.List](/list) - used to register new lists to your database schema.
+- [Field Types](/field) - used in constructing lists, this details the field types keystone makes available to make shaping and displaying your data easy.
+- [new keystone.View](/view) - used to create new views which have specific logic that is easy to parse and share between views.

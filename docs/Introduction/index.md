@@ -13,7 +13,6 @@ To learn more about how things work under the hood, and how you can extend or re
 ## Prerequisites
 1. Before you begin, make sure you have [Node.js](nodejs.org) and [MongoDB](mongodb.com/download) installed.
 2. You'll need a reasonable working knowledge of Javascript to use KeystoneJS, as well as familiarity with basics such as database concepts, and using node / npm etc.
-3. In the guide we'll also be using [Pug](pugjs.org/) for our view templates and [LESS](lesscss.org/) for our CSS templates. In your own project you can use any template language you like; see [using other template languages](/#using-other-template-languages)TKTKTKTKT (below) for more information.
 
 ## Production vs. Development
 

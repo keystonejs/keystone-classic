@@ -19,6 +19,9 @@ Running `yo keystone` will create most of the parts in guide below, which explai
 
 If you want more information about the generator, it can be found at [KeystoneJS Yeoman Generator](https://github.com/keystonejs/generator-keystone).
 
+In the guide we'll also be using [Pug](pugjs.org/) for our view templates and [LESS](lesscss.org/) for our CSS templates. In your own project you can use any template language you like; see [using other template languages](/#using-other-template-languages) (below) for more information.
+
+
 ## Our Setup:
 
 ### keystone.js start script

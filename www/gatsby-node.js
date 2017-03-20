@@ -55,7 +55,7 @@ exports.modifyAST = ({ args }) => {
 		let slug;
 
 		if (parsedFilePath.name.match(/Readme/i) && file.dir.match(/\/fields\/types\//)) {
-			section = 'api/field'; // fake the path for slug consistency
+			section = 'field'; // fake the path for slug consistency
 			slug = `${section}/${kebabify(parsedFilePath.dir)}`;
 		} else {
 			slug = `/${kebabify(parsedFilePath.dir)}/${kebabify(parsedFilePath.name)}`;
