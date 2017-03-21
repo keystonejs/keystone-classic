@@ -18,5 +18,3 @@ Cat.add({
 Each field uses its key as the name of the field within the database.
 
 All fields must have a type, either `String`, `Number`, `Boolean`, or one of the defined [keystone field types](/field)
-
-TK - indents, outdents and heading options need explanation
