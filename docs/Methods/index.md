@@ -7,3 +7,5 @@ In addition to these methods, there are several constructors and more complex fe
 - [new keystone.List](/list) - used to register new lists to your database schema.
 - [Field Types](/field) - used in constructing lists, this details the field types keystone makes available to make shaping and displaying your data easy.
 - [new keystone.View](/view) - used to create new views which have specific logic that is easy to parse and share between views.
+
+You can access keystone's inherent mongoose instance on `keystone.mongoose`. You can access keystone's inherent express on `keystone.express`. If you need to access properties on either directly, you can fin them here.

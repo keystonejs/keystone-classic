@@ -67,7 +67,32 @@ First we want our pair of new files to make up the route and the view, these sho
 As we are not a pug tutorial, here's a page we prepared earlier:
 
 ```jade
-TK
+doctype html
+html(lang="en")
+	head
+		title= "Add Event"
+	body
+		if enquirySumbitted
+			h3 Your Event has been added to the database
+		else
+			.container
+				.row: .col-sm-8.col-md-6
+					form(method='post')
+						input(type='hidden', name='action')
+						.form-group
+							label Event Name
+							input(type='text', name='name')
+						.form-group
+							label Start Time
+							input(type='datetime-local', name='startTime')
+						.form-group
+							label End Time
+							input(type='datetime-local', name='endTime')
+						.form-group
+							label Description
+							textarea(name='description', placeholder='event description...' rows=4)
+						.form-actions
+							button(type='submit').btn.btn-primary Send
 ```
 
 Next, we want to add a really simple route. The contents of `routes/views/addEvent.js` should be:
@@ -182,9 +207,8 @@ module.exports = function (req, res) {
 		return res.sendError({ status: 'incomplete data set' });
 	}
 
-	var newEvent = new Event(req.body);
-	Event.updateItem(newEvent)
-
+	var newEvent = new Event();
+	Event.updateItem(newEvent, req.body);
 
 };
 ```
@@ -194,15 +218,10 @@ module.exports = function (req, res) {
 The one flaw here is we never give a response to our waiting website to tell it when we have successfully added an event. We are going to do this in the callback to updateItem. We can also add in some more error checking.
 
 ```javascript
-Event.updateItem(newEvent, function (err) {
-	if (err) {
-		return res.sendError({
-			status: 'error saving the item',
-			details: err,
-		});
-	}
-
-	return res.send('success');
+Event.updateItem(newEvent, req.body, function (error) {
+	res.locals.enquirySubmitted = true;
+	if (error) res.locals.saveError = true;
+	res.render('addEvent');
 });
 ```
 

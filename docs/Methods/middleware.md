@@ -18,7 +18,7 @@ name | call time
 `pre:routes` |
 `pre:render` | Called before a keystone [view](/view) is rendered.
 `updates` |
-`signin` |
-`signout` |
+`signin` | Called before a user signs in to the keystone admin UI and the user is returned a view.
+`signout` | Called before a user signs out of the admin UI and hte user is returned a view.
 
 TK - find out more about these

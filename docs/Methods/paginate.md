@@ -13,15 +13,14 @@ to load the `posts` with the `maxPages` 10 and `perPage` 10, with state is `publ
 **Loading Posts with paginate**
 
 ```javascript
-var keystone = require('keystone'),
-   Post = keystone.list('Post');
+var keystone = require('keystone');
+var Post = keystone.list('Post');
 
 Post.paginate({
 	   page: req.query.page || 1,
 	   perPage: 10,
 	   maxPages: 10
    })
-   .where('state', 'published')
    .sort('-publishedDate')
    .populate('author categories')
    .exec(function(err, results) {
@@ -29,6 +28,8 @@ Post.paginate({
 	   next(err);
    });
 ```
+
+> NOTE: All parameters of your search should be passed in to the paginate method. Adding additional specificity through calls to mongoose methods such as `where` will not be properly respected.
 
 When you call `exec` on a paginated query, it will return a lot of metadata along with the results:
 
