@@ -41,6 +41,7 @@ var Keystone = function () {
 	};
 	this._redirects = {};
 
+	this.__deprecationsWarned = {};
 	// expose express
 	this.express = express;
 
