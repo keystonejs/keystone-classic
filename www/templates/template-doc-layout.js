@@ -86,7 +86,7 @@ query MarkdownTemplate($slug: String!) {
 			node {
 				section
 				slug
-				headings {
+				headings(depth: h1) {
 					value
 					depth
 				}
