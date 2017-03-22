@@ -6,7 +6,7 @@ var navigationClick = require('../plugins/navigationClick');
 describe('#2892 is Fixed', function () {
 	this.timeout(400000);
 
-	it.only('Describe issue', function () {
+	it('Describe issue', function () {
 		return createNightmare()
 		.use(login())
 		.use(navigationClick('datetimes'))

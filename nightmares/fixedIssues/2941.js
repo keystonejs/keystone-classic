@@ -3,9 +3,9 @@ var createNightmare = require('../createNightmare');
 var login = require('../plugins/login');
 var navigationClick = require('../plugins/navigationClick');
 var createUser = require('../plugins/createUser');
-var isMongoObjectId = require('../isMongoObjectId');
-// ensure the problem still exists https://github.com/keystonejs/keystone/issues/2940
-describe('#2940 is Fixed', function () {
+
+// ensure the problem still exists https://github.com/keystonejs/keystone/issues/2941
+describe('#2941 is Fixed', function () {
 	this.timeout(400000);
 
 	it('Describe issue', function () {
@@ -17,24 +17,21 @@ describe('#2940 is Fixed', function () {
 			email: 'knockknock@onheavens.door.com',
 			password: 'knockknock',
 		}))
-		.use(navigationClick('booleans'))
-		.use(navigationClick('relationships'))
+		.use(navigationClick('date-field-maps'))
+		.use(navigationClick('hidden-relationships'))
 		.wait('button[data-e2e-list-create-button]')
 		.click('button[data-e2e-list-create-button]')
-		.type('[name="name"]', 'Issue2940')
+		.wait('.Select-control input')
 		.type('.Select-control input', 'Bob Dylan\u000d')
 		.wait('button[type="submit"]')
 		.click('button[type="submit"]')
-		.wait('.Select-value-label')
-		.click('.Select-value-label')
-		.wait('li.active[data-list-path="users"]')
+		.wait('button[data-button="delete"]')
 		.evaluate(function () {
-			return document.location.href;
+			return !document.querySelector('input');
 		})
 		.end()
-		.then(function (url) {
-			demand(url).include('http://localhost:3000/keystone/users/');
-			demand(isMongoObjectId(url.split('/')[5])).to.be.true();
+		.then(function (noEditFieldsPresent) {
+			demand(noEditFieldsPresent).to.be.true();
 		});
 	});
 });
