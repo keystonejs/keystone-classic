@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "dependencies": {
     "bluebird": "^3.4.7",
-    "gatsby": " 1.0.0-alpha12-alpha.1b1c742b",
+    "gatsby": "1.0.0-alpha12-alpha.1b1c742b",
     "gatsby-link": "1.0.0-alpha12-alpha.1b1c742b",
     "gatsby-parser-remark": "1.0.0-alpha12-alpha.1b1c742b",
     "gatsby-parser-sharp": "1.0.0-alpha12-alpha.1b1c742b",
@@ -41,5 +41,9 @@
   },
   "homepage": "keystonejs.com",
   "license": "MIT",
-  "private": true
+  "private": true,
+  "scripts": {
+    "start": "gatsby develop",
+    "build": "gatsby build"
+  }
 }
