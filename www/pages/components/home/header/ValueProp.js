@@ -1,8 +1,6 @@
 import React, { PropTypes } from 'react';
 import { compose } from 'glamor';
 
-import theme from '../../../../theme';
-
 export default function ValueProp ({ icon, text, title }) {
 	return (
 		<div {...compose(styles.base)}>
@@ -16,7 +14,6 @@ export default function ValueProp ({ icon, text, title }) {
 };
 
 ValueProp.propTypes = {
-	icon: PropTypes.string.isRequired,
 	text: PropTypes.string.isRequired,
 	title: PropTypes.string.isRequired,
 };
