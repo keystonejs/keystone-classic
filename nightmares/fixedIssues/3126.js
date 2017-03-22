@@ -3,9 +3,10 @@ var createNightmare = require('../createNightmare');
 var login = require('../plugins/login');
 var navigationClick = require('../plugins/navigationClick');
 var createUser = require('../plugins/createUser');
+var isMongoObjectId = require('../isMongoObjectId');
 
-// ensure the problem still exists https://github.com/keystonejs/keystone/issues/3028
-describe('#3028 is Fixed', function () {
+// ensure the problem still exists https://github.com/keystonejs/keystone/issues/3126
+describe('#3126 is Fixed', function () {
 	this.timeout(400000);
 
 	it('Describe issue', function () {
@@ -18,22 +19,22 @@ describe('#3028 is Fixed', function () {
 			password: 'itsapuppet!',
 		}))
 		.use(navigationClick('date-field-maps'))
-		.use(navigationClick('inline-relationships'))
 		.wait('button[data-e2e-list-create-button]')
 		.click('button[data-e2e-list-create-button]')
+		.type('input', '1990-10-16')
 		.wait('button[type="submit"]')
 		.click('button[type="submit"]')
-		.wait('.Select-control input')
-		.type('.Select-control input', 'Brian Conolly\u000d')
-		.click('button[data-button="update"]')
+		.wait('a[data-e2e-editform-header-back="true"]')
 		.click('a[data-e2e-editform-header-back="true"]')
-		.wait('.ItemList__col')
+		.wait('.ItemList__value')
+		.click('.ItemList__value')
 		.evaluate(function () {
-			return document.querySelectorAll('.ItemList__col').length;
+			return document.location.href;
 		})
 		.end()
-		.then(function (rowCount) {
-			demand(rowCount).to.be.equal(1);
+		.then(function (url) {
+			demand(url).include('http://localhost:3000/keystone/date-field-maps/');
+			demand(isMongoObjectId(url.split('/')[5])).to.be.true();
 		});
 	});
 });
