@@ -1,4 +1,4 @@
-# `DateTime` Field
+# DateTime Field
 
 Stores a `String` of both date and time in the model.
 Displayed as a date and time picker in the Admin UI.
