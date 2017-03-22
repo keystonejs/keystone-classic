@@ -4,7 +4,7 @@ var login = require('../plugins/login');
 var navigationClick = require('../plugins/navigationClick');
 var createUser = require('../plugins/createUser');
 // Closed, ensure the problem no longer exists https://github.com/keystonejs/keystone/issues/2382
-describe('Issue 2382 is Fixed', function () {
+describe('#2382 is Fixed', function () {
 	this.timeout(400000);
 
 	it('Describe the relationship issue', function () {
@@ -25,8 +25,7 @@ describe('Issue 2382 is Fixed', function () {
 		.wait('button[type="submit"]')
 		.click('button[type="submit"]')
 		.use(navigationClick('users'))
-		// // DELETE USER
-		.wait('.octicon.octicon-trashcan')
+		.wait('.octicon.octicon-trashcan') // DELETE USER
 		.click('.octicon.octicon-trashcan')
 		.wait('.octicon.octicon-trashcan')
 		.click('button[data-button-type="confirm"]')
