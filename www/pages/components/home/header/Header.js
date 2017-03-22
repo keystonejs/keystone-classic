@@ -6,7 +6,7 @@ import theme from '../../../../theme';
 import { rhythm } from 'utils/typography';
 import { version } from '../../../../../package.json';
 import logo from '../../../../images/logo-inverted.svg';
-import { EntypoNetwork, EntypoTwitter, EntypoGithub } from 'react-entypo';
+import { EntypoTwitter, EntypoGithub } from 'react-entypo';
 
 import continental from '../../../../images/brand-continental.png';
 import event_cinemas from '../../../../images/brand-event_cinemas.png';
@@ -34,7 +34,6 @@ export default class Header extends Component {
 							<li className={compose(styles.list_item)}>Free and Open Source (MIT)</li>
 						</ul>
 						<ul className={compose(styles.list_links)}>
-							<li className={compose(styles.list_links_item)}><Link to="" style={{ color: 'white' }}><EntypoNetwork /> See Examples</Link></li>
 							<li className={compose(styles.list_links_item)}><Link to="" style={{ color: 'white' }}><EntypoTwitter /> Follow @KeysoneJS on Twitter</Link></li>
 							<li className={compose(styles.list_links_item)}><Link to="" style={{ color: 'white' }}><EntypoGithub /> Star on GitHub</Link></li>
 						</ul>
