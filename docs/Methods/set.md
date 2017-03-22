@@ -1,6 +1,6 @@
 # Set
 
-## keystone.set(key:String, value:Mixed)
+## `keystone.set(key:String, value:Mixed)`
 
 `keystone.set` provides an option to keystone for use during keystone setup. Assigns the value provided to the key in keystone's options object. `keystone.set` returns the value object.
 

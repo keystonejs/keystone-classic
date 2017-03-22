@@ -1,6 +1,6 @@
 # Create Items
 
-`keystone.createItems(data:Object[, options:Object, callback:Function])`
+## `keystone.createItems(data:Object[, options:Object, callback:Function])`
 
 Keystone's `createItems` function is a simple but powerful way to populate your database with data.
 

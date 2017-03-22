@@ -1,6 +1,6 @@
 # Update Handler
 
-`var updateHandler = new updateHandler(list:KeystoneList, item:MongooseObject, req:RequestObject, options:Object)`
+## `var updateHandler = new updateHandler(list:KeystoneList, item:MongooseObject, req:RequestObject, options:Object)`
 
 Update Handler is a constructor from a collection of complex objects, to allow you to update an item, and return flash errors to the user. It is mostly used internally by keystone, however if you wish to use flash errors, it is accessible. behind the scenes its process method uses the [updateItem](/list/update-item) property on the passed in list. Its arguments are:
 

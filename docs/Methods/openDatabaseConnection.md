@@ -1,6 +1,6 @@
 # Open Database Connection
 
-`keystone.openDatabaseConnection(callback:Function)`
+## `keystone.openDatabaseConnection(callback:Function)`
 
 Opens a database connection using the options set in keystone. If the keystone database settings are not configured, or the models are not registered, this will fail.
 

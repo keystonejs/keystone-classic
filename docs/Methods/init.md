@@ -1,6 +1,6 @@
 # Init
 
-## Keystone.init(options:Object)
+## `Keystone.init(options:Object)`
 
 `Keystone.init` provides initial options to keystone. These are used to format and customise how keystone runs.
 
