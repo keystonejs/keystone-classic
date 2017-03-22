@@ -2,22 +2,42 @@ import React, { Component } from 'react';
 import Container from '../../../components/Container';
 import Link from 'gatsby-link';
 import { Col, Row } from '../../../components/Grid';
+import { compose } from 'glamor';
 
 export default class ValueProps extends Component {
 	render () {
 		return (
-			<Container>
-				<Row medium="1" large="1/2">
-					<Col>
-						<h3><Link to="">Get Started →</Link></h3>
-						<p>Sound like what you've been looking for? Check out the getting started guide and learn how to get up and running in less than a minute.</p>
-					</Col>
-					<Col>
-						<h3><Link to="">Get In Touch →</Link></h3>
-						<p>If you are using Keystone for a project, interested in contributing, or looking for commercial support, we'd love to hear about it. Please contact us.</p>
-					</Col>
-				</Row>
-			</Container>
+			<div className={compose(styles.wrapper)}>
+				<Container>
+					<Row medium="1" large="1/2">
+						<Col>
+							<h3><Link to="" className={compose(styles.next__heading)}>Get Started →</Link></h3>
+							<p className={compose(styles.next__text)}>Sound like what you've been looking for? Check out the getting started guide and learn how to get up and running in less than a minute.</p>
+						</Col>
+						<Col>
+							<h3><Link to="" className={compose(styles.next__heading)}>Get In Touch →</Link></h3>
+							<p className={compose(styles.next__text)}>If you are using Keystone for a project, interested in contributing, or looking for commercial support, we'd love to hear about it. Please contact us.</p>
+						</Col>
+					</Row>
+				</Container>
+			</div>
 		);
 	}
+};
+
+const styles = {
+	wrapper: {
+		paddingTop: '4em',
+		paddingBottom: '6em',
+	},
+	next__heading: {
+		fontSize: '1.6em',
+		textDecoration: 'none',
+	},
+	next__text: {
+		marginTop: '0.5em',
+		fontSize: '1.6em',
+		lineHeight: '1.7',
+		fontWeight: '200',
+	},
 };

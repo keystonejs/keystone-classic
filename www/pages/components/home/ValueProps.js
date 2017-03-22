@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Container from '../../../components/Container';
 import { Col, Row } from '../../../components/Grid';
 import ValueProp from './header/ValueProp';
+import { compose } from 'glamor';
+
 import {
 	EntypoLeaf,
 	EntypoShuffle,
@@ -14,15 +16,14 @@ import {
 } from 'react-entypo';
 import theme from '../../../theme';
 
-import things from 'react-entypo';
-
 export default class ValueProps extends Component {
 	render () {
-		console.log(things);
 		return (
 			<Container>
-				<h2>Get a head-start on the features you need</h2>
-				<p>KeystoneJS is the easiest way to build database-driven websites, applications and APIs in Node.js.</p>
+				<div className={compose(styles.preamble)}>
+					<h2 className={compose(styles.heading)}>Get a head-start on the features you need</h2>
+					<p className={compose(styles.subheading)}>KeystoneJS is the easiest way to build database-driven websites, applications and APIs in Node.js.</p>
+				</div>
 				<Row medium="1" large="1/2">
 					<Col>
 						<ValueProp
@@ -97,5 +98,16 @@ const styles = {
 		width: '30px',
 		height: '30px',
 		fill: theme.color.blue,
+	},
+	preamble: {
+		textAlign: 'center',
+	},
+	heading: {
+		fontSize: '2.6em',
+	},
+	subheading: {
+		fontSize: '1.8em',
+		lineHeight: '1.2em',
+		color: theme.color.gray40,
 	},
 };

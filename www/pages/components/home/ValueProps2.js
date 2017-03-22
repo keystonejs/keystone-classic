@@ -5,16 +5,19 @@ import ValueProp from './header/ValueProp';
 import theme from '../../../theme';
 import { compose } from 'glamor';
 import { EntypoTools } from 'react-entypo';
+import { rhythm } from 'utils/typography';
 
 export default class ValueProps extends Component {
 	render () {
 		return (
 			<div className={compose(styles.wrapper)}>
 				<Container>
-					<h2>What you build is up to you.</h2>
-					<p>There are a lot of frameworks that make decisions for you, and many that take decisions away. Keystone doesn't do that. Use the features that suit you, and replace the ones that don't.</p>
-					<EntypoTools />
-					<Row medium="1" large="1/2">
+					<div className={compose(styles.intro)}>
+						<h2 className={compose(styles.heading)}>What you build is up to you.</h2>
+						<p className={compose(styles.subheading)}>There are a lot of frameworks that make decisions for you, and many that take decisions away. Keystone doesn't do that. Use the features that suit you, and replace the ones that don't.</p>
+						<EntypoTools style={{ width: '90px', height: '90px' }} />
+					</div>
+					<Row small="1" medium="1/2" large="1/4">
 						<Col>
 							<ValueProp
 								title="Built on Express"
@@ -27,8 +30,6 @@ export default class ValueProps extends Component {
 								text="Keystone uses Mongoose, the leading ODM for node.js and MongoDB, and gives you a single place for your schema, validation rules and logic.\nSo anything you can build with MongoDB, you can build with Keystone."
 							/>
 						</Col>
-					</Row>
-					<Row medium="1" large="1/2">
 						<Col>
 							<ValueProp
 								title="Lightweight and flexible"
@@ -52,5 +53,19 @@ const styles = {
 	wrapper: {
 		backgroundColor: theme.color.blue,
 		color: 'white',
+	},
+	intro: {
+		paddingBottom: rhythm(2),
+		paddingTop: rhythm(2),
+		textAlign: 'center',
+	},
+	heading: {
+		fontSize: '2.6em',
+		color: 'white',
+	},
+	subheading: {
+		fontSize: '1.8em',
+		lineHeight: '1.2em',
+		paddingBottom: '1em',
 	},
 };

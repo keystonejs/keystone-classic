@@ -33,7 +33,7 @@ export const container = {
 export const color = {
 	blue: '#348dd9',
 	blueDark: '#374e61',
-
+	lightBlue: '#ebf4fb',
 	// social
 	twitter: '#1DA1F2',
 
