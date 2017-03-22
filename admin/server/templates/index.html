@@ -14,7 +14,7 @@
     <div id="react-root"></div>
 <%# Keystone Config %>
     <script>
-      var Keystone = <%- JSON.stringify(keystone) %>;
+      var Keystone = <%- keystoneSafeSerialized %>;
     </script>
 <%# Old jQuery, editor and Cloudinary scripts %>
     <script src="<%= adminPath %>/js/lib/jquery/jquery-1.10.2.min.js"></script>

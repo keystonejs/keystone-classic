@@ -1,5 +1,6 @@
 var ejs = require('ejs');
 var path = require('path');
+var serialize = require('serialize-javascript');
 
 var templatePath = path.resolve(__dirname, '../templates/signin.html');
 
@@ -19,6 +20,11 @@ module.exports = function SigninRoute (req, res) {
 		userCanAccessKeystone: !!(req.user && req.user.canAccessKeystone),
 	};
 	locals.csrf.header[keystone.security.csrf.CSRF_HEADER_KEY] = keystone.security.csrf.getToken(req, res);
+
+	locals = {
+		localsSafeSerialized: serialize(locals, { isJSON: true }),
+	};
+
 	ejs.renderFile(templatePath, locals, {}, function (err, str) {
 		if (err) {
 			console.error('Could not render Admin UI Signin Template:', err);

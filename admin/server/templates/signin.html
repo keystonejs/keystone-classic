@@ -11,7 +11,7 @@
   <body>
     <div id="signin-view"></div>
     <script>
-      var Keystone = <%- JSON.stringify(locals) %>;
+      var Keystone = <%- localsSafeSerialized %>;
     </script>
     <script src="<%= adminPath %>/js/packages.js"></script>
     <script src="<%= adminPath %>/js/signin.js"></script>

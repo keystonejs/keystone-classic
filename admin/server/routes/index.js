@@ -1,6 +1,7 @@
 var _ = require('lodash');
 var ejs = require('ejs');
 var path = require('path');
+var serialize = require('serialize-javascript');
 
 var templatePath = path.resolve(__dirname, '../templates/index.html');
 
@@ -70,7 +71,7 @@ module.exports = function IndexRoute (req, res) {
 			property: keystone.get('ga property'),
 			domain: keystone.get('ga domain'),
 		},
-		keystone: keystoneData,
+		keystoneSafeSerialized: serialize(keystoneData, { isJSON: true }),
 		title: keystone.get('name') || 'Keystone',
 	};
 
