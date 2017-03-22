@@ -3,15 +3,7 @@ var demand = require('must');
 var login = require('./plugins/login');
 var navigationClick = require('./plugins/navigationClick');
 var createUser = require('./plugins/createUser');
-
-var re = /^[0-9a-fA-F]{24}$/;
-function isMongoObjectId (str) {
-	if (str && typeof str !== 'string' && str.toString) {
-		str = str.toString();
-	}
-
-	return str && re.test(str);
-};
+var isMongoObjectId = require('./isMongoObjectId');
 
 describe('App', function () {
 	this.timeout(40000);

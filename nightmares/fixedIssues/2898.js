@@ -3,7 +3,7 @@ var createNightmare = require('../createNightmare');
 var login = require('../plugins/login');
 var navigationClick = require('../plugins/navigationClick');
 // ensure the problem still exists https://github.com/keystonejs/keystone/issues/2892
-describe('#2892 remains an issue', function () {
+describe('#2892 is Fixed', function () {
 	this.timeout(400000);
 
 	it.only('Describe issue', function () {
