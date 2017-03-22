@@ -1,6 +1,8 @@
 var createNightmare = require('./createNightmare');
 var demand = require('must');
 var login = require('./plugins/login');
+var navigationClick = require('./plugins/navigationClick');
+var createUser = require('./plugins/createUser');
 
 var re = /^[0-9a-fA-F]{24}$/;
 function isMongoObjectId (str) {
@@ -12,7 +14,7 @@ function isMongoObjectId (str) {
 };
 
 describe('App', function () {
-	this.timeout(10000);
+	this.timeout(40000);
 
 	it('Should show a list of users in a table', function () {
 		return createNightmare()
@@ -84,7 +86,7 @@ describe('App', function () {
 		.use(login())
 		// click users get selectors easily using the chrome extension
 		.goto('http://localhost:3000/keystone/users')
-		.wait(500)
+		.wait('tbody tr:nth-child(1) .ItemList__col:nth-child(4) .ItemList__value .octicon-x')
 		.evaluate(function () {
 			return !!document.querySelector('tbody tr:nth-child(1) .ItemList__col:nth-child(4) .ItemList__value .octicon-x');
 		})
@@ -92,5 +94,27 @@ describe('App', function () {
 		.then(function (isNotAdmin) {
 			demand(isNotAdmin).to.equal(true);
 		});
+	});
+
+	it('Navigate to user', function () {
+		return createNightmare()
+		.use(login())
+		.use(createUser({
+			firstName: 'Bob',
+			lastName: 'Dylan',
+			email: 'knockknock@onheavens.door.com',
+			password: 'knockknock',
+		}))
+		.use(navigationClick('booleans'))
+		.use(navigationClick('relationships'))
+		.wait('button[data-e2e-list-create-button]')
+		.click('button[data-e2e-list-create-button]')
+		.type('[name="name"]', 'Issue2382')
+		.type('.Select-control input', 'Bob Dylan\u000d')
+		.wait('button[type="submit"]')
+		.click('button[type="submit"]')
+		// .wait(500)
+		.use(navigationClick('users'))
+		.end();
 	});
 });

@@ -1,6 +1,8 @@
 module.exports = function clickNavTab (n) {
 	return function (nightmare) {
+		const selector = 'a[href="/keystone/' + n + '"]';
 		return nightmare
-		.click('a[href="/keystone/' + n + '"]');
+		.wait(500) // test fails users page fails to render, unknown error
+		.click(selector);
 	};
 };
