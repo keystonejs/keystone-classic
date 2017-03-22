@@ -2,7 +2,6 @@ var demand = require('must');
 var createNightmare = require('../createNightmare');
 var login = require('../plugins/login');
 var navigationClick = require('../plugins/navigationClick');
-var createUser = require('../plugins/createUser');
 
 // ensure the problem still exists https://github.com/keystonejs/keystone/issues/2945
 describe('#2945 is Fixed', function () {

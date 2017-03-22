@@ -143,6 +143,8 @@ function runKeystone(cb) {
 			'hidden-relationships',
 			'source-relationships',
 			'target-relationships',
+			'dependency-as',
+			'dependency-bs'
 		]
 	});
 
