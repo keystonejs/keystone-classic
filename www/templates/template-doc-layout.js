@@ -28,7 +28,6 @@ export default class DocumentLayout extends React.Component {
 			const { headings, section, slug } = node;
 
 			const label = headings
-				.filter(h => h.depth === 1)
 				.map(h => h.value)[0]
 				|| '(no title)';
 
@@ -46,9 +45,9 @@ export default class DocumentLayout extends React.Component {
 		const body = markdownRemark.html;
 		const path = markdownRemark.parent.relativePath;
 
-		// TODO filtering/sorting should come from graphQL
+		// TODO sorting should come from graphQL
 		// also, `join` is because some pages still have multiple H1s
-		const title = markdownRemark.headings.filter(h => h.depth === 1).sort((a, b) => a.value.localeCompare(b.value)).map(h => h.value).join(', ');
+		const title = markdownRemark.headings.sort((a, b) => a.value.localeCompare(b.value)).map(h => h.value).join(', ');
 
 		// TODO add file path to Markdown schema
 		// NOTE pointing to `docs` until ready for `master`
@@ -88,7 +87,6 @@ query MarkdownTemplate($slug: String!) {
 				slug
 				headings(depth: h1) {
 					value
-					depth
 				}
 			}
 		}
@@ -100,9 +98,8 @@ query MarkdownTemplate($slug: String!) {
 			}
 		}
 		slug
-		headings {
+		headings(depth: h1) {
 			value
-			depth
 		}
 		html
 	}
