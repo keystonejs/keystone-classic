@@ -4,13 +4,15 @@ import { Col, Row } from '../../../components/Grid';
 import ValueProp from './header/ValueProp';
 import theme from '../../../theme';
 import { compose } from 'glamor';
-import { EntypoTools } from 'react-entypo';
+import { EntypoTools, EntypoCloud, EntypoRocket } from 'react-entypo';
 import { rhythm } from 'utils/typography';
 
 export default class ValueProps extends Component {
 	render () {
 		return (
 			<div className={compose(styles.wrapper)}>
+				<EntypoCloud style={{ width: '200px', height: '170px', color: theme.color.blue, marginTop: '-100px', position: 'absolute', right: '8%' }} />
+				<EntypoRocket style={{ width: '137px', height: '140px', color: theme.color.blue, marginTop: '-220px', position: 'absolute', left: '8%' }} />
 				<Container>
 					<div className={compose(styles.intro)}>
 						<h2 className={compose(styles.heading)}>What you build is up to you.</h2>
@@ -21,25 +23,33 @@ export default class ValueProps extends Component {
 						<Col>
 							<ValueProp
 								title="Built on Express"
-								text="Keystone can configure Express for you, or you can take over and treat Keystone like any other Express middleware.\nYou can also easily integrate it into an existing Express app."
+								text="Keystone can configure Express for you, or you can take over and treat Keystone like any other Express middleware."
+								text2="You can also easily integrate it into an existing Express app."
+								marginTop="1em"
 							/>
 						</Col>
 						<Col>
 							<ValueProp
 								title="Powered by MongoDB"
-								text="Keystone uses Mongoose, the leading ODM for node.js and MongoDB, and gives you a single place for your schema, validation rules and logic.\nSo anything you can build with MongoDB, you can build with Keystone."
+								text="Keystone uses Mongoose, the leading ODM for node.js and MongoDB, and gives you a single place for your schema, validation rules and logic."
+								text2="So anything you can build with MongoDB, you can build with Keystone."
+								marginTop="1em"
 							/>
 						</Col>
 						<Col>
 							<ValueProp
 								title="Lightweight and flexible"
-								text="Keystone is designed to be as light as you want - you can pick and choose the features you want to include.\nCreate your own routes, your own database schema, and use any template language you like."
+								text="Keystone is designed to be as light as you want - you can pick and choose the features you want to include."
+								text2="\nCreate your own routes, your own database schema, and use any template language you like."
+								marginTop="1em"
 							/>
 						</Col>
 						<Col>
 							<ValueProp
 								title="Extendable"
-								text="One of the greatest things about node.js is the vast number of quality packages available.\nKeystone is designed to let you use any of them, without losing the benefits it provides."
+								text="One of the greatest things about node.js is the vast number of quality packages available."
+								text2="Keystone is designed to let you use any of them, without losing the benefits it provides."
+								marginTop="1em"
 							/>
 						</Col>
 					</Row>
@@ -53,6 +63,7 @@ const styles = {
 	wrapper: {
 		backgroundColor: theme.color.blue,
 		color: 'white',
+		paddingBottom: '5em',
 	},
 	intro: {
 		paddingBottom: rhythm(2),
@@ -64,6 +75,7 @@ const styles = {
 		color: 'white',
 	},
 	subheading: {
+		paddingTop: '1em',
 		fontSize: '1.8em',
 		lineHeight: '1.2em',
 		paddingBottom: '1em',

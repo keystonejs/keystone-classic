@@ -1,13 +1,16 @@
 import React, { PropTypes } from 'react';
 import { compose } from 'glamor';
 
-export default function ValueProp ({ icon, text, title }) {
+export default function ValueProp ({ icon, text, title, text2, marginTop }) {
 	return (
-		<div {...compose(styles.base)}>
+		<div {...compose(styles.base, { marginTop })}>
 			<i {...compose(styles.icon)}>{icon}</i>
 			<div {...compose(styles.content)}>
 				<h3 {...compose(styles.title)}>{title}</h3>
 				<p {...compose(styles.text)}>{text}</p>
+				{text2
+				? <p {...compose(styles.text)}>{text2}</p>
+				: null}
 			</div>
 		</div>
 	);
@@ -20,8 +23,8 @@ ValueProp.propTypes = {
 
 const styles = {
 	base: {
-		alignItems: 'center',
 		display: 'flex',
+		marginTop: '4em',
 	},
 	content: {
 		flexGrow: 1,
@@ -31,10 +34,11 @@ const styles = {
 	},
 	title: {
 		color: 'inherit',
-		fontWeight: '300',
+		fontWeight: '400',
+		marginTop: '0.2em',
 	},
 	text: {
+		paddingTop: '1em',
 		fontWeight: '300',
-		opacity: '0.7',
 	},
 };

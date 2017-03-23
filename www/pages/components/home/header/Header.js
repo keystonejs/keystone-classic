@@ -22,20 +22,20 @@ export default class Header extends Component {
 				<Container>
 					<div className={compose(styles.intro)}>
 						<img src={logo} style={{ width: '93px' }}/>
-						<h1 className={compose(styles.intro__title)}>Node.js CMS & web app platform</h1>
+						<h1 className={compose(styles.intro__title)}>Node.js CMS & web application platform</h1>
 						<p className={compose(styles.intro__lead)}>Keystone is an open source framework for developing database-driven websites, applications and APIs in Node.js. Built on Express and MongoDB.</p>
 						<div className={compose(styles.home_header_buttons)}>
-							<Link to="" className={compose(styles.button_home, styles.button_home_primary)}>Get Started</Link> <Link to="" className={compose(styles.button_home, styles.button_home_inverse)}>Try the Demo</Link>
+							<Link to="/guides/yo-generator" className={compose(styles.button_home, styles.button_home_primary)}>Get Started</Link> <a href="https://demo.keystonejs.com" className={compose(styles.button_home, styles.button_home_inverse)}>Try the Demo</a>
 						</div>
 						<ul className={compose(styles.list_links)}>
-							<li className={compose(styles.list_links_item)}><Link to="" style={{ color: 'white' }}>Read the Documentation</Link></li>
+							<li className={compose(styles.list_links_item)}><Link to="/intrdouction/getting-started" style={{ color: 'white' }}>Read the Documentation</Link></li>
 							<li className={compose(styles.list_item)}>Current Version {version}</li>
-							<li className={compose(styles.list_links_item)}><Link to="" style={{ color: 'white' }}>What's New</Link></li>
+							<li className={compose(styles.list_links_item)}><a href="https://github.com/keystonejs/keystone/blob/master/HISTORY.md" style={{ color: 'white' }}>What's New</a></li>
 							<li className={compose(styles.list_item)}>Free and Open Source (MIT)</li>
 						</ul>
 						<ul className={compose(styles.list_links)}>
-							<li className={compose(styles.list_links_item)}><Link to="" style={{ color: 'white' }}><EntypoTwitter /> Follow @KeysoneJS on Twitter</Link></li>
-							<li className={compose(styles.list_links_item)}><Link to="" style={{ color: 'white' }}><EntypoGithub /> Star on GitHub</Link></li>
+							<li className={compose(styles.list_links_item)}><a href="https://twitter.com/keystonejs" style={{ color: 'white' }}><EntypoTwitter /> Follow @KeysoneJS on Twitter</a></li>
+							<li className={compose(styles.list_links_item)}><a href="http://github.com/keystonejs/keystone" style={{ color: 'white' }}><EntypoGithub /> Star on GitHub</a></li>
 						</ul>
 						<p className={compose(styles.heading_text)}>Keystone powers websites, apps and APIs for:</p>
 						<div className={compose(styles.home_header_brands)}>
@@ -68,20 +68,21 @@ const styles = {
 		textAlign: 'center',
 	},
 	intro__title: {
+		marginTop: '0.7em',
 		color: 'inherit',
-		fontSize: '3em',
+		fontSize: '3.1em',
 		fontWeight: '200',
-		marginBottom: '1em',
+		marginBottom: '0.5em',
 	},
 	intro__lead: {
 		color: 'inherit',
-		fontSize: '1.2em',
+		fontSize: '1.7em',
 		fontWeight: '300',
 		opacity: '0.7',
+		lineHeight: '1.3em',
 	},
 	list_links: {
 		listStyle: 'none',
-		marginTop: '1.2em',
 	},
 	list_links_item: {
 		display: 'inline-block',
@@ -97,19 +98,21 @@ const styles = {
 	},
 	home_header_buttons: {
 		marginTop: '8em',
-		marginBottom: '3em',
+		marginBottom: '2.6em',
 	},
 	heading_text: {
-		opacity: '0.7',
+		marginTop: '4em',
+		opacity: '0.6',
 		fontSize: '1.2em',
+		marginBottom: '0',
 	},
 	button_home: {
 		textTransform: 'uppercase',
-		margin: '1em',
+		margin: '0.2em',
 		fontSize: '1.33em',
 		textDecoration: 'none',
-		paddingLeft: '2em',
-		paddingRight: '2em',
+		paddingLeft: '2.3em',
+		paddingRight: '2.3em',
 		paddingTop: '0.7em',
 		paddingBottom: '0.7em',
 		borderRadius: '6px',

@@ -3,6 +3,7 @@ import Container from '../../../components/Container';
 import { Col, Row } from '../../../components/Grid';
 import ValueProp from './header/ValueProp';
 import { compose } from 'glamor';
+import theme from '../../../theme';
 
 import {
 	EntypoLeaf,
@@ -14,12 +15,11 @@ import {
 	EntypoUsers,
 	EntypoPaperPlane,
 } from 'react-entypo';
-import theme from '../../../theme';
 
 export default class ValueProps extends Component {
 	render () {
 		return (
-			<Container>
+			<Container style={{ borderBottom: `1px solid ${theme.color.gray10}` }}>
 				<div className={compose(styles.preamble)}>
 					<h2 className={compose(styles.heading)}>Get a head-start on the features you need</h2>
 					<p className={compose(styles.subheading)}>KeystoneJS is the easiest way to build database-driven websites, applications and APIs in Node.js.</p>

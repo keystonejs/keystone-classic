@@ -10,7 +10,8 @@ export default class ValueProps extends Component {
 			<Container>
 				<h2>Community Feedback</h2>
 				<p>What people have been saying about KeystoneJS:</p>
-				<Row medium="1/2" large="1/3">
+				<Row small="1" medium="1/2" large="1/3">
+					<Col><TweetEmbed id="844728872914616320" /></Col>
 					<Col><TweetEmbed id="836198982179237888" /></Col>
 					<Col><TweetEmbed id="823442524538667010" /></Col>
 					<Col><TweetEmbed id="804394095854624768" /></Col>
