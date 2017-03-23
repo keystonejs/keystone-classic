@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Container from '../../../components/Container';
 import { Col, Row } from '../../../components/Grid';
-import ValueProp from './header/ValueProp';
 import { compose } from 'glamor';
 import theme from '../../../theme';
 
@@ -15,6 +14,26 @@ import {
 	EntypoUsers,
 	EntypoPaperPlane,
 } from 'react-entypo';
+
+const ValueProp = ({ icon, text, title, text2, marginTop }) => {
+	return (
+		<div {...compose(styles.base, { marginTop })}>
+			<i {...compose(styles.icon_inner)}>{icon}</i>
+			<div {...compose(styles.content)}>
+				<h3 {...compose(styles.title)}>{title}</h3>
+				<p {...compose(styles.text)}>{text}</p>
+				{text2
+				? <p {...compose(styles.text)}>{text2}</p>
+				: null}
+			</div>
+		</div>
+	);
+};
+
+ValueProp.defaultProps = {
+	marginTop: '4em',
+};
+
 
 export default class ValueProps extends Component {
 	render () {
@@ -109,5 +128,23 @@ const styles = {
 		fontSize: '1.8em',
 		lineHeight: '1.2em',
 		color: theme.color.gray40,
+	},
+	base: {
+		display: 'flex',
+	},
+	content: {
+		flexGrow: 1,
+	},
+	icon_inner: {
+		marginRight: '1em',
+	},
+	title: {
+		color: 'inherit',
+		fontWeight: '400',
+		marginTop: '0.2em',
+	},
+	text: {
+		paddingTop: '1em',
+		fontWeight: '300',
 	},
 };
