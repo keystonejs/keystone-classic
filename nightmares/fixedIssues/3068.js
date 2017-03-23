@@ -34,7 +34,6 @@ describe('#3068 is Fixed', function () {
 		.click('button[type="submit"]')
 		.wait(500) // this is required to click the following element
 		.click('button.octicon')
-		.wait(5000) // wait to be sure the component has time to render if its going to render
 		.evaluate(function () {
 			return !document.querySelectorAll('.Select-control').length;
 		})
