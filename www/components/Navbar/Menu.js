@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import theme from '../../theme';
 import Link from 'gatsby-link';
 
@@ -256,7 +256,7 @@ function makeSection (currentPath, layer, level) {
 
 		return (
 			<ul key={idx} css={styles[`menu${level}`]}>
-				<li css={styleChoice}><Link to={section.slug} css={{ textDecoration: 'none', color: 'white' }}>{section.section}</Link></li>
+				<li css={styleChoice}><Link to={currentPath + section.slug} css={{ textDecoration: 'none', color: 'white' }}>{section.section}</Link></li>
 				{section.items ? section.items.map(function (item) {
 					const newPath = currentPath + section.slug;
 					if (item.items) {
