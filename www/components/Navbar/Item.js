@@ -4,7 +4,7 @@ import theme from '../../theme';
 
 export default function Item ({ title, url }) {
 	return (
-		<li css={styles.item}>
+		<li css={styles.item} key={url}>
 			<Link
 				onlyActiveOnIndex
 				css={styles.link}
@@ -28,6 +28,7 @@ const styles = {
 	item: {
 		fontWeight: 300,
 		margin: '0 0 2px',
+		marginLeft: '20px',
 	},
 	link: {
 		borderBottomRightRadius: 3,

@@ -16,15 +16,15 @@ If you want to keep secret keys and configuration out of your codebase (especial
 
 The following options control the branding, navigation and default export settings of the KeystoneJS application in the Admin UI:
 
-<h4 data-type="String"><code>name</code></h4>
+<h4 data-primitive-type="String"><code>name</code></h4>
 
 The name of the KeystoneJS application
 
-<h4 data-type="String"><code>name</code></h4>
+<h4 data-primitive-type="String"><code>name</code></h4>
 
 Displayed in the top left hand corner of the Admin UI
 
-<h4 data-type="String"><code>module root</code></h4>
+<h4 data-primitive-type="String"><code>module root</code></h4>
 
 This setting tells Keystone the root path of your app. By default, `module root` points to the path of the first script that required Keystone within your app. This default may be undesirable at times.
 
@@ -36,7 +36,7 @@ When setting a custom `module root` you may use either an absolute or a relative
 
 > NOTE: If a relative path is used, it will be considered relative to the location of the script from which the setting was made.
 
-<h4 data-type="String|Boolean"><code>frame guard</code></h4>
+<h4 data-primitive-type="String|Boolean"><code>frame guard</code></h4>
 
 This settings tells Keystone how to handle `iframe` tags. It does this by setting the response `X-Frame-Options` header. This header is used to protect against "ClickJacking" attacks.
 
@@ -49,7 +49,7 @@ Valid options are:
 - `true` (same as "deny" )
 - `false` disables frame guard
 
-<h4 data-type="Object"><code>nav</code></h4>
+<h4 data-primitive-type="Object"><code>nav</code></h4>
 
 An object that specifies the navigation structure for the Admin UI. Create a key for each section that should be visible in the primary navigation. Each key's value can be a single list path (as is seen in the URL when you view a list) or an array of list paths. When an array is used, secondary navigation is rendered in the Admin UI.
 
@@ -66,15 +66,15 @@ keystone.set('nav', {
 });
 ```
 
-<h4 data-type="String"><code>csv field delimiter</code></h4>
+<h4 data-primitive-type="String"><code>csv field delimiter</code></h4>
 
 Allow you to choose a custom field delimiter to be used for CSV export instead of the default comma.
 
-<h4 data-type="Object"><code>app</code></h4>
+<h4 data-primitive-type="Object"><code>app</code></h4>
 
 Instance of Express to be used instead of the default instance.
 
-<h4 data-type="Object"><code>mongoose</code></h4>
+<h4 data-primitive-type="Object"><code>mongoose</code></h4>
 
 Instance of Mongoose to be used instead of the default instance.
 
@@ -85,69 +85,69 @@ Instance of Mongoose to be used instead of the default instance.
 
 The following options control the configuration of your web server and the express app:
 
-<h4 data-type="String"><code>env</code></h4>
+<h4 data-primitive-type="String"><code>env</code></h4>
 
 The environment setting to use. The keys **development** and **production** are supported, and this will have an impact on things like caching compiled templates. Defaults to `process.env.NODE_ENV || "development"`.
 
 You should really **set this to `production` for your production servers** using the `NODE_ENV` environment variable. Several other modules expect this convention also.
 
-<h4 data-type="Number"><code>port</code></h4>
+<h4 data-primitive-type="Number"><code>port</code></h4>
 
 The port to listen for request on. Defaults to `process.env.PORT || 3000`
 
-<h4 data-type="String"><code>host</code></h4>
+<h4 data-primitive-type="String"><code>host</code></h4>
 
 The ip address to listen for request on. Defaults to `process.env.IP || '127.0.0.1'`
 
 `port` must be set (either by option or env variable) or the `host` option will be ignored.
 
-<h4 data-type="String"><code>views</code></h4>
+<h4 data-primitive-type="String"><code>views</code></h4>
 
 The path to your application's **view templates**. This is required for using the `keystone.View` Class, and will also be set on the express app.
 
 If you're following the [recommended project structure](/guides/getting-started/#project-structure), this should be set to `"/templates/views"`.
 
-<h4 data-type="String"><code>view engine</code></h4>
+<h4 data-primitive-type="String"><code>view engine</code></h4>
 
 The template engine to use by default. Any engine with express support should work. You will need to install any view engine you intend to use in your project
 
 This option is set on the express app ([see docs here](expressjs.com/api.html)).
 
-<h4 data-type="Function"><code>custom engine</code></h4>
+<h4 data-primitive-type="Function"><code>custom engine</code></h4>
 
 If you want to use a custom template engine, set this option to the function that should be used to process your templates.
 
 [See below](/configuration/#alternative-view-engines) for an example of how to use the [Swig](https://github.com/paularmstrong/swig) template engine.
 
-<h4 data-type="Boolean"><code>view cache</code></h4>
+<h4 data-primitive-type="Boolean"><code>view cache</code></h4>
 
 This option is passed through to Express, and controls whether compiled view templates are cached between requests. It defaults to `true` in production, or `false` otherwise so there is rarely any reason to set it explicitly.
 
-<h4 data-type="Object"><code>locals</code></h4>
+<h4 data-primitive-type="Object"><code>locals</code></h4>
 
 The default local variables to pass to your view templates. Routes can extend or change local variables by modifying `res.locals`.
 
-<h4 data-type="String|Array"><code>static</code></h4>
+<h4 data-primitive-type="String|Array"><code>static</code></h4>
 
 One or more paths to your application's static files. Setting this will include the `serve-static` middleware.
 
 If you're following the [recommended project structure](/guides/getting-started/#project-structure), this should be set to `'public'`.
 
-<h4 data-type="Object"><code>static options</code></h4>
+<h4 data-primitive-type="Object"><code>static options</code></h4>
 
 Optional config options that will be passed to the `serve-static` middleware ([see docs here](github.com/expressjs/serve-static)).
 
-<h4 data-type="String|Array"><code>less</code></h4>
+<h4 data-primitive-type="String|Array"><code>less</code></h4>
 
 If you want Keystone to automatically compile **.less** files into **.css** files, set this value to the same path as the `static` option.
 
 When this option is set, any requests to a **.css** or **.min.css** file will first check for a **.less** file with the same name, and if one is found, the css file will be generated.
 
-<h4 data-type="Object"><code>less options</code></h4>
+<h4 data-primitive-type="Object"><code>less options</code></h4>
 
 Optional config options that will be passed to the `less` middleware; see [github.com/emberfeather/less.js-middleware](github.com/emberfeather/less.js-middleware) for more information.
 
-<h4 data-type="String|Array"><code>sass</code></h4>
+<h4 data-primitive-type="String|Array"><code>sass</code></h4>
 
 If you want Keystone to automatically compile **.sass** files into **.css** files, set this value to the same path as the `static` option.
 
@@ -155,28 +155,28 @@ When this option is set, any requests to a **.css** or **.min.css** file will fi
 
 > Note that enabling this option requires you to have specified the `node-sass` package as a dependency in your project's `package.json` file; it is not automatically included with Keystone.
 
-<h4 data-type="Object"><code>sass options</code></h4>
+<h4 data-primitive-type="Object"><code>sass options</code></h4>
 
 Optional config options that will be passed to the `sass` middleware; see [github.com/sass/node-sass](github.com/sass/node-sass) for more information.
 
-<h4 data-type="String"><code>favicon</code></h4>
+<h4 data-primitive-type="String"><code>favicon</code></h4>
 
 The path to your application's favicon. Setting this will include the `serve-favicon` middleware. Should be relative to your project's root.
 If you're following the [recommended project structure](/guides/getting-started/#project-structure), this should be set to `"/public/favicon.ico"`.
 
-<h4 data-type="Boolean"><code>compress</code></h4>
+<h4 data-primitive-type="Boolean"><code>compress</code></h4>
 
 Set this to true to enable HTTP compression. This will include the `compression` middleware ([see docs here](github.com/expressjs/compression)).
 
-<h4 data-type="String"><code>logger</code></h4>
+<h4 data-primitive-type="String"><code>logger</code></h4>
 
 Set this to include the `morgan` middleware. The value will be passed to the middleware initialisation ([see docs here](github.com/expressjs/morgan)). Set this to `false` to disable logging altogether. Defaults to `:method :url :status :response-time ms`.
 
-<h4 data-type="Object"><code>logger options</code></h4>
+<h4 data-primitive-type="Object"><code>logger options</code></h4>
 
 Optional config options that will be passed to the morgan middleware; see [github.com/expressjs/morgan](github.com/expressjs/morgan) for more information.
 
-<h4 data-type="Boolean"><code>trust proxy</code></h4>
+<h4 data-primitive-type="Boolean"><code>trust proxy</code></h4>
 
 Set this to enable processing of the HTTP request `X-Forwarded-For` header. Extracted IP addresses will be available as the array `req.ips` ([see docs here](expressjs.com/en/api.html)).
 
@@ -194,7 +194,7 @@ keystone.start({
 
 There are two ways to implement HTTPS for your KeystoneJS application: either use a web server (e.g. [NGINX](nginx.com)) or PAAS (e.g. [Heroku](heroku.com)) that handles it for you, or set the following options to use the [https server provided by node.js](https://nodejs.org/api/https.html).
 
-<h4 data-type="Boolean|String"><code>ssl</code></h4>
+<h4 data-primitive-type="Boolean|String"><code>ssl</code></h4>
 
 Whether to start the SSL Server. Defaults to `false`.
 
@@ -202,23 +202,23 @@ When set to `true`, both http and https servers will be started. If `ssl key` or
 
 When set to "only", only the https server will be started. If `ssl key` or `ssl cert` are invalid, KeystoneJS will not start.
 
-<h4 data-type="String"><code>ssl key</code></h4>
+<h4 data-primitive-type="String"><code>ssl key</code></h4>
 
 The path to your SSL Key. Should be either absolute or relative to `process.cwd()` (which is usually your project root).
 
-<h4 data-type="String"><code>ssl cert</code></h4>
+<h4 data-primitive-type="String"><code>ssl cert</code></h4>
 
 The path to your SSL Certificate. Should be either absolute or relative to `process.cwd()` (which is usually your project root).
 
-<h4 data-type="String"><code>ssl ca</code></h4>
+<h4 data-primitive-type="String"><code>ssl ca</code></h4>
 
 The path to your SSL CA Bundle. Should be either absolute or relative to `process.cwd()` (which is usually your project root).
 
-<h4 data-type="Number"><code>ssl port</code></h4>
+<h4 data-primitive-type="Number"><code>ssl port</code></h4>
 
 The port to start the SSL Server on. Defaults to `3001`.
 
-<h4 data-type="String"><code>ssl host</code></h4>
+<h4 data-primitive-type="String"><code>ssl host</code></h4>
 
 The ip address to listen for request on. Defaults to `process.env.SSL_IP` or the value of the `host` option.
 
@@ -230,7 +230,7 @@ Exposes `onHttpsServerCreated` event during `keystone.start()`
 
 Express will listen to a unix socket for connections
 
-<h4 data-type="String"><code>unix socket</code></h4>
+<h4 data-primitive-type="String"><code>unix socket</code></h4>
 
 Path to a writable unix socket. Should be either absolute or relative to `process.cwd()` (which is usually your project root). File will be removed first if present.
 
@@ -242,17 +242,17 @@ Exposes `onSocketServerCreated` event during `keystone.start()`
 
 The following options control your database configuration and user models / authentication:
 
-<h4 data-type="String"><code>mongo</code></h3.9>
+<h4 data-primitive-type="String"><code>mongo</code></h3.9>
 
 The url for your MongoDB connection.
 
 You should typically set this to `process.env.MONGO_URI || "mongodb://localhost/your-db"`, which will cause it to default to localhost unless a MONGO_URI is explicitly provided in the environment.
 
-<h4 data-type="String"><code>model prefix</code></h4>
+<h4 data-primitive-type="String"><code>model prefix</code></h4>
 
 A prefix to apply to all the mongodb collections used by the models.
 
-<h4 data-type="Mixed"><code>auth</code></h4>
+<h4 data-primitive-type="Mixed"><code>auth</code></h4>
 
 Whether to enable built-in auth for Keystone's Admin UI, or a custom function to use to authenticate users.
 
@@ -260,18 +260,18 @@ When this is set to `false` (or not defined), Keystone's Admin UI will be open t
 
 If using a custom function, it should follow the standard for express middleware of `function(req, res, next)`. If a user is not logged in or should not access Keystone's Admin UI, use `res.redirect()` to redirect them - otherwise call the `next` callback to enable access.
 
-<h4 data-type="String"><code>user model</code></h4>
+<h4 data-primitive-type="String"><code>user model</code></h4>
 
 The key of the Keystone List for users, **required** if `auth` is set to true
 Typically this would be set to User.
 
-<h4 data-type="String"><code>cookie secret</code></h4>
+<h4 data-primitive-type="String"><code>cookie secret</code></h4>
 
 The encryption key to use for your cookies. Passed to Express's cookie parser.
 
 It's a really good idea to set this to a long, random string.
 
-<h4 data-type="String|Function"><code>session store</code></h4>
+<h4 data-primitive-type="String|Function"><code>session store</code></h4>
 
 Set this to mongo to use your MongoDB database to persist session data.
 By default, Keystone will use the in-memory session store provided by Express, which should only be used in development because it does not scale past a single process, and leaks memory over time.
@@ -305,7 +305,7 @@ keystone.init({
 });
 ```
 
-<h4 data-type="Object"><code>session store options</code></h4>
+<h4 data-primitive-type="Object"><code>session store options</code></h4>
 
 This option allows you to override the default session store configuration, and is passed to the session store package.
 
@@ -342,23 +342,23 @@ It is required when using the `connect-mongostore` store.
 
 > The session options are made available via `keystone.get('session options')`
 
-<h4 data-type="String"><code>back url</code></h4>
+<h4 data-primitive-type="String"><code>back url</code></h4>
 
 A `href` string to use for the 'back to (site name)' link in the header of the Admin UI. Defaults to `/`.
 
-<h4 data-type="String"><code>signin url</code></h4>
+<h4 data-primitive-type="String"><code>signin url</code></h4>
 
 A `href` to bounce visitors to when they fail the default auth check (e.g. not signed in). Defaults to `/keystone/signin`, only used when `auth` is set to `true`/
 
-<h4 data-type="String"><code>signin redirect</code></h4>
+<h4 data-primitive-type="String"><code>signin redirect</code></h4>
 
 A `href` to bounce visitors to after they successfully sign in via the built-in signin route. Defaults to `/keystone`.
 
-<h4 data-type="String"><code>signout url</code></h4>
+<h4 data-primitive-type="String"><code>signout url</code></h4>
 
 A `href` for the signout link in the top right of the UI. Defaults to `/keystone/signout` if `auth` is set to `true`
 
-<h4 data-type="String"><code>signout redirect</code></h4>
+<h4 data-primitive-type="String"><code>signout redirect</code></h4>
 
 A `href` to bounce visitors to after they successfully sign out via the built-in sign out route. Defaults to `/keystone`
 
@@ -369,39 +369,39 @@ For more information about setting up and using database models with Keystone, s
 
 The following options control some ui options for the Admin backend:
 
-<h4 data-type="Boolean"><code>wysiwyg images</code></h4>
+<h4 data-primitive-type="Boolean"><code>wysiwyg images</code></h4>
 
 Adds an image button which enables including images from other URLS in your WYSIWYG Editor.
 
-<h4 data-type="Boolean"><code>wysiwyg cloudinary images</code></h4>
+<h4 data-primitive-type="Boolean"><code>wysiwyg cloudinary images</code></h4>
 
 Adds an image upload button and enables cloudinary image uploads directly in your WYSIWYG Editor.
 
-<h4 data-type="String"><code>wysiwyg additional buttons</code></h4>
+<h4 data-primitive-type="String"><code>wysiwyg additional buttons</code></h4>
 
 Allows to add additional extra functionality buttons such as blockquote. A complete list of available buttons can be found at: [http://www.tinymce.com/wiki.php/Controls](http://www.tinymce.com/wiki.php/Controls)
 
-<h4 data-type="String"><code>wysiwyg additional plugins</code></h4>
+<h4 data-primitive-type="String"><code>wysiwyg additional plugins</code></h4>
 
 Allows for additional plugins to be activated which can be found at: [http://www.tinymce.com/wiki.php/Plugins](http://www.tinymce.com/wiki.php/Plugins)
 
-<h4 data-type="Object"><code>wysiwyg additional options</code></h4>
+<h4 data-primitive-type="Object"><code>wysiwyg additional options</code></h4>
 
 Allows for additional TinyMCE options, such as `{ menubar: true }` to be modified.
 
-<h4 data-type="Boolean"><code>wysiwyg override toolbar</code></h4>
+<h4 data-primitive-type="Boolean"><code>wysiwyg override toolbar</code></h4>
 
 This will remove the default set of buttons for wysiwyg mode. Use this with `wysiwyg additional buttons` and `wysiwyg additional plugins`. Defaults to `false`.
 
-<h4 data-type="Boolean"><code>wysiwyg menubar</code></h4>
+<h4 data-primitive-type="Boolean"><code>wysiwyg menubar</code></h4>
 
 Show the menubar for wysiwyg editor. Defaults to `false`. See [http://www.tinymce.com/wiki.php/Configuration:menubar](http://www.tinymce.com/wiki.php/Configuration:menubar) for more details.
 
-<h4 data-type="String"><code>wysiwyg importcss</code></h4>
+<h4 data-primitive-type="String"><code>wysiwyg importcss</code></h4>
 
 Sets the `content_css` and configures the `importcss` plugin for TinyMCE. See [http://www.tinymce.com/wiki.php/Configuration:content_css](http://www.tinymce.com/wiki.php/Configuration:content_css) for more details.
 
-<h4 data-type="String"><code>wysiwyg skin</code></h4>
+<h4 data-primitive-type="String"><code>wysiwyg skin</code></h4>
 
 Allow you to change the TinyMCE skin. Defaults to `keystone`. See [http://www.tinymce.com/wiki.php/Configuration:skin](http://www.tinymce.com/wiki.php/Configuration:skin) for more details.
 
@@ -429,11 +429,11 @@ keystone.init({
 
 Keystone has support for Google Analytics tracking in the Admin UI. To enable tracking, set the following configuration options:
 
-<h4 data-type="String"><code>ga property</code></h4>
+<h4 data-primitive-type="String"><code>ga property</code></h4>
 
 Your Google Analytics Property. Will default to `process.env.GA_PROPERTY`.
 
-<h4 data-type="String"><code>ga domain</code></h4>
+<h4 data-primitive-type="String"><code>ga domain</code></h4>
 
 Your Google Analytics Domain. Will default to `process.env.GA_DOMAIN`.
 
@@ -445,15 +445,15 @@ Keystone's [Location field type](/field/location/) supports integration with the
 
 To enable these features, [obtain an API Key from Google](https://code.google.com/apis/console/) and enable the Google Maps v3 and Google Places APIs for it, then set the following options:
 
-<h4 data-type="String"><code>google api key</code></h4>
+<h4 data-primitive-type="String"><code>google api key</code></h4>
 
 Your Google API browser key, used to authenticate the Javascript Maps API in the Admin UI. Will default to `process.env.GOOGLE_BROWSER_KEY`.
 
-<h4 data-type="String"><code>google server api key</code></h4>
+<h4 data-primitive-type="String"><code>google server api key</code></h4>
 
 Your Google API server key, used to authenticate requests to the Maps API from the server. Will default to `process.env.GOOGLE_SERVER_KEY`.
 
-<h4 data-type="String"><code>default region</code></h4>
+<h4 data-primitive-type="String"><code>default region</code></h4>
 
 Optional setting to limit autocomplete results to a specific region. This option takes a region code, specified as a [IANA language region](http://www.iana.org/assignments/language-subtag-registry/language-subtag-registry) subtag.
 

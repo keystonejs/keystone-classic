@@ -1,0 +1,18 @@
+body {
+  font-size: 13px;
+  line-height: 1.4;
+}
+code, [data-primitive-type]::after {
+  border-radius: 2px;
+  opacity: 0.8;
+  padding: 0 4px 1px;
+  border-right: 3px solid white;
+}
+h4>code {
+  background-color: lightpink;
+}
+[data-primitive-type]::after {
+  background-color: lightskyblue;
+  content: attr(data-primitive-type);
+  font-family: monospace;
+}

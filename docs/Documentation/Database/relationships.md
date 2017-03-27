@@ -88,15 +88,15 @@ User.relationship({ path: 'posts', ref: 'Post', refPath: 'author' });
 
 ### Options
 
-<h4 data-type="String"><code>path</code></h4>
+<h4 data-primitive-type="String"><code>path</code></h4>
 
 the path of the relationship reference on the Model
 
-<h4 data-type="String"><code>ref</code></h4>
+<h4 data-primitive-type="String"><code>ref</code></h4>
 
 the key of the referred Model (the one that has the relationship field)
 
-<h4 data-type="String"><code>refPath</code></h4>
+<h4 data-primitive-type="String"><code>refPath</code></h4>
 
 the path of the relationship being referred to in the referred Model
 

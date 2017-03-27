@@ -12,27 +12,27 @@ All field types support several common options, which can specify database setti
 
 Common field options include:
 
-<h4 data-type="String"><code>label</code></h4>
+<h4 data-primitive-type="String"><code>label</code></h4>
 
 The label of each field is generated from the field path; set this option to override the default.
 
-<h4 data-type="Boolean"><code>required</code></h4>
+<h4 data-primitive-type="Boolean"><code>required</code></h4>
 
 Validates that the field has a value before an item can be saved (also passed to mongoose and enforced using a database index).
 
-<h4 data-type="Boolean"><code>initial</code></h4>
+<h4 data-primitive-type="Boolean"><code>initial</code></h4>
 
 Causes the field to be displayed in the **Create Item** form, in the Admin UI.
 
-<h4 data-type="Boolean"><code>noedit</code></h4>
+<h4 data-primitive-type="Boolean"><code>noedit</code></h4>
 
 Renders the field as read-only in the admin UI.
 
-<h4 data-type="String"><code>note</code></h4>
+<h4 data-primitive-type="String"><code>note</code></h4>
 
 Is displayed with the field in the admin UI.
 
-<h4 data-type="Boolean"><code>hidden</code></h4>
+<h4 data-primitive-type="Boolean"><code>hidden</code></h4>
 
 The field will always be hidden in the Admin UI if this is set to `true`
 
@@ -40,11 +40,11 @@ The field will always be hidden in the Admin UI if this is set to `true`
 
 To improve the usability of the Admin UI, it is possible to hide fields when no value is set, or depending on the value of other fields.
 
-<h4 data-type="Boolean"><code>collapse</code></h4>
+<h4 data-primitive-type="Boolean"><code>collapse</code></h4>
 
 Displays an **+ add** link in the admin UI when the field has no value. Will completely hide field UI when `noedit` is also set to true, when the field has no value
 
-<h4 data-type="Object|Array"><code>dependsOn</code></h4>
+<h4 data-primitive-type="Object|Array"><code>dependsOn</code></h4>
 
 The field or header will only be displayed when the paths specified in the object match the current data for the item. You can target multiple values per path using an Array. The contents of dependsOn are passed to [expression match](npmjs.com/package/expression-match), if you want to form more complex queries.
 
@@ -68,7 +68,7 @@ Keystone's fields support a simple syntax for configuring dynamically updated fi
 
 To use the watching functionality, set the following two options:
 
-<h4 data-type="Mixed"><code>watch</code></h4>
+<h4 data-primitive-type="Mixed"><code>watch</code></h4>
 
 When `true`, the field value will be recalculated every time an item is saved.
 
@@ -90,7 +90,7 @@ Provide a function that returns true/false whenever you want.
 
 `function() { return this.author === this.editor; }`
 
-<h4 data-type="Function"><code>value</code></h4>
+<h4 data-primitive-type="Function"><code>value</code></h4>
 
 The function to generate the field value when a watched path is changed. Must return the new value, or accept a node-style `callback` argument, which can be called to set the field value asynchronously.
 The `this` context of the function will be the item being saved.

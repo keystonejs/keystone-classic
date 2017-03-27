@@ -1,5 +1,6 @@
 import React from 'react';
 require('../css/prism-coy.css');
+require('../css/styles.css');
 require('typeface-roboto');
 
 import Page from './template-doc-page';

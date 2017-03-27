@@ -55,10 +55,14 @@ exports.modifyAST = ({ args }) => {
 		let slug;
 
 		if (parsedFilePath.name.match(/Readme/i) && file.dir.match(/\/fields\/types\//)) {
-			section = 'field'; // fake the path for slug consistency
+			section = 'documentation/field'; // fake the path for slug consistency
 			slug = `/${section}/${kebabify(parsedFilePath.dir)}`;
 		} else {
-			slug = `/${kebabify(parsedFilePath.dir)}/${kebabify(parsedFilePath.name)}`;
+			if (parsedFilePath.name === 'index') {
+				slug = `/${kebabify(parsedFilePath.dir)}`;
+			} else {
+				slug = `/${kebabify(parsedFilePath.dir)}/${kebabify(parsedFilePath.name)}`;
+			}
 		}
 
 		// If file isn't in subdirectory "dir" will be empty.

@@ -265,11 +265,11 @@ Person.add(
 
 **Options**
 
-<h4 data-type="String"><code>heading</code></h4>
+<h4 data-primitive-type="String"><code>heading</code></h4>
 
 The text to display
 
-<h4 data-type="Object"><code>dependsOn</code></h4>
+<h4 data-primitive-type="Object"><code>dependsOn</code></h4>
 
 The heading will only be displayed when the paths specified in the object match the current data for the item. [dependsOn](/field/options/#dependsOn)
 
