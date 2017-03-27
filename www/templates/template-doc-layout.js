@@ -73,7 +73,6 @@ export default class DocumentLayout extends React.Component {
 	}
 };
 
-// TODO only select headings of depth 1
 export const pageQuery = `
 query MarkdownTemplate($slug: String!) {
 	site {

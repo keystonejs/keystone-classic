@@ -30,7 +30,7 @@ export default class ValueProps extends Component {
 
 				</Row>
 				<div>
-					<Link to="" style={{ color: 'white' }}>Get Started</Link> <Link to="" style={{ color: 'white' }}>Try the Demo</Link>
+					<Link to="/getting-started" style={{ color: 'white' }}>Get Started</Link> <a href="https://demo.keystonejs.com" style={{ color: 'white' }}>Try the Demo</a>
 				</div>
 			</Container>
 		);

@@ -11,7 +11,7 @@ export default class ValueProps extends Component {
 				<Container>
 					<Row medium="1" large="1/2">
 						<Col className={compose(styles.col)}>
-							<h3><Link to="/introduction/getting-started" className={compose(styles.next__heading)}>Get Started →</Link></h3>
+							<h3><Link to="/getting-started" className={compose(styles.next__heading)}>Get Started →</Link></h3>
 							<p className={compose(styles.next__text)}>Sound like what you've been looking for? Check out the getting started guide and learn how to get up and running in less than a minute.</p>
 						</Col>
 						<Col className={compose(styles.col)}>

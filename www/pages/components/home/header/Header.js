@@ -25,7 +25,7 @@ export default class Header extends Component {
 						<h1 className={compose(styles.intro__title)}>Node.js CMS & web application platform</h1>
 						<p className={compose(styles.intro__lead)}>Keystone is an open source framework for developing database-driven websites, applications and APIs in Node.js. Built on Express and MongoDB.</p>
 						<div className={compose(styles.home_header_buttons)}>
-							<Link to="/guides/yo-generator" className={compose(styles.button_home, styles.button_home_primary)}>Get Started</Link> <a href="https://demo.keystonejs.com" className={compose(styles.button_home, styles.button_home_inverse)}>Try the Demo</a>
+							<Link to="/getting-started" className={compose(styles.button_home, styles.button_home_primary)}>Get Started</Link> <a href="https://demo.keystonejs.com" className={compose(styles.button_home, styles.button_home_inverse)}>Try the Demo</a>
 						</div>
 						<ul className={compose(styles.list_links)}>
 							<li className={compose(styles.list_links_item)}><Link to="/introduction/getting-started" style={{ color: 'white' }}>Read the Documentation</Link></li>

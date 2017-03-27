@@ -1,23 +1,18 @@
 import React from 'react';
 import theme from '../../theme';
-import Link from 'gatsby-link';
 
 import { itemsShape } from './utils';
 import Item from './Item';
 
 const welcome = {
-	section: 'Welcome',
-	slug: '/introduction/getting-started',
-};
-const guides = {
-	section: 'Guides',
-	slug: '/guides',
+	section: 'Getting Started',
+	slug: '/getting-started',
 	items: [{
+		label: 'Getting Started',
+		slug: '',
+	}, {
 		label: 'Keystone Yeoman Generator',
 		slug: '/yo-generator',
-	}, {
-		label: 'Upgrade Guide: 0.3 to 4.0',
-		slug: '/v-0-3-to-v-4-0-upgrade-guide',
 	}, {
 		section: 'Setting Up',
 		slug: '/setting-up',
@@ -34,6 +29,14 @@ const guides = {
 			label: 'Part 4 -  Adding data to the database from a form',
 			slug: '/part-4',
 		}],
+	}],
+};
+const guides = {
+	section: 'Guides',
+	slug: '/guides',
+	items: [{
+		label: 'Upgrade Guide: 0.3 to 4.0',
+		slug: '/v-0-3-to-v-4-0-upgrade-guide',
 	}, {
 		label: 'API File and Image Uploads',
 		slug: '/api-file-image-uploads',
@@ -47,14 +50,20 @@ const guides = {
 };
 const documentation = {
 	section: 'Documentation',
-	slug: '/documentation',
+	slug: '/api',
 	items: [{
+		label: 'Documentation Index',
+		slug: '',
+	}, {
 		label: 'Configuration',
 		slug: '/configuration',
 	}, {
-		section: 'Database Options',
+		section: 'Database',
 		slug: '/database',
 		items: [{
+			label: 'Database Options',
+			slug: '',
+		}, {
 			label: 'Relationships',
 			slug: '/relationships',
 		}],
@@ -62,6 +71,9 @@ const documentation = {
 		section: 'List',
 		slug: '/list',
 		items: [{
+			label: 'Creating a List',
+			slug: '',
+		}, {
 			label: 'Add',
 			slug: '/add',
 		}, {
@@ -144,6 +156,7 @@ const documentation = {
 		}],
 	}, {
 		section: 'Field Types',
+		slug: '/field',
 		items: [{
 			label: 'Field Options',
 			slug: '/options',
@@ -256,7 +269,7 @@ function makeSection (currentPath, layer, level) {
 
 		return (
 			<ul key={idx} css={styles[`menu${level}`]}>
-				<li css={styleChoice}><Link to={currentPath + section.slug} css={{ textDecoration: 'none', color: 'white' }}>{section.section}</Link></li>
+				<li css={styleChoice}>{section.section}</li>
 				{section.items ? section.items.map(function (item) {
 					const newPath = currentPath + section.slug;
 					if (item.items) {
@@ -300,7 +313,7 @@ const styles = {
 		paddingRight: '1em',
 	},
 	section: {
-		fontSize: '1.5em',
+		fontSize: '1.7em',
 		marginTop: '1.8em',
 		opacity: 0.6,
 		padding: `0 1rem`,
@@ -309,9 +322,6 @@ const styles = {
 			paddingLeft: `2rem`,
 			paddingRight: `2rem`,
 		},
-		':hover': {
-			backgroundColor: 'rgba(255, 255, 255, 0.1)',
-		},
 	},
 	subsection: {
 		fontSize: '1.3em',
@@ -319,8 +329,5 @@ const styles = {
 		padding: `0 1rem`,
 		marginLeft: '20px',
 		textTransform: 'uppercase',
-		':hover': {
-			backgroundColor: 'rgba(255, 255, 255, 0.1)',
-		},
 	},
 };
