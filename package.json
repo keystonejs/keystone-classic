@@ -62,7 +62,7 @@
     "mongoose": "4.8.5",
     "morgan": "1.8.1",
     "multer": "0.1.8",
-    "numeral": "2.0.4",
+    "numeral": "2.0.6",
     "object-assign": "4.1.1",
     "qs": "4.0.0",
     "queryfilter": "0.0.4",
