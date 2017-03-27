@@ -28,7 +28,7 @@ export default class Header extends Component {
 							<Link to="/guides/yo-generator" className={compose(styles.button_home, styles.button_home_primary)}>Get Started</Link> <a href="https://demo.keystonejs.com" className={compose(styles.button_home, styles.button_home_inverse)}>Try the Demo</a>
 						</div>
 						<ul className={compose(styles.list_links)}>
-							<li className={compose(styles.list_links_item)}><Link to="/intrdouction/getting-started" style={{ color: 'white' }}>Read the Documentation</Link></li>
+							<li className={compose(styles.list_links_item)}><Link to="/introduction/getting-started" style={{ color: 'white' }}>Read the Documentation</Link></li>
 							<li className={compose(styles.list_item)}>Current Version {version}</li>
 							<li className={compose(styles.list_links_item)}><a href="https://github.com/keystonejs/keystone/blob/master/HISTORY.md" style={{ color: 'white' }}>What's New</a></li>
 							<li className={compose(styles.list_item)}>Free and Open Source (MIT)</li>
