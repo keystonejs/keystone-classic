@@ -6,7 +6,7 @@ import theme from '../../../../theme';
 import { rhythm } from 'utils/typography';
 import { version } from '../../../../../package.json';
 import logo from '../../../../images/logo-inverted.svg';
-import { EntypoTwitter, EntypoGithub } from 'react-entypo';
+import { EntypoTwitter, EntypoGithub, EntypoDocuments } from 'react-entypo';
 
 import continental from '../../../../images/brand-continental.png';
 import event_cinemas from '../../../../images/brand-event_cinemas.png';
@@ -28,12 +28,12 @@ export default class Header extends Component {
 							<Link to="/getting-started" className={compose(styles.button_home, styles.button_home_primary)}>Get Started</Link> <a href="https://demo.keystonejs.com" className={compose(styles.button_home, styles.button_home_inverse)}>Try the Demo</a>
 						</div>
 						<ul className={compose(styles.list_links)}>
-							<li className={compose(styles.list_links_item)}><Link to="/introduction/getting-started" style={{ color: 'white' }}>Read the Documentation</Link></li>
 							<li className={compose(styles.list_item)}>Current Version {version}</li>
 							<li className={compose(styles.list_links_item)}><a href="https://github.com/keystonejs/keystone/blob/master/HISTORY.md" style={{ color: 'white' }}>What's New</a></li>
 							<li className={compose(styles.list_item)}>Free and Open Source (MIT)</li>
 						</ul>
 						<ul className={compose(styles.list_links)}>
+							<li className={compose(styles.list_links_item)}><EntypoDocuments /> <Link to="/documentation" style={{ color: 'white' }}>Read the Documentation</Link></li>
 							<li className={compose(styles.list_links_item)}><a href="https://twitter.com/keystonejs" style={{ color: 'white' }}><EntypoTwitter /> Follow @KeysoneJS on Twitter</a></li>
 							<li className={compose(styles.list_links_item)}><a href="http://github.com/keystonejs/keystone" style={{ color: 'white' }}><EntypoGithub /> Star on GitHub</a></li>
 						</ul>
