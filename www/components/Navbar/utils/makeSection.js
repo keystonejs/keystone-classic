@@ -3,11 +3,11 @@ import Item from '../Item';
 
 export default function makeSection (currentPath, layer, depth) {
 	return layer.map((section, idx) => {
-		const styleChoice = depth === 1 ? styles.section : styles.subsection;
+		const sectionStyles = depth === 1 ? styles.section : styles.subsection;
 
 		return (
 			<ul key={idx} css={[styles.menu, styles[`menu_depth_${depth}`]]}>
-				<li css={styleChoice}>{section.section}</li>
+				<li css={sectionStyles}>{section.section}</li>
 
 				{section.items ? section.items.map(function (item) {
 					const newPath = currentPath + section.slug;

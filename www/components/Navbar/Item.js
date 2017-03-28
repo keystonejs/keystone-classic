@@ -3,7 +3,6 @@ import Link from 'gatsby-link';
 import theme from '../../theme';
 
 export default function Item ({ depth, title, url }) {
-	console.log('depth', depth);
 	return (
 		<li css={styles.item} key={url}>
 			<Link
@@ -19,6 +18,7 @@ export default function Item ({ depth, title, url }) {
 };
 
 Item.propTypes = {
+	depth: PropTypes.number.isRequired,
 	title: PropTypes.string.isRequired,
 	url: PropTypes.string.isRequired,
 };
