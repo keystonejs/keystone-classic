@@ -25,7 +25,7 @@ We should have installed keystone. We need at least the following in our `keysto
 var keystone = require('keystone');
 
 keystone.init({
-	'cookie secret': 'secure string goes here',
+  'cookie secret': 'secure string goes here',
 });
 
 keystone.start();
@@ -44,17 +44,17 @@ Our two properties are `views` and `view engine`. The first allows us to set a f
 We are going to want to set them as:
 
 ```javascript
-	views: 'templates/views',
-	'view engine': 'pug',
+  views: 'templates/views',
+  'view engine': 'pug',
 ```
 
 which will give us an init looking something like:
 
 ```javascript
 keystone.init({
-	'cookie secret': 'secure string goes here',
-	views: 'templates/views',
-	'view engine': 'pug',
+  'cookie secret': 'secure string goes here',
+  views: 'templates/views',
+  'view engine': 'pug',
 });
 ```
 
@@ -98,7 +98,7 @@ The most basic form of it would look like:
 
 ```javascript
 exports = module.exports = function (app) {
-	app.get('/', routeFunction);
+  app.get('/', routeFunction);
 };
 ```
 
@@ -111,11 +111,11 @@ var keystone = require('keystone');
 var importRoutes = keystone.importer(__dirname);
 
 var routes = {
-	views: importRoutes('./views'),
+  views: importRoutes('./views'),
 };
 
 exports = module.exports = function (app) {
-	app.get('/', routes.views.index)
+  app.get('/', routes.views.index)
 };
 ```
 
@@ -141,7 +141,7 @@ What we are going to want in this instance is to render our first view. For that
 
 ```javascript
 module.exports = function (req, res) {
-    res.render('index');
+  res.render('index');
 };
 ```
 

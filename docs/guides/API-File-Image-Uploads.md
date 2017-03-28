@@ -39,11 +39,11 @@ var Types = keystone.Field.Types;
 var FileUpload = new keystone.List('FileUpload');
 
 var myStorage = new keystone.Storage({
-    adapter: keystone.Storage.Adapters.FS,
-    fs: {
-        path: keystone.expandPath('./public/uploads/files'), // required; path where the files should be stored
-        publicPath: '/public/uploads/files', // path where files will be served
-    }
+  adapter: keystone.Storage.Adapters.FS,
+  fs: {
+    path: keystone.expandPath('./public/uploads/files'), // required; path where the files should be stored
+    publicPath: '/public/uploads/files', // path where files will be served
+  }
 });
 
 FileUpload.add({

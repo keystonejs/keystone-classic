@@ -10,10 +10,10 @@ Example:
 var importRoutes = keystone.importer(__dirname);
 
 var routes = {
-	views: importRoutes('./views'),
+  views: importRoutes('./views'),
 };
 
 exports = module.exports = function (app) {
-	app.get('/', routes.views.index)
+  app.get('/', routes.views.index)
 };
 ```

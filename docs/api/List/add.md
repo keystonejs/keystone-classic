@@ -10,8 +10,8 @@ Example call:
 var Cat = new keystone.List('Cat');
 
 Cat.add({
-	name: { type: String },
-	age: { type: Number },
+  name: { type: String },
+  age: { type: Number },
 });
 ```
 

@@ -12,22 +12,22 @@ A new list will be created with the following default options:
 
 ```javascript
 {
-		schema: {
-			collection: keystone.prefixModel(key),
-		},
-		noedit: false,
-		nocreate: false,
-		nodelete: false,
-		autocreate: false,
-		sortable: false,
-		hidden: false,
-		track: false,
-		inherits: false,
-		perPage: 100,
-		searchFields: '__name__',
-		searchUsesTextIndex: false,
-		defaultSort: '__default__',
-		defaultColumns: '__name__',
+  schema: {
+    collection: keystone.prefixModel(key),
+  },
+  noedit: false,
+  nocreate: false,
+  nodelete: false,
+  autocreate: false,
+  sortable: false,
+  hidden: false,
+  track: false,
+  inherits: false,
+  perPage: 100,
+  searchFields: '__name__',
+  searchUsesTextIndex: false,
+  defaultSort: '__default__',
+  defaultColumns: '__name__',
 };
 ```
 

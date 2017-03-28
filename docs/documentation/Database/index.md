@@ -45,22 +45,22 @@ var keystone = require('keystone');
 var Types = keystone.Field.Types;
 
 var Post = new keystone.List('Post', {
-    autokey: { path: 'slug', from: 'title', unique: true },
-    map: { name: 'title' },
-    defaultSort: '-createdAt'
+  autokey: { path: 'slug', from: 'title', unique: true },
+  map: { name: 'title' },
+  defaultSort: '-createdAt'
 });
 
 Post.add({
-    title: { type: String, required: true },
-    state: { type: Types.Select, options: 'draft, published, archived', default: 'draft' },
-    author: { type: Types.Relationship, ref: 'User' },
-    createdAt: { type: Date, default: Date.now },
-    publishedAt: Date,
-    image: { type: Types.CloudinaryImage },
-    content: {
-        brief: { type: Types.Html, wysiwyg: true, height: 150 },
-        extended: { type: Types.Html, wysiwyg: true, height: 400 }
-    }
+  title: { type: String, required: true },
+  state: { type: Types.Select, options: 'draft, published, archived', default: 'draft' },
+  author: { type: Types.Relationship, ref: 'User' },
+  createdAt: { type: Date, default: Date.now },
+  publishedAt: Date,
+  image: { type: Types.CloudinaryImage },
+  content: {
+    brief: { type: Types.Html, wysiwyg: true, height: 150 },
+    extended: { type: Types.Html, wysiwyg: true, height: 400 }
+  }
 });
 
 Post.defaultColumns = 'title, state|20%, author, publishedAt|15%'
@@ -90,10 +90,10 @@ If there would be several relationships that may be relevant to display in the d
 
 ```javascript
 var Post = new keystone.List('Post', {
-    autokey: { path: 'slug', from: 'title', unique: true },
-    map: { name: 'title' },
-    defaultSort: '-createdAt',
-    drilldown: 'author' // author is defined as a Relationship field in the example above
+  autokey: { path: 'slug', from: 'title', unique: true },
+  map: { name: 'title' },
+  defaultSort: '-createdAt',
+  drilldown: 'author' // author is defined as a Relationship field in the example above
 });
 ```
 
@@ -109,15 +109,13 @@ Parent lists may not themselves inherit from other lists.
 var keystone = require('keystone');
 
 var BasePage = new keystone.List('BasePage', {
-   map: { name: 'title' },
-	    autokey: { path: 'slug', from: 'title', unique: true },
-	});
-BasePage.add(
-	{
-		title: { type: String, required: true },
-		slug: { type: String, readonly: true },
-	}
-);
+  map: { name: 'title' },
+  autokey: { path: 'slug', from: 'title', unique: true },
+});
+BasePage.add({
+  title: { type: String, required: true },
+  slug: { type: String, readonly: true },
+});
 BasePage.register();
 
 var ChildPage = new keystone.List('ChildPage', { inherits: BasePage });
@@ -137,14 +135,14 @@ Before calling `Post.register()`, we would add the following code:
 
 ```javascript
 Post.schema.methods.isPublished = function() {
-    return this.state == 'published';
+  return this.state == 'published';
 }
 
 Post.schema.pre('save', function(next) {
-    if (this.isModified('state') && this.isPublished() && !this.publishedAt) {
-        this.publishedAt = new Date();
-    }
-    next();
+  if (this.isModified('state') && this.isPublished() && !this.publishedAt) {
+    this.publishedAt = new Date();
+  }
+  next();
 });
 ```
 
@@ -157,17 +155,17 @@ To query data, you can use any of the [mongoose query](http://mongoosejs.com/doc
 **Loading Posts**
 
 ```javascript
-var keystone = require('keystone'),
-    Post = keystone.list('Post');
+var keystone = require('keystone');
+var Post = keystone.list('Post');
 
 Post.model.find()
-    .where('state', 'published')
-    .populate('author')
-    .sort('-publishedAt')
-    .limit(5)
-    .exec(function(err, posts) {
-        // do something with posts
-    });
+  .where('state', 'published')
+  .populate('author')
+  .sort('-publishedAt')
+  .limit(5)
+  .exec(function(err, posts) {
+    // do something with posts
+  });
 ```
 
 ### Promises
@@ -179,22 +177,22 @@ For example: load `100` posts, then do something asynchronous, then do something
 **Loading Posts, doing something asynchronous, doing something**
 
 ```javascript
-var keystone = require('keystone'),
-    Post = keystone.list('Post');
+var keystone = require('keystone');
+var Post = keystone.list('Post');
 
 Post.model.find()
-    .limit(100)
-    .exec()
-    .then(function (posts) { //first promise fulfilled
-        //return another async promise
-    }, function (err) { //first promise rejected
-        throw err;
-    }).then(function (result) { //second promise fulfilled
-        //do something with final results
-    }, function (err) { //something happened
-        //catch the error, it can be thrown by any promise in the chain
-        console.log(err);
-    });
+  .limit(100)
+  .exec()
+  .then(function (posts) { //first promise fulfilled
+    //return another async promise
+  }, function (err) { //first promise rejected
+    throw err;
+  }).then(function (result) { //second promise fulfilled
+    //do something with final results
+  }, function (err) { //something happened
+    //catch the error, it can be thrown by any promise in the chain
+    console.log(err);
+  });
 ```
 
 Pagination Querying
@@ -208,19 +206,19 @@ To create new items, again use the [mongoose model](http://mongoosejs.com/docs/m
 **Creating Posts**
 
 ```javascript
-var keystone = require('keystone'),
-    Post = keystone.list('Post');
+var keystone = require('keystone')
+var Post = keystone.list('Post');
 
 var newPost = new Post.model({
-    title: 'New Post'
+  title: 'New Post'
 });
 
 if (shouldBePublished) {
-    newPost.state = 'published';
+  newPost.state = 'published';
 }
 
 newPost.save(function(err) {
-    // post has been saved
+  // post has been saved
 });
 ```
 
@@ -235,13 +233,13 @@ To delete items, first load the data, then use the `remove` method:
 **Deleting a Post**
 
 ```javascript
-var keystone = require('keystone'),
-    Post = keystone.list('Post');
+var keystone = require('keystone')
+var Post = keystone.list('Post');
 
 Post.model.findById(postId)
-    .remove(function(err) {
-        // post has been deleted
-    });
+  .remove(function(err) {
+    // post has been deleted
+  });
 ```
 
 ## Headings
@@ -250,16 +248,16 @@ Define headings to display within the flow of your documents. Headings can be de
 
 ```javascript
 Person.add(
-	'User',
-	{ name: { type: Types.Name, required: true, index: true, initial: true } },
-	'Permissions',
-	{ isAdmin: { type: Boolean, label: 'Can access Keystone', index: true } },
-	// header object
-	{ heading: 'Activities' },
-	{ place: { type: Types.Select, options: ['GT', 'UGA'] } },
-	// header with dependsOn
-	{ heading: "GT Activities", dependsOn: { place: 'GT' } },
-	{ type: { type: Types.Select, options: ['ZC', 'MP'], dependsOn: { place: 'GT'} }
+  'User',
+  { name: { type: Types.Name, required: true, index: true, initial: true } },
+  'Permissions',
+  { isAdmin: { type: Boolean, label: 'Can access Keystone', index: true } },
+  // header object
+  { heading: 'Activities' },
+  { place: { type: Types.Select, options: ['GT', 'UGA'] } },
+  // header with dependsOn
+  { heading: "GT Activities", dependsOn: { place: 'GT' } },
+  { type: { type: Types.Select, options: ['ZC', 'MP'], dependsOn: { place: 'GT'} }
 );
 ```
 
@@ -305,10 +303,10 @@ Some field types include helpful **underscore methods**, which are available on 
 **For example**: use the `format` underscore method of the `createdAt` `DateTime` field of the Posts List (above) like this
 
 ```javascript
-var keystone = require('keystone'),
-    Post = keystone.list('Post');
+var keystone = require('keystone');
+var Post = keystone.list('Post');
 
 Post.model.findById(postId).exec(function(err, post) {
-   console.log(post._.createdAt.format('Do MMMM YYYY')); // 25th August 2013
+  console.log(post._.createdAt.format('Do MMMM YYYY')); // 25th August 2013
 });
 ```

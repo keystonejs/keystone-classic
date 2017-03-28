@@ -8,6 +8,6 @@ Example:
 
 ```javascript
 User.schema.virtual('canAccessKeystone').get(function () {
-	if (this.isAdmin) return true;
+  if (this.isAdmin) return true;
 });
 ```

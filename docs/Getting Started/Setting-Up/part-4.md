@@ -13,27 +13,27 @@ var Types = keystone.Field.Types;
 var Event = new keystone.List('Event');
 
 Event.add({
-	name: { type: String, required: true, initial: true },
-	description: { type: Types.Html, wysiwyg: true },
-	cost: { type: Number, default: 0, size: 'small' },
-	startTime: { type: Types.Datetime, required: true, initial: true, index: true },
-	endTime: { type: Types.Datetime, required: true, initial: true, index: true },
-	location: { type: Types.Location, required: false, initial: true },
+  name: { type: String, required: true, initial: true },
+  description: { type: Types.Html, wysiwyg: true },
+  cost: { type: Number, default: 0, size: 'small' },
+  startTime: { type: Types.Datetime, required: true, initial: true, index: true },
+  endTime: { type: Types.Datetime, required: true, initial: true, index: true },
+  location: { type: Types.Location, required: false, initial: true },
 
-	published: { type: Boolean },
-	publishDate: { type: Types.Date, index: true },
+  published: { type: Boolean },
+  publishDate: { type: Types.Date, index: true },
 });
 
 Event.schema.virtual('canAccessKeystone').get(function () {
-	return true;
+  return true;
 });
 
 Event.schema.pre('save', function (next) {
-	let event = this;
-	if (event.isModified('published') && event.published) {
-		this.publishDate = Date.now();
-	}
-	return next();
+  let event = this;
+  if (event.isModified('published') && event.published) {
+    this.publishDate = Date.now();
+  }
+  return next();
 });
 
 Event.defaultColumns = 'displayName, email';
@@ -69,37 +69,37 @@ As we are not a pug tutorial, here's a page we prepared earlier:
 ```jade
 doctype html
 html(lang="en")
-	head
-		title= "Add Event"
-	body
-		if enquirySumbitted
-			h3 Your Event has been added to the database
-		else
-			.container
-				.row: .col-sm-8.col-md-6
-					form(method='post')
-						input(type='hidden', name='action')
-						.form-group
-							label Event Name
-							input(type='text', name='name')
-						.form-group
-							label Start Time
-							input(type='datetime-local', name='startTime')
-						.form-group
-							label End Time
-							input(type='datetime-local', name='endTime')
-						.form-group
-							label Description
-							textarea(name='description', placeholder='event description...' rows=4)
-						.form-actions
-							button(type='submit').btn.btn-primary Send
+  head
+    title= "Add Event"
+  body
+    if enquirySumbitted
+      h3 Your Event has been added to the database
+    else
+      .container
+        .row: .col-sm-8.col-md-6
+          form(method='post')
+            input(type='hidden', name='action')
+            .form-group
+              label Event Name
+              input(type='text', name='name')
+            .form-group
+              label Start Time
+              input(type='datetime-local', name='startTime')
+            .form-group
+              label End Time
+              input(type='datetime-local', name='endTime')
+            .form-group
+              label Description
+              textarea(name='description', placeholder='event description...' rows=4)
+            .form-actions
+              button(type='submit').btn.btn-primary Send
 ```
 
 Next, we want to add a really simple route. The contents of `routes/views/addEvent.js` should be:
 
 ```javascript
 module.exports = function (req, res) {
-	res.render('addEvent');
+  res.render('addEvent');
 };
 ```
 
@@ -115,8 +115,8 @@ so we should now have in our index:
 
 ```javascript
 exports = module.exports = function (app) {
-	app.get('/', routes.views.index)
-	app.get('/add-event', routes.views.addEvent)
+  app.get('/', routes.views.index)
+  app.get('/add-event', routes.views.addEvent)
 };
 ```
 
@@ -133,8 +133,8 @@ First, we want to add a second property to our routes object to read in our api 
 
 ```javascript
 var routes = {
-	views: importRoutes('./views'),
-	api: importRoutes('./api'),
+  views: importRoutes('./views'),
+  api: importRoutes('./api'),
 };
 ```
 
@@ -163,9 +163,9 @@ We can assign these to their own variables in our function to give us:
 
 ```javascript
 module.exports = function (req, res) {
-	if (!req.body.name || !req.body.startTime || !req.body.endTime) {
-		return res.sendError('incomplete data set');
-	}
+  if (!req.body.name || !req.body.startTime || !req.body.endTime) {
+    return res.sendError('incomplete data set');
+  }
 };
 ```
 
@@ -203,12 +203,12 @@ var keystone = require('keystone');
 var Event = keystone.list('Event');
 
 module.exports = function (req, res) {
-	if (!req.body.name || !req.body.startTime || !req.body.endTime) {
-		return res.sendError({ status: 'incomplete data set' });
-	}
+  if (!req.body.name || !req.body.startTime || !req.body.endTime) {
+    return res.sendError({ status: 'incomplete data set' });
+  }
 
-	var newEvent = new Event();
-	Event.updateItem(newEvent, req.body);
+  var newEvent = new Event();
+  Event.updateItem(newEvent, req.body);
 
 };
 ```
@@ -219,9 +219,9 @@ The one flaw here is we never give a response to our waiting website to tell it 
 
 ```javascript
 Event.updateItem(newEvent, req.body, function (error) {
-	res.locals.enquirySubmitted = true;
-	if (error) res.locals.saveError = true;
-	res.render('addEvent');
+  res.locals.enquirySubmitted = true;
+  if (error) res.locals.saveError = true;
+  res.render('addEvent');
 });
 ```
 

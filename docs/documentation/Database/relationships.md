@@ -14,8 +14,8 @@ For example, if you wanted to link a **Post** model to a single **Author** and m
 
 ```javascript
 Post.add({
-    author: { type: Types.Relationship, ref: 'User' },
-    categories: { type: Types.Relationship, ref: 'PostCategory', many: true }
+  author: { type: Types.Relationship, ref: 'User' },
+  categories: { type: Types.Relationship, ref: 'PostCategory', many: true }
 });
 ```
 
@@ -29,9 +29,9 @@ In the example below, the `author` field will only allow selection of a `User` w
 
 ```javascript
 Post.add({
-    title: { type: String, required: true },
-    category: { type: Types.Select, options: 'user, editor, admin', default: 'user' },
-    author: { type: Types.Relationship, ref: 'User', filters: { group: 'admin' } }
+  title: { type: String, required: true },
+  category: { type: Types.Select, options: 'user, editor, admin', default: 'user' },
+  author: { type: Types.Relationship, ref: 'User', filters: { group: 'admin' } }
 });
 ```
 
@@ -41,9 +41,9 @@ In the example below, the `author` field will only allow selection of a `User` w
 
 ```javascript
 Post.add({
-    title: { type: String, required: true },
-    category: { type: Types.Select, options: 'user, editor, admin', default: 'user' },
-    author: { type: Types.Relationship, ref: 'User', filters: { group: ':category' } }
+  title: { type: String, required: true },
+  category: { type: Types.Select, options: 'user, editor, admin', default: 'user' },
+  author: { type: Types.Relationship, ref: 'User', filters: { group: ':category' } }
 });
 ```
 
@@ -53,9 +53,9 @@ In the example below, the `bestPost` field will only allow selection of a `Post`
 
 ```javascript
 User.add({
-    name: { type: String, required: true },
-    group: { type: Types.Select, options: 'user, editor, admin', default: 'user' },
-    bestPost: { type: Types.Relationship, ref: 'Post', filters: { author: ':_id' } }
+  name: { type: String, required: true },
+  group: { type: Types.Select, options: 'user, editor, admin', default: 'user' },
+  bestPost: { type: Types.Relationship, ref: 'Post', filters: { author: ':_id' } }
 });
 ```
 
@@ -68,8 +68,8 @@ You can populate related data for relationship fields thanks to [Mongoose's popu
 
 ```javascript
 Post.model.findOne().populate('author categories').exec(function(err, post) {
-    // the author is a fully populated User document
-    console.log(post.author.name);
+  // the author is a fully populated User document
+  console.log(post.author.name);
 });
 ```
 
@@ -111,7 +111,7 @@ Filtering one-to-many related items is easy; simply specify the ID of the item y
 
 ```javascript
 Post.model.find().where('author', author.id).exec(function(err, posts) {
-    // ...
+  // ...
 });
 ```
 
@@ -119,6 +119,6 @@ To filter many-to-many related items, use an `in` condition and specify one (or 
 
 ```javascript
 Post.model.find().where('categories').in([category.id]).exec(function(err, posts) {
-    // ...
+  // ...
 });
 ```

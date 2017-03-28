@@ -12,7 +12,7 @@ Example:
 
 ```javascript
 keystone.start(function () {
-	console.log('Application is now running')
+  console.log('Application is now running')
 })
 ```
 

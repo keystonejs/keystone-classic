@@ -20,14 +20,14 @@ Updates are only run once, and each completed update is logged in an `app_update
 Creates a new admin User
 
 ```javascript
-var keystone = require('keystone'),
-    User = keystone.list('User');
+var keystone = require('keystone');
+var User = keystone.list('User');
 
 exports = module.exports = function(done) {
-    new User.model({
-        name: { first: 'Admin', last: 'User' },
-        password: 'admin',
-        isAdmin: true
-    }).save(done);
+  new User.model({
+    name: { first: 'Admin', last: 'User' },
+    password: 'admin',
+    isAdmin: true
+  }).save(done);
 };
 ```

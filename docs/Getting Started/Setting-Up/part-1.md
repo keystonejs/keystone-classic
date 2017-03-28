@@ -37,7 +37,7 @@ The minimum file we need to start keystone running is:
 var keystone = require('keystone');
 
 keystone.init({
-	'cookie secret': 'secure string goes here',
+  'cookie secret': 'secure string goes here',
 });
 
 keystone.start();

@@ -117,10 +117,10 @@ var Types = keystone.Field.Types;
 var User = new keystone.List('User');
 
 User.add({
-    name: { type: Types.Name, required: true, index: true },
-    email: { type: Types.Email, initial: true, required: true, index: true },
-    password: { type: Types.Password, initial: true },
-    canAccessKeystone: { type: Boolean, initial: true }
+  name: { type: Types.Name, required: true, index: true },
+  email: { type: Types.Email, initial: true, required: true, index: true },
+  password: { type: Types.Password, initial: true },
+  canAccessKeystone: { type: Boolean, initial: true }
 });
 
 User.register();
@@ -166,28 +166,28 @@ keystone.pre('render', middleware.flashMessages);
 
 // Handle 404 errors
 keystone.set('404', function(req, res, next) {
-    res.notfound();
+  res.notfound();
 });
 
 // Handle other errors
 keystone.set('500', function(err, req, res, next) {
-    var title, message;
-    if (err instanceof Error) {
-        message = err.message;
-        err = err.stack;
-    }
-    res.err(err, title, message);
+  var title, message;
+  if (err instanceof Error) {
+    message = err.message;
+    err = err.stack;
+  }
+  res.err(err, title, message);
 });
 
 // Load Routes
 var routes = {
-    views: importRoutes('./views')
+  views: importRoutes('./views')
 };
 
 // Bind Routes
 exports = module.exports = function(app) {
 
-    app.get('/', routes.views.index);
+  app.get('/', routes.views.index);
 
 }
 ```
@@ -196,13 +196,13 @@ exports = module.exports = function(app) {
 
 - Load `keystone`, the `middleware.js` file (below), and create an `importer` for the current directory
 - Bind middleware (below) that
-	- Initialises our basic error handlers
-	- Initialises common local variables for our view templates
-	- Retrieves flash messages from session before the view template is rendered
+  - Initialises our basic error handlers
+  - Initialises common local variables for our view templates
+  - Retrieves flash messages from session before the view template is rendered
 - Tell Keystone how to handle `404` and `500` errors
 - Use the importer to load all the route controllers in the `/routes/views` directory
 - Export a method that binds the index route controller to `GET` requests on the root url `/`
-	- The `app` argument to this method our express app, so anything you can do binding routes in express, you can do here.
+  - The `app` argument to this method our express app, so anything you can do binding routes in express, you can do here.
 - Additional route controllers that you add to your app should be added using `app.get`, `app.post` or `app.all` under your root controller.
 
 ## Common Route Middleware
@@ -216,18 +216,18 @@ This script includes common middleware for your application routes
 var _ = require('lodash');
 
 /**
-    Initialises the standard view locals.
-    Include anything that should be initialised before route controllers are executed.
+  Initialises the standard view locals.
+  Include anything that should be initialised before route controllers are executed.
 */
 exports.initLocals = function(req, res, next) {
 
-    var locals = res.locals;
+  var locals = res.locals;
 
-    locals.user = req.user;
+  locals.user = req.user;
 
-    // Add your own local variables here
+  // Add your own local variables here
 
-    next();
+  next();
 
 };
 
@@ -236,40 +236,40 @@ exports.initLocals = function(req, res, next) {
 */
 exports.initErrorHandlers = function(req, res, next) {
 
-    res.err = function(err, title, message) {
-        res.status(500).render('errors/500', {
-            err: err,
-            errorTitle: title,
-            errorMsg: message
-        });
-    }
+  res.err = function(err, title, message) {
+    res.status(500).render('errors/500', {
+      err: err,
+      errorTitle: title,
+      errorMsg: message
+    });
+  }
 
-    res.notfound = function(title, message) {
-        res.status(404).render('errors/404', {
-            errorTitle: title,
-            errorMsg: message
-        });
-    }
+  res.notfound = function(title, message) {
+    res.status(404).render('errors/404', {
+      errorTitle: title,
+      errorMsg: message
+    });
+  }
 
-    next();
+  next();
 
 };
 
 /**
-    Fetches and clears the flashMessages before a view is rendered
+  Fetches and clears the flashMessages before a view is rendered
 */
 exports.flashMessages = function(req, res, next) {
 
-    var flashMessages = {
-        info: req.flash('info'),
-        success: req.flash('success'),
-        warning: req.flash('warning'),
-        error: req.flash('error')
-    };
+  var flashMessages = {
+    info: req.flash('info'),
+    success: req.flash('success'),
+    warning: req.flash('warning'),
+    error: req.flash('error')
+  };
 
-    res.locals.messages = _.some(flashMessages, function(msgs) { return msgs.length }) ? flashMessages : false;
+  res.locals.messages = _.some(flashMessages, function(msgs) { return msgs.length }) ? flashMessages : false;
 
-    next();
+  next();
 
 };
 ```
@@ -317,30 +317,30 @@ include ../mixins/flash-messages
 
 doctype html
 html
-    head
-        meta(charset="utf-8")
-        meta(name="viewport", content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width")
+  head
+    meta(charset="utf-8")
+    meta(name="viewport", content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width")
 
-        title= title || 'My Keystone Website'
-        link(href="/styles/site.min.css", rel="stylesheet")
+    title= title || 'My Keystone Website'
+    link(href="/styles/site.min.css", rel="stylesheet")
 
-        block css
-        block head
-    body
+    block css
+    block head
+  body
 
-        #header My Keystone Website
+    #header My Keystone Website
 
-        #body
+    #body
 
-            block intro
+      block intro
 
-            +flash-messages(messages)
+      +flash-messages(messages)
 
-            block content
+      block content
 
-        #footer Powered by <a href='http://keystonejs.com', target='_blank'>KeystoneJS</a>.
+    #footer Powered by <a href='http://keystonejs.com', target='_blank'>KeystoneJS</a>.
 
-    block js
+  block js
 ```
 
 We're also have a mixin file `templates/mixins/flash-messages.pug` which we can add to include the `flash-messages`. Including mixins in your layout or view templates is a great way to keep your layout and view files clean, and re-use mixins across multiple views.
@@ -350,30 +350,30 @@ Our flash-messages mixin
 
 ```jade
 mixin flash-messages(messages)
-    if messages
-        #flash-messages.container
-            each message in messages.info
-                +flash-message(message, 'info')
-            each message in messages.success
-                +flash-message(message, 'success')
-            each message in messages.warning
-                +flash-message(message, 'warning')
-            each message in messages.error
-                +flash-message(message, 'danger')
+  if messages
+    #flash-messages.container
+      each message in messages.info
+        +flash-message(message, 'info')
+      each message in messages.success
+        +flash-message(message, 'success')
+      each message in messages.warning
+        +flash-message(message, 'warning')
+      each message in messages.error
+        +flash-message(message, 'danger')
 
 mixin flash-message(message, type)
-    div(class='alert alert-' + type)
-        if utils.isObject(message)
-            if message.title
-                h4= message.title
-            if message.detail
-                p= message.detail
-            if message.list
-                ul
-                    each item in message.list
-                        li= item
-        else
-            = message
+  div(class='alert alert-' + type)
+    if utils.isObject(message)
+      if message.title
+        h4= message.title
+      if message.detail
+        p= message.detail
+      if message.list
+        ul
+          each item in message.list
+            li= item
+    else
+      = message
 ```
 
 ### Using other template languages
@@ -428,13 +428,12 @@ var keystone = require('keystone');
 var User = keystone.list('User');
 
 exports = module.exports = function(done) {
-
-    new User.model({
-        name: { first: 'Admin', last: 'User' },
-        email: 'admin@keystonejs.com',
-        password: 'admin',
-        canAccessKeystone: true
-    }).save(done);
+  new User.model({
+    name: { first: 'Admin', last: 'User' },
+    email: 'admin@keystonejs.com',
+    password: 'admin',
+    canAccessKeystone: true
+  }).save(done);
 
 };
 ```

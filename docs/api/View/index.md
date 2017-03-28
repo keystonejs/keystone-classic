@@ -6,9 +6,9 @@ Keystone has a concept of views, which are used to help with rendering a view fr
 
 ```javascript
 module.exports = function (req, res) {
-	var view = new keystone.View(req, res);
+  var view = new keystone.View(req, res);
 
-	view.render('view-filename');
+  view.render('view-filename');
 };
 ```
 

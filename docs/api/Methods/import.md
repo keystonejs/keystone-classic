@@ -30,15 +30,15 @@ We will be return an object that looks like:
 
 ```javascript
 {
-    api: {
-        route1: /* contents */
-        route2: /* contents */
-        route3: /* contents */
-    },
-    view: {
-        view1: /* contents */
-        view2: /* contents */
-    },
+  api: {
+    route1: /* contents */
+    route2: /* contents */
+    route3: /* contents */
+  },
+  view: {
+    view1: /* contents */
+    view2: /* contents */
+  },
 };
 ```
 

@@ -99,7 +99,7 @@ The `this` context of the function will be the item being saved.
 
 ```javascript
 function () {
-    return this.total<=this.totalreceived ? true:false;
+  return this.total<=this.totalreceived ? true:false;
 }
 ```
 
@@ -107,8 +107,8 @@ function () {
 
 ```javascript
 function (callback) { // BEWARE: MUST be called "callback" to allow asynchronous execution
-	list.model.findById(this.createdBy).exec(function(err, user){
-		callback(err, user.name + "-" + Date.now());
-	});
+  list.model.findById(this.createdBy).exec(function(err, user){
+    callback(err, user.name + "-" + Date.now());
+  });
 }
 ```

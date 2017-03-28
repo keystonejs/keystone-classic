@@ -10,7 +10,7 @@ Example:
 
 ```javascript
 view.on('init', function (next) {
-	/* an action */
+  /* an action */
 })
 ```
 
@@ -27,8 +27,8 @@ Example for post request:
 
 ```javascript
 view.on('post', { action: 'theAction' }, function(next) {
-	// respond to the action
-	next();
+  // respond to the action
+  next();
 });
 ```
 
@@ -36,7 +36,7 @@ Example for get request:
 
 ```javascript
 view.on('get', { page: 2 }, function(next) {
-	// do something specifically on ?page=2
-	next();
+  // do something specifically on ?page=2
+  next();
 });
 ```

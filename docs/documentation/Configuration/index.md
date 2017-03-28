@@ -76,8 +76,8 @@ If you had `User`, `Post` and `PostCategory` models, you could group the posts a
 
 ```javascript
 keystone.set('nav', {
-	'users': 'users',
-	'content': ['posts', 'post-categories']
+  'users': 'users',
+  'content': ['posts', 'post-categories']
 });
 ```
 
@@ -199,9 +199,9 @@ Set this to enable processing of the HTTP request `X-Forwarded-For` header. Extr
 
 ```javascript
 keystone.start({
-    onHttpServerCreated: function() {
-      var server = keystone.httpServer;
-    }
+  onHttpServerCreated: function() {
+    var server = keystone.httpServer;
+  }
 });
 ```
 
@@ -309,7 +309,6 @@ var keystone = require('keystone'),
     ConnectMemcached = require('connect-memcached')
 
 keystone.init({
-  //...
   'session store': function(session){
     return new (ConnectMemcached(session))({
       hosts: [
@@ -424,17 +423,17 @@ Allow you to change the TinyMCE skin. Defaults to `keystone`. See [http://www.ti
 
 ```javascript
 keystone.init({
-	'wysiwyg override toolbar': false,
-	'wysiwyg menubar': true,
-	'wysiwyg skin': 'lightgray',
-	'wysiwyg additional buttons': 'searchreplace visualchars,'
-	 + ' charmap ltr rtl pagebreak paste, forecolor backcolor,'
-	 +' emoticons media, preview print ',
-	'wysiwyg additional plugins': 'example, table, advlist, anchor,'
-	 + ' autolink, autosave, bbcode, charmap, contextmenu, '
-	 + ' directionality, emoticons, fullpage, hr, media, pagebreak,'
-	 + ' paste, preview, print, searchreplace, textcolor,'
-	 + ' visualblocks, visualchars, wordcount',
+  'wysiwyg override toolbar': false,
+  'wysiwyg menubar': true,
+  'wysiwyg skin': 'lightgray',
+  'wysiwyg additional buttons': 'searchreplace visualchars,'
+   + ' charmap ltr rtl pagebreak paste, forecolor backcolor,'
+   +' emoticons media, preview print ',
+  'wysiwyg additional plugins': 'example, table, advlist, anchor,'
+   + ' autolink, autosave, bbcode, charmap, contextmenu, '
+   + ' directionality, emoticons, fullpage, hr, media, pagebreak,'
+   + ' paste, preview, print, searchreplace, textcolor,'
+   + ' visualblocks, visualchars, wordcount',
 });
 ```
 

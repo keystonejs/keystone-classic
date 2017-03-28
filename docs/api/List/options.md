@@ -55,8 +55,8 @@ If you want to update `createdBy` and `updatedBy` on server side saves, you can 
 Example:
 ```javascript
 Event.track = {
-	createdAt: true,
-	createdBy: true,
+  createdAt: true,
+  createdBy: true,
 }
 ```
 
@@ -136,8 +136,8 @@ An example of inheritance would be:
 ```javascript
 var Post = new keystone.List('Post');
 Post.add({
-	name: { type: String, required: true },
-	publishDate: { type: Types.DateTime },
+  name: { type: String, required: true },
+  publishDate: { type: Types.DateTime },
 });
 Post.register();
 var ReferencedArticle = new keystone.List('ReferencedArticle', { inherits: Post });

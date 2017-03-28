@@ -28,18 +28,18 @@ Example
 
 ```javascript
 keystone.createItems({
-	User: [
-		{ name: 'Joe', email: 'some@valid.string' },
-		{ name: 'Jo', email: 'more@valid.string' },
-	],
-	Post: [
-		{ title: 'First!', content: variablePreparedEarlier },
-		{ title: 'Nice first post', content: variablePreparedEarlier2 },
-		{ title: 'Second ;)', content: variablePreparedEarlier3 },
-	],
-	Coffee: [{ type: 'cap', size: 'L' }],
+  User: [
+    { name: 'Joe', email: 'some@valid.string' },
+    { name: 'Jo', email: 'more@valid.string' },
+  ],
+  Post: [
+    { title: 'First!', content: variablePreparedEarlier },
+    { title: 'Nice first post', content: variablePreparedEarlier2 },
+    { title: 'Second ;)', content: variablePreparedEarlier3 },
+  ],
+  Coffee: [{ type: 'cap', size: 'L' }],
 }, { verbose: true}, function (err, stats) {
-	if (err) throw new Error('panic!', err);
-	console.log('our results', stats);
+  if (err) throw new Error('panic!', err);
+  console.log('our results', stats);
 })
 ```

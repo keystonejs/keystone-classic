@@ -17,16 +17,16 @@ var keystone = require('keystone');
 var Post = keystone.list('Post');
 
 Post.paginate({
-	   page: req.query.page || 1,
-	   perPage: 10,
-	   maxPages: 10
-   })
-   .sort('-publishedDate')
-   .populate('author categories')
-   .exec(function(err, results) {
-	   locals.data.posts = results;
-	   next(err);
-   });
+  page: req.query.page || 1,
+  perPage: 10,
+  maxPages: 10
+})
+  .sort('-publishedDate')
+  .populate('author categories')
+  .exec(function(err, results) {
+    locals.data.posts = results;
+    next(err);
+  });
 ```
 
 > NOTE: All parameters of your search should be passed in to the paginate method. Adding additional specificity through calls to mongoose methods such as `where` will not be properly respected.
