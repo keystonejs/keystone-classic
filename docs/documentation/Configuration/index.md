@@ -6,11 +6,26 @@ The options for KeystoneJS cover a range of behaviours, from how the express app
 
 There are three ways to set options:
 
-- Passing a `{ key: 'value' }` configuration `Object` to the [keystone.init(options)](/methods/init) method
-- Calling [keystone.set('key', 'value')](/methods/set)
+- Passing a `{ key: 'value' }` configuration `Object` to the [keystone.init(options)](/api/methods/init) method
+- Calling [keystone.set('key', 'value')](/api/methods/set)
 - Setting environment variables in `process.env`. Only some options support this (noted below).
 
 If you want to keep secret keys and configuration out of your codebase (especially important for open source projects, or projects where not all developers should have access to production config settings) the [dotenv](npmjs.org/package/dotenv) module makes this very easy to manage.
+
+There are four main types of options, listed below:
+
+- [Project Options](/documentation/configuration/#project-options)
+- [Web Server Options](/documentation/configuration/#web-server-options)
+- [Admin UI Options](/documentation/configuration/#admin-ui-options)
+- [Database and User Auth Options](/documentation/configuration/#database-and-user-auth-options)
+
+## Most Important Project Options
+
+### Adding Routes
+
+Keystone allows you to add routes to its internal express app. This is best achieved by setting routes using `keystone.set('routes', routes:function)`.
+
+The second argument of `set` here should be a function that takes in keystone's express instance, and will call express methods to add routes to it. An example of this can be found in our [setting up](/getting-started/setting-up/part-3) guide.
 
 ## Project Options
 
@@ -105,7 +120,7 @@ The ip address to listen for request on. Defaults to `process.env.IP || '127.0.0
 
 The path to your application's **view templates**. This is required for using the `keystone.View` Class, and will also be set on the express app.
 
-If you're following the [recommended project structure](/guides/getting-started/#project-structure), this should be set to `"/templates/views"`.
+If you're following the [recommended project structure](/getting-started/yo-generator/#project-structure), this should be set to `"/templates/views"`.
 
 <h4 data-primitive-type="String"><code>view engine</code></h4>
 
@@ -117,7 +132,7 @@ This option is set on the express app ([see docs here](expressjs.com/api.html)).
 
 If you want to use a custom template engine, set this option to the function that should be used to process your templates.
 
-[See below](/configuration/#alternative-view-engines) for an example of how to use the [Swig](https://github.com/paularmstrong/swig) template engine.
+[See below](/documentation/configuration/#alternative-view-engines) for an example of how to use the [Swig](https://github.com/paularmstrong/swig) template engine.
 
 <h4 data-primitive-type="Boolean"><code>view cache</code></h4>
 
@@ -131,7 +146,7 @@ The default local variables to pass to your view templates. Routes can extend or
 
 One or more paths to your application's static files. Setting this will include the `serve-static` middleware.
 
-If you're following the [recommended project structure](/guides/getting-started/#project-structure), this should be set to `'public'`.
+If you're following the [recommended project structure](/getting-started/yo-generator/#project-structure), this should be set to `'public'`.
 
 <h4 data-primitive-type="Object"><code>static options</code></h4>
 
@@ -162,7 +177,7 @@ Optional config options that will be passed to the `sass` middleware; see [githu
 <h4 data-primitive-type="String"><code>favicon</code></h4>
 
 The path to your application's favicon. Setting this will include the `serve-favicon` middleware. Should be relative to your project's root.
-If you're following the [recommended project structure](/guides/getting-started/#project-structure), this should be set to `"/public/favicon.ico"`.
+If you're following the [recommended project structure](/getting-started/yo-generator/#project-structure), this should be set to `"/public/favicon.ico"`.
 
 <h4 data-primitive-type="Boolean"><code>compress</code></h4>
 
@@ -441,7 +456,7 @@ Your Google Analytics Domain. Will default to `process.env.GA_DOMAIN`.
 
 ### Google Maps
 
-Keystone's [Location field type](/field/location/) supports integration with the [Google Maps API](www.morethanamap.com/) to auto-improve values (including discovering latitude and longitude) via the [Places Autocomplete API](developers.google.com/places/web-service/autocomplete).
+Keystone's [Location field type](/api/field/location/) supports integration with the [Google Maps API](www.morethanamap.com/) to auto-improve values (including discovering latitude and longitude) via the [Places Autocomplete API](developers.google.com/places/web-service/autocomplete).
 
 To enable these features, [obtain an API Key from Google](https://code.google.com/apis/console/) and enable the Google Maps v3 and Google Places APIs for it, then set the following options:
 
@@ -483,42 +498,8 @@ This option will default to the EMBEDLY_API_KEY environment variable if it is se
 keystone.set('embedly api key', 'your-key');
 ```
 
-## Application Updates
-
-Keystone includes an updates framework, which you can enable by setting the `auto update` option to `true`.
-
-Updates provide an easy way to seed your database, transition data when your models change, or run transformation scripts against your database.
-
-Update files should be named using a semantic version followed by an optional key, like `0.0.1-init.js`. The version numbers are used to order the update scripts correctly, while the keys are a nice way to identify what each update does.
-
-Each update file should export a single function, which should accept a single argument - the `next(err)` callback, to be called when the update is complete.
-
-All the update files will be executed (each one waits for the previous update to complete) before the web server is started.
-
-If the `next` callback is receives an error it will be reported to the console, and application initialisation will halt.
-
-You can temporarily disable updates from running in development by setting a `__defer__` property on the exported function to `true`. Any subsequent updates will be skipped, but the application will be started.
-
-Updates are only run once, and each completed update is logged in an `app_updates` collection in your database.
-
-**Update Script Example**
-Creates a new admin User
-
-```javascript
-var keystone = require('keystone'),
-    User = keystone.list('User');
-
-exports = module.exports = function(done) {
-    new User.model({
-        name: { first: 'Admin', last: 'User' },
-        password: 'admin',
-        isAdmin: true
-    }).save(done);
-};
-```
-
 ## Disabling the Admin UI
 
 You can disable the Admin UI by setting the `headless` option to `true`.
 
-This will allow you to use `keystone.start()` or `keystone.routes(app)` without Keystone creating route bindings for the Admin UI routes under `/keystone`.
+This will allow you to use `keystone.start()` or `keystone.set('routes', aRouter.)` without Keystone creating route bindings for the Admin UI routes under `/keystone`.

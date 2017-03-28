@@ -24,4 +24,4 @@ If you wish to be more granular, or have callbacks to specific processes, you ca
 
 > Note that these are run asynchronously to the keystone startup process and cannot interrupt or consistently effect
 
-> Note: If you only require the database connection, you can start it using [openDatabaseConnection](/methods/open-database-connection)
+> Note: If you only require the database connection, you can start it using [openDatabaseConnection](/api/methods/open-database-connection)

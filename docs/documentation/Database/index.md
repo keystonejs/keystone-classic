@@ -1,4 +1,4 @@
-# Database Options
+# Database Configuration
 
 ## Concepts
 
@@ -6,7 +6,7 @@ Warn: KeystoneJS requires MongoDB v2.4 or greater.
 
 In KeystoneJS, your data schema and models are controlled by **Lists**, and documents in your database are often called **Items**.
 
-To define a data model, you create a `new keystone.List`, and pass it [list options](/database/#options).
+To define a data model, you create a `new keystone.List`, and pass it [list options](/documentation/database/#options).
 
 You then `add` fields to the list. Behind the scenes, a Keystone List will create a [mongoose schema](http://mongoosejs.com/docs/guide.html), and add the appropriate paths to it for the fields you define.
 
@@ -32,7 +32,7 @@ Fields are defined by an object with a `type` property, which must be a valid Fi
 
 When all the fields and options have been set on the list, call `MyList.register()` to register the list with Keystone and finalise its configuration.
 
-The options can be found [here](/list/options)
+The options can be found [here](/api/list/options)
 
 ### Example
 
@@ -68,13 +68,13 @@ Post.register();
 ```
 
 > NOTE
-> This example implements the optional `map`, `autokey` and `defaultSort` options, see the [api documentation](/list/options) for more details.
+> This example implements the optional `map`, `autokey` and `defaultSort` options, see the [api documentation](/api/list/options) for more details.
 
 > NOTE
 > It also specifies `title`, `state`, `author` and `publishedAt` as the default columns to display in the Admin UI, with state and publishedAt being given column widths.
 
 > NOTE
-> The `author` field is a relationship with the `User` model, as described in the [getting started guide](/guides/getting-started).
+> The `author` field is a relationship with the `User` model, as seen in the [yo generator config](/getting-started/yo-generator).
 
 ## Drilldown Example
 
@@ -199,7 +199,7 @@ Post.model.find()
 
 Pagination Querying
 
-To query data with pagination, you can use [List.paginate](/methods/paginate).
+To query data with pagination, you can use [List.paginate](/api/methods/paginate).
 
 ## Creating Items
 
@@ -246,7 +246,7 @@ Post.model.findById(postId)
 
 ## Headings
 
-Define headings to display within the flow of your documents. Headings can be defined as a `String` or `Object` and can [depend on](/database/#dependsOn) another field value for display.
+Define headings to display within the flow of your documents. Headings can be defined as a `String` or `Object` and can [depend on](/documentation/database/#dependsOn) another field value for display.
 
 ```javascript
 Person.add(

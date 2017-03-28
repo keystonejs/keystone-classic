@@ -61,7 +61,7 @@ keystone.start();
 
 ## Project Structure
 
-The yeoman generator comes with our suggested structure for keystone, designed to make it easy to begin development. Below is the folder structure liad out with explanations of each part.
+The yeoman generator comes with our suggested structure for keystone, designed to make it easy to begin development. Below is the folder structure laid out with explanations of each part.
 
 ```sh
 |--lib

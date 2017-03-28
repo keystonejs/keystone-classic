@@ -76,6 +76,7 @@ const styles = {
 		fontSize: '0.9em',
 		letterSpacing: '0.01em',
 		lineHeight: typography.options.baseLineHeight,
+		paddingBottom: '3em',
 		position: 'relative',
 		width: '100%',
 		zIndex: 1,
