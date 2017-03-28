@@ -2,9 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import Link from 'gatsby-link';
 import MenuIcon from 'react-icons/lib/md/menu';
 import MenuClose from 'react-icons/lib/md/close';
-import DemoIcon from 'react-icons/lib/go/link-external';
 import GithubIcon from 'react-icons/lib/go/mark-github';
-import TwitterIcon from 'react-icons/lib/ti/social-twitter';
 
 import typography from '../../utils/typography';
 import invertedLogo from '../../images/logo-inverted.svg';
@@ -37,10 +35,6 @@ class Navbar extends Component {
 						/>
 					</Link>
 					<div css={styles.header__links}>
-						<a href="http://demo.keystonejs.com" target="_blank" css={styles.header__link}>
-							<DemoIcon css={styles.header__linkIcon} />
-							Demo
-						</a>
 						<a href="https://github.com/keystonejs/keystone" target="_blank" css={styles.header__link}>
 							<GithubIcon css={styles.header__linkIcon} />
 							GitHub
@@ -55,10 +49,6 @@ class Navbar extends Component {
 				<div css={[styles.menu, menuIsOpen && styles.menu__open]}>
 					<Menu items={this.props.items} />
 				</div>
-				<a href="https://twitter.com/keystonejs" target="_blank" css={styles.twitter}>
-					<TwitterIcon css={styles.twitterIcon} />
-					Twitter
-				</a>
 			</aside>
 		);
 	};
@@ -82,7 +72,7 @@ const styles = {
 		letterSpacing: '0.01em',
 		lineHeight: typography.options.baseLineHeight,
 		width: '100%',
-
+		paddingBottom: '3em',
 		[theme.breakpoint.largeUp]: {
 			bottom: 0,
 			height: '100%',
