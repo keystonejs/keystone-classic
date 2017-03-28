@@ -19,7 +19,7 @@ We should have installed keystone. We need at least the following in our `keysto
 var keystone = require('keystone');
 
 keystone.init({
-	'cookie secret': 'secure string goes here',
+  'cookie secret': 'secure string goes here',
 });
 
 keystone.start();
@@ -43,11 +43,11 @@ Our init should now have at least the following properties:
 
 ```javascript
 keystone.init({
-	'cookie secret': 'secure string goes here',
-	'name': 'our-project',
-	'user model': 'User',
-	'auto update': true,
-	'auth': true,
+  'cookie secret': 'secure string goes here',
+  'name': 'our-project',
+  'user model': 'User',
+  'auto update': true,
+  'auth': true,
 });
 ```
 
@@ -92,9 +92,9 @@ We now have a User model from our constructor. This list doesn't have any proper
 
 ```javascript
 User.add({
-	displayName: { type: String },
-	email: { type: keystone.Field.Types.Email, unique: true },
-	password: { type: keystone.Field.Types.Password },
+  displayName: { type: String },
+  email: { type: keystone.Field.Types.Email, unique: true },
+  password: { type: keystone.Field.Types.Password },
 });
 ```
 
@@ -133,7 +133,7 @@ Next, as we want this to be our User model for logging in to the admin UI, we ne
 
 ```javascript
 User.schema.virtual('canAccessKeystone').get(function () {
-	return true;
+  return true;
 });
 ```
 
@@ -155,13 +155,13 @@ var keystone = require('keystone');
 var User = new keystone.List('User');
 
 User.add({
-	displayName: {type: String },
-	email: { type: keystone.Field.Types.Email, unique: true },
-	password: { type: keystone.Field.Types.Password },
+  displayName: {type: String },
+  email: { type: keystone.Field.Types.Email, unique: true },
+  password: { type: keystone.Field.Types.Password },
 });
 
 User.schema.virtual('canAccessKeystone').get(function () {
-	return true;
+  return true;
 });
 
 User.register();
@@ -175,13 +175,13 @@ Make a new directory called `updates` and make a file `0.0.1-first-user.js` in i
 
 ```javascript
 exports.create = {
-	User: [
-		{
-			displayName: 'user1',
-			email: 'user@keystonejs.com',
-			password: 'admin',
-		},
-	],
+  User: [
+    {
+      displayName: 'user1',
+      email: 'user@keystonejs.com',
+      password: 'admin',
+    },
+  ],
 };
 
 ```
@@ -205,26 +205,26 @@ var Types = keystone.Field.Types;
 var Event = new keystone.List('Event');
 
 Event.add({
-	name: { type: String, required: true, initial: true },
-	description: { type: Types.Html, wysiwyg: true },
-	cost: { type: Number, default: 0, size: 'small' },
-	startTime: { type: Types.Datetime, required: true, initial: true, index: true },
-	endTime: { type: Types.Datetime, required: true, initial: true, index: true },
-	location: { type: Types.Location, initial: true },
-	published: { type: Boolean },
-	publishDate: { type: Types.Date, index: true },
+  name: { type: String, required: true, initial: true },
+  description: { type: Types.Html, wysiwyg: true },
+  cost: { type: Number, default: 0, size: 'small' },
+  startTime: { type: Types.Datetime, required: true, initial: true, index: true },
+  endTime: { type: Types.Datetime, required: true, initial: true, index: true },
+  location: { type: Types.Location, initial: true },
+  published: { type: Boolean },
+  publishDate: { type: Types.Date, index: true },
 });
 
 Event.schema.virtual('canAccessKeystone').get(function () {
-	return true;
+  return true;
 });
 
 Event.schema.pre('save', function (next) {
-	let event = this;
-	if (event.isModified('published') && event.published) {
-		this.publishDate = Date.now();
-	}
-	return next();
+  let event = this;
+  if (event.isModified('published') && event.published) {
+    this.publishDate = Date.now();
+  }
+  return next();
 });
 
 Event.defaultColumns = 'displayName, email';
