@@ -4,7 +4,7 @@
 
 The render function renders the view, as well as providing the ability to have queries called as the last step before the content is returned to the user.
 
-The pathname looks for the file or filepath within your defined [views](/configuration/#views) directory. You can also provide it with a function, which will be called. This circumvents project-wide settings.
+The pathname looks for the file or filepath within your defined [views](/documentation/configuration/#views) directory. You can also provide it with a function, which will be called. This circumvents project-wide settings.
 
 Locals passed in will be added to the res.locals to be used by the view. Locals are made available to templating engines for modifying how the view is rendered.
 

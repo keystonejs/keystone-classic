@@ -1,30 +1,28 @@
 # Getting Started
 
+## What is Keystone?
 
-KeystoneJS makes it easy to build database-driven websites, applications and APIs in node.js.
+Keystone is a CMS and web application framework built in node. It aims to make web development easy, with lots of work done for you, but without cutting down on how much you can customise your projects, allowing you to find the right balance for you between convention and customisation.
 
-Under the hood, KeystoneJS uses the [express.js](expressjs.com) web server framework, and a [MongoDB](mongodb.com) database via the [mongoose](mongoosejs.com) object modelling framework.
+It provides you with an easy connection to [mongoDB](https://www.mongodb.com/) It wraps both [mongoose](http://mongoosejs.com/) and [expresss](http://expressjs.com/), and provides more detailed database fields, with setups for common information patterns. Why? For the admin UI.
 
-## Simple vs. Flexible
+Keystone makes it easy to bring your own view engine, structure your routes however you want, and modify your data structures to suit you, all while making doing so easier.
 
-Keystone is designed to make complicated things simple, without limiting the power or flexibility of node.js or the frameworks it is built on.
 
-This guide will show you how to build a KeystoneJS website using the default project structure and options, using the keystone yeoman generator.
+## Where to Begin
 
-To learn more about how things work under the hood, and how you can extend or replace features, we strongly recommend our [setting up keystone](/setting-up) guide, or reading the [source code](https://github.com/keystonejs/keystone).
+### Quick Start Guide
 
-## Prerequisites
-1. Before you begin, make sure you have [Node.js](nodejs.org) and [MongoDB](mongodb.com/download) installed.
-2. You'll need a reasonable working knowledge of Javascript to use KeystoneJS, as well as familiarity with basics such as database concepts, and using node / npm etc.
+If you want to get a project up and running locally with minimal fuss, so that you can start mucking around, we have a generator, and a handy [yo generator guide](/getting-started/yo-generator) to get you up and running.
 
-## Where to start
+The generator provides a full project, ready to `npm start` and customise for your own needs, including optional email and image upload setup.
 
-If you want to get up and running quickly, check out getting started with our [yeoman generator](/guides/yo-generator).
+### Setting Up From Scratch
 
-We also have a [setting up keystone](/introduction/installation) guide if you want to build or integrate keystone from scratch.
+If you want to write the code from scratch, then check out our [setting up](/getting-started/setting-up/part-1) guide.
 
-## Production vs. Development
+It will walk you through setting up the core files and settings to get keystone working, and then allow you to expand outwards, adding what you need when you need it.
 
-Keystone applies different settings in production and development modes. The environment will default to development, so you should set the `NODE_ENV` environment variable to `production` on your production servers for better performance.
+## Where To Next?
 
-Your app can detect which environment it is running in by calling `keystone.get('env')`.
+Check out our [documentation](/documentation) if you want to get to understanding keystone more, and to explore the options it makes available. The [database configuration](/documentation/database) is a good place to start, as well as looking at the [initialisation options](/documentation/configuration) for the broadest customisation options available.
