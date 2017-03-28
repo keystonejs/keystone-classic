@@ -3,7 +3,6 @@ import CodePlugin from 'typography-plugin-code';
 import { MOBILE_MEDIA_QUERY } from 'typography-breakpoint-constants';
 
 const theme = {
-	baseFontSize: '15px',
 	baseLineHeight: 1.45,
 	blockMarginBottom: 0.75,
 	bodyColor: '#535353',
@@ -24,13 +23,14 @@ const theme = {
 			marginBottom: rhythm(1 / 2),
 		},
 		'h1': {
-			...scale(1.4),
+			fontSize: '2.4rem',
 		},
 		'h2': {
-			...scale(1),
+			fontSize: '1.8rem',
 			marginTop: '1.6em',
 		},
 		'h3': {
+			fontSize: '1.4rem',
 			marginTop: '1.4em',
 		},
 		'a': {

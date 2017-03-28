@@ -1,13 +1,12 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
-class DefaultLayout extends React.Component {
-	render () {
-		return (
-			<div>
-				{this.props.children}
-			</div>
-		);
-	}
-}
+export default function DefaultLayout (props) {
+	return <div {...props} />;
+};
 
-export default DefaultLayout;
+DefaultLayout.PropTypes = {
+	children: PropTypes.oneOfType([
+		PropTypes.arrayOf(PropTypes.node),
+		PropTypes.node,
+	]).isRequired,
+};

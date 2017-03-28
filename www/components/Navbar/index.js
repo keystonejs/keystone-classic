@@ -1,9 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import Link from 'gatsby-link';
-import MenuIcon from 'react-icons/lib/md/menu';
-import MenuClose from 'react-icons/lib/md/close';
-import DemoIcon from 'react-icons/lib/go/link-external';
 import GithubIcon from 'react-icons/lib/go/mark-github';
+import MenuClose from 'react-icons/lib/md/close';
+import MenuIcon from 'react-icons/lib/md/menu';
 import TwitterIcon from 'react-icons/lib/ti/social-twitter';
 
 import typography from '../../utils/typography';
@@ -37,9 +36,9 @@ class Navbar extends Component {
 						/>
 					</Link>
 					<div css={styles.header__links}>
-						<a href="http://demo.keystonejs.com" target="_blank" css={styles.header__link}>
-							<DemoIcon css={styles.header__linkIcon} />
-							Demo
+						<a href="https://twitter.com/keystonejs" target="_blank" css={styles.header__link}>
+							<TwitterIcon css={styles.header__linkIcon} />
+							Twitter
 						</a>
 						<a href="https://github.com/keystonejs/keystone" target="_blank" css={styles.header__link}>
 							<GithubIcon css={styles.header__linkIcon} />
@@ -55,10 +54,6 @@ class Navbar extends Component {
 				<div css={[styles.menu, menuIsOpen && styles.menu__open]}>
 					<Menu items={this.props.items} />
 				</div>
-				<a href="https://twitter.com/keystonejs" target="_blank" css={styles.twitter}>
-					<TwitterIcon css={styles.twitterIcon} />
-					Twitter
-				</a>
 			</aside>
 		);
 	};
@@ -81,7 +76,9 @@ const styles = {
 		fontSize: '0.9em',
 		letterSpacing: '0.01em',
 		lineHeight: typography.options.baseLineHeight,
+		position: 'relative',
 		width: '100%',
+		zIndex: 1,
 
 		[theme.breakpoint.largeUp]: {
 			bottom: 0,
@@ -192,27 +189,6 @@ const styles = {
 	},
 
 	menu__active: {},
-
-	// twitter
-	twitter: {
-		alignItems: 'center',
-		backgroundColor: theme.color.twitter,
-		color: 'white',
-		display: 'flex',
-		fontSize: '1.2em',
-		marginTop: '2em',
-		justifyContent: 'center',
-		padding: '0.75em 1em',
-		textDecoration: 'none',
-
-		[theme.breakpoint.mediumDown]: {
-			display: 'none',
-		},
-	},
-	twitterIcon: {
-		fontSize: 24,
-		marginRight: '0.5em',
-	},
 };
 
 export default Navbar;
