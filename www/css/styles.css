@@ -23,3 +23,12 @@ h4 > code {
 	padding: 2px 4px;
 	white-space: nowrap;
 }
+article h2::before,
+article h3::before {
+	content: " ";
+	display: block;
+	height: 1.4em;
+	margin-top: -1.4em;
+	pointer-events: none;
+	visibility: hidden;
+}
