@@ -49,18 +49,25 @@ const styles = {
 		},
 	},
 	edit: {
-		color: theme.color.gray40,
-		float: 'right',
-		display: 'inline-flex',
 		alignItems: 'center',
+		borderRadius: '0.3rem',
+		color: theme.color.gray40,
+		display: 'none',
+		float: 'right',
 		fontSize: '0.9em',
-		marginTop: rhythm(1),
+		marginTop: '0.2rem',
+		padding: '0.4rem 0.8rem',
 		textDecoration: 'none',
 		textTransform: 'uppercase',
 		transition: 'color 100ms',
 
 		':hover': {
+			backgroundColor: theme.color.gray05,
 			color: theme.color.gray60,
+		},
+
+		[theme.breakpoint.xlargeUp]: {
+			display: 'inline-flex',
 		},
 	},
 	editIcon: {
