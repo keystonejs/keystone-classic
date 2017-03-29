@@ -140,7 +140,7 @@ For Keystone to provide authentication and session management to your applicatio
 
 For more information on how to set up your application's models, and the full documentation for lists and fields, see the [database guide](/database/).
 
-# Routes & Views
+## Routes & Views
 
 Usually, the easiest and clearest way to configure the logic for different routes (or views) in your application is to set up all the bindings single file, then put any common logic (or middleware) in another file.
 
@@ -148,7 +148,7 @@ Then, the controller for each route you bind goes in its own file, organised sim
 
 Keystone's [importer](/methods/importer) and Express's middleware support makes this easy to set up.
 
-## Routes and Middleware
+### Routes and Middleware
 
 **routes/index.js**
 
@@ -192,7 +192,7 @@ exports = module.exports = function(app) {
 }
 ```
 
-### Stepping through the route controller index
+#### Stepping through the route controller index
 
 - Load `keystone`, the `middleware.js` file (below), and create an `importer` for the current directory
 - Bind middleware (below) that
@@ -205,7 +205,7 @@ exports = module.exports = function(app) {
   - The `app` argument to this method our express app, so anything you can do binding routes in express, you can do here.
 - Additional route controllers that you add to your app should be added using `app.get`, `app.post` or `app.all` under your root controller.
 
-## Common Route Middleware
+### Common Route Middleware
 
 Putting your common middleware in a separate `routes/middleware.js` file keeps your route index nice and clean. If your middleware file gets too big, it's a good idea to restructure any significant functionality into custom modules in your projects `/lib` folder.
 
@@ -274,7 +274,7 @@ exports.flashMessages = function(req, res, next) {
 };
 ```
 
-### Middleware functions
+#### Middleware functions
 
 Keystone expects middleware functions to accept the following arguments:
 
@@ -282,7 +282,7 @@ Keystone expects middleware functions to accept the following arguments:
 - res - an express response object
 - next - the method to call when the middleware has finished running (including any internal callbacks)
 
-### Flash message support (no, not that flash)
+#### Flash message support (no, not that flash)
 
 Keystone includes support for 'flashing' messages to your visitors via session. The default setup above supports four categories, all of which can be styled differently:
 
