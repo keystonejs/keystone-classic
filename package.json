@@ -41,7 +41,7 @@
     "es6-promise": "4.0.5",
     "express": "4.15.0",
     "express-request-language": "1.1.9",
-    "express-session": "1.15.1",
+    "express-session": "1.15.2",
     "expression-match": "0.0.17",
     "fs-extra": "1.0.0",
     "glamor": "^2.20.24",
