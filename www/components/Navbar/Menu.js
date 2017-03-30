@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeSection } from './utils';
-import { api, documentation, gettingStarted, guides } from './data';
+import { api, documentation, gettingStarted, guides } from '../../data/navigation';
 
 const sections = [gettingStarted, guides, documentation, api];
 

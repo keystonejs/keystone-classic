@@ -1,5 +1,5 @@
 export const gettingStarted = {
-	section: 'Getting Started',
+	section: 'Starting',
 	slug: '/getting-started',
 	items: [{
 		label: 'Getting Started',
@@ -46,10 +46,10 @@ export const guides = {
 	}],
 };
 export const documentation = {
-	section: 'Documentation',
+	section: 'Docs',
 	slug: '/documentation',
 	items: [{
-		label: 'Documentation Index',
+		label: 'Introduction',
 		slug: '',
 	}, {
 		label: 'Initialisation Options',
@@ -70,10 +70,13 @@ export const documentation = {
 	}],
 };
 export const api = {
-	section: 'API references',
+	section: 'API',
 	slug: '/api',
 	items: [
 		{
+			label: 'Introduction',
+			slug: '',
+		}, {
 			section: 'List',
 			slug: '/list',
 			items: [{

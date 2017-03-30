@@ -34,6 +34,13 @@ export const color = {
 	blue: '#348dd9',
 	blueDark: '#374e61',
 	lightBlue: '#ebf4fb',
+
+	// experimental
+	orange: '#E59269',
+	coral: '#E33367',
+	// teal: '#23ACBF', // bright
+	teal: '#57A5B4',
+
 	// social
 	twitter: '#1DA1F2',
 
