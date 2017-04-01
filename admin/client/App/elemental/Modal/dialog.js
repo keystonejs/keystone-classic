@@ -130,6 +130,8 @@ const classes = {
 		paddingRight: theme.modal.padding.dialog.horizontal,
 		paddingTop: theme.modal.padding.dialog.vertical,
 		position: 'relative',
+		maxHeight: '90%',
+		overflowY: 'auto'
 	},
 };
 
