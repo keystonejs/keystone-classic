@@ -178,6 +178,6 @@
     "clean": "rimraf ./coverage",
     "fields-explorer": "node ./fields/explorer/server.js",
     "mocha": "mocha",
-    "test-server": "node test/e2e/server-for-chrome-extension.js --env default"
+    "inspect-test-server": "node test/e2e/server-for-chrome-extension.js --env default"
   }
 }
