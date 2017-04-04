@@ -27,6 +27,7 @@ module.exports = {
 	},
 
 	componentWillReceiveProps: function (nextProps) {
+		if (!nextProps.value) return;
 		if (nextProps.value.join('|') !== reduceValues(this.state.values).join('|')) {
 			this.setState({
 				values: nextProps.value.map(newItem),
