@@ -74,12 +74,21 @@ module.exports = {
 	},
 
 	renderField: function () {
-		return (
-			<div>
-				{this.state.values.map(this.renderItem)}
-				<Button ref="button" onClick={this.addItem}>Add item</Button>
-			</div>
-		);
+		if (this.state.values !== undefined && this.state.values.map !== undefined) {
+			return (
+				<div>
+					{this.state.values.map(this.renderItem)}
+					<Button ref="button" onClick={this.addItem}>Add item</Button>
+				</div>
+			);
+		} else {
+			return (
+				<div>
+					{this.renderItem}
+					<Button ref="button" onClick={this.addItem}>Add item</Button>
+				</div>
+			);
+		}
 	},
 
 	renderItem: function (item, index) {
