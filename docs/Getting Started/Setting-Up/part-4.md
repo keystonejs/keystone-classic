@@ -40,7 +40,7 @@ Event.defaultColumns = 'displayName, email';
 Event.register();
 ```
 
-We are going to be drawing together everything we added in both [part 2](/introduction/database-setup) and [part 3](/introduction/routing), so we recommend completing both of those.
+We are going to be drawing together everything we added in both [part 2](/getting-started/setting-up/part-2) and [part 3](/getting-started/setting-up/part-3), so we recommend completing both of those.
 
 Your source tree should look like the following:
 
@@ -194,7 +194,7 @@ We can call this like so:
 Event.updateItem(newEvent)
 ```
 
-`updateItem` has a lot of other great features for helping you ensure your data integrity, and we recommend reading the full documentation [here](/list/update-item) when you have time.
+`updateItem` has a lot of other great features for helping you ensure your data integrity, and we recommend reading the full documentation [here](/api/list/update-item) when you have time.
 
 This leaves us with a file looking like:
 
@@ -227,4 +227,4 @@ Event.updateItem(newEvent, req.body, function (error) {
 
 ## Next Steps
 
-- [updateItem](/list/update-item)
+- [updateItem](/api/list/update-item)

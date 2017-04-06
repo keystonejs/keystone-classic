@@ -52,8 +52,24 @@ export const documentation = {
 		label: 'Documentation Index',
 		slug: '',
 	}, {
-		label: 'Initialisation Options',
+		section: 'Initialisation Options',
 		slug: '/configuration',
+		items: [{
+			label: 'Configuration',
+			slug: '',
+		}, {
+			label: 'Project Options',
+			slug: '/project-options',
+		}, {
+			label: 'Server Options',
+			slug: '/server-options',
+		}, {
+			label: 'Database Options',
+			slug: '/database-options',
+		}, {
+			label: 'Admin UI Option',
+			slug: '/server-options',
+		}],
 	}, {
 		section: 'Database',
 		slug: '/database',
@@ -80,7 +96,7 @@ export const api = {
 				label: 'Creating a List',
 				slug: '',
 			}, {
-				label: 'Add',
+				label: 'add()',
 				slug: '/add',
 			}, {
 				label: 'Model',
@@ -89,62 +105,62 @@ export const api = {
 				label: 'List Construction Options',
 				slug: '/options',
 			}, {
-				label: 'Register',
+				label: 'register()',
 				slug: '/register',
 			}, {
 				label: 'Schema',
 				slug: '/schema',
 			}, {
-				label: 'Update Item',
+				label: 'updateItem()',
 				slug: '/update-item',
 			}],
 		}, {
 			section: 'Methods',
 			slug: '/methods',
 			items: [{
-				label: 'Close Database connection',
+				label: 'openDatabaseConnection()',
 				slug: '/close-database-connection',
 			}, {
-				label: 'Create Items',
+				label: 'createItems()',
 				slug: '/create-items',
 			}, {
-				label: 'Create Router',
+				label: 'createRouter()',
 				slug: '/create-router',
 			}, {
-				label: 'Get',
+				label: 'get()',
 				slug: '/get',
 			}, {
-				label: 'Import',
+				label: 'import()',
 				slug: '/import',
 			}, {
-				label: 'Importer',
+				label: 'importer()',
 				slug: '/importer',
 			}, {
-				label: 'Init',
+				label: 'init()',
 				slug: '/init',
 			}, {
-				label: 'list',
+				label: 'list()',
 				slug: '/list',
 			}, {
-				label: 'Middleware',
+				label: 'middleware()',
 				slug: '/middleware',
 			}, {
-				label: 'Open Database Connection',
+				label: 'openDatabaseConnection()',
 				slug: '/open-database-connection',
 			}, {
-				label: 'Paginate',
+				label: 'paginate()',
 				slug: '/paginate',
 			}, {
-				label: 'Pre',
+				label: 'pre()',
 				slug: '/pre',
 			}, {
-				label: 'Set',
+				label: 'set()',
 				slug: '/set',
 			}, {
-				label: 'Start',
+				label: 'start()',
 				slug: '/start',
 			}, {
-				label: 'Update Handler',
+				label: 'updateHandler()',
 				slug: '/update-handler',
 			}],
 		}, {
@@ -167,97 +183,100 @@ export const api = {
 				label: 'Field Options',
 				slug: '/options',
 			}, {
-				label: 'AzureFile Field',
+				label: 'Underscore Methods',
+				slug: '/underscore-methods',
+			}, {
+				label: 'AzureFile',
 				slug: '/azurefile',
 			}, {
-				label: 'Embedly Field',
+				label: 'Embedly',
 				slug: '/embedly',
 			}, {
-				label: 'File Field',
+				label: 'File',
 				slug: '/file',
 			}, {
-				label: 'LocalFile Field',
+				label: 'LocalFile',
 				slug: '/localfile',
 			}, {
 				label: 'Local Files',
 				slug: '/localfiles',
 			}, {
-				label: 'S3 File Field',
+				label: 'S3 File',
 				slug: '/s-3-file',
 			}, {
-				label: 'Boolean Field',
+				label: 'Boolean',
 				slug: '/boolean',
 			}, {
-				label: 'CloudinaryImage Field',
+				label: 'CloudinaryImage',
 				slug: '/cloudinaryimage',
 			}, {
-				label: 'CloudinaryImages Field',
+				label: 'CloudinaryImages',
 				slug: '/cloudinaryimages',
 			}, {
-				label: 'Code Field',
+				label: 'Code',
 				slug: '/code',
 			}, {
-				label: 'Date Field',
+				label: 'Date',
 				slug: '/date',
 			}, {
-				label: 'Color Field',
+				label: 'Color',
 				slug: '/color',
 			}, {
 				label: 'Datearray field',
 				slug: '/datearray',
 			}, {
-				label: 'DateTime Field',
+				label: 'DateTime',
 				slug: '/datetime',
 			}, {
-				label: 'Email Field',
+				label: 'Email',
 				slug: '/email',
 			}, {
-				label: 'GeoPoint Field',
+				label: 'GeoPoint',
 				slug: '/geopoint',
 			}, {
-				label: 'HTML Field',
+				label: 'HTML',
 				slug: '/html',
 			}, {
-				label: 'Key Field',
+				label: 'Key',
 				slug: '/key',
 			}, {
-				label: 'Location Field',
+				label: 'Location',
 				slug: '/location',
 			}, {
-				label: 'Markdown Field',
+				label: 'Markdown',
 				slug: '/markdown',
 			}, {
-				label: 'Money Field',
+				label: 'Money',
 				slug: '/money',
 			}, {
-				label: 'Name Field',
+				label: 'Name',
 				slug: '/name',
 			}, {
-				label: 'Number Field',
+				label: 'Number',
 				slug: '/number',
 			}, {
 				label: 'NumberArray field',
 				slug: '/numberarray',
 			}, {
-				label: 'Password Field',
+				label: 'Password',
 				slug: '/password',
 			}, {
-				label: 'Relationship Field',
+				label: 'Relationship',
 				slug: '/relationship',
 			}, {
-				label: 'Select Field',
+				label: 'Select',
 				slug: '/select',
 			}, {
-				label: 'Text Field',
+				label: 'Text',
 				slug: '/text',
 			}, {
-				label: 'Textarea Field',
+				label: 'Textarea',
 				slug: '/textarea',
 			}, {
-				label: 'Textarray Field',
+				label: 'Textarray',
 				slug: '/textarray',
 			}, {
-				label: 'URL Field',
+				label: 'URL',
 				slug: '/url',
 			}],
 		},

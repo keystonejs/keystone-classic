@@ -57,7 +57,7 @@ keystone.set('routes', require('./routes'));
 keystone.start();
 ```
 
-> For more information about the options Keystone supports, see the [configuration](/configuration/) guide.
+> For more information about the options Keystone supports, see the [configuration](/documentation/configuration/) guide.
 
 ## Project Structure
 
