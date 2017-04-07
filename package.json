@@ -112,7 +112,7 @@
     "mocha": "3.2.0",
     "must": "0.13.4",
     "proxyquire": "1.7.11",
-    "react-addons-test-utils": "15.4.2",
+    "react-addons-test-utils": "15.5.0",
     "react-engine": "4.3.0",
     "rimraf": "2.6.1",
     "sinon": "1.17.7",
