@@ -12,6 +12,7 @@ import {
 	FormInput,
 	FormNote,
 } from '../../../admin/client/App/elemental';
+import ImageThumbnail from '../../components/ImageThumbnail';
 import FileChangeMessage from '../../components/FileChangeMessage';
 import HiddenFileInput from '../../components/HiddenFileInput';
 
@@ -64,6 +65,13 @@ module.exports = Field.create({
 
 	hasFile () {
 		return this.hasExisting() || !!this.state.userSelectedFile;
+	},
+	isImage() {
+		const href = this.props.value ? this.props.value.url : undefined;
+		return href && href.match(/\.(jpeg|jpg|gif|png)$/i) != null;
+	},
+	getImageSource() {
+		return this.props.value && this.props.value.url;
 	},
 	hasExisting () {
 		return this.props.value && !!this.props.value.filename;
@@ -120,6 +128,20 @@ module.exports = Field.create({
 	// ==============================
 	// RENDERERS
 	// ==============================
+	renderImagePreview () {
+		const { value } = this.props;
+
+		return (
+			<ImageThumbnail
+				component="a"
+				href={this.getImageSource()}
+				target="__blank"
+				style={{ float: 'left', marginRight: '1em' }}
+			>
+				<img src={this.getImageSource()} style={{ height: 90 }} />
+			</ImageThumbnail>
+		);
+	},
 
 	renderFileNameAndChangeMessage () {
 		const href = this.props.value ? this.props.value.url : undefined;
@@ -201,12 +223,19 @@ module.exports = Field.create({
 			</div>
 		);
 
+		const imageContainer = (
+			<div style={this.isImage() ? { marginBottom: '1em' } : null}>
+				{this.isImage() && this.renderImagePreview()}
+				{this.hasFile() && this.renderFileNameAndChangeMessage()}
+			</div>
+		);
+
 		return (
 			<div data-field-name={path} data-field-type="file">
 				<FormField label={label} htmlFor={path}>
 					{this.shouldRenderField() ? (
 						<div>
-							{this.hasFile() && this.renderFileNameAndChangeMessage()}
+							{imageContainer}
 							{buttons}
 							<HiddenFileInput
 								key={this.state.uploadFieldPath}
