@@ -4,6 +4,58 @@ var path = require('path');
 
 var templatePath = path.resolve(__dirname, '../templates/index.html');
 
+const acl = {
+	contributor: {
+		users: [
+			'User',
+			'UserRole',
+		],
+		shared: [
+			'PostCategory',
+		],
+		homepage: [
+			'Benefit',
+			'DesOverview',
+		],
+		about: [
+			'AboutSection',
+			'AboutPrinciple',
+			'AboutFeature',
+			'AboutProcessItem',
+			'Skill',
+		],
+	},
+};
+
+/**
+ * Evaluate if section is accessible
+ * Section is accessible by default if there is no ACL entry for user.role.key
+ *
+ * @param {string} key
+ *
+ * @return {boolean}
+ */
+function isSectionAccessible (key, access) {
+	return !access || !access.includes(key);
+}
+
+/**
+ * Filter out sections that should not be visible to a given user
+ *
+ * @param {Object[]} sections
+ * @param {string[]} access
+ *
+ * @return {*}
+ */
+function restrictNav (sections, access) {
+	if (Array.isArray(sections) && access) {
+		return sections
+			.filter(section => isSectionAccessible(section.key, access));
+	}
+
+	return sections;
+}
+
 module.exports = function IndexRoute (req, res) {
 	var keystone = req.keystone;
 	var lists = {};
@@ -24,6 +76,33 @@ module.exports = function IndexRoute (req, res) {
 		backUrl = '/';
 	}
 
+	/* Restricting NAV */
+	const user = req.user;
+
+	keystone.roleNav = keystone.roleNav || {
+		default: _.cloneDeep(keystone.nav),
+	};
+
+	if (user && user.role && !keystone.roleNav[user.role.key]) {
+		keystone.roleNav[user.role.key] = _.cloneDeep(keystone.roleNav.default);
+	}
+
+	if (user && user.role && acl[user.role.key]) {
+		console.log(`Restricting nav for ${user.role.key}`);
+
+		const access = acl[user.role.key];
+
+		keystone.roleNav[user.role.key].sections
+			.forEach(function (section, index, sections) {
+				section.lists = restrictNav(section.lists, access[section.key]);
+				if (section.lists.length === 0) {
+					sections.splice(sections.indexOf(section), 1);
+				}
+			});
+	}
+	keystone.nav = keystone.roleNav[user.role.key];
+	/* Restricting NAV */
+
 	var keystoneData = {
 		adminPath: '/' + keystone.get('admin path'),
 		appversion: keystone.get('appversion'),
@@ -38,6 +117,7 @@ module.exports = function IndexRoute (req, res) {
 		user: {
 			id: req.user.id,
 			name: UserList.getDocumentName(req.user) || '(no name)',
+			role: req.user.role,
 		},
 		userList: UserList.key,
 		version: keystone.version,
