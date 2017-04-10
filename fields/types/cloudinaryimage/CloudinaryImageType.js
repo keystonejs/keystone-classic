@@ -370,8 +370,8 @@ cloudinaryimage.prototype.updateItem = function (item, data, files, callback) {
 	var value = this.getValueFromData(data);
 	var uploadedFile;
 
-	// Providing the string "remove" removes the file and resets the field
-	if (value === 'remove') {
+	// Providing the string "remove" or "delete" removes the file and resets the field
+	if (value === 'remove' || value === 'delete') {
 		cloudinary.uploader.destroy(item.get(field.paths.public_id), function (result) {
 			if (result.error) {
 				callback(result.error);
