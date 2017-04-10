@@ -351,7 +351,6 @@ cloudinaryimages.prototype.updateItem = function (item, data, files, callback) {
 					public_id: value.originalname.substring(0, value.originalname.lastIndexOf('.')),
 				});
 			}
-			// TODO: implement autoCleanup; should delete existing images before uploading
 			cloudinary.uploader.upload(value.path, function (result) {
 				if (result.error) {
 					next(result.error);
