@@ -23,6 +23,28 @@ function truthy (value) {
 	return value;
 }
 
+/*
+* Uses a before and after snapshot of the images array to find out what images are no longer included
+*/
+function cleanUp (oldValues, newValues) {
+	var cloudinary = require('cloudinary');
+	var oldvalIds = oldValues.map(function (val) {
+		return val.public_id;
+	});
+	var newValIds = newValues.map(function (val) {
+		return val.public_id;
+	});
+
+	var removedItemsCloudinaryIds = _.difference(oldvalIds, newValIds);
+
+	// We never wait to return on the images being removed
+	async.map(removedItemsCloudinaryIds, function (id, next) {
+		cloudinary.uploader.destroy(id, function (result) {
+			next();
+		});
+	});
+};
+
 /**
  * CloudinaryImages FieldType Constructor
  */
@@ -233,6 +255,7 @@ cloudinaryimages.prototype.updateItem = function (item, data, files, callback) {
 	var cloudinary = require('cloudinary');
 	var field = this;
 	var values = this.getValueFromData(data);
+	var oldValues = item.get(this.path);
 
 	// TODO: This logic needs to block uploading of files from the data argument,
 	// see CloudinaryImage for a reference on how it should be implemented
@@ -240,6 +263,9 @@ cloudinaryimages.prototype.updateItem = function (item, data, files, callback) {
 	// Early exit path: reset value when falsy, or bail if no value was provided
 	if (!values) {
 		if (values !== undefined) {
+			if (field.options.autoCleanup) {
+				cleanUp(oldValues, []);
+			}
 			item.set(field.path, []);
 		}
 		return process.nextTick(callback);
@@ -340,6 +366,7 @@ cloudinaryimages.prototype.updateItem = function (item, data, files, callback) {
 			return next();
 		}
 	}, function (err, result) {
+		cleanUp(oldValues, values);
 		if (err) return callback(err);
 		result = result.filter(truthy);
 		item.set(field.path, result);
