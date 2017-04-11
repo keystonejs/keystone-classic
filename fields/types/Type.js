@@ -343,6 +343,12 @@ Field.prototype.updateItem = function (item, data, callback) {
 	var value = this.getValueFromData(data);
 	// This is a deliberate type coercion so that numbers from forms play nice
 	if (value !== undefined && value != item.get(this.path)) { // eslint-disable-line eqeqeq
+
+		// Do not update empty strings
+		if ('string' === typeof value && !value.length) {
+			return;
+		}
+		
 		item.set(this.path, value);
 	}
 	process.nextTick(callback);
