@@ -1,4 +1,7 @@
 var keystone = require('../../index.js');
+var mongoose = require('mongoose');
+var keystoneSSL = keystone; //new keystone.Keystone();
+var keystoneSocket = keystone; //new keystone.Keystone();
 var request = require('supertest');
 var _ = require('lodash');
 var exec = require('child_process').exec;
@@ -22,12 +25,11 @@ var routes = function(app){
 	})
 }
 exports.startHttp = function startHttp(cb) {
-	keystone.app = false;
-	keystone.mongoose = false;
 	keystone.init({
 		'cookie secret': 'test',
 		'auth': false,
-		'port': '4000'
+		'port': '4000',
+		'mongoose': mongoose
 	})
 	.set('routes', routes)
 	.start({
@@ -47,21 +49,20 @@ exports.startHttp = function startHttp(cb) {
 }
 
 exports.startHttps = function startHttps(cb) {
-	keystone.app = false;
-	keystone.mongoose = false;
-	keystone.init({
+	keystoneSSL.init({
 		'cookie secret': 'test',
 		'ssl': 'only',
 		'ssl key': './certs/server.ca.key',
 		'ssl cert': './certs/server.crt',
 		'auth': false,
-		'ssl port': '4001'
+		'ssl port': '4001',
+		'mongoose': new mongoose.Mongoose()
 	})
 	.set('routes', routes)
 	.start({
 		onStart: function(){
 			if('function' == typeof cb) {
-				testApp(request('https://@:4001'), '/', keystone.httpsServer, function(err) {
+				testApp(request('https://@:4001'), '/', keystoneSSL.httpsServer, function(err) {
 					if(err) {
 						return cb(false);
 					}
@@ -73,18 +74,18 @@ exports.startHttps = function startHttps(cb) {
 }
 
 exports.startSocket = function startSocket(cb) {
-	keystone.app = false;
-	keystone.mongoose = false;
-	keystone.init({
+
+	keystoneSocket.init({
 		'cookie secret': 'test',
 		'unix socket': '/tmp/testKeystoneUnixSocket',
 		'auth': false,
-		'name': 'Test Site'
+		'name': 'Test Site',
+		'mongoose': new mongoose.Mongoose()
 	})
 	.set('routes', routes)
 	.start({
 		onStart: function(){
-			testApp(request(keystone.app), '/', keystone.httpServer, function(err) {
+			testApp(request(keystoneSocket.app), '/', keystoneSocket.httpServer, function(err) {
 				if(err) {
 					return cb(false);
 				}
