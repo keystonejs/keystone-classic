@@ -661,18 +661,19 @@ keystone.set('default region', 'au'); // optional, will limit autocomplete resul
               <p>KeystoneJS supports <a href="http://aws.amazon.com/s3/" target="_blank">Amazon S3</a> for file upload and hosting, with the <a href="/docs/database#field_s3file">S3File</a> field type.</p>
               <p>To use the S3File field in your app, <a href="https://portal.aws.amazon.com/gp/aws/developer/subscription/index.html?productCode=AmazonS3" target="_blank">sign up for an account</a>, create an <strong>S3 bucket</strong>, and get your <strong>key</strong> and <strong>secret</strong>.</p>
               <p>Then set the <code>s3 config</code> option to an object containing your configuration (see example below).</p>
-              <p>Alternatively, set the <code class="default-value">S3_BUCKET</code>, <code class="default-value">S3_KEY</code> and <code class="default-value">S3_SECRET</code> environment variables.</p>
+              <p>Alternatively, set the <code class="default-value">S3_BUCKET</code>, <code class="default-value">S3_KEY</code>, <code class="default-value">S3_REGION</code> and <code class="default-value">S3_SECRET</code> environment variables.</p>
               <pre><code class="language-javascript">keystone.set('s3 config', { bucket: 'my-bucket', key: 'my-key', secret: 'my-secret' });</code></pre>
               <p>The config object can also contain a 'default headers' property. This property should be either an <code class="data-type">Object</code> or an <code class="data-type">Array</code>.</p>
               <pre><code class="language-javascript">keystone.set('s3 config', { 
 	bucket: 'my-bucket', 
 	key: 'my-key', 
-	secret: 'my-secret',
+  secret: 'my-secret',
+	region: 'my-region',
 	'default headers':  {
     'x-amz-meta-X-Default-Header': 'Custom Default Value'
   }
 });
-
+              <p class="note">Note that the "Signature Version(s) support" (on keystonejs) seems to only support version 2. <a href="http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region">S3 Regions</a></p>
 </code></pre><a name="services-azure"></a>
               <h3>Windows Azure Storage</h3>
               <p>KeystoneJS supports <a href="http://www.windowsazure.com/" target="_blank">Windows Azure Storage</a> for file upload and hosting, with the <a href="/docs/database#field_azurefile">AzureFile</a> field type.</p>
