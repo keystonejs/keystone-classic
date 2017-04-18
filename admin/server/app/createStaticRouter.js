@@ -69,13 +69,20 @@ module.exports = function createStaticRouter (keystone) {
 	/* Prepare LESS options */
 	var elementalPath = path.join(path.dirname(require.resolve('elemental')), '..');
 	var reactSelectPath = path.join(path.dirname(require.resolve('react-select')), '..');
-	var customStylesPath = keystone.getPath('adminui custom styles') || '';
+	var adminuiCustom = keystone.get('adminui custom');
+	var customVariablesPath = (adminuiCustom && adminuiCustom.variablesPath)
+															? keystone.expandPath(adminuiCustom.variablesPath)
+															: '';
+	var customStylesPath = (adminuiCustom && adminuiCustom.stylesPath)
+														? keystone.expandPath(adminuiCustom.stylesPath)
+														: '';
 
 	var lessOptions = {
 		render: {
 			modifyVars: {
 				elementalPath: JSON.stringify(elementalPath),
 				reactSelectPath: JSON.stringify(reactSelectPath),
+				customVariablesPath: JSON.stringify(customVariablesPath),
 				customStylesPath: JSON.stringify(customStylesPath),
 				adminPath: JSON.stringify(keystone.get('admin path')),
 			},
