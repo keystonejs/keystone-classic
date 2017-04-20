@@ -43,6 +43,7 @@ import {
 
 import {
 	deleteItem,
+	duplicateItem,
 } from '../Item/actions';
 
 const ESC_KEY_CODE = 27;
@@ -362,6 +363,48 @@ const ListView = React.createClass({
 			},
 		});
 	},
+	duplicateTableItem (item, e) {
+		const list = this.props.currentList;
+		let formDataCreate = new FormData();
+		formDataCreate.append(list.nameField.path, item.name);
+		list.createItem(formDataCreate, (err, dataCreate) => {
+			if (dataCreate) {
+				let formDataUpdate = new FormData();
+				// get data from db by id
+				list.loadItem(item.id, { drilldown: true }, (err, itemData) => {
+
+					// Once this async request has fired this callback, check that
+					// the item id referenced by thisLoadRef is the same id
+					// referenced by loadingRef in the redux store.
+
+					// If it is, then this is the latest request, and it is safe to resolve it normally.
+					// If it is not the same id however,
+					// this means that this request is NOT the latest fired request,
+					// and so we'll bail out of it early.
+					if (itemData) {
+						for (var i = list.columns.length - 1; i >= 0; i--) {
+							if (typeof itemData.fields[list.columns[i].path] !== 'object') {
+								formDataUpdate.append(list.columns[i].path, itemData.fields[list.columns[i].path]);
+							}
+						}
+						list.updateItem(dataCreate.id, formDataUpdate, (err, dataUpdate) => {
+							if (dataUpdate) {
+								// go ro page update or refresh page
+								// this.context.router.push(`${Keystone.adminPath}/${list.path}/${dataUpdate.id}`);
+								this.props.dispatch(duplicateItem(item.id));
+							} else {
+								alert('Something went wrong, please try again!');
+							}
+						});
+					} else {
+						alert('Something went wrong, please try again!');
+					}
+				});
+			} else {
+				alert('Something went wrong, please try again!');
+			}
+		});
+	},
 	removeConfirmationDialog () {
 		this.setState({
 			confirmationDialog: {
@@ -474,6 +517,7 @@ const ListView = React.createClass({
 								checkTableItem={this.checkTableItem}
 								columns={this.props.active.columns}
 								deleteTableItem={this.deleteTableItem}
+								duplicateTableItem={this.duplicateTableItem}
 								handleSortSelect={this.handleSortSelect}
 								items={this.props.items}
 								list={this.props.currentList}

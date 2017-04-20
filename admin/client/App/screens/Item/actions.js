@@ -112,6 +112,18 @@ export function dataLoadingError (err) {
 		error: err,
 	};
 }
+/**
+ * Duplicate an item and optionally redirects to the current list URL
+ *
+ * @param  {String} id     The ID of the item we want to delete
+ * @param  {Object} router A react-router router object. If this is passed, we
+ *                         redirect to Keystone.adminPath/currentList.path!
+ */
+export function duplicateItem (id, router) {
+	return (dispatch, getState) => {
+		dispatch(loadItems());
+	};
+}
 
 /**
  * Deletes an item and optionally redirects to the current list URL
