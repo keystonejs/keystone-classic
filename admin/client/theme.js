@@ -187,6 +187,7 @@ theme.form = {
 theme.component = {
 	lineHeight: '2.3em',
 	height: '2.4em',
+	minHeight: '2.4em',
 	padding: '1em',
 };
 
@@ -200,7 +201,7 @@ theme.input = {
 	},
 	placeholderColor: '#aaa',
 	lineHeight: theme.component.lineHeight,
-	height: theme.component.height,
+	minHeight: theme.component.minHeight,
 	border: {
 		color: {
 			default: '#ccc',
