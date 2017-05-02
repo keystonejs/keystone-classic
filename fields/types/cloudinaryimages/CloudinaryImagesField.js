@@ -180,6 +180,9 @@ module.exports = Field.create({
 			});
 		});
 	},
+	handleOpenImage () {
+		// window.location.assign(url);
+	},
 
 	// ==============================
 	// RENDERERS
@@ -222,6 +225,14 @@ module.exports = Field.create({
 			);
 		}
 	},
+	renderFullButton () {
+		if (this.state.lightboxIsVisible) {
+			const url = this.state.thumbnails[this.state.lightboxImageIndex].props.value.secure_url;
+			return (
+				<Button size="xs" type="hollow-primary" href={url} target="_blank">Open full-size</Button>
+			);
+		}
+	},
 	renderLightbox () {
 		const { value, secure } = this.props;
 		if (!value || !value.length) return;
@@ -244,8 +255,10 @@ module.exports = Field.create({
 		return (
 			<Lightbox
 				images={images}
+				customControls={[this.renderFullButton()]}
 				currentImage={this.state.lightboxImageIndex}
 				isOpen={this.state.lightboxIsVisible}
+				// onClickImage={this.handleOnClickImage}
 				onClickPrev={this.lightboxPrevious}
 				onClickNext={this.lightboxNext}
 				onClose={this.closeLightbox}
