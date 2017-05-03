@@ -223,7 +223,7 @@ module.exports = Field.create({
 		if (this.state.lightboxIsVisible) {
 			const url = this.state.thumbnails[this.state.lightboxImageIndex].props.value.secure_url;
 			return (
-				<Button size="xs" type="hollow-primary" href={url} target="_blank">Open full-size</Button>
+				<Button size="xs" href={url} target="_blank">Open Original</Button>
 			);
 		}
 	},
