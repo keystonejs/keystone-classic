@@ -116,7 +116,19 @@ describe('When paginating results', function () {
 
 		});
 	});
-
+	
+	describe('with .where clause supplied by the user', function() {
+		it('should return the correct total', function(done) {
+			Post.paginate({page: 1, perPage: 2}).where('content').equals("keyword").exec(function (err, results){
+				if(err){
+					return done(err);
+				}
+				assert.equal(results.total, 1);
+				done();
+			});
+		});
+	});
+	
 	describe('with an optional expression', function () {
 		it('should return results plus query metadata and pagination metadata', function (done) {
 
