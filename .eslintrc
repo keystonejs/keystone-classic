@@ -15,6 +15,7 @@
     "describe": true,
     "it": true,
     "jQuery": true,
-    "Keystone": true
+    "Keystone": true,
+    "graphql": true
   }
 }

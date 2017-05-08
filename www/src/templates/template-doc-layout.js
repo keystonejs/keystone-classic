@@ -28,9 +28,7 @@ export default class DocumentLayout extends React.Component {
 		edges.forEach(({ node }) => {
 			const { headings, section, slug } = node;
 
-			const label = headings
-				.map(h => h.value)[0]
-				|| '(no title)';
+			const label = headings.map(h => h.value)[0] || '(no title)';
 
 			sections[section].push({ label, slug });
 		});
@@ -46,18 +44,21 @@ export default class DocumentLayout extends React.Component {
 		const body = markdownRemark.html;
 		const path = markdownRemark.parent.relativePath;
 
-		// TODO sorting should come from graphQL
-		// also, `join` is because some pages still have multiple H1s
-		const title = markdownRemark.headings.sort((a, b) => a.value.localeCompare(b.value)).map(h => h.value).join(', ');
+    // TODO sorting should come from graphQL
+    // also, `join` is because some pages still have multiple H1s
+		const title = markdownRemark.headings
+      .sort((a, b) => a.value.localeCompare(b.value))
+      .map(h => h.value)
+      .join(', ');
 
-		// TODO add file path to Markdown schema
-		// NOTE pointing to `docs` until ready for `master`
+    // TODO add file path to Markdown schema
+    // NOTE pointing to `docs` until ready for `master`
 		const editPath = `
 			https://github.com/keystonejs/keystone/blob/docs/docs/${path}
 		`;
 
-		// console.log('data', this.props.data);
-		// console.log('location', this.props.location);
+    // console.log('data', this.props.data);
+    // console.log('location', this.props.location);
 
 		return (
 			<div>
@@ -67,13 +68,13 @@ export default class DocumentLayout extends React.Component {
 					editPath={editPath}
 					siteTitle={siteTitle}
 					title={title}
-				/>
+        />
 			</div>
 		);
 	}
-};
+}
 
-export const pageQuery = `
+export const pageQuery = graphql`
 query MarkdownTemplate($slug: String!) {
 	site {
 		siteMetadata {

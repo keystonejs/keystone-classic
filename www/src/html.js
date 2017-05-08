@@ -5,7 +5,7 @@ import typography from './utils/typography';
 let stylesStr;
 if (process.env.NODE_ENV === `production`) {
 	try {
-		stylesStr = require(`!raw-loader!./public/styles.css`);
+		stylesStr = require(`!raw-loader!../public/styles.css`);
 	} catch (e) {
 		console.log(e);
 	}
@@ -13,10 +13,15 @@ if (process.env.NODE_ENV === `production`) {
 
 module.exports = React.createClass({
 	render () {
-		// TODO add react helmet rewind
+    // TODO add react helmet rewind
 		let css;
 		if (process.env.NODE_ENV === `production`) {
-			css = <style id="gatsby-inlined-css" dangerouslySetInnerHTML={{ __html: stylesStr }} />;
+			css = (
+				<style
+					id="gatsby-inlined-css"
+					dangerouslySetInnerHTML={{ __html: stylesStr }}
+        />
+      );
 		}
 		return (
 			<html lang="en">
@@ -27,14 +32,17 @@ module.exports = React.createClass({
 					<meta
 						name="viewport"
 						content="width=device-width, initial-scale=1.0"
-					/>
+          />
 					{this.props.headComponents}
 					<GoogleFont typography={typography} />
 					<TypographyStyle typography={typography} />
 					{css}
 				</head>
 				<body>
-					<div id="react-mount" dangerouslySetInnerHTML={{ __html: this.props.body }} />
+					<div
+						id="react-mount"
+						dangerouslySetInnerHTML={{ __html: this.props.body }}
+          />
 					{this.props.postBodyComponents}
 				</body>
 			</html>

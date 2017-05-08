@@ -1,10 +1,10 @@
 import React from 'react';
 import Link from 'gatsby-link';
-import { rhythm, scale } from 'utils/typography';
 import MenuIcon from 'react-icons/lib/md/menu';
 import gray from 'gray-percentage';
 import Headroom from 'react-headroom';
 
+import { rhythm, scale } from '../utils/typography';
 import theme from '../theme';
 import invertedLogo from '../images/logo-inverted.svg';
 import Container from './Container';
@@ -20,7 +20,7 @@ export default ({ home = '/', openSidebar }) => {
 				background: '#34a2d9',
 				transition: 'background 250ms',
 			}}
-		>
+    >
 			<Container>
 				<div onClick={openSidebar}>
 					<MenuIcon
@@ -42,7 +42,7 @@ export default ({ home = '/', openSidebar }) => {
 								display: 'none',
 							},
 						}}
-					/>
+          />
 				</div>
 				<Link
 					to={home}
@@ -51,7 +51,7 @@ export default ({ home = '/', openSidebar }) => {
 						lineHeight: rhythm(1),
 						textDecoration: 'none',
 					}}
-					>
+        >
 					<img
 						src={invertedLogo}
 						css={{
@@ -61,7 +61,7 @@ export default ({ home = '/', openSidebar }) => {
 							marginRight: rhythm(1 / 2),
 							verticalAlign: 'top',
 						}}
-					/>
+          />
 					<h1
 						css={{
 							...scale(2 / 5),
@@ -71,9 +71,9 @@ export default ({ home = '/', openSidebar }) => {
 							margin: 0,
 							verticalAlign: 'top',
 						}}
-					>
-						Keystone
-					</h1>
+          >
+            Keystone
+          </h1>
 				</Link>
 			</Container>
 		</Headroom>
