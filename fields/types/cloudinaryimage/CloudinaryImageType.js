@@ -369,6 +369,7 @@ function trimSupportedFileExtensions (publicId) {
  * in the same action, this should be supported
  */
 cloudinaryimage.prototype.updateItem = function (item, data, files, callback) {
+	console.log(data);
 	// Process arguments
 	if (typeof files === 'function') {
 		callback = files;
@@ -395,6 +396,10 @@ cloudinaryimage.prototype.updateItem = function (item, data, files, callback) {
 				callback();
 			}
 		});
+		return;
+	} else if (value === 'upload:remove') {
+		item.set(field.path, getEmptyValue());
+		callback();
 		return;
 	}
 

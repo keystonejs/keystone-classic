@@ -6,6 +6,7 @@ work out whether we're going to support deleting through the UI.
 
 import React, { PropTypes } from 'react';
 import Field from '../Field';
+import Select from 'react-select';
 import cloudinaryResize from '../../../admin/client/utils/cloudinaryResize';
 import { Button, FormField, FormInput, FormNote } from '../../../admin/client/App/elemental';
 
@@ -23,6 +24,7 @@ const buildInitialState = (props) => ({
 	removeExisting: false,
 	uploadFieldPath: `CloudinaryImage-${props.path}-${++uploadInc}`,
 	userSelectedFile: null,
+	selectValue: null,
 });
 
 module.exports = Field.create({
@@ -31,6 +33,7 @@ module.exports = Field.create({
 		label: PropTypes.string,
 		note: PropTypes.string,
 		path: PropTypes.string.isRequired,
+		select: PropTypes.bool,
 		value: PropTypes.shape({
 			format: PropTypes.string,
 			height: PropTypes.number,
@@ -218,6 +221,74 @@ module.exports = Field.create({
 			</ImageThumbnail>
 		);
 	},
+	renderValue (option) {
+		let imageStyle = {
+			height: 24,
+			width: 48,
+			marginRight: '1em',
+		};
+		return (
+			<div>
+				<img alt={option.label} src={option.thumbnail} style={imageStyle} />
+				<span>{option.label}</span>
+			</div>
+		);
+	},
+	renderOption (option) {
+		let imageStyle = {
+			height: 50,
+			width: 100,
+			marginRight: '1em',
+		};
+		return (
+			<div>
+				<img alt={option.label} src={option.thumbnail} style={imageStyle} />
+				<span>{option.label}</span>
+			</div>
+		);
+	},
+	handleSelectOnChange (option) {
+		this.setState({ selectValue: option.value });
+	},
+	handleLoadOptions (input, callback) {
+		$.get('/keystone/api/cloudinary/autocomplete', {
+			dataType: 'json',
+			data: { q: input },
+			prefix: 'hydrochem/technologies/logo/',
+			max: 500,
+		}, function (data) {
+			var options = [];
+
+			data.items.forEach(function (item) {
+				options.push({
+					value: item.public_id,
+					label: item.public_id,
+					thumbnail: item.thumbnail,
+				});
+			});
+
+			callback(null, {
+				options: options,
+				complete: true,
+			});
+		});
+	},
+	renderImageSelect () {
+		const { path } = this.props;
+		const { selectValue } = this.state;
+		return (
+			<Select.Async
+				placeholder="Search for an image from Cloudinary ..."
+				value={selectValue}
+				name={this.getInputName(path)}
+				optionRenderer={this.renderOption}
+				valueRenderer={this.renderValue}
+				loadOptions={this.handleLoadOptions}
+				onChange={this.handleSelectOnChange}
+				autoload={false}
+			/>
+		);
+	},
 	renderFileNameAndOptionalMessage (showChangeMessage = false) {
 		return (
 			<div>
@@ -315,7 +386,7 @@ module.exports = Field.create({
 	},
 
 	renderUI () {
-		const { label, note, path } = this.props;
+		const { label, note, path, select } = this.props;
 
 		const imageContainer = (
 			<div style={this.hasImage() ? { marginBottom: '1em' } : null}>
@@ -330,6 +401,7 @@ module.exports = Field.create({
 
 		return (
 			<FormField label={label} className="field-type-cloudinaryimage" htmlFor={path}>
+				{!!select && this.renderImageSelect()}
 				{imageContainer}
 				{toolbar}
 				{!!note && <FormNote note={note} />}

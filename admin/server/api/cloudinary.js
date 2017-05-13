@@ -44,6 +44,11 @@ module.exports = {
 			if (result.error) {
 				res.json({ error: { message: result.error.message } });
 			} else {
+				const options = { width: 100, height: 50, crop: 'fit', format: 'jpg' };
+				result.resources = result.resources.map((resource) => {
+					resource.thumbnail = cloudinary.url(resource.public_id, options);
+					return resource;
+				});
 				res.json({
 					next: result.next_cursor,
 					items: result.resources,
