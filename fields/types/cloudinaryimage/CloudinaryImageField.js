@@ -31,6 +31,7 @@ module.exports = Field.create({
 	propTypes: {
 		collapse: PropTypes.bool,
 		label: PropTypes.string,
+		list: PropTypes.string.isRequired,
 		note: PropTypes.string,
 		path: PropTypes.string.isRequired,
 		select: PropTypes.bool,
@@ -64,6 +65,7 @@ module.exports = Field.create({
 			this.setState({
 				removeExisting: false,
 				userSelectedFile: null,
+				selectValue: null,
 			});
 		}
 	},
@@ -103,6 +105,17 @@ module.exports = Field.create({
 		}
 
 		return src;
+	},
+	getSelectIcon (resource_type) {
+		switch (resource_type) {
+			case 'pdf':
+				return 'file-pdf';
+			case 'video':
+				return 'device-camera-video';
+			case 'image':
+			default:
+				return 'file-media';
+		}
 	},
 
 	// ==============================
@@ -221,52 +234,49 @@ module.exports = Field.create({
 			</ImageThumbnail>
 		);
 	},
-	renderValue (option) {
-		let imageStyle = {
-			height: 24,
-			width: 48,
-			marginRight: '1em',
+	renderOption (option, isValue) {
+		const className = `octicon octicon-${this.getSelectIcon(option.resource_type)}`;
+		const styles = {
+			image: {
+				height: isValue ? 24 : 50,
+				width: isValue ? 48 : 100,
+				marginRight: '1em',
+			},
+			glyph: {
+				paddingRight: '0.5em',
+			},
 		};
 		return (
 			<div>
-				<img alt={option.label} src={option.thumbnail} style={imageStyle} />
-				<span>{option.label}</span>
-			</div>
-		);
-	},
-	renderOption (option) {
-		let imageStyle = {
-			height: 50,
-			width: 100,
-			marginRight: '1em',
-		};
-		return (
-			<div>
-				<img alt={option.label} src={option.thumbnail} style={imageStyle} />
-				<span>{option.label}</span>
+				<img alt={option.label} src={option.thumbnail} style={styles.image} />
+				<span><i style={styles.glyph} className={className} />{option.label}</span>
 			</div>
 		);
 	},
 	handleSelectOnChange (option) {
-		this.setState({ selectValue: option.value });
+		this.setState({ selectValue: option ? option.value : null });
 	},
 	handleLoadOptions (input, callback) {
+		const { listPath, path } = this.props;
+
+		let prefix = Keystone.options.cloudinaryPrefix ? `${Keystone.options.cloudinaryPrefix}/` : '';
+		prefix += `${listPath}/${path}`;
+
 		$.get('/keystone/api/cloudinary/autocomplete', {
 			dataType: 'json',
 			data: { q: input },
-			prefix: 'hydrochem/technologies/logo/',
+			prefix: prefix,
 			max: 500,
 		}, function (data) {
 			var options = [];
-
 			data.items.forEach(function (item) {
 				options.push({
-					value: item.public_id,
+					value: `select:${item.public_id}`,
 					label: item.public_id,
+					resource_type: item.resource_type,
 					thumbnail: item.thumbnail,
 				});
 			});
-
 			callback(null, {
 				options: options,
 				complete: true,
@@ -278,14 +288,13 @@ module.exports = Field.create({
 		const { selectValue } = this.state;
 		return (
 			<Select.Async
-				placeholder="Search for an image from Cloudinary ..."
+				placeholder="Search for an image on Cloudinary ..."
 				value={selectValue}
 				name={this.getInputName(path)}
-				optionRenderer={this.renderOption}
-				valueRenderer={this.renderValue}
+				optionRenderer={(o) => this.renderOption(o)}
+				valueRenderer={(o) => this.renderOption(o, true)}
 				loadOptions={this.handleLoadOptions}
 				onChange={this.handleSelectOnChange}
-				autoload={false}
 			/>
 		);
 	},
