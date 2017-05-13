@@ -39,6 +39,9 @@ module.exports = function IndexRoute (req, res) {
 			id: req.user.id,
 			name: UserList.getDocumentName(req.user) || '(no name)',
 		},
+		options: {
+			cloudinaryPrefix: keystone.get('cloudinary prefix'),
+		},
 		userList: UserList.key,
 		version: keystone.version,
 		wysiwyg: { options: {
