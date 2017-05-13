@@ -408,7 +408,7 @@ cloudinaryimage.prototype.updateItem = function (item, data, files, callback) {
 			}
 		});
 		return;
-	} else if (value === 'upload:remove') {
+	} else if (value === 'delete') {
 		item.set(field.path, getEmptyValue());
 		callback();
 		return;
