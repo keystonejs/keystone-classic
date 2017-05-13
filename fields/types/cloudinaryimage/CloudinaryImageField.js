@@ -376,7 +376,7 @@ module.exports = Field.create({
 		if (this.state.userSelectedFile || this.state.removeExisting) {
 			const value = this.state.userSelectedFile
 				? `upload:${this.state.uploadFieldPath}`
-				: `upload:remove`;
+				: 'delete';
 			return (
 				<input
 					name={this.getInputName(this.props.path)}

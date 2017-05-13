@@ -398,9 +398,9 @@ cloudinaryimage.prototype.updateItem = function (item, data, files, callback) {
 		return;
 	}
 
-	// Providing the string "upload:remove" removes the file and resets the field
-	if (field.options.autoCleanup && value === 'upload:remove') {
-		cloudinary.uploader.destroy(item.get(field.paths.public_id), function (result) {
+	// Providing the string "delete" removes the file and resets the field
+	if (field.options.autoCleanup && value === 'delete') {
+		cloudinary.api.delete_resources([item.get(field.paths.public_id)], function (result) {
 			if (result.error) {
 				callback(result.error);
 			} else {
@@ -409,7 +409,7 @@ cloudinaryimage.prototype.updateItem = function (item, data, files, callback) {
 			}
 		});
 		return;
-	} else if (value === 'upload:remove') {
+	} else if (value === 'delete') {
 		item.set(field.path, getEmptyValue());
 		callback();
 		return;
