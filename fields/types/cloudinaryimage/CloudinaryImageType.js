@@ -305,7 +305,7 @@ function validateInput (value) {
 	if (value === undefined || value === null || value === '') return true;
 	// If a string is provided, check it is an upload or delete instruction
 	// TODO: This should really validate files as well, but that's not pased to this method
-	if (typeof value === 'string' && /^(upload\:)|(delete$)|(data:[a-z\/]+;base64)|(https?\:\/\/)/.test(value)) return true;
+	if (typeof value === 'string' && /^(select\:)|^(upload\:)|(delete$)|(data:[a-z\/]+;base64)|(https?\:\/\/)/.test(value)) return true;
 	// If the value is an object and has a cloudinary public_id, it is valid
 	if (typeof value === 'object' && value.public_id) return true;
 	// None of the above? we can't recognise it.
@@ -369,7 +369,6 @@ function trimSupportedFileExtensions (publicId) {
  * in the same action, this should be supported
  */
 cloudinaryimage.prototype.updateItem = function (item, data, files, callback) {
-	console.log(data);
 	// Process arguments
 	if (typeof files === 'function') {
 		callback = files;
@@ -386,6 +385,18 @@ cloudinaryimage.prototype.updateItem = function (item, data, files, callback) {
 	var value = this.getValueFromData(data);
 	var uploadedFile;
 
+	// Providing the string "select:[public_id]" updates the field from cloudinary
+	if (typeof value === 'string' && value.substr(0, 7) === 'select:') {
+		cloudinary.api.resources_by_ids([value.substr(7)], function (result) {
+			if (result.error) {
+				callback(result.error);
+			} else {
+				item.set(field.path, result.resources[0]);
+				callback();
+			}
+		});
+		return;
+	}
 	// Providing the string "remove" or "delete" removes the file and resets the field
 	if (value === 'remove' || value === 'delete') {
 		cloudinary.uploader.destroy(item.get(field.paths.public_id), function (result) {
