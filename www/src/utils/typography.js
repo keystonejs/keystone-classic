@@ -6,20 +6,30 @@ const theme = {
 	baseLineHeight: 1.45,
 	blockMarginBottom: 0.75,
 	bodyColor: '#535353',
-	bodyFontFamily: ['Roboto', 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
+	bodyFontFamily: [
+		'Roboto',
+		'Helvetica Neue',
+		'Helvetica',
+		'Arial',
+		'sans-serif',
+	],
 	bodyWeight: 300,
 	boldWeight: 500,
 	headerColor: '#123d62',
-	headerFontFamily: ['Roboto', 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
+	headerFontFamily: [
+		'Roboto',
+		'Helvetica Neue',
+		'Helvetica',
+		'Arial',
+		'sans-serif',
+	],
 	headerWeight: 400,
 	scaleRatio: 2,
-	plugins: [
-		new CodePlugin(),
-	],
+	plugins: [new CodePlugin()],
 	overrideStyles: ({ rhythm, scale }) => ({
 		'h1,h2,h3,h4,h5,h6': {
 			lineHeight: 1.1,
-			// marginTop: rhythm(1),
+      // marginTop: rhythm(1),
 			marginBottom: rhythm(1 / 2),
 		},
 		'h1': {

@@ -3,11 +3,9 @@ module.exports = {
 		title: 'KeystoneJS',
 	},
 	plugins: [
-		`gatsby-parser-remark`,
 		`gatsby-plugin-glamor`,
 		`gatsby-plugin-offline`,
 		`gatsby-plugin-sharp`,
-		`gatsby-typegen-filesystem`,
 		{
 			resolve: `gatsby-plugin-google-analytics`,
 			options: {
@@ -29,27 +27,27 @@ module.exports = {
 			},
 		},
 		{
-			resolve: `gatsby-typegen-remark`,
+			resolve: `gatsby-transformer-remark`,
 			options: {
 				plugins: [
 					{
-						resolve: `gatsby-typegen-remark-responsive-image`,
+						resolve: `gatsby-remark-responsive-image`,
 						options: {
 							maxWidth: 800,
 							wrapperStyle: `margin-bottom: 1.125rem;`,
 						},
 					},
 					{
-						resolve: `gatsby-typegen-remark-responsive-iframe`,
+						resolve: `gatsby-remark-responsive-iframe`,
 						options: {
 							wrapperStyle: `margin-bottom: 1.125rem;`,
 						},
 					},
-					`gatsby-typegen-remark-copy-linked-files`,
-					`gatsby-typegen-remark-smartypants`,
-					`gatsby-typegen-remark-prismjs`,
+					`gatsby-remark-copy-linked-files`,
+					`gatsby-remark-smartypants`,
+					`gatsby-remark-prismjs`,
 					{
-						resolve: `gatsby-typegen-remark-autolink-headers`,
+						resolve: `gatsby-remark-autolink-headers`,
 						options: {
 							offsetY: 0,
 						},

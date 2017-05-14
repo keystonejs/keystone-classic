@@ -1,4 +1,4 @@
-import { rhythm } from 'utils/typography';
+import { rhythm } from './utils/typography';
 
 // ==============================
 // THEME
@@ -34,10 +34,10 @@ export const color = {
 	blue: '#348dd9',
 	blueDark: '#374e61',
 	lightBlue: '#ebf4fb',
-	// social
+  // social
 	twitter: '#1DA1F2',
 
-	// neutrals
+  // neutrals
 	gray90: '#1A1A1A',
 	gray80: '#333',
 	gray70: '#4D4D4D',
