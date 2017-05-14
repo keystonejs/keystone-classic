@@ -28,7 +28,7 @@ If you're following the [recommended project structure](/getting-started/yo-gene
 
 The template engine to use by default. Any engine with express support should work. You will need to install any view engine you intend to use in your project
 
-This option is set on the express app ([see docs here](expressjs.com/api.html)).
+This option is set on the express app ([see docs here](http://expressjs.com/api.html)).
 
 <h4 data-primitive-type="Function"><code>custom engine</code></h4>
 
@@ -52,7 +52,7 @@ If you're following the [recommended project structure](/getting-started/yo-gene
 
 <h4 data-primitive-type="Object"><code>static options</code></h4>
 
-Optional config options that will be passed to the `serve-static` middleware ([see docs here](github.com/expressjs/serve-static)).
+Optional config options that will be passed to the `serve-static` middleware ([see docs here](https://github.com/expressjs/serve-static)).
 
 <h4 data-primitive-type="String|Array"><code>less</code></h4>
 
@@ -62,7 +62,7 @@ When this option is set, any requests to a **.css** or **.min.css** file will fi
 
 <h4 data-primitive-type="Object"><code>less options</code></h4>
 
-Optional config options that will be passed to the `less` middleware; see [github.com/emberfeather/less.js-middleware](github.com/emberfeather/less.js-middleware) for more information.
+Optional config options that will be passed to the `less` middleware; see [github.com/emberfeather/less.js-middleware](https://github.com/emberfeather/less.js-middleware) for more information.
 
 <h4 data-primitive-type="String|Array"><code>sass</code></h4>
 
@@ -74,7 +74,7 @@ When this option is set, any requests to a **.css** or **.min.css** file will fi
 
 <h4 data-primitive-type="Object"><code>sass options</code></h4>
 
-Optional config options that will be passed to the `sass` middleware; see [github.com/sass/node-sass](github.com/sass/node-sass) for more information.
+Optional config options that will be passed to the `sass` middleware; see [github.com/sass/node-sass](https://github.com/sass/node-sass) for more information.
 
 <h4 data-primitive-type="String"><code>favicon</code></h4>
 
@@ -83,19 +83,19 @@ If you're following the [recommended project structure](/getting-started/yo-gene
 
 <h4 data-primitive-type="Boolean"><code>compress</code></h4>
 
-Set this to true to enable HTTP compression. This will include the `compression` middleware ([see docs here](github.com/expressjs/compression)).
+Set this to true to enable HTTP compression. This will include the `compression` middleware ([see docs here](https://github.com/expressjs/compression)).
 
 <h4 data-primitive-type="String"><code>logger</code></h4>
 
-Set this to include the `morgan` middleware. The value will be passed to the middleware initialisation ([see docs here](github.com/expressjs/morgan)). Set this to `false` to disable logging altogether. Defaults to `:method :url :status :response-time ms`.
+Set this to include the `morgan` middleware. The value will be passed to the middleware initialisation ([see docs here](https://github.com/expressjs/morgan)). Set this to `false` to disable logging altogether. Defaults to `:method :url :status :response-time ms`.
 
 <h4 data-primitive-type="Object"><code>logger options</code></h4>
 
-Optional config options that will be passed to the morgan middleware; see [github.com/expressjs/morgan](github.com/expressjs/morgan) for more information.
+Optional config options that will be passed to the morgan middleware; see [github.com/expressjs/morgan](https://github.com/expressjs/morgan) for more information.
 
 <h4 data-primitive-type="Boolean"><code>trust proxy</code></h4>
 
-Set this to enable processing of the HTTP request `X-Forwarded-For` header. Extracted IP addresses will be available as the array `req.ips` ([see docs here](expressjs.com/en/api.html)).
+Set this to enable processing of the HTTP request `X-Forwarded-For` header. Extracted IP addresses will be available as the array `req.ips` ([see docs here](http://expressjs.com/en/api.html)).
 
 ### Exposes `onHttpServerCreated` event
 
@@ -109,7 +109,7 @@ keystone.start({
 
 ## HTTPS Web Server Options
 
-There are two ways to implement HTTPS for your KeystoneJS application: either use a web server (e.g. [NGINX](nginx.com)) or PAAS (e.g. [Heroku](heroku.com)) that handles it for you, or set the following options to use the [https server provided by node.js](https://nodejs.org/api/https.html).
+There are two ways to implement HTTPS for your KeystoneJS application: either use a web server (e.g. [NGINX](https://nginx.com)) or PAAS (e.g. [Heroku](https://heroku.com)) that handles it for you, or set the following options to use the [https server provided by node.js](https://nodejs.org/api/https.html).
 
 <h4 data-primitive-type="Boolean|String"><code>ssl</code></h4>
 

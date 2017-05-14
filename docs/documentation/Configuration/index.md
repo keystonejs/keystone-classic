@@ -45,7 +45,7 @@ Your Google Analytics Domain. Will default to `process.env.GA_DOMAIN`.
 
 ### Google Maps
 
-Keystone's [Location field type](/api/field/location/) supports integration with the [Google Maps API](www.morethanamap.com/) to auto-improve values (including discovering latitude and longitude) via the [Places Autocomplete API](developers.google.com/places/web-service/autocomplete).
+Keystone's [Location field type](/api/field/location/) supports integration with the [Google Maps API](https://www.morethanamap.com/) to auto-improve values (including discovering latitude and longitude) via the [Places Autocomplete API](https://developers.google.com/places/web-service/autocomplete).
 
 To enable these features, [obtain an API Key from Google](https://code.google.com/apis/console/) and enable the Google Maps v3 and Google Places APIs for it, then set the following options:
 
