@@ -16,9 +16,12 @@ export default class DocumentLayout extends React.Component {
 		const { edges } = this.props.data.allMarkdownRemark;
 		let currentSection;
 		const sections = {};
+		console.info(this.props.location.pathname);
 
 		edges.forEach(({ node }) => {
 			const { section } = node;
+
+			console.log('matching path', node.slug === this.props.location.pathname);
 			const newSection = section !== currentSection;
 			currentSection = section;
 

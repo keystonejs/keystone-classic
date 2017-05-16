@@ -11,6 +11,10 @@ import theme from '../../theme';
 
 import { itemsShape } from './utils';
 import Menu from './Menu';
+import { api, documentation, gettingStarted, guides } from '../../data/navigation';
+
+const sections = [gettingStarted, guides, documentation, api];
+console.table(sections);
 
 class Navbar extends Component {
 	constructor (props) {
@@ -29,13 +33,18 @@ class Navbar extends Component {
 		return (
 			<aside css={styles.navbar}>
 				<div css={styles.header}>
-					<Link to="/" css={styles.headerBrand}>
+					<Link to="/" css={styles.brand}>
 						<img
 							src={invertedLogo}
-							css={styles.headerBrandIcon}
+							css={styles.brandIcon}
 						/>
 					</Link>
-					<div css={styles.header__links}>
+					<div css={styles.github}>
+						<a href="https://github.com/keystonejs" target="_blank" css={[styles.github__link, styles.github__org]}>KeystoneJS</a>
+						<span css={styles.github__divider}>/</span>
+						<a href="https://github.com/keystonejs/keystone" target="_blank" css={[styles.github__link, styles.github__repo]}>Keystone</a>
+					</div>
+					{/* <div css={styles.header__links}>
 						<a href="https://twitter.com/keystonejs" target="_blank" css={styles.header__link}>
 							<TwitterIcon css={styles.header__linkIcon} />
 							Twitter
@@ -44,6 +53,13 @@ class Navbar extends Component {
 							<GithubIcon css={styles.header__linkIcon} />
 							GitHub
 						</a>
+					</div> */}
+					<div css={styles.nav}>
+						{sections.map(s => (
+							<Link key={s.slug} to={s.slug} css={styles.navitem}>
+								{s.section}
+							</Link>
+						))}
 					</div>
 					<button onClick={() => this.toggleNavMenu(!menuIsOpen)} css={styles.menuButton}>
 						{menuIsOpen
@@ -60,10 +76,7 @@ class Navbar extends Component {
 };
 
 Navbar.propTypes = {
-	closeNavigation: PropTypes.func.isRequired,
 	items: itemsShape.isRequired,
-	menuIsOpen: PropTypes.bool.isRequired,
-	openNavigation: PropTypes.func.isRequired,
 };
 
 const mobileHeaderHeight = 60;
@@ -71,7 +84,8 @@ const mobileHeaderHeight = 60;
 /* eslint quote-props: ["error", "as-needed"] */
 const styles = {
 	navbar: {
-		backgroundColor: theme.color.blueDark,
+		backgroundColor: theme.color.blue,
+		backgroundImage: 'linear-gradient(160deg, #34b6d9, #3464d9)',
 		color: 'white',
 		fontSize: '0.9em',
 		letterSpacing: '0.01em',
@@ -95,10 +109,124 @@ const styles = {
 		},
 	},
 
+	// nav
+	nav: {
+		display: 'flex',
+		fontWeight: 'normal',
+		lineHeight: 1.1,
+
+		[theme.breakpoint.mediumDown]: {
+			flex: '1 1 auto',
+		},
+		[theme.breakpoint.largeUp]: {
+			backgroundColor: 'white',
+			borderRadius: 4,
+			boxShadow: '0 2px 1px rgba(0, 0, 0, 0.2)',
+			marginLeft: '1rem',
+			marginRight: '1rem',
+		},
+	},
+	navitem: {
+		alignItems: 'center',
+		display: 'flex',
+		flex: '1 0 auto',
+		justifyContent: 'center',
+		paddingBottom: '0.5rem',
+		paddingTop: '0.5rem',
+		textDecoration: 'none',
+
+		[theme.breakpoint.mediumDown]: {
+			color: 'white',
+		},
+		[theme.breakpoint.largeUp]: {
+			color: theme.color.blue,
+
+			':not(:first-child)': {
+				boxShadow: '-1px 0 0 rgba(0, 0, 0, 0.1)',
+			},
+		},
+	},
+
+	// header
+	header: {
+		[theme.breakpoint.mediumDown]: {
+			alignItems: 'center',
+			borderBottom: `1px solid rgba(0, 0, 0, 0.1)`,
+			display: 'flex',
+			height: mobileHeaderHeight,
+			justifyContent: 'space-between',
+			paddingLeft: '1em',
+			paddingRight: '1em',
+		},
+	},
+
+	// brand
+	brand: {
+		// alignItems: 'space-between',
+		// display: 'flex',
+		// flexDirection: 'column',
+		// justifyContent: 'center',
+		display: 'block',
+		textAlign: 'center',
+		textDecoration: 'none',
+
+		[theme.breakpoint.largeUp]: {
+			padding: '2em 0 0',
+		},
+	},
+	brandIcon: {
+		height: 50,
+		margin: 0,
+
+		[theme.breakpoint.mediumDown]: {
+			height: 30,
+		},
+	},
+	brandLabel: {
+		color: 'white',
+		display: 'none',
+
+		[theme.breakpoint.largeUp]: {
+			display: 'block',
+		},
+	},
+	github: {
+		display: 'flex',
+		justifyContent: 'center',
+		marginBottom: '1em',
+
+		[theme.breakpoint.mediumDown]: {
+			visibility: 'hidden',
+			position: 'absolute',
+			height: 1,
+			width: 1,
+		},
+	},
+	github__link: {
+		color: 'white',
+		padding: '0.5em',
+		textDecoration: 'none',
+
+		':hover': {
+			textDecoration: 'underline',
+		},
+	},
+	github__org: {
+		opacity: 0.75,
+	},
+	github__divider: {
+		color: 'white',
+		opacity: 0.75,
+		paddingBottom: '0.5em',
+		paddingTop: '0.5em',
+	},
+	github__repo: {},
+
 	// mobile
 	menu: {
 		[theme.breakpoint.mediumDown]: {
-			backgroundColor: theme.color.blueDark,
+			backgroundColor: theme.color.blue,
+			boxShadow: '0 -1px 0 rgba(255, 255, 255, 0.4)',
 			display: 'none',
 			position: 'absolute',
 			top: mobileHeaderHeight,
@@ -125,71 +253,6 @@ const styles = {
 		},
 	},
 	menuIcon: {},
-
-	// header
-	header: {
-		[theme.breakpoint.mediumDown]: {
-			alignItems: 'center',
-			borderBottom: `1px solid rgba(0, 0, 0, 0.1)`,
-			display: 'flex',
-			height: mobileHeaderHeight,
-			justifyContent: 'space-between',
-			paddingLeft: '1em',
-			paddingRight: '1em',
-		},
-	},
-	headerBrand: {
-		display: 'block',
-		lineHeight: 0,
-		textAlign: 'center',
-		textDecoration: 'none',
-
-		[theme.breakpoint.largeUp]: {
-			padding: '2em 0',
-		},
-	},
-	headerBrandIcon: {
-		height: 60,
-		margin: 0,
-
-		[theme.breakpoint.mediumDown]: {
-			height: 30,
-		},
-	},
-
-	header__links: {
-		display: 'flex',
-	},
-	header__linkIcon: {
-		marginRight: '0.5em',
-	},
-	header__link: {
-		alignItems: 'center',
-		color: 'white',
-		display: 'flex',
-		flex: 1,
-		height: '44px',
-		justifyContent: 'center',
-		lineHeight: '44px',
-		opacity: 0.9,
-		padding: '0 1em',
-		textAlign: 'center',
-		textDecoration: 'none',
-
-		':hover': {
-			opacity: 1,
-		},
-
-		':first-child': {
-			marginRight: 1,
-		},
-
-		[theme.breakpoint.largeUp]: {
-			backgroundColor: 'rgba(0, 0, 0, 0.3)',
-		},
-	},
-
-	menu__active: {},
 };
 
 export default Navbar;

@@ -45,7 +45,7 @@ const styles = {
 		},
 	},
 	link__active: {
-		backgroundColor: theme.color.blue,
+		backgroundColor: 'rgba(0, 0, 0, 0.15)',
 		opacity: 1,
 	},
 
