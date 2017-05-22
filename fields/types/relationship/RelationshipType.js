@@ -90,6 +90,10 @@ relationship.prototype.addToSchema = function (schema) {
  * Gets the field's data from an Item, as used by the React components
  */
 relationship.prototype.getData = function (item) {
+    if (item.populated(this.path)) {
+        item.depopulate('this.path');
+    }
+
 	var value = item.get(this.path);
 	if (this.many) {
 		return Array.isArray(value) ? value : [];
@@ -218,7 +222,7 @@ relationship.prototype.inputIsValid = function (data, required, item) {
  */
 relationship.prototype.updateItem = function (item, data, callback) {
 	if (item.populated(this.path)) {
-		throw new Error('fieldTypes.relationship.updateItem() Error - You cannot update populated relationships.');
+		item.depopulate('this.path');
 	}
 
 	var value = this.getValueFromData(data);
