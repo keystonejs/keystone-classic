@@ -16,7 +16,10 @@ var CLOUDINARY_FIELDS = ['public_id', 'version', 'signature', 'format', 'resourc
 var DEFAULT_OPTIONS = {
 	// This makes Cloudinary assign a unique public_id and is the same as
 	//   the legacy implementation
-	generateFilename: () => undefined,
+	generateFilename: (file, o, done) => {
+		const filename = file.originalname.toLowerCase();
+		done(null, filename);
+	},
 	whenExists: 'overwrite',
 	retryAttempts: 3, // For whenExists: 'retry'.
 };
@@ -32,6 +35,7 @@ function getEmptyValue () {
 		width: 0,
 		height: 0,
 		secure_url: '',
+		context: {},
 	};
 }
 
@@ -121,6 +125,11 @@ cloudinaryimage.prototype.addToSchema = function (schema) {
 		width: Number,
 		height: Number,
 		secure_url: String,
+		context: {
+			custom: {
+				filename: String,
+			},
+		},
 	});
 
 	schema.add(schemaPaths);
@@ -454,7 +463,11 @@ cloudinaryimage.prototype.updateItem = function (item, data, files, callback) {
 			//   filename. Therefore undefined is a valid filename value.
 			if (filename !== undefined) {
 				filename = sanitize(filename);
-				uploadOptions.public_id = trimSupportedFileExtensions(filename);
+				filename = trimSupportedFileExtensions(filename);
+				// TODO: Correct behavior? This will overwrite matching filenames in Cloudinary
+				// uploadOptions.public_id = trimSupportedFileExtensions(filename);
+				// Add context filename to store in Cloudinary
+				uploadOptions.context = `filename=${filename}`;
 			}
 			cloudinary.uploader.upload(uploadedFile.path, function (result) {
 				if (result.error) {
