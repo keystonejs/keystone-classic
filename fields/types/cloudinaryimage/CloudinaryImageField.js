@@ -45,6 +45,11 @@ module.exports = Field.create({
 			url: PropTypes.string,
 			version: PropTypes.number,
 			width: PropTypes.number,
+			context: PropTypes.shape({
+				custom: PropTypes.shape({
+					filename: PropTypes.string,
+				}),
+			}),
 		}),
 	},
 	displayName: 'CloudinaryImageField',
@@ -84,11 +89,14 @@ module.exports = Field.create({
 		return this.hasExisting() || this.hasLocal();
 	},
 	getFilename () {
-		const { format, height, public_id, width } = this.props.value;
+		const { format, height, public_id, width, context } = this.props.value;
 
-		return this.state.userSelectedFile
-			? this.state.userSelectedFile.name
-			: `${public_id}.${format} (${width}×${height})`;
+		let label = `${public_id}.${format} (${width}×${height})`;
+		if (context && context.custom.filename) {
+			label = `${context.custom.filename} (${width}×${height})`;
+		}
+
+		return this.state.userSelectedFile ? this.state.userSelectedFile.name : label;
 	},
 	getImageSource (height = 90) {
 		// TODO: This lets really wide images break the layout
@@ -246,10 +254,14 @@ module.exports = Field.create({
 				paddingRight: '0.5em',
 			},
 		};
+		let label = option.label;
+		if (option.filename) {
+			label = option.filename;
+		}
 		return (
 			<div>
-				<img alt={option.label} src={option.thumbnail} style={styles.image} />
-				<span><i style={styles.glyph} className={className} />{option.label}</span>
+				<img alt={label} src={option.thumbnail} style={styles.image} />
+				<span><i style={styles.glyph} className={className} />{label}</span>
 			</div>
 		);
 	},
@@ -275,6 +287,7 @@ module.exports = Field.create({
 					label: item.public_id,
 					resource_type: item.resource_type,
 					thumbnail: item.thumbnail,
+					filename: item.context && item.context.custom.filename,
 				});
 			});
 			callback(null, {
