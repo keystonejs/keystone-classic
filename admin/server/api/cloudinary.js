@@ -47,10 +47,13 @@ module.exports = {
 					res.json({ error: { message: result.error.message } });
 				} else {
 					const options = { width: 100, height: 50, crop: 'pad', format: 'jpg' };
-					result.resources = result.resources.map((resource) => {
-						resource.thumbnail = cloudinary.url(resource.public_id, options);
-						return resource;
-					});
+					result.resources = result.resources.reduce((existing, resource) => {
+						if (!resource.placeholder) {
+							resource.thumbnail = cloudinary.url(resource.public_id, options);
+							existing.push(resource);
+						}
+						return existing;
+					}, []);
 					resources.push(...result.resources);
 					if (result.next_cursor) {
 						next = result.next_cursor;
@@ -67,6 +70,7 @@ module.exports = {
 				prefix: prefix,
 				max_results: max,
 				next_cursor: next,
+				context: true,
 			});
 		};
 		getResources();
