@@ -99,9 +99,12 @@ module.exports = Field.create({
 		return this.state.userSelectedFile ? this.state.userSelectedFile.name : label;
 	},
 	getImageSource (height = 90) {
+		const { userSelectedFile } = this.state;
 		// TODO: This lets really wide images break the layout
 		let src;
-		if (this.hasLocal()) {
+		if (this.hasLocal() && userSelectedFile.type === 'application/pdf') {
+			src = `${Keystone.adminPath}/images/icons/32/pdf.png`;
+		} else if (this.hasLocal()) {
 			src = this.state.dataUri;
 		} else if (this.hasExisting()) {
 			src = cloudinaryResize(this.props.value.public_id, {
