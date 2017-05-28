@@ -17,6 +17,16 @@ exports.initList = function (List) {
 };
 
 exports.testFieldType = function (List) {
+	describe('default options', function () {
+		it('should provide a default Datetime format of Do MMM YYYY hh:mm:ss a', function (done) {
+			List.add({
+				noFormat: { type: DatetimeType },
+			});
+			demand(List.fields.noFormat.formatString).be('Do MMM YYYY hh:mm:ss a');
+			done();
+		});
+	});
+
 	describe('invalid options', function () {
 		it('should throw when format is not a string', function (done) {
 			try {
