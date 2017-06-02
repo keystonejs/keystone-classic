@@ -91,7 +91,7 @@ relationship.prototype.addToSchema = function (schema) {
  */
 relationship.prototype.getData = function (item) {
     if (item.populated(this.path)) {
-        item.depopulate('this.path');
+        item.depopulate(this.path);
     }
 
 	var value = item.get(this.path);
@@ -222,7 +222,7 @@ relationship.prototype.inputIsValid = function (data, required, item) {
  */
 relationship.prototype.updateItem = function (item, data, callback) {
 	if (item.populated(this.path)) {
-		item.depopulate('this.path');
+		item.depopulate(this.path);
 	}
 
 	var value = this.getValueFromData(data);
