@@ -5,21 +5,11 @@ var morgan = require('morgan');
 
 var language = require('../lib/middleware/language');
 
-module.exports = function createApp (keystone, express) {
+module.exports = function createApp (keystone, routers) {
 
-	if (!keystone.app) {
-		if (!express) {
-			express = require('express');
-		}
-		keystone.app = express();
-	}
+	if (!keystone.app) keystone.initExpressApp();
 
 	var app = keystone.app;
-	require('./initLetsEncrypt')(keystone, app);
-	require('./initSslRedirect')(keystone, app);
-
-	keystone.initDatabaseConfig();
-	keystone.initExpressSession(keystone.mongoose);
 
 	require('./initTrustProxy')(keystone, app);
 	require('./initViewEngine')(keystone, app);
@@ -123,24 +113,40 @@ module.exports = function createApp (keystone, express) {
 	});
 
 	// Configure application routes
-	var appRouter = keystone.get('routes');
-	if (typeof appRouter === 'function') {
-		if (appRouter.length === 3) {
+	if (!routers) routers = keystone.get('routes');
+	if (typeof routers === 'function') {
+		if (routers.length === 3) {
 			// new:
 			//    var myRouter = new express.Router();
 			//    myRouter.get('/', (req, res) => res.send('hello world'));
 			//    keystone.set('routes', myRouter);
-			app.use(appRouter);
+			app.use(routers);
 		} else {
 			// old:
 			//    var initRoutes = function (app) {
 			//      app.get('/', (req, res) => res.send('hello world'));
 			//    }
 			//    keystone.set('routes', initRoutes);
-			appRouter(app);
+			routers(app);
 		}
+	} else if (typeof routers === 'object') {
+		// new:
+		// 	The path property sets the mount path of the router.
+		// 			var MyRouters = [
+		// 				{
+		// 					path: '/',
+		// 					js: MyRouter,
+		// 				}, {
+		// 					path: '/example',
+		// 					js: ExampleRouter,
+		// 				},
+		// 			]
+		routers.forEach(function (router) {
+			if (typeof router.js === 'function' && router.js.length === 3 && router.path) {
+				app.use(router.path, router.js);
+			}
+		});
 	}
-
 
 	require('./bindRedirectsHandler')(keystone, app);
 
