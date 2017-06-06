@@ -13,7 +13,7 @@ process.env.KNE_TEST_PATHS = 'test/e2e/adminUI/tests';
 process.env.KNE_EXCLUDE_TEST_PATHS = 'test/e2e/adminUI/tests/group006Fields/commonFieldTestUtils.js,test/e2e/adminUI/tests/group999FixMe/*';
 
 // determine the mongo uri and database name
-var dbName = '/e2e' + (process.env.KEYSTONEJS_PORT || 3000);
+var dbName = '/e2e' + (process.env.KEYSTONEJS_PORT || 4000);
 var mongoUri = 'mongodb://' + (process.env.KEYSTONEJS_HOST || 'localhost') + dbName;
 
 // Function that drops the test database before starting testing
@@ -41,7 +41,7 @@ function dropTestDatabase(done) {
 function checkKeystoneReady (done) {
 	async.retry({
 		times: 10,
-		interval: 3000
+		interval: 4000
 	}, function(done, result) {
 		console.log([moment().format('HH:mm:ss:SSS')] + ' e2e: checking if KeystoneJS ready for request');
 		request
@@ -75,7 +75,7 @@ function runKeystone(cb) {
 		'brand': 'e2e',
 
 		'host': process.env.KEYSTONEJS_HOST || 'localhost',
-		'port': process.env.KEYSTONEJS_PORT || 3000,
+		'port': process.env.KEYSTONEJS_PORT || 4000,
 
 		'mongo': mongoUri,
 
@@ -180,31 +180,12 @@ function start() {
 			checkKeystoneReady(cb);
 		},
 
-		function (cb) {
-			if (runTests) {
-				runE2E({
-					keystone: keystone
-				}, cb);
-			} else {
-				cb();
-			}
-		}
-
 	], function(err) {
-		var exitProcess = false;
-		var exitCode = 0;
 		if (err) {
 			console.error([moment().format('HH:mm:ss:SSS')] + ' e2e: ' + err);
-			exitProcess = true;
-			exitCode = 1;
+			process.exit(1);
 		}
-		if (runTests) {
-			exitProcess = true;
-		}
-		if (exitProcess) {
-			console.error([moment().format('HH:mm:ss:SSS')] + ' e2e: exiting');
-			process.exit(exitCode);
-		}
+		console.log('Server running, please open chrome with the DayDream extension installed');
 	});
 }
 
