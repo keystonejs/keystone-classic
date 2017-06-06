@@ -43,7 +43,7 @@
     "express-request-language": "1.1.9",
     "express-session": "1.15.2",
     "expression-match": "0.0.17",
-    "fs-extra": "1.0.0",
+    "fs-extra": "2.1.2",
     "glamor": "^2.20.24",
     "grappling-hook": "3.0.0",
     "i": "0.3.5",
