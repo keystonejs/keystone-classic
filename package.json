@@ -105,7 +105,7 @@
     "eslint": "3.17.0",
     "eslint-config-keystone": "3.0.0",
     "eslint-config-keystone-react": "1.0.0",
-    "eslint-plugin-react": "6.9.0",
+    "eslint-plugin-react": "6.10.3",
     "istanbul": "0.4.5",
     "keystone-email": "1.0.5",
     "keystone-nightwatch-e2e": "0.2.14",
