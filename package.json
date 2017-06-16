@@ -95,6 +95,7 @@
     "xhr": "2.4.0"
   },
   "devDependencies": {
+    "@ljharb/eslint-config": "^11.0.0",
     "browserify-middleware": "7.1.0",
     "codeclimate-test-reporter": "0.4.1",
     "connect-mongo": "1.3.2",
@@ -105,6 +106,7 @@
     "eslint": "3.17.0",
     "eslint-config-keystone": "3.0.0",
     "eslint-config-keystone-react": "1.0.0",
+    "eslint-config-postcss": "^2.0.2",
     "eslint-plugin-react": "6.9.0",
     "istanbul": "0.4.5",
     "keystone-email": "1.0.5",
