@@ -27,7 +27,7 @@
     "caller-id": "0.1.0",
     "chalk": "1.1.3",
     "classnames": "2.2.5",
-    "cloudinary": "1.7.1",
+    "cloudinary": "1.8.0",
     "cloudinary-microurl": "1.0.2",
     "compression": "1.6.2",
     "connect-flash": "0.1.1",
