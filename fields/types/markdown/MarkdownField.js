@@ -9,7 +9,9 @@ import { FormInput } from '../../../admin/client/App/elemental';
 
 // Scope jQuery and the bootstrap-markdown editor so it will mount
 var $ = require('jquery');
+var marked = require('marked');
 require('./lib/bootstrap-markdown');
+require('./lib/dropzone');
 
 // Append/remove ### surround the selection
 // Source: https://github.com/toopay/bootstrap-markdown/blob/master/js/bootstrap-markdown.js#L909
@@ -53,46 +55,60 @@ var renderMarkdown = function (component) {
 		return;
 	}
 
+	var dropZoneOptions = null;
+	if (component.props.dropZoneOptions) {
+		// Add the csrf to the dropZone params for security.
+		// Preview should always be disabled.
+		dropZoneOptions = Object.assign({
+			disablePreview: true,
+			params: Keystone.csrf.header,
+		}, component.props.dropZoneOptions);
+	}
+
 	var options = {
 		autofocus: false,
 		savable: false,
 		resize: 'vertical',
 		height: component.props.height,
+		dropZoneOptions: dropZoneOptions,
+		parser: marked,
 		hiddenButtons: ['Heading'],
 
 		// Heading buttons
-		additionalButtons: [{
-			name: 'groupHeaders',
-			data: [{
-				name: 'cmdH1',
-				title: 'Heading 1',
-				btnText: 'H1',
-				callback: function (e) {
-					toggleHeading(e, '#');
-				},
-			}, {
-				name: 'cmdH2',
-				title: 'Heading 2',
-				btnText: 'H2',
-				callback: function (e) {
-					toggleHeading(e, '##');
-				},
-			}, {
-				name: 'cmdH3',
-				title: 'Heading 3',
-				btnText: 'H3',
-				callback: function (e) {
-					toggleHeading(e, '###');
-				},
-			}, {
-				name: 'cmdH4',
-				title: 'Heading 4',
-				btnText: 'H4',
-				callback: function (e) {
-					toggleHeading(e, '####');
-				},
+		additionalButtons: [
+			[{
+				name: 'groupHeaders',
+				data: [{
+					name: 'cmdH1',
+					title: 'Heading 1',
+					btnText: 'H1',
+					callback: function (e) {
+						toggleHeading(e, '#');
+					},
+				}, {
+					name: 'cmdH2',
+					title: 'Heading 2',
+					btnText: 'H2',
+					callback: function (e) {
+						toggleHeading(e, '##');
+					},
+				}, {
+					name: 'cmdH3',
+					title: 'Heading 3',
+					btnText: 'H3',
+					callback: function (e) {
+						toggleHeading(e, '###');
+					},
+				}, {
+					name: 'cmdH4',
+					title: 'Heading 4',
+					btnText: 'H4',
+					callback: function (e) {
+						toggleHeading(e, '####');
+					},
+				}],
 			}],
-		}],
+		],
 
 		// Insert Header buttons into the toolbar
 		reorderButtonGroups: ['groupFont', 'groupHeaders', 'groupLink', 'groupMisc', 'groupUtil'],
