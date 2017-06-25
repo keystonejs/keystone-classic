@@ -12,14 +12,21 @@ var less = require('less-middleware');
 var path = require('path');
 var str = require('string-to-stream');
 
-function buildFieldTypesStream (fieldTypes) {
+function buildFieldTypesStream (fieldTypes, Types) {
 	var src = '';
-	var types = Object.keys(fieldTypes);
+	var keys = Object.keys(fieldTypes);
 	['Column', 'Field', 'Filter'].forEach(function (i) {
 		src += 'exports.' + i + 's = {\n';
-		types.forEach(function (type) {
-			if (typeof fieldTypes[type] !== 'string') return;
-			src += type + ': require("../../fields/types/' + type + '/' + fieldTypes[type] + i + '"),\n';
+		keys.forEach(function (label) {
+			var name = fieldTypes[label];
+			if (typeof name !== 'string') return;
+
+			// Use the custom locations, if defined; otherwise use the builtin.
+			if (Types.hasOwnProperty(name) && Types[name].hasOwnProperty(i)) {
+				src += label + ': require("' + Types[name][i] + '"),\n';
+			} else {
+				src += label + ': require("../../fields/types/' + label + '/' + name + i + '"),\n';
+			}
 		});
 		// Append ID and Unrecognised column types
 		if (i === 'Column') {
@@ -40,10 +47,10 @@ module.exports = function createStaticRouter (keystone) {
 	/* Prepare browserify bundles */
 	var bundles = {
 		fields: browserify({
-			stream: buildFieldTypesStream(keystone.fieldTypes),
+			stream: buildFieldTypesStream(keystone.fieldTypes, keystone.Field.Types),
 			expose: 'FieldTypes',
 			file: './FieldTypes.js',
-			hash: keystoneHash,
+			hash: keystoneHash + Date.now(), // TODO: Hash is no longer unique enough.
 			writeToDisk: writeToDisk,
 		}),
 		signin: browserify({
