@@ -8,6 +8,12 @@ import * as actions from '../../screens/List/constants.js';
 import { replace, push } from 'react-router-redux';
 
 describe('<List /> query param sagas', function () {
+	beforeEach(() => {
+		global.Keystone = {
+			adminPath: 'admin',
+		};
+	});
+
 	describe('* urlUpdate()', function () {
 		describe('Given a query object and a cache object', function () {
 			describe('If the query object sans search, is the same as the cache object sans search', function () {
@@ -66,7 +72,7 @@ describe('<List /> query param sagas', function () {
 			const size = 100;
 
 			const page = { index, size };
-			const pathname = `/keystone/${currentList.id}`;
+			const pathname = `/${Keystone.adminPath}/${currentList.id}`;
 			const query = {};
 			const location = { pathname, query };
 
@@ -145,7 +151,7 @@ describe('<List /> query param sagas', function () {
 		describe('If the pathame is is not valid', function () {
 			it('bails out', function () {
 				const generator = evalQueryParams();
-				const pathname = '/keystone/badUrl';
+				const pathname = `/${Keystone.adminPath}/badUrl`;
 				const query = { query: 'some query' };
 				const locationBeforeTransitions = {
 					pathname,
@@ -178,7 +184,7 @@ describe('<List /> query param sagas', function () {
 		describe('If the query and the cached query are the same', function () {
 			it('puts a QUERY HAS NOT CHANGED action to the store', function () {
 				const generator = evalQueryParams();
-				const pathname = '/keystone/Dictators';
+				const pathname = `/${Keystone.adminPath}/Dictators`;
 				const query = { someKey: 'someValue' };
 				const cachedQuery = { someKey: 'someValue' };
 				const locationBeforeTransitions = {
@@ -211,7 +217,7 @@ describe('<List /> query param sagas', function () {
 		describe('If the query and the cached query are different', function () {
 			it('parses the query and puts QUERY HAS CHANGED to the store', function () {
 				const generator = evalQueryParams();
-				const pathname = '/keystone/collection';
+				const pathname = `/${Keystone.adminPath}/collection`;
 				const query = { columns: ['name', 'email'], search: 'test search' };
 				const parsedQuery = {
 					columns: ['name', 'email'],
