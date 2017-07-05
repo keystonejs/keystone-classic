@@ -8,6 +8,9 @@ import {
 	ADD_FILTER,
 	CLEAR_FILTER,
 	CLEAR_ALL_FILTERS,
+	REPLACE_CACHED_QUERY,
+	CLEAR_CACHED_QUERY,
+	QUERY_HAS_CHANGED,
 } from '../../constants';
 import activeReducer from '../active';
 
@@ -23,6 +26,7 @@ describe('<List> reducer active', () => {
 				paths: [],
 				rawInput: '',
 			},
+			cachedQuery: {},
 		});
 	});
 
@@ -212,6 +216,107 @@ describe('<List> reducer active', () => {
 			}, {
 				type: CLEAR_ALL_FILTERS,
 			}).filters).eql([]);
+		});
+	});
+
+	describe('REPLACE_CACHED_QUERY', function () {
+		describe('Given a new cached query object', function () {
+			it('Replaces the cachedQuery object in state with the object in the action.', function () {
+				const initialState = {
+					cachedQuery: {
+						filter: ['some cached filter'],
+						columns: ['some cached column'],
+						sort: 'some cached sort',
+					},
+				};
+				const newCachedQuery = {
+					filter: ['New cached filter'],
+					columns: ['new cached column'],
+				};
+				const expectedState = {
+					cachedQuery: newCachedQuery,
+				};
+				const action = { type: REPLACE_CACHED_QUERY, cachedQuery: newCachedQuery };
+				demand(activeReducer(initialState, action)).eql(expectedState);
+			});
+		});
+	});
+
+	describe('QUERY_HAS_CHANGED', function () {
+		describe('Given a complete new query object', function () {
+			it('returns state with new query parameters', function () {
+				const initialState = {
+					columns: ['name', 'email'],
+					filters: ['existing list of filters'],
+					sort: 'existing sort method',
+					search: 'existing search query',
+				};
+				const parsedQuery = {
+					columns: ['newColA', 'newColB'],
+					filters: ['new list of filters'],
+					sort: 'new sort method',
+					search: 'new search query',
+				};
+				const expectedState = parsedQuery;
+				const action = { type: QUERY_HAS_CHANGED, parsedQuery };
+				demand(activeReducer(initialState, action)).eql(expectedState);
+			});
+		});
+		describe('Given a query object with missing or undefined fields', function () {
+			beforeEach(function () {
+				this.initialState = {
+					columns: ['name', 'email'],
+					filters: ['existing list of filters'],
+					sort: 'existing sort method',
+					search: 'existing search query',
+				};
+				this.parsedQuery = {
+					columns: undefined,
+					filters: undefined,
+					sort: undefined,
+					search: 'new search query',
+				};
+				this.action = { type: QUERY_HAS_CHANGED, parsedQuery: this.parsedQuery };
+			});
+
+			it('replaces state with new values for populated fields in the parsedQuery object', function () {
+				demand(activeReducer(this.initialState, this.action).search).eql('new search query');
+			});
+
+			it('replaces state with assigned default values for undefined fields in the parsedQuery object', function () {
+				const defaultSort = {
+					input: '',
+					isDefaultSort: false,
+					paths: [],
+					rawInput: '',
+				};
+
+				const defaultColumns = [];
+				const defaultFilters = [];
+
+				demand(activeReducer(this.initialState, this.action).sort).eql(defaultSort);
+				demand(activeReducer(this.initialState, this.action).columns).eql(defaultColumns);
+				demand(activeReducer(this.initialState, this.action).filters).eql(defaultFilters);
+			});
+		});
+	});
+
+	describe('CLEAR_CACHED_QUERY', function () {
+		it('returns state with an empty cachedQuery object', function () {
+			const initialState = {
+				cachedQuery: {
+					filter: ['some cached filter'],
+					columns: ['some cached columns'],
+					sort: 'some cached sort',
+				},
+			};
+
+			const expectedState = {
+				cachedQuery: {},
+			};
+
+			const action = { type: CLEAR_CACHED_QUERY };
+			demand(activeReducer(initialState, action)).eql(expectedState);
 		});
 	});
 });

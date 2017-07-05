@@ -6,14 +6,14 @@
 import React from 'react';
 import { Container } from './elemental';
 import { Link } from 'react-router';
-import { css, StyleSheet } from 'aphrodite/no-important';
+import { css } from 'glamor';
 
 import MobileNavigation from './components/Navigation/Mobile';
 import PrimaryNavigation from './components/Navigation/Primary';
 import SecondaryNavigation from './components/Navigation/Secondary';
 import Footer from './components/Footer';
 
-const classes = StyleSheet.create({
+const classes = {
 	wrapper: {
 		display: 'flex',
 		flexDirection: 'column',
@@ -22,7 +22,7 @@ const classes = StyleSheet.create({
 	body: {
 		flexGrow: 1,
 	},
-});
+};
 
 const App = (props) => {
 	const listsByPath = require('../utils/lists').listsByPath;

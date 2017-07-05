@@ -53,6 +53,8 @@ Will return unexpected results if the relationship path has been populated.
 
 Updates with the provided value if it is different from the stored value.
 
+`undefined` values are ignored.
+
 When `null` is passed, mongoose will remove the path from the stored document and the value will be `undefined` when the item is next retrieved. This behaviour is different in `many` mode, when an empty array will be stored.
 
 ### `validateInput`

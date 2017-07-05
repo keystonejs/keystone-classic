@@ -1,7 +1,7 @@
 /* eslint quote-props: ["error", "as-needed"] */
 
 import React from 'react';
-import { css, StyleSheet } from 'aphrodite/no-important';
+import { css } from 'glamor';
 import Button from '../Button';
 
 function DropdownButton ({ children, ...props }) {
@@ -17,7 +17,7 @@ function DropdownButton ({ children, ...props }) {
 // 1: take advantage of `currentColor` by leaving border top color undefined
 // 2: even though the arrow is vertically centered, visually it appears too low
 //    because of lowercase characters beside it
-const classes = StyleSheet.create({
+const classes = {
 	arrow: {
 		borderLeft: '0.3em solid transparent',
 		borderRight: '0.3em solid transparent',
@@ -36,6 +36,6 @@ const classes = StyleSheet.create({
 			marginLeft: '0.5em',
 		},
 	},
-});
+};
 
 module.exports = DropdownButton;
