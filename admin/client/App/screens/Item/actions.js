@@ -1,3 +1,5 @@
+import assign from 'object-assign';
+
 import {
 	SELECT_ITEM,
 	LOAD_DATA,
@@ -77,6 +79,32 @@ export function loadRelationshipItemData ({ columns, refList, relationship, rela
 	};
 }
 
+export function loadItemRevision ({ revId }) {
+	return (dispatch, getState) => {
+		const currentItemID = getState().item.id;
+		dispatch({
+			type: LOAD_DATA,
+		});
+		const state = getState();
+		const list = state.lists.currentList;
+
+		list.loadItemRevision(state.item.id, revId, (err, revData) => {
+			if (getState().item.id !== currentItemID) return;
+
+			if (err || !revData) {
+				dispatch(dataLoadingError(err));
+			} else {
+				const data = assign({}, 
+					getState().item.data,
+					revData.data,
+					{ rev: revData.revision }
+				);
+				
+				dispatch(dataLoaded(data));
+			}
+		});
+	}
+}
 
 /**
  * Called when data of the current item is loaded

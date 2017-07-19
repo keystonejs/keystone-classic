@@ -244,6 +244,29 @@ List.prototype.loadItem = function (itemId, options, callback) {
 };
 
 /**
+ * Load a specific item's historical revision via the API
+ *
+ * @param  {String}   itemId   The id of the item we want to load
+ * @param  {String}   revId    The id of the revision to be loaded
+ * @param  {Function} callback
+ */
+List.prototype.loadItemRevision = function (itemId, revId, callback) {
+	let url = Keystone.adminPath + '/api/' + this.path + '/' + itemId + '/rev/' + revId;
+	xhr({
+		url: url,
+		responseType: 'json',
+	}, (err, resp, data) => {
+		if (err) return callback(err);
+		// Pass the data as result or error, depending on the statusCode
+		if (resp.statusCode === 200) {
+			callback(null, data);
+		} else {
+			callback(data);
+		}
+	});
+};
+
+/**
  * Load all items of a list, optionally passing objects to build a query string
  * for sorting or searching
  *
