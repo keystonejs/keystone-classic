@@ -24,6 +24,29 @@ module.exports = function (req, res) {
 
 		var tasks = [];
 		var drilldown;
+		var history;
+
+		if (req.list.get('history')) {
+			tasks.push(function (cb) {
+				req.list.HistoryModel.find({
+					i: item._id
+				}, {
+					_id: 1,
+					t: 1,
+					o: 1,
+					u: 1,
+					c: 1
+				})
+				.sort('-t')
+				.populate('u', 'name')
+				.exec(function (err, result) {
+					if (err) return cb(err);
+					
+					history = { revisions: result };
+					cb();
+				});
+			});
+		}
 
 		/* Drilldown (optional, provided if ?drilldown=true in querystring) */
 		if (req.query.drilldown === 'true' && req.list.get('drilldown')) {
@@ -112,6 +135,7 @@ module.exports = function (req, res) {
 			}
 			res.json(_.assign(req.list.getData(item, fields), {
 				drilldown: drilldown,
+				history: history
 			}));
 		});
 	});
