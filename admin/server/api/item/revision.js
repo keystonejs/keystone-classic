@@ -1,6 +1,10 @@
 module.exports = function (req, res) {
     var keystone = req.keystone;
 
+    if (!req.list.get('history')) {
+        return res.status(400).json({ err: 'history not enabled for list', id: req.params.list });
+    }
+
     req.list.HistoryModel
         .findById(req.params.revisionId)
         .populate('u', 'name')
