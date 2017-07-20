@@ -131,12 +131,19 @@ export const EditFormHeader = React.createClass({
 		);
 	},
 	renderInfo () {
+		const buttons = [];
+
+		if (this.props.list.history) {
+			buttons.push(this.renderHistoryButton());
+			buttons.push(this.renderHistoryPopout());
+			buttons.push(" ");
+		}
+
+		buttons.push(this.renderCreateButton())
+
 		return (
 			<ToolbarSection right>
-				{this.renderHistoryButton()}
-				{" "}
-				{this.renderCreateButton()}
-				{this.renderHistoryPopout()}
+				{buttons}
 			</ToolbarSection>
 		);
 	},
