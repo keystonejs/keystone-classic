@@ -16,7 +16,7 @@ function location (list, path, options) {
 
 	this._underscoreMethods = ['format', 'googleLookup', 'kmFrom', 'milesFrom'];
 	this._fixedSize = 'full';
-	this._properties = ['enableMapsAPI'];
+	this._properties = ['enableMapsAPI', 'map', 'height', 'browserApiKey'];
 	this.enableMapsAPI = (options.enableImprove === true || (options.enableImprove !== false && keystone.get('google server api key'))) ? true : false;
 
 	// Throw on invalid options in 4.0 (remove for 5.0)
@@ -44,6 +44,10 @@ function location (list, path, options) {
 	if (!this.requiredPaths) {
 		this.requiredPaths = ['street1', 'suburb'];
 	}
+	// Should display as a Google Map
+	this.map = options.map || false;
+	this.browserApiKey = this.map ? keystone.get('google api key') : null;
+	this.height = options.height || 300;
 
 	location.super_.call(this, list, path, options);
 }

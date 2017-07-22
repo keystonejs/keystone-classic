@@ -76,6 +76,7 @@
     "react-dnd-html5-backend": "2.2.4",
     "react-dom": "15.4.2",
     "react-domify": "0.2.6",
+    "react-google-maps": "6.3.0",
     "react-images": "0.5.2",
     "react-markdown": "2.4.5",
     "react-redux": "5.0.3",

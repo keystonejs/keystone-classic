@@ -1,5 +1,7 @@
 import _ from 'lodash';
 import React from 'react';
+import { withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
+import withScriptjs from 'react-google-maps/lib/async/withScriptjs';
 import Field from '../Field';
 import CollapsedFieldLabel from '../../components/CollapsedFieldLabel';
 import NestedFormField from '../../components/NestedFormField';
@@ -11,6 +13,24 @@ import {
 	Grid,
 	LabelledControl,
 } from '../../../admin/client/App/elemental';
+
+const AsyncGoogleMap = _.flowRight(
+  withScriptjs,
+  withGoogleMap,
+)(props => (
+	<GoogleMap
+		ref={props.onMapLoad}
+		defaultZoom={16}
+		defaultCenter={{ lat: -33.498405, lng: -70.610659 }}
+		// defaultCenter={{ lat: -25.363882, lng: 131.044922 }}
+		onClick={props.onMapClick}
+		>
+		<Marker
+			{...props.marker}
+			onRightClick={() => props.onMarkerRightClick(props.marker)}
+			/>
+	</GoogleMap>
+));
 
 /**
  * TODO:
@@ -177,6 +197,74 @@ module.exports = Field.create({
 		);
 	},
 
+	handleMapLoad (map) {
+		this.map = map;
+	},
+
+	// Remove marker
+	handleMarkerRightClick () {
+		const { value = {}, path, onChange } = this.props;
+		const geo = ['', ''];
+		onChange({
+			path,
+			value: {
+				...value,
+				geo,
+			},
+		});
+	},
+
+	handleMapClick (event) {
+		const { value = {}, path, onChange } = this.props;
+		const lng = event.latLng.lng();
+		const lat = event.latLng.lat();
+		const geo = [
+			lng || (value.geo ? value.geo[0] : 0.0),
+			lat || (value.geo ? value.geo[1] : 0.0),
+		];
+		onChange({
+			path,
+			value: {
+				...value,
+				geo,
+			},
+		});
+	},
+
+	renderMap () {
+		const { value = {}, height, browserApiKey } = this.props;
+
+		const marker = {
+			position: {
+				lng: (value.geo ? value.geo[0] : 0.0),
+				lat: (value.geo ? value.geo[1] : 0.0),
+			},
+		};
+
+		const googleMapURL = `https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=${browserApiKey}`;
+
+		return (
+			<FormField offsetAbsentLabel>
+				<AsyncGoogleMap
+					googleMapURL={googleMapURL}
+					loadingElement={
+						<div style={{ height }} />
+					}
+					containerElement={
+						<div style={{ height }} />
+					}
+					mapElement={
+						<div style={{ height }} />
+					}
+					marker={marker}
+					onMarkerRightClick={this.handleMarkerRightClick}
+					onMapLoad={this.handleMapLoad}
+					onMapClick={this.handleMapClick}
+					/>
+			</FormField>
+		);
+	},
+
 	renderGeo () {
 		if (this.state.collapsedFields.geo) {
 			return null;
@@ -282,6 +370,7 @@ module.exports = Field.create({
 				{this.renderSuburbState()}
 				{this.renderPostcodeCountry()}
 				{this.renderGeo()}
+				{this.renderMap()}
 				{this.renderGoogleOptions()}
 				{this.renderNote()}
 			</div>
