@@ -44,6 +44,12 @@ Google Places integration requires the `google api key` option to be set for Key
 { type: Types.Location, map: true }
 ```
 
+`defaultCenter` `Object` - Center Google Map view at this point when `geo` value is missing.
+
+```js
+{ type: Types.Location, defaultCenter: { lat: -25.363882, lng: 131.044922 } }
+```
+
 `height` `Number` - Show Google Map view height. By default it is `300`.
 
 ```js

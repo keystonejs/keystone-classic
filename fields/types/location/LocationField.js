@@ -21,14 +21,15 @@ const AsyncGoogleMap = _.flowRight(
 	<GoogleMap
 		ref={props.onMapLoad}
 		defaultZoom={16}
-		defaultCenter={{ lat: -33.498405, lng: -70.610659 }}
-		// defaultCenter={{ lat: -25.363882, lng: 131.044922 }}
+		defaultCenter={props.defaultCenter}
 		onClick={props.onMapClick}
 		>
-		<Marker
-			{...props.marker}
-			onRightClick={() => props.onMarkerRightClick(props.marker)}
-			/>
+		{props.marker && (
+			<Marker
+				{...props.marker}
+				onRightClick={() => props.onMarkerRightClick(props.marker)}
+				/>
+		)}
 	</GoogleMap>
 ));
 
@@ -232,14 +233,16 @@ module.exports = Field.create({
 	},
 
 	renderMap () {
-		const { value = {}, height, browserApiKey } = this.props;
+		const { value = {}, height, browserApiKey, defaultCenter } = this.props;
 
-		const marker = {
+		const hasLng = value && value.geo && value.geo[0];
+		const hasLat = value && value.geo && value.geo[1];
+		const marker = hasLng && hasLat ? {
 			position: {
-				lng: (value.geo ? value.geo[0] : 0.0),
-				lat: (value.geo ? value.geo[1] : 0.0),
+				lng: value.geo[0],
+				lat: value.geo[1],
 			},
-		};
+		} : null;
 
 		const googleMapURL = `https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=${browserApiKey}`;
 
@@ -247,6 +250,7 @@ module.exports = Field.create({
 			<FormField offsetAbsentLabel>
 				<AsyncGoogleMap
 					googleMapURL={googleMapURL}
+					defaultCenter={marker ? marker.position : defaultCenter}
 					loadingElement={
 						<div style={{ height }} />
 					}
