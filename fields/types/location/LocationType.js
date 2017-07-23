@@ -47,9 +47,11 @@ function location (list, path, options) {
 	}
 	// Should display as a Google Map
 	this.map = options.map || false;
-	this.browserApiKey = this.map ? keystone.get('google api key') : null;
-	this.height = options.height || 300;
-	this.defaultCenter = options.defaultCenter || DEFAULT_CENTER;
+	if (this.map) {
+		this.browserApiKey = keystone.get('google api key');
+		this.height = options.height || 300;
+		this.defaultCenter = options.defaultCenter || DEFAULT_CENTER;
+	}
 
 	location.super_.call(this, list, path, options);
 }

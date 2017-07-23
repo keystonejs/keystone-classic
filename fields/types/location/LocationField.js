@@ -233,8 +233,8 @@ module.exports = Field.create({
 	},
 
 	renderMap () {
-		const { value = {}, height, browserApiKey, defaultCenter } = this.props;
-
+		const { value = {}, map, height, browserApiKey, defaultCenter } = this.props;
+		if (!map) return null;
 		const hasLng = value && value.geo && value.geo[0];
 		const hasLat = value && value.geo && value.geo[1];
 		const marker = hasLng && hasLat ? {
