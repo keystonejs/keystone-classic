@@ -55,9 +55,10 @@ module.exports = Field.create({
 	},
 
 	componentWillMount () {
-		const { value = [] } = this.props;
+		const { map, value = [] } = this.props;
+		const fields = map ? [] : ['number', 'name', 'street2', 'geo'];
 		var collapsedFields = {};
-		_.forEach(['number', 'name', 'street2', 'geo'], (i) => {
+		_.forEach(fields, (i) => {
 			if (!value[i]) {
 				collapsedFields[i] = true;
 			}
