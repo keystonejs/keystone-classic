@@ -233,6 +233,15 @@ module.exports = Field.create({
 			);
 		}
 	},
+	renderDownloadButton () {
+		if (this.state.lightboxIsVisible) {
+			let url = this.state.thumbnails[this.state.lightboxImageIndex].props.value.secure_url;
+			url = url.replace('/upload/', '/upload/fl_attachment/');
+			return (
+				<Button size="xs" href={url} target="_blank">Download</Button>
+			);
+		}
+	},
 	renderLightbox () {
 		const { value, secure } = this.props;
 		if (!value || !value.length) return;
@@ -255,7 +264,7 @@ module.exports = Field.create({
 		return (
 			<Lightbox
 				images={images}
-				customControls={[this.renderFullButton()]}
+				customControls={[this.renderFullButton(), this.renderDownloadButton()]}
 				currentImage={this.state.lightboxImageIndex}
 				isOpen={this.state.lightboxIsVisible}
 				// onClickImage={this.handleOnClickImage}
