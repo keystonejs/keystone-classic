@@ -1,7 +1,7 @@
 var async = require('async');
 var assign = require('object-assign');
 var listToArray = require('list-to-array');
-
+var Mongoose = require('mongoose');
 module.exports = function (req, res) {
 	var where = {};
 	var fields = req.query.fields;
@@ -23,8 +23,23 @@ module.exports = function (req, res) {
 		try { filters = JSON.parse(req.query.filters); }
 		catch (e) { } // eslint-disable-line no-empty
 	}
+	let priorQuery;
 	if (typeof filters === 'object') {
-		assign(where, req.list.addFiltersToQuery(filters));
+		Object.keys(filters)
+		.map(path => {
+			const relationship = req.list.relationshipFields.find(relationship => relationship.path === path);
+			const RefModel = req.keystone.lists[relationship.options.ref];
+			if (RefModel) {
+				Object.keys(RefModel.fields)
+				.reduce((acc, fieldName) => {
+					const field = RefModel.fields[fieldName];
+					if (req.list.key === field.options.ref) {
+						priorQuery = { Model: RefModel, find: toFind({ valueFilters: req.query.filters, filters: field.filters }) };
+					}
+
+				});
+			}
+		});
 	}
 	if (req.query.search) {
 		assign(where, req.list.addSearchToQuery(req.query.search));
@@ -41,16 +56,32 @@ module.exports = function (req, res) {
 	var sort = req.list.expandSort(req.query.sort);
 	async.waterfall([
 		function (next) {
+			if (!priorQuery) {
+				return next(null);
+			}
+			priorQuery.Model.model.find(priorQuery.find)
+			.then(results => {
+				const ids = results.map(r => Mongoose.Types.ObjectId(r.id)); // return id's for $in query
+				assign(where, Object.keys(req.query.filters)
+				.reduce((acc, key) => {
+					if (!req.query.filters[key]) return acc;
+					return Object.assign({}, { [key]: { $in: ids } });
+				}, {}));
+				next(null);
+			});
+		},
+		function (next) {
 			if (!includeCount) {
 				return next(null, 0);
 			}
+			query.find(where);
 			query.count(next);
 		},
 		function (count, next) {
 			if (!includeResults) {
 				return next(null, count, []);
 			}
-			query.find();
+			query.find(where);
 			query.limit(Number(req.query.limit) || 100);
 			query.skip(Number(req.query.skip) || 0);
 			if (sort.string) {
@@ -78,3 +109,18 @@ module.exports = function (req, res) {
 		});
 	});
 };
+
+// INPUT:
+// valueFilters { domain: { value: 'bobsyouruncle.com``' }}
+// OUTPUT:
+// { domain: 'bobsyouruncle.com' }
+function toFind ({ valueFilters, filters }) {
+	return Object.keys(valueFilters)
+	.reduce((acc, k) => {
+		if (!filters[k]) return acc;
+		const value = valueFilters[k].value;
+		const key = filters[k].replace(/:/g, '');
+		return Object.assign({}, acc, { [key]: value });
+		// { key: 'futurism' }
+	}, {});
+}
