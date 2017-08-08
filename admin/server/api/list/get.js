@@ -24,7 +24,7 @@ module.exports = function (req, res) {
 		catch (e) { } // eslint-disable-line no-empty
 	}
 	let priorQuery;
-	if (typeof filters === 'object') {
+	if (typeof filters === 'object' && !req.query.expandRelationshipFields) {
 		Object.keys(filters)
 		.map(path => {
 			const relationship = req.list.relationshipFields.find(relationship => relationship.path === path);
@@ -40,6 +40,10 @@ module.exports = function (req, res) {
 				});
 			}
 		});
+	}
+
+	if (typeof filters === 'object' && req.query.expandRelationshipFields) {
+		assign(where, req.list.addFiltersToQuery(filters));
 	}
 	if (req.query.search) {
 		assign(where, req.list.addSearchToQuery(req.query.search));
