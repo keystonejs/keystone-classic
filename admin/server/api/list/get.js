@@ -24,25 +24,24 @@ module.exports = function (req, res) {
 		catch (e) { } // eslint-disable-line no-empty
 	}
 	let priorQuery;
-	if (typeof filters === 'object' && !req.query.expandRelationshipFields) {
-		Object.keys(filters)
-		.map(path => {
-			const relationship = req.list.relationshipFields.find(relationship => relationship.path === path);
-			const RefModel = req.keystone.lists[relationship.options.ref];
-			if (RefModel) {
-				Object.keys(RefModel.fields)
-				.reduce((acc, fieldName) => {
-					const field = RefModel.fields[fieldName];
-					if (req.list.key === field.options.ref) {
-						priorQuery = { Model: RefModel, find: toFind({ valueFilters: req.query.filters, filters: field.filters }) };
-					}
-
-				});
-			}
-		});
-	}
-
-	if (typeof filters === 'object' && req.query.expandRelationshipFields) {
+	if (!filterValuesAreObjectIds(filters)) {
+		if (typeof filters === 'object' && !req.query.expandRelationshipFields) {
+			Object.keys(filters)
+			.map(path => {
+				const relationship = req.list.relationshipFields.find(relationship => relationship.path === path);
+				const RefModel = req.keystone.lists[relationship.options.ref];
+				if (RefModel) {
+					Object.keys(RefModel.fields)
+					.reduce((acc, fieldName) => {
+						const field = RefModel.fields[fieldName];
+						if (req.list.key === field.options.ref) {
+							priorQuery = { Model: RefModel, find: toFind({ valueFilters: req.query.filters, filters: field.filters }) };
+						}
+					});
+				}
+			});
+		}
+	} else if (typeof filters === 'object') {
 		assign(where, req.list.addFiltersToQuery(filters));
 	}
 	if (req.query.search) {
@@ -127,4 +126,25 @@ function toFind ({ valueFilters, filters }) {
 		return Object.assign({}, acc, { [key]: value });
 		// { key: 'futurism' }
 	}, {});
+}
+
+// eg filters = { site: '6d406d696b656a616d2e6573' };
+// when passed through mongo's ObjectId we get the same value back
+// return on first filter in object.
+// this limits keystone relationship filter to be on one field only.
+function filterValuesAreObjectIds (filters) {
+	if (typeof (filters) === 'object') {
+		for (const key in filters) {
+			if (filters.hasOwnProperty(key)) {
+				try {
+					const value = filters[key].value;
+					const objectId = Mongoose.Types.ObjectId(value);
+					return value === objectId.toString();
+				} catch (e) {
+					return false;
+				}
+			}
+		}
+	}
+	return false;
 }
