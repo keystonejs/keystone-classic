@@ -138,6 +138,7 @@ function filterValuesAreObjectIds (filters) {
 			if (filters.hasOwnProperty(key)) {
 				try {
 					const value = filters[key].value;
+					if (Array.isArray(value)) return true;
 					const objectId = Mongoose.Types.ObjectId(value);
 					return value === objectId.toString();
 				} catch (e) {
