@@ -1,4 +1,41 @@
 import assign from 'object-assign';
+import blacklist from 'blacklist';
+import isEqual from 'lodash/isEqual';
+
+export function checkForQueryChange (nextProps, thisProps) {
+	const { query } = nextProps.location;
+	const { cachedQuery } = nextProps.active;
+
+	const parsedQuery = Object.assign(
+		{},
+		query,
+		{ page: parseInt(query.page) }
+	);
+
+	if (!parsedQuery.page) delete parsedQuery.page;
+
+	const attenuatedQuery = blacklist(parsedQuery, 'search');
+	const attenuatedCache = blacklist(cachedQuery, 'search');
+
+	if (nextProps.location.pathname !== thisProps.location.pathname) return true;
+
+	if (!isEqual(attenuatedQuery, attenuatedCache)) return true;
+
+	return false;
+}
+
+export function normaliseValue (value, benchmark) {
+	if (value === benchmark) return void 0;
+	return value;
+}
+
+export function createSortQueryParams (rawInput, defaultSort) {
+	return normaliseValue(rawInput, defaultSort);
+}
+
+export function createPageQueryParams (page, defaultValue) {
+	return normaliseValue(page, defaultValue);
+}
 
 /**
  * Updates the query parameters with the ones passed as the first argument

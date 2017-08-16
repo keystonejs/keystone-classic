@@ -9,7 +9,6 @@ import {
 	ResponsiveText,
 } from '../../../elemental';
 
-// import { css, StyleSheet } from 'aphrodite/no-important';
 import { Fields } from 'FieldTypes';
 import { fade } from '../../../../utils/color';
 import theme from '../../../../theme';

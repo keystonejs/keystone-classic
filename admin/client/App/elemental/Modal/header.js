@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { css, StyleSheet } from 'aphrodite/no-important';
+import { css } from 'glamor';
 import GlyphButton from '../GlyphButton';
 import theme from '../../../theme';
 
@@ -49,7 +49,7 @@ ModalHeader.contextTypes = {
 	onClose: PropTypes.func.isRequired,
 };
 
-const classes = StyleSheet.create({
+const classes = {
 	header: {
 		alignItems: 'center',
 		borderBottom: `2px solid ${theme.color.gray10}`,
@@ -73,6 +73,6 @@ const classes = StyleSheet.create({
 		lineHeight: 1,
 		margin: 0,
 	},
-});
+};
 
 module.exports = ModalHeader;

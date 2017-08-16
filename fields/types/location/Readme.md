@@ -53,3 +53,9 @@ Internal status codes mimic the Google API status codes. See [Google Maps Geocod
 Use of the Google Geocoding API is subject to a query limit of 2,500 geolocation requests per day, except with an enterprise license.
 
 The Geocoding API may only be used in conjunction with a Google map; geocoding results without displaying them on a map is prohibited. Please make sure your Keystone app complies with the Google Maps API License.
+
+## Underscore methods
+
+`kmFrom([lng, lat])` - Takes a 2dsphere as an array of longitude then latitude, and then returns the distance in kilometres from the location's long/lat. Uses the [Haversine formula](http://en.wikipedia.org/wiki/Haversine_formula)
+
+`milesFrom` - Takes a 2dsphere as an array of longitude then latitude, and then returns the distance in miles from the location's long/lat. Uses the [Haversine formula](http://en.wikipedia.org/wiki/Haversine_formula)

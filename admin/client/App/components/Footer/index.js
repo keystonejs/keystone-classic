@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { css, StyleSheet } from 'aphrodite/no-important';
+import { css } from 'glamor';
 import { Container } from '../../elemental';
 import theme from '../../../theme';
 
@@ -68,7 +68,7 @@ const linkHoverAndFocus = {
 	color: theme.color.gray60,
 	outline: 'none',
 };
-const classes = StyleSheet.create({
+const classes = {
 	footer: {
 		boxShadow: '0 -1px 0 rgba(0, 0, 0, 0.1)',
 		color: theme.color.gray40,
@@ -83,6 +83,6 @@ const classes = StyleSheet.create({
 		':hover': linkHoverAndFocus,
 		':focus': linkHoverAndFocus,
 	},
-});
+};
 
 module.exports = Footer;

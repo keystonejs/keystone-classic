@@ -1,9 +1,7 @@
-import { StyleSheet, css } from 'aphrodite/no-important';
+import { css } from 'glamor';
 import React, { Component, PropTypes } from 'react';
 
-import styles from './styles';
-
-const classes = StyleSheet.create(styles);
+import classes from './styles';
 
 class FormSelect extends Component {
 	render () {

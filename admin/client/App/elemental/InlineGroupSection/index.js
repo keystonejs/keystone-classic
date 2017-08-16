@@ -1,8 +1,6 @@
-import { css, StyleSheet } from 'aphrodite/no-important';
+import { css } from 'glamor';
 import React, { cloneElement, PropTypes } from 'react';
-import styles from './styles';
-
-const classes = StyleSheet.create(styles);
+import classes from './styles';
 
 // NOTE: Inline Group Section accepts a single child
 

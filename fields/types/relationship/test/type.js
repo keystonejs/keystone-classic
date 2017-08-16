@@ -187,7 +187,7 @@ exports.testFieldType = function (List) {
 			});
 		});
 
-		it('should clear the current value when data object does not contain the field', function (done) {
+		it('should not clear the current value when data object does not contain the field', function (done) {
 			var testItem = new List.model({
 				single: relatedItem.id,
 			});
@@ -195,7 +195,7 @@ exports.testFieldType = function (List) {
 				List.fields.single.updateItem(testItem, {}, function () {
 					testItem.save(function (err, updatedItem) {
 						List.model.findById(updatedItem.id, function (err, persistedData) {
-							demand(persistedData.single).be.null();
+							demand(String(persistedData.single)).equal(String(relatedItem.id));
 							done();
 						});
 					});
@@ -247,7 +247,7 @@ exports.testFieldType = function (List) {
 			});
 		});
 
-		it('should clear the current values when data object does not contain the field', function (done) {
+		it('should not clear the current values when data object does not contain the field', function (done) {
 			var testItem = new List.model({
 				many: [relatedItem.id, relatedItem.id],
 			});
@@ -255,7 +255,9 @@ exports.testFieldType = function (List) {
 				List.fields.many.updateItem(testItem, {}, function () {
 					testItem.save(function (err, updatedItem) {
 						List.model.findById(updatedItem.id, function (err, persistedData) {
-							demand(persistedData.many).to.eql([]);
+							demand(persistedData.many.length).equal(2);
+							demand(String(persistedData.many[0])).equal(String(relatedItem.id));
+							demand(String(persistedData.many[1])).equal(String(relatedItem.id));
 							done();
 						});
 					});

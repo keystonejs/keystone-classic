@@ -1,4 +1,3 @@
-import { StyleSheet } from 'aphrodite/no-important';
 import React, { PropTypes } from 'react';
 import {
 	GlyphButton,
@@ -156,7 +155,7 @@ const tabletGrowStyles = {
 	},
 };
 
-const classes = StyleSheet.create({
+const classes = {
 	// main wrapper
 	wrapper: {
 		[`@media (max-width: ${theme.breakpoint.tabletPortraitMax})`]: {
@@ -192,6 +191,6 @@ const classes = StyleSheet.create({
 			minWidth: '100%',
 		},
 	},
-});
+};
 
 module.exports = ListHeaderToolbar;

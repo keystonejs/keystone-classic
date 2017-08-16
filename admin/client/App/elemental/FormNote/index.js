@@ -1,8 +1,6 @@
 import React, { PropTypes } from 'react';
-import { StyleSheet, css } from 'aphrodite/no-important';
-import styles from './styles';
-
-const classes = StyleSheet.create(styles);
+import { css } from 'glamor';
+import classes from './styles';
 
 function FormNote ({
 	className,
