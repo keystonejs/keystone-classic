@@ -221,24 +221,29 @@ embedly.prototype.inputIsValid = function () {
 embedly.prototype.updateItem = function (item, data, callback) {
 	// TODO: This could be more granular and check for actual changes to values,
 	// see the Location field for an example
-	item.set(item.set(this.path, {
-		exists: data[this.paths.exists],
-		type: data[this.paths.type],
-		title: data[this.paths.title],
-		url: data[this.paths.url],
-		width: data[this.paths.width],
-		height: data[this.paths.height],
-		version: data[this.paths.version],
-		description: data[this.paths.description],
-		html: data[this.paths.html],
-		authorName: data[this.paths.authorName],
-		authorUrl: data[this.paths.authorUrl],
-		providerName: data[this.paths.providerName],
-		providerUrl: data[this.paths.providerUrl],
-		thumbnailUrl: data[this.paths.thumbnailUrl],
-		thumbnailWidth: data[this.paths.thumbnailWidth],
-		thumbnailHeight: data[this.paths.thumbnailHeight],
-	}));
+
+ // This field type is never editable, so to ensure that we don't inadvertently reset the fields on this item with a null value
+ // A conditional has been added to negate updating this item should the fromPath on the passed in data object be the same as that on the item.
+	if (data[this.fromPath] !== item[this.fromPath]) {
+		item.set(item.set(this.path, {
+			exists: data[this.paths.exists],
+			type: data[this.paths.type],
+			title: data[this.paths.title],
+			url: data[this.paths.url],
+			width: data[this.paths.width],
+			height: data[this.paths.height],
+			version: data[this.paths.version],
+			description: data[this.paths.description],
+			html: data[this.paths.html],
+			authorName: data[this.paths.authorName],
+			authorUrl: data[this.paths.authorUrl],
+			providerName: data[this.paths.providerName],
+			providerUrl: data[this.paths.providerUrl],
+			thumbnailUrl: data[this.paths.thumbnailUrl],
+			thumbnailWidth: data[this.paths.thumbnailWidth],
+			thumbnailHeight: data[this.paths.thumbnailHeight],
+		}));
+	}
 	process.nextTick(callback);
 };
 
