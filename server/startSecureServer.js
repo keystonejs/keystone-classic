@@ -28,6 +28,11 @@ module.exports = function (keystone, app, created, callback) {
 	var sniFunc;
 
 	var options = keystone.get('https server options') || {};
+	if (options.NPNProtocols && options.NPNProtocols.length === 1 && options.NPNProtocols[0] === 'http/1.1') {
+		// Remove default value so spdy can use its own better ones
+		delete options.NPNProtocols;
+	}
+
 	if (keystone.get('ssl cert') && fs.existsSync(keystone.getPath('ssl cert'))) {
 		options.cert = fs.readFileSync(keystone.getPath('ssl cert'));
 	}

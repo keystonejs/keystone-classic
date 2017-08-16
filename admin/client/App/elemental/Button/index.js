@@ -1,14 +1,14 @@
-import { css, StyleSheet } from 'aphrodite/no-important';
+import { css } from 'glamor';
 import React, { Component, PropTypes } from 'react';
 import styles from './styles';
 
-const commonClasses = StyleSheet.create(styles.common);
+const commonClasses = styles.common;
 const stylesheetCache = {};
 function getStyleSheet (variant, color) {
 	const cacheKey = `${variant}-${color}`;
 	if (!stylesheetCache[cacheKey]) {
 		const variantStyles = styles[variant](color);
-		stylesheetCache[cacheKey] = StyleSheet.create(variantStyles);
+		stylesheetCache[cacheKey] = variantStyles;
 	}
 	return stylesheetCache[cacheKey];
 }
