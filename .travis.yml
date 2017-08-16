@@ -76,8 +76,9 @@ services:
 git:
   depth: 10
 cache:
+  yarn: true
   directories:
-  - node_modules
+    - node_modules
 addons:
   apt:
     sources:
