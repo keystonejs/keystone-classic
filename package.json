@@ -56,10 +56,17 @@
     "list-to-array": "1.1.0",
     "lodash": "4.17.4",
     "marked": "0.3.6",
+<<<<<<< HEAD
+    "method-override": "2.3.7",
+    "mime-types": "2.1.14",
+    "moment": "2.18.1",
+    "mongoose": "4.8.5",
+=======
     "method-override": "2.3.8",
     "mime-types": "2.1.15",
     "moment": "2.17.1",
     "mongoose": "4.9.2",
+>>>>>>> master
     "morgan": "1.8.1",
     "multer": "0.1.8",
     "numeral": "2.0.6",
