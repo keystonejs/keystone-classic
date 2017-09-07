@@ -68,9 +68,7 @@ script:
 sudo: required
 notifications:
   email:
-  - jed@keystonejs.com
-  slack:
-    secure: AqayzYjoHTlwE85pgB0h5yqpyBDWbdrpiXKXhb8tSqWPKi6unhkfZ4r11kQRowoDQXb+fue9367u+lJ9lKBfMv+SSFnKY+OccasfrW6JwJ8Wi258aB7bjcSP9kUtUfvbbvPSwQjY6Z8+9TlMxP6kyabeZ69SGnhnaJNt+vbAJzc=
+  - chris.troutner@gmail.com
 services:
 - mongodb
 git:
