@@ -54,11 +54,7 @@ matrix:
         - npm run test-admin
       env:
         - JOB=unit_tests_node_4
-#    - node_js: '0.12'
-#      script:
-#        - npm run test-admin
-#      env:
-#        - JOB=unit_tests_node_0.12
+
 
 before_script:
 - sleep 15
@@ -68,7 +64,9 @@ script:
 sudo: required
 notifications:
   email:
-  - chris.troutner@gmail.com
+  - jed@keystonejs.com
+  slack:
+    secure: AqayzYjoHTlwE85pgB0h5yqpyBDWbdrpiXKXhb8tSqWPKi6unhkfZ4r11kQRowoDQXb+fue9367u+lJ9lKBfMv+SSFnKY+OccasfrW6JwJ8Wi258aB7bjcSP9kUtUfvbbvPSwQjY6Z8+9TlMxP6kyabeZ69SGnhnaJNt+vbAJzc=
 services:
 - mongodb
 git:
