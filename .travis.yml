@@ -54,11 +54,7 @@ matrix:
         - npm run test-admin
       env:
         - JOB=unit_tests_node_4
-    - node_js: '0.12'
-      script:
-        - npm run test-admin
-      env:
-        - JOB=unit_tests_node_0.12
+
 
 before_script:
 - sleep 15
