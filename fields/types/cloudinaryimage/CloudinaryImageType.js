@@ -444,6 +444,7 @@ cloudinaryimage.prototype.updateItem = function (item, data, files, callback) {
 		var tagPrefix = keystone.get('cloudinary prefix') || '';
 		var uploadOptions = {
 			tags: [],
+			resource_type: 'auto',
 		};
 		if (tagPrefix.length) {
 			uploadOptions.tags.push(tagPrefix);
@@ -470,6 +471,7 @@ cloudinaryimage.prototype.updateItem = function (item, data, files, callback) {
 				uploadOptions.context = `filename=${filename}`;
 			}
 			cloudinary.uploader.upload(uploadedFile.path, function (result) {
+				console.log(result);
 				if (result.error) {
 					return callback(result.error);
 				} else {

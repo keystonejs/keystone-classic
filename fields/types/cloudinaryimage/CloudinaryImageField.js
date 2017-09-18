@@ -15,8 +15,8 @@ import FileChangeMessage from '../../components/FileChangeMessage';
 import HiddenFileInput from '../../components/HiddenFileInput';
 import Lightbox from 'react-images';
 
-const SUPPORTED_TYPES = ['image/*', 'application/pdf', 'application/postscript'];
-const SUPPORTED_REGEX = new RegExp(/^image\/|application\/pdf|application\/postscript/g);
+const SUPPORTED_TYPES = ['video/*', 'image/*', 'application/pdf', 'application/postscript'];
+const SUPPORTED_REGEX = new RegExp(/^video\/|image\/|application\/pdf|application\/postscript/g);
 
 let uploadInc = 1000;
 
@@ -104,6 +104,8 @@ module.exports = Field.create({
 		let src;
 		if (this.hasLocal() && userSelectedFile.type === 'application/pdf') {
 			src = `${Keystone.adminPath}/images/icons/32/pdf.png`;
+		} else if (this.hasLocal() && userSelectedFile.type === 'video/mp4') {
+			src = `${Keystone.adminPath}/images/icons/32/mp4.png`;
 		} else if (this.hasLocal()) {
 			src = this.state.dataUri;
 		} else if (this.hasExisting()) {
@@ -113,6 +115,9 @@ module.exports = Field.create({
 				format: 'jpg',
 				secure: this.props.secure,
 			});
+			if (this.props.value.resource_type === 'video') {
+				src = src.replace('image/upload', 'video/upload');
+			}
 		}
 
 		return src;
@@ -231,6 +236,23 @@ module.exports = Field.create({
 		else if (this.state.loading) mask = 'loading';
 
 		const shouldOpenLightbox = value.format !== 'pdf';
+		const isVideo = value && value.resource_type === 'video' || /^data:video/.test(this.getImageSource());
+
+		function renderIcons () {
+			const glyphStyles = {
+				position: 'absolute',
+				top: 10,
+				left: 10,
+				padding: 4,
+				color: '#FFF',
+				backgroundColor: 'rgba(0,0,0,0.5)',
+				pointerEvents: 'none',
+			};
+
+			if (isVideo) {
+				return <i style={glyphStyles} className="octicon octicon-device-camera-video" />;
+			}
+		}
 
 		return (
 			<ImageThumbnail
@@ -242,6 +264,7 @@ module.exports = Field.create({
 				style={{ float: 'left', marginRight: '1em' }}
 			>
 				<img src={this.getImageSource()} style={{ height: 90 }} />
+				{renderIcons()}
 			</ImageThumbnail>
 		);
 	},
