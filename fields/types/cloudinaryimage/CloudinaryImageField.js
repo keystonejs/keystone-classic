@@ -171,7 +171,7 @@ module.exports = Field.create({
 		if (!file) return;
 
 		if (!file.type.match(SUPPORTED_REGEX)) {
-			return alert('Unsupported file type. Supported formats are: GIF, PNG, JPG, BMP, ICO, PDF, TIFF, EPS, PSD, SVG');
+			return alert('Unsupported file type. Supported formats are: GIF, PNG, JPG, BMP, ICO, PDF, TIFF, EPS, PSD, SVG, MP4, WEBM, FLV, MOV, OGV, 3GP, 3G2, WMV, MPEG, FLV, MKV OR AVI.');
 		}
 
 		reader.readAsDataURL(file);
