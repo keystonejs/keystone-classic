@@ -191,7 +191,7 @@ var validate = password.validate = function (pass, confirm, min, max, complexity
 	}
 
 	for (var prop in complexity) {
-		if (complexity[prop] && typeof password === 'string') {
+		if (complexity[prop] && typeof pass === 'string') {
 			var complexityCheck = (regexChunk[prop]).test(pass);
 			if (!complexityCheck) {
 				detail += detailMsg[prop] + '\n';
