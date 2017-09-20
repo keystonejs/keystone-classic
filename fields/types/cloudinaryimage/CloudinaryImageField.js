@@ -104,8 +104,8 @@ module.exports = Field.create({
 		let src;
 		if (this.hasLocal() && userSelectedFile.type === 'application/pdf') {
 			src = `${Keystone.adminPath}/images/icons/32/pdf.png`;
-		} else if (this.hasLocal() && userSelectedFile.type === 'video/mp4') {
-			src = `${Keystone.adminPath}/images/icons/32/mp4.png`;
+		} else if (this.hasLocal() && userSelectedFile.type.indexOf('video') !== -1) {
+			src = null;
 		} else if (this.hasLocal()) {
 			src = this.state.dataUri;
 		} else if (this.hasExisting()) {
@@ -263,7 +263,7 @@ module.exports = Field.create({
 				target="__blank"
 				style={{ float: 'left', marginRight: '1em' }}
 			>
-				<img src={this.getImageSource()} style={{ height: 90 }} />
+				<img src={this.getImageSource()} style={{ height: 90, minWidth: 90 }} />
 				{renderIcons()}
 			</ImageThumbnail>
 		);
