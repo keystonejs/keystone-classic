@@ -5,7 +5,7 @@ var util = require('util');
 
 
 /**
- * HTML FieldType Constructor
+ * Code FieldType Constructor
  * @extends Field
  * @api public
  */

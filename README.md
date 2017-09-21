@@ -1,3 +1,7 @@
+---
+title: KeystoneJS
+---
+
 ![KeystoneJS](http://keystonejs.com/images/logo.svg)
 ===================================
 

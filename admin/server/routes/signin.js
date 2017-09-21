@@ -19,7 +19,7 @@ module.exports = function SigninRoute (req, res) {
 		userCanAccessKeystone: !!(req.user && req.user.canAccessKeystone),
 	};
 	locals.csrf.header[keystone.security.csrf.CSRF_HEADER_KEY] = keystone.security.csrf.getToken(req, res);
-	ejs.renderFile(templatePath, locals, {}, function (err, str) {
+	ejs.renderFile(templatePath, locals, { delimiter: '%' }, function (err, str) {
 		if (err) {
 			console.error('Could not render Admin UI Signin Template:', err);
 			return res.status(500).send(keystone.wrapHTMLError('Error Rendering Signin', err.message));
