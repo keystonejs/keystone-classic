@@ -80,7 +80,7 @@ export const documentation = {
 			label: 'Relationships',
 			slug: '/relationships',
 		}, {
-			label: 'Database Updates',
+			label: 'Application Updates',
 			slug: '/application-updates',
 		}],
 	}],
