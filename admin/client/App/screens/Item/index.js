@@ -115,7 +115,7 @@ var ItemView = React.createClass({
 						<Alert color="danger" style={{ marginTop: '2em' }}>
 							No item matching id "{this.props.routeParams.itemId}".&nbsp;
 							<Link to={`${Keystone.adminPath}/${this.props.routeParams.listId}`}>
-								Got back to {this.props.routeParams.listId}?
+								Go back to {this.props.routeParams.listId}?
 							</Link>
 						</Alert>
 					</Container>
