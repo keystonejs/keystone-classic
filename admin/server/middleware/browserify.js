@@ -33,6 +33,7 @@ module.exports = function (opts) {
 	var file = opts.file;
 	var hash = opts.hash;
 	var writeToDisk = opts.writeToDisk;
+	var paths = opts.paths;
 
 	var b;
 	var building = false;
@@ -77,7 +78,7 @@ module.exports = function (opts) {
 		var babelify = require('babelify');
 		var browserify = require('browserify');
 		var watchify = require('watchify');
-		var opts = { basedir: basedir, paths: opts.paths };
+		var opts = { basedir: basedir, paths: paths };
 		if (devMode) {
 			logInit(logName);
 			opts.debug = true;
