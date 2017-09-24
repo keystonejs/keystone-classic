@@ -11,8 +11,9 @@ module.exports = function (req, res) {
 		user: req.user,
 	}, function (err) {
 		if (err) {
-			res.status(err.error === 'validation errors' ? 400 : 500);
-			return res.json(err);
+			var status = err.error === 'validation errors' ? 400 : 500;
+			var error = err.error === 'database error' ? err.detail : err;
+			return res.apiError(status, error);
 		}
 		res.json(req.list.getData(item));
 	});

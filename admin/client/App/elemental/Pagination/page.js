@@ -1,4 +1,4 @@
-import { css, StyleSheet } from 'aphrodite/no-important';
+import { css } from 'glamor';
 import React, { PropTypes } from 'react';
 import theme from '../../../theme';
 
@@ -39,7 +39,7 @@ const pseudoStyle = {
 	outline: 'none',
 };
 
-const classes = StyleSheet.create({
+const classes = {
 	page: {
 		appearance: 'none',
 		background: 'none',
@@ -75,6 +75,6 @@ const classes = StyleSheet.create({
 		color: theme.pagination.disabled.color,
 		cursor: 'default',
 	},
-});
+};
 
 export default Page;

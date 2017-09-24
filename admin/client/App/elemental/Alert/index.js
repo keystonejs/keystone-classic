@@ -1,9 +1,7 @@
-import { css, StyleSheet } from 'aphrodite/no-important';
+import { css } from 'glamor';
 import React, { cloneElement, Children, PropTypes } from 'react';
-import styles from './styles';
+import classes from './styles';
 import colors from './colors';
-
-const classes = StyleSheet.create(styles);
 
 // clone children if a class exists for the tagname
 const cloneWithClassnames = (c) => {

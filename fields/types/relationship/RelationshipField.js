@@ -68,7 +68,7 @@ module.exports = Field.create({
 				}
 
 				// check if filtering by id and item was already saved
-				if (fieldName === ':_id' && Keystone.item) {
+				if (fieldName === '_id' && Keystone.item) {
 					filters[key] = Keystone.item.id;
 					return;
 				}
@@ -191,17 +191,21 @@ module.exports = Field.create({
 
 	renderSelect (noedit) {
 		return (
-			<Select.Async
-				multi={this.props.many}
-				disabled={noedit}
-				loadOptions={this.loadOptions}
-				labelKey="name"
-				name={this.getInputName(this.props.path)}
-				onChange={this.valueChanged}
-				simpleValue
-				value={this.state.value}
-				valueKey="id"
-			/>
+			<div>
+				{/* This input element fools Safari's autocorrect in certain situations that completely break react-select */}
+				<input type="text" style={{ position: 'absolute', width: 1, height: 1, zIndex: -1, opacity: 0 }} tabIndex="-1"/>
+				<Select.Async
+					multi={this.props.many}
+					disabled={noedit}
+					loadOptions={this.loadOptions}
+					labelKey="name"
+					name={this.getInputName(this.props.path)}
+					onChange={this.valueChanged}
+					simpleValue
+					value={this.state.value}
+					valueKey="id"
+				/>
+			</div>
 		);
 	},
 
@@ -213,12 +217,12 @@ module.exports = Field.create({
 		// TODO: Implement this somewhere higher in the app, it breaks the encapsulation of the RelationshipField component
 		const CreateForm = require('../../../admin/client/App/shared/CreateForm');
 		return (
-			<Group>
+			<Group block>
 				<Section grow>
 					{this.renderSelect()}
 				</Section>
 				<Section>
-					<Button onClick={this.openCreate} type="success">+</Button>
+					<Button onClick={this.openCreate}>+</Button>
 				</Section>
 				<CreateForm
 					list={listsByKey[this.props.refList.key]}

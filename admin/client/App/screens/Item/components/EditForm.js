@@ -9,7 +9,6 @@ import {
 	ResponsiveText,
 } from '../../../elemental';
 
-// import { css, StyleSheet } from 'aphrodite/no-important';
 import { Fields } from 'FieldTypes';
 import { fade } from '../../../../utils/color';
 import theme from '../../../../theme';
@@ -257,6 +256,10 @@ var EditForm = React.createClass({
 		}, this);
 	},
 	renderFooterBar () {
+		if (this.props.list.noedit && this.props.list.nodelete) {
+			return null;
+		}
+
 		const { loading } = this.state;
 		const loadingButtonText = loading ? 'Saving' : 'Save';
 
@@ -266,21 +269,25 @@ var EditForm = React.createClass({
 		return (
 			<FooterBar style={styles.footerbar}>
 				<div style={styles.footerbarInner}>
-					<LoadingButton
-						color="primary"
-						disabled={loading}
-						loading={loading}
-						onClick={this.updateItem}
-						data-button="update"
-					>
-						{loadingButtonText}
-					</LoadingButton>
-					<Button disabled={loading} onClick={this.toggleResetDialog} variant="link" color="cancel" data-button="reset">
-						<ResponsiveText
-							hiddenXS="reset changes"
-							visibleXS="reset"
-						/>
-					</Button>
+					{!this.props.list.noedit && (
+						<LoadingButton
+							color="primary"
+							disabled={loading}
+							loading={loading}
+							onClick={this.updateItem}
+							data-button="update"
+						>
+							{loadingButtonText}
+						</LoadingButton>
+					)}
+					{!this.props.list.noedit && (
+						<Button disabled={loading} onClick={this.toggleResetDialog} variant="link" color="cancel" data-button="reset">
+							<ResponsiveText
+								hiddenXS="reset changes"
+								visibleXS="reset"
+							/>
+						</Button>
+					)}
 					{!this.props.list.nodelete && (
 						<Button disabled={loading} onClick={this.toggleDeleteDialog} variant="link" color="delete" style={styles.deleteButton} data-button="delete">
 							<ResponsiveText

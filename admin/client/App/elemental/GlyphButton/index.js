@@ -1,7 +1,6 @@
 /* eslint quote-props: ["error", "as-needed"] */
 
 import React, { PropTypes } from 'react';
-import { StyleSheet } from 'aphrodite/no-important';
 import Button from '../Button';
 import Glyph from '../Glyph';
 
@@ -61,12 +60,12 @@ GlyphButton.defaultProps = {
 	position: 'default', // no margin, assumes no children
 };
 
-const classes = StyleSheet.create({
+const classes = {
 	glyph: {
 		display: 'inline-block',
 		marginTop: '-0.125em', // fix icon alignment
 		verticalAlign: 'middle',
 	},
-});
+};
 
 module.exports = GlyphButton;

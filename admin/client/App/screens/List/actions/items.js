@@ -5,7 +5,6 @@ import {
 } from '../constants';
 
 import { NETWORK_ERROR_RETRY_DELAY } from '../../../../constants';
-
 export function loadItems (options = {}) {
 	return (dispatch, getState) => {
 		let currentLoadCounter = getState().lists.loadCounter + 1;
@@ -96,6 +95,7 @@ export function itemsLoaded (items) {
  * Dispatched when unsuccessfully trying to load the items, will redispatch
  * loadItems after NETWORK_ERROR_RETRY_DELAY milliseconds until we get items back
  */
+
 export function itemLoadingError () {
 	return (dispatch) => {
 		dispatch({

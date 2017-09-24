@@ -92,6 +92,33 @@ exports.testFieldType = function (List) {
 			});
 		});
 
+		it('should validate string array input with empty string values', function (done) {
+			List.fields.geo.validateInput({
+				geo: ['', ''],
+			}, function (result) {
+				demand(result).be.true();
+				done();
+			});
+		});
+
+		it('should invalidate string array input with more than two items', function (done) {
+			List.fields.geo.validateInput({
+				geo: ['', '', ''],
+			}, function (result) {
+				demand(result).be.false();
+				done();
+			});
+		});
+
+		it('should invalidate string array input with less than two items', function (done) {
+			List.fields.geo.validateInput({
+				geo: [''],
+			}, function (result) {
+				demand(result).be.false();
+				done();
+			});
+		});
+
 		it('should invalidate numeric array input with more than two items', function (done) {
 			List.fields.geo.validateInput({
 				geo: [1, 2, 3],

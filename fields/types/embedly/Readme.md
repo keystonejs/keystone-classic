@@ -8,7 +8,7 @@ It stores the retrieved data (which includes the provider, media type, full URL,
 
 The API call to retrieve the data is implemented as a pre-save hook, and is only triggered if the `from path` value has changed.
 
-See the [Embed.ly configuration documentation](http://keystonejs.com/docs/configuration#services-embedly) for details on how to set up Embed.ly in KeystoneJS.
+See the [Embed.ly configuration documentation](/configuration#embedly) for details on how to set up Embed.ly in KeystoneJS.
 
 ```js
   { type: Types.Embedly, from: 'path' }
