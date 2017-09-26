@@ -10,6 +10,8 @@
 
 The name field adds `first` and `last` `String` paths to the schema, as well as a `full` virtual getter and setter.
 
+If it is updated with a string, it will split it into first and last name based on the first space.
+
 ### `first` `String`
 first name
 

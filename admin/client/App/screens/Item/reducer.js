@@ -39,6 +39,7 @@ function item (state = initialState, action) {
 				loading: true,
 			});
 		case DATA_LOADING_SUCCESS:
+			Keystone.item = action.data; // Fix keystone filter
 			return assign({}, state, {
 				data: action.data,
 				loading: false,
