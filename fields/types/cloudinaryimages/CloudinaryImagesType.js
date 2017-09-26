@@ -219,6 +219,22 @@ cloudinaryimages.prototype.inputIsValid = function (data) { // eslint-disable-li
 	return true;
 };
 
+
+cloudinaryimages.prototype._originalGetOptions = cloudinaryimages.prototype.getOptions;
+
+cloudinaryimages.prototype.getOptions = function () {
+	this._originalGetOptions();
+	// We are performing the check here, so that if cloudinary secure is added
+	// to keystone after the model is registered, it will still be respected.
+	// Setting secure overrides default `cloudinary secure`
+	if ('secure' in this.options) {
+		this.__options.secure = this.options.secure;
+	} else if (keystone.get('cloudinary secure')) {
+		this.__options.secure = keystone.get('cloudinary secure');
+	}
+	return this.__options;
+};
+
 /**
  * Updates the value for this field in the item from a data object
  */

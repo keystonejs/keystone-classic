@@ -19,7 +19,7 @@ var CloudinaryImagesColumn = React.createClass({
 		const items = [];
 		for (let i = 0; i < 3; i++) {
 			if (!value[i]) break;
-			items.push(<CloudinaryImageSummary key={'image' + i} image={value[i]} />);
+			items.push(<CloudinaryImageSummary key={'image' + i} image={value[i]} secure={this.props.col.field.secure} />);
 		}
 		if (value.length > 3) {
 			items.push(<span key="more" style={moreIndicatorStyle}>[...{value.length - 3} more]</span>);
@@ -29,7 +29,7 @@ var CloudinaryImagesColumn = React.createClass({
 	renderValue (value) {
 		if (!value || !Object.keys(value).length) return;
 
-		return <CloudinaryImageSummary image={value} />;
+		return <CloudinaryImageSummary image={value} secure={this.props.col.field.secure} />;
 
 	},
 	render () {

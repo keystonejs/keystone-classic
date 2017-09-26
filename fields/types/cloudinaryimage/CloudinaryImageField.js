@@ -95,6 +95,7 @@ module.exports = Field.create({
 				crop: 'fit',
 				height: height,
 				format: 'jpg',
+				secure: this.props.secure,
 			});
 		}
 

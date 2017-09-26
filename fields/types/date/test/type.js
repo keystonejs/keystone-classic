@@ -6,6 +6,8 @@ var moment = require('moment');
 exports.initList = function (List) {
 	List.add({
 		date: DateType,
+		utcDate: { type: DateType, utc: true },
+		utcDateForcedTZ: { type: DateType, utc: true, timezoneUtcOffsetMinutes: 330 },
 		nested: {
 			date: DateType,
 		},
@@ -72,6 +74,53 @@ exports.testFieldType = function (List) {
 				done();
 			});
 		});
+	});
+
+	describe('getData', function () {
+		it('Retrieval of date set in current timezone', function (done) {
+			var testItem = new List.model();
+			List.fields.date.updateItem(testItem, {
+				date: moment('2015-01-01', 'YYYY-MM-DD'),
+			}, function () {
+				demand(List.fields.date.getData(testItem)).eql(new Date(2015, 0, 1));
+				done();
+			});
+		});
+
+		it('Retrieval of UTC date', function (done) {
+			var testItem = new List.model();
+			List.fields.utcDate.updateItem(testItem, {
+				utcDate: moment.utc('2015-01-01', 'YYYY-MM-DD'),
+			}, function () {
+				demand(List.fields.utcDate.getData(testItem)).eql(new Date(Date.UTC(2015, 0, 1)));
+				done();
+			});
+		});
+
+		it('Retrieval of fixable GMT date corrupted with timezone offset', function (done) {
+			var testItem = new List.model();
+			var timeToCompareInTimezone = moment.utc('2015-01-01', 'YYYY-MM-DD');
+			timeToCompareInTimezone.add(-List.fields.utcDateForcedTZ.timezoneUtcOffsetMinutes, 'minutes');
+			List.fields.utcDateForcedTZ.updateItem(testItem, {
+				utcDateForcedTZ: timeToCompareInTimezone, // Creates time in whatever timezone the test is run in or utcDateForcedTZ is configured to
+			}, function () {
+				demand(List.fields.utcDateForcedTZ.getData(testItem)).eql(new Date(Date.UTC(2015, 0, 1)));
+				done();
+			});
+		});
+
+		it('Retrieval of non-fixable GMT date corrupted with timezone offset', function (done) {
+			var testItem = new List.model();
+			var timeToCompareInTimezone = moment.utc('2015-01-01', 'YYYY-MM-DD');
+			timeToCompareInTimezone.add(-540, 'minutes');
+			List.fields.utcDateForcedTZ.updateItem(testItem, {
+				utcDateForcedTZ: timeToCompareInTimezone, // Creates time in whatever timezone the test is run in or utcDateForcedTZ is configured to
+			}, function () {
+				demand(List.fields.utcDateForcedTZ.getData(testItem)).eql(timeToCompareInTimezone.toDate());
+				done();
+			});
+		});
+
 	});
 
 	describe('validateInput', function () {
