@@ -7,9 +7,11 @@ import {
 	FormInput,
 	Grid,
 	ResponsiveText,
+	GlyphButton,
 } from '../../../elemental';
 
 import { Fields } from 'FieldTypes';
+import { Link } from 'react-router';
 import { fade } from '../../../../utils/color';
 import theme from '../../../../theme';
 
@@ -296,6 +298,19 @@ var EditForm = React.createClass({
 							/>
 						</Button>
 					)}
+					{!this.props.list.noedit && this.props.list.history && (
+						<GlyphButton
+							component={Link}
+							data-e2e-editform-history
+							glyph="versions"
+							position="left"
+							style={styles.historyButton}
+							to={`${Keystone.adminPath}/${this.props.list.id}/${this.props.data.id}/revisions`}
+							variant="link"
+						>
+							History
+						</GlyphButton>
+					)}
 				</div>
 			</FooterBar>
 		);
@@ -418,6 +433,9 @@ const styles = {
 	},
 	footerbarInner: {
 		height: theme.component.height, // FIXME aphrodite bug
+	},
+	historyButton: {
+		float: 'right',
 	},
 	deleteButton: {
 		float: 'right',
