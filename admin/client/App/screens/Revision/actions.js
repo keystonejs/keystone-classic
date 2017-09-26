@@ -64,9 +64,11 @@ export const selectRevision = revision => {
 export const applyChanges = router => {
 	return (dispatch, getState) => {
 		const state = getState();
+		const { selectedRevision } = state.revisions;
 		const { currentList } = state.lists;
 		const { id } = state.item;
-		const { data, _id: rollbackId } = state.revisions.selectedRevision;
+		const data = selectedRevision.data || selectedRevision.d;
+		const { _id: rollbackId } = selectedRevision;
 		const { currentItem } = state.revisions;
 		const redirectUrl = `${Keystone.adminPath}/${currentList.path}/${id}`;
 		const file = {

@@ -16,7 +16,8 @@ export default (state = {
 		case LOAD_REVISIONS:
 			return { ...state, error: null, ready: false };
 		case DATA_LOADING_SUCCESS:
-			const currentItem = action.payload.pop().data;
+			const popped = action.payload.pop();
+			const currentItem = popped.data || popped.d;
 			return { ...state, revisions: action.payload, error: null, ready: true, currentItem };
 		case DATA_LOADING_ERROR:
 			if (action.payload) {

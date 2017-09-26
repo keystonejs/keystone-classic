@@ -76,11 +76,12 @@ const RevisionItem = ({
 		<div style={style}>
 			{revisions.map(revision => {
 				const active = selectedRevision._id === revision._id;
-				const { first, last } = revision.user.name;
+				const user = revision.user || revision.u;
+				const { first, last } = user;
 				return (
 					<div key={revision._id}>
 						<RevisionListItem active={active} noedit onClick={() => selectRevision(revision)}>
-							{moment(revision.time).format('YYYY-MM-DD hh:mm:ssa')} by {`${first} ${last}`}
+							{moment(revision.time || revision.t).format('YYYY-MM-DD hh:mm:ssa')} by {`${first} ${last}`}
 						</RevisionListItem>
 						{active
 							? <div className="RevisionsItem__table--container">
@@ -90,7 +91,7 @@ const RevisionItem = ({
 										<th>Current</th>
 										<th>Rollback</th>
 									</tr>
-									{renderDifferences(revision.data)}
+									{renderDifferences(revision.data || revision.d)}
 								</table>
 								<div>
 									<Container>

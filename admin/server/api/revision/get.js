@@ -9,6 +9,7 @@ module.exports = (req, res) => {
 
 	revisions.find({ id })
 		.populate('user', 'name')
+    .populate('u', 'name')
 		.then(items => res.json(items))
 		.catch(err => res.json(err));
 };
