@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 const semver = require('semver');
 const branches = [];
 const DONE = '%DONE%';

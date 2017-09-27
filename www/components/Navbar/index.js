@@ -1,9 +1,9 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import Link from 'gatsby-link';
-import GithubIcon from 'react-icons/lib/go/mark-github';
+// import GithubIcon from 'react-icons/lib/go/mark-github';
 import MenuClose from 'react-icons/lib/md/close';
 import MenuIcon from 'react-icons/lib/md/menu';
-import TwitterIcon from 'react-icons/lib/ti/social-twitter';
+// import TwitterIcon from 'react-icons/lib/ti/social-twitter';
 
 import typography from '../../utils/typography';
 import invertedLogo from '../../images/logo-inverted.svg';
