@@ -15,7 +15,7 @@ import theme from '../../../../theme';
 
 import { Button, LoadingButton } from '../../../elemental';
 import AlertMessages from '../../../shared/AlertMessages';
-import ConfirmationDialog from './../../../shared/ConfirmationDialog';
+import ConfirmationDialog from '../../../shared/ConfirmationDialog';
 
 import FormHeading from './FormHeading';
 import AltText from './AltText';
