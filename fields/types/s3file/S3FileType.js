@@ -68,7 +68,7 @@ Object.defineProperty(s3file.prototype, 's3config', {
  */
 s3file.prototype.addToSchema = function (schema) {
 
-	var knox = require('knox');
+	var knox = require('knox-s3');
 	var field = this;
 
 	var paths = this.paths = {
