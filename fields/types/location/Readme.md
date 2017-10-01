@@ -38,6 +38,24 @@ Google Places integration requires the `google api key` option to be set for Key
 
 `geo` `Array` longitude, latitude
 
+`map` `Boolean` - Show Google Map view and select coordinates by clicking on it. Right click removes the mark. Requires the `google api key`.
+
+```js
+{ type: Types.Location, map: true }
+```
+
+`defaultCenter` `Object` - Center Google Map view at this point when `geo` value is missing.
+
+```js
+{ type: Types.Location, defaultCenter: { lat: -25.363882, lng: 131.044922 } }
+```
+
+`height` `Number` - Show Google Map view height. By default it is `300`.
+
+```js
+{ type: Types.Location, map: true, height: 400 }
+```
+
 > Important: as per the MongoDB convention, the order for the geo array must be lng, lat which is the opposite of the order used by Google's API.
 
 `enableImprove` `boolean`

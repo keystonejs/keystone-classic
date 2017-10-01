@@ -8,6 +8,7 @@ var utils = require('keystone-utils');
 
 var RADIUS_KM = 6371;
 var RADIUS_MILES = 3959;
+var DEFAULT_CENTER = { lat: -25.363882, lng: 131.044922 };
 
 /**
  * Location FieldType Constructor
@@ -16,7 +17,7 @@ function location (list, path, options) {
 
 	this._underscoreMethods = ['format', 'googleLookup', 'kmFrom', 'milesFrom'];
 	this._fixedSize = 'full';
-	this._properties = ['enableMapsAPI'];
+	this._properties = ['enableMapsAPI', 'map', 'height', 'browserApiKey', 'defaultCenter'];
 	this.enableMapsAPI = (options.enableImprove === true || (options.enableImprove !== false && keystone.get('google server api key'))) ? true : false;
 
 	// Throw on invalid options in 4.0 (remove for 5.0)
@@ -43,6 +44,13 @@ function location (list, path, options) {
 	// default this.requiredPaths
 	if (!this.requiredPaths) {
 		this.requiredPaths = ['street1', 'suburb'];
+	}
+	// Should display as a Google Map
+	this.map = options.map || false;
+	if (this.map) {
+		this.browserApiKey = keystone.get('google api key');
+		this.height = options.height || 300;
+		this.defaultCenter = options.defaultCenter || DEFAULT_CENTER;
 	}
 
 	location.super_.call(this, list, path, options);
