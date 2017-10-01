@@ -116,16 +116,17 @@ List.prototype.createItem = function (formData, callback) {
  * Update a specific item
  *
  * @param  {String}   id       The id of the item we want to update
- * @param  {FormData} formData The submitted form data
+ * @param  {FormData|Object} changes The submitted form data or a data object
  * @param  {Function} callback Called after the API call
  */
-List.prototype.updateItem = function (id, formData, callback) {
+List.prototype.updateItem = function (id, changes, callback) {
 	xhr({
 		url: `${Keystone.adminPath}/api/${this.path}/${id}`,
 		responseType: 'json',
 		method: 'POST',
 		headers: assign({}, Keystone.csrf.header),
-		body: formData,
+		// if we're passing in formData, pass as a body, if not, pass as json object
+		[!Object.keys(changes).length ? 'body' : 'json']: changes,
 	}, (err, resp, data) => {
 		if (err) return callback(err);
 		if (resp.statusCode === 200) {
