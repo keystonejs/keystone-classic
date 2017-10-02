@@ -89,7 +89,7 @@
     "sanitize-filename": "1.6.1",
     "scmp": "1.0.2",
     "semver": "5.3.0",
-    "serve-favicon": "2.4.2",
+    "serve-favicon": "2.4.3",
     "string-to-stream": "1.1.0",
     "vkey": "1.0.1",
     "watchify": "3.8.0",
