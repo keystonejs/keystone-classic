@@ -92,8 +92,13 @@
     "serve-favicon": "2.4.2",
     "string-to-stream": "1.1.0",
     "vkey": "1.0.1",
+<<<<<<< HEAD
+    "watchify": "3.9.0",
+    "xhr": "2.3.3"
+=======
     "watchify": "3.8.0",
     "xhr": "2.4.0"
+>>>>>>> master
   },
   "devDependencies": {
     "@ljharb/eslint-config": "^11.0.0",
