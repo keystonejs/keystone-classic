@@ -6,4 +6,5 @@ coverage/*
 docs/*
 fields/types/**/lib/*
 node_modules/*
+www/node_modules/*
 test/*
