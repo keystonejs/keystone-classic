@@ -1,4 +1,6 @@
 ---
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/keystonejs/keystone.svg)](https://greenkeeper.io/)
 title: KeystoneJS
 ---
 
