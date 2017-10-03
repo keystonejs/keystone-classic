@@ -86,7 +86,7 @@ const ColorField = Field.create({
 						/>
 					</Section>
 					<Section>
-						<Button onClick={this.handleClick} aphroditeStyles={classes.button} data-e2e-type-color__button>
+						<Button onClick={this.handleClick} cssStyles={classes.button} data-e2e-type-color__button>
 							{this.renderSwatch()}
 						</Button>
 					</Section>

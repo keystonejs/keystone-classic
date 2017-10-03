@@ -5,7 +5,7 @@ import { DropdownButton, Glyph } from '../../../elemental';
 function ListHeaderButton ({ className, label, glyph, ...props }) {
 	return (
 		<DropdownButton block {...props}>
-			<Glyph name={glyph} aphroditeStyles={classes.glyph} />
+			<Glyph name={glyph} cssStyles={classes.glyph} />
 			<span className={css(classes.label)}>{label}</span>
 		</DropdownButton>
 	);

@@ -21,7 +21,6 @@ module.exports = [
 	'moment',
 	'numeral',
 	'qs',
-	'aphrodite/no-important',
 	'react-addons-css-transition-group',
 	'react-alt-text',
 	'react-color',
