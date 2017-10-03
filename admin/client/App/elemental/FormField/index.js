@@ -17,7 +17,7 @@ class FormField extends Component {
 	render () {
 		const { formLayout = 'basic', labelWidth } = this.context;
 		const {
-			aphroditeStyles,
+			cssStyles,
 			children,
 			className,
 			cropLabel,
@@ -31,7 +31,7 @@ class FormField extends Component {
 			classes.FormField,
 			classes['FormField--form-layout-' + formLayout],
 			offsetAbsentLabel ? classes['FormField--offset-absent-label'] : null,
-			aphroditeStyles
+			cssStyles
 		);
 		if (className) {
 			props.className += (' ' + className);
@@ -75,7 +75,7 @@ FormField.childContextTypes = {
 	formFieldId: PropTypes.string,
 };
 FormField.propTypes = {
-	aphroditeStyles: PropTypes.oneOfType([
+	cssStyles: PropTypes.oneOfType([
 		PropTypes.arrayOf(PropTypes.shape(stylesShape)),
 		PropTypes.shape(stylesShape),
 	]),
