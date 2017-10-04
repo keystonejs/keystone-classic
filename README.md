@@ -191,7 +191,7 @@ var keystone = require('keystone');
 
 keystone.init({
     ... // put your other init stuff here
-    'custom fields paths': [path.resolve('./fields')],
+    'custom fields path': [path.resolve('./fields')], // can be either String or [String]
 });
 
 keystone.addFieldType({

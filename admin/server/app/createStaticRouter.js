@@ -40,7 +40,15 @@ module.exports = function createStaticRouter (keystone) {
 
 	/* Prepare browserify bundles */
 	var builtinFieldsPath = path.resolve(__dirname, '../../../fields');
-	var browserifyPaths = _.union(keystone.get('custom fields paths') || [], [builtinFieldsPath]);
+	var customFieldsPath = keystone.get('custom fields path');
+	if (!Array.isArray(customFieldsPath)) {
+		if (!_.isString(customFieldsPath)) {
+			customFieldsPath = [];
+		} else {
+			customFieldsPath = [customFieldsPath];
+		}
+	}
+	var browserifyPaths = _.union(customFieldsPath, [builtinFieldsPath]);
 	var bundles = {
 		fields: browserify({
 			stream: buildFieldTypesStream(keystone.fieldTypes),
