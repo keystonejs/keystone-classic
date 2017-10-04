@@ -149,7 +149,7 @@ Keystone also has [Relationship fields](http://keystonejs.com/docs/database#rela
 You can register custom field types via
 
 ```js
-keystone.addFieldType({name: 'MyAwesomeness', path: '/absolute/path/to/where/this/type/can/be/required/from'});
+keystone.addFieldType({name: 'Cat', path: '/absolute/path/to/where/this/type/can/be/required/from'});
 ```
 
 When using custom field types, you must also provide an array of absolute paths to where your custom field types can be resolved from. These absolute paths are used as the `paths` [option for browserify](https://www.npmjs.com/package/browserify#browserifyfiles--opts) in order to bundle and babel transform your react (jsx) components. Also, field types in these custom paths must be organized in sub-folders named equal to the sub-folders in [keystone/fields](https://github.com/keystonejs/keystone/tree/master/fields) since their require paths are [compiled with a directory structure in mind](https://github.com/keystonejs/keystone/blob/master/admin/server/app/createStaticRouter.js#L15).
@@ -176,14 +176,14 @@ project
 |   │
 |   └───types
 |       │
-|       └───date
-|           │   MyAwesomenessColumn.js
-|           │   MyAwesomenessField.js
-|           │   MyAwesomenessFilter.js
-|           │   MyAwesomenessType.js
+|       └───cat
+|           │   CatColumn.js
+|           │   CatField.js
+|           │   CatFilter.js
+|           │   CatType.js
 ```
 
-That said, in order to load `MyAwesomeness` field type into your keystone instance, this is what you have to do:
+That said, in order to load `Cat` field type into your keystone instance, this is what you have to do:
 
 ```js
 var path = require('path');
@@ -195,8 +195,8 @@ keystone.init({
 });
 
 keystone.addFieldType({
-    name: 'MyAwesomeness',
-    path: require.resolve('./fields/types/MyAwesomenessType'),
+    name: 'Cat',
+    path: require.resolve('./fields/types/cat/CatType'),
 });
 ```
 
