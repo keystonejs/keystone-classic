@@ -221,11 +221,6 @@ relationship.prototype.updateItem = function (item, data, callback) {
 		throw new Error('fieldTypes.relationship.updateItem() Error - You cannot update populated relationships.');
 	}
 
-	var value = this.getValueFromData(data);
-	if (value === undefined) {
-		return process.nextTick(callback);
-	}
-
 	// Are we handling a many relationship or just one value?
 	if (this.many) {
 		var arr = item.get(this.path);
@@ -244,7 +239,7 @@ relationship.prototype.updateItem = function (item, data, callback) {
 		if (value && value !== item.get(this.path)) {
 			// If it's set and has changed, I do.
 			item.set(this.path, value);
-		} else if (!value && item.get(this.path)) {
+		} else if ((value === undefined || !value) && item.get(this.path)) {
 			// If it's not set and it was set previously, I need to clear.
 			item.set(this.path, null);
 		}
