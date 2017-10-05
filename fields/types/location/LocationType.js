@@ -431,7 +431,8 @@ location.prototype.googleLookup = function (item, region, update, callback) {
 
 		_.forEach(result.address_components, function (val) {
 			if (_.indexOf(val.types, 'street_number') >= 0) {
-				location.street1 = [val.long_name];
+				location.street1 = location.street1 || [];
+				location.street1.unshift(val.long_name);
 			}
 			if (_.indexOf(val.types, 'route') >= 0) {
 				location.street1 = location.street1 || [];
