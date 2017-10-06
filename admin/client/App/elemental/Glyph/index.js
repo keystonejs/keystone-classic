@@ -40,14 +40,14 @@ function Glyph ({
 };
 
 Glyph.propTypes = {
-	cssStyles: PropTypes.shape({
-		_definition: PropTypes.object,
-		_name: PropTypes.string,
-	}),
 	color: PropTypes.oneOfType([
 		PropTypes.oneOf(Object.keys(colors)),
 		PropTypes.string, // support random color strings
 	]),
+	cssStyles: PropTypes.shape({
+		_definition: PropTypes.object,
+		_name: PropTypes.string,
+	}),
 	name: PropTypes.oneOf(Object.keys(octicons)).isRequired,
 	size: PropTypes.oneOf(Object.keys(sizes)),
 };
