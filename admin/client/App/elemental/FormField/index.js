@@ -75,12 +75,12 @@ FormField.childContextTypes = {
 	formFieldId: PropTypes.string,
 };
 FormField.propTypes = {
+	children: PropTypes.node,
+	cropLabel: PropTypes.bool,
 	cssStyles: PropTypes.oneOfType([
 		PropTypes.arrayOf(PropTypes.shape(stylesShape)),
 		PropTypes.shape(stylesShape),
 	]),
-	children: PropTypes.node,
-	cropLabel: PropTypes.bool,
 	htmlFor: React.PropTypes.string,
 	label: React.PropTypes.string,
 	offsetAbsentLabel: React.PropTypes.bool,

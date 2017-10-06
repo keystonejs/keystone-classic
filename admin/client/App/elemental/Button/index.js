@@ -64,16 +64,16 @@ class Button extends Component {
 
 Button.propTypes = {
 	active: PropTypes.bool,
-	cssStyles: PropTypes.arrayOf(PropTypes.shape({
-		_definition: PropTypes.object,
-		_name: PropTypes.string,
-	})),
 	block: PropTypes.bool,
 	color: PropTypes.oneOf(BUTTON_COLORS),
 	component: PropTypes.oneOfType([
 		PropTypes.func,
 		PropTypes.string,
 	]),
+	cssStyles: PropTypes.arrayOf(PropTypes.shape({
+		_definition: PropTypes.object,
+		_name: PropTypes.string,
+	})),
 	disabled: PropTypes.bool,
 	href: PropTypes.string,
 	size: PropTypes.oneOf(BUTTON_SIZES),
