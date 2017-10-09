@@ -53,16 +53,16 @@ function InlineGroup ({
 };
 
 InlineGroup.propTypes = {
-	cssStyles: PropTypes.shape({
-		_definition: PropTypes.object,
-		_name: PropTypes.string,
-	}),
 	block: PropTypes.bool,
 	component: PropTypes.oneOfType([
 		PropTypes.func,
 		PropTypes.string,
 	]),
 	contiguous: PropTypes.bool,
+	cssStyles: PropTypes.shape({
+		_definition: PropTypes.object,
+		_name: PropTypes.string,
+	}),
 };
 InlineGroup.defaultProps = {
 	component: 'div',
