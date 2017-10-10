@@ -1,6 +1,6 @@
 {
-  "name": "keystone",
-  "version": "4.0.0-beta.5",
+  "name": "@peterpme/keystone",
+  "version": "4.0.0-beta.6",
   "description": "Web Application Framework and Admin GUI / Content Management System built on Express.js and Mongoose",
   "main": "index.js",
   "repository": {
