@@ -36,6 +36,7 @@
     "debug": "2.6.0",
     "display-name": "0.1.0",
     "ejs": "2.5.5",
+    "dumb-passwords": "^0.2.1",
     "elemental": "0.6.1",
     "embedly": "2.1.0",
     "errorhandler": "1.5.0",
