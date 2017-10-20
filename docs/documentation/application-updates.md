@@ -31,3 +31,44 @@ exports = module.exports = function(done) {
   }).save(done);
 };
 ```
+
+#### A Note on Required Relationships
+
+The application updates framework saves all of the items it receives before it connects up their relationships. This means if your item has a required relationship, the initial save will fail.
+
+Please consider opting out of the `exports.create` mechanism to instead have more control of the direct operations that happen with Mongo, for example:
+
+```
+const keystone = require('keystone');
+const PostCategory = keystone.list('PostCategory');
+const Post = keystone.list('Post');
+
+const importData = [
+	{ name: 'A draft post', category: 'Keystone JS' },
+	...
+];
+
+exports = function (done) {
+	const importPromise = importData.map(({ name, category }) => createPost({ name, category }));
+
+	importPromise.then(() => done()).catch(done);
+};
+
+const categories = {};
+
+const createPost = ({ name, category }) => {
+	let postCategory = new PostCategory.model({ category });
+	if (categories[category]) {
+		postCategory = categories[category];
+	}
+	categories[category] = postCategory;
+	const post = new Post.model({ name });
+	post.category = postCategory._id.toString();
+	return Promise.all([
+		post.save(),
+		postCategory.save()
+	]);
+}
+```
+
+Fixing this properly would require significant refactoring of how the update framework works, which we're unable to commit to for the moment. [The relevant GitHub Issue is here](https://github.com/keystonejs/keystone/issues/2980), and of course PRs are always welcome.
