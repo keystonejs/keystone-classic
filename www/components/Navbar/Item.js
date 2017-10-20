@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import Link from 'gatsby-link';
-import theme from '../../theme';
 
 export default function Item ({ depth, title, url }) {
 	return (

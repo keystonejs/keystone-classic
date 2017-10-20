@@ -15,7 +15,7 @@ var CloudinaryImageColumn = React.createClass({
 
 		return (
 			<ItemsTableValue field={this.props.col.type}>
-				<CloudinaryImageSummary label="dimensions" image={value} />
+				<CloudinaryImageSummary label="dimensions" image={value} secure={this.props.col.field.secure} />
 			</ItemsTableValue>
 		);
 

@@ -1,5 +1,3 @@
-var path = require('path');
-
 module.exports = function initViewEngine (keystone, app) {
 	// Allow usage of custom view engines
 	if (keystone.get('custom engine')) {
