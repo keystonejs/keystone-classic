@@ -35,6 +35,10 @@ Comma separated list of buttons to hide.
 { type: Types.Markdown, toolbarOptions: { hiddenButtons: 'H1,H6,Code' } }
 ```
 
+`markedOptions` `object`
+
+markedOptions are an object within options. When generating the html, these options are passed directly in to [Marked](https://github.com/chjj/marked). See the `marked` documentation for details on what options are valid.
+
 ## Schema
 
 The markdown field will automatically convert markdown to html when the `md` property is changed, via a setter on the `md` path.

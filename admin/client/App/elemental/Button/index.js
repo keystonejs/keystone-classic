@@ -23,7 +23,7 @@ class Button extends Component {
 	render () {
 		var {
 			active,
-			aphroditeStyles,
+			cssStyles,
 			block,
 			className,
 			color,
@@ -43,7 +43,7 @@ class Button extends Component {
 			block ? commonClasses.block : null,
 			disabled ? commonClasses.disabled : null,
 			active ? variantClasses.active : null,
-			...aphroditeStyles
+			...cssStyles
 		);
 		if (className) {
 			props.className += (' ' + className);
@@ -64,23 +64,23 @@ class Button extends Component {
 
 Button.propTypes = {
 	active: PropTypes.bool,
-	aphroditeStyles: PropTypes.arrayOf(PropTypes.shape({
-		_definition: PropTypes.object,
-		_name: PropTypes.string,
-	})),
 	block: PropTypes.bool,
 	color: PropTypes.oneOf(BUTTON_COLORS),
 	component: PropTypes.oneOfType([
 		PropTypes.func,
 		PropTypes.string,
 	]),
+	cssStyles: PropTypes.arrayOf(PropTypes.shape({
+		_definition: PropTypes.object,
+		_name: PropTypes.string,
+	})),
 	disabled: PropTypes.bool,
 	href: PropTypes.string,
 	size: PropTypes.oneOf(BUTTON_SIZES),
 	variant: PropTypes.oneOf(BUTTON_VARIANTS),
 };
 Button.defaultProps = {
-	aphroditeStyles: [],
+	cssStyles: [],
 	color: 'default',
 	variant: 'fill',
 };

@@ -15,7 +15,7 @@ class FormInput extends Component {
 	}
 	render () {
 		const {
-			aphroditeStyles,
+			cssStyles,
 			className,
 			disabled,
 			id,
@@ -36,7 +36,7 @@ class FormInput extends Component {
 			classes['FormInput__size--' + size],
 			disabled ? classes['FormInput--disabled'] : null,
 			formLayout ? classes['FormInput--form-layout-' + formLayout] : null,
-			...concatClassnames(aphroditeStyles)
+			...concatClassnames(cssStyles)
 		);
 		if (className) {
 			props.className += (' ' + className);
@@ -61,7 +61,7 @@ const stylesShape = {
 };
 
 FormInput.propTypes = {
-	aphroditeStyles: PropTypes.oneOfType([
+	cssStyles: PropTypes.oneOfType([
 		PropTypes.arrayOf(PropTypes.shape(stylesShape)),
 		PropTypes.shape(stylesShape),
 	]),

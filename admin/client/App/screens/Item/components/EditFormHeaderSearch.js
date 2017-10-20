@@ -30,13 +30,13 @@ class EditFormHeaderSearch extends Component {
 		return focused ? (
 			<div className={css(classes.wrapper)}>
 				<Glyph
-					aphroditeStyles={classes.glyph}
+					cssStyles={classes.glyph}
 					color={theme.color.gray40}
 					name="search"
 					data-e2e-search-icon
 				/>
 				<FormInput
-					aphroditeStyles={classes.input}
+					cssStyles={classes.input}
 					name="search"
 					onBlur={() => this.setState({ focused: false })}
 					onChange={onChange}

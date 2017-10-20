@@ -21,7 +21,7 @@ function GlyphField ({
 
 	const icon = (
 		<Glyph
-			aphroditeStyles={classes.glyph}
+			cssStyles={classes.glyph}
 			color={glyphColor}
 			name={glyph}
 			size={glyphSize}
@@ -30,7 +30,7 @@ function GlyphField ({
 	);
 
 	return (
-		<Field aphroditeStyles={classes.wrapper} {...props}>
+		<Field cssStyles={classes.wrapper} {...props}>
 			{isLeft && icon}
 			{children}
 			{isRight && icon}
