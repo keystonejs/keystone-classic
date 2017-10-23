@@ -46,15 +46,15 @@ module.exports = function createDynamicRouter (keystone) {
 		// TODO: poor separation of concerns; settings should be defaulted elsewhere
 		if (!keystone.get('signout url')) {
 			keystone.set('signout url', '/' + keystone.get('admin path') + '/signout');
-		}
+            router.all('/signout', SignoutRoute);
+        }
 		if (!keystone.get('signin url')) {
 			keystone.set('signin url', '/' + keystone.get('admin path') + '/signin');
-		}
+            router.all('/signin', SigninRoute);
+        }
 		if (!keystone.nativeApp || !keystone.get('session')) {
 			router.all('*', keystone.session.persist);
 		}
-		router.all('/signin', SigninRoute);
-		router.all('/signout', SignoutRoute);
 		router.use(keystone.session.keystoneAuth);
 	} else if (typeof keystone.get('auth') === 'function') {
 		router.use(keystone.get('auth'));
