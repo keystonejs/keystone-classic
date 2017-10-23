@@ -1,6 +1,6 @@
 {
   "name": "keystone",
-  "version": "4.0.0-beta.5",
+  "version": "4.0.0-beta.7",
   "description": "Web Application Framework and Admin GUI / Content Management System built on Express.js and Mongoose",
   "main": "index.js",
   "repository": {
@@ -34,6 +34,7 @@
     "cookie-parser": "1.4.3",
     "debug": "2.6.8",
     "display-name": "0.1.0",
+    "dumb-passwords": "^0.2.1",
     "ejs": "2.5.6",
     "elemental": "0.6.1",
     "embedly": "2.1.0",
@@ -86,6 +87,7 @@
     "redux-saga": "0.14.3",
     "redux-thunk": "2.2.0",
     "sanitize-filename": "1.6.1",
+    "sanitize-html": "^1.14.1",
     "scmp": "1.0.2",
     "semver": "5.3.0",
     "serve-favicon": "2.4.2",
