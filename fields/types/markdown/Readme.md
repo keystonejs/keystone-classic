@@ -39,8 +39,7 @@ Comma separated list of buttons to hide.
 
 `markedOptions` `Object`
 
-Supplied as options to the [`marked`](https://github.com/chjj/marked) package.
-If not supplied the field will inherit the [package defaults](https://github.com/chjj/marked#options-1).
+markedOptions are an object within options. When generating the html, these options are passed directly in to [Marked](https://github.com/chjj/marked). See the `marked` documentation for details on what options are valid.
 
 `sanitizeOptions` `Object`
 

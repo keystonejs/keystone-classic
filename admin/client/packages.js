@@ -7,7 +7,7 @@ admin/server/middleware/browserify.js
 */
 
 module.exports = [
-	'aphrodite/no-important',
+	'glamor',
 	'async',
 	'blacklist',
 	'classnames',

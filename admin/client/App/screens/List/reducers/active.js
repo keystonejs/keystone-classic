@@ -10,6 +10,9 @@ import {
 	SET_ACTIVE_COLUMNS,
 	SET_ACTIVE_LIST,
 	SET_FILTERS,
+	QUERY_HAS_CHANGED,
+	REPLACE_CACHED_QUERY,
+	CLEAR_CACHED_QUERY,
 } from '../constants';
 
 const initialState = {
@@ -22,6 +25,7 @@ const initialState = {
 		paths: [],
 		rawInput: '',
 	},
+	cachedQuery: {},
 };
 
 /**
@@ -71,6 +75,28 @@ function active (state = initialState, action) {
 		case CLEAR_ALL_FILTERS:
 			return assign({}, state, {
 				filters: [],
+			});
+		case QUERY_HAS_CHANGED:
+			const {
+				search,
+				sort,
+				filters,
+				columns,
+			} = action.parsedQuery;
+
+			return assign({}, state, {
+				search,
+				sort: sort || initialState.sort,
+				filters: filters || initialState.filters,
+				columns: columns || initialState.columns,
+			});
+		case REPLACE_CACHED_QUERY:
+			return assign({}, state, {
+				cachedQuery: action.cachedQuery,
+			});
+		case CLEAR_CACHED_QUERY:
+			return assign({}, state, {
+				cachedQuery: {},
 			});
 		default:
 			return state;

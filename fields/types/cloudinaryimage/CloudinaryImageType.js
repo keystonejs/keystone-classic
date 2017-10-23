@@ -277,6 +277,21 @@ cloudinaryimage.prototype.getData = function (item) {
 	return typeof value === 'object' ? value : {};
 };
 
+cloudinaryimage.prototype._originalGetOptions = cloudinaryimage.prototype.getOptions;
+
+cloudinaryimage.prototype.getOptions = function () {
+	this._originalGetOptions();
+	// We are performing the check here, so that if cloudinary secure is added
+	// to keystone after the model is registered, it will still be respected.
+	// Setting secure overrides default `cloudinary secure`
+	if ('secure' in this.options) {
+		this.__options.secure = this.options.secure;
+	} else if (keystone.get('cloudinary secure')) {
+		this.__options.secure = keystone.get('cloudinary secure');
+	}
+	return this.__options;
+};
+
 /**
  * Detects whether the field has been modified
  */

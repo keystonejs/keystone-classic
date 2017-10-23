@@ -83,23 +83,17 @@ var Popout = React.createClass({
 		}
 	},
 	renderPopout () {
-		if (!this.props.isOpen) return;
+		if (!this.props.isOpen) return null;
 
-		const { arrowLeftOffset, leftOffset, topOffset } = this.state;
+		const { width } = this.props;
+		const { arrowLeftOffset, leftOffset: left, topOffset: top } = this.state;
 
 		const arrowStyles = arrowLeftOffset
 			? { left: 0, marginLeft: arrowLeftOffset }
 			: null;
 
 		return (
-			<div
-				className="Popout"
-				style={{
-					left: leftOffset,
-					top: topOffset,
-					width: this.props.width,
-				}}
-			>
+			<div className="Popout" style={{ left, top, width }}>
 				<span className="Popout__arrow" style={arrowStyles} />
 				<div className="Popout__inner">
 					{this.props.children}
@@ -115,11 +109,9 @@ var Popout = React.createClass({
 		return (
 			<Portal className="Popout-wrapper" ref="portal">
 				<Transition
-					className="Popout-animation"
-					transitionEnterTimeout={190}
-					transitionLeaveTimeout={190}
+					transitionEnterTimeout={200}
+					transitionLeaveTimeout={200}
 					transitionName="Popout"
-					component="div"
 				>
 					{this.renderPopout()}
 				</Transition>
