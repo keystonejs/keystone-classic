@@ -5,13 +5,17 @@ var templatePath = path.resolve(__dirname, '../templates/signin.html');
 
 module.exports = function SigninRoute (req, res) {
 	var keystone = req.keystone;
+	var signinRedirect = keystone.get('signin redirect');
+	if (req.user && typeof signinRedirect === 'function') {
+		return signinRedirect(req.user, req, res);
+	}
 	var UserList = keystone.list(keystone.get('user model'));
 	var locals = {
 		adminPath: '/' + keystone.get('admin path'),
 		brand: keystone.get('brand'),
 		csrf: { header: {} },
 		logo: keystone.get('signin logo'),
-		redirect: keystone.get('signin redirect'),
+		redirect: signinRedirect,
 		user: req.user ? {
 			id: req.user.id,
 			name: UserList.getDocumentName(req.user) || '(no name)',
