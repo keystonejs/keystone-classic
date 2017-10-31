@@ -1,6 +1,6 @@
 {
-  "name": "@thinkmill/keystone",
-  "version": "4.0.0-beta.7-jm-fork",
+  "name": "keystone",
+  "version": "4.0.0-beta.7",
   "description": "Web Application Framework and Admin GUI / Content Management System built on Express.js and Mongoose",
   "main": "index.js",
   "repository": {
