@@ -154,3 +154,66 @@ Path to a writable unix socket. Should be either absolute or relative to `proces
 When set http and https servers are ignored.
 
 Exposes `onSocketServerCreated` event during `keystone.start()`
+
+
+# Authentificate via Ldap
+
+Keystonejs allows you to bind to an ldap server:
+
+<h4 data-primitive-type="Boolean"><code>ldap enable</code></h4>
+
+Enables or disables the ldap binding. Example `true`
+
+<h4 data-primitive-type="String"><code>ldap url</code></h4>
+
+Defines the ldap url including the protocol, the hostname and the port number. Example: `ldaps://your-ldap-proxy.foo.bar:636`
+
+<h4 data-primitive-type="String"><code>ldap base</code></h4>
+
+Defines the `searchBase`. Example: `ou=user,dc=foo,dc=bar`
+
+<h4 data-primitive-type="String"><code>ldap filter</code></h4>
+
+Defines the `searchFilter`. Example: `(SAMACCOUNTNAME={{username}})`
+
+<h4 data-primitive-type="Boolean"><code>ldap reconnect</code></h4>
+
+Reconnects the ldap connection if something fails. Example: `true`
+
+<h4 data-primitive-type="String"><code>ldap field email</code></h4>
+
+This is the Email field
+
+<h4 data-primitive-type="String"><code>ldap field name first</code></h4>
+
+Name first field
+
+<h4 data-primitive-type="String"><code>ldap field name first</code></h4>
+
+Name last field
+
+<h4 data-primitive-type="Boolean"><code>ldap allow unregistered</code></h4>
+
+Allows unregistered users, default `true`
+
+<h4 data-primitive-type="Boolean"><code>ldap register as admin</code></h4>
+
+Registers user as admin ( canAccessKeystone ), default `false`
+
+**Example using ldap options**
+
+```javascript
+keystone.init({
+  'ldap enable true': false,
+  'ldap url': 'ldaps://ldap-proxy.foo.bar:636',
+  'ldap base': 'ou=users,dc=foo,dc=bar',
+  'ldap filter': '(SAMACCOUNTNAME={{username}})',
+  'ldap reconnect': true,
+  'ldap allow unregistered': true,
+  'ldap register as admin': true,
+  'ldap field email': 'mail',
+  'ldap field name first': 'givenName',
+  'ldap field name last': 'sn'
+});
+```
+
