@@ -158,11 +158,11 @@ Exposes `onSocketServerCreated` event during `keystone.start()`
 
 # Authentificate via Ldap
 
-Keystonejs allows you to bind to an ldap server:
+Keystonejs allows you to bind to an ldap server using `ldapauth-fork`. After someone logged in successfully the Account will be created in `user model`.
 
 <h4 data-primitive-type="Boolean"><code>ldap enable</code></h4>
 
-Enables or disables the ldap binding. Example `true`
+Enables or disables the ldap binding. When this is set to `true`, all sign in requests are using the ldap bind
 
 <h4 data-primitive-type="String"><code>ldap url</code></h4>
 
@@ -178,23 +178,23 @@ Defines the `searchFilter`. Example: `(SAMACCOUNTNAME={{username}})`
 
 <h4 data-primitive-type="Boolean"><code>ldap reconnect</code></h4>
 
-Reconnects the ldap connection if something fails. Example: `true`
+Allows ldap reconnect, defaults to `true`
 
 <h4 data-primitive-type="String"><code>ldap field email</code></h4>
 
-This is the Email field
+Defines the ldap column holding the persons mail. Defaults to `mail`
 
 <h4 data-primitive-type="String"><code>ldap field name first</code></h4>
 
-Name first field
+Defines the ldap column holding the last name of the person. Defaults to `sn`
 
 <h4 data-primitive-type="String"><code>ldap field name first</code></h4>
 
-Name last field
+Defines the ldap column holding the last name of the person. Defaults to `sn`
 
 <h4 data-primitive-type="Boolean"><code>ldap allow unregistered</code></h4>
 
-Allows unregistered users, default `true`
+When this is set to `false`, a user will not be able to login when he doesnt already exist in the Database.
 
 <h4 data-primitive-type="Boolean"><code>ldap register as admin</code></h4>
 
