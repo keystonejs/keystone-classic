@@ -94,7 +94,8 @@
     "string-to-stream": "1.1.0",
     "vkey": "1.0.1",
     "watchify": "3.9.0",
-    "xhr": "2.4.0"
+    "xhr": "2.4.0",
+    "ldapauth-fork": "4.0.2"
   },
   "devDependencies": {
     "@ljharb/eslint-config": "^11.0.0",
