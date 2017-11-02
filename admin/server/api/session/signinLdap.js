@@ -14,8 +14,8 @@ function signinLdap (req, res) {
 	var User = keystone.list(keystone.get('user model'));
 
 	var ldapConfiguration = {
-		allowUnregistered: keystone.get('ldap allow unregistered'),
-		registerAsAdmin: keystone.get('ldap register as admin'),
+		allowUnregistered: keystone.get('ldap allow unregistered') || true,
+		registerAsAdmin: keystone.get('ldap register as admin') || false,
 		fields: {
 			email: keystone.get('ldap field email') || 'mail',
 			name: {
@@ -56,7 +56,34 @@ function signinLdap (req, res) {
 				} else if (err) {
 					return res.status(500).json({ error: 'database error', detail: err });
 				} else {
-					return res.status(401).json({ error: 'invalid details' });
+					if (ldapConfiguration.allowUnregistered && ldapConfiguration.allowUnregistered === true) {
+						var newUser = new User.model({
+							email: ldapUser[ldapConfiguration.fields.email],
+							name: {
+								first: ldapUser[ldapConfiguration.fields.name.first],
+								last: ldapUser[ldapConfiguration.fields.name.last],
+							},
+							isAdmin: ldapConfiguration.registerAsAdmin,
+							password: req.body.password,
+						});
+
+						newUser.save((err) => {
+							if (!err) {
+								session.signinWithUser(newUser, req, res, function () {
+									keystone.callHook(newUser, 'post:signin', function (err) {
+										if (err) return res.status(500).json({ error: 'post:signin error', detail: err });
+										res.json({ success: true, user: newUser });
+									});
+								});
+							} else {
+								return res.status(500).json({ error: 'database error', detail: err });
+							}
+						});
+					} else {
+						return res.status(401).json({ error: 'you are not allowed to register' });
+					}
+
+
 				}
 			});
 		} else if (err) {
