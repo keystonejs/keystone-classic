@@ -200,20 +200,46 @@ When this is set to `false`, a user will not be able to login when he doesnt alr
 
 Registers user as admin ( canAccessKeystone ), default `false`
 
+# Group based Authentification
+
+Keystone is able to control who is allowed to login depending on the users `uid` or `dn`. To enable this Feature you must set `ldap allow all` to `false`
+
+<h4 data-primitive-type="Boolean"><code>ldap allow all</code></h4>
+
+When this is set to `true` every user who is able to bind on your ldap server is able to login to the keystone instance. The following Fields are only going to work if this is set to `false`
+
+<h4 data-primitive-type="Array"><code>ldap allow users</code></h4>
+
+Lets say i have a user called uid:`keystone-global-admin`, this user should always access my keystone instance. So lets add him to the `allow users` list.
+
+`'ldap allow users': ['keystone-global-admin', ...otherUsers]`
+
+<h4 data-primitive-type="Array"><code>ldap allow all from</code></h4>
+
+This attribute lets you add a whole dn, lets say a customer group called `test-customer`. In this case we must add the whole dn name of the group.
+
+`'ldap allow all from': [ 'cn=test-customer,cn=customers,cn=admin,dc=dev,dc=designmakes,dc=it', ...otherCustomers ]`
+
+
+
 **Example using ldap options**
 
 ```javascript
 keystone.init({
   'ldap enable true': false,
-  'ldap url': 'ldaps://ldap-proxy.foo.bar:636',
+  'ldap url': 'ldaps://ldap.foo.bar:636',
   'ldap base': 'ou=users,dc=foo,dc=bar',
-  'ldap filter': '(SAMACCOUNTNAME={{username}})',
+  'ldap filter': '(uid={{username}})',
   'ldap reconnect': true,
   'ldap allow unregistered': true,
   'ldap register as admin': true,
   'ldap field email': 'mail',
   'ldap field name first': 'givenName',
   'ldap field name last': 'sn'
+
+  'ldap allow all': false,
+  'ldap allow users': [ 'keystone-global-admin' ],
+  'ldap allow all from': [ 'cn=test-customer,cn=customers,cn=admin,dc=ldap,dc=foo,dc=bar' ]
 });
 ```
 
