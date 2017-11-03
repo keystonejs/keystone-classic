@@ -226,7 +226,7 @@ This attribute lets you add a whole dn, lets say a customer group called `test-c
 
 ```javascript
 keystone.init({
-  'ldap enable true': false,
+  'ldap enable true': true,
   'ldap url': 'ldaps://ldap.foo.bar:636',
   'ldap base': 'ou=users,dc=foo,dc=bar',
   'ldap filter': '(uid={{username}})',
