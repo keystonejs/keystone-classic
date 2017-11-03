@@ -1,0 +1,44 @@
+//
+// Revision view
+// ==============================
+
+// Revisions Table
+// the table itself and its components
+// ------------------------------
+
+.RevisionsItem__table--container {
+	margin: .5rem;
+		div {
+			margin: 0 auto;
+		}
+
+		button {
+			margin-top: .5rem;
+		}
+}
+
+.RevisionsItem__table {
+	border-collapse: collapse;
+	width: 100%;
+		th, td {
+			border: 1px solid #dddddd;
+			padding: .5rem;
+			text-align: left;
+		}
+
+		th:nth-child(1) {
+			width: 10%;
+		}
+
+		th:nth-child(1n+2) {
+			width: 45%;
+		}
+
+		tr:nth-child(even) {
+			background-color: #F7F7F7;
+		}
+}
+
+.RevisionHeader__title {
+	font-size: 1.3rem;
+}
