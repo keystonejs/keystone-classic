@@ -21,7 +21,7 @@ function signinLdap (req, res) {
 				last: keystone.get('ldap field name last') || 'sn',
 			},
 		},
-		allowAll: keystone.get('ldap allow all') || false,
+		allowAll: keystone.get('ldap allow all') === false ? false : true,
 		allowAllFrom: keystone.get('ldap allow all from') || '',
 		allowUsers: keystone.get('ldap allow users') || [],
 	};

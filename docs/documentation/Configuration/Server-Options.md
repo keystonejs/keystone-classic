@@ -200,7 +200,7 @@ When this is set to `false`, a user will not be able to login when he doesnt alr
 
 Registers user as admin ( canAccessKeystone ), default `false`
 
-# Group based Authentification
+# Ldap group based Authentification
 
 Keystone is able to control who is allowed to login depending on the users `uid` or `dn`. To enable this Feature you must set `ldap allow all` to `false`
 
@@ -226,7 +226,7 @@ This attribute lets you add a whole dn, lets say a customer group called `test-c
 
 ```javascript
 keystone.init({
-  'ldap enable true': true,
+  'ldap enabled': true,
   'ldap url': 'ldaps://ldap.foo.bar:636',
   'ldap base': 'ou=users,dc=foo,dc=bar',
   'ldap filter': '(uid={{username}})',
