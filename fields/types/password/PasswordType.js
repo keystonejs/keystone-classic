@@ -47,7 +47,7 @@ function password (list, path, options) {
 			}
 		}
 	}
-	if (this.options.max < this.options.min) {
+	if (this.options.max && this.options.max < this.options.min) {
 		throw new Error('FieldType.Password: options - maximum password length cannot be less than the minimum length.');
 	}
 }
@@ -201,7 +201,7 @@ var validate = password.validate = function (pass, confirm, min, max, complexity
 		}
 	}
 
-	if (rejectCommon && dumbPasswords.check(pass)) {
+	if (pass && typeof pass === 'string' && rejectCommon && dumbPasswords.check(pass)) {
 		messages.push('Password must not be a common, frequently-used password.');
 	}
 
