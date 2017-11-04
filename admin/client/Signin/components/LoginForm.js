@@ -11,11 +11,12 @@ const LoginForm = ({
 	handleSubmit,
 	isAnimating,
 	password,
+	ldapAuth
 }) => {
 	return (
 		<div className="auth-box__col">
 			<Form onSubmit={handleSubmit} noValidate>
-				<FormField label="Email" htmlFor="email">
+				<FormField label={ldapAuth ? 'Ldap Username' : 'Email'} htmlFor="email">
 					<FormInput
 						autoFocus
 						type="email"
@@ -24,7 +25,7 @@ const LoginForm = ({
 						value={email}
 					/>
 				</FormField>
-				<FormField label="Password" htmlFor="password">
+				<FormField label={`${ldapAuth ? 'Ldap ' : ''}Password`} htmlFor="password">
 					<FormInput
 						type="password"
 						name="password"

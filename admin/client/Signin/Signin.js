@@ -21,6 +21,7 @@ var SigninView = React.createClass({
 			isInvalid: false,
 			invalidMessage: '',
 			signedOut: window.location.search === '?signedout',
+			ldapAuth: Keystone.ldapAuth
 		};
 	},
 	componentDidMount () {
@@ -121,6 +122,7 @@ var SigninView = React.createClass({
 								handleSubmit={this.handleSubmit}
 								isAnimating={this.state.isAnimating}
 								password={this.state.password}
+								ldapAuth={Keystone.ldapAuth}
 							/>
 						)}
 					</div>
