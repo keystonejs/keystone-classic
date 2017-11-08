@@ -58,7 +58,7 @@ If you want to specify the icon, use an object (you will find the icon name [her
 ```javascript
 keystone.set('nav', {
   posts: ['posts', 'post-categories'],
-  galleries: {icon: 'rocket', lists: ['galleries', 'enquiries']},
+  galleries: {icon: 'rocket', paths: ['galleries', 'enquiries']},
   users: 'users'
 };
 ```
