@@ -29,6 +29,7 @@ module.exports = Field.create({
 		onChange: React.PropTypes.func,
 		path: React.PropTypes.string,
 		value: React.PropTypes.string,
+		todayButton: React.PropTypes.string,
 	},
 
 	getDefaultProps () {
@@ -74,6 +75,7 @@ module.exports = Field.create({
 			? dateAsMoment.format(this.props.inputFormat)
 			: this.props.value;
 
+if (this.props.todayButton) {
 		return (
 			<Group>
 				<Section grow>
@@ -90,6 +92,21 @@ module.exports = Field.create({
 				</Section>
 			</Group>
 		);
+ } else {
+	 	return (
+			<Group>
+				<Section grow>
+					<DateInput
+						format={this.props.inputFormat}
+						name={this.getInputName(this.props.path)}
+						onChange={this.valueChanged}
+						ref="dateInput"
+						value={value}
+					/>
+				</Section>
+			</Group>
+		);
+ }
 	},
 
 });
