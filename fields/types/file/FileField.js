@@ -14,6 +14,7 @@ import {
 } from '../../../admin/client/App/elemental';
 import FileChangeMessage from '../../components/FileChangeMessage';
 import HiddenFileInput from '../../components/HiddenFileInput';
+import ImageThumbnail from '../../components/ImageThumbnail';
 
 let uploadInc = 1000;
 
@@ -35,6 +36,7 @@ module.exports = Field.create({
 			filename: PropTypes.string,
 			// TODO: these are present but not used in the UI,
 			//       should we start using them?
+			// showThumbnail: PropTypes.bool
 			// filetype: PropTypes.string,
 			// originalname: PropTypes.string,
 			// path: PropTypes.string,
@@ -72,6 +74,16 @@ module.exports = Field.create({
 		return this.state.userSelectedFile
 			? this.state.userSelectedFile.name
 			: this.props.value.filename;
+	},
+	getFileUrl () {
+		return this.props.value && this.props.value.url;
+	},
+	isImage () {
+		const href = this.props.value ? this.props.value.url : undefined;
+		return href && href.match(/\.(jpeg|jpg|gif|png|svg)$/i) != null;
+	},
+	showThumb () {
+		return this.props.value && this.props.value.showthumb;
 	},
 
 	// ==============================
@@ -190,23 +202,45 @@ module.exports = Field.create({
 			return null;
 		}
 	},
+	renderImagePreview () {
+		const imageSource = this.getFileUrl();
+		return (
+			<ImageThumbnail
+				component="a"
+				href={imageSource}
+				target="__blank"
+				style={{ float: 'left', marginRight: '1em', maxWidth: '50%' }}
+			>
+				<img src={imageSource} style={{ 'max-height': 100, 'max-width': '100%' }} />
+			</ImageThumbnail>
+		);
+	},
 	renderUI () {
 		const { label, note, path } = this.props;
-		const buttons = (
-			<div style={this.hasFile() ? { marginTop: '1em' } : null}>
-				<Button onClick={this.triggerFileBrowser}>
-					{this.hasFile() ? 'Change' : 'Upload'} File
-				</Button>
-				{this.hasFile() && this.renderClearButton()}
+		const isImage = this.isImage();
+		const hasFile = this.hasFile();
+		const showThumb = this.showThumb();
+
+		const previews = (
+			<div style={(isImage && showThumb) ? { marginBottom: '1em' } : null}>
+				{isImage && showThumb && this.renderImagePreview()}
+				{hasFile && this.renderFileNameAndChangeMessage()}
 			</div>
 		);
-
+		const buttons = (
+			<div style={hasFile ? { marginTop: '1em' } : null}>
+				<Button onClick={this.triggerFileBrowser}>
+					{hasFile ? 'Change' : 'Upload'} File
+				</Button>
+				{hasFile && this.renderClearButton()}
+			</div>
+		);
 		return (
 			<div data-field-name={path} data-field-type="file">
 				<FormField label={label} htmlFor={path}>
 					{this.shouldRenderField() ? (
 						<div>
-							{this.hasFile() && this.renderFileNameAndChangeMessage()}
+							{previews}
 							{buttons}
 							<HiddenFileInput
 								key={this.state.uploadFieldPath}
@@ -218,7 +252,7 @@ module.exports = Field.create({
 						</div>
 					) : (
 						<div>
-							{this.hasFile()
+							{hasFile
 								? this.renderFileNameAndChangeMessage()
 								: <FormInput noedit>no file</FormInput>}
 						</div>
