@@ -1,11 +1,9 @@
 import demand from 'must';
 import {
-	selectRevision,
 	dataLoaded,
 	dataLoadingError,
 } from '../actions';
 import {
-	SELECT_REVISION,
 	DATA_LOADING_SUCCESS,
 	DATA_LOADING_ERROR,
 } from '../constants';

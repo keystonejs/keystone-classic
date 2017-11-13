@@ -127,11 +127,17 @@ var EditForm = React.createClass({
 		const { data, list } = this.props;
 		const editForm = this.refs.editForm;
 		const formData = new FormData(editForm);
+		var successMessage = 'Your changes have been saved successfully';
+		data.fields['publishing.approveRequest'] = false;
+		data.fields['publishing.approvalPending'] = true;
 
 		// Show loading indicator
 		this.setState({
 			loading: true,
 		});
+
+		formData.set('publishing.approvalPendingMessage','Pending Approval');
+		formData.set('publishing.approvalPending',data.fields['publishing.approvalPending']);
 
 		list.updateItem(data.id, formData, (err, data) => {
 			smoothScrollTop();
@@ -144,11 +150,20 @@ var EditForm = React.createClass({
 				});
 			} else {
 				// Success, display success flash messages, replace values
+
+				// Add alert if the content needs Publishing Approval
+				if(data.fields['publishing.approvalPending'] ){
+					
+					successMessage = 'Your changes have been saved successfully & will be '+ upcase(data.fields['publishing.requestApproval'])
+					+ ' once approved by an Editor.';
+					
+				}
+
 				// TODO: Update key value
 				this.setState({
 					alerts: {
 						success: {
-							success: 'Your changes have been saved successfully',
+							success: successMessage,
 						},
 					},
 					lastValues: this.state.values,
@@ -158,6 +173,53 @@ var EditForm = React.createClass({
 			}
 		});
 	},
+	approvePublishing () {
+		const editForm = this.refs.editForm;
+		const formData = new FormData(editForm);
+		var { data, list } = this.props;
+		var publishState = data.fields['publishing.requestApproval'];
+		data.fields['publishing.approveRequest'] = true;
+		data.fields['publishing.approvalPending'] = false;
+
+		// Change the hidden field values
+		this.setState({
+				values : data.fields,
+				loading: true,
+			}
+		);
+
+		// Setting directly to avoid issues with render & formdata not being available for updateItem
+		formData.set('publishing.approveRequest',data.fields['publishing.approveRequest']);
+		formData.set('publishing.approvalPending',data.fields['publishing.approvalPending']);
+		formData.set('publishing.approvalPendingMessage','');
+		
+		list.updateItem(data.id, formData, (err, data) => {
+			smoothScrollTop();
+			if (err) {
+				this.setState({
+					alerts: {
+						error: err,
+					},
+					loading: false,
+				});
+			} else {
+				data.fields['publishing.approveRequest'] = false;
+				data.fields['publishing.approvalPending'] = false;
+
+				this.setState({
+					alerts: {
+						success: {
+							success: 'Your changes have been saved successfully & approved to be ' + upcase(data.fields['publishing.requestApproval']),
+						},
+					},
+					lastValues: this.state.values,
+					values: data.fields,
+					loading: false,
+				});
+			}
+		});
+	},
+
 	renderKeyOrId () {
 		var className = 'EditForm__key-or-id';
 		var list = this.props.list;
@@ -261,9 +323,10 @@ var EditForm = React.createClass({
 		if (this.props.list.noedit && this.props.list.nodelete) {
 			return null;
 		}
-
+		const requestState = this.state.values['publishing.requestApproval'];
 		const { loading } = this.state;
 		const loadingButtonText = loading ? 'Saving' : 'Save';
+		const approveButtonText = loading ? 'Approving' : 'Save & Approve (' + upcase(requestState) + ')';
 
 		// Padding must be applied inline so the FooterBar can determine its
 		// innerHeight at runtime. Aphrodite's styling comes later...
@@ -280,6 +343,19 @@ var EditForm = React.createClass({
 							data-button="update"
 						>
 							{loadingButtonText}
+						</LoadingButton>
+					)}
+					{this.props.list.publishing
+					&& this.props.list.publishing.enabled && (
+						<LoadingButton
+							color="success"
+							disabled={loading}
+							loading={loading}
+							onClick={this.approvePublishing}
+							data-button="approve"
+							style={styles.saveApproveButton}
+						>
+							{approveButtonText}
 						</LoadingButton>
 					)}
 					{!this.props.list.noedit && (
@@ -308,9 +384,24 @@ var EditForm = React.createClass({
 							to={`${Keystone.adminPath}/${this.props.list.id}/${this.props.data.id}/revisions`}
 							variant="link"
 						>
-							History
+							Revisions
 						</GlyphButton>
 					)}
+					{this.props.list.publishing
+					&& this.props.list.publishing.enabled && (
+						<GlyphButton
+							component={Link}
+							data-e2e-editform-preview
+							glyph="search"
+							position="left"
+							style={styles.previewButton}
+							to={`${Keystone.adminPath}/${this.props.list.id}/${this.props.data.id}/preview`}
+							variant="link"
+						>
+							Preview
+						</GlyphButton>
+					)}
+
 				</div>
 			</FooterBar>
 		);
@@ -435,6 +526,12 @@ const styles = {
 		height: theme.component.height, // FIXME aphrodite bug
 	},
 	historyButton: {
+		float: 'right',
+	},
+	saveApproveButton: {
+		marginLeft: '15px',
+	},
+	previewButton: {
 		float: 'right',
 	},
 	deleteButton: {

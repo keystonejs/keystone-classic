@@ -5,6 +5,7 @@ import { GlyphButton, FormInput } from '../../../elemental';
 const RevisionHeader = ({
 	id,
 	routeParams,
+	currentList,
 }) => {
 	const renderBack = () => {
 		const backPath = `${Keystone.adminPath}/${routeParams.listId}/${id}`;
@@ -26,7 +27,7 @@ const RevisionHeader = ({
 		<div style={styles.container}>
 			<span>{renderBack()}</span>
 			<FormInput noedit style={styles.title}>
-				Revisions for {id}
+				Revisions for {currentList.slug} ({id})
 			</FormInput>
 		</div>
 	);

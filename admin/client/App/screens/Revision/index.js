@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import moment from 'moment';
+// import moment from 'moment';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
@@ -18,7 +18,7 @@ class Revision extends Component {
 		router: PropTypes.object.isRequired,
 	}
 
-	constructor(props) {
+	constructor (props) {
 		super(props);
 		this.state = { isConfirmationOpen: false };
 	}
@@ -34,7 +34,7 @@ class Revision extends Component {
 		this.props.loadRevisions();
 	}
 
-	componentWillUnmount() {
+	componentWillUnmount () {
 		this.props.selectRevision({});
 	}
 
@@ -72,7 +72,7 @@ class Revision extends Component {
 		</ConfirmationDialog>
 	)
 
-	render() {
+	render () {
 		if (!this.props.ready) {
 			return (
 				<Center height="50vh" data-screen-id="revision">
@@ -90,6 +90,7 @@ class Revision extends Component {
 				<RevisionItem
 					handleButtonClick={this.handleButtonClick}
 					{...this.props}
+					excludeFields={this.props.currentList.revisions.excludeFields}
 				/>
 				{this.renderConfirmationDialog()}
 			</div>
@@ -103,7 +104,7 @@ const styles = {
 		margin: '0 auto',
 		maxWidth: 1170,
 	},
-}
+};
 
 const mapStateToProps = state => ({
 	currentList: state.lists.currentList,
@@ -112,7 +113,7 @@ const mapStateToProps = state => ({
 	// this is similar to state.item but its shape is different
 	selectedRevision: state.revisions.selectedRevision,
 	error: state.revisions.error,
-	ready: state.revisions.ready
+	ready: state.revisions.ready,
 });
 
 export default connect(mapStateToProps, {

@@ -4,8 +4,7 @@ module.exports = (req, res) => {
 		return res.apiError(403, 'invalid csrf');
 	}
 	const id = req.body.id || req.params.id;
-	const list = req.body.list || req.params.list;
-	const revisions = keystone.lists[list].HistoryModel;
+	const revisions = req.list.HistoryModel;
 
 	revisions.find({ id })
 		.populate('user', 'name')

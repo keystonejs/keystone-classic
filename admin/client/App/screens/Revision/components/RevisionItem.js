@@ -14,6 +14,7 @@ const RevisionItem = ({
 	router,
 	selectedRevision,
 	selectRevision,
+	excludeFields = ['updatedBy', 'updatedAt'],
 }) => {
 	const renderDifferences = data => {
 		const differences = [];
@@ -25,9 +26,32 @@ const RevisionItem = ({
 			/>
 		);
 
+		/**
+		 * Returns item as array or string for React
+		 * @param {*} item
+		 */
+		const wrapItem = item => {
+			if (Object.prototype.toString.call(item) === '[object Object]') {
+				return [item];
+			} else {
+				return '';
+			}
+		};
+
+		/**
+		 * Check if we should compare this field. By default we exclude updatedBy, updatedAt, workflow
+		 * @param {String} field Content field to check
+		 */
+		const excludeField = field => {
+			if (Array.isArray(excludeFields) && excludeFields.indexOf(field) !== -1) {
+				return true;
+			}
+			return false;
+		};
+
 		const recursiveSearch = (currentItem, revision) => {
 			for (const k in currentItem) {
-				if (k === 'updatedBy' || k === 'updatedAt') continue;
+				if (excludeField(k)) continue;
 				// when we're comparing relationship fields, ignore _id property since that gets updated after every save
 				if (!deepEql(currentItem[k], revision[k], '_id')) {
 					if (Array.isArray(currentItem[k])) {
@@ -40,10 +64,31 @@ const RevisionItem = ({
 						);
 						continue;
 					}
+
+					// Deal with undefined objects that cause errors with ReactJson view
+					if (Object.prototype.toString.call(currentItem[k]) === '[object Undefined]'
+						|| Object.prototype.toString.call(revision[k]) === '[object Undefined]') {
+						var itemObject;
+						var revisionObject;
+						itemObject = (Object.prototype.toString.call(currentItem[k]) === '[object Undefined]') ? [{}] : [currentItem[k]];
+						revisionObject = (Object.prototype.toString.call(revision[k]) === '[object Undefined]') ? [{}] : [revision[k]];
+
+						console.log('Dealing with undefined objects:' + JSON.stringify(itemObject) + ' ' + JSON.stringify(revisionObject));
+						differences.push(
+							<tr key={k}>
+								<td>{k}</td>
+								<td>{wrapItem(itemObject)}</td>
+								<td>{wrapItem(revisionObject)}</td>
+							</tr>
+						);
+						continue;
+					}
+
 					if (Object.prototype.toString.call(revision[k]) === '[object Object]') {
 						recursiveSearch(currentItem[k], revision[k]);
 						continue;
 					}
+
 					differences.push(
 						<tr key={k}>
 							<td>{k}</td>
@@ -56,7 +101,6 @@ const RevisionItem = ({
 		};
 
 		recursiveSearch(currentItem, data);
-
 		return differences;
 	};
 
@@ -77,7 +121,7 @@ const RevisionItem = ({
 			{revisions.map(revision => {
 				const active = selectedRevision._id === revision._id;
 				const user = revision.user || revision.u;
-				const { first, last } = user;
+				const { first, last } = user.name;
 				return (
 					<div key={revision._id}>
 						<RevisionListItem active={active} noedit onClick={() => selectRevision(revision)}>
