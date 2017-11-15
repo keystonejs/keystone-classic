@@ -16,5 +16,6 @@
     "it": true,
     "jQuery": true,
     "Keystone": true
-  }
+  },
+  "parser": "babel-eslint"
 }

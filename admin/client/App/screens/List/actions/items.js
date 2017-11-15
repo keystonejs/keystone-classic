@@ -117,3 +117,13 @@ export function deleteItems (ids) {
 		});
 	};
 }
+
+// Enabled & used by Publishing Plugin
+export function approveItems (ids) {
+	return (dispatch, getState) => {
+		const list = getState().lists.currentList;
+		list.approveItems(ids, (err, data) => {
+			dispatch(loadItems());
+		});
+	};
+}

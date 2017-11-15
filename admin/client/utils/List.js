@@ -325,6 +325,43 @@ List.prototype.deleteItems = function (itemIds, callback) {
 	});
 };
 
+/**
+ * Approve a pending publishing state change for a specific item via the API.
+ * 
+ *
+ * @param  {String}   itemId   The id of the item to be approved
+ * @param  {Function} callback
+ */
+List.prototype.approveItem = function (itemId, callback) {
+	this.approveItems([itemId], callback);
+};
+
+/**
+ * Approve pending publishing state changes of multiple items
+ *
+ * @param  {Array}   itemIds  An array of ids of items we want to approve
+ * @param  {Function} callback
+ */
+List.prototype.approveItems = function (itemIds, callback) {
+	const url = Keystone.adminPath + '/api/' + this.path + '/approve';
+	xhr({
+		url: url,
+		method: 'POST',
+		headers: assign({}, Keystone.csrf.header),
+		json: {
+			ids: itemIds,
+		},
+	}, (err, resp, body) => {
+		if (err) return callback(err);
+		// Pass the body as result or error, depending on the statusCode
+		if (resp.statusCode === 200) {
+			callback(null, body);
+		} else {
+			callback(body);
+		}
+	});
+};
+
 List.prototype.reorderItems = function (item, oldSortOrder, newSortOrder, pageOptions, callback) {
 	const url = Keystone.adminPath + '/api/' + this.path + '/' + item.id + '/sortOrder/' + oldSortOrder + '/' + newSortOrder + '/' + buildQueryString(pageOptions);
 	xhr({

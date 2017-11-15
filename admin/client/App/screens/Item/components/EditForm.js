@@ -61,6 +61,7 @@ var EditForm = React.createClass({
 			loading: false,
 			lastValues: null, // used for resetting
 			focusFirstField: !this.props.list.nameField && !this.props.list.nameFieldIsFormHeader,
+			approveButtonDisabled: false,
 		};
 	},
 	componentDidMount () {
@@ -136,8 +137,8 @@ var EditForm = React.createClass({
 			loading: true,
 		});
 
-		formData.set('publishing.approvalPendingMessage','Pending Approval');
-		formData.set('publishing.approvalPending',data.fields['publishing.approvalPending']);
+		formData.set('publishing.approvalPendingMessage', 'Pending Approval');
+		formData.set('publishing.approvalPending', data.fields['publishing.approvalPending']);
 
 		list.updateItem(data.id, formData, (err, data) => {
 			smoothScrollTop();
@@ -152,11 +153,11 @@ var EditForm = React.createClass({
 				// Success, display success flash messages, replace values
 
 				// Add alert if the content needs Publishing Approval
-				if(data.fields['publishing.approvalPending'] ){
-					
-					successMessage = 'Your changes have been saved successfully & will be '+ upcase(data.fields['publishing.requestApproval'])
+				if (data.fields['publishing.approvalPending']) {
+
+					successMessage = 'Your changes have been saved successfully & will be ' + upcase(data.fields['publishing.requestApproval'])
 					+ ' once approved by an Editor.';
-					
+
 				}
 
 				// TODO: Update key value
@@ -183,16 +184,17 @@ var EditForm = React.createClass({
 
 		// Change the hidden field values
 		this.setState({
-				values : data.fields,
-				loading: true,
-			}
+			values: data.fields,
+			approveButtonDisabled: true,
+			loading: true,
+		}
 		);
 
 		// Setting directly to avoid issues with render & formdata not being available for updateItem
-		formData.set('publishing.approveRequest',data.fields['publishing.approveRequest']);
-		formData.set('publishing.approvalPending',data.fields['publishing.approvalPending']);
-		formData.set('publishing.approvalPendingMessage','');
-		
+		formData.set('publishing.approveRequest', data.fields['publishing.approveRequest']);
+		formData.set('publishing.approvalPending', data.fields['publishing.approvalPending']);
+		formData.set('publishing.approvalPendingMessage', '');
+
 		list.updateItem(data.id, formData, (err, data) => {
 			smoothScrollTop();
 			if (err) {
@@ -201,6 +203,7 @@ var EditForm = React.createClass({
 						error: err,
 					},
 					loading: false,
+					approveButtonDisabled: false,
 				});
 			} else {
 				data.fields['publishing.approveRequest'] = false;
@@ -215,6 +218,7 @@ var EditForm = React.createClass({
 					lastValues: this.state.values,
 					values: data.fields,
 					loading: false,
+					approveButtonDisabled: true,
 				});
 			}
 		});
@@ -323,10 +327,18 @@ var EditForm = React.createClass({
 		if (this.props.list.noedit && this.props.list.nodelete) {
 			return null;
 		}
+		const currentState = this.state.values['publishing.state'];
 		const requestState = this.state.values['publishing.requestApproval'];
 		const { loading } = this.state;
 		const loadingButtonText = loading ? 'Saving' : 'Save';
-		const approveButtonText = loading ? 'Approving' : 'Save & Approve (' + upcase(requestState) + ')';
+		const approveButtonText = loading ? 'Approving' : 'Save & Approve (' + upcase(currentState) + '->' + upcase(requestState) + ')';
+		var _approveButtonDisabled = this.state.approveButtonDisabled;
+
+		// Only show Approve button is there is pending approval
+		if (this.state.values['publishing.pendingApproval']
+		|| (currentState !== requestState)) {
+			_approveButtonDisabled = false;
+		}
 
 		// Padding must be applied inline so the FooterBar can determine its
 		// innerHeight at runtime. Aphrodite's styling comes later...
@@ -349,7 +361,7 @@ var EditForm = React.createClass({
 					&& this.props.list.publishing.enabled && (
 						<LoadingButton
 							color="success"
-							disabled={loading}
+							disabled={_approveButtonDisabled}
 							loading={loading}
 							onClick={this.approvePublishing}
 							data-button="approve"
@@ -388,7 +400,8 @@ var EditForm = React.createClass({
 						</GlyphButton>
 					)}
 					{this.props.list.publishing
-					&& this.props.list.publishing.enabled && (
+					&& this.props.list.publishing.enabled
+					&& (
 						<GlyphButton
 							component={Link}
 							data-e2e-editform-preview
