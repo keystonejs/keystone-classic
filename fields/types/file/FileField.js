@@ -32,11 +32,11 @@ module.exports = Field.create({
 		label: PropTypes.string,
 		note: PropTypes.string,
 		path: PropTypes.string.isRequired,
+		thumb: PropTypes.bool,
 		value: PropTypes.shape({
 			filename: PropTypes.string,
 			// TODO: these are present but not used in the UI,
 			//       should we start using them?
-			// showThumbnail: PropTypes.bool
 			// filetype: PropTypes.string,
 			// originalname: PropTypes.string,
 			// path: PropTypes.string,
@@ -81,9 +81,6 @@ module.exports = Field.create({
 	isImage () {
 		const href = this.props.value ? this.props.value.url : undefined;
 		return href && href.match(/\.(jpeg|jpg|gif|png|svg)$/i) != null;
-	},
-	showThumb () {
-		return this.props.value && this.props.value.showthumb;
 	},
 
 	// ==============================
@@ -216,14 +213,13 @@ module.exports = Field.create({
 		);
 	},
 	renderUI () {
-		const { label, note, path } = this.props;
+		const { label, note, path, thumb } = this.props;
 		const isImage = this.isImage();
 		const hasFile = this.hasFile();
-		const showThumb = this.showThumb();
 
 		const previews = (
-			<div style={(isImage && showThumb) ? { marginBottom: '1em' } : null}>
-				{isImage && showThumb && this.renderImagePreview()}
+			<div style={(isImage && thumb) ? { marginBottom: '1em' } : null}>
+				{isImage && thumb && this.renderImagePreview()}
 				{hasFile && this.renderFileNameAndChangeMessage()}
 			</div>
 		);
