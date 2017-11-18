@@ -400,7 +400,7 @@ var EditForm = React.createClass({
 						</GlyphButton>
 					)}
 					{this.props.list.publishing
-					&& this.props.list.publishing.enabled
+					&& this.props.list.publishing.enabled && this.props.data.slug
 					&& (
 						<GlyphButton
 							component={Link}
@@ -408,7 +408,7 @@ var EditForm = React.createClass({
 							glyph="search"
 							position="left"
 							style={styles.previewButton}
-							to={`${Keystone.adminPath}/${this.props.list.id}/${this.props.data.id}/preview`}
+							to={`/${this.props.data.slug}?preview=true`}
 							variant="link"
 						>
 							Preview

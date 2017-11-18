@@ -23,7 +23,7 @@ export default (state = {
 			if (action.payload) {
 				return { ...state, ready: true, error: `No item matching id ${action.payload}` };
 			}
-			return { ...state, ready: true, error: 'Query error' };
+			return { ...state, ready: true, error: 'Get Revisions Failed. Ensure you have history:true in your model options.' };
 		case SELECT_REVISION:
 			return { ...state, selectedRevision: action.payload };
 		default:
