@@ -323,6 +323,19 @@ var EditForm = React.createClass({
 			}
 		}, this);
 	},
+	/**
+	 * Generate a preview url for this item using publishing.previewPath & item name, slug or id
+	 */
+	renderPreviewURL () {
+		const itemSlug = this.props.data.slug || this.props.data.fields[this.props.list.publishing.itemPathField] || this.props.data.name;
+		const previewPath = this.props.list.publishing.previewPath;
+		var previewParams = '?preview=true';
+		// TODO default options aren't accessible. fix
+		if (this.props.list.publishing.previewParam) {
+			previewParams = '?' + this.props.list.publishing.previewParam + '=true';
+		}
+		return previewPath + itemSlug + previewParams;
+	},
 	renderFooterBar () {
 		if (this.props.list.noedit && this.props.list.nodelete) {
 			return null;
@@ -403,7 +416,7 @@ var EditForm = React.createClass({
 						</GlyphButton>
 					)}
 					{this.props.list.publishing
-					&& this.props.list.publishing.enabled && this.props.data.slug
+					&& this.props.list.publishing.enabled && this.props.list.publishing.previewPath
 					&& (
 						<GlyphButton
 							component={Link}
@@ -411,7 +424,7 @@ var EditForm = React.createClass({
 							glyph="search"
 							position="left"
 							style={styles.previewButton}
-							to={`${this.props.list.publishing.previewPath}${this.props.data.slug}?preview=true`}
+							to={this.renderPreviewURL}
 							variant="link"
 							target="_blank"
 						>
