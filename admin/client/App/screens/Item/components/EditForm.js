@@ -331,13 +331,16 @@ var EditForm = React.createClass({
 		const requestState = this.state.values['publishing.requestApproval'];
 		const { loading } = this.state;
 		const loadingButtonText = loading ? 'Saving' : 'Save';
-		const approveButtonText = loading ? 'Approving' : 'Save & Approve (' + upcase(currentState) + '->' + upcase(requestState) + ')';
+		var approveButtonText = loading ? 'Approving' : 'Save & Approve (' + upcase(currentState) + '->' + upcase(requestState) + ')';
 		var _approveButtonDisabled = this.state.approveButtonDisabled;
 
 		// Only show Approve button is there is pending approval
 		if (this.state.values['publishing.pendingApproval']
 		|| (currentState !== requestState)) {
 			_approveButtonDisabled = false;
+		} else {
+			_approveButtonDisabled = true;
+			approveButtonText = upcase(currentState);
 		}
 
 		// Padding must be applied inline so the FooterBar can determine its
@@ -402,7 +405,6 @@ var EditForm = React.createClass({
 					{this.props.list.publishing
 					&& this.props.list.publishing.enabled && this.props.data.slug
 					&& (
-						
 						<GlyphButton
 							component={Link}
 							data-e2e-editform-preview
@@ -415,9 +417,6 @@ var EditForm = React.createClass({
 						>
 						Preview
 						</GlyphButton>
-						
-							/*<a href="${this.props.list.publishing.previewPath}${this.props.data.slug}?preview=true" target="_blank">Preview</a>
-						*/
 					)}
 
 				</div>

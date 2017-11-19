@@ -38,16 +38,8 @@ const RevisionItem = ({
 			}
 		};
 
-		/**
-		 * Check if we should compare this field. By default we exclude updatedBy, updatedAt, workflow
-		 * @param {String} field Content field to check
-		 */
-		const excludeField = field => {
-			if (Array.isArray(excludeFields) && excludeFields.indexOf(field) !== -1) {
-				return true;
-			}
-			return false;
-		};
+
+		
 
 		const recursiveSearch = (currentItem, revision) => {
 			for (const k in currentItem) {
@@ -58,8 +50,9 @@ const RevisionItem = ({
 						differences.push(
 							<tr key={k}>
 								<td>{k}</td>
-								<td>{rjv(currentItem[k])}</td>
 								<td>{rjv(revision[k])}</td>
+								<td>{rjv(currentItem[k])}</td>
+								
 							</tr>
 						);
 						continue;
@@ -77,8 +70,9 @@ const RevisionItem = ({
 						differences.push(
 							<tr key={k}>
 								<td>{k}</td>
-								<td>{wrapItem(itemObject)}</td>
 								<td>{wrapItem(revisionObject)}</td>
+								<td>{wrapItem(itemObject)}</td>
+								
 							</tr>
 						);
 						continue;
@@ -92,8 +86,9 @@ const RevisionItem = ({
 					differences.push(
 						<tr key={k}>
 							<td>{k}</td>
-							<td>{currentItem[k]}</td>
 							<td>{revision[k]}</td>
+							<td>{currentItem[k]}</td>
+							
 						</tr>
 					);
 				}
@@ -104,19 +99,29 @@ const RevisionItem = ({
 		return differences;
 	};
 
-	const renderChangesTitle = (currentItem) => {
-		var changes = '';
-		for (const k in currentItem) {
-			if (excludeField(k)) continue;
-			changes = changes + ' ' + k;
+	/**
+	 * Check if we should compare this field. By default we exclude updatedBy, updatedAt, workflow
+	 * @param {String} field Content field to check
+	 */
+	const excludeField = field => {
+		if (Array.isArray(excludeFields) && excludeFields.indexOf(field) !== -1) {
+			return true;
 		}
+		return false;
+	};
 
-		return 'Changed ' + changes;
+	const renderChangesTitle = (revisionChanges) => {
+		var changes = [];
+		for (const i in revisionChanges) {
+			if (excludeField(revisionChanges[i])) continue;
+			changes.push(revisionChanges[i]);
+		}
+		return 'Changes - ' + changes.toString();
 	};
 
 	const applyButton = (
 		<GlyphButton color="success" onClick={handleButtonClick}>
-			<ResponsiveText hiddenXS={`Apply`} visibleXS="Apply" />
+			<ResponsiveText hiddenXS={`Restore Revision`} visibleXS="Restore Revision" />
 		</GlyphButton>
 	);
 
@@ -136,7 +141,7 @@ const RevisionItem = ({
 					<div key={revision._id}>
 						<RevisionListItem active={active} noedit onClick={() => selectRevision(revision)}>
 							<span style={changedStyle}>
-								{renderChangesTitle(currentItem)}
+								{renderChangesTitle(revision.changes)}
 							</span>
 							<span style={authorStyle}>
 								{moment(revision.time || revision.t).format('dddd Do MMM YYYY, h:mm:ss a')} by {`${first} ${last}`}
@@ -147,12 +152,13 @@ const RevisionItem = ({
 								<table className="RevisionsItem__table">
 									<tr>
 										<th>Fields</th>
-										<th>Current</th>
 										<th>Revision</th>
+										<th>Current</th>
+										
 									</tr>
 									{renderDifferences(revision.data || revision.d)}
 								</table>
-								<div>
+								<div style={{ textAlign: 'left', padding: '0px' }}>
 									<Container>
 										{applyButton}&nbsp;{cancelButton}
 									</Container>
@@ -179,7 +185,7 @@ const authorStyle = {
 
 const changedStyle = {
 	textAlign: 'left',
-
+	float: 'left',
 };
 
 const mapStateToProps = state => ({
