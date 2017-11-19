@@ -20,7 +20,10 @@ class Revision extends Component {
 
 	constructor (props) {
 		super(props);
-		this.state = { isConfirmationOpen: false };
+		this.state = {
+			isConfirmationOpen: false,
+			itemTitle: 'Post...',
+		};
 	}
 
 	componentDidMount () {
@@ -32,6 +35,7 @@ class Revision extends Component {
 			this.props.selectItem(this.props.params.itemId);
 		}
 		this.props.loadRevisions();
+		//this.getItemTitle(this.props.params.listId);
 	}
 
 	componentWillUnmount () {
@@ -45,6 +49,14 @@ class Revision extends Component {
 	handleButtonClick = () => {
 		this.setState({ isConfirmationOpen: true });
 	}
+
+	getItemTitle = (id) => {
+		this.props.currentList.loadItem(id, function (err, data) {
+			console.log(JSON.stringify(data));
+			this.setState({ itemTitle: data.slug });
+		}
+		);
+	};
 
 	renderError = () => {
 		return (
@@ -86,7 +98,7 @@ class Revision extends Component {
 
 		return (
 			<div style={styles.container}>
-				<RevisionHeader {...this.props} />
+				<RevisionHeader {...this.props} title={this.state.itemTitle} />
 				<RevisionItem
 					handleButtonClick={this.handleButtonClick}
 					{...this.props}

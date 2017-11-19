@@ -402,17 +402,22 @@ var EditForm = React.createClass({
 					{this.props.list.publishing
 					&& this.props.list.publishing.enabled && this.props.data.slug
 					&& (
+						
 						<GlyphButton
 							component={Link}
 							data-e2e-editform-preview
 							glyph="search"
 							position="left"
 							style={styles.previewButton}
-							to={`/${this.props.data.slug}?preview=true`}
+							to={`${this.props.list.publishing.previewPath}${this.props.data.slug}?preview=true`}
 							variant="link"
+							target="_blank"
 						>
-							Preview
+						Preview
 						</GlyphButton>
+						
+							/*<a href="${this.props.list.publishing.previewPath}${this.props.data.slug}?preview=true" target="_blank">Preview</a>
+						*/
 					)}
 
 				</div>

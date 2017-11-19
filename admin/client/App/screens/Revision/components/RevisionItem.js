@@ -104,6 +104,16 @@ const RevisionItem = ({
 		return differences;
 	};
 
+	const renderChangesTitle = (currentItem) => {
+		var changes = '';
+		for (const k in currentItem) {
+			if (excludeField(k)) continue;
+			changes = changes + ' ' + k;
+		}
+
+		return 'Changed ' + changes;
+	};
+
 	const applyButton = (
 		<GlyphButton color="success" onClick={handleButtonClick}>
 			<ResponsiveText hiddenXS={`Apply`} visibleXS="Apply" />
@@ -125,7 +135,12 @@ const RevisionItem = ({
 				return (
 					<div key={revision._id}>
 						<RevisionListItem active={active} noedit onClick={() => selectRevision(revision)}>
-							{moment(revision.time || revision.t).format('YYYY-MM-DD hh:mm:ssa')} by {`${first} ${last}`}
+							<span style={changedStyle}>
+								{renderChangesTitle(currentItem)}
+							</span>
+							<span style={authorStyle}>
+								{moment(revision.time || revision.t).format('dddd Do MMM YYYY, h:mm:ss a')} by {`${first} ${last}`}
+							</span>
 						</RevisionListItem>
 						{active
 							? <div className="RevisionsItem__table--container">
@@ -133,7 +148,7 @@ const RevisionItem = ({
 									<tr>
 										<th>Fields</th>
 										<th>Current</th>
-										<th>Rollback</th>
+										<th>Revision</th>
 									</tr>
 									{renderDifferences(revision.data || revision.d)}
 								</table>
@@ -155,6 +170,16 @@ const RevisionItem = ({
 
 const style = {
 	textAlign: 'center',
+};
+
+const authorStyle = {
+	textAlign: 'center',
+	float: 'right',
+};
+
+const changedStyle = {
+	textAlign: 'left',
+
 };
 
 const mapStateToProps = state => ({

@@ -9,8 +9,9 @@ module.exports = (req, res) => {
 	// Make sure History has been enabled in model. If not HistoryModel will be undefined.
 	if (revisions && revisions.find) {
 		revisions.find({ id })
+		.sort({ time: -1 })
 		.populate('user', 'name')
-    .populate('u', 'name')
+		.populate('u', 'name')
 		.then(items => res.json(items))
 		.catch(err => res.json(err));
 	} else {

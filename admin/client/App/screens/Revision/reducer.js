@@ -16,8 +16,9 @@ export default (state = {
 		case LOAD_REVISIONS:
 			return { ...state, error: null, ready: false };
 		case DATA_LOADING_SUCCESS:
-			const popped = action.payload.pop();
-			const currentItem = popped.data || popped.d;
+			// Remove the current version from revisions
+			const shifted = action.payload.shift();
+			const currentItem = shifted.data || shifted.d;
 			return { ...state, revisions: action.payload, error: null, ready: true, currentItem };
 		case DATA_LOADING_ERROR:
 			if (action.payload) {
