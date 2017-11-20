@@ -416,7 +416,7 @@ var EditForm = React.createClass({
 						</GlyphButton>
 					)}
 					{this.props.list.publishing
-					&& this.props.list.publishing.enabled && this.props.list.publishing.previewPath
+					&& this.props.list.publishing.enabled
 					&& (
 						<GlyphButton
 							component={Link}
