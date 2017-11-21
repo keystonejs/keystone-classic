@@ -3,7 +3,6 @@ var express = require('express');
 var multer = require('multer');
 
 module.exports = function createDynamicRouter (keystone) {
-
 	// ensure keystone nav has been initialised
 	// TODO: move this elsewhere (on demand generation, or client-side?)
 	if (!keystone.nav) {
@@ -25,6 +24,10 @@ module.exports = function createDynamicRouter (keystone) {
 		req.keystone = keystone;
 		next();
 	});
+
+	if (keystone.get('healthchecks')) {
+		router.use('/server-health', require('./createHealthchecksHandler')(keystone));
+	}
 
 	// Init API request helpers
 	router.use('/api', require('../middleware/apiError'));

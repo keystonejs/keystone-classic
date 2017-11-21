@@ -16,8 +16,8 @@ import Thumbnail from './CloudinaryImagesThumbnail';
 import HiddenFileInput from '../../components/HiddenFileInput';
 import FileChangeMessage from '../../components/FileChangeMessage';
 
-const SUPPORTED_TYPES = ['video/*', 'image/*', 'application/pdf', 'application/postscript'];
-const SUPPORTED_REGEX = new RegExp(/^video\/|image\/|application\/pdf|application\/postscript/g);
+const SUPPORTED_TYPES = ['image/*', 'application/pdf', 'application/postscript'];
+const SUPPORTED_REGEX = new RegExp(/^image\/|application\/pdf|application\/postscript/g);
 const RESIZE_DEFAULTS = {
 	crop: 'fit',
 	format: 'jpg',
@@ -46,24 +46,20 @@ module.exports = Field.create({
 	buildInitialState (props) {
 		const uploadFieldPath = `CloudinaryImages-${props.path}-${++uploadInc}`;
 		const thumbnails = props.value ? props.value.map((img, index) => {
-			const options = {
+			return this.getThumbnail({
 				value: img,
 				imageSourceSmall: cloudinaryResize(img.public_id, {
 					...RESIZE_DEFAULTS,
 					height: 90,
+					secure: props.secure,
 				}),
 				imageSourceLarge: cloudinaryResize(img.public_id, {
 					...RESIZE_DEFAULTS,
 					height: 600,
 					width: 900,
+					secure: props.secure,
 				}),
-			};
-			// Cloudinary video paths are slightly diferent than image paths
-			if (img.resource_type === 'video') {
-				options.imageSourceLarge = options.imageSourceLarge.replace('image/upload', 'video/upload');
-				options.imageSourceSmall = options.imageSourceSmall.replace('image/upload', 'video/upload');
-			}
-			return this.getThumbnail(options, index);
+			}, index);
 		}) : [];
 		return { thumbnails, uploadFieldPath };
 	},
@@ -221,23 +217,17 @@ module.exports = Field.create({
 		}
 	},
 	renderLightbox () {
-		const { value } = this.props;
+		const { value, secure } = this.props;
 		if (!value || !value.length) return;
 
-		const images = value.map((image) => {
-			const updatedImage = {
-				src: cloudinaryResize(image.public_id, {
-					...RESIZE_DEFAULTS,
-					height: 600,
-					width: 900,
-				}),
-				caption: `[${image.resource_type}] [${image.format}] ${image.public_id}`,
-			};
-			if (image.resource_type === 'video') {
-				updatedImage.src = updatedImage.src.replace('image/upload', 'video/upload');
-			}
-			return updatedImage;
-		});
+		const images = value.map(image => ({
+			src: cloudinaryResize(image.public_id, {
+				...RESIZE_DEFAULTS,
+				height: 600,
+				width: 900,
+				secure,
+			}),
+		}));
 
 		return (
 			<Lightbox

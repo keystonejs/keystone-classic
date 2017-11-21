@@ -40,6 +40,20 @@ Google Places integration requires the `google api key` option to be set for Key
 
 > Important: as per the MongoDB convention, the order for the geo array must be lng, lat which is the opposite of the order used by Google's API.
 
+`enableImprove` `boolean`
+
+Options sets `enableMapsAPI` to true. If it is not set, `enableMapsAPI` is set to true if `google server api key` is set in keystone.
+
+`required` `Array or String or Boolean`
+
+Required works differently for location than for most other properties. There are three different types of require.
+
+If passed an `array`, it uses it to set which parts of the location field are required.
+
+If passed a comma-separated-value `string`, it will transform it into an array of required parts of the location field.
+
+If any positive value is passed in, the location field becomes required for validation, including either of the above options.
+
 ## Underscore methods
 
 `googleLookup(region, update, callback)` - autodetect the full address and lng, lat from the stored value.
@@ -53,3 +67,9 @@ Internal status codes mimic the Google API status codes. See [Google Maps Geocod
 Use of the Google Geocoding API is subject to a query limit of 2,500 geolocation requests per day, except with an enterprise license.
 
 The Geocoding API may only be used in conjunction with a Google map; geocoding results without displaying them on a map is prohibited. Please make sure your Keystone app complies with the Google Maps API License.
+
+## Underscore methods
+
+`kmFrom([lng, lat])` - Takes a 2dsphere as an array of longitude then latitude, and then returns the distance in kilometres from the location's long/lat. Uses the [Haversine formula](http://en.wikipedia.org/wiki/Haversine_formula)
+
+`milesFrom` - Takes a 2dsphere as an array of longitude then latitude, and then returns the distance in miles from the location's long/lat. Uses the [Haversine formula](http://en.wikipedia.org/wiki/Haversine_formula)

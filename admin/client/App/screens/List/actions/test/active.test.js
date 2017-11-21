@@ -2,10 +2,12 @@ import demand from 'must';
 import {
 	setActiveSearch,
 	setActiveList,
+	clearCachedQuery,
 } from '../active';
 import {
 	SET_ACTIVE_SEARCH,
 	SET_ACTIVE_LIST,
+	CLEAR_CACHED_QUERY,
 } from '../../constants';
 
 describe('<List /> active actions', () => {
@@ -33,6 +35,12 @@ describe('<List /> active actions', () => {
 		it('should pass on the passed id', () => {
 			const id = 'somelongid';
 			demand(setActiveList(undefined, id).id).eql(id);
+		});
+	});
+
+	describe('clearCachedQuery()', function () {
+		it('should have a type of CLEAR_CACHED_QUERY', () => {
+			demand(clearCachedQuery().type).eql(CLEAR_CACHED_QUERY);
 		});
 	});
 });

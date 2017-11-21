@@ -1,5 +1,5 @@
 import React from 'react';
-import { css, StyleSheet } from 'aphrodite/no-important';
+import { css } from 'glamor';
 import theme from '../../theme';
 import { darken, lighten } from '../../utils/color';
 
@@ -9,7 +9,7 @@ function Kbd ({ className, ...props }) {
 	return <kbd {...props} />;
 };
 
-const classes = StyleSheet.create({
+const classes = {
 	kbd: {
 		backgroundColor: theme.color.body,
 		borderRadius: 3,
@@ -29,6 +29,6 @@ const classes = StyleSheet.create({
 		position: 'relative',
 		top: -1,
 	},
-});
+};
 
 module.exports = Kbd;

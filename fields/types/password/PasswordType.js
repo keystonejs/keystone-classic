@@ -3,6 +3,8 @@ var bcrypt = require('bcrypt-nodejs');
 var FieldType = require('../Type');
 var util = require('util');
 var utils = require('keystone-utils');
+var dumbPasswords = require('dumb-passwords');
+
 
 var regexChunk = {
 	digitChar: /\d/,
@@ -18,20 +20,23 @@ var detailMsg = {
 	lowChar: 'use at least one lower case character',
 	upperChar: 'use at least one upper case character',
 };
+const defaultOptions = { min: 8, max: 72, workFactor: 10, rejectCommon: true };
+
 /**
  * password FieldType Constructor
  * @extends Field
  * @api public
  */
 function password (list, path, options) {
-	this.options = options;
+	// Apply default and enforced options (you can't sort on password fields)
+	options = Object.assign({}, defaultOptions, options, { nosort: false });
+
 	this._nativeType = String;
 	this._underscoreMethods = ['format', 'compare'];
 	this._fixedSize = 'full';
-	// You can't sort on password fields
-	options.nosort = true;
-	this.workFactor = options.workFactor || 10;
+
 	password.super_.call(this, list, path, options);
+
 	for (var key in this.options.complexity) {
 		if ({}.hasOwnProperty.call(this.options.complexity, key)) {
 			if (key in regexChunk !== key in this.options.complexity) {
@@ -42,8 +47,8 @@ function password (list, path, options) {
 			}
 		}
 	}
-	if (this.options.max <= this.options.min) {
-		throw new Error('FieldType.Password: options - min must be set at a lower value than max.');
+	if (this.options.max && this.options.max < this.options.min) {
+		throw new Error('FieldType.Password: options - maximum password length cannot be less than the minimum length.');
 	}
 }
 password.properName = 'Password';
@@ -82,15 +87,13 @@ password.prototype.addToSchema = function (schema) {
 		if (!this.isModified(field.path) || !this[needs_hashing]) {
 			return next();
 		}
-		// reset the [needs_hashing] flag so that new values can't be hashed more than once
-		// (inherited models double up on pre save handlers for password fields)
-		this[needs_hashing] = false;
 		if (!this.get(field.path)) {
 			this.set(field.path, undefined);
+			this[needs_hashing] = false;
 			return next();
 		}
 		var item = this;
-		bcrypt.genSalt(field.workFactor, function (err, salt) {
+		bcrypt.genSalt(field.options.workFactor, function (err, salt) {
 			if (err) {
 				return next(err);
 			}
@@ -100,6 +103,9 @@ password.prototype.addToSchema = function (schema) {
 				}
 				// override the cleartext password with the hashed one
 				item.set(field.path, hash);
+				// reset [needs_hashing] so that new values can't be hashed more than once
+				// (inherited models double up on pre save handlers for password fields)
+				item[needs_hashing] = false;
 				next();
 			});
 		});
@@ -161,37 +167,48 @@ password.prototype.compare = function (item, candidate, callback) {
  * Asynchronously confirms that the provided password is valid
  */
 password.prototype.validateInput = function (data, callback) {
-	var detail = '';
-	var result = true;
-	var min = this.options.min;
-	var max = this.options.max || 72;
-	var complexity = this.options.complexity;
+	var { min, max, complexity, rejectCommon } = this.options;
 	var confirmValue = this.getValueFromData(data, '_confirm');
 	var passwordValue = this.getValueFromData(data);
-	if (confirmValue !== undefined
-		&& passwordValue !== confirmValue) {
-		detail = 'passwords must match\n';
+
+	var validation = validate(passwordValue, confirmValue, min, max, complexity, rejectCommon);
+
+	utils.defer(callback, validation.result, validation.detail);
+};
+
+var validate = password.validate = function (pass, confirm, min, max, complexity, rejectCommon) {
+	var messages = [];
+
+	if (confirm !== undefined
+		&& pass !== confirm) {
+		messages.push('Passwords must match.');
 	}
 
-	if (min && typeof passwordValue === 'string' && passwordValue.length < min) {
-		detail += 'password must be longer than ' + min + ' characters\n';
+	if (min && typeof pass === 'string' && pass.length < min) {
+		messages.push('Password must be longer than ' + min + ' characters.');
 	}
 
-	if (max && typeof passwordValue === 'string' && passwordValue.length > max) {
-		detail += 'password must not be longer than ' + max + ' characters\n';
+	if (max && typeof pass === 'string' && pass.length > max) {
+		messages.push('Password must not be longer than ' + max + ' characters.');
 	}
 
 	for (var prop in complexity) {
-		if (complexity[prop] && typeof passwordValue === 'string') {
-			var complexityCheck = (regexChunk[prop]).test(passwordValue);
+		if (complexity[prop] && typeof pass === 'string') {
+			var complexityCheck = (regexChunk[prop]).test(pass);
 			if (!complexityCheck) {
-				detail += detailMsg[prop] + '\n';
+				messages.push(detailMsg[prop]);
 			}
 		}
 	}
-	result = detail.length === 0;
 
-	utils.defer(callback, result, detail);
+	if (pass && typeof pass === 'string' && rejectCommon && dumbPasswords.check(pass)) {
+		messages.push('Password must not be a common, frequently-used password.');
+	}
+
+	return {
+		result: messages.length === 0,
+		detail: messages.join(' \n'),
+	};
 };
 
 /**

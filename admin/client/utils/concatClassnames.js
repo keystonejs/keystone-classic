@@ -6,7 +6,7 @@
 // force classname prop into an array (possibly of arrays) then flatten
 
 /*
-	// To use spread the new array into aphrodite's `css` function
+	// To use spread the new array into glamor's `css` function
 
 	function Component ({ className, ...props }) {
 		props.className = css(

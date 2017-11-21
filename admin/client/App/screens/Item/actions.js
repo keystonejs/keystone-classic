@@ -132,7 +132,6 @@ export function deleteItem (id, router) {
 				if (state.lists.page.index && state.lists.page.index > 1) {
 					redirectUrl = `${redirectUrl}?page=${state.lists.page.index}`;
 				}
-				console.log(state, redirectUrl);
 				router.push(redirectUrl);
 			}
 			// TODO Proper error handling
