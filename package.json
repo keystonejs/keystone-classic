@@ -45,6 +45,7 @@
     "express": "4.16.1",
     "express-request-language": "1.1.12",
     "express-session": "1.15.6",
+    "express-sitemap": "^1.8.0",
     "expression-match": "0.0.17",
     "fs-extra": "1.0.0",
     "glamor": "^2.20.25",
