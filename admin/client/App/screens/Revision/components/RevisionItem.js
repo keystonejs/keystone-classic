@@ -135,7 +135,7 @@ const RevisionItem = ({
 		<div style={style}>
 			{revisions.map(revision => {
 				const active = selectedRevision._id === revision._id;
-				const user = revision.user || revision.u;
+				const user = revision.user || revision.u || { name: { first: 'Unkown', last: '' } };
 				const { first, last } = user.name;
 				return (
 					<div key={revision._id}>

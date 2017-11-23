@@ -402,7 +402,8 @@ var EditForm = React.createClass({
 							/>
 						</Button>
 					)}
-					{!this.props.list.noedit && this.props.list.history && (
+					{!this.props.list.noedit && this.props.list.history && this.props.list.revisions
+					&& this.props.list.revisions.enabled && (
 						<GlyphButton
 							component={Link}
 							data-e2e-editform-history
