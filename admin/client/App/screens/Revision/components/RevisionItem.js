@@ -116,7 +116,7 @@ const RevisionItem = ({
 			if (excludeField(revisionChanges[i])) continue;
 			changes.push(revisionChanges[i]);
 		}
-		return 'Changes - ' + changes.toString();
+		return 'Compare Changes (' + changes.length + ')';
 	};
 
 	const applyButton = (

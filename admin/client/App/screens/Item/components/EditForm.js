@@ -334,7 +334,12 @@ var EditForm = React.createClass({
 		if (this.props.list.publishing.previewParam) {
 			previewParams = '?' + this.props.list.publishing.previewParam + '=true';
 		}
-		return previewPath + itemSlug + previewParams;
+		// For static paths set the itemPathFeild to a blank string and only the previewPath will be used
+		if (this.props.list.publishing.itemPathField === '') {
+			return previewPath + previewParams;
+		} else {
+			return previewPath + itemSlug + previewParams;
+		}
 	},
 	renderFooterBar () {
 		if (this.props.list.noedit && this.props.list.nodelete) {
