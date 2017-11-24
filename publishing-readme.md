@@ -17,7 +17,8 @@ To enable you need to:
 Options & enabling can be set for each model via it's options. To enable and use the defaults just set:
 ` publishing: { enabled: true } `
 Or for more control you can use:
-` publishing: {  
+``` 
+publishing: {  
 enabled: false // can be disabled  
 stateField: 'publishing.state', // field to publishing content state
 selfApproval: true, // Allows users to self approval to change state
@@ -28,7 +29,8 @@ publishStates: ['published'],
 previewPath: '/', // Root url for previewing this list type. e.g '/blog/posts/
 itemPathField: 'slug', used for previews and links
 previewParam: preview //URL param to enable preview mode. It's an option in case there is a naming conflict
-} `
+} 
+```
 
 ### Enable User Permissions
 User.permissins: (Using WP Roles as our reference https://codex.wordpress.org/Roles_and_Capabilities)
