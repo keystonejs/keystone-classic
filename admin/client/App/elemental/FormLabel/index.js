@@ -41,15 +41,15 @@ const stylesShape = {
 };
 
 FormLabel.propTypes = {
-	cssStyles: PropTypes.oneOfType([
-		PropTypes.arrayOf(PropTypes.shape(stylesShape)),
-		PropTypes.shape(stylesShape),
-	]),
 	component: PropTypes.oneOfType([
 		PropTypes.string,
 		PropTypes.func,
 	]),
 	cropText: PropTypes.bool,
+	cssStyles: PropTypes.oneOfType([
+		PropTypes.arrayOf(PropTypes.shape(stylesShape)),
+		PropTypes.shape(stylesShape),
+	]),
 };
 FormLabel.defaultProps = {
 	component: 'label',
