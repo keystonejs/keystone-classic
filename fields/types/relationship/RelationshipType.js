@@ -223,7 +223,9 @@ relationship.prototype.updateItem = function (item, data, callback) {
 
 	var value = this.getValueFromData(data);
 	if (value === undefined) {
-		return process.nextTick(callback);
+	//	Commented out to fix issue with not being able to remove all otpions and update
+	// TODO: review what would be the best fix? 
+	//	return process.nextTick(callback);
 	}
 
 	// Are we handling a many relationship or just one value?
