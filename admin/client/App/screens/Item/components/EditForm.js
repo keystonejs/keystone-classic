@@ -28,6 +28,7 @@ import { deleteItem } from '../actions';
 
 import { upcase } from '../../../../utils/string';
 
+
 function getNameFromData (data) {
 	if (typeof data === 'object') {
 		if (typeof data.first === 'string' && typeof data.last === 'string') {
@@ -62,13 +63,24 @@ var EditForm = React.createClass({
 			lastValues: null, // used for resetting
 			focusFirstField: !this.props.list.nameField && !this.props.list.nameFieldIsFormHeader,
 			approveButtonDisabled: false,
+			userPermissions: {
+				isContributor: false,
+				isAuthor: false,
+				isEditor: false,
+			},
 		};
 	},
 	componentDidMount () {
 		this.__isMounted = true;
+		// Get User permissions
+		this.props.list.getPermissions(this.updateUserPermissions);
 	},
 	componentWillUnmount () {
 		this.__isMounted = false;
+	},
+
+	updateUserPermissions (userPerms) {
+		this.setState({ userPermissions: userPerms });
 	},
 	getFieldProps (field) {
 		const props = assign({}, field);
@@ -294,6 +306,7 @@ var EditForm = React.createClass({
 		var headings = 0;
 
 		return this.props.list.uiElements.map((el, index) => {
+			
 			// Don't render the name field if it is the header since it'll be rendered in BIG above
 			// the list. (see renderNameField method, this is the reverse check of the one it does)
 			if (
@@ -310,10 +323,14 @@ var EditForm = React.createClass({
 			}
 
 			if (el.type === 'field') {
+				
 				var field = this.props.list.fields[el.field];
 				var props = this.getFieldProps(field);
+				console.log('form field: ' +field.type + ' '+ field.path);
 				if (typeof Fields[field.type] !== 'function') {
+					
 					return React.createElement(InvalidFieldType, { type: field.type, path: field.path, key: field.path });
+					
 				}
 				props.key = field.path;
 				if (index === 0 && this.state.focusFirstField) {
@@ -341,6 +358,28 @@ var EditForm = React.createClass({
 			return previewPath + itemSlug + previewParams;
 		}
 	},
+
+	/**
+	 * Can User approve publishing state change for this item?
+	 */
+	canUserApprove () {
+		console.log('Checking user permissions:' + JSON.stringify(this.state.userPermissions));
+
+		// Can only self approve if it's enabled
+		if (!this.props.list.publishing.selfApproval
+			&& (this.state.values['publishing.createdBy'] === Keystone.user.id)
+			&& (this.state.userPermissions.isAuthor || this.state.userPermissions.isEditor)) {
+			return false;
+		}
+
+		// Do they have permissions
+		if (this.state.userPermissions && this.state.userPermissions.isEditor) {
+			return true;
+		}
+
+		return false;
+	},
+
 	renderFooterBar () {
 		if (this.props.list.noedit && this.props.list.nodelete) {
 			return null;
@@ -352,10 +391,16 @@ var EditForm = React.createClass({
 		var approveButtonText = loading ? 'Approving' : 'Save & Approve (' + upcase(currentState) + '->' + upcase(requestState) + ')';
 		var _approveButtonDisabled = this.state.approveButtonDisabled;
 
-		// Only show Approve button is there is pending approval
-		if (this.state.values['publishing.pendingApproval']
-		|| (currentState !== requestState)) {
-			_approveButtonDisabled = false;
+
+		// Only show Approve button is there is pending approval and user has permissions
+		if (this.state.values['publishing.pendingApproval'] || (currentState !== requestState)) {
+			if(this.canUserApprove()){
+				_approveButtonDisabled = false;
+			} else{
+				_approveButtonDisabled = true;
+				approveButtonText = upcase(currentState) + '->' + upcase(requestState);
+			}
+			
 		} else {
 			_approveButtonDisabled = true;
 			approveButtonText = upcase(currentState);

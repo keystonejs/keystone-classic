@@ -327,7 +327,7 @@ List.prototype.deleteItems = function (itemIds, callback) {
 
 /**
  * Approve a pending publishing state change for a specific item via the API.
- * 
+ *
  *
  * @param  {String}   itemId   The id of the item to be approved
  * @param  {Function} callback
@@ -360,6 +360,50 @@ List.prototype.approveItems = function (itemIds, callback) {
 			callback(body);
 		}
 	});
+};
+
+/**
+ * Approve pending publishing state changes of multiple items
+ *
+ * @param  {Array}   itemIds  An array of ids of items we want to approve
+ * @param  {Function} callback
+ */
+List.prototype.getPermissions = function (callback) {
+	var userPerms = {};
+	let url = Keystone.adminPath + '/api/users/' + Keystone.user.id;
+
+	xhr({
+		url: url,
+		responseType: 'json',
+	}, (err, resp, data) => {
+		if (err) return callback(err);
+		// Pass the data as result or error, depending on the statusCode
+		if (resp.statusCode === 200) {
+			userPerms.isContributor = data.fields.isContributor || false;
+			userPerms.isEditor = data.fields.isEditor || false;
+			userPerms.isAuthor = data.fields.isAuthor || false;
+
+			callback(userPerms);
+		} else {
+			callback(data);
+		}
+	});
+
+	// Get User permissions
+	/* Keystone.User.model.findById(Keystone.user.id).exec(function (err, user) {
+		if (user) {
+			if (user.isContributor) {
+				userPerms.isContributor = user.isContributor || false;
+				userPerms.isEditor = user.isEditor || false;
+				userPerms.isAuthor = user.isAuthor || false;
+
+				callback(userPerms);
+			}
+
+		}
+	});*/
+
+
 };
 
 List.prototype.reorderItems = function (item, oldSortOrder, newSortOrder, pageOptions, callback) {

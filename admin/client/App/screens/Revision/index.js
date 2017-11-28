@@ -22,7 +22,7 @@ class Revision extends Component {
 		super(props);
 		this.state = {
 			isConfirmationOpen: false,
-			itemTitle: 'Post...',
+			itemTitle: '',
 		};
 	}
 
