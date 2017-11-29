@@ -2,7 +2,7 @@
 
 These keystone guides have been written both to get you set up with keystone, as well as help explain the concepts keystone is using, to help you understand how to get the most out of your project.
 
-If you are coming from Keystone 4, and are looking to upgrade, read through our [upgrade guide](/guides/v-0-3-to-v-4-0-upgrade-guide)
+If you are coming from Keystone 0.3, and are looking to upgrade to Keystone 4.0, read through our [upgrade guide](/guides/v-0-3-to-v-4-0-upgrade-guide)
 
 If you are planning on starting with the keystone generator, the [yo generator](/getting-started/yo-generator) is the best place to begin, and will walk you through the parts of the generator so you can understand your new project.
 
