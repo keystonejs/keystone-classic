@@ -41,9 +41,15 @@ function getNameFromData (data) {
 }
 
 function smoothScrollTop () {
+	var scrollTotal = document.body.scrollTop || document.documentElement.scrollTop || -1;
+	// Smooth scroll is too slow for items with lots of fields so we speed it up and do a basic ease in
+	var scrollSpeed = scrollTotal * -0.50;
+
 	if (document.body.scrollTop || document.documentElement.scrollTop) {
-		window.scrollBy(0, -50);
-		var timeOut = setTimeout(smoothScrollTop, 20);
+		window.scrollBy(0, scrollSpeed);
+		var timeOut = setTimeout(function () {
+			smoothScrollTop();
+		}, 20);
 	}	else {
 		clearTimeout(timeOut);
 	}
@@ -306,7 +312,7 @@ var EditForm = React.createClass({
 		var headings = 0;
 
 		return this.props.list.uiElements.map((el, index) => {
-			
+
 			// Don't render the name field if it is the header since it'll be rendered in BIG above
 			// the list. (see renderNameField method, this is the reverse check of the one it does)
 			if (
@@ -323,14 +329,14 @@ var EditForm = React.createClass({
 			}
 
 			if (el.type === 'field') {
-				
+
 				var field = this.props.list.fields[el.field];
 				var props = this.getFieldProps(field);
-				console.log('form field: ' +field.type + ' '+ field.path);
+				console.log('form field: ' + field.type + ' ' + field.path);
 				if (typeof Fields[field.type] !== 'function') {
-					
+
 					return React.createElement(InvalidFieldType, { type: field.type, path: field.path, key: field.path });
-					
+
 				}
 				props.key = field.path;
 				if (index === 0 && this.state.focusFirstField) {
@@ -394,13 +400,13 @@ var EditForm = React.createClass({
 
 		// Only show Approve button is there is pending approval and user has permissions
 		if (this.state.values['publishing.pendingApproval'] || (currentState !== requestState)) {
-			if(this.canUserApprove()){
+			if (this.canUserApprove()) {
 				_approveButtonDisabled = false;
-			} else{
+			} else {
 				_approveButtonDisabled = true;
 				approveButtonText = upcase(currentState) + '->' + upcase(requestState);
 			}
-			
+
 		} else {
 			_approveButtonDisabled = true;
 			approveButtonText = upcase(currentState);
