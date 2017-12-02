@@ -123,6 +123,8 @@ const classes = {
 		zIndex: theme.modal.zIndex,
 	},
 	dialog: {
+		maxHeight: '90%',
+		overflow: 'scroll',
 		backgroundColor: 'white',
 		borderRadius: theme.borderRadius.default,
 		paddingBottom: theme.modal.padding.dialog.vertical,
