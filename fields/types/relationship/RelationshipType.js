@@ -212,43 +212,45 @@ relationship.prototype.inputIsValid = function (data, required, item) {
 /**
  * Updates the value for this field in the item from a data object.
  * Only updates the value if it has changed.
- * Treats an empty string as a null value.
  * If data object does not contain the path field, then leave the field untouched.
- * falsey values such as `null` or an empty string will reset the field
+ * Undefined will reset the field.
  */
 relationship.prototype.updateItem = function (item, data, callback) {
 	if (item.populated(this.path)) {
 		throw new Error('fieldTypes.relationship.updateItem() Error - You cannot update populated relationships.');
 	}
 
-	var value = this.getValueFromData(data);
-	if (value === undefined) {
-		return process.nextTick(callback);
-	}
+	// Grab our old and intended new values.
+	var newVal = this.getValueFromData(data);	// Intended new value.
+	var oldVal = item.get(this.path);	// Current / old value.
 
 	// Are we handling a many relationship or just one value?
 	if (this.many) {
-		var arr = item.get(this.path);
-		var _old = arr.map(function (i) { return String(i); });
-		var _new = value;
-		if (!utils.isArray(_new)) {
-			_new = String(_new || '').split(',');
+		oldVal = oldVal.map(function (i) { return String(i); }); // Map any values to a string
+
+		// Make sure our intended new data is a string array.
+		// This will also ensure an undefined value will be an empty array.
+		if (!utils.isArray(newVal)) {
+			newVal = String(newVal || '').split(',');
 		}
-		_new = _.compact(_new);
+		newVal = _.compact(newVal); // Remove all falsy items from the array.
+
 		// Only update if the lists aren't the same
-		if (!_.isEqual(_old, _new)) {
-			item.set(this.path, _new);
+		if (!_.isEqual(oldVal, newVal)) {
+			item.set(this.path, newVal);
 		}
 	} else {
-		// Ok, it's one value, should I do anything with it?
-		if (value && value !== item.get(this.path)) {
-			// If it's set and has changed, I do.
-			item.set(this.path, value);
-		} else if (!value && item.get(this.path)) {
-			// If it's not set and it was set previously, I need to clear.
+		// Map our values to a string
+		newVal = _.toString(newVal);
+		oldVal = _.toString(oldVal);
+
+		if (newVal && !_.isEqual(newVal, oldVal)) {
+			// We have a new val, and it differs from our stored value.
+			item.set(this.path, newVal);
+		} else if (!newVal && oldVal) {
+			// The new val is undefined and we have an old val - so our intent is to clear it.
 			item.set(this.path, null);
 		}
-		// Otherwise, ignore.
 	}
 	process.nextTick(callback);
 };

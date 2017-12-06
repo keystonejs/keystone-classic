@@ -140,19 +140,6 @@ exports.testFieldType = function (List) {
 			});
 		});
 
-		it('should save the provided value with an item object', function (done) {
-			var testItem = new List.model();
-			List.fields.single.updateItem(testItem, { single: relatedItem }, function () {
-				// TODO: We should be testing for errors here
-				testItem.save(function (err, updatedItem) {
-					List.model.findById(updatedItem.id, function (err, persistedData) {
-						demand(String(persistedData.single)).equal(String(relatedItem.id));
-						done();
-					});
-				});
-			});
-		});
-
 		it('should clear the current value when provided null', function (done) {
 			var testItem = new List.model({
 				single: relatedItem.id,
@@ -187,7 +174,7 @@ exports.testFieldType = function (List) {
 			});
 		});
 
-		it('should not clear the current value when data object does not contain the field', function (done) {
+		it('should clear the current value when provided undefined', function (done) {
 			var testItem = new List.model({
 				single: relatedItem.id,
 			});
@@ -195,7 +182,7 @@ exports.testFieldType = function (List) {
 				List.fields.single.updateItem(testItem, {}, function () {
 					testItem.save(function (err, updatedItem) {
 						List.model.findById(updatedItem.id, function (err, persistedData) {
-							demand(String(persistedData.single)).equal(String(relatedItem.id));
+							demand(persistedData.single).be.null();
 							done();
 						});
 					});
@@ -247,7 +234,7 @@ exports.testFieldType = function (List) {
 			});
 		});
 
-		it('should not clear the current values when data object does not contain the field', function (done) {
+		it('should clear the current values when data object does not contain the field', function (done) {
 			var testItem = new List.model({
 				many: [relatedItem.id, relatedItem.id],
 			});
@@ -255,9 +242,7 @@ exports.testFieldType = function (List) {
 				List.fields.many.updateItem(testItem, {}, function () {
 					testItem.save(function (err, updatedItem) {
 						List.model.findById(updatedItem.id, function (err, persistedData) {
-							demand(persistedData.many.length).equal(2);
-							demand(String(persistedData.many[0])).equal(String(relatedItem.id));
-							demand(String(persistedData.many[1])).equal(String(relatedItem.id));
+							demand(persistedData.many.length).equal(0);
 							done();
 						});
 					});
