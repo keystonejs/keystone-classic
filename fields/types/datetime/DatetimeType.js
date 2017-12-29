@@ -15,10 +15,11 @@ function datetime (list, path, options) {
 	this._nativeType = Date;
 	this._underscoreMethods = ['format', 'moment', 'parse'];
 	this._fixedSize = 'full';
-	this._properties = ['formatString', 'isUTC'];
+	this._properties = ['formatDateString', 'formatTimeString', 'isUTC'];
 	this.typeDescription = 'date and time';
 	this.parseFormatString = options.parseFormat || parseFormats;
-	this.formatString = (options.format === false) ? false : (options.format || 'YYYY-MM-DD h:mm:ss a');
+	this.formatDateString = (options.dateFormat === false) ? false : (options.dateFormat || 'YYYY-MM-DD');
+	this.formatTimeString = (options.timeFormat === false) ? false : (options.timeFormat || 'h:mm:ss a');
 	this.isUTC = options.utc || false;
 	if (this.formatString && typeof this.formatString !== 'string') {
 		throw new Error('FieldType.DateTime: options.format must be a string.');
@@ -64,6 +65,7 @@ datetime.prototype.validateRequiredInput = function (item, data, callback) {
 	if (value === undefined && item.get(this.path)) {
 		result = true;
 	}
+
 	utils.defer(callback, result);
 };
 
@@ -79,6 +81,7 @@ datetime.prototype.validateInput = function (data, callback) {
 	if (value) {
 		result = this.parse(value, this.parseFormatString, true).isValid();
 	}
+
 	utils.defer(callback, result);
 };
 
