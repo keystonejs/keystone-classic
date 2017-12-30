@@ -15,14 +15,21 @@ function datetime (list, path, options) {
 	this._nativeType = Date;
 	this._underscoreMethods = ['format', 'moment', 'parse'];
 	this._fixedSize = 'full';
-	this._properties = ['formatDateString', 'formatTimeString', 'isUTC'];
+	this._properties = ['formatDateString', 'formatTimeString', 'formatTzString', 'isUTC'];
 	this.typeDescription = 'date and time';
 	this.parseFormatString = options.parseFormat || parseFormats;
 	this.formatDateString = (options.dateFormat === false) ? false : (options.dateFormat || 'YYYY-MM-DD');
 	this.formatTimeString = (options.timeFormat === false) ? false : (options.timeFormat || 'h:mm:ss a');
+	this.formatTzString =  (options.tzFormat === false) ? false : (options.tzFormat || 'Z');
 	this.isUTC = options.utc || false;
-	if (this.formatString && typeof this.formatString !== 'string') {
-		throw new Error('FieldType.DateTime: options.format must be a string.');
+	if (this.formatDateString && typeof this.formatDateString !== 'string') {
+		throw new Error('FieldType.DateTime: options.dateFormat must be a string.');
+	}
+	if (this.formatTimeString && typeof this.formatTimeString !== 'string') {
+		throw new Error('FieldType.DateTime: options.timeFormat must be a string.');
+	}
+	if (this.formatTzString && typeof this.formatTzString !== 'string') {
+		throw new Error('FieldType.DateTime: options.tzFormat must be a string.');
 	}
 	datetime.super_.call(this, list, path, options);
 	this.paths = {

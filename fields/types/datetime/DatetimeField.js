@@ -20,11 +20,6 @@ module.exports = Field.create({
 
 	focusTargetRef: 'dateInput',
 
-	// default input formats
-	//dateInputFormat: 'YYYY-MM-DD',
-	//timeInputFormat: 'h:mm:ss a',
-	tzOffsetInputFormat: 'Z',
-
 	// parse formats (duplicated from lib/fieldTypes/datetime.js)
 	parseFormats: ['YYYY-MM-DD', 'YYYY-MM-DD h:m:s a', 'YYYY-MM-DD h:m a', 'YYYY-MM-DD H:m:s', 'YYYY-MM-DD H:m'],
 
@@ -32,7 +27,7 @@ module.exports = Field.create({
 		return {
 			dateValue: this.props.value && this.moment(this.props.value).format(this.getDateInputFormat()),
 			timeValue: this.props.value && this.moment(this.props.value).format(this.getTimeInputFormat()),
-			tzOffsetValue: this.props.value ? this.moment(this.props.value).format(this.tzOffsetInputFormat) : this.moment().format(this.tzOffsetInputFormat),
+			tzOffsetValue: this.props.value ? this.moment(this.props.value).format(this.getTzInputFormat()) : this.moment().format(this.getTzInputFormat()),
 		};
 	},
 
@@ -42,6 +37,10 @@ module.exports = Field.create({
 
 	getTimeInputFormat () {
 		return this.props.formatTimeString;
+	},
+
+	getTzInputFormat () {
+		return this.props.formatTzString;
 	},
 
 	getDefaultProps () {
@@ -75,11 +74,11 @@ module.exports = Field.create({
 		// if the change included a timezone offset, include that in the calculation (so NOW works correctly during DST changes)
 		if (typeof tzOffsetValue !== 'undefined') {
 			value += ' ' + tzOffsetValue;
-			datetimeFormat += ' ' + this.tzOffsetInputFormat;
+			datetimeFormat += ' ' + this.getTzInputFormat();
 		}
 		// if not, calculate the timezone offset based on the date (respect different DST values)
 		else {
-			this.setState({ tzOffsetValue: this.moment(value, datetimeFormat).format(this.tzOffsetInputFormat) });
+			this.setState({ tzOffsetValue: this.moment(value, datetimeFormat).format(this.getTzInputFormat()) });
 		}
 
 		this.props.onChange({
@@ -101,7 +100,7 @@ module.exports = Field.create({
 	setNow () {
 		var dateValue = this.moment().format(this.getDateInputFormat());
 		var timeValue = this.moment().format(this.getTimeInputFormat());
-		var tzOffsetValue = this.moment().format(this.tzOffsetInputFormat);
+		var tzOffsetValue = this.moment().format(this.getTzInputFormat());
 		this.setState({
 			dateValue: dateValue,
 			timeValue: timeValue,
