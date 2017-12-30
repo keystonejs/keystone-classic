@@ -33,11 +33,11 @@ function datetime (list, path, options) {
 	}
 
 	//For backward compatibility, if parseFormat option is specified, add it to the parseFormatString array
-	if( this.options.parseFormat ) {
-		if( Array.isArray(this.options.parseFormat) ) {
-			this.parseFormatString = this.parseFormatString.concat(this.options.parseFormat);
-		} else if ( typeof this.options.parseFormat == 'string' ) {
-			this.parseFormatString.push(this.options.parseFormat);
+	if( options.parseFormat ) {
+		if( Array.isArray(options.parseFormat) ) {
+			this.parseFormatString = this.parseFormatString.concat(options.parseFormat);
+		} else if ( typeof options.parseFormat == 'string' ) {
+			this.parseFormatString.push(options.parseFormat);
 		}
 	}
 
