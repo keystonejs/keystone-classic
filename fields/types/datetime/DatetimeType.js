@@ -17,7 +17,7 @@ function datetime (list, path, options) {
 	this._fixedSize = 'full';
 	this._properties = ['formatDateString', 'formatTimeString', 'formatTzString', 'isUTC'];
 	this.typeDescription = 'date and time';
-	this.parseFormatString = options.parseFormat || parseFormats;
+	this.parseFormatString = parseFormats;
 	this.formatDateString = (options.dateFormat === false) ? false : (options.dateFormat || 'YYYY-MM-DD');
 	this.formatTimeString = (options.timeFormat === false) ? false : (options.timeFormat || 'h:mm:ss a');
 	this.formatTzString =  (options.tzFormat === false) ? false : (options.tzFormat || 'Z');
@@ -31,6 +31,30 @@ function datetime (list, path, options) {
 	if (this.formatTzString && typeof this.formatTzString !== 'string') {
 		throw new Error('FieldType.DateTime: options.tzFormat must be a string.');
 	}
+
+	//For backward compatibility, if parseFormat option is specified, add it to the parseFormatString array
+	if( this.options.parseFormat ) {
+		if( Array.isArray(this.options.parseFormat) ) {
+			this.parseFormatString = this.parseFormatString.concat(this.options.parseFormat);
+		} else if ( typeof this.options.parseFormat == 'string' ) {
+			this.parseFormatString.push(this.options.parseFormat);
+		}
+	}
+
+	//If a custom format is specified by the user, it should be added to the parseFormatString array to ensure
+	//successful validation
+	if( this.formatDateString || this.formatTimeString || this.formatTzString ) {
+		let customFormat = [];
+
+		if( this.formatDateString ) customFormat.push(this.formatDateString);
+		if( this.formatTimeString ) customFormat.push(this.formatTimeString);
+		if( this.formatTzString ) customFormat.push(this.formatTzString);
+
+		this.parseFormatString.push(customFormat.join(' '));
+	}
+
+	this.parseFormatString = options.parseFormat || parseFormats;
+
 	datetime.super_.call(this, list, path, options);
 	this.paths = {
 		date: this.path + '_date',
