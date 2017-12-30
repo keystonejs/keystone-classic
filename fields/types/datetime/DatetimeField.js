@@ -134,7 +134,7 @@ module.exports = Field.create({
 								autoComplete="off"
 								name={this.getInputName(this.props.paths.time)}
 								onChange={this.timeChanged}
-								placeholder="HH:MM:SS am/pm"
+								placeholder={this.getTimeInputFormat()}
 								value={this.state.timeValue}
 							/>
 						</Section>
