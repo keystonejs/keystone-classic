@@ -29,7 +29,7 @@ exports.testFieldType = function (List) {
 					invalidFormatOption: { type: DatetimeType, dateFormat: /aregexp/ },
 				});
 
-				//If control reaches here, exception has not been thrown. Test failed.
+				// If control reaches here, exception has not been thrown. Test failed.
 				demand(true).not.eql(true);
 				done();
 			} catch (err) {
@@ -44,7 +44,7 @@ exports.testFieldType = function (List) {
 					invalidFormatOption: { type: DatetimeType, timeFormat: /aregexp/ },
 				});
 
-				//If control reaches here, exception has not been thrown. Test failed.
+				// If control reaches here, exception has not been thrown. Test failed.
 				demand(true).not.eql(true);
 				done();
 			} catch (err) {
@@ -59,7 +59,7 @@ exports.testFieldType = function (List) {
 					invalidFormatOption: { type: DatetimeType, tzFormat: /aregexp/ },
 				});
 
-				//If control reaches here, exception has not been thrown. Test failed.
+				// If control reaches here, exception has not been thrown. Test failed.
 				demand(true).not.eql(true);
 				done();
 			} catch (err) {
