@@ -7,7 +7,8 @@ Internally uses [moment.js](http://momentjs.com/) to manage date parsing, format
 
 If the `utc` option is set, `moment(value).utc()` is called in all methods to enable moment's utc mode.
 
-String parsing with moment will be done using the `parseFormat` option, which defaults to `"'YYYY-MM-DD h:m:s a'"`.
+String parsing with moment will be done using the `dateFormat`, `timeFormat` and `tzFormat` options which default to
+`'YYYY-MM-DD'`, `'h:mm:ss a'` and `'Z'` respectively.
 
 ## Example
 
@@ -19,18 +20,33 @@ String parsing with moment will be done using the `parseFormat` option, which de
 
 * `parseFormat` `string`
 
-The default pattern to read in values with. Defaults to an array of values to try:
+The default pattern to read in values with. This pattern is added to the below array of default values along with the
+format specified in the `dateFormat`, `timeFormat` and `tzFormat` options.
+
+This option option need only be specified if you require format(s) that don't appear below and don't match the display
+format.
 
 `['YYYY-MM-DD', 'YYYY-MM-DD h:m:s a', 'YYYY-MM-DD h:m a', 'YYYY-MM-DD H:m:s', 'YYYY-MM-DD H:m', 'YYYY-MM-DD h:mm:s a Z', moment.ISO_8601]`
 
+* `dateFormat` `string`
 
-* `format` `string`
-
-The default format pattern to use when display the information. Defaults to `Do MMM YYYY hh:mm:ss a`
+The default format pattern to use when displaying the date portion of the value. Defaults to `YYYY-MM-DD`
 
 See the [momentjs format docs](http://momentjs.com/docs/#/displaying/format/) for information on the supported formats and options.
 
-`utc` `boolean`
+* `timeFormat` `string`
+
+The default format pattern to use when displaying the time portion of the value. Defaults to `h:mm:ss a`
+
+See the [momentjs format docs](http://momentjs.com/docs/#/displaying/format/) for information on the supported formats and options.
+
+* `dateFormat` `string`
+
+The default format pattern to use when displaying the timezone offset portion of the value. Defaults to `Z`
+
+See the [momentjs format docs](http://momentjs.com/docs/#/displaying/format/) for information on the supported formats and options.
+
+* `utc` `boolean`
 
 Sets whether the string should be displayed in the admin UI in UTC time or local time. Defaults to `false`.
 

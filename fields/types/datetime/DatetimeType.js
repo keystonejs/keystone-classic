@@ -6,6 +6,7 @@ var utils = require('keystone-utils');
 
 // ISO_8601 is needed for the automatically created createdAt and updatedAt fields
 var parseFormats = ['YYYY-MM-DD', 'YYYY-MM-DD h:m:s a', 'YYYY-MM-DD h:m a', 'YYYY-MM-DD H:m:s', 'YYYY-MM-DD H:m', 'YYYY-MM-DD h:mm:s a Z', moment.ISO_8601];
+
 /**
  * DateTime FieldType Constructor
  * @extends Field
@@ -15,14 +16,44 @@ function datetime (list, path, options) {
 	this._nativeType = Date;
 	this._underscoreMethods = ['format', 'moment', 'parse'];
 	this._fixedSize = 'full';
-	this._properties = ['formatString', 'isUTC'];
+	this._properties = ['formatDateString', 'formatTimeString', 'formatTzString', 'isUTC'];
 	this.typeDescription = 'date and time';
-	this.parseFormatString = options.parseFormat || parseFormats;
-	this.formatString = (options.format === false) ? false : (options.format || 'YYYY-MM-DD h:mm:ss a');
+	this.parseFormatString = parseFormats.slice(0);
+	this.formatDateString = (options.dateFormat === false) ? false : (options.dateFormat || 'YYYY-MM-DD');
+	this.formatTimeString = (options.timeFormat === false) ? false : (options.timeFormat || 'h:mm:ss a');
+	this.formatTzString = (options.tzFormat === false) ? false : (options.tzFormat || 'Z');
 	this.isUTC = options.utc || false;
-	if (this.formatString && typeof this.formatString !== 'string') {
-		throw new Error('FieldType.DateTime: options.format must be a string.');
+	if (this.formatDateString && typeof this.formatDateString !== 'string') {
+		throw new Error('FieldType.DateTime: options.dateFormat must be a string.');
 	}
+	if (this.formatTimeString && typeof this.formatTimeString !== 'string') {
+		throw new Error('FieldType.DateTime: options.timeFormat must be a string.');
+	}
+	if (this.formatTzString && typeof this.formatTzString !== 'string') {
+		throw new Error('FieldType.DateTime: options.tzFormat must be a string.');
+	}
+
+	// For backward compatibility, if parseFormat option is specified, add it to the parseFormatString array
+	if (options.parseFormat) {
+		if (Array.isArray(options.parseFormat)) {
+			this.parseFormatString = this.parseFormatString.concat(options.parseFormat);
+		} else if (typeof options.parseFormat === 'string') {
+			this.parseFormatString.push(options.parseFormat);
+		}
+	}
+
+	// If a custom format is specified by the user, it should be added to the parseFormatString array to ensure
+	// successful validation
+	if (this.formatDateString || this.formatTimeString || this.formatTzString) {
+		let customFormat = [];
+
+		if (this.formatDateString) customFormat.push(this.formatDateString);
+		if (this.formatTimeString) customFormat.push(this.formatTimeString);
+		if (this.formatTzString) customFormat.push(this.formatTzString);
+
+		this.parseFormatString.push(customFormat.join(' '));
+	}
+
 	datetime.super_.call(this, list, path, options);
 	this.paths = {
 		date: this.path + '_date',
@@ -30,6 +61,7 @@ function datetime (list, path, options) {
 		tzOffset: this.path + '_tzOffset',
 	};
 }
+
 datetime.properName = 'Datetime';
 util.inherits(datetime, FieldType);
 
@@ -57,13 +89,13 @@ datetime.prototype.getInputFromData = function (data) {
 	return this.getValueFromData(data);
 };
 
-
 datetime.prototype.validateRequiredInput = function (item, data, callback) {
 	var value = this.getInputFromData(data);
 	var result = !!value;
 	if (value === undefined && item.get(this.path)) {
 		result = true;
 	}
+
 	utils.defer(callback, result);
 };
 
@@ -79,6 +111,7 @@ datetime.prototype.validateInput = function (data, callback) {
 	if (value) {
 		result = this.parse(value, this.parseFormatString, true).isValid();
 	}
+
 	utils.defer(callback, result);
 };
 
@@ -114,7 +147,7 @@ datetime.prototype.updateItem = function (item, data, callback) {
 			if (!item.get(this.path) || !newValue.isSame(item.get(this.path))) {
 				item.set(this.path, newValue.toDate());
 			}
-		// If it's null or empty string, clear it out
+			// If it's null or empty string, clear it out
 		} else {
 			item.set(this.path, null);
 		}
