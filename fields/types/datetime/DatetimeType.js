@@ -17,7 +17,7 @@ function datetime (list, path, options) {
 	this._fixedSize = 'full';
 	this._properties = ['formatDateString', 'formatTimeString', 'formatTzString', 'isUTC'];
 	this.typeDescription = 'date and time';
-	this.parseFormatString = parseFormats;
+	this.parseFormatString = parseFormats.slice(0);
 	this.formatDateString = (options.dateFormat === false) ? false : (options.dateFormat || 'YYYY-MM-DD');
 	this.formatTimeString = (options.timeFormat === false) ? false : (options.timeFormat || 'h:mm:ss a');
 	this.formatTzString =  (options.tzFormat === false) ? false : (options.tzFormat || 'Z');

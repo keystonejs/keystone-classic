@@ -23,6 +23,10 @@ exports.testFieldType = function (List) {
 				List.add({
 					invalidFormatOption: { type: DatetimeType, format: /aregexp/ },
 				});
+
+				//If control reaches here, exception has not been thrown. Test failed.
+				demand(true).not.eql(true);
+				done();
 			} catch (err) {
 				demand(err.message).eql('FieldType.DateTime: options.format must be a string.');
 				done();
