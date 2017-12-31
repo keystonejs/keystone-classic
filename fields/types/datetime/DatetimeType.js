@@ -53,8 +53,6 @@ function datetime (list, path, options) {
 		this.parseFormatString.push(customFormat.join(' '));
 	}
 
-	this.parseFormatString = options.parseFormat || parseFormats;
-
 	datetime.super_.call(this, list, path, options);
 	this.paths = {
 		date: this.path + '_date',

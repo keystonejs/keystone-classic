@@ -6,6 +6,11 @@ var DatetimeType = require('../DatetimeType');
 exports.initList = function (List) {
 	List.add({
 		datetime: DatetimeType,
+		customDisplayFormat: {
+			type: DatetimeType,
+			dateFormat: 'D MMM YYYY',
+			timeFormat: 'HH:mm',
+		},
 		customFormat: {
 			type: DatetimeType,
 			parseFormat: 'DD.MM.YY h:m a',
@@ -203,6 +208,15 @@ exports.testFieldType = function (List) {
 			});
 		});
 
+		it('should validate a date time string in a custom format when a custom display format is specified', function (done) {
+			List.fields.customDisplayFormat.validateInput({
+				customDisplayFormat: '20 Jan 2018 14:00 +00:00',
+			}, function (result) {
+				demand(result).be.true();
+				done();
+			});
+		});
+
 		it('should validate a date time string in a custom format when specified', function (done) {
 			List.fields.customFormat.validateInput({
 				customFormat: '25.02.16 04:45 am',
@@ -221,11 +235,11 @@ exports.testFieldType = function (List) {
 			});
 		});
 
-		it('should invalidate a date time string in the default format when a custom one is specified', function (done) {
+		it('should validate a date time string in the default format when a custom one is specified', function (done) {
 			List.fields.customFormat.validateInput({
 				customFormat: '2016-02-25 04:45:00 am',
 			}, function (result) {
-				demand(result).be.false();
+				demand(result).be.true();
 				done();
 			});
 		});
