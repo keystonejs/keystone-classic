@@ -18,17 +18,47 @@ exports.initList = function (List) {
 
 exports.testFieldType = function (List) {
 	describe('invalid options', function () {
-		it('should throw when format is not a string', function (done) {
+		it('should throw when dateFormat is not a string', function (done) {
 			try {
 				List.add({
-					invalidFormatOption: { type: DatetimeType, format: /aregexp/ },
+					invalidFormatOption: { type: DatetimeType, dateFormat: /aregexp/ },
 				});
 
 				//If control reaches here, exception has not been thrown. Test failed.
 				demand(true).not.eql(true);
 				done();
 			} catch (err) {
-				demand(err.message).eql('FieldType.DateTime: options.format must be a string.');
+				demand(err.message).eql('FieldType.DateTime: options.dateFormat must be a string.');
+				done();
+			}
+		});
+
+		it('should throw when timeFormat is not a string', function (done) {
+			try {
+				List.add({
+					invalidFormatOption: { type: DatetimeType, timeFormat: /aregexp/ },
+				});
+
+				//If control reaches here, exception has not been thrown. Test failed.
+				demand(true).not.eql(true);
+				done();
+			} catch (err) {
+				demand(err.message).eql('FieldType.DateTime: options.timeFormat must be a string.');
+				done();
+			}
+		});
+
+		it('should throw when tzFormat is not a string', function (done) {
+			try {
+				List.add({
+					invalidFormatOption: { type: DatetimeType, tzFormat: /aregexp/ },
+				});
+
+				//If control reaches here, exception has not been thrown. Test failed.
+				demand(true).not.eql(true);
+				done();
+			} catch (err) {
+				demand(err.message).eql('FieldType.DateTime: options.tzFormat must be a string.');
 				done();
 			}
 		});
