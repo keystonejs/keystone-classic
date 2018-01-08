@@ -15,6 +15,7 @@ import App from './App';
 import Home from './screens/Home';
 import Item from './screens/Item';
 import List from './screens/List';
+import Revision from './screens/Revision';
 
 import store from './store';
 
@@ -32,6 +33,7 @@ ReactDOM.render(
 				<IndexRoute component={Home} />
 				<Route path=":listId" component={List} />
 				<Route path=":listId/:itemId" component={Item} />
+				<Route path=":listId/:itemId/revisions" component={Revision} />
 			</Route>
 		</Router>
 	</Provider>,

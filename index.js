@@ -157,6 +157,8 @@ keystone.Keystone = Keystone;
 keystone.List = require('./lib/list')(keystone);
 keystone.Storage = require('./lib/storage');
 keystone.View = require('./lib/view');
+keystone.Publishing = require('./lib/publishing');
+keystone.Sitemap = require('./lib/sitemap');
 
 keystone.content = require('./lib/content');
 keystone.security = {

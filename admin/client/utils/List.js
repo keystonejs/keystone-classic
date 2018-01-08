@@ -116,16 +116,17 @@ List.prototype.createItem = function (formData, callback) {
  * Update a specific item
  *
  * @param  {String}   id       The id of the item we want to update
- * @param  {FormData} formData The submitted form data
+ * @param  {FormData|Object} changes The submitted form data or a data object
  * @param  {Function} callback Called after the API call
  */
-List.prototype.updateItem = function (id, formData, callback) {
+List.prototype.updateItem = function (id, changes, callback) {
 	xhr({
 		url: `${Keystone.adminPath}/api/${this.path}/${id}`,
 		responseType: 'json',
 		method: 'POST',
 		headers: assign({}, Keystone.csrf.header),
-		body: formData,
+		// if we're passing in formData, pass as a body, if not, pass as json object
+		[!Object.keys(changes).length ? 'body' : 'json']: changes,
 	}, (err, resp, data) => {
 		if (err) return callback(err);
 		if (resp.statusCode === 200) {
@@ -322,6 +323,87 @@ List.prototype.deleteItems = function (itemIds, callback) {
 			callback(body);
 		}
 	});
+};
+
+/**
+ * Approve a pending publishing state change for a specific item via the API.
+ *
+ *
+ * @param  {String}   itemId   The id of the item to be approved
+ * @param  {Function} callback
+ */
+List.prototype.approveItem = function (itemId, callback) {
+	this.approveItems([itemId], callback);
+};
+
+/**
+ * Approve pending publishing state changes of multiple items
+ *
+ * @param  {Array}   itemIds  An array of ids of items we want to approve
+ * @param  {Function} callback
+ */
+List.prototype.approveItems = function (itemIds, callback) {
+	const url = Keystone.adminPath + '/api/' + this.path + '/approve';
+	xhr({
+		url: url,
+		method: 'POST',
+		headers: assign({}, Keystone.csrf.header),
+		json: {
+			ids: itemIds,
+		},
+	}, (err, resp, body) => {
+		if (err) return callback(err);
+		// Pass the body as result or error, depending on the statusCode
+		if (resp.statusCode === 200) {
+			callback(null, body);
+		} else {
+			callback(body);
+		}
+	});
+};
+
+/**
+ * Approve pending publishing state changes of multiple items
+ *
+ * @param  {Array}   itemIds  An array of ids of items we want to approve
+ * @param  {Function} callback
+ */
+List.prototype.getPermissions = function (callback) {
+	var userPerms = {};
+	let url = Keystone.adminPath + '/api/users/' + Keystone.user.id;
+
+	xhr({
+		url: url,
+		responseType: 'json',
+	}, (err, resp, data) => {
+		if (err) return callback(err);
+		// Pass the data as result or error, depending on the statusCode
+		if (resp.statusCode === 200) {
+			userPerms.isContributor = data.fields.isContributor || false;
+			userPerms.isEditor = data.fields.isEditor || false;
+			userPerms.isAuthor = data.fields.isAuthor || false;
+
+			callback(userPerms);
+		} else {
+			callback(data);
+		}
+	});
+
+	// Get User permissions
+	/* Keystone.User.model.findById(Keystone.user.id).exec(function (err, user) {
+		if (user) {
+			if (user.isContributor) {
+				userPerms.isContributor = user.isContributor || false;
+				userPerms.isEditor = user.isEditor || false;
+				userPerms.isAuthor = user.isAuthor || false;
+
+				callback(userPerms);
+			}
+
+		}
+	});*/
+
+
 };
 
 List.prototype.reorderItems = function (item, oldSortOrder, newSortOrder, pageOptions, callback) {

@@ -34,6 +34,7 @@ import { checkForQueryChange } from '../../../utils/queryParams';
 
 import {
 	deleteItems,
+	approveItems,
 	setActiveSearch,
 	setActiveSort,
 	setCurrentPage,
@@ -168,6 +169,33 @@ const ListView = React.createClass({
 				),
 				onConfirmation: () => {
 					this.props.dispatch(deleteItems(itemIds));
+					this.toggleManageMode();
+					this.removeConfirmationDialog();
+				},
+			},
+		});
+	},
+	// Enabled by Publishing Plugin. Enables approvals of requests
+	massApproval (){
+		const { checkedItems } = this.state;
+		const list = this.props.currentList;
+		const itemCount = pluralize(checkedItems, ('* ' + list.singular.toLowerCase()), ('* ' + list.plural.toLowerCase()));
+		const itemIds = Object.keys(checkedItems);
+
+		this.setState({
+			confirmationDialog: {
+				isOpen: true,
+				label: 'Approve Requests',
+				body: (
+					<div>
+						Are you sure you want to approve {itemCount}?
+						<br />
+						<br />
+						This cannot be undone.
+					</div>
+				),
+				onConfirmation: () => {
+					this.props.dispatch(approveItems(itemIds));
 					this.toggleManageMode();
 					this.removeConfirmationDialog();
 				},

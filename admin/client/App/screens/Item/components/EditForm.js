@@ -7,9 +7,11 @@ import {
 	FormInput,
 	Grid,
 	ResponsiveText,
+	GlyphButton,
 } from '../../../elemental';
 
 import { Fields } from 'FieldTypes';
+import { Link } from 'react-router';
 import { fade } from '../../../../utils/color';
 import theme from '../../../../theme';
 
@@ -26,6 +28,7 @@ import { deleteItem } from '../actions';
 
 import { upcase } from '../../../../utils/string';
 
+
 function getNameFromData (data) {
 	if (typeof data === 'object') {
 		if (typeof data.first === 'string' && typeof data.last === 'string') {
@@ -38,9 +41,15 @@ function getNameFromData (data) {
 }
 
 function smoothScrollTop () {
+	var scrollTotal = document.body.scrollTop || document.documentElement.scrollTop || -1;
+	// Smooth scroll is too slow for items with lots of fields so we speed it up and do a basic ease in
+	var scrollSpeed = scrollTotal * -0.50;
+
 	if (document.body.scrollTop || document.documentElement.scrollTop) {
-		window.scrollBy(0, -50);
-		var timeOut = setTimeout(smoothScrollTop, 20);
+		window.scrollBy(0, scrollSpeed);
+		var timeOut = setTimeout(function () {
+			smoothScrollTop();
+		}, 20);
 	}	else {
 		clearTimeout(timeOut);
 	}
@@ -59,13 +68,25 @@ var EditForm = React.createClass({
 			loading: false,
 			lastValues: null, // used for resetting
 			focusFirstField: !this.props.list.nameField && !this.props.list.nameFieldIsFormHeader,
+			approveButtonDisabled: false,
+			userPermissions: {
+				isContributor: false,
+				isAuthor: false,
+				isEditor: false,
+			},
 		};
 	},
 	componentDidMount () {
 		this.__isMounted = true;
+		// Get User permissions
+		this.props.list.getPermissions(this.updateUserPermissions);
 	},
 	componentWillUnmount () {
 		this.__isMounted = false;
+	},
+
+	updateUserPermissions (userPerms) {
+		this.setState({ userPermissions: userPerms });
 	},
 	getFieldProps (field) {
 		const props = assign({}, field);
@@ -125,11 +146,17 @@ var EditForm = React.createClass({
 		const { data, list } = this.props;
 		const editForm = this.refs.editForm;
 		const formData = new FormData(editForm);
+		var successMessage = 'Your changes have been saved successfully';
+		data.fields['publishing.approveRequest'] = false;
+		data.fields['publishing.approvalPending'] = true;
 
 		// Show loading indicator
 		this.setState({
 			loading: true,
 		});
+
+		formData.set('publishing.approvalPendingMessage', 'Pending Approval');
+		formData.set('publishing.approvalPending', data.fields['publishing.approvalPending']);
 
 		list.updateItem(data.id, formData, (err, data) => {
 			smoothScrollTop();
@@ -142,11 +169,20 @@ var EditForm = React.createClass({
 				});
 			} else {
 				// Success, display success flash messages, replace values
+
+				// Add alert if the content needs Publishing Approval
+				if (data.fields['publishing.approvalPending']) {
+
+					successMessage = 'Your changes have been saved successfully & will be ' + upcase(data.fields['publishing.requestApproval'])
+					+ ' once approved by an Editor.';
+
+				}
+
 				// TODO: Update key value
 				this.setState({
 					alerts: {
 						success: {
-							success: 'Your changes have been saved successfully',
+							success: successMessage,
 						},
 					},
 					lastValues: this.state.values,
@@ -156,6 +192,56 @@ var EditForm = React.createClass({
 			}
 		});
 	},
+	approvePublishing () {
+		const editForm = this.refs.editForm;
+		const formData = new FormData(editForm);
+		var { data, list } = this.props;
+		var publishState = data.fields['publishing.requestApproval'];
+		data.fields['publishing.approveRequest'] = true;
+		data.fields['publishing.approvalPending'] = false;
+
+		// Change the hidden field values
+		this.setState({
+			values: data.fields,
+			approveButtonDisabled: true,
+			loading: true,
+		}
+		);
+
+		// Setting directly to avoid issues with render & formdata not being available for updateItem
+		formData.set('publishing.approveRequest', data.fields['publishing.approveRequest']);
+		formData.set('publishing.approvalPending', data.fields['publishing.approvalPending']);
+		formData.set('publishing.approvalPendingMessage', '');
+
+		list.updateItem(data.id, formData, (err, data) => {
+			smoothScrollTop();
+			if (err) {
+				this.setState({
+					alerts: {
+						error: err,
+					},
+					loading: false,
+					approveButtonDisabled: false,
+				});
+			} else {
+				data.fields['publishing.approveRequest'] = false;
+				data.fields['publishing.approvalPending'] = false;
+
+				this.setState({
+					alerts: {
+						success: {
+							success: 'Your changes have been saved successfully & approved to be ' + upcase(data.fields['publishing.requestApproval']),
+						},
+					},
+					lastValues: this.state.values,
+					values: data.fields,
+					loading: false,
+					approveButtonDisabled: true,
+				});
+			}
+		});
+	},
+
 	renderKeyOrId () {
 		var className = 'EditForm__key-or-id';
 		var list = this.props.list;
@@ -226,6 +312,7 @@ var EditForm = React.createClass({
 		var headings = 0;
 
 		return this.props.list.uiElements.map((el, index) => {
+
 			// Don't render the name field if it is the header since it'll be rendered in BIG above
 			// the list. (see renderNameField method, this is the reverse check of the one it does)
 			if (
@@ -242,10 +329,14 @@ var EditForm = React.createClass({
 			}
 
 			if (el.type === 'field') {
+
 				var field = this.props.list.fields[el.field];
 				var props = this.getFieldProps(field);
+				console.log('form field: ' + field.type + ' ' + field.path);
 				if (typeof Fields[field.type] !== 'function') {
+
 					return React.createElement(InvalidFieldType, { type: field.type, path: field.path, key: field.path });
+
 				}
 				props.key = field.path;
 				if (index === 0 && this.state.focusFirstField) {
@@ -255,13 +346,71 @@ var EditForm = React.createClass({
 			}
 		}, this);
 	},
+	/**
+	 * Generate a preview url for this item using publishing.previewPath & item name, slug or id
+	 */
+	renderPreviewURL () {
+		const itemSlug = this.props.data.slug || this.props.data.fields[this.props.list.publishing.itemPathField] || this.props.data.name;
+		const previewPath = this.props.list.publishing.previewPath;
+		var previewParams = '?preview=true';
+		// TODO default options aren't accessible. fix
+		if (this.props.list.publishing.previewParam) {
+			previewParams = '?' + this.props.list.publishing.previewParam + '=true';
+		}
+		// For static paths set the itemPathFeild to a blank string and only the previewPath will be used
+		if (this.props.list.publishing.itemPathField === '') {
+			return previewPath + previewParams;
+		} else {
+			return previewPath + itemSlug + previewParams;
+		}
+	},
+
+	/**
+	 * Can User approve publishing state change for this item?
+	 */
+	canUserApprove () {
+		console.log('Checking user permissions:' + JSON.stringify(this.state.userPermissions));
+
+		// Can only self approve if it's enabled
+		if (!this.props.list.publishing.selfApproval
+			&& (this.state.values['publishing.createdBy'] === Keystone.user.id)
+			&& (this.state.userPermissions.isAuthor || this.state.userPermissions.isEditor)) {
+			return false;
+		}
+
+		// Do they have permissions
+		if (this.state.userPermissions && this.state.userPermissions.isEditor) {
+			return true;
+		}
+
+		return false;
+	},
+
 	renderFooterBar () {
 		if (this.props.list.noedit && this.props.list.nodelete) {
 			return null;
 		}
-
+		const currentState = this.state.values['publishing.state'];
+		const requestState = this.state.values['publishing.requestApproval'];
 		const { loading } = this.state;
 		const loadingButtonText = loading ? 'Saving' : 'Save';
+		var approveButtonText = loading ? 'Approving' : 'Save & Approve (' + upcase(currentState) + '->' + upcase(requestState) + ')';
+		var _approveButtonDisabled = this.state.approveButtonDisabled;
+
+
+		// Only show Approve button is there is pending approval and user has permissions
+		if (this.state.values['publishing.pendingApproval'] || (currentState !== requestState)) {
+			if (this.canUserApprove()) {
+				_approveButtonDisabled = false;
+			} else {
+				_approveButtonDisabled = true;
+				approveButtonText = upcase(currentState) + '->' + upcase(requestState);
+			}
+
+		} else {
+			_approveButtonDisabled = true;
+			approveButtonText = upcase(currentState);
+		}
 
 		// Padding must be applied inline so the FooterBar can determine its
 		// innerHeight at runtime. Aphrodite's styling comes later...
@@ -280,6 +429,19 @@ var EditForm = React.createClass({
 							{loadingButtonText}
 						</LoadingButton>
 					)}
+					{this.props.list.publishing
+					&& this.props.list.publishing.enabled && (
+						<LoadingButton
+							color="success"
+							disabled={_approveButtonDisabled}
+							loading={loading}
+							onClick={this.approvePublishing}
+							data-button="approve"
+							style={styles.saveApproveButton}
+						>
+							{approveButtonText}
+						</LoadingButton>
+					)}
 					{!this.props.list.noedit && (
 						<Button disabled={loading} onClick={this.toggleResetDialog} variant="link" color="cancel" data-button="reset">
 							<ResponsiveText
@@ -296,6 +458,37 @@ var EditForm = React.createClass({
 							/>
 						</Button>
 					)}
+					{!this.props.list.noedit && this.props.list.history && this.props.list.revisions
+					&& this.props.list.revisions.enabled && (
+						<GlyphButton
+							component={Link}
+							data-e2e-editform-history
+							glyph="versions"
+							position="left"
+							style={styles.historyButton}
+							to={`${Keystone.adminPath}/${this.props.list.id}/${this.props.data.id}/revisions`}
+							variant="link"
+						>
+							Revisions
+						</GlyphButton>
+					)}
+					{this.props.list.publishing
+					&& this.props.list.publishing.enabled
+					&& (
+						<GlyphButton
+							component={Link}
+							data-e2e-editform-preview
+							glyph="search"
+							position="left"
+							style={styles.previewButton}
+							to={this.renderPreviewURL}
+							variant="link"
+							target="_blank"
+						>
+						Preview
+						</GlyphButton>
+					)}
+
 				</div>
 			</FooterBar>
 		);
@@ -418,6 +611,15 @@ const styles = {
 	},
 	footerbarInner: {
 		height: theme.component.height, // FIXME aphrodite bug
+	},
+	historyButton: {
+		float: 'right',
+	},
+	saveApproveButton: {
+		marginLeft: '15px',
+	},
+	previewButton: {
+		float: 'right',
 	},
 	deleteButton: {
 		float: 'right',
