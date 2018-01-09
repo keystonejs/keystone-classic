@@ -59,6 +59,7 @@
     "marked": "0.3.6",
     "method-override": "2.3.10",
     "mime-types": "2.1.15",
+    "minimatch": "^3.0.4",
     "moment": "2.18.1",
     "mongoose": "4.9.2",
     "morgan": "1.9.0",
