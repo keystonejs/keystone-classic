@@ -48,8 +48,7 @@ module.exports = function(file, name) {
 			b = browserify('./' + file, opts);
 		}
 		b.transform(babelify.configure({
-			ignore: ['**/lib/**'],
-			plugins: [require('babel-plugin-object-assign')]
+			ignore: ['**/lib/**']
 		}));
 		b.exclude('FieldTypes');
 		packages.forEach(function(i) {

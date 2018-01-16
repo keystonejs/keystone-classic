@@ -5,19 +5,19 @@ var Select = require('react-select'),
 	_ = require('underscore');
 
 module.exports = Field.create({
-	
+
 	displayName: 'RelationshipField',
-	
+
 	shouldCollapse: function() {
 		// many:true relationships have an Array for a value
 		// so need to check length instead
 		if(this.props.many) {
 			return this.props.collapse && !this.props.value.length;
 		}
-		
+
 		return this.props.collapse && !this.props.value;
 	},
-	
+
 	getInitialState: function() {
 		return {
 			ready: this.props.value ? false : true,
@@ -25,11 +25,11 @@ module.exports = Field.create({
 			expandedValues: null
 		};
 	},
-	
+
 	componentDidMount: function() {
 		this.loadValues(this.props.value);
 	},
-	
+
 	componentWillReceiveProps: function(newProps) {
 		if (newProps.value !== this.state.simpleValue) {
 			this.setState({
@@ -40,21 +40,21 @@ module.exports = Field.create({
 			this.loadValues(newProps.value);
 		}
 	},
-	
+
 	loadValues: function(input) {
 		var expandedValues = [];
 		var inputs = _.compact([].concat(input));
 		var self = this;
-		
+
 		var finish = function () {
 			self.setState({
 				ready: true,
 				expandedValues: expandedValues
 			});
 		};
-		
+
 		if (!inputs.length) return finish();
-		
+
 		var callbackCount = 0;
 		_.each(inputs, function(input) {
 			expandedValues.push({
@@ -64,10 +64,17 @@ module.exports = Field.create({
 				.get('/keystone/api/' + self.props.refList.path + '/' + input + '?simple')
 				.set('Accept', 'application/json')
 				.end(function (err, res) {
-					if (err) throw err;
-					
-					var value = res.body;
-					_.findWhere(expandedValues, { value: value.id }).label = value.name;
+					if (err) {
+						if (err.status === 404) {
+							_.findWhere(expandedValues, { value: input }).label = input;
+						} else {
+							throw err;
+						}
+					} else {
+						var value = res.body;
+						_.findWhere(expandedValues, { value: value.id }).label = value.name;
+					}
+
 
 					callbackCount++;
 					if (callbackCount === inputs.length) {
@@ -76,10 +83,10 @@ module.exports = Field.create({
 				});
 		});
 	},
-	
+
 	buildFilters: function() {
 		var filters = {};
-		
+
 		_.each(this.props.filters, function(value, key) {
 			if(_.isString(value) && value[0] == ':') {//eslint-disable-line eqeqeq
 				var fieldName = value.slice(1);
@@ -99,21 +106,28 @@ module.exports = Field.create({
 				filters[key] = value;
 			}
 		}, this);
-		
+
 		var parts = [];
-		
+
 		_.each(filters, function (val, key) {
 			parts.push('filters[' + key + ']=' + encodeURIComponent(val));
 		});
-		
+
 		return parts.join('&');
 	},
 
 	buildOptionQuery: function (input) {
-		return 'context=relationship&q=' + input +
+		var value = '';
+		if(typeof input === 'string' && input.length) {
+			value = input;
+		}else if(typeof input === 'object' && input[0] && input[0].value) {
+			value = input[0].value;
+		}
+		var filters = this.buildFilters();
+		return 'context=relationship&q=' + value +
 				'&list=' + Keystone.list.path +
 				'&field=' + this.props.path +
-				'&' + this.buildFilters();
+				(filters ? '&' + filters : '');
 	},
 
 	getOptions: function(input, callback) {
@@ -122,9 +136,9 @@ module.exports = Field.create({
 			.set('Accept', 'application/json')
 			.end(function (err, res) {
 				if (err) throw err;
-				
+
 				var data = res.body;
-				
+
 				callback(null, {
 					options: data.items.map(function (item) {
 						return {
@@ -136,11 +150,11 @@ module.exports = Field.create({
 				});
 			});
 	},
-	
+
 	renderLoadingUI: function() {
 		return <div className='help-block'>loading...</div>;
 	},
-	
+
 	updateValue: function(simpleValue, expandedValues) {
 		this.setState({
 			simpleValue: simpleValue,
@@ -151,7 +165,7 @@ module.exports = Field.create({
 			value: this.props.many ? _.pluck(expandedValues, 'value') : simpleValue
 		});
 	},
-	
+
 	renderValue: function() {
 		if (!this.state.ready) {
 			return this.renderLoadingUI();
@@ -159,25 +173,23 @@ module.exports = Field.create({
 		// Todo: this is only a temporary fix, remodel
 		if (this.state.expandedValues && this.state.expandedValues.length) {
 			var body = [];
-			
+
 			_.each(this.state.expandedValues, function (item) {
 				body.push(<a href={'/keystone/' + this.props.refList.path + '/' + item.value} className='related-item-link'>{item.label}</a>);
 			}, this);
-			
+
 			return body;
 		} else {
 			return <div className='field-value'>(not set)</div>;
 		}
 	},
-	
+
 	renderField: function() {
 		if (!this.state.ready) {
 			return this.renderLoadingUI();
 		}
 		var body = [];
 
-		body.push(<Select multi={this.props.many} onChange={this.updateValue} name={this.props.path} asyncOptions={this.getOptions} value={this.state.expandedValues} />);
-		
 		if (!this.props.many && this.props.value) {
 			body.push(
 				<a href={'/keystone/' + this.props.refList.path + '/' + this.props.value} className='btn btn-link btn-goto-linked-item'>
@@ -185,8 +197,10 @@ module.exports = Field.create({
 				</a>
 			);
 		}
-		
+
+		body.push(<Select multi={this.props.many} onChange={this.updateValue} name={this.props.path} asyncOptions={this.getOptions} value={this.state.expandedValues} cacheAsyncResults={false} />);
+
 		return body;
 	}
-	
+
 });

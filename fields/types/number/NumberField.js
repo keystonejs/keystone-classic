@@ -6,12 +6,13 @@ module.exports = Field.create({
 	displayName: 'NumberField',
 	
 	valueChanged: function(event) {
-		var newValue = event.target.value.replace(/[^\d\.]/g, '');
-		if (newValue === this.props.value) return;
-		this.props.onChange({
-			path: this.props.path,
-			value: newValue
-		});
+		var newValue = event.target.value;
+		if (/^-?\d*\.?\d*$/.test(newValue)) {
+			this.props.onChange({
+				path: this.props.path,
+				value: newValue,
+			});
+		}
 	},
 	
 	renderField: function() {

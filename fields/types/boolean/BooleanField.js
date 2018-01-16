@@ -2,27 +2,28 @@ var React = require('react'),
 	Field = require('../Field');
 
 module.exports = Field.create({
-	
+
 	displayName: 'BooleanField',
-	
+
 	valueChanged: function(event) {
 		this.props.onChange({
 			path: this.props.path,
 			value: event.target.checked
 		});
 	},
-	
+
 	renderUI: function() {
-		var path = this.props.path;
-		var langOfField = path ? path.split('_lang_') : null;
-		langOfField = langOfField && langOfField.length > 1 ? langOfField[1] : '';
-		
+
+		if (this.props.hidden) {
+			return <input type='hidden' name={this.props.path} value={this.props.value} />;
+		}
+
 		var input, fieldClassName = 'field-ui';
-		
+
 		if (this.props.indent) {
 			fieldClassName += ' field-indented';
 		}
-		
+
 		if (this.shouldRenderField()) {
 			input = (
 				<div className={fieldClassName}>
@@ -30,6 +31,7 @@ module.exports = Field.create({
 						<input type='checkbox' name={this.props.path} id={this.props.path} value='true' checked={this.props.value} onChange={this.valueChanged} />
 						{this.props.label}
 					</label>
+					{this.renderNote()}
 				</div>
 			);
 		} else {
@@ -39,11 +41,12 @@ module.exports = Field.create({
 				<div className={fieldClassName}>
 					<img src={imgSrc} width='16' height='16' className={state} style={{ marginRight: 5 }} />
 					<span>{this.props.label}</span>
+					<div>{this.renderNote()}</div>
 				</div>
 			);
 		}
-		
-		return <div className={"field field-type-boolean " + langOfField}>{input}</div>;
+
+		return <div className="field field-type-boolean">{input}</div>;
 	}
-	
+
 });
