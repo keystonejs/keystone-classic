@@ -77,7 +77,7 @@ module.exports = Field.create({
 	isImage () {
 		const types = ["image/gif", "image/png", "image/jpeg", "image/bmp", "image/webp"];
 		return (types.indexOf(this.filetype) != -1);
-	}
+	},
 
 	// ==============================
 	// METHODS

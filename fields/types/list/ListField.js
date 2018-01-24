@@ -119,7 +119,7 @@ module.exports = Field.create({
 	renderUI () {
 		const { label, value } = this.props;
 		return (
-			<div className={css(classes.container)} style={{marginBottom: "6em"}}>
+			<div className={css(classes.container)} style={{ marginBottom: '6em' }}>
 				<h3 data-things="whatever">{label}</h3>
 				{this.shouldRenderField() ? (
 					this.renderItems()
