@@ -53,7 +53,7 @@ module.exports = Field.create({
 	},
 	componentWillUpdate (nextProps) {
 		// Show the new filename when it's finished uploading
-		if (this.props.value.filename !== nextProps.value.filename) {
+		if (nextProps.value && this.props.value.filename !== nextProps.value.filename) {
 			this.setState(buildInitialState(nextProps));
 		}
 	},
@@ -73,6 +73,11 @@ module.exports = Field.create({
 			? this.state.userSelectedFile.name
 			: this.props.value.filename;
 	},
+
+	isImage () {
+		const types = ["image/gif", "image/png", "image/jpeg", "image/bmp", "image/webp"];
+		return (types.indexOf(this.filetype) != -1);
+	}
 
 	// ==============================
 	// METHODS
@@ -120,6 +125,18 @@ module.exports = Field.create({
 	// ==============================
 	// RENDERERS
 	// ==============================
+
+	renderImage () {
+		const href = this.props.value ? this.props.value.url : undefined;
+
+		return (
+			<div>
+				{(this.hasFile() && this.isImage() && !this.state.removeExisting) ? (
+					<img src={href} style={{maxHeight:'6em', maxWidth:'auto', marginBottom:"1em"}}/>
+				) : null}
+			</div>
+		);
+	},
 
 	renderFileNameAndChangeMessage () {
 		const href = this.props.value ? this.props.value.url : undefined;
@@ -200,12 +217,14 @@ module.exports = Field.create({
 				{this.hasFile() && this.renderClearButton()}
 			</div>
 		);
+		console.log(this.props);
 
 		return (
 			<div data-field-name={path} data-field-type="file">
 				<FormField label={label} htmlFor={path}>
 					{this.shouldRenderField() ? (
 						<div>
+							{this.hasFile() && this.renderImage()}
 							{this.hasFile() && this.renderFileNameAndChangeMessage()}
 							{buttons}
 							<HiddenFileInput
