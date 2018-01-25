@@ -125,11 +125,15 @@ const classes = {
 	dialog: {
 		backgroundColor: 'white',
 		borderRadius: theme.borderRadius.default,
+		overflow: 'scroll',
 		paddingBottom: theme.modal.padding.dialog.vertical,
 		paddingLeft: theme.modal.padding.dialog.horizontal,
 		paddingRight: theme.modal.padding.dialog.horizontal,
 		paddingTop: theme.modal.padding.dialog.vertical,
 		position: 'relative',
+		[`@media (min-width: ${theme.breakpoint.tabletPortraitMax})`]: {
+			maxHeight: '90%',
+		},
 	},
 };
 
