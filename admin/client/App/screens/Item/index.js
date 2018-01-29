@@ -73,6 +73,11 @@ var ItemView = React.createClass({
 			createIsOpen: visible,
 		});
 	},
+	toggleHistory () {
+		this.setState({
+			historyIsOpen: true
+		})
+	},
 	// Render this items relationships
 	renderRelationships () {
 		const { relationships } = this.props.currentList;

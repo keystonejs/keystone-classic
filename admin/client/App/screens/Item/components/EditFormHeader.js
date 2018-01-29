@@ -5,10 +5,15 @@ import { connect } from 'react-redux';
 import Toolbar from './Toolbar';
 import ToolbarSection from './Toolbar/ToolbarSection';
 import EditFormHeaderSearch from './EditFormHeaderSearch';
+import HistoryPopout from './HistoryPopout';
 import { Link } from 'react-router';
 
 import Drilldown from './Drilldown';
+import Popout from '../../../shared/Popout';
+import PopoutList from '../../../shared/Popout/PopoutList';
 import { GlyphButton, ResponsiveText } from '../../../elemental';
+
+import { loadItemRevision } from '../actions'
 
 export const EditFormHeader = React.createClass({
 	displayName: 'EditFormHeader',
@@ -20,6 +25,8 @@ export const EditFormHeader = React.createClass({
 	getInitialState () {
 		return {
 			searchString: '',
+			isHistoryOpen: false,
+			rev: null
 		};
 	},
 	toggleCreate (visible) {
@@ -124,10 +131,51 @@ export const EditFormHeader = React.createClass({
 		);
 	},
 	renderInfo () {
+		const buttons = [];
+
+		if (this.props.list.history) {
+			buttons.push(this.renderHistoryButton());
+			buttons.push(this.renderHistoryPopout());
+			buttons.push(" ");
+		}
+
+		buttons.push(this.renderCreateButton())
+
 		return (
 			<ToolbarSection right>
-				{this.renderCreateButton()}
+				{buttons}
 			</ToolbarSection>
+		);
+	},
+	toggleHistory (value) {
+		this.setState({
+			isHistoryOpen: value
+		});
+	},
+	applyRevision (rev) {
+		this.setState({ rev });
+		this.props.dispatch(loadItemRevision({ revId: rev._id }));
+	},
+	renderHistoryButton () {
+		return (
+			<GlyphButton id="itemHistoryButton" color="default" glyph="history" position="left" onClick={() => this.toggleHistory(true)}>
+				<ResponsiveText hiddenXS="History" visibleXS="History" />
+			</GlyphButton>
+		);
+	},
+	renderHistoryPopout() {
+		if (!this.props.list.history) {
+			return;
+		}
+
+		return (
+			<HistoryPopout
+				isOpen={this.state.isHistoryOpen}
+				onCancel={() => this.toggleHistory(false)}
+				onApply={this.applyRevision}
+				relativeToID="itemHistoryButton"
+				rev={this.state.rev}
+				{...this.props} />
 		);
 	},
 	renderCreateButton () {
