@@ -112,7 +112,6 @@ module.exports = function (req, res) {
 			}
 			res.json(_.assign(req.list.getData(item, fields), {
 				drilldown: drilldown,
-				history: req.list.get('history')
 			}));
 		});
 	});
