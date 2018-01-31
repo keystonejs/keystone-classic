@@ -7,9 +7,13 @@ to props.onChange correctly as the user interacts with it)
 
 import _ from 'lodash';
 import async from 'async';
-import React, {cloneElement} from 'react';
+import React, { cloneElement } from 'react';
 import Field from '../Field';
-import {Button, FormField, FormNote} from '../../../admin/client/App/elemental';
+import {
+	Button,
+	FormField,
+	FormNote,
+} from '../../../admin/client/App/elemental';
 import Lightbox from 'react-images';
 import cloudinaryResize from '../../../admin/client/utils/cloudinaryResize';
 import Thumbnail from './CloudinaryImagesThumbnail';
@@ -38,10 +42,10 @@ module.exports = Field.create({
 		type: 'CloudinaryImages',
 		getDefaultValue: () => [],
 	},
-	getInitialState() {
+	getInitialState () {
 		return this.buildInitialState(this.props);
 	},
-	componentWillUpdate(nextProps) {
+	componentWillUpdate (nextProps) {
 		// Reset the thumbnails and upload ID when the item value changes
 		// TODO: We should add a check for a new item ID in the store
 		const value = _.map(this.props.value, 'public_id').join();
@@ -50,34 +54,43 @@ module.exports = Field.create({
 			this.setState(this.buildInitialState(nextProps));
 		}
 	},
-	buildInitialState(props) {
+	buildInitialState (props) {
 		const uploadFieldPath = `CloudinaryImages-${props.path}-${++uploadInc}`;
 		const thumbnails = props.value
 			? props.value.map((img, index) => {
-					return this.getThumbnail(
-						{
-							value: img,
-							imageSourceSmall: cloudinaryResize(img.public_id, {
-								...RESIZE_DEFAULTS,
-								height: 90,
-								format: 'jpg',
-								secure: props.secure,
-							}),
-							imageSourceLarge: cloudinaryResize(img.public_id, {
-								...RESIZE_DEFAULTS,
-								height: 600,
-								width: 900,
-								format: 'jpg',
-								secure: props.secure,
-							}),
-						},
+				return this.getThumbnail(
+					{
+						value: img,
+						imageSourceSmall: cloudinaryResize(img.public_id, {
+							...RESIZE_DEFAULTS,
+							height: 90,
+							secure: props.secure,
+						}),
+						imageSourceLarge: cloudinaryResize(img.public_id, {
+							...RESIZE_DEFAULTS,
+							height: 600,
+							width: 900,
+							secure: props.secure,
+						}),
+					},
 						index
 					);
-				})
+			})
 			: [];
-		return {thumbnails, uploadFieldPath};
+		return { thumbnails, uploadFieldPath };
 	},
-	getThumbnail(props, index) {
+	getThumbnail (props, index) {
+		// Fix video urls
+		if (props.value.resource_type === 'video') {
+			props.imageSourceSmall = props.imageSourceSmall.replace(
+				'image/upload',
+				'video/upload'
+			);
+			props.imageSourceLarge = props.imageSourceLarge.replace(
+				'image/upload',
+				'video/upload'
+			);
+		}
 		return (
 			<Thumbnail
 				key={`thumbnail-${index}`}
@@ -94,31 +107,31 @@ module.exports = Field.create({
 	// HELPERS
 	// ==============================
 
-	triggerFileBrowser() {
+	triggerFileBrowser () {
 		this.refs.fileInput.clickDomNode();
 	},
-	hasFiles() {
+	hasFiles () {
 		return this.refs.fileInput && this.refs.fileInput.hasValue();
 	},
-	openLightbox(event, index) {
+	openLightbox (event, index) {
 		event.preventDefault();
 		this.setState({
 			lightboxIsVisible: true,
 			lightboxImageIndex: index,
 		});
 	},
-	closeLightbox() {
+	closeLightbox () {
 		this.setState({
 			lightboxIsVisible: false,
 			lightboxImageIndex: null,
 		});
 	},
-	lightboxPrevious() {
+	lightboxPrevious () {
 		this.setState({
 			lightboxImageIndex: this.state.lightboxImageIndex - 1,
 		});
 	},
-	lightboxNext() {
+	lightboxNext () {
 		this.setState({
 			lightboxImageIndex: this.state.lightboxImageIndex + 1,
 		});
@@ -128,7 +141,7 @@ module.exports = Field.create({
 	// METHODS
 	// ==============================
 
-	removeImage(index) {
+	removeImage (index) {
 		const newThumbnails = [...this.state.thumbnails];
 		const target = newThumbnails[index];
 
@@ -141,9 +154,9 @@ module.exports = Field.create({
 			})
 		);
 
-		this.setState({thumbnails: newThumbnails});
+		this.setState({ thumbnails: newThumbnails });
 	},
-	getCount(key) {
+	getCount (key) {
 		var count = 0;
 
 		this.state.thumbnails.forEach(thumb => {
@@ -152,16 +165,16 @@ module.exports = Field.create({
 
 		return count;
 	},
-	clearFiles() {
+	clearFiles () {
 		this.refs.fileInput.clearValue();
 
 		this.setState({
-			thumbnails: this.state.thumbnails.filter(function(thumb) {
+			thumbnails: this.state.thumbnails.filter(function (thumb) {
 				return !thumb.props.isQueued;
 			}),
 		});
 	},
-	uploadFile(event) {
+	uploadFile (event) {
 		if (!window.FileReader) {
 			return alert('File reader not supported by browser.');
 		}
@@ -204,7 +217,7 @@ module.exports = Field.create({
 			}
 		);
 	},
-	handleOpenImage() {
+	handleOpenImage () {
 		// window.location.assign(url);
 	},
 
@@ -212,7 +225,7 @@ module.exports = Field.create({
 	// RENDERERS
 	// ==============================
 
-	renderFileInput() {
+	renderFileInput () {
 		if (!this.shouldRenderField()) return null;
 
 		return (
@@ -226,7 +239,7 @@ module.exports = Field.create({
 			/>
 		);
 	},
-	renderValueInput() {
+	renderValueInput () {
 		if (!this.shouldRenderField()) return null;
 
 		// This renders an input with either the upload field reference, or an
@@ -249,7 +262,7 @@ module.exports = Field.create({
 			);
 		}
 	},
-	renderFullButton() {
+	renderFullButton () {
 		if (this.state.lightboxIsVisible) {
 			const url = this.state.thumbnails[this.state.lightboxImageIndex].props
 				.value.secure_url;
@@ -260,7 +273,7 @@ module.exports = Field.create({
 			);
 		}
 	},
-	renderDownloadButton() {
+	renderDownloadButton () {
 		if (this.state.lightboxIsVisible) {
 			let url = this.state.thumbnails[this.state.lightboxImageIndex].props.value
 				.secure_url;
@@ -272,18 +285,24 @@ module.exports = Field.create({
 			);
 		}
 	},
-	renderLightbox() {
-		const {value, secure} = this.props;
+	renderLightbox () {
+		const { value, secure } = this.props;
 		if (!value || !value.length) return;
 
-		const images = value.map(image => ({
-			src: cloudinaryResize(image.public_id, {
-				...RESIZE_DEFAULTS,
-				height: 600,
-				width: 900,
-				secure,
-			}),
-		}));
+		const images = value.map(image => {
+			let url = {
+				src: cloudinaryResize(image.public_id, {
+					...RESIZE_DEFAULTS,
+					height: 600,
+					width: 900,
+					secure,
+				}),
+			};
+			if (image.resource_type === 'video') {
+				url.src = url.src.replace('image/upload', 'video/upload');
+			}
+			return url;
+		});
 
 		return (
 			<Lightbox
@@ -298,7 +317,7 @@ module.exports = Field.create({
 			/>
 		);
 	},
-	renderToolbar() {
+	renderToolbar () {
 		if (!this.shouldRenderField()) return null;
 
 		const uploadCount = this.getCount('isQueued');
@@ -306,11 +325,11 @@ module.exports = Field.create({
 
 		// provide a gutter for the change message
 		// only required when no cancel button, which has equiv. padding
-		const uploadButtonStyles = !this.hasFiles() ? {marginRight: 10} : {};
+		const uploadButtonStyles = !this.hasFiles() ? { marginRight: 10 } : {};
 
 		// prepare the change message
-		const changeMessage =
-			uploadCount || deleteCount ? (
+		const changeMessage
+			= uploadCount || deleteCount ? (
 				<FileChangeMessage>
 					{uploadCount && deleteCount
 						? `${uploadCount} added and ${deleteCount} removed`
@@ -321,8 +340,8 @@ module.exports = Field.create({
 			) : null;
 
 		// prepare the save message
-		const saveMessage =
-			uploadCount || deleteCount ? (
+		const saveMessage
+			= uploadCount || deleteCount ? (
 				<FileChangeMessage color={!deleteCount ? 'success' : 'danger'}>
 					Save to {!deleteCount ? 'Upload' : 'Confirm'}
 				</FileChangeMessage>
@@ -351,9 +370,9 @@ module.exports = Field.create({
 			</div>
 		);
 	},
-	renderUI() {
-		const {label, note, path} = this.props;
-		const {thumbnails} = this.state;
+	renderUI () {
+		const { label, note, path } = this.props;
+		const { thumbnails } = this.state;
 
 		return (
 			<FormField
