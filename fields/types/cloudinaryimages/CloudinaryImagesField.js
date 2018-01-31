@@ -7,17 +7,24 @@ to props.onChange correctly as the user interacts with it)
 
 import _ from 'lodash';
 import async from 'async';
-import React, { cloneElement } from 'react';
+import React, {cloneElement} from 'react';
 import Field from '../Field';
-import { Button, FormField, FormNote } from '../../../admin/client/App/elemental';
+import {Button, FormField, FormNote} from '../../../admin/client/App/elemental';
 import Lightbox from 'react-images';
 import cloudinaryResize from '../../../admin/client/utils/cloudinaryResize';
 import Thumbnail from './CloudinaryImagesThumbnail';
 import HiddenFileInput from '../../components/HiddenFileInput';
 import FileChangeMessage from '../../components/FileChangeMessage';
 
-const SUPPORTED_TYPES = ['video/*', 'image/*', 'application/pdf', 'application/postscript'];
-const SUPPORTED_REGEX = new RegExp(/^video\/|image\/|application\/pdf|application\/postscript/g);
+const SUPPORTED_TYPES = [
+	'video/*',
+	'image/*',
+	'application/pdf',
+	'application/postscript',
+];
+const SUPPORTED_REGEX = new RegExp(
+	/^video\/|image\/|application\/pdf|application\/postscript/g
+);
 const RESIZE_DEFAULTS = {
 	crop: 'fit',
 	format: 'jpg',
@@ -29,12 +36,12 @@ module.exports = Field.create({
 	displayName: 'CloudinaryImagesField',
 	statics: {
 		type: 'CloudinaryImages',
-		getDefaultValue: () => ([]),
+		getDefaultValue: () => [],
 	},
-	getInitialState () {
+	getInitialState() {
 		return this.buildInitialState(this.props);
 	},
-	componentWillUpdate (nextProps) {
+	componentWillUpdate(nextProps) {
 		// Reset the thumbnails and upload ID when the item value changes
 		// TODO: We should add a check for a new item ID in the store
 		const value = _.map(this.props.value, 'public_id').join();
@@ -43,38 +50,41 @@ module.exports = Field.create({
 			this.setState(this.buildInitialState(nextProps));
 		}
 	},
-	buildInitialState (props) {
+	buildInitialState(props) {
 		const uploadFieldPath = `CloudinaryImages-${props.path}-${++uploadInc}`;
-		const thumbnails = props.value ? props.value.map((img, index) => {
-			const options = {
-				value: img,
-				imageSourceSmall: cloudinaryResize(img.public_id, {
-					...RESIZE_DEFAULTS,
-					height: 90,
-					secure: props.secure,
-				}),
-				imageSourceLarge: cloudinaryResize(img.public_id, {
-					...RESIZE_DEFAULTS,
-					height: 600,
-					width: 900,
-					secure: props.secure,
-				}),
-			};
-			// Cloudinary video paths are slightly diferent than image paths
-			if (img.resource_type === 'video') {
-				options.imageSourceLarge = options.imageSourceLarge.replace('image/upload', 'video/upload');
-				options.imageSourceSmall = options.imageSourceSmall.replace('image/upload', 'video/upload');
-			}
-			return this.getThumbnail(options, index);
-		}) : [];
+		const thumbnails = props.value
+			? props.value.map((img, index) => {
+					const options = {
+						value: img,
+						imageSourceSmall: cloudinaryResize(img.public_id, {
+							...RESIZE_DEFAULTS,
+							height: 90,
+							format: 'jpg',
+							secure: props.secure,
+						}),
+						imageSourceLarge: cloudinaryResize(img.public_id, {
+							...RESIZE_DEFAULTS,
+							height: 600,
+							width: 900,
+							format: 'jpg',
+							secure: props.secure,
+					};
+					// Cloudinary video paths are slightly diferent than image paths
+					if (img.resource_type === 'video') {
+						options.imageSourceLarge = options.imageSourceLarge.replace('image/upload', 'video/upload');
+						options.imageSourceSmall = options.imageSourceSmall.replace('image/upload', 'video/upload');
+					}
+					return this.getThumbnail(options, index);
+				})
+			: [];
 		return { thumbnails, uploadFieldPath };
 	},
-	getThumbnail (props, index) {
+	getThumbnail(props, index) {
 		return (
 			<Thumbnail
 				key={`thumbnail-${index}`}
 				inputName={this.getInputName(this.props.path)}
-				openLightbox={(e) => this.openLightbox(e, index)}
+				openLightbox={e => this.openLightbox(e, index)}
 				shouldRenderActionButton={this.shouldRenderField()}
 				toggleDelete={this.removeImage.bind(this, index)}
 				{...props}
@@ -86,31 +96,31 @@ module.exports = Field.create({
 	// HELPERS
 	// ==============================
 
-	triggerFileBrowser () {
+	triggerFileBrowser() {
 		this.refs.fileInput.clickDomNode();
 	},
-	hasFiles () {
+	hasFiles() {
 		return this.refs.fileInput && this.refs.fileInput.hasValue();
 	},
-	openLightbox (event, index) {
+	openLightbox(event, index) {
 		event.preventDefault();
 		this.setState({
 			lightboxIsVisible: true,
 			lightboxImageIndex: index,
 		});
 	},
-	closeLightbox () {
+	closeLightbox() {
 		this.setState({
 			lightboxIsVisible: false,
 			lightboxImageIndex: null,
 		});
 	},
-	lightboxPrevious () {
+	lightboxPrevious() {
 		this.setState({
 			lightboxImageIndex: this.state.lightboxImageIndex - 1,
 		});
 	},
-	lightboxNext () {
+	lightboxNext() {
 		this.setState({
 			lightboxImageIndex: this.state.lightboxImageIndex + 1,
 		});
@@ -120,36 +130,40 @@ module.exports = Field.create({
 	// METHODS
 	// ==============================
 
-	removeImage (index) {
+	removeImage(index) {
 		const newThumbnails = [...this.state.thumbnails];
 		const target = newThumbnails[index];
 
 		// Use splice + clone to toggle the isDeleted prop
-		newThumbnails.splice(index, 1, cloneElement(target, {
-			isDeleted: !target.props.isDeleted,
-		}));
+		newThumbnails.splice(
+			index,
+			1,
+			cloneElement(target, {
+				isDeleted: !target.props.isDeleted,
+			})
+		);
 
-		this.setState({ thumbnails: newThumbnails });
+		this.setState({thumbnails: newThumbnails});
 	},
-	getCount (key) {
+	getCount(key) {
 		var count = 0;
 
-		this.state.thumbnails.forEach((thumb) => {
+		this.state.thumbnails.forEach(thumb => {
 			if (thumb && thumb.props[key]) count++;
 		});
 
 		return count;
 	},
-	clearFiles () {
+	clearFiles() {
 		this.refs.fileInput.clearValue();
 
 		this.setState({
-			thumbnails: this.state.thumbnails.filter(function (thumb) {
+			thumbnails: this.state.thumbnails.filter(function(thumb) {
 				return !thumb.props.isQueued;
 			}),
 		});
 	},
-	uploadFile (event) {
+	uploadFile(event) {
 		if (!window.FileReader) {
 			return alert('File reader not supported by browser.');
 		}
@@ -159,28 +173,40 @@ module.exports = Field.create({
 		for (let i = 0; i < event.target.files.length; i++) {
 			const f = event.target.files[i];
 			if (!f.type.match(SUPPORTED_REGEX)) {
-				return alert('Unsupported file type. Supported formats are: GIF, PNG, JPG, BMP, ICO, PDF, TIFF, EPS, PSD, SVG');
+				return alert(
+					'Unsupported file type. Supported formats are: GIF, PNG, JPG, BMP, ICO, PDF, TIFF, EPS, PSD, SVG, MP4, WEBM, FLV, MOV, OGV, 3GP, 3G2, WMV, MPEG, FLV, MKV OR AVI.'
+				);
 			}
 			files.push(f);
 		}
 
 		let index = this.state.thumbnails.length;
-		async.mapSeries(files, (file, callback) => {
-			const reader = new FileReader();
-			reader.readAsDataURL(file);
-			reader.onload = (e) => {
-				callback(null, this.getThumbnail({
-					isQueued: true,
-					imageSourceSmall: e.target.result,
-				}, index++));
-			};
-		}, (err, thumbnails) => {
-			this.setState({
-				thumbnails: [...this.state.thumbnails, ...thumbnails],
-			});
-		});
+		async.mapSeries(
+			files,
+			(file, callback) => {
+				const reader = new FileReader();
+				reader.readAsDataURL(file);
+				reader.onload = e => {
+					callback(
+						null,
+						this.getThumbnail(
+							{
+								isQueued: true,
+								imageSourceSmall: e.target.result,
+							},
+							index++
+						)
+					);
+				};
+			},
+			(err, thumbnails) => {
+				this.setState({
+					thumbnails: [...this.state.thumbnails, ...thumbnails],
+				});
+			}
+		);
 	},
-	handleOpenImage () {
+	handleOpenImage() {
 		// window.location.assign(url);
 	},
 
@@ -188,7 +214,7 @@ module.exports = Field.create({
 	// RENDERERS
 	// ==============================
 
-	renderFileInput () {
+	renderFileInput() {
 		if (!this.shouldRenderField()) return null;
 
 		return (
@@ -202,7 +228,7 @@ module.exports = Field.create({
 			/>
 		);
 	},
-	renderValueInput () {
+	renderValueInput() {
 		if (!this.shouldRenderField()) return null;
 
 		// This renders an input with either the upload field reference, or an
@@ -225,25 +251,31 @@ module.exports = Field.create({
 			);
 		}
 	},
-	renderFullButton () {
+	renderFullButton() {
 		if (this.state.lightboxIsVisible) {
-			const url = this.state.thumbnails[this.state.lightboxImageIndex].props.value.secure_url;
+			const url = this.state.thumbnails[this.state.lightboxImageIndex].props
+				.value.secure_url;
 			return (
-				<Button size="xs" href={url} target="_blank">Open Original</Button>
+				<Button size="xs" href={url} target="_blank">
+					Open Original
+				</Button>
 			);
 		}
 	},
-	renderDownloadButton () {
+	renderDownloadButton() {
 		if (this.state.lightboxIsVisible) {
-			let url = this.state.thumbnails[this.state.lightboxImageIndex].props.value.secure_url;
+			let url = this.state.thumbnails[this.state.lightboxImageIndex].props.value
+				.secure_url;
 			url = url.replace('/upload/', '/upload/fl_attachment/');
 			return (
-				<Button size="xs" href={url} target="_blank">Download</Button>
+				<Button size="xs" href={url} target="_blank">
+					Download
+				</Button>
 			);
 		}
 	},
-	renderLightbox () {
-		const { value, secure } = this.props;
+	renderLightbox() {
+		const {value, secure} = this.props;
 		if (!value || !value.length) return;
 
 		const images = value.map((image) => {
@@ -274,7 +306,7 @@ module.exports = Field.create({
 			/>
 		);
 	},
-	renderToolbar () {
+	renderToolbar() {
 		if (!this.shouldRenderField()) return null;
 
 		const uploadCount = this.getCount('isQueued');
@@ -282,25 +314,27 @@ module.exports = Field.create({
 
 		// provide a gutter for the change message
 		// only required when no cancel button, which has equiv. padding
-		const uploadButtonStyles = !this.hasFiles()
-			? { marginRight: 10 }
-			: {};
+		const uploadButtonStyles = !this.hasFiles() ? {marginRight: 10} : {};
 
 		// prepare the change message
-		const changeMessage = uploadCount || deleteCount ? (
-			<FileChangeMessage>
-				{uploadCount && deleteCount ? `${uploadCount} added and ${deleteCount} removed` : null}
-				{uploadCount && !deleteCount ? `${uploadCount} image added` : null}
-				{!uploadCount && deleteCount ? `${deleteCount} image removed` : null}
-			</FileChangeMessage>
-		) : null;
+		const changeMessage =
+			uploadCount || deleteCount ? (
+				<FileChangeMessage>
+					{uploadCount && deleteCount
+						? `${uploadCount} added and ${deleteCount} removed`
+						: null}
+					{uploadCount && !deleteCount ? `${uploadCount} image added` : null}
+					{!uploadCount && deleteCount ? `${deleteCount} image removed` : null}
+				</FileChangeMessage>
+			) : null;
 
 		// prepare the save message
-		const saveMessage = uploadCount || deleteCount ? (
-			<FileChangeMessage color={!deleteCount ? 'success' : 'danger'}>
-				Save to {!deleteCount ? 'Upload' : 'Confirm'}
-			</FileChangeMessage>
-		) : null;
+		const saveMessage =
+			uploadCount || deleteCount ? (
+				<FileChangeMessage color={!deleteCount ? 'success' : 'danger'}>
+					Save to {!deleteCount ? 'Upload' : 'Confirm'}
+				</FileChangeMessage>
+			) : null;
 
 		// clear floating images above
 		const toolbarStyles = {
@@ -309,7 +343,10 @@ module.exports = Field.create({
 
 		return (
 			<div style={toolbarStyles}>
-				<Button onClick={this.triggerFileBrowser} style={uploadButtonStyles} data-e2e-upload-button="true">
+				<Button
+					onClick={this.triggerFileBrowser}
+					style={uploadButtonStyles}
+					data-e2e-upload-button="true">
 					Upload Images
 				</Button>
 				{this.hasFiles() && (
@@ -322,15 +359,16 @@ module.exports = Field.create({
 			</div>
 		);
 	},
-	renderUI () {
-		const { label, note, path } = this.props;
-		const { thumbnails } = this.state;
+	renderUI() {
+		const {label, note, path} = this.props;
+		const {thumbnails} = this.state;
 
 		return (
-			<FormField label={label} className="field-type-cloudinaryimages" htmlFor={path}>
-				<div>
-					{thumbnails}
-				</div>
+			<FormField
+				label={label}
+				className="field-type-cloudinaryimages"
+				htmlFor={path}>
+				<div>{thumbnails}</div>
 				{this.renderValueInput()}
 				{this.renderFileInput()}
 				{this.renderToolbar()}
