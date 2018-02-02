@@ -2,6 +2,7 @@ var async = require('async');
 var FieldType = require('../Type');
 var util = require('util');
 var utils = require('keystone-utils');
+// var keystone = require('../../../');
 var isReserved = require('../../../lib/list/isReserved');
 
 /**
@@ -41,6 +42,7 @@ function validateFieldType (field, path, type) {
  * @api public
  */
 obj.prototype.addToSchema = function (schema) {
+
 	var field = this;
 	var mongoose = this.list.keystone.mongoose;
 
@@ -92,11 +94,24 @@ obj.prototype.addToSchema = function (schema) {
 			);
 		}
 		var newField = createField(path, fieldsSpec[path]);
-		fields[path] = newField;
+		fields[field.path + '.' + path] = newField;
 		fieldsArray.push(newField);
 	});
 
 	schema.add(this._path.addTo({}, itemSchema));
+
+	field.paths = {};
+	fieldsArray.forEach(function (f) { field.paths[f.path] = field.path + '.' + f.path; });
+
+	field.paths['serialised'] = this.path + '.serialised';
+	field.paths['improve'] = this.path + '_improve';
+	field.paths['overwrite'] = this.path + '_improve_overwrite';
+
+	schema.virtual(field.paths.serialised).get(function () {
+		var _this = this;
+		return _.compact(fieldsArray.map(function (f) { return _this.get(field.paths[f.path]); })).join(', ');
+	});
+
 	this.bindUnderscoreMethods();
 };
 
@@ -150,8 +165,10 @@ obj.prototype.validateRequiredInput = function (item, data, callback) {
 obj.prototype.getData = function (item) {
 	var fieldsArray = this.fieldsArray;
 	var result = {};
-	for (var field of fieldsArray) {
-		result[field.path] = field.getData(item[this.path]);
+	if (!!item[this.path]) {
+		for (var field of fieldsArray) {
+			result[field.path] = field.getData(item[this.path]);
+		}
 	}
 	return result;
 };
@@ -171,14 +188,14 @@ obj.prototype.updateItem = function (item, data, files, callback) {
 	var field = this;
 	var value = {};
 
-	async.forEach(field.fieldsArray, function (nestedField, done) {
-		var nestedValue = nestedField.getValueFromData(data);
-		nestedField.updateItem(item, data, done);
+	field.fieldsArray.forEach(function (nestedField) {
+		var nestedValue = nestedField.getValueFromData(data[field.path]);
 		value[nestedField.path] = nestedValue;
-	}, function (err) {
-		item.set(field.path, value);
-		callback();
 	});
+
+	item.set(field.path, value);
+
+	callback();
 
 };
 

@@ -46,13 +46,14 @@ module.exports = Field.create({
 		// const value = [...head, item, ...tail];
 		onChange({ path, value });
 	},
-	renderFieldsForItem (value) {
+	renderFieldsForItem (value, parentPath) {
 		return Object.keys(this.props.fields).map((path) => {
 			const field = this.props.fields[path];
 			if (typeof Fields[field.type] !== 'function') {
 				return React.createElement(InvalidFieldType, { type: field.type, path: field.path, key: field.path });
 			}
 			const props = assign({}, field);
+			props.inputNamePrefix = parentPath;
 			props.value = value[field.path];
 			props.values = value;
 			props.onChange = this.handleFieldChange.bind(this);
@@ -63,10 +64,10 @@ module.exports = Field.create({
 		}, this);
 	},
 	renderItems () {
-		const { value = {} } = this.props;
+		const { value = {}, path } = this.props;
 		return (
 				<ItemDom>
-					{this.renderFieldsForItem(value)}
+					{this.renderFieldsForItem(value, path)}
 				</ItemDom>
 		);
 	},
