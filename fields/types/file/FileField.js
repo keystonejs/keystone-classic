@@ -201,11 +201,19 @@ module.exports = Field.create({
 			</div>
 		);
 
+		//add preview image
+		var imagePath = this.props.value.publicPath;
+		var imageStyle = {
+			maxHeight: 90, 
+			maxWidth: 90
+		};
+
 		return (
 			<div data-field-name={path} data-field-type="file">
 				<FormField label={label} htmlFor={path}>
 					{this.shouldRenderField() ? (
 						<div>
+							<img style={imageStyle} src={ '/' + imagePath + '/' + this.props.value.filename} />
 							{this.hasFile() && this.renderFileNameAndChangeMessage()}
 							{buttons}
 							<HiddenFileInput
