@@ -16,7 +16,10 @@ var CLOUDINARY_FIELDS = ['public_id', 'version', 'signature', 'format', 'resourc
 var DEFAULT_OPTIONS = {
 	// This makes Cloudinary assign a unique public_id and is the same as
 	//   the legacy implementation
-	generateFilename: () => undefined,
+	generateFilename: (file, o, done) => {
+		const filename = file.originalname.toLowerCase();
+		done(null, filename);
+	},
 	whenExists: 'overwrite',
 	retryAttempts: 3, // For whenExists: 'retry'.
 };
@@ -32,6 +35,7 @@ function getEmptyValue () {
 		width: 0,
 		height: 0,
 		secure_url: '',
+		context: {},
 	};
 }
 
@@ -121,6 +125,11 @@ cloudinaryimage.prototype.addToSchema = function (schema) {
 		width: Number,
 		height: Number,
 		secure_url: String,
+		context: {
+			custom: {
+				filename: String,
+			},
+		},
 	});
 
 	schema.add(schemaPaths);
@@ -305,7 +314,7 @@ function validateInput (value) {
 	if (value === undefined || value === null || value === '') return true;
 	// If a string is provided, check it is an upload or delete instruction
 	// TODO: This should really validate files as well, but that's not pased to this method
-	if (typeof value === 'string' && /^(upload\:)|(delete$)|(data:[a-z\/]+;base64)|(https?\:\/\/)/.test(value)) return true;
+	if (typeof value === 'string' && /^(select\:)|^(upload\:)|(delete$)|(data:[a-z\/]+;base64)|(https?\:\/\/)/.test(value)) return true;
 	// If the value is an object and has a cloudinary public_id, it is valid
 	if (typeof value === 'object' && value.public_id) return true;
 	// None of the above? we can't recognise it.
@@ -385,9 +394,22 @@ cloudinaryimage.prototype.updateItem = function (item, data, files, callback) {
 	var value = this.getValueFromData(data);
 	var uploadedFile;
 
-	// Providing the string "remove" removes the file and resets the field
-	if (value === 'remove') {
-		cloudinary.uploader.destroy(item.get(field.paths.public_id), function (result) {
+	// Providing the string "select:[public_id]" updates the field from cloudinary
+	if (typeof value === 'string' && value.substr(0, 7) === 'select:') {
+		cloudinary.api.resources_by_ids([value.substr(7)], function (result) {
+			if (result.error) {
+				callback(result.error);
+			} else {
+				item.set(field.path, result.resources[0]);
+				callback();
+			}
+		});
+		return;
+	}
+
+	// Providing the string "delete" removes the file and resets the field
+	if (field.options.autoCleanup && value === 'delete') {
+		cloudinary.api.delete_resources([item.get(field.paths.public_id)], function (result) {
 			if (result.error) {
 				callback(result.error);
 			} else {
@@ -395,6 +417,10 @@ cloudinaryimage.prototype.updateItem = function (item, data, files, callback) {
 				callback();
 			}
 		});
+		return;
+	} else if (value === 'delete') {
+		item.set(field.path, getEmptyValue());
+		callback();
 		return;
 	}
 
@@ -419,6 +445,7 @@ cloudinaryimage.prototype.updateItem = function (item, data, files, callback) {
 		var tagPrefix = keystone.get('cloudinary prefix') || '';
 		var uploadOptions = {
 			tags: [],
+			resource_type: 'auto',
 		};
 		if (tagPrefix.length) {
 			uploadOptions.tags.push(tagPrefix);
@@ -438,10 +465,15 @@ cloudinaryimage.prototype.updateItem = function (item, data, files, callback) {
 			//   filename. Therefore undefined is a valid filename value.
 			if (filename !== undefined) {
 				filename = sanitize(filename);
-				uploadOptions.public_id = trimSupportedFileExtensions(filename);
+				filename = trimSupportedFileExtensions(filename);
+				// TODO: Correct behavior? This will overwrite matching filenames in Cloudinary
+				// uploadOptions.public_id = trimSupportedFileExtensions(filename);
+				// Add context filename to store in Cloudinary
+				uploadOptions.context = `filename=${filename}`;
 			}
 			// TODO: implement autoCleanup; should delete existing images before uploading
 			cloudinary.uploader.upload(uploadedFile.path, function (result) {
+				console.log(result);
 				if (result.error) {
 					return callback(result.error);
 				} else {
