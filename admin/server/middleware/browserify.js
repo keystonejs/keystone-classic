@@ -5,6 +5,7 @@ var moment = require('moment');
 var packages = require('../../client/packages');
 var path = require('path');
 
+var babelrc = fs.readJsonSync(path.resolve(__dirname, '../../../.babelrc'), { throws: false }) || {};
 var basedir = path.resolve(__dirname + '/../../client/');
 var devMode = process.env.KEYSTONE_DEV === 'true';
 var devWriteBundles = process.env.KEYSTONE_WRITE_BUNDLES === 'true';
@@ -32,6 +33,7 @@ module.exports = function (opts) {
 	var file = opts.file;
 	var hash = opts.hash;
 	var writeToDisk = opts.writeToDisk;
+	var paths = opts.paths;
 
 	var b;
 	var building = false;
@@ -76,7 +78,7 @@ module.exports = function (opts) {
 		var babelify = require('babelify');
 		var browserify = require('browserify');
 		var watchify = require('watchify');
-		var opts = { basedir: basedir };
+		var opts = { basedir: basedir, paths: paths };
 		if (devMode) {
 			logInit(logName);
 			opts.debug = true;
@@ -94,7 +96,7 @@ module.exports = function (opts) {
 			b = browserify(file, opts);
 		}
 
-		b.transform(babelify);
+		b.transform(babelify, babelrc);
 		b.exclude('FieldTypes');
 		packages.forEach(function (i) {
 			b.exclude(i);

@@ -125,6 +125,7 @@ Keystone.prototype.populateRelated = require('./lib/core/populateRelated');
 Keystone.prototype.redirect = require('./lib/core/redirect');
 Keystone.prototype.start = require('./lib/core/start');
 Keystone.prototype.wrapHTMLError = require('./lib/core/wrapHTMLError');
+Keystone.prototype.addFieldType = require('./lib/core/addFieldType');
 Keystone.prototype.createKeystoneHash = require('./lib/core/createKeystoneHash');
 
 /* Deprecation / Change warnings for 0.4 */

@@ -11,6 +11,7 @@ var express = require('express');
 var less = require('less-middleware');
 var path = require('path');
 var str = require('string-to-stream');
+var _ = require('lodash');
 
 function buildFieldTypesStream (fieldTypes) {
 	var src = '';
@@ -19,12 +20,12 @@ function buildFieldTypesStream (fieldTypes) {
 		src += 'exports.' + i + 's = {\n';
 		types.forEach(function (type) {
 			if (typeof fieldTypes[type] !== 'string') return;
-			src += type + ': require("../../fields/types/' + type + '/' + fieldTypes[type] + i + '"),\n';
+			src += type + ': require("types/' + type + '/' + fieldTypes[type] + i + '"),\n';
 		});
 		// Append ID and Unrecognised column types
 		if (i === 'Column') {
-			src += 'id: require("../../fields/components/columns/IdColumn"),\n';
-			src += '__unrecognised__: require("../../fields/components/columns/InvalidColumn"),\n';
+			src += 'id: require("components/columns/IdColumn"),\n';
+			src += '__unrecognised__: require("components/columns/InvalidColumn"),\n';
 		}
 
 		src += '};\n';
@@ -38,6 +39,16 @@ module.exports = function createStaticRouter (keystone) {
 	var router = express.Router();
 
 	/* Prepare browserify bundles */
+	var builtinFieldsPath = path.resolve(__dirname, '../../../fields');
+	var customFieldsPath = keystone.get('custom fields path');
+	if (!Array.isArray(customFieldsPath)) {
+		if (!_.isString(customFieldsPath)) {
+			customFieldsPath = [];
+		} else {
+			customFieldsPath = [customFieldsPath];
+		}
+	}
+	var browserifyPaths = _.union(customFieldsPath, [builtinFieldsPath]);
 	var bundles = {
 		fields: browserify({
 			stream: buildFieldTypesStream(keystone.fieldTypes),
@@ -45,16 +56,19 @@ module.exports = function createStaticRouter (keystone) {
 			file: './FieldTypes.js',
 			hash: keystoneHash,
 			writeToDisk: writeToDisk,
+			paths: browserifyPaths,
 		}),
 		signin: browserify({
 			file: './Signin/index.js',
 			hash: keystoneHash,
 			writeToDisk: writeToDisk,
+			paths: browserifyPaths,
 		}),
 		admin: browserify({
 			file: './App/index.js',
 			hash: keystoneHash,
 			writeToDisk: writeToDisk,
+			paths: browserifyPaths,
 		}),
 	};
 
