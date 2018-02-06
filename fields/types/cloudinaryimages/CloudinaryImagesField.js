@@ -30,6 +30,7 @@ const SUPPORTED_REGEX = new RegExp(
 	/^video\/|image\/|application\/pdf|application\/postscript/g
 );
 const RESIZE_DEFAULTS = {
+	secure: true,
 	crop: 'fit',
 	format: 'jpg',
 };
@@ -78,7 +79,7 @@ module.exports = Field.create({
 	},
 	getThumbnail (props, index) {
 		// Fix video urls
-		if (props.value.resource_type === 'video') {
+		if (props.value && props.value.resource_type === 'video') {
 			props.imageSourceSmall = props.imageSourceSmall.replace(
 				'image/upload',
 				'video/upload'
