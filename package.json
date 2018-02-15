@@ -51,7 +51,7 @@
     "kerberos": "0.0.23",
     "keystone-storage-namefunctions": "1.1.1",
     "keystone-utils": "0.4.0",
-    "knox": "keystonejs/knox",
+    "knox-s3": "0.9.5",
     "less-middleware": "2.2.1",
     "letsencrypt-express": "2.0.6",
     "list-to-array": "1.1.0",
