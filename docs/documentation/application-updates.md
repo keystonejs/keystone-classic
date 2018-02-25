@@ -10,7 +10,7 @@ Each update file should export a single function, which should accept a single a
 
 All the update files will be executed (each one waits for the previous update to complete) before the web server is started.
 
-If the `next` callback is receives an error it will be reported to the console, and application initialisation will halt.
+If the `next` callback receives an error it will be reported to the console, and application initialisation will halt.
 
 You can temporarily disable updates from running in development by setting a `__defer__` property on the exported function to `true`. Any subsequent updates will be skipped, but the application will be started.
 
