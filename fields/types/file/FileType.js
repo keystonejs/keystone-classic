@@ -10,12 +10,19 @@ var debug = require('debug')('keystone:fields:file');
 function file (list, path, options) {
 	this._underscoreMethods = ['format', 'upload', 'remove', 'reset'];
 	this._fixedSize = 'full';
+	this.displayname = options.displayname || false;
+	this._properties = ['displayname'];
 
 	if (!options.storage) {
 		throw new Error('Invalid Configuration\n\n'
 			+ 'File fields (' + list.key + '.' + path + ') require storage to be provided.');
 	}
 	this.storage = options.storage;
+
+	if (options.displayname) {
+		this.storage.schema.displayname = String;
+	}
+
 	file.super_.call(this, list, path, options);
 }
 file.properName = 'File';
@@ -23,19 +30,39 @@ util.inherits(file, FieldType);
 
 /**
  * Registers the field on the List's Mongoose Schema.
+ *
+ * Add a virtual with get() for .displayfilename
  */
 file.prototype.addToSchema = function (schema) {
 
 	var field = this;
 
-	this.paths = {};
+	this.paths = {
+		displayfilename: this.path + '.displayfilename',
+	};
+
 	// add field paths from the storage schema
 	Object.keys(this.storage.schema).forEach(function (path) {
 		field.paths[path] = field.path + '.' + path;
 	});
-
+	var paths = this.paths;
 	var schemaPaths = this._path.addTo({}, this.storage.schema);
+
 	schema.add(schemaPaths);
+
+	// add virtual get() fot .displayfilename
+	// fallbacks to regular .filename
+	schema.virtual(paths.displayfilename).get(function () {
+		var displayname = this.get(paths.displayname);
+		var filename = this.get(paths.filename);
+		if (typeof displayname === 'string') {
+			var extRegex = /(?:\.([^.]+))?$/;
+			var extension = extRegex.exec(filename)[1];
+			var dashed = displayname.split(' ').join('-');
+			return dashed + '.' + extension;
+		}
+		return filename;
+	});
 
 	this.bindUnderscoreMethods();
 };
@@ -167,6 +194,11 @@ file.prototype.updateItem = function (item, data, files, callback) {
 		uploadedFile = files[value.substr(7)];
 	} else {
 		uploadedFile = this.getValueFromData(files) || this.getValueFromData(files, '_upload');
+	}
+
+	// Update displayname
+	if (data.displayname) {
+		item.set(this.paths.displayname, data.displayname);
 	}
 
 	// Ensure a valid file was uploaded, else null out the value
