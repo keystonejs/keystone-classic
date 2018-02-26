@@ -22,7 +22,7 @@ Supplied as the `bcrypt` cost parameter; controls the computational cost of gene
 Higher values are slower but, since they take longer to generate, more secure against brute force attacks.
 
 Defaults to `10`.
-At this level, a modern laptop (Late 2016 MacBook Pro, 3.3 GHz Intel Core i7) can produces around ~4 hashes/second.
+At this level, a modern laptop (Late 2016 MacBook Pro, 3.3 GHz Intel Core i7) can produce around ~4 hashes/second.
 
 The `bcrypt` algorithim applies this value as a power of two.
 As such, passwords with a workfactor of `11` will take twice as long to store and validate as those with a workfactor of `10`.
