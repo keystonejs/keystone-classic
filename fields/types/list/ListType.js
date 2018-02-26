@@ -2,6 +2,8 @@ var async = require('async');
 var FieldType = require('../Type');
 var util = require('util');
 var utils = require('keystone-utils');
+var q = require('q');
+var _ = require('lodash');
 
 var isReserved = require('../../../lib/list/isReserved');
 
@@ -31,8 +33,7 @@ function validateFieldType (field, path, type) {
 			type = Field.Types.Datetime;
 		} else {
 			throw new Error(
-				'Unrecognised field constructor for nested schema path `' + path
-				+ '` in `' + field.list.key + '.' + field.path + '`: ' + type
+				'Unrecognised field constructor for nested schema path `' + path + '` in `' + field.list.key + '.' + field.path + '`: ' + type
 			);
 		}
 	}
@@ -147,8 +148,29 @@ list.prototype.addFilterToQuery = function (filter) { };
 list.prototype.validateInput = function (data, callback) {
 	// TODO
 	// var value = this.getValueFromData(data);
+	// utils.defer(callback, result);
+
+	var field = this;
+	var value = this.getValueFromData(data);
+	var fieldsToValidate = [];
 	var result = true;
-	utils.defer(callback, result);
+
+	value.forEach(function (item) {
+		field.fieldsArray.forEach(function (f) {
+			var deferred = q.defer();
+			fieldsToValidate.push(deferred.promise);
+			f.validateInput(item, function (result) {
+				deferred.resolve(result);
+			});
+		});
+	});
+
+	q.allSettled(fieldsToValidate)
+    .then(function(results) {
+    	console.log('results', results);
+    	var valid = !_.filter(results, function (result) { return !result.value; }).length;
+    	utils.defer(callback, valid);
+    });
 };
 
 /**
