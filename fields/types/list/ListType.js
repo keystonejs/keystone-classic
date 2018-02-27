@@ -155,19 +155,20 @@ list.prototype.validateInput = function (data, callback) {
 	var fieldsToValidate = [];
 	var result = true;
 
-	value.forEach(function (item) {
-		field.fieldsArray.forEach(function (f) {
-			var deferred = q.defer();
-			fieldsToValidate.push(deferred.promise);
-			f.validateInput(item, function (result) {
-				deferred.resolve(result);
+	if (!!value && value.length) {
+		value.forEach(function (item) {
+			field.fieldsArray.forEach(function (f) {
+				var deferred = q.defer();
+				fieldsToValidate.push(deferred.promise);
+				f.validateInput(item, function (result) {
+					deferred.resolve(result);
+				});
 			});
 		});
-	});
+	}
 
 	q.allSettled(fieldsToValidate)
     .then(function(results) {
-    	console.log('results', results);
     	var valid = !_.filter(results, function (result) { return !result.value; }).length;
     	utils.defer(callback, valid);
     });
