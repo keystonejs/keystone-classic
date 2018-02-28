@@ -55,3 +55,32 @@ keystone.init({
    + ' visualblocks, visualchars, wordcount',
 });
 ```
+
+## Navigation
+You can customize the navigation bar of the Admin UI, by setting the `nav` option.
+
+You need to supply an object containing the labels of the menu items as keys and the path of the models as values.
+
+You can also use an array of model paths as values. This allows to create a second level menu which will appear when you click on the first level menu item (see the `posts` key in the example below).
+
+If you need to add an external link to the menu, you can use an object to provide the following information (see the  `externalLink` key in the example below):
+
+- `label`: the actual label of the menu item
+- `key`: a key used internally
+- `path`: the url to point to
+
+**Example of navigation bar**
+
+```javascript
+keystone.set('nav', {
+	'posts': ['posts', 'post-categories'],
+	'galleries': 'galleries',
+	'enquiries': 'enquiries',
+	'users': 'users',
+	'externalLink': {
+		label: 'Keystone',
+		key: 'keystone',
+		path: 'http://keystonejs.com/'
+	}
+});
+```

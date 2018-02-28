@@ -202,7 +202,7 @@ exports = module.exports = function(app) {
 - Tell Keystone how to handle `404` and `500` errors
 - Use the importer to load all the route controllers in the `/routes/views` directory
 - Export a method that binds the index route controller to `GET` requests on the root url `/`
-  - The `app` argument to this method our express app, so anything you can do binding routes in express, you can do here.
+  - The `app` argument to this method comes from our express app, so anything you can do binding routes in express, you can do here.
 - Additional route controllers that you add to your app should be added using `app.get`, `app.post` or `app.all` under your root controller.
 
 ### Common Route Middleware
