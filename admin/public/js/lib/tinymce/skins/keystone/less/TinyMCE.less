@@ -1,0 +1,117 @@
+.mce-tinymce {
+	// Avoid FOUC
+	visibility: visible !important;
+	position: relative;
+}
+
+.mce-fullscreen {
+	border: 0; padding: 0; margin: 0;
+	overflow: hidden;
+	height: 100%;
+	z-index: 100;
+}
+
+div.mce-fullscreen {
+	position: fixed;
+	top: 0; left: 0;
+	width: 100%;
+	height: auto;
+}
+
+.mce-tinymce {
+	display: block;
+	.border-radius(2px);
+}
+
+.mce-wordcount {
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 8px;
+}
+
+div.mce-edit-area {
+	background: #FFF;
+	filter: none;
+}
+
+.mce-statusbar {
+	position: relative;
+}
+
+.mce-statusbar .mce-container-body {
+	position: relative;
+}
+
+.mce-fullscreen .mce-resizehandle {
+	display: none;
+}
+
+// Charmap
+
+.mce-charmap {
+	border-collapse: collapse;
+}
+
+.mce-charmap td {
+	cursor: default;
+	border: 1px solid @panel-border;
+	width: 20px;
+	height: 20px;
+	line-height: 20px;
+	text-align: center;
+	vertical-align: middle;
+	padding: 2px;
+}
+
+.mce-charmap td div {
+	text-align: center;
+}
+
+.mce-charmap td:hover {
+	background: @btn-bg-hlight;
+}
+
+.mce-grid td div {
+	border: 1px solid @grid-border;
+	width: 12px; height: 12px;
+	margin: 2px;
+	cursor: pointer;
+}
+
+.mce-grid {
+	border-spacing: 2px;
+	border-collapse: separate;
+
+	a {
+		display: block;
+		border: 1px solid transparent;
+
+		&:hover {
+			border-color: @grid-border-active;
+		}
+	}
+}
+
+.mce-grid-border {
+	margin: 0 4px 0 4px;
+
+	a {
+		border-color: @grid-border;
+		width: 13px; height: 13px;
+	}
+
+	a:hover, a.mce-active {
+		border-color: @grid-border-active;
+		background: @grid-bg-active;
+	}
+}
+
+.mce-text-center {
+	text-align: center;
+}
+
+div.mce-tinymce-inline {
+	width: 100%;
+	.box-shadow(none);
+}

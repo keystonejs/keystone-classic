@@ -1,0 +1,28 @@
+// TabPanel
+
+.mce-tabs {
+	display: block;
+	border-bottom: 1px solid @tab-border;
+}
+
+.mce-tab {
+	.inline-block();
+	border: 1px solid @tab-border;
+	border-width: 0 1px 0 0;
+	background: @tab-bg;
+	padding: 8px;
+	text-shadow: @text-shadow;
+	height: 13px;
+	cursor: pointer;
+}
+
+.mce-tab:hover {
+	background: @tab-bg-hover;
+}
+
+.mce-tab.mce-active {
+	background: @tab-bg-active;
+	border-bottom-color: transparent;
+	margin-bottom: -1px;
+	height: 14px;
+}
