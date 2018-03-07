@@ -1,3 +1,16 @@
+This is a fork of KeystoneJS meant for a private project.
+It might work for you. It might not.
+
+Here's the changes implemented:
+
+- `Obj` type for object fields
+- `List` type for array fields
+- Scroll fixed on for modal window when inserting data
+
+... I think that's it for now.
+
+~
+
 ---
 title: KeystoneJS
 ---
@@ -135,7 +148,7 @@ Keystone's field types include:
 *	[Text](http://keystonejs.com/docs/database/#fieldtypes-text)
 *	[Textarea](http://keystonejs.com/docs/database/#fieldtypes-textarea)
 *	[Url](http://keystonejs.com/docs/database/#fieldtypes-url)
-*	[Azure File](http://keystonejs.com/docs/database/#fieldtypes-azurefile)  
+*	[Azure File](http://keystonejs.com/docs/database/#fieldtypes-azurefile)
 *	[CloudinaryImage](http://keystonejs.com/docs/database/#fieldtypes-cloudinaryimage)
 *	[CloudinaryImages](http://keystonejs.com/docs/database/#fieldtypes-cloudinaryimages)
 *	[Embedly](http://keystonejs.com/docs/database/#fieldtypes-embedly)
