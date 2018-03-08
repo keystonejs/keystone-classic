@@ -4,10 +4,13 @@ Deprecated.
 Using this field will now throw an error, and this code will be removed soon.
 
 See https://github.com/keystonejs/keystone/wiki/File-Fields-Upgrade-Guide
+
+TODO: this is used by keystone/admin/server/api/s3.js to generate headers, and should be factored out
 */
 
 /* eslint-disable */
-
+var _ = require('lodash');
+var assign = require('object-assign');
 var loggedWarning = false;
 
 /**
