@@ -61,6 +61,7 @@ var Keystone = function () {
 	this.set('cookie signin', (this.get('env') === 'development') ? true : false);
 
 	this.set('embedly api key', process.env.EMBEDLY_API_KEY || process.env.EMBEDLY_APIKEY);
+	this.set('iframely api key', process.env.IFRAMELY_API_KEY || process.env.IFRAMELY_APIKEY);
 	this.set('mandrill api key', process.env.MANDRILL_API_KEY || process.env.MANDRILL_APIKEY);
 	this.set('mandrill username', process.env.MANDRILL_USERNAME);
 	this.set('google api key', process.env.GOOGLE_BROWSER_KEY);
