@@ -47,12 +47,27 @@ file.prototype.upload = function (item, file, callback) {
 	var field = this;
 	// TODO; Validate there is actuall a file to upload
 	debug('[%s.%s] Uploading file for item %s:', this.list.key, this.path, item.id, file);
-	this.storage.uploadFile(file, function (err, result) {
-		if (err) return callback(err);
-		debug('[%s.%s] Uploaded file for item %s with result:', field.list.key, field.path, item.id, result);
-		item.set(field.path, result);
-		callback(null, result);
-	});
+
+	var upload = function (item, file, callback) {
+		field.storage.uploadFile(file, function (err, result) {
+			if (err) return callback(err);
+			debug('[%s.%s] Uploaded file for item %s with result:', field.list.key, field.path, item.id, result);
+			item.set(field.path, result);
+			callback(null, result);
+		});
+	};
+
+	if (item[field.path] && item[field.path].filename) {
+
+		field.remove(item, function (err, result) {
+			if (err) return callback(err);
+			upload(item, file, callback);
+		});
+
+	} else {
+		upload(item, file, callback);
+	}
+
 };
 
 /**
@@ -75,7 +90,8 @@ file.prototype.remove = function (item, callback) {
 	const file = item.get(this.path);
 	debug('[%s.%s] Removing file for item %s:', this.list.key, this.path, item.id, file);
 	this.storage.removeFile(file, function (err, result) {
-		if (err) return callback(err);
+		// if this file was somehow deleted elsewhere we can ignore this error
+		if (err && err.statusCode !== 404) return callback(err);
 		debug('[%s.%s] Removed file for item %s with result:', field.list.key, field.path, item.id, result);
 		field.reset(item);
 		callback(null, result);
