@@ -2,6 +2,8 @@
 
 The File fields stores a file using Keystone Storage and a Storage Adapter (e.g. `FS`, `S3`, etc). You have to configure a `Storage` instance first then provide it in the options for the field, e.g.
 
+Storage adapters are built per field. Look up the documentation on the individual adapters.
+
 ```js
 var storage = new keystone.Storage({
 	adapter: keystone.Storage.Adapters.FS,
@@ -29,10 +31,6 @@ The field stores a nested `Object` in the model. The nested schema is based on t
 ```
 
 Different adapters may add additional paths to the field schema - see the documentation for the Adapter you're using for more information.
-
-## Options
-
-> TODO
 
 ## Updates
 
@@ -110,10 +108,6 @@ To reset the field value _without_ deleting the stored file, provide an empty / 
 
 ## Methods
 
-### `format`
-
-> TODO
-
 ### `upload`
 
 This method uploads a file using your storage provider. You can call it directly on the list:
@@ -149,13 +143,8 @@ There is no way to upload directly from a buffer at the moment, you must upload 
 
 ### `remove`
 
-> TODO
+Calls the `removeFile` on the storage adapter provided.
 
 ### `reset`
 
-> TODO
-
-
-## Filtering
-
-> TODO
+Resets all fields in the storage schema.

@@ -19,6 +19,9 @@
 
  Notes:
 
+ * To successfully have all e2e tests pass you need to have the following setup:
+    - a recent version of the chrome browser
+    - java 1.8+
  * If you are developing in Windows you may run into linebreak linting issues.
    One possible workaround is to remove the "linebreak-style" rule in `node_modules/eslint-config-keystone/eslintrc.json`.
 

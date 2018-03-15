@@ -1,9 +1,9 @@
 var _ = require('lodash');
 var express = require('express');
-var fs = require('fs');
 var grappling = require('grappling-hook');
 var path = require('path');
 var utils = require('keystone-utils');
+var importer = require('./lib/core/importer');
 
 /**
  * Don't use process.cwd() as it breaks module encapsulation
@@ -37,6 +37,7 @@ var Keystone = function () {
 		'model prefix': null,
 		'module root': moduleRoot,
 		'frame guard': 'sameorigin',
+		'cache admin bundles': true,
 	};
 	this._redirects = {};
 
@@ -111,7 +112,7 @@ Keystone.prototype.prefixModel = function (key) {
 Keystone.prototype.createItems = require('./lib/core/createItems');
 Keystone.prototype.createRouter = require('./lib/core/createRouter');
 Keystone.prototype.getOrphanedLists = require('./lib/core/getOrphanedLists');
-Keystone.prototype.importer = require('./lib/core/importer');
+Keystone.prototype.importer = importer;
 Keystone.prototype.init = require('./lib/core/init');
 Keystone.prototype.initDatabaseConfig = require('./lib/core/initDatabaseConfig');
 Keystone.prototype.initExpressApp = require('./lib/core/initExpressApp');
@@ -124,6 +125,7 @@ Keystone.prototype.populateRelated = require('./lib/core/populateRelated');
 Keystone.prototype.redirect = require('./lib/core/redirect');
 Keystone.prototype.start = require('./lib/core/start');
 Keystone.prototype.wrapHTMLError = require('./lib/core/wrapHTMLError');
+Keystone.prototype.createKeystoneHash = require('./lib/core/createKeystoneHash');
 
 /* Deprecation / Change warnings for 0.4 */
 Keystone.prototype.routes = function () {
@@ -171,36 +173,7 @@ keystone.utils = utils;
  */
 
 Keystone.prototype.import = function (dirname) {
-
-	var initialPath = path.join(this.get('module root'), dirname);
-
-	var doImport = function (fromPath) {
-
-		var imported = {};
-
-		fs.readdirSync(fromPath).forEach(function (name) {
-
-			var fsPath = path.join(fromPath, name);
-			var info = fs.statSync(fsPath);
-
-			// recur
-			if (info.isDirectory()) {
-				imported[name] = doImport(fsPath);
-			} else {
-				// only import files that we can `require`
-				var ext = path.extname(name);
-				var base = path.basename(name, ext);
-				if (require.extensions[ext]) {
-					imported[base] = require(fsPath);
-				}
-			}
-
-		});
-
-		return imported;
-	};
-
-	return doImport(initialPath);
+	return importer(this.get('module root'))(dirname);
 };
 
 

@@ -33,13 +33,29 @@ function buildFieldTypesStream (fieldTypes) {
 }
 
 module.exports = function createStaticRouter (keystone) {
+	var keystoneHash = keystone.createKeystoneHash();
+	var writeToDisk = keystone.get('cache admin bundles');
 	var router = express.Router();
 
 	/* Prepare browserify bundles */
 	var bundles = {
-		fields: browserify(buildFieldTypesStream(keystone.fieldTypes), 'FieldTypes'),
-		signin: browserify('./Signin/index.js'),
-		admin: browserify('./App/index.js'),
+		fields: browserify({
+			stream: buildFieldTypesStream(keystone.fieldTypes),
+			expose: 'FieldTypes',
+			file: './FieldTypes.js',
+			hash: keystoneHash,
+			writeToDisk: writeToDisk,
+		}),
+		signin: browserify({
+			file: './Signin/index.js',
+			hash: keystoneHash,
+			writeToDisk: writeToDisk,
+		}),
+		admin: browserify({
+			file: './App/index.js',
+			hash: keystoneHash,
+			writeToDisk: writeToDisk,
+		}),
 	};
 
 	// prebuild static resources on the next tick in keystone dev mode; this

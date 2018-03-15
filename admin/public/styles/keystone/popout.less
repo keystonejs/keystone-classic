@@ -7,7 +7,7 @@
 @popout-width:                     320px;
 @popout-body-height:               310px;
 
-@popout-pane-animation-duration:   360ms;
+@popout-pane-transition-duration:  360ms;
 @popout-pane-timing-function:      cubic-bezier(.36, .66, .04, 1);
 
 
@@ -20,9 +20,6 @@
 // base
 
 .Popout {
-	.animation-duration( 200ms );
-	.animation-timing-function( cubic-bezier(0.77, 0, 0.175, 1) );
-	.transition( ~"width 200ms, height 200ms" );
 	background-color: @dropdown-bg;
 	border-radius: @border-radius-base;
 	box-shadow: 0 0 0 1px rgba(0,0,0,.175), 0 3px 8px rgba(0,0,0,.175);
@@ -31,17 +28,24 @@
 	position: absolute;
 	width: @popout-width;
 	z-index: @zindex-modal;
-
-	.align-right & {
-		left: auto;
-		right: 0;
-	}
 }
 .Popout-enter {
-	.animation-name( popoutEnter );
+	opacity: 0.01;
+	transform: translate3d(0, 10px, 0);
+}
+.Popout-enter.Popout-enter-active {
+	opacity: 1;
+	transition: opacity 200ms, transform 200ms ease-out;
+	transform: translate3d(0, 0, 0);
 }
 .Popout-leave {
-	.animation-name( popoutLeave );
+	opacity: 1;
+	transform: translate3d(0, 0, 0);
+}
+.Popout-leave.Popout-leave-active {
+	opacity: 0.01;
+	transition: opacity 200ms, transform 200ms ease-in;
+	transform: translate3d(0, 20px, 0);
 }
 
 
@@ -115,12 +119,10 @@
 // panes
 
 .Popout__panes {
-	.transition( height @popout-pane-animation-duration );
+	transition: height @popout-pane-transition-duration;
 	position: relative;
 }
 .Popout__pane {
-	.animation-duration( @popout-pane-animation-duration );
-	.animation-timing-function( @popout-pane-timing-function );
 	left: 0;
 	position: absolute;
 	top: 0;
@@ -128,16 +130,44 @@
 }
 
 .Popout__pane-next-enter {
-	.animation-name( slideInFromRight );
+	opacity: 0.01;
+	transform: translate3d(100%, 0, 0);
+}
+.Popout__pane-next-enter.Popout__pane-next-enter-active {
+	opacity: 1;
+	transition: opacity @popout-pane-transition-duration, transform @popout-pane-transition-duration;
+	transition-timing-function: @popout-pane-timing-function;
+	transform: translate3d(0, 0, 0);
 }
 .Popout__pane-next-leave {
-	.animation-name( slideOutToLeft );
+	opacity: 1;
+	transform: translate3d(0, 0, 0);
+}
+.Popout__pane-next-leave.Popout__pane-next-leave-active {
+	opacity: 0.01;
+	transition: opacity @popout-pane-transition-duration, transform @popout-pane-transition-duration;
+	transition-timing-function: @popout-pane-timing-function;
+	transform: translate3d(-100%, 0, 0);
 }
 .Popout__pane-prev-enter {
-	.animation-name( slideInFromLeft );
+	opacity: 0.01;
+	transform: translate3d(-100%, 0, 0);
+}
+.Popout__pane-prev-enter.Popout__pane-prev-enter-active {
+	opacity: 1;
+	transition: opacity @popout-pane-transition-duration, transform @popout-pane-transition-duration;
+	transition-timing-function: @popout-pane-timing-function;
+	transform: translate3d(0, 0, 0);
 }
 .Popout__pane-prev-leave {
-	.animation-name( slideOutToRight );
+	opacity: 1;
+	transform: translate3d(0, 0, 0);
+}
+.Popout__pane-prev-leave.Popout__pane-prev-leave-active {
+	opacity: 0.01;
+	transition: opacity @popout-pane-transition-duration, transform @popout-pane-transition-duration;
+	transition-timing-function: @popout-pane-timing-function;
+	transform: translate3d(100%, 0, 0);
 }
 
 
@@ -151,7 +181,6 @@
 
 .Popout__header {
 	box-shadow: 0 2px 0 rgba(0, 0, 0, 0.1);
-	// font-size: @font-size-sm;
 	font-weight: 500;
 	height: 3.4em;
 	overflow: hidden;
@@ -186,8 +215,23 @@
 		font-size: 16px;
 	}
 }
+.Popout__header__button-enter {
+	opacity: 0.01;
+}
+.Popout__header__button-enter.Popout__header__button-enter-active {
+	opacity: 1;
+	transition: opacity 200ms;
+}
+.Popout__header__button-leave {
+	opacity: 1;
+}
+.Popout__header__button-leave.Popout__header__button-leave-active {
+	opacity: 0.01;
+	transition: opacity 200ms;
+}
+
 .Popout__header__label {
-	.animation-duration( @popout-pane-animation-duration );
+	.animation-duration( @popout-pane-transition-duration );
 	.animation-timing-function( @popout-pane-timing-function );
 	display: block;
 	height: @component-height;
@@ -203,17 +247,46 @@
 	width: 100%;
 	z-index: 1;
 }
+
 .Popout__header__label-next-enter {
-	.animation-name( slideInFromRight );
+	opacity: 0.01;
+	transform: translate3d(100%, 0, 0);
+}
+.Popout__header__label-next-enter.Popout__header__label-next-enter-active {
+	opacity: 1;
+	transition: opacity @popout-pane-transition-duration, transform @popout-pane-transition-duration;
+	transition-timing-function: @popout-pane-timing-function;
+	transform: translate3d(0, 0, 0);
 }
 .Popout__header__label-next-leave {
-	.animation-name( slideOutToLeft );
+	opacity: 1;
+	transform: translate3d(0, 0, 0);
+}
+.Popout__header__label-next-leave.Popout__header__label-next-leave-active {
+	opacity: 0.01;
+	transition: opacity @popout-pane-transition-duration, transform @popout-pane-transition-duration;
+	transition-timing-function: @popout-pane-timing-function;
+	transform: translate3d(-100%, 0, 0);
 }
 .Popout__header__label-prev-enter {
-	.animation-name( slideInFromLeft );
+	opacity: 0.01;
+	transform: translate3d(-100%, 0, 0);
+}
+.Popout__header__label-prev-enter.Popout__header__label-prev-enter-active {
+	opacity: 1;
+	transition: opacity @popout-pane-transition-duration, transform @popout-pane-transition-duration;
+	transition-timing-function: @popout-pane-timing-function;
+	transform: translate3d(0, 0, 0);
 }
 .Popout__header__label-prev-leave {
-	.animation-name( slideOutToRight );
+	opacity: 1;
+	transform: translate3d(0, 0, 0);
+}
+.Popout__header__label-prev-leave.Popout__header__label-prev-leave-active {
+	opacity: 0.01;
+	transition: opacity @popout-pane-transition-duration, transform @popout-pane-transition-duration;
+	transition-timing-function: @popout-pane-timing-function;
+	transform: translate3d(100%, 0, 0);
 }
 
 

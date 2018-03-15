@@ -167,8 +167,8 @@ var ListFiltersAdd = React.createClass({
 						component="div"
 						style={popoutBodyStyle}
 						transitionName={selectedField ? 'Popout__pane-next' : 'Popout__pane-prev'}
-						transitionEnterTimeout={350}
-						transitionLeaveTimeout={350}
+						transitionEnterTimeout={360}
+						transitionLeaveTimeout={360}
 						>
 						{selectedField ? this.renderForm() : this.renderList()}
 					</Transition>

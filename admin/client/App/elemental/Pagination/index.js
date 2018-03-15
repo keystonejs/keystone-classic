@@ -1,4 +1,4 @@
-import { css, StyleSheet } from 'aphrodite/no-important';
+import { css } from 'glamor';
 import React, { Component, PropTypes } from 'react';
 import Page from './page';
 import theme from '../../../theme';
@@ -79,7 +79,7 @@ class Pagination extends Component {
 	}
 };
 
-const classes = StyleSheet.create({
+const classes = {
 	container: {
 		display: 'block',
 		lineHeight: theme.component.lineHeight,
@@ -94,7 +94,7 @@ const classes = StyleSheet.create({
 		display: 'inline-block',
 		verticalAlign: 'middle',
 	},
-});
+};
 
 Pagination.propTypes = {
 	className: PropTypes.string,
