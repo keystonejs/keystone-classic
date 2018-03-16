@@ -195,7 +195,12 @@ list.prototype.updateItem = function (item, data, files, callback) {
 	}
 	// Wrap non-array values in an array
 	if (!Array.isArray(values)) {
-		values = [values];
+		if (typeof values === 'object') {
+			values.length = _.size(values);
+			values = Array.prototype.slice.call(values);
+		} else {
+			values = [values];
+		}
 	}
 	// NOTE - this method will overwrite the entire array, which is less specific
 	// than it could be. Concurrent saves could lead to race conditions, but we
