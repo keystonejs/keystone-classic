@@ -75,6 +75,8 @@ keystone.set('default region', 'au'); // optional, will limit autocomplete resul
 
 ### Embed.ly
 
+> Follow these same instructions for the Iframely field type. Substitute `keystone.set('iframely api key', 'your-key')`.
+
 Embed.ly is a service that will parse a url (e.g. Youtube embed link) and return a whole lot of useful information, like the provider name, summary metadata, width and height of videos, as well as a clean link to use for embedding media in your views. They offer a free plan for up to 5,000 urls per month.
 
 The Embedly field type is an easy way to integrate their API with your KeystoneJS app.

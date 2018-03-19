@@ -1,4 +1,3 @@
-var _ = require('lodash');
 var keystone = require('../../../');
 var util = require('util');
 var http = require('http');
