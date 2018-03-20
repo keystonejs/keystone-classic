@@ -114,8 +114,7 @@ iframely.prototype.addToSchema = function (schema) {
 			res.setEncoding('utf8');
 			let body = '';
 			res.on('error', err => {
-				console.error('Iframely API Error:');
-				console.error(err);
+				console.error('Iframely API Error:', err);
 				field.reset(post);
 				return next();
 			});
@@ -126,6 +125,7 @@ iframely.prototype.addToSchema = function (schema) {
 				} catch (e) {
 					console.error(e);
 					field.reset(post);
+					return;
 				}
 
 				if (body.error) {
