@@ -17,7 +17,7 @@ function generateId () {
 
 const ItemDom = ({ name, id, onRemove, children }) => (
 	<div style={{
-		borderTop: '2px solid #eee',
+		borderTop: '2px solid #ddd',
 		paddingTop: 15,
 	}}>
 		{name && <input type="hidden" name={name} value={id}/>}
@@ -134,8 +134,9 @@ module.exports = Field.create({
 
 const classes = StyleSheet.create({
 	container: {
-		marginTop: '2em',
-		paddingLeft: '2em',
-		boxShadow: '-3px 0 0 rgba(0, 0, 0, 0.1)',
+		margin: '2em 0',
+		padding: '1.3em',
+		backgroundColor: 'rgba(0, 0, 0, 0.03)',
+		borderRadius: '0.3rem'
 	},
 });
