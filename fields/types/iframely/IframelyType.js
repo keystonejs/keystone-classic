@@ -121,7 +121,13 @@ iframely.prototype.addToSchema = function (schema) {
 			});
 			res.on('data', data => (body += data));
 			res.on('end', () => {
-				body = JSON.parse(body);
+				try {
+					body = JSON.parse(body);
+				} catch (e) {
+					console.error(e);
+					field.reset(post);
+				}
+
 				if (body.error) {
 					field.reset(post);
 				} else {
