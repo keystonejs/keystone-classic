@@ -19,7 +19,7 @@ function buildFieldTypesStream (fieldTypes) {
 		src += 'exports.' + i + 's = {\n';
 		types.forEach(function (type) {
 			if (typeof fieldTypes[type] !== 'string') return;
-			src += type + ': require("../../fields/types/' + type + '/' + fieldTypes[type] + i + '"),\n';
+			src += type + ': require("../../fields/types/' + type + '/' + upperCaseFirstLetter(fieldTypes[type]) + i + '"),\n';
 		});
 		// Append ID and Unrecognised column types
 		if (i === 'Column') {
