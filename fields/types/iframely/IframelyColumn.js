@@ -1,6 +1,6 @@
-import React, { Component } from 'React';
+var React = require('react');
 
-class IframelyColumn extends Component {
+var IframelyColumn = React.createClass({
 	render () {
 		const { data, col } = this.props;
 
