@@ -19,6 +19,6 @@ var IframelyColumn = React.createClass({
 			</td>
 		);
 	}
-};
+});
 
 module.exports = IframelyColumn;
