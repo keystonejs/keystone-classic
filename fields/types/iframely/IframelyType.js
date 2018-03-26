@@ -107,8 +107,9 @@ iframely.prototype.addToSchema = function (schema) {
 
 		var post = this;
 
+		const QUERY_STRING = 'iframe=1';
 		const IFRAMELY_API_KEY = keystone.get('iframely api key');
-		const URL = `http://iframe.ly/api/oembed?url=${fromValue}&api_key=${IFRAMELY_API_KEY}`;
+		const URL = `http://iframe.ly/api/oembed?url=${fromValue}&api_key=${IFRAMELY_API_KEY}&${QUERY_STRING}`;
 
 		http.get(URL, res => {
 			res.setEncoding('utf8');
