@@ -41,6 +41,7 @@ module.exports = function IndexRoute (req, res) {
 		},
 		options: {
 			cloudinaryPrefix: keystone.get('cloudinary prefix'),
+			cloudinaryFolders: keystone.get('cloudinary folders'),
 		},
 		userList: UserList.key,
 		version: keystone.version,
