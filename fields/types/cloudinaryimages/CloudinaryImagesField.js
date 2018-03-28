@@ -59,21 +59,22 @@ module.exports = Field.create({
 		const uploadFieldPath = `CloudinaryImages-${props.path}-${++uploadInc}`;
 		const thumbnails = props.value
 			? props.value.map((img, index) => {
-					const options = {
-						value: img,
-						imageSourceSmall: cloudinaryResize(img.public_id, {
-							...RESIZE_DEFAULTS,
-							height: 90,
-							secure: props.secure,
-						}),
-						imageSourceLarge: cloudinaryResize(img.public_id, {
-							...RESIZE_DEFAULTS,
-							height: 600,
-							width: 900,
-							secure: props.secure,
-					};
-					return this.getThumbnail(options, index);
-				})
+				const options = {
+					value: img,
+					imageSourceSmall: cloudinaryResize(img.public_id, {
+						...RESIZE_DEFAULTS,
+						height: 90,
+						secure: props.secure,
+					}),
+					imageSourceLarge: cloudinaryResize(img.public_id, {
+						...RESIZE_DEFAULTS,
+						height: 600,
+						width: 900,
+						secure: props.secure,
+					}),
+				};
+				return this.getThumbnail(options, index);
+			})
 			: [];
 		return { thumbnails, uploadFieldPath };
 	},
