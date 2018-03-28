@@ -298,7 +298,9 @@ module.exports = Field.create({
 		const { listPath, path } = this.props;
 
 		let prefix = Keystone.options.cloudinaryPrefix ? `${Keystone.options.cloudinaryPrefix}/` : '';
-		prefix += `${listPath}/${path}`;
+		if (Keystone.options.cloudinaryFolders) {
+			prefix += `${listPath}/${path}`;
+		};
 
 		$.get('/keystone/api/cloudinary/autocomplete', {
 			dataType: 'json',
