@@ -20,7 +20,7 @@ var DEFAULT_OPTIONS = {
 		const filename = file.originalname.toLowerCase();
 		done(null, filename);
 	},
-	whenExists: 'overwrite',
+	whenExists: 'error',
 	retryAttempts: 3, // For whenExists: 'retry'.
 };
 
@@ -465,8 +465,8 @@ cloudinaryimage.prototype.updateItem = function (item, data, files, callback) {
 			if (filename !== undefined) {
 				filename = sanitize(filename);
 				filename = trimSupportedFileExtensions(filename);
-				// TODO: Correct behavior? This will overwrite matching filenames in Cloudinary
-				// uploadOptions.public_id = trimSupportedFileExtensions(filename);
+				// The following line saves filenames as ids
+				uploadOptions.public_id = trimSupportedFileExtensions(filename);
 				// Add context filename to store in Cloudinary
 				uploadOptions.context = `filename=${filename}`;
 			}
