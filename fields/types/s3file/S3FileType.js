@@ -68,7 +68,7 @@ Object.defineProperty(s3file.prototype, 's3config', {
  */
 s3file.prototype.addToSchema = function (schema) {
 
-	var knox = require('knox');
+	var knox = require('knox-s3');
 	var field = this;
 
 	var paths = this.paths = {
@@ -333,7 +333,7 @@ s3file.prototype.generateHeaders = function (item, file, callback) {
  */
 s3file.prototype.uploadFile = function (item, file, update, callback) {
 
-	var knox = require('knox');
+	var knox = require('knox-s3');
 	var field = this;
 	var path = field.options.s3path ? field.options.s3path + '/' : '';
 	var prefix = field.options.datePrefix ? moment().format(field.options.datePrefix) + '-' : '';
