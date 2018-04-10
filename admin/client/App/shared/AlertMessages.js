@@ -102,7 +102,6 @@ var AlertMessages = React.createClass({
 	},
 	render () {
 		let { error, success } = this.props.alerts;
-		console.log(error);
 
 		if (error) {
 			// Render error alerts
