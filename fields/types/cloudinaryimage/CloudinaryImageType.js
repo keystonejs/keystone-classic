@@ -14,10 +14,12 @@ var CLOUDINARY_FIELDS = ['public_id', 'version', 'signature', 'format', 'resourc
 */
 
 var DEFAULT_OPTIONS = {
-	// This makes Cloudinary assign a unique public_id and is the same as
-	//   the legacy implementation
 	generateFilename: (file, o, done) => {
-		const filename = file.originalname.toLowerCase();
+		let filename = file.originalname;
+		// Sanitize and trim filename so that it will match those previously uploaded with the same name
+		filename = filename.toLowerCase();
+		filename = sanitize(filename);
+		filename = trimSupportedFileExtensions(filename);
 		done(null, filename);
 	},
 	whenExists: 'error',
@@ -51,8 +53,7 @@ function cloudinaryimage (list, path, options) {
 
 	if (options.filenameAsPublicID) {
 		// Produces the same result as the legacy filenameAsPublicID option
-		options.generateFilename = nameFunctions.originalFilename;
-		options.whenExists = 'overwrite';
+		options.whenExists = 'error';
 	}
 	options = assign({}, DEFAULT_OPTIONS, options);
 	options.generateFilename = ensureCallback(options.generateFilename);
@@ -463,15 +464,12 @@ cloudinaryimage.prototype.updateItem = function (item, data, files, callback) {
 			// If an undefined filename is returned, Cloudinary will automatically generate a unique
 			//   filename. Therefore undefined is a valid filename value.
 			if (filename !== undefined) {
-				filename = sanitize(filename);
-				filename = trimSupportedFileExtensions(filename);
 				// The following line saves filenames as ids
-				uploadOptions.public_id = trimSupportedFileExtensions(filename);
+				uploadOptions.public_id = filename;
 				// Add context filename to store in Cloudinary
 				uploadOptions.context = `filename=${filename}`;
 			}
 			cloudinary.uploader.upload(uploadedFile.path, function (result) {
-				console.log(result);
 				if (result.error) {
 					return callback(result.error);
 				} else {
