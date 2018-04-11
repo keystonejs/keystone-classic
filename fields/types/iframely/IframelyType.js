@@ -124,9 +124,9 @@ iframely.prototype.addToSchema = function (schema) {
 				try {
 					body = JSON.parse(body);
 				} catch (e) {
-					console.error(e);
+					console.error('Iframely Parsing Error:', e);
 					field.reset(post);
-					return;
+					return next();
 				}
 
 				if (body.error) {
