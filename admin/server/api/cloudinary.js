@@ -1,6 +1,8 @@
 /*
 TODO: Needs Review and Spec
 */
+var sanitize = require('sanitize-filename');
+var trimSupportedFileExtensions = require('../../../fields/utils/trimSupportedFileExtensions');
 
 module.exports = {
 	upload: function (req, res) {
@@ -11,7 +13,10 @@ module.exports = {
 			var options = {};
 
 			if (keystone.get('wysiwyg cloudinary images filenameAsPublicID')) {
-				options.public_id = req.files.file.originalname.substring(0, req.files.file.originalname.lastIndexOf('.'));
+				let filename = req.files.file.originalname;
+				filename = sanitize(filename);
+				filename = trimSupportedFileExtensions(filename);
+				options.public_id = filename;
 			}
 
 			cloudinary.uploader.upload(req.files.file.path, function (result) {

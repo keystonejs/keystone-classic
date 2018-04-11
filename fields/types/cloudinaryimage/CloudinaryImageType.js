@@ -3,9 +3,9 @@ var assign = require('object-assign');
 var ensureCallback = require('keystone-storage-namefunctions/ensureCallback');
 var FieldType = require('../Type');
 var keystone = require('../../../');
-var nameFunctions = require('keystone-storage-namefunctions');
 var prototypeMethods = require('keystone-storage-namefunctions/prototypeMethods');
 var sanitize = require('sanitize-filename');
+var trimSupportedFileExtensions = require('../../utils/trimSupportedFileExtensions');
 var util = require('util');
 var utils = require('keystone-utils');
 
@@ -13,16 +13,11 @@ var utils = require('keystone-utils');
 var CLOUDINARY_FIELDS = ['public_id', 'version', 'signature', 'format', 'resource_type', 'url', 'width', 'height', 'secure_url'];
 */
 
-var DEFAULT_OPTIONS = {
+const DEFAULT_OPTIONS = {
 	generateFilename: (file, o, done) => {
-		let filename = file.originalname;
-		// Sanitize and trim filename so that it will match those previously uploaded with the same name
-		filename = filename.toLowerCase();
-		filename = sanitize(filename);
-		filename = trimSupportedFileExtensions(filename);
-		done(null, filename);
+		done(null, undefined);
 	},
-	whenExists: 'error',
+	whenExists: 'retry',
 	retryAttempts: 3, // For whenExists: 'retry'.
 };
 
@@ -49,10 +44,18 @@ function getEmptyValue () {
 function cloudinaryimage (list, path, options) {
 	this._underscoreMethods = ['format'];
 	this._fixedSize = 'full';
-	this._properties = ['select', 'selectPrefix', 'autoCleanup'];
+	this._properties = ['select', 'selectPrefix', 'autoCleanup', 'publicID', 'folder', 'filenameAsPublicID'];
 
 	if (options.filenameAsPublicID) {
-		// Produces the same result as the legacy filenameAsPublicID option
+		// Sets cloudinary to allocate unique publicIDs and if it happens to match, retries
+		options.generateFilename = (file, o, done) => {
+			let filename = file.originalname;
+			// Sanitize and trim filename so that it will match those previously uploaded with the same name
+			filename = filename.toLowerCase();
+			filename = sanitize(filename);
+			filename = trimSupportedFileExtensions(filename);
+			done(null, filename);
+		};
 		options.whenExists = 'error';
 	}
 	options = assign({}, DEFAULT_OPTIONS, options);
@@ -354,26 +357,6 @@ cloudinaryimage.prototype.inputIsValid = function () {
 };
 
 /**
- * Trim supported file extensions from the public id because cloudinary uses these at
- * the end of the a url to dynamically convert the image filetype
- */
-function trimSupportedFileExtensions (publicId) {
-	var supportedExtensions = [
-		'.jpg', '.jpe', '.jpeg', '.jpc', '.jp2', '.j2k', '.wdp', '.jxr',
-		'.hdp', '.png', '.gif', '.webp', '.bmp', '.tif', '.tiff', '.ico',
-		'.pdf', '.ps', '.ept', '.eps', '.eps3', '.psd', '.svg', '.ai',
-		'.djvu', '.flif', '.tga',
-	];
-	for (var i = 0; i < supportedExtensions.length; i++) {
-		var extension = supportedExtensions[i];
-		if (_.endsWith(publicId, extension)) {
-			return publicId.slice(0, -extension.length);
-		}
-	}
-	return publicId;
-}
-
-/**
  * Updates the value for this field in the item from a data object
  * TODO: It is not possible to remove an existing value and upload a new image
  * in the same action, this should be supported
@@ -530,95 +513,95 @@ cloudinaryimage.prototype.fileExists = function (filename, callback) {
  *
  * @api public
  */
-cloudinaryimage.prototype.getRequestHandler = function (item, req, paths, callback) {
+// cloudinaryimage.prototype.getRequestHandler = function (item, req, paths, callback) {
 
-	var cloudinary = require('cloudinary');
-	var field = this;
-	if (utils.isFunction(paths)) {
-		callback = paths;
-		paths = field.paths;
-	} else if (!paths) {
-		paths = field.paths;
-	}
-	callback = callback || function () {};
+// 	var cloudinary = require('cloudinary');
+// 	var field = this;
+// 	if (utils.isFunction(paths)) {
+// 		callback = paths;
+// 		paths = field.paths;
+// 	} else if (!paths) {
+// 		paths = field.paths;
+// 	}
+// 	callback = callback || function () {};
 
-	return function () {
-		if (req.body) {
-			var action = req.body[paths.action];
-			if (/^(delete|reset)$/.test(action)) {
-				field.apply(item, action);
-			}
-		}
-		if (req.body && req.body[paths.select]) {
-			cloudinary.api.resource(req.body[paths.select], function (result) {
-				if (result.error) {
-					callback(result.error);
-				} else {
-					item.set(field.path, result);
-					callback();
-				}
-			});
-		} else if (req.files && req.files[paths.upload] && req.files[paths.upload].size) {
-			var tp = keystone.get('cloudinary prefix') || '';
-			var imageDelete;
-			if (tp.length) {
-				tp += '_';
-			}
-			var uploadOptions = {
-				tags: [tp + field.list.path + '_' + field.path, tp + field.list.path + '_' + field.path + '_' + item.id],
-			};
-			if (keystone.get('cloudinary folders')) {
-				uploadOptions.folder = item.get(paths.folder);
-			}
-			if (keystone.get('cloudinary prefix')) {
-				uploadOptions.tags.push(keystone.get('cloudinary prefix'));
-			}
-			if (keystone.get('env') !== 'production') {
-				uploadOptions.tags.push(tp + 'dev');
-			}
-			if (field.options.publicID) {
-				var publicIdValue = item.get(field.options.publicID);
-				if (publicIdValue) {
-					uploadOptions.public_id = publicIdValue;
-				}
-			} else if (field.options.filenameAsPublicID) {
-				uploadOptions.public_id = req.files[paths.upload].originalname.substring(0, req.files[paths.upload].originalname.lastIndexOf('.'));
-			}
+// 	return function () {
+// 		if (req.body) {
+// 			var action = req.body[paths.action];
+// 			if (/^(delete|reset)$/.test(action)) {
+// 				field.apply(item, action);
+// 			}
+// 		}
+// 		if (req.body && req.body[paths.select]) {
+// 			cloudinary.api.resource(req.body[paths.select], function (result) {
+// 				if (result.error) {
+// 					callback(result.error);
+// 				} else {
+// 					item.set(field.path, result);
+// 					callback();
+// 				}
+// 			});
+// 		} else if (req.files && req.files[paths.upload] && req.files[paths.upload].size) {
+// 			var tp = keystone.get('cloudinary prefix') || '';
+// 			var imageDelete;
+// 			if (tp.length) {
+// 				tp += '_';
+// 			}
+// 			var uploadOptions = {
+// 				tags: [tp + field.list.path + '_' + field.path, tp + field.list.path + '_' + field.path + '_' + item.id],
+// 			};
+// 			if (keystone.get('cloudinary folders')) {
+// 				uploadOptions.folder = item.get(paths.folder);
+// 			}
+// 			if (keystone.get('cloudinary prefix')) {
+// 				uploadOptions.tags.push(keystone.get('cloudinary prefix'));
+// 			}
+// 			if (keystone.get('env') !== 'production') {
+// 				uploadOptions.tags.push(tp + 'dev');
+// 			}
+// 			if (field.options.publicID) {
+// 				var publicIdValue = item.get(field.options.publicID);
+// 				if (publicIdValue) {
+// 					uploadOptions.public_id = publicIdValue;
+// 				}
+// 			} else if (field.options.filenameAsPublicID) {
+// 				uploadOptions.public_id = req.files[paths.upload].originalname.substring(0, req.files[paths.upload].originalname.lastIndexOf('.'));
+// 			}
 
-			if (field.options.autoCleanup && item.get(field.paths.exists)) {
-				// capture image delete promise
-				imageDelete = field.apply(item, 'delete');
-			}
+// 			if (field.options.autoCleanup && item.get(field.paths.exists)) {
+// 				// capture image delete promise
+// 				imageDelete = field.apply(item, 'delete');
+// 			}
 
-			// callback to be called upon completion of the 'upload' method
-			var uploadComplete = function (result) {
-				if (result.error) {
-					callback(result.error);
-				} else {
-					item.set(field.path, result);
-					callback();
-				}
-			};
+// 			// callback to be called upon completion of the 'upload' method
+// 			var uploadComplete = function (result) {
+// 				if (result.error) {
+// 					callback(result.error);
+// 				} else {
+// 					item.set(field.path, result);
+// 					callback();
+// 				}
+// 			};
 
-			// upload immediately if image is not being delete
-			if (typeof imageDelete === 'undefined') {
-				field.apply(item, 'upload', req.files[paths.upload].path, uploadOptions).then(uploadComplete);
-			} else {
-				// otherwise wait until image is deleted before uploading
-				// this avoids problems when deleting/uploading images with the same public_id (issue #598)
-				imageDelete.then(function (result) {
-					if (result.error) {
-						callback(result.error);
-					} else {
-						field.apply(item, 'upload', req.files[paths.upload].path, uploadOptions).then(uploadComplete);
-					}
-				});
-			}
-		} else {
-			callback();
-		}
-	};
-};
+// 			// upload immediately if image is not being delete
+// 			if (typeof imageDelete === 'undefined') {
+// 				field.apply(item, 'upload', req.files[paths.upload].path, uploadOptions).then(uploadComplete);
+// 			} else {
+// 				// otherwise wait until image is deleted before uploading
+// 				// this avoids problems when deleting/uploading images with the same public_id (issue #598)
+// 				imageDelete.then(function (result) {
+// 					if (result.error) {
+// 						callback(result.error);
+// 					} else {
+// 						field.apply(item, 'upload', req.files[paths.upload].path, uploadOptions).then(uploadComplete);
+// 					}
+// 				});
+// 			}
+// 		} else {
+// 			callback();
+// 		}
+// 	};
+// };
 
 /* Export Field Type */
 module.exports = cloudinaryimage;
