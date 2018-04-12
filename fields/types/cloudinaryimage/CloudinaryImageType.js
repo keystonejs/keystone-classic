@@ -1,4 +1,5 @@
 var _ = require('lodash');
+var cloudinary = require('cloudinary');
 var assign = require('object-assign');
 var ensureCallback = require('keystone-storage-namefunctions/ensureCallback');
 var FieldType = require('../Type');
@@ -19,6 +20,21 @@ const DEFAULT_OPTIONS = {
 	},
 	whenExists: 'retry',
 	retryAttempts: 3, // For whenExists: 'retry'.
+};
+
+const DEFAULT_UPLOAD_OPTIONS = {
+	tags: [],
+	resource_type: 'auto',
+	use_filename: true, // { use_filename: true } causes Cloudinary to set the publicID as the filename + a unique ID on upload
+};
+
+function sanitizeAndTrimFilename (file) {
+	let filename = file.originalname;
+	// Sanitize and trim filename so that it will match those previously uploaded with the same name
+	filename = filename.toLowerCase();
+	filename = sanitize(filename);
+	filename = trimSupportedFileExtensions(filename);
+	return filename;
 };
 
 function getEmptyValue () {
@@ -44,20 +60,24 @@ function getEmptyValue () {
 function cloudinaryimage (list, path, options) {
 	this._underscoreMethods = ['format'];
 	this._fixedSize = 'full';
-	this._properties = ['select', 'selectPrefix', 'autoCleanup', 'publicID', 'folder', 'filenameAsPublicID'];
+	this._properties = ['select', 'selectPrefix', 'autoCleanup', 'publicID', 'folder', 'filenameAsPublicID', 'uploadOptions'];
+
+	options.uploadOptions = assign({}, DEFAULT_UPLOAD_OPTIONS, options.uploadOptions);
 
 	if (options.filenameAsPublicID) {
-		// Sets cloudinary to allocate unique publicIDs and if it happens to match, retries
+		// { use_filename: true } option sets Cloudinary to append a random string to the end of the filename and use this as the publicID
+		// if filenameAsPublicID option is set:
+		// 	* publicIDs will set to exact filenames (sanitized with extensions trimmed)
+		// 	* Cloudinary will not append unique string to publicID
+		// 	* Because publicIDs may not be unique, throw errors when filename already exists
+		options.uploadOptions.use_filename = false;
 		options.generateFilename = (file, o, done) => {
-			let filename = file.originalname;
-			// Sanitize and trim filename so that it will match those previously uploaded with the same name
-			filename = filename.toLowerCase();
-			filename = sanitize(filename);
-			filename = trimSupportedFileExtensions(filename);
+			let filename = sanitizeAndTrimFilename(file);
 			done(null, filename);
 		};
 		options.whenExists = 'error';
 	}
+
 	options = assign({}, DEFAULT_OPTIONS, options);
 	options.generateFilename = ensureCallback(options.generateFilename);
 
@@ -371,7 +391,6 @@ cloudinaryimage.prototype.updateItem = function (item, data, files, callback) {
 		files = {};
 	}
 
-	var cloudinary = require('cloudinary');
 	var field = this;
 
 	// Prepare values
@@ -426,10 +445,9 @@ cloudinaryimage.prototype.updateItem = function (item, data, files, callback) {
 	// If we have a file to upload, we do that and stop here
 	if (uploadedFile) {
 		var tagPrefix = keystone.get('cloudinary prefix') || '';
-		var uploadOptions = {
-			tags: [],
-			resource_type: 'auto',
-		};
+
+		let uploadOptions = this.options.uploadOptions;
+
 		if (tagPrefix.length) {
 			uploadOptions.tags.push(tagPrefix);
 			tagPrefix += '_';
@@ -442,16 +460,21 @@ cloudinaryimage.prototype.updateItem = function (item, data, files, callback) {
 		if (folder) {
 			uploadOptions.folder = folder;
 		}
+		// Add context filename to store in Cloudinary
+		uploadOptions.context = `filename=${sanitizeAndTrimFilename(uploadedFile)}`;
 		this.getFilename(uploadedFile, function (err, filename) {
 			if (err) return callback(err);
+
 			// If an undefined filename is returned, Cloudinary will automatically generate a unique
 			//   filename. Therefore undefined is a valid filename value.
 			if (filename !== undefined) {
 				// The following line saves filenames as ids
 				uploadOptions.public_id = filename;
-				// Add context filename to store in Cloudinary
-				uploadOptions.context = `filename=${filename}`;
 			}
+
+			// Set file name as original name instead of random id
+			uploadedFile.name = uploadedFile.originalname;
+
 			cloudinary.uploader.upload(uploadedFile.path, function (result) {
 				if (result.error) {
 					return callback(result.error);
@@ -489,7 +512,10 @@ cloudinaryimage.prototype.retryFilename = prototypeMethods.retryFilename;
 cloudinaryimage.prototype.getFilename = prototypeMethods.getFilename;
 
 cloudinaryimage.prototype.fileExists = function (filename, callback) {
-	var cloudinary = require('cloudinary');
+	// If filename is undefined, cloudinary resource api will return page 1 of all uploaded resources
+	// To avoid these false positives, call callback with false and break out of function execution before api is called
+	if (filename === undefined) return callback(null, false);
+
 	cloudinary.api.resource(filename, function (result) {
 		if (result.error && result.error.http_code === 404) {
 			// File doesn't exist
