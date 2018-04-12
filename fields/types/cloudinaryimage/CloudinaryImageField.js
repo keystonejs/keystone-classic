@@ -141,11 +141,6 @@ module.exports = Field.create({
 	triggerFileBrowser () {
 		this.refs.fileInput.clickDomNode();
 	},
-	handleFileChange (event) {
-		const userSelectedFile = event.target.files[0];
-
-		this.setState({ userSelectedFile });
-	},
 
 	// Toggle the lightbox
 	openLightbox (event) {
@@ -187,6 +182,8 @@ module.exports = Field.create({
 				loading: false,
 				userSelectedFile: file,
 			});
+			// this.props.onChange(args) = handleChange(event) in EditForm
+			// because no event.path is specified, no update occurs here
 			this.props.onChange({ file: file });
 		};
 	},
