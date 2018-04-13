@@ -461,7 +461,6 @@ cloudinaryimage.prototype.updateItem = function (item, data, files, callback) {
 			uploadOptions.folder = folder;
 		}
 		// Add context filename to store in Cloudinary
-		uploadOptions.context = `filename=${sanitizeAndTrimFilename(uploadedFile)}`;
 		this.getFilename(uploadedFile, function (err, filename) {
 			if (err) return callback(err);
 
@@ -471,9 +470,6 @@ cloudinaryimage.prototype.updateItem = function (item, data, files, callback) {
 				// The following line saves filenames as ids
 				uploadOptions.public_id = filename;
 			}
-
-			// Set file name as original name instead of random id
-			uploadedFile.name = uploadedFile.originalname;
 
 			cloudinary.uploader.upload(uploadedFile.path, function (result) {
 				if (result.error) {
