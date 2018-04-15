@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
-import Container from '../../../../components/Container';
+import Container from '../../../../../components/Container';
 import { compose } from 'glamor';
 import Link from 'gatsby-link';
-import theme from '../../../../theme';
-import { rhythm } from 'utils/typography';
-import { version } from '../../../../../package.json';
-import logo from '../../../../images/logo-inverted.svg';
+import theme from '../../../../../theme';
+import { rhythm } from '../../../../../utils/typography';
+import { version } from '../../../../../../package.json';
+import logo from '../../../../../images/logo-inverted.svg';
 import { EntypoTwitter, EntypoGithub, EntypoDocuments } from 'react-entypo';
 
-import continental from '../../../../images/brand-continental.png';
-import event_cinemas from '../../../../images/brand-event_cinemas.png';
-import macmillan from '../../../../images/brand-macmillan.png';
-import sony from '../../../../images/brand-sony.png';
-import vodafone from '../../../../images/brand-vodafone.png';
-import westpac from '../../../../images/brand-westpac.png';
+import continental from '../../../../../images/brand-continental.png';
+import event_cinemas from '../../../../../images/brand-event_cinemas.png';
+import macmillan from '../../../../../images/brand-macmillan.png';
+import sony from '../../../../../images/brand-sony.png';
+import vodafone from '../../../../../images/brand-vodafone.png';
+import westpac from '../../../../../images/brand-westpac.png';
 
 export default class Header extends Component {
 	render () {

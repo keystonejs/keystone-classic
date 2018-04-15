@@ -34,3 +34,7 @@ reports
 test/e2e/drivers/*
 
 package-lock.json
+
+# Website dependencies
+website/.cache
+website/public
