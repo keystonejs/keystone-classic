@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import Container from '../../../components/Container';
-import theme from '../../../theme';
+import Container from '../../../../components/Container';
+import theme from '../../../../theme';
 import { compose } from 'glamor';
-import adminView from '../../../images/keystone_admin.png';
+import adminView from '../../../../images/keystone_admin.png';
 
 
 export default class ValueProps extends Component {

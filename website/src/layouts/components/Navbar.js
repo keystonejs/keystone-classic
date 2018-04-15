@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import Link from 'gatsby-link';
-import theme from '../../theme';
-import invertedLogo from '../../images/logo-inverted.svg';
+import theme from '../../../theme';
+import invertedLogo from '../../../images/logo-inverted.svg';
 
 function Item ({ path, label }) {
 	return (

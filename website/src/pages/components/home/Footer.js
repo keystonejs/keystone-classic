@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import Container from '../../../components/Container';
+import Container from '../../../../components/Container';
 import { compose } from 'glamor';
 import Link from 'gatsby-link';
-import theme from '../../../theme';
+import theme from '../../../../theme';
 
 export default class ValueProps extends Component {
 	render () {
