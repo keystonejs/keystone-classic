@@ -6920,6 +6920,10 @@ react-side-effect@^1.0.2, react-side-effect@^1.1.0:
     exenv "^1.2.1"
     shallowequal "^1.0.1"
 
+react-tweet-embed@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/react-tweet-embed/-/react-tweet-embed-1.1.0.tgz#eb83ad8d75bb29d81b2e5c2d9d586021ceeda948"
+
 react@^15.6.0:
   version "15.6.2"
   resolved "https://registry.yarnpkg.com/react/-/react-15.6.2.tgz#dba0434ab439cfe82f108f0f511663908179aa72"
