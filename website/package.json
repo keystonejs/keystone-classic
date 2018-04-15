@@ -15,6 +15,7 @@
     "gatsby-transformer-remark": "^1.7.40",
     "lodash.kebabcase": "^4.1.1",
     "react-document-title": "^2.0.3",
+    "react-entypo": "^1.3.0",
     "react-helmet": "^5.2.0",
     "react-icons": "^2.2.7",
     "typeface-roboto": "^0.0.54",
