@@ -10,7 +10,7 @@ module.exports = function (req, res) {
 			if (err) {
 				var status = err.error === 'validation errors' ? 400 : 500;
 				var error = err.error === 'database error' ? err.detail : err;
-				return res.apiError(status, error);
+				return res.apiError(status, error, error.detail);
 			}
 			// Reload the item from the database to prevent save hooks or other
 			// application specific logic from messing with the values in the item
