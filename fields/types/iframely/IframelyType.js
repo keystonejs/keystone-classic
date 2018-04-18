@@ -2,6 +2,9 @@ var keystone = require('../../../');
 var util = require('util');
 var http = require('http');
 var FieldType = require('../Type');
+var Path = require('path');
+
+const APIversion = require( Path.normalize(process.cwd() + '/../package.json')).version;
 
 /**
  * Iframely FieldType Constructor
@@ -54,13 +57,13 @@ iframely.prototype.addToSchema = function (schema) {
 	var field = this;
 
 	this.paths = {
+		APIversion: this.path + '.APIversion',
 		exists: this.path + '.exists',
-		type: this.path + '.type',
 		title: this.path + '.title',
 		url: this.path + '.url',
 		width: this.path + '.width',
 		height: this.path + '.height',
-		version: this.path + '.version',
+		// version: this.path + '.version',
 		description: this.path + '.description',
 		html: this.path + '.html',
 		authorName: this.path + '.authorName',
@@ -69,17 +72,18 @@ iframely.prototype.addToSchema = function (schema) {
 		thumbnailUrl: this.path + '.thumbnailUrl',
 		thumbnailWidth: this.path + '.thumbnailWidth',
 		thumbnailHeight: this.path + '.thumbnailHeight',
+		rel: this.path + '.rel',
 	};
 
 	schema.nested[this.path] = true;
 	schema.add({
+		APIversion: String,
 		exists: Boolean,
-		type: String,
 		title: String,
 		url: String,
 		width: Number,
 		height: Number,
-		version: String,
+		// version: String,
 		description: String,
 		html: String,
 		authorName: String,
@@ -88,6 +92,7 @@ iframely.prototype.addToSchema = function (schema) {
 		thumbnailUrl: String,
 		thumbnailWidth: Number,
 		thumbnailHeight: Number,
+		rel: String,
 	}, this.path + '.');
 
 	// Bind the pre-save hook to hit the iframely api if the source path has changed
@@ -107,9 +112,9 @@ iframely.prototype.addToSchema = function (schema) {
 
 		var post = this;
 
-		const QUERY_STRING = 'iframe=1&omit_script=1';
+		const QUERY_STRING = '&iframe=1&omit_script=true';
 		const IFRAMELY_API_KEY = keystone.get('iframely api key');
-		const URL = `http://iframe.ly/api/oembed?url=${fromValue}&api_key=${IFRAMELY_API_KEY}&${QUERY_STRING}`;
+		const URL = `http://iframe.ly/api/iframely?url=${fromValue}&api_key=${IFRAMELY_API_KEY}&${QUERY_STRING}`;
 
 		http.get(URL, res => {
 			res.setEncoding('utf8');
@@ -123,6 +128,7 @@ iframely.prototype.addToSchema = function (schema) {
 			res.on('end', () => {
 				try {
 					body = JSON.parse(body);
+					console.log(APIversion);
 				} catch (e) {
 					console.error('Iframely Parsing Error:', e);
 					field.reset(post);
@@ -133,21 +139,23 @@ iframely.prototype.addToSchema = function (schema) {
 					field.reset(post);
 				} else {
 					post.set(field.path, {
+						APIversion: APIversion,
 						exists: true,
-						type: body.type,
-						title: body.title,
+						// type: body.type, //doesn't exist in iFramely
+						title: body.meta.title,
 						url: body.url,
-						width: body.width,
-						height: body.height,
-						version: body.version,
-						description: body.description,
+						width: body.links.thumbnail[0].media.width,
+						height: body.links.thumbnail[0].media.height,
+						// version: body.version, //doesn't exist in iFramely
+						description: body.meta.description,
 						html: body.html,
-						authorName: body.author,
-						authorUrl: body.author_url,
-						providerName: body.provider_name,
-						thumbnailUrl: body.thumbnail_url,
-						thumbnailWidth: body.thumbnail_width,
-						thumbnailHeight: body.thumbnail_height,
+						authorName: body.meta.author,
+						authorUrl: body.meta.author_url,
+						providerName: body.meta.site,
+						thumbnailUrl: body.links.thumbnail[0].href,
+						thumbnailWidth: body.links.thumbnail[0].media.width,
+						thumbnailHeight: body.links.thumbnail[0].media.height,
+						rel: JSON.stringify(body.rel),
 					});
 				}
 				return next();
@@ -165,13 +173,13 @@ iframely.prototype.addToSchema = function (schema) {
  */
 iframely.prototype.reset = function (item) {
 	return item.set(item.set(this.path, {
+		APIversion: false,
 		exists: false,
-		type: null,
 		title: null,
 		url: null,
 		width: null,
 		height: null,
-		version: null,
+		// version: null,
 		description: null,
 		html: null,
 		authorName: null,
@@ -180,6 +188,7 @@ iframely.prototype.reset = function (item) {
 		thumbnailUrl: null,
 		thumbnailWidth: null,
 		thumbnailHeight: null,
+		rel: null,
 	}));
 };
 
@@ -232,13 +241,14 @@ iframely.prototype.updateItem = function (item, data, callback) {
  // A conditional has been added to negate updating this item should the fromPath on the passed in data object be the same as that on the item.
 	if (data[this.fromPath] !== item[this.fromPath]) {
 		item.set(item.set(this.path, {
+			APIversion: data[this.paths.APIversion],
 			exists: data[this.paths.exists],
-			type: data[this.paths.type],
+			// type: data[this.paths.type],
 			title: data[this.paths.title],
 			url: data[this.paths.url],
 			width: data[this.paths.width],
 			height: data[this.paths.height],
-			version: data[this.paths.version],
+			// version: data[this.paths.version],
 			description: data[this.paths.description],
 			html: data[this.paths.html],
 			authorName: data[this.paths.authorName],
@@ -247,6 +257,7 @@ iframely.prototype.updateItem = function (item, data, callback) {
 			thumbnailUrl: data[this.paths.thumbnailUrl],
 			thumbnailWidth: data[this.paths.thumbnailWidth],
 			thumbnailHeight: data[this.paths.thumbnailHeight],
+			rel: data[this.paths.rel],
 		}));
 	}
 	process.nextTick(callback);
