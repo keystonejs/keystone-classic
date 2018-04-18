@@ -128,7 +128,6 @@ iframely.prototype.addToSchema = function (schema) {
 			res.on('end', () => {
 				try {
 					body = JSON.parse(body);
-					console.log(APIversion);
 				} catch (e) {
 					console.error('Iframely Parsing Error:', e);
 					field.reset(post);
