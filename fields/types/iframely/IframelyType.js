@@ -4,7 +4,7 @@ var http = require('http');
 var FieldType = require('../Type');
 var Path = require('path');
 
-const APIversion = require( Path.normalize(process.cwd() + '/../package.json')).version;
+const apiVersion = require( Path.normalize(__dirname + '/../../../../../../package.json')).version;
 
 /**
  * Iframely FieldType Constructor
@@ -77,7 +77,7 @@ iframely.prototype.addToSchema = function (schema) {
 
 	schema.nested[this.path] = true;
 	schema.add({
-		APIversion: String,
+		apiVersion: String,
 		exists: Boolean,
 		title: String,
 		url: String,
@@ -96,12 +96,12 @@ iframely.prototype.addToSchema = function (schema) {
 	}, this.path + '.');
 
 	// Bind the pre-save hook to hit the iframely api if the source path has changed
-
+	
 	schema.pre('save', function (next) {
 
-		if (!this.isModified(field.fromPath)) {
-			return next();
-		}
+		// if (!this.isModified(field.fromPath)) {
+		// 	return next();
+		// }
 
 		var fromValue = this.get(field.fromPath);
 
@@ -114,7 +114,7 @@ iframely.prototype.addToSchema = function (schema) {
 
 		const QUERY_STRING = '&iframe=1&omit_script=true';
 		const IFRAMELY_API_KEY = keystone.get('iframely api key');
-		const URL = `http://iframe.ly/api/iframely?url=${fromValue}&api_key=${IFRAMELY_API_KEY}&${QUERY_STRING}`;
+		const URL = `http://23.23.16.120/api/iframely?url=${fromValue}&api_key=${IFRAMELY_API_KEY}&${QUERY_STRING}`;
 
 		http.get(URL, res => {
 			res.setEncoding('utf8');
@@ -129,32 +129,63 @@ iframely.prototype.addToSchema = function (schema) {
 				try {
 					body = JSON.parse(body);
 				} catch (e) {
-					console.error('Iframely Parsing Error:', e);
+					// console.error('Iframely Parsing Error:', e, 'on URL:', URL);
+					// console.log('Iframely Parsing Error on URL:', fromValue);
 					field.reset(post);
-					return next();
+					return next(e);
 				}
 
 				if (body.error) {
 					field.reset(post);
 				} else {
+					let data = {
+						rel: [],
+						html: null,
+					};
+
+					let meta = {
+						title: null,
+						author: null,
+						authorUrl: null,
+						description: null,
+						site: null,
+					};
+
+					data = Object.assign(data, body);
+					data.meta = Object.assign(meta, body.meta);
+					data.links = {
+						thumbnail: [{
+							href: null,
+							media: {
+								width: null,
+								height: null,
+							},
+						}],
+					};
+
+					if( body.links.thumbnail !== undefined ) {
+						data.links.thumbnail[0] = Object.assign(data.links.thumbnail[0], body.links.thumbnail[0]);
+						data.links.thumbnail[0].media = Object.assign(data.links.thumbnail[0].media, body.links.thumbnail[0].media);
+					}
+
 					post.set(field.path, {
-						APIversion: APIversion,
+						apiVersion: apiVersion,
 						exists: true,
 						// type: body.type, //doesn't exist in iFramely
-						title: body.meta.title,
-						url: body.url,
-						width: body.links.thumbnail[0].media.width,
-						height: body.links.thumbnail[0].media.height,
-						// version: body.version, //doesn't exist in iFramely
-						description: body.meta.description,
-						html: body.html,
-						authorName: body.meta.author,
-						authorUrl: body.meta.author_url,
-						providerName: body.meta.site,
-						thumbnailUrl: body.links.thumbnail[0].href,
-						thumbnailWidth: body.links.thumbnail[0].media.width,
-						thumbnailHeight: body.links.thumbnail[0].media.height,
-						rel: JSON.stringify(body.rel),
+						title: data.meta.title,
+						url: data.url,
+						width: data.links.thumbnail[0].media.width,
+						height: data.links.thumbnail[0].media.height,
+						// version: data.version, //doesn't exist in iFramely
+						description: data.meta.description,
+						html: data.html,
+						authorName: data.meta.author,
+						authorUrl: data.meta.author_url,
+						providerName: data.meta.site,
+						thumbnailUrl: data.links.thumbnail[0].href,
+						thumbnailWidth: data.links.thumbnail[0].media.width,
+						thumbnailHeight: data.links.thumbnail[0].media.height,
+						rel: String(data.rel),
 					});
 				}
 				return next();
@@ -172,7 +203,7 @@ iframely.prototype.addToSchema = function (schema) {
  */
 iframely.prototype.reset = function (item) {
 	return item.set(item.set(this.path, {
-		APIversion: false,
+		apiVersion: false,
 		exists: false,
 		title: null,
 		url: null,
@@ -240,7 +271,7 @@ iframely.prototype.updateItem = function (item, data, callback) {
  // A conditional has been added to negate updating this item should the fromPath on the passed in data object be the same as that on the item.
 	if (data[this.fromPath] !== item[this.fromPath]) {
 		item.set(item.set(this.path, {
-			APIversion: data[this.paths.APIversion],
+			apiVersion: data[this.paths.apiVersion],
 			exists: data[this.paths.exists],
 			// type: data[this.paths.type],
 			title: data[this.paths.title],
