@@ -48,7 +48,7 @@ Sets up 4 fields that will be attached to the list; `createdAt`, `createdBy`, `u
 * createdAt adds a pre-save hook, and is set to `new Date()` if the item is new.
 * updatedAt adds a pre-save hook, and is set to `new Date()` if the item is new or modified.
 * createdBy is a relationship field to your [user model](/documentation/configuration/user-model/#user-model), which will be automatically set by the admin UI if the item is new.
-* udpatedBy is a relationship field to your [user model](/documentation/configuration/user-model/#user-model), which will be automatically set by the admin UI if the item is new or modified.
+* updatedBy is a relationship field to your [user model](/documentation/configuration/user-model/#user-model), which will be automatically set by the admin UI if the item is new or modified.
 
 If you want to update `createdBy` and `updatedBy` on server side saves, you can use [updateItem](/api/list/update-item) to pass in a user.
 
