@@ -294,7 +294,7 @@ Boolean	    Boolean
 
 ### Field Options
 
-For a full list of options that are available to all fields, see the [field options](/field/options) list.
+For a full list of options that are available to all fields, see the [field options](/field/options) list. [This link doesn't work]
 
 ### Underscore Methods
 
