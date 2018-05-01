@@ -19,7 +19,9 @@ know. We'll help you get started, rather than adding it to the queue.
 (with regards to formatting, etc)
 * You can also run `npm run lint`
 but please ensure there are not more violations than before your changes.
-* All new features and changes need documentation. They live over at the  [Keystone-site](https://github.com/keystonejs/keystonejs-site) repo.
+* All new features and changes need documentation, so ensure they are 
+documented extensively under 
+[docs](https://github.com/keystonejs/keystone/tree/master/docs) when implemented.
 * We have three translations so far,
 please read our [Documentation Translation  Guidelines](https://github.com/keystonejs/keystone/wiki/Documentation-Translation-Guidelines).
 
