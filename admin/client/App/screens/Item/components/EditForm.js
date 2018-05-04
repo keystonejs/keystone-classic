@@ -46,6 +46,15 @@ function smoothScrollTop () {
 	}
 }
 
+function quickScrollTop () {
+	if (document.body.scrollTop || document.documentElement.scrollTop) {
+		window.scrollBy(0, -500);
+		var timeOut = setTimeout(quickScrollTop, 20);
+	}	else {
+		clearTimeout(timeOut);
+	}
+}
+
 var EditForm = React.createClass({
 	displayName: 'EditForm',
 	propTypes: {
@@ -132,7 +141,8 @@ var EditForm = React.createClass({
 		});
 
 		list.updateItem(data.id, formData, (err, data) => {
-			smoothScrollTop();
+			// smoothScrollTop();
+			quickScrollTop();
 			if (err) {
 				this.setState({
 					alerts: {
