@@ -2,7 +2,6 @@ var async = require('async');
 var FieldType = require('../Type');
 var util = require('util');
 var utils = require('keystone-utils');
-// var keystone = require('../../../');
 var isReserved = require('../../../lib/list/isReserved');
 
 /**
@@ -189,13 +188,9 @@ obj.prototype.updateItem = function (item, data, files, callback) {
 
 	// Recursively get nested fields
 	var value = getDataFromObject(data, field);
-
-
-
 	item.set(field.path, value);
 
 	callback();
-
 };
 
 function getDataFromObject(data, field) {
@@ -215,7 +210,6 @@ function getDataFromObject(data, field) {
 	}
 
 	return fullObject;
-
 }
 
 /* Export Field Type */
