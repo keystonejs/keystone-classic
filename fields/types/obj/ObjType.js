@@ -186,18 +186,37 @@ obj.prototype.updateItem = function (item, data, files, callback) {
 	}
 
 	var field = this;
-	var value = {};
 
-	field.fieldsArray.forEach(function (nestedField) {
-		var nestedValue = nestedField.getValueFromData(data[field.path]);
-		value[nestedField.path] = nestedValue;
-	});
+	// Recursively get nested fields
+	var value = getDataFromObject(data, field);
+
+
 
 	item.set(field.path, value);
 
 	callback();
 
 };
+
+function getDataFromObject(data, field) {
+
+	let fullObject = {};
+
+	if (field.fieldsArray) {
+		field.fieldsArray.forEach(function (nestedField) {
+			if (nestedField.fieldsArray) {
+				fullObject[nestedField.path] = getDataFromObject(data, nestedField)
+			} else {
+				fullObject[nestedField.path] = nestedField.getValueFromData(data[field.path] || data);
+			}
+		})
+	} else {
+		fullObject[field.path] = field.getValueFromData(data[nestedField.path] || data);
+	}
+
+	return fullObject;
+
+}
 
 /* Export Field Type */
 module.exports = obj;
