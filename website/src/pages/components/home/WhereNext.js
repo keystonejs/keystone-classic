@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Container from '../../../components/Container';
+import Container from '../../../../components/Container';
 import Link from 'gatsby-link';
-import { Col, Row } from '../../../components/Grid';
+import { Col, Row } from '../../../../components/Grid';
 import { compose } from 'glamor';
 
 export default class ValueProps extends Component {

@@ -10,28 +10,26 @@ export default class DocumentLayout extends React.Component {
 	constructor (props) {
 		super(props);
 
-		this.getNavItems = this.getNavItems.bind(this);
 	}
-	getNavItems () {
+
+	getNavItems = () => {
 		const { edges } = this.props.data.allMarkdownRemark;
 		let currentSection;
 		const sections = {};
-		console.info(this.props.location.pathname);
 
-		edges.forEach(({ node }) => {
-			const { section } = node;
+		edges.forEach(edge => {
+			const { section } = edge.node.fields;
 
-			console.log('matching path', node.slug === this.props.location.pathname);
 			const newSection = section !== currentSection;
 			currentSection = section;
 
 			if (newSection) sections[section] = [];
 		});
 
-		edges.forEach(({ node }) => {
-			const { headings, section, slug } = node;
+		edges.forEach(edge => {
+			const { section, slug } = edge.node.fields;
 
-			const label = headings
+			const label = edge.node.headings
 				.map(h => h.value)[0]
 				|| '(no title)';
 
@@ -45,6 +43,7 @@ export default class DocumentLayout extends React.Component {
 	}
 	render () {
 		const { data, data: { markdownRemark } } = this.props;
+
 		const { title: siteTitle } = data.site.siteMetadata;
 		const body = markdownRemark.html;
 		const path = markdownRemark.parent.relativePath;
@@ -58,9 +57,6 @@ export default class DocumentLayout extends React.Component {
 		const editPath = `
 			https://github.com/keystonejs/keystone/blob/docs/docs/${path}
 		`;
-
-		// console.log('data', this.props.data);
-		// console.log('location', this.props.location);
 
 		return (
 			<div>
@@ -76,7 +72,9 @@ export default class DocumentLayout extends React.Component {
 	}
 };
 
-export const pageQuery = `
+
+// { headings, section, slug }
+export const pageQuery = graphql`
 query MarkdownTemplate($slug: String!) {
 	site {
 		siteMetadata {
@@ -84,23 +82,24 @@ query MarkdownTemplate($slug: String!) {
 		}
 	}
 	allMarkdownRemark {
-		edges {
-			node {
-				section
-				slug
-				headings(depth: h1) {
-					value
-				}
-			}
-		}
-	}
-	markdownRemark(slug: { eq: $slug }) {
+      edges {
+        node {
+          fields {
+            slug
+		  	section
+          }
+          headings(depth: h1) {
+            value
+          }
+        }
+      }
+    }
+	markdownRemark(fields: { slug: { eq: $slug } }) {
 		parent {
 			...on File {
 				relativePath
 			}
 		}
-		slug
 		headings(depth: h1) {
 			value
 		}

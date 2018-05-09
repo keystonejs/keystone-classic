@@ -14,7 +14,6 @@ import Menu from './Menu';
 import { api, documentation, gettingStarted, guides } from '../../data/navigation';
 
 const sections = [gettingStarted, guides, documentation, api];
-console.table(sections);
 
 class Navbar extends Component {
 	constructor (props) {

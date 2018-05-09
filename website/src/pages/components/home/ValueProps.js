@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import Container from '../../../components/Container';
-import { Col, Row } from '../../../components/Grid';
+import Container from '../../../../components/Container';
+import { Col, Row } from '../../../../components/Grid';
 import { compose } from 'glamor';
-import theme from '../../../theme';
+import theme from '../../../../theme';
 
 import {
 	EntypoLeaf,
