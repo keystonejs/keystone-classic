@@ -146,9 +146,6 @@ list.prototype.addFilterToQuery = function (filter) { };
  * Asynchronously confirms that the provided value is valid
  */
 list.prototype.validateInput = function (data, callback) {
-	// TODO
-	// var value = this.getValueFromData(data);
-	// utils.defer(callback, result);
 
 	var field = this;
 	var value = this.getValueFromData(data);
