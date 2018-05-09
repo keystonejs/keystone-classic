@@ -3,6 +3,8 @@ var FieldType = require('../Type');
 var util = require('util');
 var utils = require('keystone-utils');
 var isReserved = require('../../../lib/list/isReserved');
+var q = require('q');
+var _ = require('lodash');
 
 /**
  * Obj FieldType Constructor
@@ -145,10 +147,30 @@ obj.prototype.addFilterToQuery = function (filter) { };
  * Asynchronously confirms that the provided value is valid
  */
 obj.prototype.validateInput = function (data, callback) {
-	// TODO
-	// var value = this.getValueFromData(data);
+	
 	var result = true;
 	utils.defer(callback, result);
+
+	// var field = this;
+	// var value = this.getValueFromData(data);
+	// var fieldsToValidate = [];
+	// var result = true;
+
+	// if (!!value) {
+	// 	field.fieldsArray.forEach(function (f) {
+	// 		var deferred = q.defer();
+	// 		fieldsToValidate.push(deferred.promise);
+	// 		f.validateInput(value, function (result) {
+	// 			deferred.resolve(result);
+	// 		});
+	// 	});
+	// }
+
+	// q.allSettled(fieldsToValidate)
+	// 	.then(function (results) {
+	// 		var valid = !_.filter(results, function (result) { return !result.value; }).length;
+	// 		utils.defer(callback, valid);
+	// 	});
 };
 
 /**
