@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import Container from '../../../components/Container';
-import { Col, Row } from '../../../components/Grid';
-import theme from '../../../theme';
+import Container from '../../../../components/Container';
+import { Col, Row } from '../../../../components/Grid';
+import theme from '../../../../theme';
 import { compose } from 'glamor';
 import { EntypoTools, EntypoCloud, EntypoRocket } from 'react-entypo';
-import { rhythm } from 'utils/typography';
+import { rhythm } from '../../../../utils/typography';
 
 const ValueProp = ({ icon, text, title, text2, marginTop }) => {
 	return (

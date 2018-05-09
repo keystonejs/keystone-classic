@@ -1,5 +1,5 @@
 # Global settings applied to the whole site.
 [build]
-  base = "www"
-  publish = "www/public"
+  base = "website"
+  publish = "website/public"
   command = "gatsby build"

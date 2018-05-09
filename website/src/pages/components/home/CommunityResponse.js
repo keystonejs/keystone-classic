@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Container from '../../../components/Container';
-import { Col, Row } from '../../../components/Grid';
+import Container from '../../../../components/Container';
+import { Col, Row } from '../../../../components/Grid';
 import Link from 'gatsby-link';
 import TweetEmbed from 'react-tweet-embed';
 
