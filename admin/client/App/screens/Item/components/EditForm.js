@@ -38,11 +38,16 @@ function getNameFromData (data) {
 }
 
 function smoothScrollTop () {
-	if (document.body.scrollTop || document.documentElement.scrollTop) {
-		window.scrollBy(0, -50);
-		var timeOut = setTimeout(smoothScrollTop, 20);
-	}	else {
-		clearTimeout(timeOut);
+	var position = window.scrollY || window.pageYOffset;
+	var speed = position / 10;
+
+	if (position > 1) {
+		var newPosition = position - speed;
+
+		window.scrollTo(0, newPosition);
+		window.requestAnimationFrame(smoothScrollTop);
+	} else {
+		window.scrollTo(0, 0);
 	}
 }
 
