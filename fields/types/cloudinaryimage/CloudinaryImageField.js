@@ -292,12 +292,15 @@ module.exports = Field.create({
 		this.setState({ selectValue: option ? option.value : null });
 	},
 	handleLoadOptions (input, callback) {
-		const { listPath, path } = this.props;
+		const { listPath, path, selectPrefix } = this.props;
 
-		let prefix = Keystone.options.cloudinaryPrefix ? `${Keystone.options.cloudinaryPrefix}/` : '';
-		if (Keystone.options.cloudinaryFolders) {
+		let prefix = '';
+		if (selectPrefix) {
+			prefix = selectPrefix;
+		} else if (Keystone.options.cloudinaryFolders) {
+			prefix = Keystone.options.cloudinaryPrefix ? `${Keystone.options.cloudinaryPrefix}/` : '';
 			prefix += `${listPath}/${path}`;
-		};
+		}
 
 		$.get('/keystone/api/cloudinary/autocomplete', {
 			dataType: 'json',
