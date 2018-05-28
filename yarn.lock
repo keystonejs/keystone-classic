@@ -4043,9 +4043,9 @@ klaw@^1.0.0:
   optionalDependencies:
     graceful-fs "^4.1.9"
 
-knox@keystonejs/knox:
-  version "0.9.2"
-  resolved "https://codeload.github.com/keystonejs/knox/tar.gz/170c579ae8c0f7268d73dae77a6455f5c962d530"
+knox-s3@0.9.5:
+  version "0.9.5"
+  resolved "https://registry.yarnpkg.com/knox-s3/-/knox-s3-0.9.5.tgz#48fe99953ccb57697d184f631bc8efe8f1dcb575"
   dependencies:
     debug "^2.2.0"
     mime "^1.4.0"
@@ -4697,9 +4697,9 @@ module-not-found-error@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/module-not-found-error/-/module-not-found-error-1.0.1.tgz#cf8b4ff4f29640674d6cdd02b0e3bc523c2bbdc0"
 
-moment@2.18.1:
-  version "2.18.1"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.18.1.tgz#c36193dd3ce1c2eed2adb7c802dbbc77a81b1c0f"
+moment@2.19.3:
+  version "2.19.3"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.19.3.tgz#bdb99d270d6d7fda78cc0fbace855e27fe7da69f"
 
 moment@^2.14.1:
   version "2.19.1"
