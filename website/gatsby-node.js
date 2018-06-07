@@ -58,7 +58,8 @@ exports.createPages = (
 								node {
 									fields {
 										slug
-									}								}
+									}
+								}
 							}
 						}
 					}
