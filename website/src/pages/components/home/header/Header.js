@@ -34,8 +34,8 @@ export default class Header extends Component {
 						</ul>
 						<ul className={compose(styles.list_links)}>
 							<li className={compose(styles.list_links_item)}><EntypoDocuments /> <Link to="/documentation" style={{ color: 'white' }}>Read the Documentation</Link></li>
-							<li className={compose(styles.list_links_item)}><a href="https://twitter.com/keystonejs" style={{ color: 'white' }}><EntypoTwitter /> Follow @KeysoneJS on Twitter</a></li>
-							<li className={compose(styles.list_links_item)}><a href="http://github.com/keystonejs/keystone" style={{ color: 'white' }}><EntypoGithub /> Star on GitHub</a></li>
+							<li className={compose(styles.list_links_item)}><a href="https://twitter.com/keystonejs" style={{ color: 'white' }}><EntypoTwitter /> Follow @KeystoneJS on Twitter</a></li>
+							<li className={compose(styles.list_links_item)}><a href="https://github.com/keystonejs/keystone" style={{ color: 'white' }}><EntypoGithub /> Star on GitHub</a></li>
 						</ul>
 						<p className={compose(styles.heading_text)}>Keystone powers websites, apps and APIs for:</p>
 						<div className={compose(styles.home_header_brands)}>
