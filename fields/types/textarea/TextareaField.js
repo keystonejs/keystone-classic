@@ -31,7 +31,7 @@ module.exports = Field.create({
 		);
 	},
 	renderField () {
-		const { height, min, max, path, style, value } = this.props;
+		const { displayChars, height, path, style, value } = this.props;
 
 		const styles = {
 			height: height,
@@ -48,7 +48,7 @@ module.exports = Field.create({
 					style={styles}
 					value={value}
 				/>
-				{(min || max)
+				{displayChars
 				&& this.renderCount()}
 			</div>
 		);
