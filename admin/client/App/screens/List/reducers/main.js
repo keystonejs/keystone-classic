@@ -6,6 +6,7 @@ import {
 	LOAD_ITEMS,
 	ITEM_LOADING_ERROR,
 	SET_CURRENT_PAGE,
+	QUERY_HAS_CHANGED,
 	SET_ROW_ALERT,
 	RESET_DRAG_PAGE,
 	RESET_DRAG_ITEMS,
@@ -140,6 +141,7 @@ function lists (state = initialState, action) {
 				},
 			});
 		case SET_CURRENT_PAGE:
+			console.log(action.index);
 			return assign({}, state, {
 				loading: true,
 				page: {
@@ -188,6 +190,15 @@ function lists (state = initialState, action) {
 				drag: {
 					...state.drag,
 					index: action.index,
+				},
+			});
+		case QUERY_HAS_CHANGED:
+			const index = parseInt(action.parsedQuery.currentPage) || 1;
+			return assign({}, state, {
+				loading: true,
+				page: {
+					...state.page,
+					index,
 				},
 			});
 		case DRAG_MOVE_ITEM:

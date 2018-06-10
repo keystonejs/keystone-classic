@@ -2,6 +2,7 @@
 // Spinner
 // ==============================
 
+import { compose } from 'glamor';
 import theme from '../../../theme';
 import colors from './colors';
 import sizes from './sizes';
@@ -23,10 +24,11 @@ sizes.forEach(size => {
 });
 
 // Declare animation keyframes
-const pulse = {
+
+const keyframes = compose.keyframes('pulse', {
 	'0%, 80%, 100%': { opacity: 0 },
 	'40%': { opacity: 1 },
-};
+});
 
 module.exports = {
 	base: {
@@ -54,7 +56,7 @@ module.exports = {
 
 	// dots
 	dot: {
-		animationName: pulse,
+		animationName: keyframes,
 		animationDuration: '1s',
 		animationIterationCount: 'infinite',
 		borderRadius: '1em',

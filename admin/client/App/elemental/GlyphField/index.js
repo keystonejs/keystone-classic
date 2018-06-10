@@ -1,7 +1,6 @@
 /* eslint quote-props: ["error", "as-needed"] */
 
 import React, { PropTypes } from 'react';
-import { StyleSheet } from 'aphrodite/no-important';
 import Field from '../FormField';
 import Glyph from '../Glyph';
 
@@ -22,7 +21,7 @@ function GlyphField ({
 
 	const icon = (
 		<Glyph
-			aphroditeStyles={classes.glyph}
+			cssStyles={classes.glyph}
 			color={glyphColor}
 			name={glyph}
 			size={glyphSize}
@@ -31,7 +30,7 @@ function GlyphField ({
 	);
 
 	return (
-		<Field aphroditeStyles={classes.wrapper} {...props}>
+		<Field cssStyles={classes.wrapper} {...props}>
 			{isLeft && icon}
 			{children}
 			{isRight && icon}
@@ -52,7 +51,7 @@ GlyphField.defaultProps = {
 	position: 'left',
 };
 
-const classes = StyleSheet.create({
+const classes = {
 	wrapper: {
 		alignItems: 'center',
 		display: 'flex',
@@ -62,6 +61,6 @@ const classes = StyleSheet.create({
 		marginTop: '-0.125em', // fix icon alignment
 		verticalAlign: 'middle',
 	},
-});
+};
 
 module.exports = GlyphField;

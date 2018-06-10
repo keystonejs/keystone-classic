@@ -11,7 +11,9 @@ Stores a nested structure in the model with the properties:
 }
 ```
 
-The `html` path is updated when the `md` path is set by [Marked](https://github.com/chjj/marked)
+When the `md` path is set, the value is first sanitized using [`sanitize-html`](https://github.com/punkave/sanitize-html), then rendered into HTML using [`marked`](https://github.com/chjj/marked).
+(Options for both these packages can be provided in the field definition, see below.)
+The resultant HTML is persisted as `html`.
 
 ## Options
 
@@ -34,6 +36,15 @@ Comma separated list of buttons to hide.
 ```js
 { type: Types.Markdown, toolbarOptions: { hiddenButtons: 'H1,H6,Code' } }
 ```
+
+`markedOptions` `Object`
+
+markedOptions are an object within options. When generating the html, these options are passed directly in to [Marked](https://github.com/chjj/marked). See the `marked` documentation for details on what options are valid.
+
+`sanitizeOptions` `Object`
+
+Supplied as options to the [`sanitize-html`](https://github.com/punkave/sanitize-html) package.
+If not supplied the field will inherit the [package defaults](https://github.com/punkave/sanitize-html#what-are-the-default-options).
 
 ## Schema
 

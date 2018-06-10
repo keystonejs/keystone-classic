@@ -1,4 +1,4 @@
-import { css, StyleSheet } from 'aphrodite/no-important';
+import { css } from 'glamor';
 import React, { PropTypes } from 'react';
 import DrilldownItem from './DrilldownItem';
 
@@ -29,13 +29,13 @@ Drilldown.propTypes = {
 	).isRequired,
 };
 
-const classes = StyleSheet.create({
+const classes = {
 	drilldown: {
 		display: 'inline-block',
 		listStyle: 'none',
 		margin: 0,
 		padding: 0,
 	},
-});
+};
 
 module.exports = Drilldown;

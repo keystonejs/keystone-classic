@@ -1,4 +1,4 @@
-import { css, StyleSheet } from 'aphrodite/no-important';
+import { css } from 'glamor';
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import { Button, Glyph } from '../../../elemental';
@@ -47,7 +47,7 @@ DrilldownItem.defaultProps = {
 	separator: <Glyph name="chevron-right" />,
 };
 
-const classes = StyleSheet.create({
+const classes = {
 	item: {
 		display: 'inline-block',
 		margin: 0,
@@ -59,6 +59,6 @@ const classes = StyleSheet.create({
 		marginLeft: '0.5em',
 		marginRight: '0.5em',
 	},
-});
+};
 
 module.exports = DrilldownItem;

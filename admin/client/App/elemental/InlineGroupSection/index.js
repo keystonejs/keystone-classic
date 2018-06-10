@@ -1,14 +1,12 @@
-import { css, StyleSheet } from 'aphrodite/no-important';
+import { css } from 'glamor';
 import React, { cloneElement, PropTypes } from 'react';
-import styles from './styles';
-
-const classes = StyleSheet.create(styles);
+import classes from './styles';
 
 // NOTE: Inline Group Section accepts a single child
 
 function InlineGroupSection ({
 	active,
-	aphroditeStyles,
+	cssStyles,
 	children,
 	className,
 	contiguous,
@@ -22,19 +20,19 @@ function InlineGroupSection ({
 	// A `contiguous` section must manipulate it's child directly
 	// A separate (default) section just wraps the child
 	return contiguous ? cloneElement(children, {
-		aphroditeStyles: [
+		cssStyles: [
 			classes.contiguous,
 			classes['contiguous__' + position],
 			active ? classes.active : null,
 			grow ? classes.grow : null,
-			aphroditeStyles,
+			cssStyles,
 		],
 		...props,
 	}) : (
 		<div className={css(
 			!!grow && classes.grow,
 			!!separate && classes.separate,
-			aphroditeStyles
+			cssStyles
 		)} {...props}>
 			{children}
 		</div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { css, StyleSheet } from 'aphrodite/no-important';
+import { css } from 'glamor';
 
 function ScreenReaderOnly ({ className, ...props }) {
 	props.className = css(classes.srOnly, className);
@@ -7,7 +7,7 @@ function ScreenReaderOnly ({ className, ...props }) {
 	return <span {...props} />;
 };
 
-const classes = StyleSheet.create({
+const classes = {
 	srOnly: {
 		border: 0,
 		clip: 'rect(0,0,0,0)',
@@ -18,6 +18,6 @@ const classes = StyleSheet.create({
 		position: 'absolute',
 		width: 1,
 	},
-});
+};
 
 module.exports = ScreenReaderOnly;
