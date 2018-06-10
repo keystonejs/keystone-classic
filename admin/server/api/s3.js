@@ -5,7 +5,7 @@ TODO: Needs Review and Spec
 module.exports = {
 
 	upload: function (req, res) {
-		var knox = require('knox');
+		var knox = require('knox-s3');
 		var keystone = req.keystone;
 		var Types = keystone.Field.Types;
 

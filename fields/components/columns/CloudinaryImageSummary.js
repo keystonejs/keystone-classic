@@ -58,7 +58,8 @@ var CloudinaryImageSummary = React.createClass({
 	},
 	renderImageThumbnail () {
 		if (!this.props.image) return;
-		const url = this.props.image.url.replace(/image\/upload/, `image/upload/c_thumb,g_face,h_${IMAGE_SIZE},w_${IMAGE_SIZE}`);
+		const startingUrl = this.props.secure ? this.props.image.secure_url : this.props.image.url;
+		const url = startingUrl.replace(/image\/upload/, `image/upload/c_thumb,g_face,h_${IMAGE_SIZE},w_${IMAGE_SIZE}`);
 		return <img src={url} style={imageStyle} className="img-load" />;
 	},
 	render () {

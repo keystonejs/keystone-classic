@@ -1,6 +1,9 @@
 # Datearray field
 
 Stores an `Array` of `Dates` in the model.
+In the admin UI displays a Date field, with an 'add item' button below it.
+
+Each item in the date array is validated and parsed using [momentjs](momentjs.com). See the moment documents for what valid formats are.
 
 ## Options
 
@@ -12,11 +15,11 @@ Defaults to `" | "`;
 
 ### `parseFormat` `String`
 
-The default date format, defaults to `"'YYYY-MM-DD'"`
+The default format used to validate information being added. Defaults to `"'YYYY-MM-DD'"`. Uses moment to parse the input with the format string.
 
 ### `format` `String`
 
-The default format pattern to use, defaults to `"'Do MMM YYYY'"`
+The default format to display information in. Defaults to `"'Do MMM YYYY'"`. This is parsed using moment.
 
 ## Methods
 

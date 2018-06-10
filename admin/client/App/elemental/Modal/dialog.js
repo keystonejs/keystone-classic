@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { css, StyleSheet } from 'aphrodite/no-important';
+import { css } from 'glamor';
 import ScrollLock from '../ScrollLock';
 import Portal from '../Portal';
 
@@ -108,7 +108,7 @@ ModalDialog.childContextTypes = {
 	onClose: PropTypes.func.isRequired,
 };
 
-const classes = StyleSheet.create({
+const classes = {
 	container: {
 		alignItems: 'center',
 		backgroundColor: theme.modal.background,
@@ -125,12 +125,14 @@ const classes = StyleSheet.create({
 	dialog: {
 		backgroundColor: 'white',
 		borderRadius: theme.borderRadius.default,
+		maxHeight: '90%',
+		overflowY: 'auto',
 		paddingBottom: theme.modal.padding.dialog.vertical,
 		paddingLeft: theme.modal.padding.dialog.horizontal,
 		paddingRight: theme.modal.padding.dialog.horizontal,
 		paddingTop: theme.modal.padding.dialog.vertical,
 		position: 'relative',
 	},
-});
+};
 
 export default ModalDialog;

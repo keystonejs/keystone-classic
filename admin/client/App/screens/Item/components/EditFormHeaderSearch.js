@@ -2,7 +2,7 @@
 
 import React, { Component, PropTypes } from 'react';
 import { findDOMNode } from 'react-dom';
-import { css, StyleSheet } from 'aphrodite/no-important';
+import { css } from 'glamor';
 import { FormInput, Glyph, GlyphButton } from '../../../elemental';
 import theme from '../../../../theme';
 
@@ -30,13 +30,13 @@ class EditFormHeaderSearch extends Component {
 		return focused ? (
 			<div className={css(classes.wrapper)}>
 				<Glyph
-					aphroditeStyles={classes.glyph}
+					cssStyles={classes.glyph}
 					color={theme.color.gray40}
 					name="search"
 					data-e2e-search-icon
 				/>
 				<FormInput
-					aphroditeStyles={classes.input}
+					cssStyles={classes.input}
 					name="search"
 					onBlur={() => this.setState({ focused: false })}
 					onChange={onChange}
@@ -74,7 +74,7 @@ EditFormHeaderSearch.propTypes = {
 	value: PropTypes.string,
 };
 
-const classes = StyleSheet.create({
+const classes = {
 	wrapper: {
 		display: 'inline-block',
 		position: 'relative',
@@ -103,7 +103,7 @@ const classes = StyleSheet.create({
 		position: 'absolute',
 		width: '2.2em',
 	},
-});
+};
 
 module.exports = EditFormHeaderSearch;
 
