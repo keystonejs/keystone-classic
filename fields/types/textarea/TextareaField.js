@@ -11,13 +11,14 @@ module.exports = Field.create({
 	renderCount () {
 		const { min, max, value } = this.props;
 
+		const color = (lessThanMin || greaterThanMax) ? theme.color.danger : theme.color.default;
+		const styles = { color, paddingTop: '5px', textAlign: 'right' };
+
 		if (!value) return <h5 style={styles}>{`Characters: 0`}</h5>;
 
 		const length = value.length;
 		const lessThanMin = min ? length < min : false;
 		const greaterThanMax = max ? length > max : false;
-		const color = (lessThanMin || greaterThanMax) ? theme.color.danger : theme.color.default;
-		const styles = { color, paddingTop: '5px', textAlign: 'right' };
 
 		return <h5 style={styles}>{`Characters: ${value.length}`}</h5>;
 	},
