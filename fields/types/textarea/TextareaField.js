@@ -10,17 +10,15 @@ module.exports = Field.create({
 	},
 	renderCount () {
 		const { min, max, value } = this.props;
+		
+		const length = value ? value.length : 0;
+		const lessThanMin = min ? length < min : false;
+		const greaterThanMax = max ? length > max : false;
 
 		const color = (lessThanMin || greaterThanMax) ? theme.color.danger : theme.color.default;
 		const styles = { color, paddingTop: '5px', textAlign: 'right' };
 
-		if (!value) return <h5 style={styles}>{`Characters: 0`}</h5>;
-
-		const length = value.length;
-		const lessThanMin = min ? length < min : false;
-		const greaterThanMax = max ? length > max : false;
-
-		return <h5 style={styles}>{`Characters: ${value.length}`}</h5>;
+		return <h5 style={styles}>{`Characters: ${length}`}</h5>;
 	},
 	renderValue () {
 		const { height } = this.props;
