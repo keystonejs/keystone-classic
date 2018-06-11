@@ -10,6 +10,9 @@ module.exports = Field.create({
 	},
 	renderCount () {
 		const { min, max, value } = this.props;
+
+		if (!value) return null;
+
 		const length = value.length;
 		const lessThanMin = min ? length < min : false;
 		const greaterThanMax = max ? length > max : false;
