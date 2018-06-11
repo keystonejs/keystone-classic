@@ -11,7 +11,7 @@ module.exports = Field.create({
 	renderCount () {
 		const { min, max, value } = this.props;
 
-		if (!value) return null;
+		if (!value) return <h5 style={styles}>{`Characters: 0`}</h5>;
 
 		const length = value.length;
 		const lessThanMin = min ? length < min : false;
