@@ -26,6 +26,8 @@ const styles = {
 		backgroundColor: theme.color.lightBlue,
 		textAlign: 'center',
 		padding: '4rem 0',
+		width: '100vw',
+		overflow: 'hidden',
 	},
 	heading: {
 		fontSize: '2em',
@@ -38,4 +40,5 @@ const styles = {
 		margin: '3rem 0 0',
 		display: 'block',
 	},
+
 };

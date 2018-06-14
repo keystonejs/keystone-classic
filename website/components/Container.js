@@ -6,8 +6,8 @@ const styles = {
 		boxSizing: 'border-box',
 		marginLeft: 'auto',
 		marginRight: 'auto',
-		paddingLeft: '1rem',
-		paddingRight: '1rem',
+		paddingLeft: '2rem',
+		paddingRight: '2rem',
 		position: 'relative',
 
 		[theme.breakpoint.mediumUp]: {

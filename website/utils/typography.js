@@ -18,6 +18,7 @@ const theme = {
 	bodyFontFamily: fonts,
 	bodyWeight: 400,
 	boldWeight: 700,
+	bodyBackgroundColor: '#FFFFFF',
 	headerColor: '#123d62',
 	headerFontFamily: fonts,
 	headerWeight: 600,

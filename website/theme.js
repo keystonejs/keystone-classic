@@ -6,7 +6,7 @@ import { rhythm } from './utils/typography';
 
 // breakpoint
 export const breakpointNumeric = {
-	small: 400,
+	small: 411,
 	medium: 768,
 	large: 1024,
 	xlarge: 1280,

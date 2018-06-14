@@ -44,7 +44,7 @@ export default class ValueProps extends Component {
 						<h2 className={compose(styles.heading)}>Get a head-start on the features you need</h2>
 						<p className={compose(styles.subheading)}>KeystoneJS is the easiest way to build database-driven websites, applications and APIs in Node.js.</p>
 					</div>
-					<Row medium="1" large="1/4">
+					<Row medium="1/2" large="1/4">
 						<Col>
 							<ValueProp
 								title="Express.js and MongoDB"
@@ -74,7 +74,7 @@ export default class ValueProps extends Component {
 							/>
 						</Col>
 					</Row>
-					<Row medium="1" large="1/4">
+					<Row medium="1/2" large="1/4">
 						<Col>
 							<ValueProp
 								title="Simpler Code"

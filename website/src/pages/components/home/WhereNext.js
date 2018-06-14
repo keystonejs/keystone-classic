@@ -10,7 +10,7 @@ export default class ValueProps extends Component {
 		return (
 			<div className={compose(styles.wrapper)}>
 				<Container>
-					<Row medium="1" large="1/2">
+					<Row medium="1/2" large="1/2">
 						<Col>
 							<Link to="/getting-started" className={compose(styles.card)}>
 								<h3 className={compose(styles.next__heading)}>Get Started →</h3>
@@ -41,6 +41,7 @@ const styles = {
 	},
 	card: {
 		padding: '2rem',
+		margin: '1rem 0',
 		borderRadius: 8,
 		boxShadow: '0px 0px 10px rgba(0,0,0,0.15)',
 		display: 'block',

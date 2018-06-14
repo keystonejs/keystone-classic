@@ -28,8 +28,6 @@ export default class ValueProps extends Component {
 	render () {
 		return (
 			<div className={compose(styles.wrapper)}>
-				<EntypoCloud style={{ width: '200px', height: '170px', color: theme.color.blue, marginTop: '-170px', position: 'absolute', right: '8%' }} />
-				<EntypoRocket style={{ width: '137px', height: '140px', color: theme.color.blue, marginTop: '-220px', position: 'absolute', left: '8%' }} />
 				<Container>
 					<div className={compose(styles.intro)}>
 						<h2 className={compose(styles.heading)}>What you build is up to you.</h2>
@@ -123,5 +121,21 @@ const styles = {
 	},
 	text: {
 		marginTop: '1rem',
+	},
+	cloud: {
+		width: '200px',
+		height: '170px',
+		color: theme.color.blue,
+		marginTop: '-170px',
+		position: 'absolute',
+		right: '8%',
+	},
+	rocket: {
+		width: '137px',
+		height: '140px',
+		color: theme.color.blue,
+		marginTop: '-220px',
+		position: 'absolute',
+		left: '8%',
 	},
 };

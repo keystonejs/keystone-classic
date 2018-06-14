@@ -107,7 +107,7 @@ const styles = {
 
 		[theme.breakpoint.mediumDown]: {
 			width: '100%',
-			padding: '4rem 1.875rem 0',
+			padding: '4rem 0rem 0',
 		},
 	},
 	heading: {

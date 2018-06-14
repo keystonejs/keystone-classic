@@ -77,6 +77,7 @@ export default class Header extends Component {
 							Community
 						</a>
 					</li>
+					<li className={compose(styles.buffer)}>&nbsp;</li>
 				</ul>
 				<div
 					className={compose(
@@ -97,7 +98,7 @@ const styles = {
 	navBar: {
 		display: 'flex',
 		alignItems: 'center',
-		justifyContent: 'space-between',
+		justifyContent: 'center',
 		color: 'white',
 		height: '3rem',
 		[theme.breakpoint.smallOnly]: {
@@ -134,19 +135,28 @@ const styles = {
 		justifyContent: 'center',
 
 		[theme.breakpoint.smallOnly]: {
+			height: '3.75rem',
+			alignItems: 'flex-start',
 			marginTop: '4rem',
 			flexWrap: 'noWrap',
-			overflow: 'scroll',
-			marginLeft: '-1rem',
-			marginRight: '-1rem',
-			padding: '0 1rem',
+			overflowX: 'scroll',
+			overflowY: 'hidden',
+			marginLeft: '-2rem',
+			marginRight: '-2rem',
+			padding: '0 2rem',
 			justifyContent: 'flex-start',
+			webkitOverflowScrolling: 'touch',
 		},
 	},
 	navItem: {
 		margin: '0 0.625em',
 		padding: 0,
 		lineHeight: 1.4,
+
+		[theme.breakpoint.smallOnly]: {
+			margin: '0 1.25rem 0 0',
+			fontSize: '1.15rem',
+		},
 	},
 	navItemLink: {
 		color: 'inherit',
