@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Helmet from 'react-helmet';
 
 import Hero from './components/home/Hero';
 import ValueProps from './components/home/ValueProps';
@@ -12,6 +13,12 @@ export default class HomePage extends Component {
 	render () {
 		return (
 			<div>
+				<Helmet defaultTitle={'KeystoneJS'} titleTemplate={'%s | KeystoneJS'}>
+					<meta name="twitter:site" content="@keystonejs" />
+					<meta name="og:type" content="website" />
+					<meta name="og:site_name" content="KeystoneJS" />
+					<html lang="en" />
+				</Helmet>
 				<Hero />
 				<ValueProps />
 				<CommunityResponse />
@@ -22,4 +29,4 @@ export default class HomePage extends Component {
 			</div>
 		);
 	}
-};
+}

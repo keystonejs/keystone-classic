@@ -41,6 +41,7 @@ const Intro = () => (
 			<a
 				href="http://demo.keystonejs.com/"
 				className={compose(styles.button, styles.buttonSecondary)}
+				target="_blank"
 			>
 					Try the demo
 			</a>
@@ -58,7 +59,9 @@ const LatestRelease = () => (
 		<span className={compose(styles.releaseSide)}>
 			<a
 				href="https://github.com/keystonejs/keystone/blob/master/HISTORY.md"
-				style={{ color: 'white' }}>
+				style={{ color: 'white' }}
+				target="_blank"
+			>
 				See what's new
 			</a>
 		</span>
