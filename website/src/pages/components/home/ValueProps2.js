@@ -3,7 +3,7 @@ import Container from '../../../../components/Container';
 import { Col, Row } from '../../../../components/Grid';
 import theme from '../../../../theme';
 import { compose } from 'glamor';
-import { EntypoTools, EntypoCloud, EntypoRocket } from 'react-entypo';
+import { EntypoTools } from 'react-entypo';
 
 const ValueProp = ({ icon, text, title, text2, marginTop }) => {
 	return (
