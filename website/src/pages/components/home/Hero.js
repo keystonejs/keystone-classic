@@ -25,25 +25,28 @@ export default () => (
 
 const Intro = () => (
 	<div className={compose(styles.content)}>
-		<h1 className={compose(styles.heading)}>
-			Node.js CMS & web app platform
-		</h1>
+		<h1 className={compose(styles.heading)}>Node.js CMS & web app platform</h1>
 		<p className={compose(styles.subHeading)}>
-			KeystoneJS is an open source framework for developing database-driven websites, applications and APIs in Node.js. Built on Express and MongoDB.
+			KeystoneJS is an open source framework for developing database-driven
+			websites, applications and APIs in Node.js. Built on Express and MongoDB.
 		</p>
 		<div className={compose(styles.buttons)}>
 			<Link
 				to="/getting-started"
-				className={compose(styles.button, styles.buttonPrimary)}
-			>
+				className={compose(
+					styles.button,
+					styles.buttonPrimary
+				)}>
 				Get started
 			</Link>
 			<a
 				href="http://demo.keystonejs.com/"
-				className={compose(styles.button, styles.buttonSecondary)}
-				target="_blank"
-			>
-					Try the demo
+				className={compose(
+					styles.button,
+					styles.buttonSecondary
+				)}
+				target="_blank">
+				Try the demo
 			</a>
 		</div>
 		<LatestRelease />
@@ -60,8 +63,7 @@ const LatestRelease = () => (
 			<a
 				href="https://github.com/keystonejs/keystone/blob/master/HISTORY.md"
 				style={{ color: 'white' }}
-				target="_blank"
-			>
+				target="_blank">
 				See what's new
 			</a>
 		</span>
@@ -77,10 +79,7 @@ const Projects = () => (
 			<img src={continental} className={compose(styles.projectLogo)} />
 			<img src={westpac} className={compose(styles.projectLogo)} />
 			<img src={sony} className={compose(styles.projectLogo)} />
-			<img
-				src={event_cinemas}
-				className={compose(styles.projectLogo)}
-			/>
+			<img src={event_cinemas} className={compose(styles.projectLogo)} />
 			<img src={vodafone} className={compose(styles.projectLogo)} />
 			<img src={macmillan} className={compose(styles.projectLogo)} />
 		</div>

@@ -5,6 +5,7 @@ module.exports = {
 	plugins: [
 		'gatsby-plugin-react-helmet',
 		'gatsby-plugin-glamor',
+		'gatsby-transformer-remark',
 		{
 			resolve: 'gatsby-source-filesystem',
 			options: {
@@ -19,7 +20,6 @@ module.exports = {
 				path: `${__dirname}/../fields/types`,
 			},
 		},
-		'gatsby-transformer-remark',
 		{
 			resolve: 'gatsby-plugin-typography',
 			options: {
