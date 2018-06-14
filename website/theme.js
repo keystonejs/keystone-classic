@@ -26,7 +26,7 @@ export const breakpoint = {
 export const container = {
 	small: rhythm(12),
 	medium: rhythm(38),
-	large: rhythm(44),
+	large: rhythm(48),
 };
 
 // color
@@ -34,6 +34,7 @@ export const color = {
 	blue: '#348dd9',
 	blueDark: '#374e61',
 	lightBlue: '#ebf4fb',
+	green: '#0ede6f',
 
 	// experimental
 	orange: '#E59269',

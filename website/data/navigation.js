@@ -1,5 +1,5 @@
 export const gettingStarted = {
-	section: 'Starting',
+	section: 'Get started',
 	slug: '/getting-started',
 	items: [{
 		label: 'Getting Started',
@@ -68,7 +68,7 @@ export const documentation = {
 			slug: '/database-options',
 		}, {
 			label: 'Admin UI Option',
-			slug: '/server-options',
+			slug: '/admin-ui-options',
 		}],
 	}, {
 		section: 'Database',

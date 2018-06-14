@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import Header from './components/home/header/Header';
+import Hero from './components/home/Hero';
 import ValueProps from './components/home/ValueProps';
 import CommunityResponse from './components/home/CommunityResponse';
 import AdminInterface from './components/home/AdminInterface';
@@ -12,7 +12,7 @@ export default class HomePage extends Component {
 	render () {
 		return (
 			<div>
-				<Header />
+				<Hero />
 				<ValueProps />
 				<CommunityResponse />
 				<AdminInterface />

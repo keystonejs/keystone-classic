@@ -52,7 +52,6 @@ class Navbar extends Component {
 							<GithubIcon css={styles.header__linkIcon} />
 							GitHub
 						</a>
-					</div> */}
 					<div css={styles.nav}>
 						{sections.map(s => (
 							<Link key={s.slug} to={s.slug} css={styles.navitem}>
@@ -60,6 +59,7 @@ class Navbar extends Component {
 							</Link>
 						))}
 					</div>
+					*/}
 					<button onClick={() => this.toggleNavMenu(!menuIsOpen)} css={styles.menuButton}>
 						{menuIsOpen
 							? <MenuClose css={styles.menuIcon} />

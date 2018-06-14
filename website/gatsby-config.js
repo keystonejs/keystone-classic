@@ -6,25 +6,25 @@ module.exports = {
 		'gatsby-plugin-react-helmet',
 		'gatsby-plugin-glamor',
 		{
-			resolve: `gatsby-source-filesystem`,
+			resolve: 'gatsby-source-filesystem',
 			options: {
-				name: `docs`,
+				name: 'docs',
 				path: `${__dirname}/../docs`,
 			},
 		},
 		{
-			resolve: `gatsby-source-filesystem`,
+			resolve: 'gatsby-source-filesystem',
 			options: {
-				name: `fields`,
+				name: 'fields',
 				path: `${__dirname}/../fields/types`,
 			},
 		},
 		'gatsby-transformer-remark',
 		{
-      resolve: `gatsby-plugin-typography`,
-      options: {
-        pathToConfigModule: `utils/typography`,
-      },
-    },
+			resolve: 'gatsby-plugin-typography',
+			options: {
+				pathToConfigModule: 'utils/typography',
+			},
+		},
 	],
 };
