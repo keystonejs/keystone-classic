@@ -2,12 +2,10 @@ import React from 'react';
 import Link from 'gatsby-link';
 import Item from '../Item';
 
-export default function makeSection (currentPath, layer) {
+export default function makeSection (currentPath, layer, pathname) {
 	return layer.map((section, idx) => {
-		const locationArray = window.location.pathname.split('/');
+		const locationArray = pathname.split('/');
 		const currentSection = locationArray[locationArray.length - 1];
-
-		console.log('Current section', currentSection);
 
 		const menuItems = section.items.map((item, i) => {
 			const newPath = currentPath + section.slug;

@@ -11,9 +11,6 @@ import theme from '../../theme';
 
 import { itemsShape } from './utils';
 import Menu from './Menu';
-import { api, documentation, gettingStarted, guides } from '../../data/navigation';
-
-const sections = [gettingStarted, guides, documentation, api];
 
 class Navbar extends Component {
 	constructor (props) {
@@ -67,7 +64,7 @@ class Navbar extends Component {
 					</button>
 				</div>
 				<div css={[styles.menu, menuIsOpen && styles.menu__open]}>
-					<Menu items={this.props.items} />
+					<Menu items={this.props.items} pathname={this.props.pathname} />
 				</div>
 			</aside>
 		);
