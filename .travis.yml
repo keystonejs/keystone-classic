@@ -44,16 +44,6 @@ matrix:
         - npm run test-admin
       env:
         - JOB=unit_tests_node_6
-    - node_js: '5'
-      script:
-        - npm run test-admin
-      env:
-        - JOB=unit_tests_node_5
-    - node_js: '4'
-      script:
-        - npm run test-admin
-      env:
-        - JOB=unit_tests_node_4
 
 
 before_script:
