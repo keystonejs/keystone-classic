@@ -47,7 +47,6 @@ describe('When paginating results', function () {
 				var newPost = new Post.model(post);
 				newPost.save(callback);
 			}, function (error) {
-				keystone.list('Post').model.collection.createIndex();
 				done(error);
 			});
 		});

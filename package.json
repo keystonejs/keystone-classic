@@ -163,7 +163,7 @@
     "build-dev": "node build.js > ./admin/public/js/packages.js",
     "pretest": "npm run lint && node test/pretest.js",
     "test": "mocha && mocha --opts test/mocha-admin.opts",
-    "test-all": "npm test && npm run test-e2e-bg",
+    "test-all": "npm test",
     "test-unit": "node test/pretest.js && mocha",
     "test-admin": "mocha --opts test/mocha-admin.opts",
     "test-e2e": "node test/e2e/server.js --env default",
