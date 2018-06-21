@@ -1,43 +1,53 @@
----
-title: KeystoneJS
----
-
 ![KeystoneJS](http://keystonejs.com/images/logo.svg)
-===================================
 
 [![Build Status](https://travis-ci.org/keystonejs/keystone.svg?branch=master)](https://travis-ci.org/keystonejs/keystone)
 
 [KeystoneJS](http://keystonejs.com) is a powerful Node.js content management system and web app framework built on [express](http://expressjs.com) and [mongoose](http://mongoosejs.com). Keystone makes it easy to create sophisticated web sites and apps, and comes with a beautiful auto-generated Admin UI.
 
-Check out [keystonejs.com](http://keystonejs.com) for documentation and guides.
+Check out [keystonejs.com](http://keystonejs.com) for more info and guides. There you can read the [documentation](http://keystonejs.com/docs) and look at some [example projects](http://keystonejs.com/examples) to understand how to use Keystone. There is also a demo website at [demo.keystonejs.com](http://demo.keystonejs.com/) where you can play around with the Admin UI.
 
-You can also deploy a starter project to [Heroku](https://www.heroku.com/) for free to try it out:
+##### Keystone 4.0 Beta Released!
+
+We've been working on a major update to KeystoneJS for the last year, and it's a complete rebuild of Keystone's Admin UI and internal architecture. We'll be publishing a summary of the new features, changes and improvements as we get closer to the final release. In the meantime, see the [changelog](https://github.com/keystonejs/keystone/blob/master/HISTORY.md) for more details, see the [v3 -> v4 upgrade guide](https://github.com/keystonejs/keystone/blob/master/docs/guides/v0.3-to-v4.0-Upgrade-Guide.md) and check out the [demo site](http://demo.keystonejs.com/). 
+
+
+## Installing
+First, install [node](https://nodejs.org/en/download/) and  [mongodb](https://docs.mongodb.com/manual/installation/) on your computer.
+The easiest way to install Keystone is to use the Yeoman generator. The generator will create a new project based on the options you select and install the required packages from npm:
+
+```
+npm install -g yo generator-keystone
+yo keystone
+```
+
+
+Alternatively, to install Keystone without a generator, do:
+```
+npm install --save keystone
+```
+
+See the [example projects](http://keystonejs.com/examples) to get up and running.
+
+## Running
+To run Keystone after install, make sure you have started mongoDB, and then do:
+```
+node keystone.js
+```
+Keystone will now run locally at [http://localhost:3000](http://localhost:3000) and is ready to use.
+
+## Deploying
+
+When you deploy your KeystoneJS app to production, be sure to set your `NODE_ENV` environment variable to `production`. This enables optimizations and certain features, including template caching, simpler error reporting and HTML minification.
+
+You can do this by setting `NODE_ENV=production` in your `.env` file, which gets handled by [dotenv](https://github.com/motdotla/dotenv). Or you can set it in the shell:
+
+```
+NODE_ENV=production node keystone.js
+```
+
+There is also a starter project for deploying to [Heroku](https://www.heroku.com/) for free to try out:
 
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/JedWatson/keystone-starter)
-
-
-## Keystone 4.0 Beta Released!!!
-
-We've been working on a major update to KeystoneJS for the last year, and it's a complete rebuild of Keystone's Admin UI and internal architecture. Improvements include:
-
-* The Admin UI has been re-written as a single page app using React.js, Redux and Elemental UI
-* An updated API for Lists and Fields
-* Better support for using Keystone without Express, or with your own express instance
-* Core functionality has been refactored and we're breaking Keystone up into separate npm packages
-* Startup time has been significantly reduced
-* LocalFile, S3File and AzureFile have been replaced by a new generic `keystone.Storage` engine and File field
-* We have much higher unit and end-to-end test coverage
-
-Please try out the beta and let us know what you think:
-
-```
-npm install --save keystone@next
-```
-
-We'll be publishing a summary of the new features, changes and improvements as we get closer to the final release. In the meantime, see the [v0.3 -> v4.0 Upgrade Guide](https://github.com/keystonejs/keystone/blob/master/docs/guides/v0.3-to-v4.0-Upgrade-Guide.md) for information on what's changed.
-
-Also check out our [demo site](http://demo.keystonejs.com/), which has been updated to the new version!
-
 
 ## About
 
@@ -54,63 +64,9 @@ Keystone gives you:
 
 ... plus a lot of other tools and utilities to make creating complex web apps easier.
 
-Use our [Yeoman Generator](https://github.com/keystonejs/generator-keystone) to get up and running with KeystoneJS quickly, then check out our getting started guide &amp; docs at [keystonejs.com/docs/getting-started](http://keystonejs.com/docs/getting-started).
+## Database field types
 
-We have a demo website at [demo.keystonejs.com](http://demo.keystonejs.com/) where you can play with the Keystone Admin UI, and you can [read the source](https://github.com/keystonejs/keystone-demo) to see how it was built.
-
-### Community
-
-We have a friendly, growing community and welcome everyone to get involved.
-
-Here are some ways:
-
-* Follow [@KeystoneJS](https://twitter.com/KeystoneJS) on twitter for news and announcements
-* Vote on the next features on [ProductPains](https://productpains.com/product/keystonejs)
-* Chat with us [![Join the chat at https://gitter.im/keystonejs/keystone](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/keystonejs/keystone?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-* If you've got ideas, questions or need some advice, check out the [KeystoneJS Google Group](https://groups.google.com/d/forum/keystonejs)
-* Ask technical questions on [Stack Overflow](http://stackoverflow.com/questions/tagged/keystone.js) and tag them `keystonejs`
-* Report bugs and issues on our [issue tracker](https://github.com/keystonejs/keystone/issues)
-* ... or preferably, submit pull request with patches and / or new features
-
-We love to hear feedback about Keystone and the projects you're using it for. Ping us at [@KeystoneJS](https://twitter.com/KeystoneJS) on twitter.
-
-#### Related Projects
-If you are using KeystoneJS in any projects we encourage you to add it to our [Related Projects Page](https://github.com/keystonejs/keystone/wiki/Related-Projects). This is also the place to find generators and such that bundle KeystoneJS.
-
-### Contributing
-
-If you can, please contribute by reporting issues, discussing ideas, or submitting pull requests with patches and new features. We do our best to respond to all issues and pull requests within a day or two, and make patch releases to npm regularly.
-
-If you're going to contribute code, please follow our [coding standards](https://github.com/keystonejs/keystone/wiki/Coding-Standards) and read our [CONTRIBUTING.md](https://github.com/keystonejs/keystone/blob/master/CONTRIBUTING.md).
-
-## Usage
-
-**Check out the [KeystoneJS Getting Started Guide](http://keystonejs.com/getting-started) to start using KeystoneJS.**
-
-### Installation
-
-The easiest way to get started with Keystone is to use the Yeoman generator:
-
-```bash
-$ npm install -g generator-keystone
-$ yo keystone
-```
-
-Answer the questions, and the generator will create a new project based on the options you select, and install the required packages from **npm**.
-
-Alternatively, to include Keystone in an existing project or start from scratch (without Yeoman), specify `keystone: "^0.3.9"` in the `dependencies` array of your `package.json` file, and run `npm install` from your terminal.
-
-Then read through the [Documentation](http://keystonejs.com/docs) and the [Example Projects](http://keystonejs.com/examples) to understand how to use it.
-
-### Configuration
-
-Config variables can be passed in an object to the `keystone.init` method, or can be set any time before `keystone.start` is called using `keystone.set(key, value)`. This allows for a more flexible order of execution (e.g. if you refer to Lists in your routes, you can set the routes after configuring your Lists, as in the example above).
-
-See the [KeystoneJS configuration documentation](http://keystonejs.com/docs/configuration) for details and examples of the available configuration options.
-
-### Database field types
-
-Keystone builds on the basic data types provided by mongo and allows you to easily add rich, functional fields to your application's models.
+Keystone builds on the basic data types provided by MongoDB and allows you to easily add rich, functional fields to your application's models.
 
 You get helper methods on your models for dealing with each field type easily (such as formatting a date or number, resizing an image, getting an array of the available options for a select field, or using Google's Places API to improve addresses) as well as a beautiful, responsive admin UI to edit your data with.
 
@@ -145,12 +101,38 @@ Keystone's field types include:
 
 Keystone also has [Relationship fields](http://keystonejs.com/docs/database#relationships) for managing one-to-many and many-to-many relationships between different models.
 
-### Running KeystoneJS in Production
 
-When you deploy your KeystoneJS app to production, be sure to set your `ENV` environment variable to `production`.
-You can do this by setting `NODE_ENV=production` in your `.env` file, which gets handled by [dotenv](https://github.com/motdotla/dotenv).
+See the [KeystoneJS configuration documentation](http://keystonejs.com/docs/configuration) for details and examples of the available configuration options.
 
-Setting your environment enables certain features, including template caching, simpler error reporting and html minification, that are important in production but annoying in development.
+## Community
+
+We have a friendly, growing community and welcome everyone to get involved.
+
+Here are some ways:
+
+* Follow [@KeystoneJS](https://twitter.com/KeystoneJS) on twitter for news and announcements
+* Vote on the next features on [ProductPains](https://productpains.com/product/keystonejs)
+* Chat with us [![Join the chat at https://gitter.im/keystonejs/keystone](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/keystonejs/keystone?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+* If you've got ideas, questions or need some advice, check out the [KeystoneJS Google Group](https://groups.google.com/d/forum/keystonejs)
+* Ask technical questions on [Stack Overflow](http://stackoverflow.com/questions/tagged/keystone.js) and tag them `keystonejs`
+* Report bugs and issues on our [issue tracker](https://github.com/keystonejs/keystone/issues)
+* ... or preferably, submit pull request with patches and / or new features
+
+We love to hear feedback about Keystone and the projects you're using it for. Ping us at [@KeystoneJS](https://twitter.com/KeystoneJS) on twitter.
+
+### Related Projects
+If you are using KeystoneJS in any projects we encourage you to add it to our [Related Projects Page](https://github.com/keystonejs/keystone/wiki/Related-Projects). This is also the place to find generators and such that bundle KeystoneJS.
+
+### Contributing
+
+If you can, please contribute by reporting issues, discussing ideas, or submitting pull requests with patches and new features. We do our best to respond to all issues and pull requests within a day or two, and make patch releases to npm regularly.
+
+If you're going to contribute code, please follow our [coding standards](https://github.com/keystonejs/keystone/wiki/Coding-Standards) and read our [CONTRIBUTING.md](https://github.com/keystonejs/keystone/blob/master/CONTRIBUTING.md).
+
+
+## Testing
+To run the test suite run `npm test`.
+
 
 ### Linking Keystone for Development and Testing
 
@@ -164,8 +146,6 @@ Then `require('keystone')` normally in your app - the development copy will be u
 
 To go back to using a published version of KeystoneJS from npm, from your project directory, run `npm unlink keystone` then `npm install`.
 
-#### Testing
-To run the test suite run `npm test`.
 
 ## Thanks
 

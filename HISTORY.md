@@ -2,6 +2,14 @@
 
 KeystoneJS is maintained by [@JedWatson](https://github.com/JedWatson) and an amazing team of contributors. All contributions are given credit here except for Jed's.
 
+## v4
+* The Admin UI has been re-written as a single page app using React.js, Redux and Elemental UI
+* An updated API for Lists and Fields
+* Better support for using Keystone without Express, or with your own express instance
+* Core functionality has been refactored and we're breaking Keystone up into separate npm packages
+* Startup time has been significantly reduced
+* LocalFile, S3File and AzureFile have been replaced by a new generic `keystone.Storage` engine and File field
+* We have much higher unit and end-to-end test coverage
 
 ## v0.3.22 / 2016-07-22
 
