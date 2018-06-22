@@ -143,7 +143,7 @@ Keystone's field types include:
  * [LocalFile](http://keystonejs.netlify.com/api/field/embedly)
  * [S3 File](http://keystonejs.netlify.com/api/field/s-3-file)
 
-Keystone also has [http://keystonejs.netlify.com/documentation/database/relationships) for managing one-to-many and many-to-many relationships between different models.
+Keystone also has [Relationship Fields](http://keystonejs.netlify.com/documentation/database/relationships) for managing one-to-many and many-to-many relationships between different models.
 
 ### Running KeystoneJS in Production
 
