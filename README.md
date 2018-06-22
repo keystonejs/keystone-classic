@@ -17,7 +17,7 @@ You can also deploy a starter project to [Heroku](https://www.heroku.com/) for f
 
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/JedWatson/keystone-starter)
 
-## Keystone 4.0.0 RC0 Released!!!
+## Keystone 4.0.0 RC0
 
 We've been working on a major update to KeystoneJS. Keystone 4 is a complete rebuild of Keystone's Admin UI and internal architecture.
 
@@ -44,7 +44,7 @@ Also check out our [demo site](http://demo.keystonejs.com), which has been updat
 ## About
 
 Keystone gives you:
-*	A simple way to create a dynamic web site or app with well-structured routes, templates and models
+*	A simple way to create a dynamic web site or app with well-structured routes, templates and model
 		A beautiful Admin UI based on the database models you define
 		Enhanced `models` with additional field types and functionality, building on those natively supported by Mongoose
 		Out of the box session management and authentication
@@ -98,7 +98,7 @@ $ yo keystone
 
 Answer the questions, and the generator will create a new project based on the options you select, and install the required packages from **npm**.
 
-Alternatively, to include Keystone in an existing project or start from scratch (without Yeoman), specify `keystone: "latest"` in the `dependencies` array of your `package.json` file, and run `npm install` from your terminal.
+Alternatively, to include Keystone in an existing project or start from scratch (without Yeoman), specify `keystone: "4.0.0-rc.0"` in the `dependencies` array of your `package.json` file, and run `npm install` from your terminal.
 
 Then read through the [Documentation](http://keystonejs.netlify.com/documentation) and the [Example Projects](http://keystonejs.com/examples) to understand how to use it.
 
@@ -171,7 +171,7 @@ To run the test suite run `npm test`.
 
 KeystoneJS is a free and open source community-driven project. Thanks to our many  [contributors](https://github.com/keystonejs/keystone/graphs/contributors) and  [users](https://github.com/keystonejs/keystone/stargazers) for making it great.
 
-Keystone's development has been led by key contributors including [Jed Watson](https://github.com/JedWatson), [Joss Mackison](https://github.com/jossmac), and [Max Stoiber](https://github.com/mxstbr) and supported by [Thinkmill](http://thinkmill.com.au) in Sydney, Australia.
+Keystone's development has been led by key contributors including [Jed Watson](https://github.com/JedWatson), [Joss Mackison](https://github.com/jossmac), and [Max Stoiber](https://github.com/mxstbr) and is proudly supported by [Thinkmill](http://thinkmill.com.au) in Sydney, Australia.
 
 
 ## License
