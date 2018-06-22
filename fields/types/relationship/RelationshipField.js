@@ -191,7 +191,8 @@ module.exports = Field.create({
 
 	renderSelect (noedit) {
 		const inputName = this.getInputName(this.props.path);
-		const emptyValueInput = (this.state.value && this.state.value.length) ? null : <input type="hidden" name={inputName} value="" />;
+		const emptyValueInput = (this.props.many && (!this.state.value || !this.state.value.length))
+			? <input type="hidden" name={inputName} value="" /> : null;
 		return (
 			<div>
 				{/* This input ensures that an empty value is submitted when no related items are selected */}
