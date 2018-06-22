@@ -190,8 +190,12 @@ module.exports = Field.create({
 	},
 
 	renderSelect (noedit) {
+		const inputName = this.getInputName(this.props.path);
+		const emptyValueInput = (this.state.value && this.state.value.length) ? null : <input type="hidden" name={inputName} value="" />;
 		return (
 			<div>
+				{/* This input ensures that an empty value is submitted when no related items are selected */}
+				{emptyValueInput}
 				{/* This input element fools Safari's autocorrect in certain situations that completely break react-select */}
 				<input type="text" style={{ position: 'absolute', width: 1, height: 1, zIndex: -1, opacity: 0 }} tabIndex="-1"/>
 				<Select.Async
@@ -199,7 +203,7 @@ module.exports = Field.create({
 					disabled={noedit}
 					loadOptions={this.loadOptions}
 					labelKey="name"
-					name={this.getInputName(this.props.path)}
+					name={inputName}
 					onChange={this.valueChanged}
 					simpleValue
 					value={this.state.value}
