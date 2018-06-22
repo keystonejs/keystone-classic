@@ -17,7 +17,7 @@ You can also deploy a starter project to [Heroku](https://www.heroku.com/) for f
 
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/JedWatson/keystone-starter)
 
-## Keystone 4.0.0 RC0
+## Keystone 4.0.0 Release Candidate (RC)
 
 We've been working on a major update to KeystoneJS. Keystone 4 is a complete rebuild of Keystone's Admin UI and internal architecture.
 
@@ -44,15 +44,15 @@ Also check out our [demo site](http://demo.keystonejs.com), which has been updat
 ## About
 
 Keystone gives you:
-*	A simple way to create a dynamic web site or app with well-structured routes, templates and model
-		A beautiful Admin UI based on the database models you define
-		Enhanced `models` with additional field types and functionality, building on those natively supported by Mongoose
-		Out of the box session management and authentication
-		An updates framework for managing data updates or initialisation
-		Integration with Cloudinary for image uploading, storage and resizing
-		Integration with Mandrill for sending emails easily
-		Integration with Google Places for clever location fields
-		Integration with Embedly for powerful video and rich media embedding tools
+ * A simple way to create a dynamic web site or app with well-structured routes, templates, and models
+ * A beautiful Admin UI based on the database models you define
+ * Enhanced `models` with additional field types and functionality, building on those natively supported by Mongoose
+ * Out of the box session management and authentication
+ * An updates framework for managing data updates or initialisation
+ * Integration with Cloudinary for image uploading, storage and resizing
+ * Integration with Mandrill for sending emails easily
+ * Integration with Google Places for clever location fields
+ * Integration with Embedly for powerful video and rich media embedding tools
 
 ... plus a lot of other tools and utilities to make creating complex web apps easier.
 
@@ -156,9 +156,9 @@ Setting your environment enables certain features, including template caching, s
 
 If you want to test or develop against the `master` branch of KeystoneJS (or against your own branch), rather than a published version on **npm**, you just need to check it out then use `npm link` to link it to your project. On Mac OS, this is done like this:
 
-*	Clone KeystoneJS locally, e.g. to `~/Development/KeystoneJS`
-		From the KeystoneJS directory, run `sudo npm link` (you will need to enter your system password)
-		From your project directory, e.g. `~/Development/MySite` (the one with your `package.json` file in it) run `npm link keystone`. This will create a link between `~/Development/MySite/node_modules/keystone` and `~/Development/KeystoneJS`.
+ * Clone KeystoneJS locally, e.g. to `~/Development/KeystoneJS`.
+ * From the KeystoneJS directory, run `sudo npm link` (you will need to enter your system password).
+ * From your project directory, e.g. `~/Development/MySite` (the one with your `package.json` file in it) run `npm link keystone`. This will create a link between `~/Development/MySite/node_modules/keystone` and `~/Development/KeystoneJS`.
 
 Then `require('keystone')` normally in your app - the development copy will be used. Note that running `npm update` will ignore new versions of keystone that have been published.
 
