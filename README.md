@@ -88,21 +88,6 @@ You can do this by setting `NODE_ENV=production` in your `.env` file, which gets
 
 Setting your environment enables certain features (including template caching, simpler error reporting, and HTML minification) that are important in production but annoying in development.
 
-### Linking Keystone for Development and Testing
-
-If you want to test or develop against the `master` branch of KeystoneJS (or against your own branch), rather than a published version on **npm**, you just need to check it out then use `npm link` to link it to your project. On Mac OS, this is done like this:
-
- * Clone KeystoneJS locally, e.g. to `~/Development/KeystoneJS`.
- * From the KeystoneJS directory, run `sudo npm link` (you will need to enter your system password).
- * From your project directory, e.g. `~/Development/MySite` (the one with your `package.json` file in it) run `npm link keystone`. This will create a link between `~/Development/MySite/node_modules/keystone` and `~/Development/KeystoneJS`.
-
-Then `require('keystone')` normally in your app - the development copy will be used. Note that running `npm update` will ignore new versions of keystone that have been published.
-
-To go back to using a published version of KeystoneJS from npm, from your project directory run `npm unlink keystone` then `npm install`.
-
-#### Testing
-To run the test suite run `npm test`.
-
 ## Community
 
 We have a friendly, growing community and welcome everyone to get involved.
@@ -121,7 +106,7 @@ We love to hear feedback about Keystone and the projects you're using it for. Pi
 
 If you can, please contribute by reporting issues, discussing ideas, or submitting pull requests with patches and new features. We do our best to respond to all issues and pull requests, and make patch releases to npm regularly.
 
-If you're going to contribute code, please follow our [coding standards](https://github.com/keystonejs/keystone/wiki/Coding-Standards) and read our [CONTRIBUTING.md](https://github.com/keystonejs/keystone/blob/master/CONTRIBUTING.md).
+If you're going to contribute code, please follow our [coding standards](https://github.com/keystonejs/keystone/wiki/Coding-Standards) and read our [Contributing Guide](https://github.com/keystonejs/keystone/blob/master/CONTRIBUTING.md).
 
 ### Related Projects
 If you are using KeystoneJS in any projects we encourage you to add to our [Related Projects Page](https://github.com/keystonejs/keystone/wiki/Related-Projects). This is also the place to find generators and such that bundle KeystoneJS.
