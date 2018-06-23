@@ -19,7 +19,7 @@ We've been working on a major update to KeystoneJS. Keystone 4 is a complete reb
 
 Improvements include:
 
-* The Admin UI has been re-written as a single page app using React.js, Redux and Elemental UI
+* The Admin UI has been re-written as a single page app using React.js, Redux, and Elemental UI
 * An updated API for Lists and Fields
 * Better support for using Keystone without Express, or with your own express instance
 * Core functionality has been refactored and we're breaking Keystone up into separate npm packages
@@ -65,7 +65,7 @@ Here are some ways:
 * Follow [@KeystoneJS](https://twitter.com/KeystoneJS) on twitter for news and announcements.
 * Ask technical questions on [Stack Overflow](http://stackoverflow.com/questions/tagged/keystone.js) and tag them `keystonejs.`
 * Report bugs and feature suggestions on our GitHub [issue tracker](https://github.com/keystonejs/keystone/issues).
-* ... or preferably, submit pull request with patches and / or new features.
+* If you are interested in contributing to Keystone, please review the [Contributing Guide](https://github.com/keystonejs/keystone/blob/master/CONTRIBUTING.md).
 * Join the [KeystoneJS Slack](https://launchpass.com/keystonejs) for general discussion with the Keystone community and contributors.
 
 We love to hear feedback about Keystone and the projects you're using it for. Ping us at [@KeystoneJS](https://twitter.com/KeystoneJS) on Twitter.
@@ -81,7 +81,7 @@ If you're going to contribute code, please follow our [coding standards](https:/
 
 ## Usage
 
-**Check out the [KeystoneJS Getting Started Guide](http://keystonejs.netlify.com/getting-started) to start using KeystoneJS.**
+**Check out the [Getting Started Guide](http://keystonejs.netlify.com/getting-started) to start using KeystoneJS.**
 
 ### Installation
 
@@ -112,7 +112,7 @@ You get helper methods on your models for dealing with each field type easily (s
 
 See the [KeystoneJS database documentation](http://keystonejs.netlify.com/documentation/database) for details and examples of the various field types, as well as how to set up and use database models in your application.
 
-Keystone's field types include:
+Keystone's built-in field types include:
 
  * [Boolean](http://keystonejs.netlify.com/api/field/boolean)
  * [Code](http://keystonejs.netlify.com/api/field/code)
@@ -132,12 +132,18 @@ Keystone's field types include:
  * [Text](http://keystonejs.netlify.com/api/field/text)
  * [Textarea](http://keystonejs.netlify.com/api/field/textarea)
  * [URL](http://keystonejs.netlify.com/api/field/url)
- * [Azure File](http://keystonejs.netlify.com/api/field/azurefile)
- * [CloudinaryImage](http://keystonejs.netlify.com/api/field/cloudinaryimage)
- * [CloudinaryImages](http://keystonejs.netlify.com/api/field/cloudinaryimages)
- * [Embedly](http://keystonejs.netlify.com/api/field/embedly)
- * [LocalFile](http://keystonejs.netlify.com/api/field/embedly)
- * [S3 File](http://keystonejs.netlify.com/api/field/s-3-file)
+
+Field types requiring an API key to integrate third party services include:
+  * [Embedly](http://keystonejs.netlify.com/api/field/embedly)
+  * [CloudinaryImage](http://keystonejs.netlify.com/api/field/cloudinaryimage)
+  * [CloudinaryImages](http://keystonejs.netlify.com/api/field/cloudinaryimages)
+
+ File field types from Keystone v0.3 have been deprecated and replaced by a new Storage API to enable storage extensions via third party packages:
+  * FS: (built-in) Use via [keystone.Storage.Adapters.FS](https://github.com/keystonejs/keystone/tree/master/lib/storage/adapters/fs)
+  * S3: Use via [keystone-storage-adapter-s3](https://www.npmjs.com/package/keystone-storage-adapter-s3) npm module
+  * Azure: Use via [keystone-storage-adapter-azure](https://www.npmjs.com/package/keystone-storage-adapter-azure) npm module
+
+ See the [File Field API documentation](http://keystonejs.netlify.com/api/field/file/) for more information.
 
 Keystone also has [Relationship Fields](http://keystonejs.netlify.com/documentation/database/relationships) for managing one-to-many and many-to-many relationships between different models.
 
