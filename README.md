@@ -7,13 +7,23 @@ title: KeystoneJS
 
 [![Build Status](https://travis-ci.org/keystonejs/keystone.svg?branch=master)](https://travis-ci.org/keystonejs/keystone)
 
+ - [About Keystone](#about)
+ - [Getting Started](#getting-started)
+ - [Community](#community)
+ - [Contributing](#contributing)
+ - [License](#license)
+
+## About Keystone
+
 [KeystoneJS](http://keystonejs.com) is a powerful Node.js content management system and web app framework built on the [Express](https://expressjs.com/) web framework and [Mongoose ODM](http://mongoosejs.com). Keystone makes it easy to create sophisticated web sites and apps, and comes with a beautiful auto-generated Admin UI.
+
+### Documentation
 
 For Keystone v4 documentation and guides, see [keystonejs.netlify.com](http://keystonejs.netlify.com).
 
 For Keystone v0.3 documentation, see [keystonejs.com](http://keystonejs.com).
 
-## Keystone 4.0.0 Release Candidate (RC)
+### Keystone 4.0 Release Candidate (RC)
 
 We've been working on a major update to KeystoneJS. Keystone 4 is a complete rebuild of Keystone's Admin UI and internal architecture.
 
@@ -37,51 +47,9 @@ We'll be publishing a summary of the new features, changes and improvements as w
 
 Also check out our [demo site](http://demo.keystonejs.com), which has been updated to the new version!
 
-## About
+## Getting Started
 
-Keystone gives you:
- * A simple way to create a dynamic web site or app with well-structured routes, templates, and models
- * A beautiful Admin UI based on the database models you define
- * Enhanced `models` with additional field types and functionality, building on those natively supported by Mongoose
- * Out of the box session management and authentication
- * An updates framework for managing data updates or initialisation
- * Integration with Cloudinary for image uploading, storage and resizing
- * Integration with Mandrill for sending emails easily
- * Integration with Google Places for clever location fields
- * Integration with Embedly for powerful video and rich media embedding tools
-
-... plus a lot of other tools and utilities to make creating complex web apps easier.
-
-Use our [Yeoman Generator](https://github.com/keystonejs/generator-keystone) to get up and running with KeystoneJS quickly, then check out our getting started guide &amp; docs at [keystonejs.com/docs/getting-started](http://keystonejs.netlify.com/getting-started).
-
-We have a demo website at [demo.keystonejs.com](http://demo.keystonejs.com/) where you can play with the Keystone Admin UI, and you can [read the source](https://github.com/keystonejs/keystone-demo) to see how it was built.
-
-### Community
-
-We have a friendly, growing community and welcome everyone to get involved.
-
-Here are some ways:
-
-* Follow [@KeystoneJS](https://twitter.com/KeystoneJS) on twitter for news and announcements.
-* Ask technical questions on [Stack Overflow](http://stackoverflow.com/questions/tagged/keystone.js) and tag them `keystonejs.`
-* Report bugs and feature suggestions on our GitHub [issue tracker](https://github.com/keystonejs/keystone/issues).
-* If you are interested in contributing to Keystone, please review the [Contributing Guide](https://github.com/keystonejs/keystone/blob/master/CONTRIBUTING.md).
-* Join the [KeystoneJS Slack](https://launchpass.com/keystonejs) for general discussion with the Keystone community and contributors.
-
-We love to hear feedback about Keystone and the projects you're using it for. Ping us at [@KeystoneJS](https://twitter.com/KeystoneJS) on Twitter.
-
-#### Related Projects
-If you are using KeystoneJS in any projects we encourage you to add to our [Related Projects Page](https://github.com/keystonejs/keystone/wiki/Related-Projects). This is also the place to find generators and such that bundle KeystoneJS.
-
-### Contributing
-
-If you can, please contribute by reporting issues, discussing ideas, or submitting pull requests with patches and new features. We do our best to respond to all issues and pull requests, and make patch releases to npm regularly.
-
-If you're going to contribute code, please follow our [coding standards](https://github.com/keystonejs/keystone/wiki/Coding-Standards) and read our [CONTRIBUTING.md](https://github.com/keystonejs/keystone/blob/master/CONTRIBUTING.md).
-
-## Usage
-
-**Check out the [Getting Started Guide](http://keystonejs.netlify.com/getting-started) to start using KeystoneJS.**
+This section provides a short intro to Keystone. Check out the [Getting Started Guide](http://keystonejs.netlify.com/getting-started) in the Keystone documentation for a more comprehensive introduction.
 
 ### Installation
 
@@ -100,9 +68,9 @@ Then read through the [Documentation](http://keystonejs.netlify.com/documentatio
 
 ### Configuration
 
-Config variables can be passed in an object to the `keystone.init` method, or can be set any time before `keystone.start` is called using `keystone.set(key, value)`. This allows for a more flexible order of execution (for example, if you refer to Lists in your routes you can set the routes after configuring your Lists).
+Config variables can be passed in an object to the `keystone.init` method, or can be set any time before `keystone.start` is called using `keystone.set(key, value)`. This allows for a more flexible order of execution. For example, if you refer to Lists in your routes you can set the routes after configuring your Lists.
 
-See the [KeystoneJS configuration documentation](http://keystonejs.netlify.com/documentation/configuration) for details and examples of the available configuration options.
+See the [KeystoneJS configuration documentation](http://keystonejs.netlify.com/documentation/configuration) for details and examples of the available options.
 
 ### Database field types
 
@@ -138,7 +106,7 @@ Field types requiring an API key to integrate third party services include:
   * [CloudinaryImage](http://keystonejs.netlify.com/api/field/cloudinaryimage)
   * [CloudinaryImages](http://keystonejs.netlify.com/api/field/cloudinaryimages)
 
- File field types from Keystone v0.3 have been deprecated and replaced by a new Storage API to enable storage extensions via third party packages:
+File field types from Keystone v0.3 have been deprecated and replaced by a new Storage API to enable storage extensions via third party packages:
   * FS: (built-in) Use via [keystone.Storage.Adapters.FS](https://github.com/keystonejs/keystone/tree/master/lib/storage/adapters/fs)
   * S3: Use via [keystone-storage-adapter-s3](https://www.npmjs.com/package/keystone-storage-adapter-s3) npm module
   * Azure: Use via [keystone-storage-adapter-azure](https://www.npmjs.com/package/keystone-storage-adapter-azure) npm module
@@ -150,9 +118,10 @@ Keystone also has [Relationship Fields](http://keystonejs.netlify.com/documentat
 ### Running KeystoneJS in Production
 
 When you deploy your KeystoneJS app to production, be sure to set your `ENV` environment variable to `production`.
+
 You can do this by setting `NODE_ENV=production` in your `.env` file, which gets handled by [dotenv](https://github.com/motdotla/dotenv).
 
-Setting your environment enables certain features, including template caching, simpler error reporting and html minification, that are important in production but annoying in development.
+Setting your environment enables certain features (including template caching, simpler error reporting, and HTML minification) that are important in production but annoying in development.
 
 ### Linking Keystone for Development and Testing
 
@@ -164,14 +133,37 @@ If you want to test or develop against the `master` branch of KeystoneJS (or aga
 
 Then `require('keystone')` normally in your app - the development copy will be used. Note that running `npm update` will ignore new versions of keystone that have been published.
 
-To go back to using a published version of KeystoneJS from npm, from your project directory, run `npm unlink keystone` then `npm install`.
+To go back to using a published version of KeystoneJS from npm, from your project directory run `npm unlink keystone` then `npm install`.
 
 #### Testing
 To run the test suite run `npm test`.
 
-## Thanks
+## Community
 
-KeystoneJS is a free and open source community-driven project. Thanks to our many  [contributors](https://github.com/keystonejs/keystone/graphs/contributors) and  [users](https://github.com/keystonejs/keystone/stargazers) for making it great.
+We have a friendly, growing community and welcome everyone to get involved.
+
+Here are some ways:
+
+* Follow [@KeystoneJS](https://twitter.com/KeystoneJS) on twitter for news and announcements.
+* Ask technical questions on [Stack Overflow](http://stackoverflow.com/questions/tagged/keystone.js) and tag them `keystonejs.`
+* Report bugs and feature suggestions on our GitHub [issue tracker](https://github.com/keystonejs/keystone/issues).
+* If you are interested in contributing to Keystone, please review the [Contributing Guide](https://github.com/keystonejs/keystone/blob/master/CONTRIBUTING.md).
+* Join the [KeystoneJS Slack](https://launchpass.com/keystonejs) for general discussion with the Keystone community and contributors.
+
+We love to hear feedback about Keystone and the projects you're using it for. Ping us at [@KeystoneJS](https://twitter.com/KeystoneJS) on Twitter.
+
+### Contributing
+
+If you can, please contribute by reporting issues, discussing ideas, or submitting pull requests with patches and new features. We do our best to respond to all issues and pull requests, and make patch releases to npm regularly.
+
+If you're going to contribute code, please follow our [coding standards](https://github.com/keystonejs/keystone/wiki/Coding-Standards) and read our [CONTRIBUTING.md](https://github.com/keystonejs/keystone/blob/master/CONTRIBUTING.md).
+
+### Related Projects
+If you are using KeystoneJS in any projects we encourage you to add to our [Related Projects Page](https://github.com/keystonejs/keystone/wiki/Related-Projects). This is also the place to find generators and such that bundle KeystoneJS.
+
+### Thanks
+
+KeystoneJS is a free and open source community-driven project. Thanks to our many [contributors](https://github.com/keystonejs/keystone/graphs/contributors) and [users](https://github.com/keystonejs/keystone/stargazers) for making it great.
 
 Keystone's development has been led by key contributors including [Jed Watson](https://github.com/JedWatson), [Joss Mackison](https://github.com/jossmac), and [Max Stoiber](https://github.com/mxstbr) and is proudly supported by [Thinkmill](http://thinkmill.com.au) in Sydney, Australia.
 
