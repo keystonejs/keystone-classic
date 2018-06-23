@@ -80,41 +80,6 @@ You get helper methods on your models for dealing with each field type easily (s
 
 See the [KeystoneJS database documentation](http://keystonejs.netlify.com/documentation/database) for details and examples of the various field types, as well as how to set up and use database models in your application.
 
-Keystone's built-in field types include:
-
- * [Boolean](http://keystonejs.netlify.com/api/field/boolean)
- * [Code](http://keystonejs.netlify.com/api/field/code)
- * [Color](http://keystonejs.netlify.com/api/field/color)
- * [Date](http://keystonejs.netlify.com/api/field/date)
- * [Datetime](http://keystonejs.netlify.com/api/field/datetime)
- * [Email](http://keystonejs.netlify.com/api/field/email)
- * [HTML](http://keystonejs.netlify.com/api/field/html)
- * [Key](http://keystonejs.netlify.com/api/field/key/)
- * [Location](http://keystonejs.netlify.com/api/field/location)
- * [Markdown](http://keystonejs.netlify.com/api/field/money)
- * [Money](http://keystonejs.netlify.com/api/field/money)
- * [Name](http://keystonejs.netlify.com/api/field/name)
- * [Number](http://keystonejs.netlify.com/api/field/number)
- * [Password](http://keystonejs.netlify.com/api/field/password)
- * [Select](http://keystonejs.netlify.com/api/field/select)
- * [Text](http://keystonejs.netlify.com/api/field/text)
- * [Textarea](http://keystonejs.netlify.com/api/field/textarea)
- * [URL](http://keystonejs.netlify.com/api/field/url)
-
-Field types requiring an API key to integrate third party services include:
-  * [Embedly](http://keystonejs.netlify.com/api/field/embedly)
-  * [CloudinaryImage](http://keystonejs.netlify.com/api/field/cloudinaryimage)
-  * [CloudinaryImages](http://keystonejs.netlify.com/api/field/cloudinaryimages)
-
-File field types from Keystone v0.3 have been deprecated and replaced by a new Storage API to enable storage extensions via third party packages:
-  * FS: (built-in) Use via [keystone.Storage.Adapters.FS](https://github.com/keystonejs/keystone/tree/master/lib/storage/adapters/fs)
-  * S3: Use via [keystone-storage-adapter-s3](https://www.npmjs.com/package/keystone-storage-adapter-s3) npm module
-  * Azure: Use via [keystone-storage-adapter-azure](https://www.npmjs.com/package/keystone-storage-adapter-azure) npm module
-
- See the [File Field API documentation](http://keystonejs.netlify.com/api/field/file/) for more information.
-
-Keystone also has [Relationship Fields](http://keystonejs.netlify.com/documentation/database/relationships) for managing one-to-many and many-to-many relationships between different models.
-
 ### Running KeystoneJS in Production
 
 When you deploy your KeystoneJS app to production, be sure to set your `ENV` environment variable to `production`.
@@ -166,7 +131,6 @@ If you are using KeystoneJS in any projects we encourage you to add to our [Rela
 KeystoneJS is a free and open source community-driven project. Thanks to our many [contributors](https://github.com/keystonejs/keystone/graphs/contributors) and [users](https://github.com/keystonejs/keystone/stargazers) for making it great.
 
 Keystone's development has been led by key contributors including [Jed Watson](https://github.com/JedWatson), [Joss Mackison](https://github.com/jossmac), and [Max Stoiber](https://github.com/mxstbr) and is proudly supported by [Thinkmill](http://thinkmill.com.au) in Sydney, Australia.
-
 
 ## License
 
