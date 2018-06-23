@@ -13,10 +13,6 @@ For Keystone v4 documentation and guides, see [keystonejs.netlify.com](http://ke
 
 For Keystone v0.3 documentation, see [keystonejs.com](http://keystonejs.com).
 
-You can also deploy a starter project to [Heroku](https://www.heroku.com/) for free to try it out:
-
-[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/JedWatson/keystone-starter)
-
 ## Keystone 4.0.0 Release Candidate (RC)
 
 We've been working on a major update to KeystoneJS. Keystone 4 is a complete rebuild of Keystone's Admin UI and internal architecture.
