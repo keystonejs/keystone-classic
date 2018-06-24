@@ -90,26 +90,23 @@ Setting your environment enables certain features (including template caching, s
 
 ## Community
 
-We have a friendly, growing community and welcome everyone to get involved.
-
-Here are some ways:
+We have a friendly, growing community and welcome everyone to get involved:
 
 * Follow [@KeystoneJS](https://twitter.com/KeystoneJS) on twitter for news and announcements.
 * Ask technical questions on [Stack Overflow](http://stackoverflow.com/questions/tagged/keystone.js) and tag them `keystonejs.`
 * Report bugs and feature suggestions on our GitHub [issue tracker](https://github.com/keystonejs/keystone/issues).
-* If you are interested in contributing to Keystone, please review the [Contributing Guide](https://github.com/keystonejs/keystone/blob/master/CONTRIBUTING.md).
 * Join the [KeystoneJS Slack](https://launchpass.com/keystonejs) for general discussion with the Keystone community and contributors.
 
 We love to hear feedback about Keystone and the projects you're using it for. Ping us at [@KeystoneJS](https://twitter.com/KeystoneJS) on Twitter.
 
 ### Contributing
 
-If you can, please contribute by reporting issues, discussing ideas, or submitting pull requests with patches and new features. We do our best to respond to all issues and pull requests, and make patch releases to npm regularly.
+If you can, please contribute by reporting issues, discussing ideas, helping answer questions from other developers, or submitting pull requests with patches and new features. We do our best to respond to all issues and pull requests, and make patch releases to npm regularly.
 
 If you're going to contribute code, please follow our [coding standards](https://github.com/keystonejs/keystone/wiki/Coding-Standards) and read our [Contributing Guide](https://github.com/keystonejs/keystone/blob/master/CONTRIBUTING.md).
 
 ### Related Projects
-If you are using KeystoneJS in any projects we encourage you to add to our [Related Projects Page](https://github.com/keystonejs/keystone/wiki/Related-Projects). This is also the place to find generators and such that bundle KeystoneJS.
+If you are using KeystoneJS in any projects we encourage you to add to our [Related Projects Page](https://github.com/keystonejs/keystone/wiki/Related-Projects). This is also the place to find generators and other projects that bundle KeystoneJS.
 
 ### Thanks
 
