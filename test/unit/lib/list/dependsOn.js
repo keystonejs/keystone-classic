@@ -10,26 +10,24 @@ var DependsOn = keystone.list('DependsOn');
 describe('Test dependsOn and required', function () {
 
 	it('Ignore required if evalDependsOn is not `true` by setting `state` to `draft`', function (done) {
-		// remove any Post documents
+		// remove any DependsOn documents
 		DependsOn.model.find({}).remove(function (error) {
 			if (error) {
 				done(error);
 			}
 
-			var newPost = new DependsOn.model({
+			var newDependsOn = new DependsOn.model({
 				title: 'new post',
 				state: 'draft'
 			});
 
-			newPost.save(done);
+			newDependsOn.save(done);
 
 		});
 	});
 
-
-
 	it('Save will fail if `state` set to `published` and `publishedDate` is not defined', function (done) {
-		// remove any Post documents
+		// remove any DependsOn documents
 		DependsOn.model.find({}).remove(function (error) {
 			if (error) {
 				done(error);
@@ -39,13 +37,15 @@ describe('Test dependsOn and required', function () {
 			const backupLog = console.error;
 			console.error = () => null;
 
-			var newPost = new DependsOn.model({
+			var newDependsOn = new DependsOn.model({
 				title: 'new post',
 				state: 'published',
 				publishedDate: undefined,
 			});
+			
+			newDependsOn.relativeDependsOn = newDependsOn._id;
 
-			newPost.save(function (err) {
+			newDependsOn.save(function (err) {
 				demand(err).be.a.object();
 
 				console.error = backupLog;
@@ -55,20 +55,51 @@ describe('Test dependsOn and required', function () {
 
 	});
 
-	it('Save will succeed if `state` set to `published` and `publishedDate` is defined', function (done) {
-
-		// remove any Post documents
+	it('Save will fail if `state` set to `published` and `relativeDependsOn` is not defined', function (done) {
+		// remove any DependsOn documents
 		DependsOn.model.find({}).remove(function (error) {
 			if (error) {
 				done(error);
 			}
 
-			var newPost = new DependsOn.model({
+			// suppressing console log output
+			const backupLog = console.error;
+			console.error = () => null;
+
+			var newDependsOn = new DependsOn.model({
 				title: 'new post',
 				state: 'published',
-				publishedDate: new Date()
+				publishedDate: new Date(),
+				relativeDependsOn: undefined,
 			});
-			newPost.save(done);
+
+			newDependsOn.save(function (err) {
+				demand(err).be.a.object();
+
+				console.error = backupLog;
+				done();
+			});
+		});
+
+	});
+
+	it('Save will succeed if `state` set to `published` and `publishedDate` and `relativeDependsOn` are defined', function (done) {
+
+		// remove any DependsOn documents
+		DependsOn.model.find({}).remove(function (error) {
+			if (error) {
+				done(error);
+			}
+
+			var newDependsOn = new DependsOn.model({
+				title: 'new post',
+				state: 'published',
+				publishedDate: new Date(),
+			});
+			
+			newDependsOn.relativeDependsOn = newDependsOn._id;
+			
+			newDependsOn.save(done);
 
 		});
 	});
