@@ -72,9 +72,9 @@ relationship.prototype.addToSchema = function (schema) {
 	var def = {
 		type: this._nativeType,
 		ref: this.options.ref,
-		index: (this.options.index ? true : false),
-		required: (this.options.required ? true : false),
-		unique: (this.options.unique ? true : false),
+		index: (this.options.index ? this.options.index : false),
+		required: (this.options.required ? this.options.required : false),
+		unique: (this.options.unique ? this.options.unique : false),
 	};
 	this.paths = {
 		refList: this.options.refListPath || this.path + 'RefList',
