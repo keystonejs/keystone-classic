@@ -1,5 +1,7 @@
 # CloudinaryImage Field
 
+Stores an `Object` in the model.
+
 Displayed as an image upload field in the Admin UI.
 
 Automatically manages images stored in [Cloudinary](http://cloudinary.com/), including uploading, resizing and deleting.
