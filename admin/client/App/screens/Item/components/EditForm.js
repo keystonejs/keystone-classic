@@ -124,7 +124,18 @@ var EditForm = React.createClass({
 	updateItem () {
 		const { data, list } = this.props;
 		const editForm = this.refs.editForm;
+
+		// Fix for Safari where XHR form submission fails when input[type=file] is empty
+		// https://stackoverflow.com/questions/49614091/safari-11-1-ajax-xhr-form-submission-fails-when-inputtype-file-is-empty
+		$(editForm).find("input[type='file']").each(function () {
+			if ($(this).get(0).files.length === 0) { $(this).prop('disabled', true); }
+		});
+
 		const formData = new FormData(editForm);
+
+		$(editForm).find("input[type='file']").each(function () {
+			if ($(this).get(0).files.length === 0) { $(this).prop('disabled', false); }
+		});
 
 		// Show loading indicator
 		this.setState({
