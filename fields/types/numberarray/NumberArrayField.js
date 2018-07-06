@@ -11,7 +11,7 @@ module.exports = Field.create({
 	mixins: [ArrayFieldMixin],
 
 	cleanInput (input) {
-		return input.replace(/[^\d]/g, '');
+		return input.replace(/[^-\d\.]/g, '');
 	},
 
 });
