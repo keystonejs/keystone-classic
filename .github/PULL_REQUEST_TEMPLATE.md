@@ -8,19 +8,16 @@
 ## Description of changes
 
 
-
 ## Related issues (if any)
 
 
 ## Testing
 
-<!-- List browser version(s) any admin UI changes were tested in -->
-
-- [ ] Please confirm you've added (or verified) test coverage for this change.
-- [ ] Please confirm `npm run test-all` ran successfully.
+ - [ ] List browser version(s) any admin UI changes were tested in:
+ - [ ] Please confirm you've added (or verified) test coverage for this change.
+ - [ ] Please confirm `npm run test-all` ran successfully.
 
 <!--
-
  Notes:
  * For more information on the End-2-End (E2E) testing framework for Keystone 4, see:
     https://github.com/keystonejs/keystone-nightwatch-e2e
@@ -29,6 +26,5 @@
     - Java Runtime Environment 1.8+
  * If you are developing in Windows you may run into linebreak linting issues.
    One possible workaround is to remove the "linebreak-style" rule in `node_modules/eslint-config-keystone/eslintrc.json`.
-
  -->
 
