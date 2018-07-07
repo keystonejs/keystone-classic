@@ -58,7 +58,7 @@ $ yo keystone
 
 Answer the questions, and the generator will create a new project based on the options you select, and install the required packages from **npm**.
 
-Alternatively, to include Keystone in an existing project or start from scratch (without Yeoman), specify `keystone: "4.0.0-rc.0"` in the `dependencies` array of your `package.json` file, and run `npm install` from your terminal.
+Alternatively, to include Keystone in an existing project or start from scratch (without Yeoman), specify `keystone: "4.0.0-rc.1"` in the `dependencies` array of your `package.json` file, and run `npm install` from your terminal.
 
 Then read through the [Documentation](https://keystonejs.netlify.com/documentation) and the [Example Projects](http://keystonejs.com/examples) to understand how to use it.
 
