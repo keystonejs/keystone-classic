@@ -201,7 +201,7 @@ export const api = {
 				label: 'LocalFile',
 				slug: '/localfile',
 			}, {
-				label: 'Local Files',
+				label: 'LocalFiles',
 				slug: '/localfiles',
 			}, {
 				label: 'S3 File',
