@@ -1,4 +1,5 @@
 var FieldType = require('../Type');
+var keystone = require('../../../');
 var marked = require('marked');
 var sanitizeHtml = require('sanitize-html');
 var TextType = require('../text/TextType');
@@ -51,6 +52,14 @@ markdown.prototype.addToSchema = function (schema) {
 	var sanitizeOptions = this.sanitizeOptions;
 
 	var setMarkdown = function (value) {
+
+		// Need to check if `this` is a document, because in mongoose 5 setters will also run on queries,
+		// in which case `this` will be amongoose query object.
+		// in that case we need to return the value as is
+		if (!(this instanceof keystone.mongoose.Document)) {
+			return value;
+		}
+
 		// Clear if saving invalid value
 		if (typeof value !== 'string') {
 			this.set(paths.md, undefined);
