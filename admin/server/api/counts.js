@@ -4,7 +4,7 @@ module.exports = function (req, res) {
 	var keystone = req.keystone;
 	var counts = {};
 	async.each(keystone.lists, function (list, next) {
-		list.model.count(function (err, count) {
+		list.model.countDocuments(function (err, count) {
 			counts[list.key] = count;
 			next(err);
 		});
