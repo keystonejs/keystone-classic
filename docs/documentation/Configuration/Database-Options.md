@@ -6,7 +6,7 @@ The following options control your database configuration and user models / auth
 
 The url for your MongoDB connection.
 
-You should typically set this to `process.env.MONGO_URI || "mongodb://localhost/your-db"`, which will cause it to default to localhost unless a MONGO_URI is explicitly provided in the environment.
+You should typically set this to `process.env.MONGO_URI || "mongodb://localhost:27017/your-db"`, which will cause it to default to localhost unless a MONGO_URI is explicitly provided in the environment. mongodb port is required, default 27017
 
 <h4 data-primitive-type="String"><code>model prefix</code></h4>
 
