@@ -14,13 +14,13 @@ process.env.KNE_EXCLUDE_TEST_PATHS = 'test/e2e/adminUI/tests/group006Fields/comm
 
 // determine the mongo uri and database name
 var dbName = '/e2e' + (process.env.KEYSTONEJS_PORT || 3000);
-var mongoUri = 'mongodb://' + (process.env.KEYSTONEJS_HOST || 'localhost') + dbName;
+var mongoUri = 'mongodb://' + (process.env.KEYSTONEJS_HOST || 'localhost')  + ':27017' + dbName;
 
 // Function that drops the test database before starting testing
 function dropTestDatabase(done) {
 	console.log([moment().format('HH:mm:ss:SSS')] + ' e2e: dropping test database: ' + mongoUri);
 
-	mongoose.connect(mongoUri,function(err){
+	mongoose.connect(mongoUri, { useNewUrlParser: true },function(err){
 		if (!err) {
 			mongoose.connection.db.dropDatabase(function (err) {
 				if (!err) {
