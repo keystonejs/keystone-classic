@@ -9,16 +9,28 @@ import _ from 'lodash';
 import async from 'async';
 import React, { cloneElement } from 'react';
 import Field from '../Field';
-import { Button, FormField, FormNote } from '../../../admin/client/App/elemental';
+import {
+	Button,
+	FormField,
+	FormNote,
+} from '../../../admin/client/App/elemental';
 import Lightbox from 'react-images';
 import cloudinaryResize from '../../../admin/client/utils/cloudinaryResize';
 import Thumbnail from './CloudinaryImagesThumbnail';
 import HiddenFileInput from '../../components/HiddenFileInput';
 import FileChangeMessage from '../../components/FileChangeMessage';
 
-const SUPPORTED_TYPES = ['image/*', 'application/pdf', 'application/postscript'];
-const SUPPORTED_REGEX = new RegExp(/^image\/|application\/pdf|application\/postscript/g);
+const SUPPORTED_TYPES = [
+	'video/*',
+	'image/*',
+	'application/pdf',
+	'application/postscript',
+];
+const SUPPORTED_REGEX = new RegExp(
+	/^video\/|image\/|application\/pdf|application\/postscript/g
+);
 const RESIZE_DEFAULTS = {
+	secure: true,
 	crop: 'fit',
 	format: 'jpg',
 };
@@ -29,7 +41,7 @@ module.exports = Field.create({
 	displayName: 'CloudinaryImagesField',
 	statics: {
 		type: 'CloudinaryImages',
-		getDefaultValue: () => ([]),
+		getDefaultValue: () => [],
 	},
 	getInitialState () {
 		return this.buildInitialState(this.props);
@@ -45,30 +57,44 @@ module.exports = Field.create({
 	},
 	buildInitialState (props) {
 		const uploadFieldPath = `CloudinaryImages-${props.path}-${++uploadInc}`;
-		const thumbnails = props.value ? props.value.map((img, index) => {
-			return this.getThumbnail({
-				value: img,
-				imageSourceSmall: cloudinaryResize(img.public_id, {
-					...RESIZE_DEFAULTS,
-					height: 90,
-					secure: props.secure,
-				}),
-				imageSourceLarge: cloudinaryResize(img.public_id, {
-					...RESIZE_DEFAULTS,
-					height: 600,
-					width: 900,
-					secure: props.secure,
-				}),
-			}, index);
-		}) : [];
+		const thumbnails = props.value
+			? props.value.map((img, index) => {
+				const options = {
+					value: img,
+					imageSourceSmall: cloudinaryResize(img.public_id, {
+						...RESIZE_DEFAULTS,
+						height: 90,
+						secure: props.secure,
+					}),
+					imageSourceLarge: cloudinaryResize(img.public_id, {
+						...RESIZE_DEFAULTS,
+						height: 600,
+						width: 900,
+						secure: props.secure,
+					}),
+				};
+				return this.getThumbnail(options, index);
+			})
+			: [];
 		return { thumbnails, uploadFieldPath };
 	},
 	getThumbnail (props, index) {
+		// Fix video urls
+		if (props.value && props.value.resource_type === 'video') {
+			props.imageSourceSmall = props.imageSourceSmall.replace(
+				'image/upload',
+				'video/upload'
+			);
+			props.imageSourceLarge = props.imageSourceLarge.replace(
+				'image/upload',
+				'video/upload'
+			);
+		}
 		return (
 			<Thumbnail
 				key={`thumbnail-${index}`}
 				inputName={this.getInputName(this.props.path)}
-				openLightbox={(e) => this.openLightbox(e, index)}
+				openLightbox={e => this.openLightbox(e, index)}
 				shouldRenderActionButton={this.shouldRenderField()}
 				toggleDelete={this.removeImage.bind(this, index)}
 				{...props}
@@ -119,16 +145,20 @@ module.exports = Field.create({
 		const target = newThumbnails[index];
 
 		// Use splice + clone to toggle the isDeleted prop
-		newThumbnails.splice(index, 1, cloneElement(target, {
-			isDeleted: !target.props.isDeleted,
-		}));
+		newThumbnails.splice(
+			index,
+			1,
+			cloneElement(target, {
+				isDeleted: !target.props.isDeleted,
+			})
+		);
 
 		this.setState({ thumbnails: newThumbnails });
 	},
 	getCount (key) {
 		var count = 0;
 
-		this.state.thumbnails.forEach((thumb) => {
+		this.state.thumbnails.forEach(thumb => {
 			if (thumb && thumb.props[key]) count++;
 		});
 
@@ -153,26 +183,41 @@ module.exports = Field.create({
 		for (let i = 0; i < event.target.files.length; i++) {
 			const f = event.target.files[i];
 			if (!f.type.match(SUPPORTED_REGEX)) {
-				return alert('Unsupported file type. Supported formats are: GIF, PNG, JPG, BMP, ICO, PDF, TIFF, EPS, PSD, SVG');
+				return alert(
+					'Unsupported file type. Supported formats are: GIF, PNG, JPG, BMP, ICO, PDF, TIFF, EPS, PSD, SVG, MP4, WEBM, FLV, MOV, OGV, 3GP, 3G2, WMV, MPEG, FLV, MKV OR AVI.'
+				);
 			}
 			files.push(f);
 		}
 
 		let index = this.state.thumbnails.length;
-		async.mapSeries(files, (file, callback) => {
-			const reader = new FileReader();
-			reader.readAsDataURL(file);
-			reader.onload = (e) => {
-				callback(null, this.getThumbnail({
-					isQueued: true,
-					imageSourceSmall: e.target.result,
-				}, index++));
-			};
-		}, (err, thumbnails) => {
-			this.setState({
-				thumbnails: [...this.state.thumbnails, ...thumbnails],
-			});
-		});
+		async.mapSeries(
+			files,
+			(file, callback) => {
+				const reader = new FileReader();
+				reader.readAsDataURL(file);
+				reader.onload = e => {
+					callback(
+						null,
+						this.getThumbnail(
+							{
+								isQueued: true,
+								imageSourceSmall: e.target.result,
+							},
+							index++
+						)
+					);
+				};
+			},
+			(err, thumbnails) => {
+				this.setState({
+					thumbnails: [...this.state.thumbnails, ...thumbnails],
+				});
+			}
+		);
+	},
+	handleOpenImage () {
+		// window.location.assign(url);
 	},
 
 	// ==============================
@@ -216,24 +261,55 @@ module.exports = Field.create({
 			);
 		}
 	},
+	renderFullButton () {
+		if (this.state.lightboxIsVisible) {
+			const url = this.state.thumbnails[this.state.lightboxImageIndex].props
+				.value.secure_url;
+			return (
+				<Button size="xs" href={url} target="_blank">
+					Open Original
+				</Button>
+			);
+		}
+	},
+	renderDownloadButton () {
+		if (this.state.lightboxIsVisible) {
+			let url = this.state.thumbnails[this.state.lightboxImageIndex].props.value
+				.secure_url;
+			url = url.replace('/upload/', '/upload/fl_attachment/');
+			return (
+				<Button size="xs" href={url} target="_blank">
+					Download
+				</Button>
+			);
+		}
+	},
 	renderLightbox () {
 		const { value, secure } = this.props;
 		if (!value || !value.length) return;
 
-		const images = value.map(image => ({
-			src: cloudinaryResize(image.public_id, {
-				...RESIZE_DEFAULTS,
-				height: 600,
-				width: 900,
-				secure,
-			}),
-		}));
+		const images = value.map(image => {
+			let url = {
+				src: cloudinaryResize(image.public_id, {
+					...RESIZE_DEFAULTS,
+					height: 600,
+					width: 900,
+					secure,
+				}),
+			};
+			if (image.resource_type === 'video') {
+				url.src = url.src.replace('image/upload', 'video/upload');
+			}
+			return url;
+		});
 
 		return (
 			<Lightbox
 				images={images}
+				customControls={[this.renderFullButton(), this.renderDownloadButton()]}
 				currentImage={this.state.lightboxImageIndex}
 				isOpen={this.state.lightboxIsVisible}
+				// onClickImage={this.handleOnClickImage}
 				onClickPrev={this.lightboxPrevious}
 				onClickNext={this.lightboxNext}
 				onClose={this.closeLightbox}
@@ -248,25 +324,27 @@ module.exports = Field.create({
 
 		// provide a gutter for the change message
 		// only required when no cancel button, which has equiv. padding
-		const uploadButtonStyles = !this.hasFiles()
-			? { marginRight: 10 }
-			: {};
+		const uploadButtonStyles = !this.hasFiles() ? { marginRight: 10 } : {};
 
 		// prepare the change message
-		const changeMessage = uploadCount || deleteCount ? (
-			<FileChangeMessage>
-				{uploadCount && deleteCount ? `${uploadCount} added and ${deleteCount} removed` : null}
-				{uploadCount && !deleteCount ? `${uploadCount} image added` : null}
-				{!uploadCount && deleteCount ? `${deleteCount} image removed` : null}
-			</FileChangeMessage>
-		) : null;
+		const changeMessage
+			= uploadCount || deleteCount ? (
+				<FileChangeMessage>
+					{uploadCount && deleteCount
+						? `${uploadCount} added and ${deleteCount} removed`
+						: null}
+					{uploadCount && !deleteCount ? `${uploadCount} image added` : null}
+					{!uploadCount && deleteCount ? `${deleteCount} image removed` : null}
+				</FileChangeMessage>
+			) : null;
 
 		// prepare the save message
-		const saveMessage = uploadCount || deleteCount ? (
-			<FileChangeMessage color={!deleteCount ? 'success' : 'danger'}>
-				Save to {!deleteCount ? 'Upload' : 'Confirm'}
-			</FileChangeMessage>
-		) : null;
+		const saveMessage
+			= uploadCount || deleteCount ? (
+				<FileChangeMessage color={!deleteCount ? 'success' : 'danger'}>
+					Save to {!deleteCount ? 'Upload' : 'Confirm'}
+				</FileChangeMessage>
+			) : null;
 
 		// clear floating images above
 		const toolbarStyles = {
@@ -275,7 +353,10 @@ module.exports = Field.create({
 
 		return (
 			<div style={toolbarStyles}>
-				<Button onClick={this.triggerFileBrowser} style={uploadButtonStyles} data-e2e-upload-button="true">
+				<Button
+					onClick={this.triggerFileBrowser}
+					style={uploadButtonStyles}
+					data-e2e-upload-button="true">
 					Upload Images
 				</Button>
 				{this.hasFiles() && (
@@ -293,10 +374,11 @@ module.exports = Field.create({
 		const { thumbnails } = this.state;
 
 		return (
-			<FormField label={label} className="field-type-cloudinaryimages" htmlFor={path}>
-				<div>
-					{thumbnails}
-				</div>
+			<FormField
+				label={label}
+				className="field-type-cloudinaryimages"
+				htmlFor={path}>
+				<div>{thumbnails}</div>
 				{this.renderValueInput()}
 				{this.renderFileInput()}
 				{this.renderToolbar()}

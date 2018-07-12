@@ -1,6 +1,8 @@
 /*
 TODO: Needs Review and Spec
 */
+var sanitize = require('sanitize-filename');
+var trimSupportedFileExtensions = require('../../../fields/utils/trimSupportedFileExtensions');
 
 module.exports = {
 	upload: function (req, res) {
@@ -11,7 +13,10 @@ module.exports = {
 			var options = {};
 
 			if (keystone.get('wysiwyg cloudinary images filenameAsPublicID')) {
-				options.public_id = req.files.file.originalname.substring(0, req.files.file.originalname.lastIndexOf('.'));
+				let filename = req.files.file.originalname;
+				filename = sanitize(filename);
+				filename = trimSupportedFileExtensions(filename);
+				options.public_id = filename;
 			}
 
 			cloudinary.uploader.upload(req.files.file.path, function (result) {
@@ -35,26 +40,45 @@ module.exports = {
 		}
 	},
 	autocomplete: function (req, res) {
-		var cloudinary = require('cloudinary');
-		var max = req.query.max || 10;
-		var prefix = req.query.prefix || '';
-		var next = req.query.next || null;
+		const cloudinary = require('cloudinary');
+		const max = req.query.max || 10;
+		const prefix = req.query.prefix || '';
+		const resources = [];
+		let next = req.query.next || null;
 
-		cloudinary.api.resources(function (result) {
-			if (result.error) {
-				res.json({ error: { message: result.error.message } });
-			} else {
-				res.json({
-					next: result.next_cursor,
-					items: result.resources,
-				});
-			}
-		}, {
-			type: 'upload',
-			prefix: prefix,
-			max_results: max,
-			next_cursor: next,
-		});
+		function getResources () {
+			cloudinary.api.resources(function (result) {
+				if (result.error) {
+					res.json({ error: { message: result.error.message } });
+				} else {
+					const options = { width: 100, height: 50, crop: 'pad', format: 'jpg' };
+					result.resources = result.resources.reduce((existing, resource) => {
+						if (!resource.placeholder) {
+							resource.thumbnail = cloudinary.url(resource.public_id, options);
+							existing.push(resource);
+						}
+						return existing;
+					}, []);
+					resources.push(...result.resources);
+					if (result.next_cursor) {
+						next = result.next_cursor;
+						getResources();
+						return;
+					}
+					res.json({
+						next: result.next_cursor,
+						items: resources,
+					});
+				}
+			}, {
+				type: 'upload',
+				prefix: prefix,
+				max_results: max,
+				next_cursor: next,
+				context: true,
+			});
+		};
+		getResources();
 	},
 	get: function (req, res) {
 		var cloudinary = require('cloudinary');

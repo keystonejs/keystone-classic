@@ -11,6 +11,7 @@ function cloudinaryResize (publicId, options = {}) {
 	return url(publicId, {
 		cloud_name: CLOUD_NAME, // single cloud for the admin UI
 		quality: 80, // 80% quality, which ~halves image download size
+		fetch_format: 'auto',
 		...options,
 	});
 };
