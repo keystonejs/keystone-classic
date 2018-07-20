@@ -17,6 +17,7 @@ module.exports = function SigninRoute (req, res) {
 			name: UserList.getDocumentName(req.user) || '(no name)',
 		} : undefined,
 		userCanAccessKeystone: !!(req.user && req.user.canAccessKeystone),
+		ldapAuth: keystone.get('ldap enabled') === true ? true : false
 	};
 	locals.csrf.header[keystone.security.csrf.CSRF_HEADER_KEY] = keystone.security.csrf.getToken(req, res);
 	ejs.renderFile(templatePath, locals, { delimiter: '%' }, function (err, str) {

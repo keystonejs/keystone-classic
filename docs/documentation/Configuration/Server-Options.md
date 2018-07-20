@@ -184,3 +184,92 @@ Path to a writable unix socket. Should be either absolute or relative to `proces
 When set http and https servers are ignored.
 
 Exposes `onSocketServerCreated` event during `keystone.start()`
+
+
+# Authentificate via Ldap
+
+Keystonejs allows you to bind to an ldap server using `ldapauth-fork`. After the binding was successfully, the account will be created with a randomized Password in the option `user model`. The randomized password prevents logging in when `ldap enabled` is set to `false`
+
+<h4 data-primitive-type="Boolean"><code>ldap enable</code></h4>
+
+Enables or disables the ldap binding. When this is set to `true`, all sign in requests are using the ldap bind
+
+<h4 data-primitive-type="String"><code>ldap url</code></h4>
+
+Defines the ldap url including the protocol, the hostname and the port number. Example: `ldaps://ldap.foo.bar:636`
+
+<h4 data-primitive-type="String"><code>ldap base</code></h4>
+
+Defines the `searchBase`. Example: `ou=user,dc=foo,dc=bar`
+
+<h4 data-primitive-type="String"><code>ldap filter</code></h4>
+
+Defines the `searchFilter`. Example: `(uid={{username}})`
+
+<h4 data-primitive-type="Boolean"><code>ldap reconnect</code></h4>
+
+Allows ldap reconnect, defaults to `true`
+
+<h4 data-primitive-type="String"><code>ldap field email</code></h4>
+
+Defines the ldap column holding the persons mail. Defaults to `mail`
+
+<h4 data-primitive-type="String"><code>ldap field name first</code></h4>
+
+Defines the ldap column holding the first name of the person. Defaults to `givenName`
+
+<h4 data-primitive-type="String"><code>ldap field name first</code></h4>
+
+Defines the ldap column holding the last name of the person. Defaults to `sn`
+
+<h4 data-primitive-type="Boolean"><code>ldap allow unregistered</code></h4>
+
+When this is set to `false`, a user will not be able to login when he doesnt already exist in the Database.
+
+<h4 data-primitive-type="Boolean"><code>ldap register as admin</code></h4>
+
+Registers user as admin ( canAccessKeystone ), default `false`
+
+# Ldap group based Authentification
+
+Keystone is able to control who is allowed to login depending on the users `uid` or `dn`. To enable this Feature you must set `ldap allow all` to `false`
+
+<h4 data-primitive-type="Boolean"><code>ldap allow all</code></h4>
+
+When this is set to `true` every user who is able to bind on your ldap server is able to login to the keystone instance. The following Fields are only going to work if this is set to `false`
+
+<h4 data-primitive-type="Array"><code>ldap allow users</code></h4>
+
+Lets say i have a user called uid:`keystone-global-admin`, this user should always access my keystone instance. So lets add him to the `allow users` list.
+
+`'ldap allow users': ['keystone-global-admin', ...otherUsers]`
+
+<h4 data-primitive-type="Array"><code>ldap allow all from</code></h4>
+
+This attribute lets you add a whole dn, lets say a customer group called `test-customer`. In this case we must add the whole dn name of the group.
+
+`'ldap allow all from': [ 'cn=test-customer,cn=customers,cn=admin,dc=dev,dc=designmakes,dc=it', ...otherCustomers ]`
+
+
+
+**Example using ldap options**
+
+```javascript
+keystone.init({
+  'ldap enabled': true,
+  'ldap url': 'ldaps://ldap.foo.bar:636',
+  'ldap base': 'ou=users,dc=foo,dc=bar',
+  'ldap filter': '(uid={{username}})',
+  'ldap reconnect': true,
+  'ldap allow unregistered': true,
+  'ldap register as admin': true,
+  'ldap field email': 'mail',
+  'ldap field name first': 'givenName',
+  'ldap field name last': 'sn'
+
+  'ldap allow all': false,
+  'ldap allow users': [ 'keystone-global-admin' ],
+  'ldap allow all from': [ 'cn=test-customer,cn=customers,cn=admin,dc=ldap,dc=foo,dc=bar' ]
+});
+```
+
