@@ -120,8 +120,7 @@ email: { type: keystone.Field.Types.Email, unique: true },
 
 Email is similar to password in that it is using a keystone-specific field type, in this case to ensure that when this field is filled, it has the shape of an email. In addition, we have passed a second option of `unique: true`, which forces the field to be unique within the database. No doubling up on email addresses for accounts.
 
-// The following para really needs more work. Needs lightness and timing
-If you want to know about all the field types keystone offers, you can find the information find the full list of options in the [field docs](/api/field) Also, for the options like `unique` which are available to all fields, you can read more [here](/api/field/options), for when you are making your own models.
+If you want to know about all the field types keystone offers, you can find the full list of options in the [field docs](/api/field) Also, for the options like `unique` which are available to all fields, you can read more [here](/api/field/options), for when you are making your own models.
 
 There are three more parts we are going to need to get our user model working. The first is to register it to keystone. This will tell keystone to include it in its list of models. To do this, add the following line to the bottom of the file:
 
@@ -234,11 +233,11 @@ Event.register();
 ## Next Steps
 Check out [part 3](/getting-started/setting-up/part-3) of our setting up keystone guide, which walks you through adding your own pages to your site, or if you want to read more about any of the parts we set up, you can check out these links:
 
-learn more about:
+## Learn more about:
 
 - [configuring keystone](/documentation/configuration)
 - [importing models](/api/methods/import)
 - [list of keystone fields](/api/field)
-- [keystone field options](/api/fields/options)
-- [update scripts](/documentation/application-updates)
+- [keystone field options](/api/field/options)
+- [update scripts](/documentation/database/application-updates)
 - [virtuals and schema methods](/api/list/schema)

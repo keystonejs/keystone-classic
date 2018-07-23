@@ -29,7 +29,7 @@ At this point, we should have a `node_modules` directory and keystone should hav
 
 Create a new file, `keystone.js` and we're ready to start configuring keystone.
 
-Your `keystone.js` file is the launch file for keystone, which will connect keystone to your database, start both the database connection, and start your server running. This is where we will be adding configuration options to keystone as well, which allow us to change how keystone is running.
+Your `keystone.js` file is the launch file for keystone, which will connect keystone to your database, start the database connection, and start your server running. This is where we will be adding configuration options to keystone as well, which allow us to change how keystone is running.
 
 The minimum file we need to start keystone running is:
 
@@ -58,7 +58,11 @@ Keystone is ready on http://0.0.0.0:3000
 ------------------------------------------------
 ```
 
-Unfortunately all that's there is a 404 error page. We're going to solve that in [part 3](/getting-started/setting-up/part-3). In [Part 2](/getting-started/setting-up/part-2) we are going to focus on getting the database connected, and the admin UI up and running. You can do these two in either order.
+We should get a 404 page. That's ok! We're going to solve that in [part 3](/getting-started/setting-up/part-3). In [Part 2](/getting-started/setting-up/part-2) we are going to focus on getting the database connected, and the admin UI up and running. You can do these two in either order.
+
+## Next Steps
+Check out [part 2](/getting-started/setting-up/part-2) of our setting up keystone guide, which walks you through setting up your database, or if you want to read more about any of the parts we set up, you can check out these links:
+
 
 ## Learn more about:
 

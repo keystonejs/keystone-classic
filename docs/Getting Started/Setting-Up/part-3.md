@@ -1,12 +1,12 @@
 # Part 3: Routing
 
-Keystone is designed to do much of the setup of running an [express](expressjs.com) application out of your hands as well as allowing an easy configuration of the options.
+Keystone is designed to do much of the setup of running an [express](https://expressjs.com) application out of your hands as well as allowing an easy configuration of the options.
 
 Here we are going to add a router to our keystone application, and set up a basic webpage. This will not rely on what was done in part 2.
 
 After that, we are going to set up an API endpoint to retrieve information about the events model, which will be relying on setup we did in [Part 2](/getting-started/setting-up/part-2).
 
-For our routing, we are going to be using [pug](pugjs.org) to render our views, however the principles will remain the same for other view engines.
+For our routing, we are going to be using [pug](https://pugjs.org) to render our views, however the principles will remain the same for other view engines.
 
 ## Setup
 
@@ -180,18 +180,18 @@ html(lang="en")
           Hope you're enjoying learning about keystone. We're close to some very dynamic cool things
 ```
 
-Check out [pugjs.org](pugjs.org) if you want to know more about pug.
+Check out [pugjs.org](https://pugjs.org) if you want to know more about pug.
 
 Now, if we start our keystone app using `node keystone`, we should be able to visit the homepage and see it rendered!
 
-[Part 4](/getting-started/setting-up/part-4)
-
 ## Next Steps
+Check out [part 4](/getting-started/setting-up/part-4) of our setting up keystone guide, which walks you through setting up an API endpoint so we can record data to our database from a form.
 
-Learn more about:
 
-- [keystone.set](/methods/set)
-- [init options](/configuration)
-- [pug](pugjs.org)
-- [express](expressjs.com)
-- [keystone.importer](/methods/importer)
+## Learn more about:
+
+- [keystone.set](/api/methods/set)
+- [init options](/documentation/configuration)
+- [pug](https://pugjs.org)
+- [express](https://expressjs.com)
+- [keystone.importer](/api/methods/importer)
