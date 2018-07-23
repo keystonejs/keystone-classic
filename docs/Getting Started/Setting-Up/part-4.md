@@ -186,7 +186,7 @@ First, we can create a new item, passing in values we want to use as our initial
 var newEvent = new Event(req.body);
 ```
 
-This will return us an object with the properties of an Event from our schema however it has not yet been saved. You can use `newEvent.save()`, which implements mongoose's save method, however keystone provides an `updateItem` function that runs keystone's validators, to make sure the data in the fields complies with keystone's full schema. Yes, updateItem will create an item if it does not exist.
+This will return us an object with the properties of an Event from our schema however it has not yet been saved. You can use `newEvent.save()`, which implements mongoose's save method, however Keystone provides an `updateItem` function that runs keystone's validators, to make sure the data in the fields complies with keystone's full schema. Yes, updateItem will create an item if it does not exist.
 
 We can call this like so:
 

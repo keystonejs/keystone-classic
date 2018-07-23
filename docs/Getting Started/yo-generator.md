@@ -8,7 +8,7 @@ To use the generator, you will need to install [Yeoman](http://yeoman.io/) (yo) 
 $ npm install -g yo
 ```
 
-Once you have yo, you will need to install the keystone generator.
+Once you have yo, you will need to install the Keystone generator.
 
 ```sh
 $ npm install -g generator-keystone
@@ -26,7 +26,7 @@ In the guide we'll also be using [Pug](https://pugjs.org/) for our view template
 
 ### keystone.js start script
 
-The first place to look is the `keystone.js` file. This is the script that will run our keystone website, and is the file we use to set most of the keystone configuration options.
+The first place to look is the `keystone.js` file. This is the script that will run our Keystone website, and is the file we use to set most of the Keystone configuration options.
 
 ```javascript
 var keystone = require('keystone');
@@ -61,7 +61,7 @@ keystone.start();
 
 ## Project Structure
 
-The yeoman generator comes with our suggested structure for keystone, designed to make it easy to begin development. Below is the folder structure laid out with explanations of each part.
+The yeoman generator comes with our suggested structure for Keystone, designed to make it easy to begin development. Below is the folder structure laid out with explanations of each part.
 
 ```sh
 |--lib
@@ -134,7 +134,7 @@ For Keystone to provide authentication and session management to your applicatio
 - If you want your application to support session management, set the `session` option to true. Loading sessions incurs a small overhead, so if your application doesn't need sessions you can turn this off.
 - Keystone has built-in views for signing in and out. To enable them, set the `auth` option to true. You can also implement custom signin and signout screens in your applications' views.
 - Sessions are persisted using an encrypted cookie storing the user's ID. Make sure you set the `cookie secret` option to a long, random string.
-- The user model must have a `canAccessKeystone` property (which can be a virtual method or a stored boolean) that says whether a user can access Keystone's Admin UI or not. \*Note\* If you choose to use a virtual method setting the value in mongodb directly will not authenticate correctly. A virtual method is useful when the criteria for access is more complex. See [Mongoose virtuals](http://mongoosejs.com/docs/guide.html#virtuals).
+- The user model must have a `canAccessKeystone` property (which can be a virtual method or a stored boolean) that says whether a user can access Keystone's Admin UI or not. \*Note\* If you choose to use a virtual method setting the value in mongodb directly will not authenticate correctly. A virtual method is useful when the criteria for access is more complex. See [Mongoose virtuals](http://mongoosejs.com/docs/4.x/docs/guide.html#virtuals).
 
 ### More on Data Models
 
@@ -382,7 +382,7 @@ KeystoneJS supports any [template language supported by express](https://express
 
 Use the `view engine` option to specify the template language you want to use.
 
-If you want to use a custom template engine, set the `custom engine` option as well. For instance, [ejs](http://embeddedjs.com/) is supported by express by default, but you might want to use [ejs.locals](https://github.com/RandomEtc/ejs-locals) as a template engine in order to benefit from get extensions.
+If you want to use a custom template engine, set the `custom engine` option as well. For instance, [EJS](http://ejs.co) is supported by express by default, but you might want to use [ejs.locals](https://github.com/RandomEtc/ejs-locals) as a template engine in order to benefit from get extensions.
 
 ```javascript
 // Modified web.js to use the ejs-locals custom template engine.
@@ -398,11 +398,11 @@ keystone.init({
 
 ## Public Assets
 
-You'll want to add your own css, javascript, images and other files to your project. In the examples above, we're including `/styles/site.min.css`. If you are using less, add `public/styles/site.less` to your project. We can leave it blank for now, but note keystone will generate a site.min.css on run time.
+You'll want to add your own css, javascript, images and other files to your project. In the examples above, we're including `/styles/site.min.css`. If you are using less, add `public/styles/site.less` to your project. We can leave it blank for now, but note Keystone will generate a site.min.css on run time.
 
 Keystone will serve any static assets you place in the public directory. This path is specified in `keystone.js` by the `static` option.
 
-It will also automatically generate `.css` or compressed `.min.css` files when a corresponding `.less` file is found in the public folder, as specified in `keystone.js` by the `less` option. For more information on LESS, see [lesscss.org](http://lesscss.org).
+Keystone will also automatically generate `.css` or compressed `.min.css` files when a corresponding `.less` file is found in the public folder, as specified in `keystone.js` by the `less` option. For more information on LESS, see [lesscss.org](http://lesscss.org).
 
 ## Writing Updates
 
@@ -414,7 +414,7 @@ When the option is set to `true`, Keystone will scan the `updates` directory for
 
 - next - the method to call when the update has finished running (including any internal callbacks)
 
-Updates are ordered using [Semantic Versioning](https://semver.org), and Keystone will only run them once (successfully executed updates are stored in your database, in a collection called `app_updates`).
+Updates are ordered using [Semantic Versioning](https://semver.org), and Keystone will only run them once. Successfully executed updates are stored in your database, in a collection called `app_updates`.
 
 Update file names should match the pattern `x.x.x-description.js` - anything after the first hyphen is ignored, so you can describe the update in the filename.
 
@@ -449,7 +449,7 @@ Now you're ready to run your application, so execute the following in your proje
 
 Keystone will automatically apply the update, and then start a web server on the default port, 3000.
 
-To see your home page, point your browser at [localhost:3000](http://localhost:3000). You should see our **Hello World!** message.
+To see your home page, point your browser at [localhost:3000](http://localhost:3000). You should see a **Hello World!** message.
 
 To sign in to Keystone's Admin UI, go to [localhost:3000/keystone](http://localhost:3000/keystone). Use the email and password you put in the update script above to sign in, and you'll be redirected to Keystone's home page.
 

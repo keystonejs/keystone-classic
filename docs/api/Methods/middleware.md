@@ -16,7 +16,7 @@ name | call time
 `pre:session` |
 `pre:admin` |
 `pre:routes` | Installs Express middleware which is called before each route is executed.
-`pre:render` | Called before a keystone [view](/api/view) is rendered.
+`pre:render` | Called before a Keystone [view](/api/view) is rendered.
 `updates` |
-`signin` | Called before a user signs in to the keystone admin UI and the user is returned a view.
+`signin` | Called before a user signs in to the Keystone admin UI and the user is returned a view.
 `signout` | Called before a user signs out of the admin UI and the user is returned a view.
