@@ -137,7 +137,7 @@ const classes = {
 		marginTop: 10,
 		position: 'absolute',
 		left: 0,
-		zIndex: 2,
+		zIndex: 500,
 	},
 	swatch: {
 		borderRadius: 1,
