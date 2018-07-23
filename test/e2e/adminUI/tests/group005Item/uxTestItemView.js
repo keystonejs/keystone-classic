@@ -39,27 +39,6 @@ module.exports = {
 		browser.adminUIApp.signout();
 		browser.end();
 	},
-	'Item screen should allow creating an item of the same type': function (browser) {
-		browser.adminUIItemScreen.new();
-
-		browser.adminUIApp.waitForInitialFormScreen();
-
-		browser.adminUIInitialFormScreen.fillFieldInputs({
-			fields: [
-				{ name: 'name', input: { firstName: 'First 1', lastName: 'Last 1' }, },
-			],
-		});
-
-		browser.adminUIInitialFormScreen.assertFieldInputs({
-			fields: [
-				{ name: 'name', input: { firstName: 'First 1', lastName: 'Last 1' }, },
-			],
-		});
-
-		browser.adminUIInitialFormScreen.save();
-		browser.adminUIApp.waitForItemScreen();
-
-	},
 	'Item screen should allow saving an item without changes': function (browser) {
 		browser.adminUIItemScreen.save();
 
@@ -105,11 +84,5 @@ module.exports = {
 				{ name: 'name', input: { firstName: 'First 2', lastName: 'Last 2' }, },
 			],
 		});
-	},
-	'Item screen should allow deleting an item': function (browser) {
-		browser.adminUIItemScreen.delete();
-		browser.adminUIApp.waitForDeleteConfirmationScreen();
-		browser.adminUIDeleteConfirmation.delete();
-		browser.adminUIApp.waitForListScreen();
 	},
 };

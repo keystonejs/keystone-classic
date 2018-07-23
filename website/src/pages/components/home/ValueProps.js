@@ -41,13 +41,13 @@ export default class ValueProps extends Component {
 			<Container style={styles.container}>
 				<div className={compose(styles.preamble)}>
 					<h2 className={compose(styles.heading)}>Get a head-start on the features you need</h2>
-					<p className={compose(styles.subheading)}>KeystoneJS is the easiest way to build database-driven websites, applications and APIs in Node.js.</p>
+					<p className={compose(styles.subheading)}>KeystoneJS is the easiest way to build database-driven websites, applications, and APIs in Node.js.</p>
 				</div>
 				<Row medium="1" large="1/2">
 					<Col>
 						<ValueProp
 							title="Express.js and MongoDB"
-							text="Keystone will configure express - the de facto web server for node.js - for you and connect to your MongoDB database using Mongoose, the leading ODM package."
+							text="Keystone will configure Express - the de facto web server for Node.js - for you and connect to your MongoDB database using Mongoose, the leading ODM package."
 							icon={<EntypoLeaf style={styles.icon} />}
 						/>
 					</Col>
@@ -63,7 +63,7 @@ export default class ValueProps extends Component {
 					<Col>
 						<ValueProp
 							title="Database Fields"
-							text="IDs, Strings, Booleans, Dates and Numbers are the building blocks of your database. Keystone builds on these with useful, real-world field types like name, email, password, address, image and relationship fields (and more)"
+							text="IDs, Strings, Booleans, Dates, and Numbers are the building blocks of your database. Keystone builds on these with useful, real-world field types like name, email, password, address, image and relationship fields (and more)."
 							icon={<EntypoImages style={styles.icon} />}
 						/>
 					</Col>
@@ -102,7 +102,7 @@ export default class ValueProps extends Component {
 					<Col>
 						<ValueProp
 							title="Email Sending"
-							text="Keystone makes it easy to set up, preview and send template-based emails for your application. It also integrates with Mandrill (Mailchimp's excellent transaction email sending service)"
+							text="Keystone makes it easy to set up, preview, and send template-based emails for your application. It also integrates with Mandrill (Mailchimp's excellent transaction email sending service)."
 							icon={<EntypoPaperPlane style={styles.icon} />}
 						/>
 					</Col>

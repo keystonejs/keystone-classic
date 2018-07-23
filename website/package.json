@@ -11,6 +11,7 @@
     "gatsby-link": "^1.6.40",
     "gatsby-plugin-glamor": "^1.6.13",
     "gatsby-plugin-react-helmet": "^2.0.10",
+    "gatsby-plugin-typography": "^1.7.18",
     "gatsby-source-filesystem": "^1.5.31",
     "gatsby-transformer-remark": "^1.7.40",
     "lodash.kebabcase": "^4.1.1",
@@ -20,7 +21,7 @@
     "react-icons": "^2.2.7",
     "react-tweet-embed": "^1.1.0",
     "typeface-roboto": "^0.0.54",
-    "typography": "^0.16.6",
+    "typography": "^0.16.17",
     "typography-breakpoint-constants": "^0.15.10",
     "typography-plugin-code": "^0.16.11"
   },

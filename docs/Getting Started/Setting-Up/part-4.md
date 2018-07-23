@@ -138,10 +138,10 @@ var routes = {
 };
 ```
 
-Second we are gloing to add our new route to our app. As this is not a get request, we need to let the app know. We use this by changing the verb.
+Second we are going to add our new route to our app. As this is not a get request, we need to let the app know. We use this by changing the verb.
 
 ```javascript
-app.post('/api/event', api.event.post);
+app.post('/api/event', routes.api.event.post);
 ```
 
 Next we can create our `routes/api/event/post` route. It's alright that the api folder only contains another folder. This structure helps us get the very readable route definition above.

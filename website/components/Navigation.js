@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'gatsby-link';
-import { rhythm, scale } from 'utils/typography';
+import { rhythm, scale } from '../utils/typography';
 import MenuIcon from 'react-icons/lib/md/menu';
 import gray from 'gray-percentage';
 import Headroom from 'react-headroom';
