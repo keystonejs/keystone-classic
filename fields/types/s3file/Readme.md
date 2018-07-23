@@ -1,6 +1,6 @@
 # S3 File Field
 
-> Warning: the S3 File Field has been deprecated. Please use the [File](/field/File) and a storage adapter going forward.
+> Warning: the S3 File Field has been deprecated. Please use the [File](/api/field/File) and a storage adapter going forward.
 
 
 `Object` — Displayed as an file upload field in the Admin UI.

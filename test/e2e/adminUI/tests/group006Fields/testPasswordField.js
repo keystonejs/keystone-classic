@@ -35,19 +35,19 @@ module.exports = {
 		browser.adminUIInitialFormScreen.fillFieldInputs({
 			fields: [
 				{ name: 'name', input: { value: 'Password Field Test 1' }, },
-				{ name: 'fieldA', input: { value: 'password1', confirm: 'wrongPassword1' }, },
+				{ name: 'fieldA', input: { value: 'CorrectH0rseB@tteryStapl1', confirm: 'wrongCorrectH0rseB@tteryStapl1' }, },
 			],
 		});
 		browser.adminUIInitialFormScreen.save();
-		browser.adminUIInitialFormScreen.assertElementTextEquals({ element: '@flashError', text: 'Passwords must match' });
+		browser.adminUIInitialFormScreen.assertElementTextEquals({ element: '@flashError', text: 'Passwords must match.' });
 		browser.adminUIInitialFormScreen.fillFieldInputs({
 			fields: [
-				{ name: 'fieldA', input: { value: 'password1', confirm: 'password1' }, },
+				{ name: 'fieldA', input: { value: 'CorrectH0rseB@tteryStapl1', confirm: 'CorrectH0rseB@tteryStapl1' }, },
 			],
 		});
 		browser.adminUIInitialFormScreen.assertFieldInputs({
 			fields: [
-				{ name: 'fieldA', input: { value: 'password1', confirm: 'password1' }, },
+				{ name: 'fieldA', input: { value: 'CorrectH0rseB@tteryStapl1', confirm: 'CorrectH0rseB@tteryStapl1' }, },
 			],
 		});
 		browser.adminUIInitialFormScreen.save();
@@ -81,18 +81,18 @@ module.exports = {
 		});
 		browser.adminUIItemScreen.fillFieldInputs({
 			fields: [
-				{ name: 'fieldB', input: { value: 'password2', confirm: 'wrongPassword2' }, },
+				{ name: 'fieldB', input: { value: 'CorrectH0rseB@tteryStapl2', confirm: 'wrongCorrectH0rseB@tteryStapl2' }, },
 			],
 		});
 
 		browser.adminUIItemScreen.save();
 		browser.adminUIApp.waitForItemScreen();
 
-		browser.adminUIItemScreen.assertElementTextEquals({ element: '@flashError', text: 'Passwords must match' });
+		browser.adminUIItemScreen.assertElementTextEquals({ element: '@flashError', text: 'Passwords must match.' });
 
 		browser.adminUIItemScreen.fillFieldInputs({
 			fields: [
-				{ name: 'fieldB', input: { value: 'password2', confirm: 'password2' }, },
+				{ name: 'fieldB', input: { value: 'CorrectH0rseB@tteryStapl2', confirm: 'CorrectH0rseB@tteryStapl2' }, },
 			],
 		});
 		browser.adminUIItemScreen.save();

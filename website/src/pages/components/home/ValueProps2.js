@@ -49,8 +49,8 @@ export default class ValueProps extends Component {
 						<Col>
 							<ValueProp
 								title="Powered by MongoDB"
-								text="Keystone uses Mongoose, the leading ODM for node.js and MongoDB, and gives you a single place for your schema, validation rules and logic."
-								text2="So anything you can build with MongoDB, you can build with Keystone."
+								text="Keystone uses Mongoose, the leading ODM for Node.js and MongoDB, and gives you a single place for your schema, validation rules, and logic."
+								text2="Anything you can build with MongoDB, you can build with Keystone."
 								marginTop="1em"
 							/>
 						</Col>
@@ -58,15 +58,15 @@ export default class ValueProps extends Component {
 							<ValueProp
 								title="Lightweight and flexible"
 								text="Keystone is designed to be as light as you want - you can pick and choose the features you want to include."
-								text2="\nCreate your own routes, your own database schema, and use any template language you like."
+								text2="Create your own routes, your own database schema, and use any template language you like."
 								marginTop="1em"
 							/>
 						</Col>
 						<Col>
 							<ValueProp
 								title="Extendable"
-								text="One of the greatest things about node.js is the vast number of quality packages available."
-								text2="Keystone is designed to let you use any of them, without losing the benefits it provides."
+								text="One of the greatest things about Node.js is the vast number of quality packages available."
+								text2="Keystone is designed to let you use any of them without losing the benefits they provide."
 								marginTop="1em"
 							/>
 						</Col>

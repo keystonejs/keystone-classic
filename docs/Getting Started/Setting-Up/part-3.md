@@ -123,7 +123,7 @@ The keystone importer gives us a function that allows us to reduce a folder and 
 
 We then call `importRoutes` with the directory we want to import, and attach it to an object at `routes.views`. Finally, we can now provide `routes.views.index` as the second argument for our `app.get` function call.
 
-This is a bit heavyweight for a single route, but makes it easy to add new routes, without requiring a litany of requirements of every file as you go along. We're going to need some content in `routes/views/index/js` for this to run now.
+This is a bit heavyweight for a single route, but makes it easy to add new routes, without requiring a litany of requirements of every file as you go along. We're going to need some content in `routes/views/index.js` for this to run now.
 
 #### `routes/views/index.js`
 
