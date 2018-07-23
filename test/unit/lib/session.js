@@ -198,41 +198,8 @@ describe('Keystone.session', function () {
 				keystone.session.signinWithUser.reset();
 			});
 
-			it('shoud match email with mixed case', function (done) {
-				var lookup = { email: 'Test@Test.Com', password: 'password'};
-
-				keystone.session.signin(lookup, null, null, function () {
-					// make sure .findOne() is called with a regular expression
-					sinon.assert.calledOnce(this.User.model.findOne);
-					this.User.model.findOne.getCall(0).args[0].email.must.be.instanceof(RegExp);
-					// make sure .exec() is called after
-					sinon.assert.calledOnce(this.User.model.exec);
-					this.User.model.exec.calledAfter(this.User.model.findOne).must.be.true;
-					// make sure .signinWithUser() is called on successful match
-					sinon.assert.calledOnce(keystone.session.signinWithUser);
-					done();
-				}.bind(this), this.onFailure);
-
-			});
-
-			it('shoud match email with all uppercase', function (done) {
-				var lookup = { email: 'TEST@TEST.COM', password: 'password'};
-					keystone.session.signin(lookup, null, null, function () {
-					// make sure .findOne() is called with a regular expression
-					sinon.assert.calledOnce(this.User.model.findOne);
-					this.User.model.findOne.getCall(0).args[0].email.must.be.instanceof(RegExp);
-					// make sure .exec() is called after
-					sinon.assert.calledOnce(this.User.model.exec);
-					this.User.model.exec.calledAfter(this.User.model.findOne).must.be.true;
-					// make sure .signinWithUser() is called on successful match
-					sinon.assert.calledOnce(keystone.session.signinWithUser);
-					done();
-				}.bind(this), this.onFailure);
-
-			});
-
-			it('shoud match email with all lowercase', function (done) {
-				var lookup = { email: 'test@test.com', password: 'password'};
+			it('should match email with mixed case', function (done) {
+				var lookup = { email: 'Test@Test.Com', password: 'password' };
 				keystone.session.signin(lookup, null, null, function () {
 					// make sure .findOne() is called with a regular expression
 					sinon.assert.calledOnce(this.User.model.findOne);
@@ -248,7 +215,7 @@ describe('Keystone.session', function () {
 			});
 
 			it('should not match email when invalid', function (done) {
-				var lookup = { email: 'xxx', password: 'password'};
+				var lookup = { email: 'xxx', password: 'password' };
 				keystone.session.signin(lookup, null, null, this.onSuccess, function (err) {
 					// make sure .findOne() was not called
 					sinon.assert.notCalled(this.User.model.findOne);
@@ -263,7 +230,7 @@ describe('Keystone.session', function () {
 			});
 
 			it('should not match email when just a regex', function (done) {
-				var lookup = { email: '\.', password: 'password'};
+				var lookup = { email: '\.', password: 'password' };
 				keystone.session.signin(lookup, null, null, this.onSuccess, function (err) {
 					// make sure .findOne() was not called
 					sinon.assert.notCalled(this.User.model.findOne);

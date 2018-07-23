@@ -12,11 +12,11 @@ export default class ValueProps extends Component {
 					<Row medium="1" large="1/2">
 						<Col className={compose(styles.col)}>
 							<h3><Link to="/getting-started" className={compose(styles.next__heading)}>Get Started →</Link></h3>
-							<p className={compose(styles.next__text)}>Sound like what you've been looking for? Check out the getting started guide and learn how to get up and running in less than a minute.</p>
+							<p className={compose(styles.next__text)}>Sound like what you've been looking for? Check out the <Link to="/getting-started">Get Started</Link> guide and learn how to get up and running in less than a minute.</p>
 						</Col>
 						<Col className={compose(styles.col)}>
 							<h3><a href="mailto:contact@keystonejs.com" className={compose(styles.next__heading)}>Get In Touch →</a></h3>
-							<p className={compose(styles.next__text)}>If you are using Keystone for a project, interested in contributing, or looking for commercial support, we'd love to hear about it. Please contact us.</p>
+							<p className={compose(styles.next__text)}>If you are using Keystone for a project, interested in contributing, or looking for commercial support, we'd love to hear about it. Please <a href="mailto:contact@keystonejs.com">contact us.</a></p>
 						</Col>
 					</Row>
 				</Container>

@@ -80,7 +80,7 @@ export const documentation = {
 			label: 'Relationships',
 			slug: '/relationships',
 		}, {
-			label: 'Database Updates',
+			label: 'Application Updates',
 			slug: '/application-updates',
 		}],
 	}],
@@ -201,7 +201,7 @@ export const api = {
 				label: 'LocalFile',
 				slug: '/localfile',
 			}, {
-				label: 'Local Files',
+				label: 'LocalFiles',
 				slug: '/localfiles',
 			}, {
 				label: 'S3 File',
