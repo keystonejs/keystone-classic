@@ -82,7 +82,7 @@
     "react-redux": "^5.0.6",
     "react-router": "^3.0.2",
     "react-router-redux": "^4.0.8",
-    "react-select": "1.^0.0-rc.10",
+    "react-select": "^1.0.0-rc.10",
     "redux": "^3.7.2",
     "redux-saga": "^0.15.6",
     "redux-thunk": "^2.2.0",
