@@ -239,6 +239,6 @@ learn more about:
 - [configuring keystone](/documentation/configuration)
 - [importing models](/api/methods/import)
 - [list of keystone fields](/api/field)
-- [keystone field options](/api/fields/options)
-- [update scripts](/documentation/application-updates)
+- [keystone field options](/api/field/options)
+- [update scripts](/documentation/database/application-updates)
 - [virtuals and schema methods](/api/list/schema)
