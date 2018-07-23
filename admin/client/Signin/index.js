@@ -10,9 +10,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Signin from './Signin';
 
+// Sanitize from param
+const internalFromRegex = /^\/[^\/\\]\w+/;
 const params = qs.parse(window.location.search.replace(/^\?/, ''));
-const from = typeof params.from === 'string' && params.from.charAt(0) === '/'
-	? params.from : undefined;
+const from = internalFromRegex.test(params.from) ? params.from : undefined;
 
 ReactDOM.render(
 	<Signin
