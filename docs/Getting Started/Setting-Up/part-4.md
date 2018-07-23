@@ -60,11 +60,11 @@ Your source tree should look like the following:
 |--keystone.js
 ```
 
-## Adding a `addEvent` view
+## Adding an `addEvent` view
 
-First we want our pair of new files to make up the route and the view, these should be `routes/views/addEvent` and `templates/views/addEvent.pug`.
+First we want our pair of new files to make up the route and the view. These should be `routes/views/addEvent` and `templates/views/addEvent.pug`.
 
-As we are not a pug tutorial, here's a page we prepared earlier:
+As this is not a pug tutorial, here's a page we prepared earlier:
 
 ```jade
 doctype html
@@ -127,7 +127,7 @@ With all this, we can start keystone, and go to our new route, and fill out the 
 
 We are going to create a new addition to our app, a handler for a post request, and then a request handler that can save the event information back to our database.
 
-As this endpoint is not a view, we are going to have to modify our routes object. We are going to create a new folder to importRoutes from, called `api`. Beofre this though, let us set up our `routes/index` for it.
+As this endpoint is not a view, we are going to have to modify our routes object. We are going to create a new folder to importRoutes from, called `api`. Before this though, let us set up our `routes/index` for it.
 
 First, we want to add a second property to our routes object to read in our api folder. Our routes object should end up looking like:
 
@@ -186,7 +186,7 @@ First, we can create a new item, passing in values we want to use as our initial
 var newEvent = new Event(req.body);
 ```
 
-This will return us an object with the properties of an Event from our schema however it has not yet been saved. You can use `newEvent.save()`, which implements mongoose's save method, however keystone provides an `updateItem` function that runs keystone's validators, to make sure the data in the fields complies with keystone's full schema. Yes, updateItem will create an item if it does not exist.
+This will return us an object with the properties of an Event from our schema however it has not yet been saved. You can use `newEvent.save()`, which implements mongoose's save method, however Keystone provides an `updateItem` function that runs keystone's validators, to make sure the data in the fields complies with keystone's full schema. Yes, updateItem will create an item if it does not exist.
 
 We can call this like so:
 
@@ -225,6 +225,15 @@ Event.updateItem(newEvent, req.body, function (error) {
 });
 ```
 
-## Next Steps
+## Congratulations
+Well done! You have finished this four-step guide to getting started with Keystone, and you now have a basic Keystone app, complete with an API for form handling that adds data to our database. For more information on list options and the field types Keystone supports, browse the [database guide](/documentation/database/).
 
+You should also [Follow @KeystoneJS on Twitter](https://twitter.com/keystonejs) for news and updates, [Star KeystoneJS on GitHub](https://github.com/keystonejs/keystone), and discuss this guide (or anything KeystoneJS related) on the [KeystoneJS Google Group](https://groups.google.com/d/forum/keystonejs).
+
+Enjoy using KeystoneJS!
+
+## Next Steps
+- [Guides](/guides)
+- [Documentation](/documentation)
+- [api](/api)
 - [updateItem](/api/list/update-item)

@@ -2,7 +2,7 @@
 
 ## `Keystone.init(options:Object)`
 
-`Keystone.init` provides initial options to keystone. These are used to format and customise how keystone runs.
+`Keystone.init` provides initial options to Keystone. These are used to format and customise how Keystone runs.
 
 Some properties can be provided to init but not to [set](/api/methods/set):
 
@@ -17,4 +17,4 @@ Some properties can be provided to init but not to [set](/api/methods/set):
 
 The initialization options can be found in the [configuration](/documentation/configuration) documentation.
 
-For information on setting up keystone, see the [installation guide](/getting-started/setting-up/part-1)
+For information on setting up Keystone, see the [installation guide](/getting-started/setting-up/part-1)

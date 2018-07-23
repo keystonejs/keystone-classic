@@ -2,13 +2,13 @@
 
 The easiest way to get started with KeystoneJS is to use our Yeoman Generator. The rest of this guide will walk you through what the generator has done for you, however this should also give you the context to start a project from scratch if you do not wish to use the generator.
 
-To use the generator, you will need to install yo if you have not.
+To use the generator, you will need to install [Yeoman](http://yeoman.io/) (yo) if you have not.
 
 ```sh
 $ npm install -g yo
 ```
 
-Once you have yo, you will need to install the keystone generator.
+Once you have yo, you will need to install the Keystone generator.
 
 ```sh
 $ npm install -g generator-keystone
@@ -19,14 +19,14 @@ Running `yo keystone` will create most of the parts in guide below, which explai
 
 If you want more information about the generator, it can be found at [KeystoneJS Yeoman Generator](https://github.com/keystonejs/generator-keystone).
 
-In the guide we'll also be using [Pug](pugjs.org/) for our view templates and [LESS](lesscss.org/) for our CSS templates. In your own project you can use any template language you like; see [using other template languages](/#using-other-template-languages) (below) for more information.
+In the guide we'll also be using [Pug](https://pugjs.org/) for our view templates and [LESS](http://lesscss.org/) for our CSS templates. In your own project you can use any template language you like; see [using other template languages](#using-other-template-languages) (below) for more information.
 
 
 ## Our Setup:
 
 ### keystone.js start script
 
-The first place to look is the `keystone.js` file. This is the script that will run our keystone website, and is the file we use to set most of the keystone configuration options.
+The first place to look is the `keystone.js` file. This is the script that will run our Keystone website, and is the file we use to set most of the Keystone configuration options.
 
 ```javascript
 var keystone = require('keystone');
@@ -61,7 +61,7 @@ keystone.start();
 
 ## Project Structure
 
-The yeoman generator comes with our suggested structure for keystone, designed to make it easy to begin development. Below is the folder structure laid out with explanations of each part.
+The yeoman generator comes with our suggested structure for Keystone, designed to make it easy to begin development. Below is the folder structure laid out with explanations of each part.
 
 ```sh
 |--lib
@@ -134,19 +134,19 @@ For Keystone to provide authentication and session management to your applicatio
 - If you want your application to support session management, set the `session` option to true. Loading sessions incurs a small overhead, so if your application doesn't need sessions you can turn this off.
 - Keystone has built-in views for signing in and out. To enable them, set the `auth` option to true. You can also implement custom signin and signout screens in your applications' views.
 - Sessions are persisted using an encrypted cookie storing the user's ID. Make sure you set the `cookie secret` option to a long, random string.
-- The user model must have a `canAccessKeystone` property (which can be a virtual method or a stored boolean) that says whether a user can access Keystone's Admin UI or not. \*Note\* If you choose to use a virtual method setting the value in mongodb directly will not authenticate correctly. A virtual method is useful when the criteria for access is more complex. See [Mongoose virtuals](mongoosejs.com/docs/guide.html#virtuals).
+- The user model must have a `canAccessKeystone` property (which can be a virtual method or a stored boolean) that says whether a user can access Keystone's Admin UI or not. \*Note\* If you choose to use a virtual method setting the value in mongodb directly will not authenticate correctly. A virtual method is useful when the criteria for access is more complex. See [Mongoose virtuals](http://mongoosejs.com/docs/4.x/docs/guide.html#virtuals).
 
 ### More on Data Models
 
-For more information on how to set up your application's models, and the full documentation for lists and fields, see the [database guide](/database/).
+For more information on how to set up your application's models, and the full documentation for lists and fields, see the [database guide](/documentation/database/).
 
 ## Routes & Views
 
-Usually, the easiest and clearest way to configure the logic for different routes (or views) in your application is to set up all the bindings single file, then put any common logic (or middleware) in another file.
+Usually, the easiest and clearest way to configure the logic for different routes (or views) in your application is to set up all the bindings in a single file, then put any common logic (or middleware) in another file.
 
 Then, the controller for each route you bind goes in its own file, organised similarly to the template that renders the view.
 
-Keystone's [importer](/methods/importer) and Express's middleware support makes this easy to set up.
+Keystone's [importer](/api/methods/importer) and Express's middleware support makes this easy to set up.
 
 ### Routes and Middleware
 
@@ -305,7 +305,7 @@ Some Keystone features (such as the Update Handler) can automatically generate f
 
 Now, for the template our route will `render`. The render method looks in the `views` directory specified in our `keystone.js`, which we set to `/templates/views`.
 
-The generator has several options, however we are going to use pug. To learn more about Pug, visit [pugjs.org](pugjs.org).
+The generator has several options, however we are going to use pug. To learn more about Pug, visit [pugjs.org](https://pugjs.org).
 
 Pug comes with some great features to simplify templates - including using layouts that define regions. We're going to use a layout called `../templates/layouts/base.pug`, which is included on the first line of the file above:
 
@@ -378,11 +378,11 @@ mixin flash-message(message, type)
 
 ### Using other template languages
 
-KeystoneJS supports any [template language supported by express](expressjs.com/en/api.html).
+KeystoneJS supports any [template language supported by express](https://expressjs.com/en/api.html).
 
 Use the `view engine` option to specify the template language you want to use.
 
-If you want to use a custom template engine, set the `custom engine` option as well. For instance, [ejs](embeddedjs.com/) is supported by express by default, but you might want to use [ejs.locals](github.com/RandomEtc/ejs-locals) as a template engine in order to benefit from get extensions.
+If you want to use a custom template engine, set the `custom engine` option as well. For instance, [EJS](http://ejs.co) is supported by express by default, but you might want to use [ejs.locals](https://github.com/RandomEtc/ejs-locals) as a template engine in order to benefit from get extensions.
 
 ```javascript
 // Modified web.js to use the ejs-locals custom template engine.
@@ -398,11 +398,11 @@ keystone.init({
 
 ## Public Assets
 
-You'll want to add your own css, javascript, images and other files to your project. In the examples above, we're including `/styles/site.min.css`. If you are using less, add `public/styles/site.less` to your project. We can leave it blank for now, but note keystone will generate a site.min.css on run time.
+You'll want to add your own css, javascript, images and other files to your project. In the examples above, we're including `/styles/site.min.css`. If you are using less, add `public/styles/site.less` to your project. We can leave it blank for now, but note Keystone will generate a site.min.css on run time.
 
 Keystone will serve any static assets you place in the public directory. This path is specified in `keystone.js` by the `static` option.
 
-It will also automatically generate `.css` or compressed `.min.css` files when a corresponding `.less` file is found in the public folder, as specified in `keystone.js` by the `less` option. For more information on LESS, see [lesscss.org](lesscss.org).
+Keystone will also automatically generate `.css` or compressed `.min.css` files when a corresponding `.less` file is found in the public folder, as specified in `keystone.js` by the `less` option. For more information on LESS, see [lesscss.org](http://lesscss.org).
 
 ## Writing Updates
 
@@ -414,7 +414,7 @@ When the option is set to `true`, Keystone will scan the `updates` directory for
 
 - next - the method to call when the update has finished running (including any internal callbacks)
 
-Updates are ordered using [Semantic Versioning](semver.org), and Keystone will only run them once (successfully executed updates are stored in your database, in a collection called `app_updates`).
+Updates are ordered using [Semantic Versioning](https://semver.org), and Keystone will only run them once. Successfully executed updates are stored in your database, in a collection called `app_updates`.
 
 Update file names should match the pattern `x.x.x-description.js` - anything after the first hyphen is ignored, so you can describe the update in the filename.
 
@@ -449,14 +449,14 @@ Now you're ready to run your application, so execute the following in your proje
 
 Keystone will automatically apply the update, and then start a web server on the default port, 3000.
 
-To see your home page, point your browser at [localhost:3000](localhost:3000). You should see our **Hello World!** message.
+To see your home page, point your browser at [localhost:3000](http://localhost:3000). You should see a **Hello World!** message.
 
-To sign in to Keystone's Admin UI, go to [localhost:3000/keystone](localhost:3000/keystone). Use the email and password you put in the update script above to sign in, and you'll be redirected to Keystone's home page.
+To sign in to Keystone's Admin UI, go to [localhost:3000/keystone](http://localhost:3000/keystone). Use the email and password you put in the update script above to sign in, and you'll be redirected to Keystone's home page.
 
 ## Next Steps
 
-... you're done! Well, not really. It's time to start building your app now. For more information on list options and the field types Keystone supports, browse the [database guide](/database/).
+... you're done! Well, not really. It's time to start building your app now. For more information on list options and the field types Keystone supports, browse the [database guide](/documentation/database/).
 
-You should also [Follow @KeystoneJS on Twitter](twitter.com/keystonejs) for news and updates, [Star KeystoneJS on GitHub](github.com/keystonejs/keystone), and discuss this guide (or anything KeystoneJS related) on the [KeystoneJS Google Group](groups.google.com/d/forum/keystonejs).
+You should also [Follow @KeystoneJS on Twitter](https://twitter.com/keystonejs) for news and updates, [Star KeystoneJS on GitHub](https://github.com/keystonejs/keystone), and discuss this guide (or anything KeystoneJS related) on the [KeystoneJS Google Group](https://groups.google.com/d/forum/keystonejs).
 
 Enjoy using KeystoneJS!
