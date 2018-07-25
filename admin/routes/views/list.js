@@ -1,9 +1,10 @@
-var keystone = require('../../../');
 var _ = require('underscore');
 var querystring = require('querystring');
 
 exports = module.exports = function(req, res) {
 
+	var keystone = req.keystone;
+	
 	var viewLocals = {
 		validationErrors: {},
 		showCreateForm: _.has(req.query, 'new')

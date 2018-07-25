@@ -1,6 +1,5 @@
-var keystone = require('../../../');
-
 function signout (req, res) {
+	var keystone = req.keystone;
 	var user = req.user;
 	keystone.callHook(user, 'pre:signout', function(err) {
 		if (err) return res.json({ error: 'pre:signout error', detail: err });

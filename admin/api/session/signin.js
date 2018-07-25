@@ -1,8 +1,8 @@
 var utils = require('keystone-utils');
-var keystone = require('../../../');
 var session = require('../../../lib/session');
 
 function signin (req, res) {
+	var keystone = req.keystone;
 	if (!keystone.security.csrf.validate(req)) {
 		return res.status(403).json({ error: 'invalid csrf' });
 	}
