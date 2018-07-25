@@ -5,3 +5,4 @@ test/*
 node_modules/*
 coverage/*
 fields/types/**/lib/*
+website/*
