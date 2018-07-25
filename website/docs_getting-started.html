@@ -1,0 +1,653 @@
+---
+permalink: /docs/getting-started/
+---
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script>var _sf_startpt=(new Date()).getTime()</script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width">
+    <title>KeystoneJS &middot; Getting Started
+    </title>
+    <meta name="keywords" content="node.js,nodejs,cms,publishing,platform,web,development,framework,express,mongo,mongodb,bootstrap,react,jquery">
+    <meta name="description" content="Get a head-start on the features you need. KeystoneJS is the easiest way to build dynamic websites, applications and APIs with Node.js and MongoDB.">
+    <meta property="og:locale" content="en-us">
+    <meta property="og:title" content="KeystoneJS">
+    <meta property="og:description" content="KeystoneJS is an open source Node.js CMS and web application platform built on Express and MongoDB.">
+    <meta property="og:url" content="https://keystonejs.com^current_url^">
+    <meta property="og:site_name" content="KeystoneJS">
+    <meta property="og:type" content="article">
+    <link href="http://fonts.googleapis.com/css?family=Roboto:100,300,300italic,400,500,700" rel="stylesheet">
+    <link href="/styles/site.min.css" rel="stylesheet">
+    <link href="/styles/prism.css" rel="stylesheet">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+  </head>
+  <body>
+    <div class="language-switcher">
+      <div class="container"><a href="/zh/docs" class="language-switcher-option">中文 (Chinese)</a><a href="/docs" class="active language-switcher-option">English</a></div>
+    </div>
+    <header role="banner" class="docs-header">
+      <div class="container">
+        <button type="button" data-toggle="collapse" data-target=".docs-nav__collapse" class="navbar-toggle navbar-toggle-menu"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+        </button><a href="/" title="KeystoneJS" class="keystone-logo"><img src="/images/logo.svg" alt="KeystoneJS" width="207" height="70"></a>
+        <nav class="docs-nav">
+          <div class="docs-nav__collapse collapse">
+            <ul class="docs-nav__nav">
+              <li><a href="/">Home</a></li>
+              <li><a href="/getting-started">Getting Started</a></li>
+              <li class="active"><a href="/docs">Documentation</a></li>
+              <li><a href="/examples">Examples</a></li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </header>
+    <div class="page-header">
+      <div class="container">
+        <h1>Getting Started Guide</h1>
+        <p class="lead">This guide steps you through how to create a KeystoneJS site. <a href="/getting-started">There's also a generator.</a></p>
+      </div>
+    </div>
+    <div class="docs-body">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-3">
+            <div class="visible-xs">
+              <ul class="nav-toggle">
+                <li class="active"><a href="/docs/getting-started" class="nav-heading">Starting</a></li>
+                <li><a href="/docs/configuration" class="nav-heading">Config</a></li>
+                <li><a href="/docs/database" class="nav-heading">Data</a></li>
+              </ul>
+            </div>
+            <nav class="docs-sidebar hidden-xs">
+              <ul class="sidebar-nav">
+                <li><a href="/docs" class="nav-heading">Welcome</a></li>
+                <li class="active"><a href="/docs/getting-started" class="nav-heading">Getting Started</a></li>
+                <li><a href="/docs/configuration" class="nav-heading">Configuration</a></li>
+                <li><a href="/docs/database" class="nav-heading">Database</a></li>
+              </ul>
+              <hr/>
+              <ul class="sidebar-nav">
+                <ul>
+                  <li class="nav-label"><a href="#introduction">Introduction</a></li>
+                  <li><a href="#introduction-prerequisites">Prerequisites</a></li>
+                  <li><a href="#introduction-productionvsdevelopment">Production vs Development</a></li>
+                  <li class="nav-label"><a href="#gettingstarted">Getting Started</a></li>
+                  <li><a href="#gettingstarted-usingyeoman">Using the Yeoman Generator</a></li>
+                  <li><a href="#gettingstarted-startinganewproject">Starting a new project</a></li>
+                  <li><a href="#gettingstarted-projectstructure">Project Structure</a></li>
+                  <li class="nav-label"><a href="#models">Models</a></li>
+                  <li><a href="#models-authentication">Authentication and Session Management</a></li>
+                  <li class="nav-label"><a href="#routesviews">Routes &amp; Views</a></li>
+                  <li><a href="#routesviews-settingup">Setting up your Routes and Middleware</a></li>
+                  <li><a href="#routesviews-middleware">Common Route Middleware</a></li>
+                  <li><a href="#routesviews-firstview">Your first View</a></li>
+                  <li><a href="#routesviews-templates">Templates</a></li>
+                  <li><a href="#routesviews-publicassets">Public Assets</a></li>
+                  <li class="nav-label"><a href="#runningyourapp">Running your App</a></li>
+                  <li><a href="#runningyourapp-writingupdates">Writing Updates</a></li>
+                  <li><a href="#runningyourapp-startingkeystone">Starting Keystone</a></li>
+                  <li><a href="#runningyourapp-nextstep">Next Steps</a></li>
+                </ul>
+              </ul>
+            </nav>
+          </div>
+          <div class="col-sm-9">
+            <div class="docs-content">
+              <h2><a name="introduction"></a>Introduction</h2>
+              <div class="alert alert-warning">This guide is currently being updated to match the new Yeoman Generator.</div>
+              <p>KeystoneJS makes it easy to build database-driven websites, applications and APIs in node.js.</p>
+              <p>Under the hood, KeystoneJS uses the <a href="http://expressjs.com" target="_blank">express.js</a> web server framework, and a <a href="http://mongodb.com" target="_blank">MongoDB</a> database via the <a href="http://mongoosejs.com" target="_blank">mongoose</a> object modelling framework.</p>
+              <div class="contextual-note">
+                <h4>Simple vs. Flexible</h4>
+                <p>Keystone is designed to make complicated things simple, without limiting the power or flexibility of node.js or the frameworks it is built on.</p>
+                <p>This guide will show you how to build a KeystoneJS website using the default project structure and options.</p>
+                <p>To learn more about how things work under the hood, and how you can extend or replace features, we strongly recommend reading the <a href="https://github.com/keystonejs/keystone" target="_blank">source code</a>.</p>
+              </div><a name="introduction-prerequisites"></a>
+              <h3>Prerequisites</h3>
+              <ol class="fancy-list">
+                <li>Before you begin, make sure you have <a href="http://nodejs.org/download" target="_blank">Node.js</a> and <a href="http://www.mongodb.org/downloads" target="_blank">MongoDB</a> installed.</li>
+                <li>You'll need a reasonable working knowledge of Javascript to use KeystoneJS, as well as familiarity with basics such as database concepts, and using node / npm etc.</li>
+                <li>In the guide we'll also be using <a href="http://jade-lang.com" target="_blank">Jade</a> for our view templates and <a href="http://lesscss.org" target="_blank">LESS</a> for our CSS templates. In your own project you can use any template language you like; see <a href="#templates_other">using other template languages</a> (below) for more information.</li>
+              </ol><a name="introduction-productionvsdevelopment"></a>
+              <h3>Production vs. Development</h3>
+              <p>Keystone applies different settings in production and development modes. The environment will default to <code>development</code>, so you should set the <code>NODE_ENV</code> environment variable to <code>production</code> on your production servers for better performance.</p>
+              <p>Your app can detect which environment it is running in by calling <code>keystone.get('env')</code>.</p><a name="gettingstarted"></a>
+              <h2>Getting Started</h2><a name="gettingstarted-usingyeoman"></a>
+              <h3>Using the Yeoman Generator</h3>
+              <p>The easiest way to get started with KeystoneJS is to use our new Yeoman Generator.</p>
+              <p>We're still updating our getting started guide to reflect this; in the meantime head over to the <a href="https://github.com/keystonejs/generator-keystone" target="_blank">KeystoneJS Yeoman Generator</a> page and follow the instructions there.</p>
+              <p>Running <code>yo keystone</code> will take all the work out of following the guide below, so once you've got your new project, continue reading to follow along with what it did.</p><a name="gettingstarted-startinganewproject"></a>
+              <h3>Starting a new project</h3>
+              <p>Create a new directory for your project, then add the following two files which are responsible for setting up your project and starting your webserver.</p>
+              <div class="code-header">
+                <h4>package.json</h4>
+                <p>This file describes our project for npm, including the fact that it depends on <code>keystone</code>.</p>
+              </div>
+              <pre><code class="language-javascript">{
+  "name": "my-project",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "keystone": "latest",
+    "underscore": "latest"
+  },
+  "engines": {
+    "node": "0.10.x",
+    "npm": "1.3.x"
+  },
+  "scripts": {
+    "start": "web.js"
+  }
+}</code></pre>
+              <p class="note">Note we're also requiring the <a href="http://underscorejs.org">underscore library</a>, because we'll use some of its functionality later. You can use any other packages you like from <a href="https://npmjs.org">npm</a> in your Keystone application by adding them to your <code>package.json</code>.</p>
+              <div class="code-header">
+                <h4>web.js</h4>
+                <p>This is the script that will run our keystone website.</p>
+              </div>
+              <pre><code class="language-javascript">var keystone = require('keystone');
+keystone.init({
+  
+  'name': 'My Project',
+  
+  'favicon': 'public/favicon.ico',
+  'less': 'public',
+  'static': ['public'],
+  
+  'views': 'templates/views',
+  'view engine': 'jade',
+  
+  'auto update': true,
+  'mongo': 'mongodb://localhost/my-project',
+  
+  'session': true,
+  'auth': true,
+  'user model': 'User',
+  'cookie secret': '(your secret here)'
+  
+});
+ 
+require('./models');
+ 
+keystone.set('routes', require('./routes'));
+ 
+keystone.start();</code></pre>
+              <p>Now, in your console, run <code>npm install</code> from the root folder of your project (where package.json is) to install Keystone.</p>
+              <p class="note">For more information about the options Keystone supports, see the <a href="/docs/configuration">configuration guide</a>.</p>
+              <p class="note">Note: your web script won't run yet, because it is including models and routes that have not been set up yet. It assumes you follow the conventions in this guide.</p>
+              <div class="contextual-note">
+                <h4>BYO Express and Mongoose</h4>
+                <p>If you want to require Express or Mongoose in your application, instead of having Keystone provide and configure them completely, you can do so.</p>
+                <p>Include them in the dependencies list for your project, then provide them to Keystone using the <code>app</code> and <code>mongoose</code> options respectively.</p>
+                <pre>var express = require('express'),
+    mongoose = require('mongoose'),
+    app = express(),
+    keystone = require('keystone');
+ 
+    keystone.set('app', app);
+    keystone.set('mongoose', mongoose);</pre>
+              </div>
+              <p class="note">The <code>keystone.connect()</code> method, previously used to set your own Express/Mongoose instances, is now deprecated and will be removed in future versions of Keystone. Due to changes in Express 4, `keystone.connect()` no longer works as expected. Please use the Keystone <code>app</code> and <code>mongoose</code> options in its place.</p><a name="gettingstarted-projectstructure"></a>
+              <h3>Project Structure</h3>
+              <p>With your package and web scripts in place, it's time to scaffold out containers for the rest of your app. Create the following directory structure:</p>
+              <pre>|--lib
+|  <span>Custom libraries and other code</span>
+|--models
+|  <span>Your application's database models</span>
+|--public
+|  <span>Static files (css, js, images, etc.) that are publicly available</span>
+|--routes
+|  |--api
+|  |  <span>Your application's api controllers</span>
+|  |--views
+|  |  <span>Your application's view controllers</span>
+|  |--index.js
+|  |  <span>Initialises your application's routes and views</span>
+|  |--middleware.js
+|  |  <span>Custom middleware for your routes</span>
+|--templates
+|  |--includes
+|  |  <span>Common .jade includes go in here</span>
+|  |--layouts
+|  |  <span>Base .jade layouts go in here</span>
+|  |--mixins
+|  |  <span>Common .jade mixins go in here</span>
+|  |--views
+|  |  <span>Your application's view templates</span>
+|--updates
+|  <span>Data population and migration scripts</span>
+|--package.json
+|  <span>Project configuration for npm</span>
+|--web.js
+|  <span>Main script that starts your application</span></pre>
+              <p>We also recommend that your application will be simpler to build and maintain if you mirror the internal structure of your <code>routes/views</code> and <code>templates/views</code> directories as much as possible.</p>
+              <div class="contextual-note">
+                <h4>Structure</h4>
+                <p>This guide assumes you follow the recommendations above, however Keystone doesn't actually enforce any structure, so you're free to make changes to suit your application better.</p>
+              </div><a name="models"></a>
+              <h2>Models</h2>
+              <p>Before you can start your Keystone app, you'll need some data models.</p>
+              <p>We're going to start with the <code>User</code> model, which is special - we need it so that Keystone can do authentication and session management.</p>
+              <p>Create the following two files in the <code>/models</code> folder:</p>
+              <div class="code-header">
+                <h4>models/index.js</h4>
+                <p>This is the script that includes your models. It doesn't need to export anything.</p>
+              </div>
+              <pre><code class="language-javascript">require('./users.js');</code></pre>
+              <div class="code-header">
+                <h4>models/users.js</h4>
+                <p>This script initialises the <code>User</code> model. It doesn't need to export anything, but the model <em>must</em> be registered with Keystone.</p>
+              </div>
+              <pre><code class="language-javascript">var keystone = require('keystone'),
+    Types = keystone.Field.Types;
+ 
+var User = new keystone.List('User');
+ 
+User.add({
+    name: { type: Types.Name, required: true, index: true },
+    email: { type: Types.Email, initial: true, required: true, index: true },
+    password: { type: Types.Password, initial: true },
+    canAccessKeystone: { type: Boolean, initial: true }
+});
+ 
+User.register();</code></pre><a name="models-authentication"></a>
+              <h3>Authentication and Session Management</h3>
+              <p>For Keystone to provide authentication and session management to your application, it needs to know a few things (which we've now configured).</p>
+              <p>To recap:</p>
+              <ul class="list">
+                <li>The option <code>user model</code> must be the name of the Model that Keystone should look in to find your users. If you use a different model name, be sure to set the option correctly.</li>
+                <li>If you want your application to support session management, set the <code>session</code> option to <strong>true</strong>. Loading sessions incurs a small overhead, so if your application doesn't need sessions you can turn this off.</li>
+                <li>Keystone has built-in views for signing in and out. To enable them, set the <code>auth</code> option to <strong>true</strong>. You can also implement custom signin and signout screens in your applications' views.</li>
+                <li>Sessions are persisted using an encrypted cookie storing the user's ID. Make sure you set the <code>cookie secret</code> option to a long, random string.</li>
+                <li>The user model must have a <code>canAccessKeystone</code> property (which can be a virtual method or a stored boolean) that says whether a user can access Keystone's Admin UI or not. *Note* If you choose to use a virtual method setting the value in mongodb directly will not authenticate correctly. A virtual method is useful when the criteria for access is more complex. See <a href="http://mongoosejs.com/docs/guide.html#virtuals">Mongoose virtuals</a></li>
+              </ul>
+              <h4>More on Data Models</h4>
+              <p>For more information on how to set up your application's models, and the full documentation for lists and fields, see the <a href="/docs/database">database guide</a>.</p><a name="routesviews"></a>
+              <h2>Routes &amp; Views</h2>
+              <p>Usually, the easiest and clearest way to configure the logic for different routes (or views) in your application is to set up all the bindings single file, then put any common logic (or middleware) in another file.</p>
+              <p>Then, the controller for each route you bind goes in its own file, organised similarly to the template that renders the view.</p>
+              <p>Keystone's <code>importer</code> and Express's middleware support makes this easy to set up.</p><a name="routesviews-settingup"></a>
+              <h3>Setting up your Routes and Middleware</h3>
+              <h4>Route index controller</h4>
+              <p>First, create a <code>routes/index.js</code> file. This is where we bind your application's URL patterns to the controllers that load and process data, and render the appropriate template.</p>
+              <div class="code-header">
+                <h4>routes/index.js</h4>
+                <p>This script imports your route controllers and binds them to URLs.</p>
+              </div>
+              <pre><code class="language-javascript">var keystone = require('keystone'),
+    middleware = require('./middleware'),
+    importRoutes = keystone.importer(__dirname);
+ 
+// Common Middleware
+keystone.pre('routes', middleware.initErrorHandlers);
+keystone.pre('routes', middleware.initLocals);
+keystone.pre('render', middleware.flashMessages);
+ 
+// Handle 404 errors
+keystone.set('404', function(req, res, next) {
+    res.notfound();
+});
+ 
+// Handle other errors
+keystone.set('500', function(err, req, res, next) {
+    var title, message;
+    if (err instanceof Error) {
+        message = err.message;
+        err = err.stack;
+    }
+    res.err(err, title, message);
+});
+ 
+// Load Routes
+var routes = {
+    views: importRoutes('./views')
+};
+ 
+// Bind Routes
+exports = module.exports = function(app) {
+    
+    app.get('/', routes.views.index);
+    
+}</code></pre>
+              <h4>Stepping through the route controller index</h4>
+              <ul>
+                <li>Load <code>keystone</code>, the <code>middleware.js</code> file (below), and create an <code>importer</code> for the current directory</li>
+                <li>Bind middleware (below) that
+                  <ul>
+                    <li>Initialises our basic error handlers</li>
+                    <li>Initialises common local variables for our view templates</li>
+                    <li>Retrieves flash messages from session before the view template is rendered</li>
+                  </ul>
+                </li>
+                <li>Tell Keystone how to handle <code>404</code> and <code>500</code> errors</li>
+                <li>Use the importer to load all the route controllers in the <code>/routes/views</code> directory</li>
+                <li>Export a method that binds the index route controller to <code>GET</code> requests on the root url <code>/</code>
+                  <ul>
+                    <li>The <code>app</code> argument to this method our express app, so anything you can do binding routes in express, you can do here.</li>
+                  </ul>
+                </li>
+              </ul>
+              <p>Additional route controllers that you add to your app should be added using <code>app.get</code>, <code>app.post</code> or <code>app.all</code> under your root controller.</p><a name="routesviews-middleware"></a>
+              <h3>Common Route Middleware</h3>
+              <p>Putting your common middleware in a separate <code>routes/middleware.js</code> file keeps your route index nice and clean. If your middleware file gets too big, it's a good idea to restructure any significant functionality into custom modules in your projects <code>/lib</code> folder.</p>
+              <p>Now we'll add the basic middleware to get your app up and running with default behaviours:</p>
+              <div class="code-header">
+                <h4>routes/middleware.js</h4>
+                <p>This script includes common middleware for your application routes</p>
+              </div>
+              <pre><code class="language-javascript">var _ = require('underscore'),
+    keystone = require('keystone');
+ 
+/**
+    Initialises the standard view locals.
+    Include anything that should be initialised before route controllers are executed.
+*/
+exports.initLocals = function(req, res, next) {
+    
+    var locals = res.locals;
+    
+    locals.user = req.user;
+    
+    // Add your own local variables here
+    
+    next();
+    
+};
+ 
+/**
+    Inits the error handler functions into `res`
+*/
+exports.initErrorHandlers = function(req, res, next) {
+    
+    res.err = function(err, title, message) {
+        res.status(500).render('errors/500', {
+            err: err,
+            errorTitle: title,
+            errorMsg: message
+        });
+    }
+    
+    res.notfound = function(title, message) {
+        res.status(404).render('errors/404', {
+            errorTitle: title,
+            errorMsg: message
+        });
+    }
+    
+    next();
+    
+};
+ 
+/**
+    Fetches and clears the flashMessages before a view is rendered
+*/
+exports.flashMessages = function(req, res, next) {
+    
+    var flashMessages = {
+        info: req.flash('info'),
+        success: req.flash('success'),
+        warning: req.flash('warning'),
+        error: req.flash('error')
+    };
+    
+    res.locals.messages = _.any(flashMessages, function(msgs) { return msgs.length }) ? flashMessages : false;
+    
+    next();
+    
+};</code></pre>
+              <h4>Middleware functions</h4>
+              <p>Keystone expects middleware functions to accept the following arguments:</p>
+              <ul class="options">
+                <li><code>req</code> - an express request object</li>
+                <li><code>res</code> - an express response object</li>
+                <li><code>next</code> - the method to call when the middleware has finished running (including any internal callbacks)</li>
+              </ul>
+              <h4>Flash message support (no, not that flash)</h4>
+              <p>Keystone includes support for 'flashing' messages to your visitors via session. The default setup above supports four categories, all of which can be styled differently:</p>
+              <ul class="options">
+                <li><code>info</code></li>
+                <li><code>success</code></li>
+                <li><code>warning</code></li>
+                <li><code>error</code></li>
+              </ul>
+              <p>You can easily support other types of messages by updating your middleware and the .jade template that renders them (which we'll get to below).</p>
+              <p>To use flash messages in your route controllers, do this:</p>
+              <p><code>req.flash('info', 'Some information!');</code></p>
+              <p>Messages use session so they survive redirects, and will only be displayed to the user once, making them perfect for status messages (e.g. "Your changes have been saved") or form validation (e.g. "Please enter a valid email address").</p>
+              <p>Some Keystone features (such as the Update Handler) can automatically generate flash messages for you, and expect the categories above to be available.</p><a name="routesviews-firstview"></a>
+              <h3>Your first View</h3>
+              <p>Now we're going to set up your first route controller (for the index page), and the template it will render.</p>
+              <p>The importer (above) expects the directory you ask it for to include <code>.js</code> or <code>.coffee</code> files that export a single method accepting the following arguments:</p>
+              <ul class="options">
+                <li><code>req</code> - an express request object</li>
+                <li><code>res</code> - an express response object</li>
+              </ul>
+              <p>Our first view controller is going to be very simple - just rendering a template. Create an <code>routes/views/index.js</code> file like this:</p>
+              <div class="code-header">
+                <h4>routes/views/index.js</h4>
+                <p>The route controller for our home page view</p>
+              </div>
+              <pre><code class="language-javascript">var keystone = require('keystone');
+ 
+exports = module.exports = function(req, res) {
+    
+    var view = new keystone.View(req, res);
+    
+    view.render('index');
+    
+}</code></pre><a name="routesviews-templates"></a>
+              <h3>Templates</h3>
+              <p>Now, for the template our route will render. The <code>render</code> method looks in the <code>views</code> directory specified in our <code>web.js</code>, which we set to <code>/templates/views</code>.</p>
+              <p>In this guide, we're going to use <strong>Jade</strong> for our templates. To learn more about Jade, visit <a href="http://jade-lang.com" target="_blank">jade-lang.org</a>, or check out the great <a href="http://naltatis.github.io/jade-syntax-docs/" target="_blank">live syntax documentation</a> to learn by example.</p>
+              <p>First up, create <code>templates/views/index.jade</code>:</p>
+              <div class="code-header">
+                <h4>templates/views/index.jade</h4>
+                <p>The template for our home page view</p>
+              </div>
+              <pre>extends ../layouts/base
+ 
+block content
+    h1 Hello World</pre>
+              <p>Jade comes with some great features to simplify templates - including using layouts that define regions. We're going to use a layout called <code>../common/templates/layout/base.jade</code>, which is included on the first line of the file above:</p>
+              <div class="code-header">
+                <h4>templates/layouts/base.jade</h4>
+                <p>The base layout for our view templates</p>
+              </div>
+              <pre><code>include ../mixins/flash-messages
+ 
+doctype html
+html
+    head
+        meta(charset="utf-8")
+        meta(name="viewport", content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width")
+        
+        title= title || 'My Keystone Website'
+        link(rel="shortcut icon", href="/favicon.ico", type="image/x-icon")
+        link(href="/styles/site.min.css", rel="stylesheet")
+        
+        block css
+        block head
+    body
+        
+        #header My Keystone Website
+        
+        #body
+            
+            block intro
+            
+            +flash-messages(messages)
+            
+            block content
+        
+        #footer Powered by &lt;a href='http://keystonejs.com', target='_blank'&gt;KeystoneJS&lt;/a&gt;.
+    
+    script(src='/js/lib/jquery/jquery-1.10.2.min.js')
+    
+    block js</code></pre>
+              <p>We're also going to create a <code>templates/mixins/flash-messages.jade</code> template to include the <code>flash-messages</code> mixin. Including mixins in your layout or view templates is a great way to keep your layout and view files clean, and re-use mixins across multiple views.</p>
+              <div class="code-header">
+                <h4>templates/mixins/flash-messages.jade</h4>
+                <p>Our flash-messages mixin</p>
+              </div>
+              <pre><code>mixin flash-messages(messages)
+    if messages
+        #flash-messages.container
+            each message in messages.info
+                +flash-message(message, 'info')
+            each message in messages.success
+                +flash-message(message, 'success')
+            each message in messages.warning
+                +flash-message(message, 'warning')
+            each message in messages.error
+                +flash-message(message, 'danger')
+                
+mixin flash-message(message, type)
+    div(class='alert alert-' + type)
+        if utils.isObject(message)
+            if message.title
+                h4= message.title
+            if message.detail
+                p= message.detail
+            if message.list
+                ul
+                    each item in message.list
+                        li= item
+        else
+            = message</code></pre><a name="templates_other"></a>
+              <div class="contextual-note">
+                <h4>Using other template languages</h4>
+                <p>KeystoneJS supports <a href='http://expressjs.com/api.html#app.engine', target='_blank'>any template language supported by express</a>.</p>
+                <p>Use the <code>view engine</code> option to specify the template language you want to use (it will default to <code class="data-type">jade</code>).</p>
+                <p>If you want to use a custom template engine, set the <code>custom engine</code> option as well. For instance, <a href="http://embeddedjs.com/">ejs</a> is supported by express by default, but you might want to use <a href="https://github.com/RandomEtc/ejs-locals">ejs.locals</a> as a template engine in order to benefit from get extensions.</p>
+                <pre><code class="language-javascript">// Modified web.js to use the ejs-locals custom template engine.
+var keystone = require('keystone');
+var engine   = require('ejs-locals');
+keystone.init({
+  ...
+  'custom engine': engine,
+  'view engine': 'ejs',
+  ...
+});</code></pre>
+              </div><a name="routesviews-publicassets"></a>
+              <h3>Public Assets</h3>
+              <p>You'll want to add your own css, javascript, images and other files to your project. In the examples above, we're including <code>/styles/site.min.css</code> and <code>/js/lib/jquery-1.10.2.min.js</code>.</p>
+              <p>Keystone will serve any static assets you place in the <code>public</code> directory. This path is specified in <code>web.js</code> by the <code>static</code> option.</p>
+              <p>It will also automatically generate <code>.css</code> or compressed <code>.min.css</code> files when a corresponding <code>.less</code> file is found in the <code>public</code> folder, as specified in <code>web.js</code> by the <code>less</code> option. For more information on LESS, see <a href="http://lesscss.org" target="_blank">lesscss.org</a>.</p><a name="runningyourapp"></a>
+              <h2>Running your app</h2>
+              <p>You're now (almost) ready to run your app! Before we do, though, we should add a <strong>User</strong> so you can sign in to Keystone's Admin UI.</p><a name="runningyourapp-writingupdates"></a>
+              <h3>Writing Updates</h3>
+              <p>To do this, we're going to create an update script, which Keystone will automatically run before starting the web server.</p>
+              <p>Keystone's automatic update functionality is enabled in <code>web.js</code> by the <code>auto update</code> option.</p>
+              <p>When the option is set to <code>true</code>, Keystone will scan the <code>updates</code> directory for <code>.js</code> files, each of which should export a method accepting a single argument:</p>
+              <ul>
+                <li><code>next</code> - the method to call when the update has finished running (including any internal callbacks)</li>
+              </ul>
+              <p>Updates are ordered using <a href="http://semver.org" target="_blank">Semantic Versioning</a>, and Keystone will only run them once (successfully executed updates are stored in your database, in a collection called <code>app_updates</code>).</p>
+              <p>Update file names should match the pattern <code>x.x.x-description.js</code> - anything after the first hyphen is ignored, so you can describe the update in the filename.</p>
+              <p>So to automatically add a new Admin User when your app first launches, create a <code>updates/0.0.1-admin.js</code> file:</p>
+              <div class="code-header">
+                <h4>updates/0.0.1-admin.js</h4>
+                <p>Update script to add the first admin (change to your own name, email and password)</p>
+              </div>
+              <pre><code class="language-javascript">var keystone = require('keystone'),
+    User = keystone.list('User');
+ 
+exports = module.exports = function(done) {
+    
+    new User.model({
+        name: { first: 'Admin', last: 'User' },
+        email: 'admin@keystonejs.com',
+        password: 'admin',
+        canAccessKeystone: true
+    }).save(done);
+    
+};</code></pre>
+              <p class="note">You probably don't want to store your real password in the code, so it's a good idea to set the default password to something simple, then sign in and change it using Keystone's Admin UI after you start your app for the first time.</p><a name="runningyourapp-startingkeystone"></a>
+              <h3>Starting Keystone</h3>
+              <p>Now you're ready to run your application, so execute the following in your project's main folder:</p>
+              <p><code>node web</code></p>
+              <p>Keystone will automatically apply the update, and then start a web server on the default port, 3000.</p>
+              <p>To see your home page, point your browser at <a href="http://localhost:3000" target="_blank">localhost:3000</a>. You should see our <strong>Hello World!</strong> message.</p>
+              <p>To sign in to Keystone's Admin UI, go to <a href="http://localhost:3000/keystone" target="_blank">localhost:3000/keystone</a>. Use the email and password you put in the update script above to sign in, and you'll be redirected to Keystone's home page.</p><a name="runningyourapp-nextstep"></a>
+              <h3>Next Steps</h3>
+              <p>... you're done! Well, not really. It's time to start building your app now. For more information on list options and the field types Keystone supports, browse the <a href="/docs/database">database guide</a>.</p>
+              <p>You should also <a href="https://twitter.com/keystonejs" target="_blank">Follow @KeystoneJS on Twitter</a> for news and updates, <a href="https://github.com/keystonejs/keystone/" target="_blank">Star KeystoneJS on GitHub</a>, and discuss this guide (or anything KeystoneJS related) on the <a href="https://groups.google.com/d/forum/keystonejs" target="_blank">KeystoneJS Google Group</a>.</p>
+              <p>We've also got more <a href="/examples">Examples and Sample Code</a> for you on the examples page.</p>
+              <p>Enjoy using KeystoneJS!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="docs-footer">
+      <div class="container">
+        <p>Created by <a href="http://twitter.com/jedwatson" target="_blank">@jedwatson</a>, <a href="http://twitter.com/bladey" target="_blank">@bladey</a> and <a href="http://twitter.com/jossmackison" target="_blank">@jossmackison</a> at <a href="http://www.thinkmill.com.au" target="_blank">Thinkmill</a>, and other <a href="https://github.com/keystonejs/keystone/contributors" target="_blank">contributors</a> under the <a href="http://opensource.org/licenses/MIT" target="_blank">MIT License</a></p>
+        <ul class="list-inline">
+          <li><a href="/getting-started" title="KeystoneJS Getting Started">Getting Started</a></li>
+          <li><a href="/docs" title="KeystoneJS Documentation">Documentation</a></li>
+          <li><a href="https://groups.google.com/forum/#!forum/keystonejs" target="_blank" title="KeystoneJS Google Group">Google Group</a></li>
+          <li><a href="https://github.com/keystonejs/keystone" target="_blank" title="Github Project (new window)">Github Project</a></li>
+          <li><a href="http://demo.keystonejs.com" target="_blank" title="Demo Website (new window)">Demo Website</a></li>
+          <li><a href="/examples" title="KeystoneJS Database">Examples</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="docs-footer-floor">
+      <div class="container">
+        <div class="social-buttons">
+          <div class="social-button social-button__twitter"><a href="https://twitter.com/keystonejs" data-show-count="true" class="twitter-follow-button">Follow @keystonejs</a></div>
+          <div class="social-button social-button__github">
+            <iframe src="http://ghbtns.com/github-btn.html?user=keystonejs&amp;repo=keystone&amp;type=watch&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="86" height="20"></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="/js/lib/jquery/jquery-1.10.2.min.js"></script>
+    <script src="/js/lib/bootstrap/collapse.js"></script>
+    <script src="/js/lib/prism/prism.min.js"></script>
+    <script src="/js/anchor-links.js"></script>
+    <script>
+      !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+      
+    </script>
+    <script>
+      if (window.location.hostname.match(/keystonejs\.com/)) {
+      	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      
+      	ga('create', 'UA-43970386-1', 'keystonejs.com');
+      	ga('send', 'pageview');
+      }
+      
+    </script>
+    <script>
+      if (window.location.hostname.match(/keystonejs\.com/)) {
+      	var _sf_async_config = { uid: 46610, domain: 'keystonejs.com', useCanonical: true };
+      	(function() {
+      		function loadChartbeat() {
+      			window._sf_endpt = (new Date()).getTime();
+      			var e = document.createElement('script');
+      			e.setAttribute('language', 'javascript');
+      			e.setAttribute('type', 'text/javascript');
+      			e.setAttribute('src','//static.chartbeat.com/js/chartbeat.js');
+      			document.body.appendChild(e);
+      		};
+      		var oldonload = window.onload;
+      		window.onload = (typeof window.onload != 'function') ?
+      		loadChartbeat : function() { oldonload(); loadChartbeat(); };
+      	})();
+      }
+      
+    </script>
+    <script>
+      if (window.location.hostname.match(/keystonejs\.com/)) {
+      	setTimeout(function(){var a=document.createElement("script");
+      	var b=document.getElementsByTagName("script")[0];
+      	a.src=document.location.protocol+"//dnn506yrbagrg.cloudfront.net/pages/scripts/0013/3329.js?"+Math.floor(new Date().getTime()/3600000);
+      	a.async=true;a.type="text/javascript";b.parentNode.insertBefore(a,b)}, 1);
+      }
+    </script>
+  </body>
+</html>
