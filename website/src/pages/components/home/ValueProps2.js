@@ -3,19 +3,18 @@ import Container from '../../../../components/Container';
 import { Col, Row } from '../../../../components/Grid';
 import theme from '../../../../theme';
 import { compose } from 'glamor';
-import { EntypoTools, EntypoCloud, EntypoRocket } from 'react-entypo';
-import { rhythm } from '../../../../utils/typography';
+import { EntypoTools } from 'react-entypo';
 
 const ValueProp = ({ icon, text, title, text2, marginTop }) => {
 	return (
 		<div {...compose(styles.base, { marginTop })}>
-			<i {...compose(styles.icon)}>{icon}</i>
+			{icon && <i {...compose(styles.icon)}>{icon}</i>}
 			<div {...compose(styles.content)}>
 				<h3 {...compose(styles.title)}>{title}</h3>
 				<p {...compose(styles.text)}>{text}</p>
 				{text2
-				? <p {...compose(styles.text)}>{text2}</p>
-				: null}
+					? <p {...compose(styles.text)}>{text2}</p>
+					: null}
 			</div>
 		</div>
 	);
@@ -29,13 +28,15 @@ export default class ValueProps extends Component {
 	render () {
 		return (
 			<div className={compose(styles.wrapper)}>
-				<EntypoCloud style={{ width: '200px', height: '170px', color: theme.color.blue, marginTop: '-100px', position: 'absolute', right: '8%' }} />
-				<EntypoRocket style={{ width: '137px', height: '140px', color: theme.color.blue, marginTop: '-220px', position: 'absolute', left: '8%' }} />
 				<Container>
 					<div className={compose(styles.intro)}>
 						<h2 className={compose(styles.heading)}>What you build is up to you.</h2>
-						<p className={compose(styles.subheading)}>There are a lot of frameworks that make decisions for you, and many that take decisions away. Keystone doesn't do that. Use the features that suit you, and replace the ones that don't.</p>
-						<EntypoTools style={{ width: '90px', height: '90px' }} />
+						<p className={compose(styles.subheading)}>There are a lot of frameworks that make decisions for you, and many that take decisions away.<br />Keystone doesn't do that. Use the features that suit you, and replace the ones that don't.</p>
+					</div>
+					<div className={compose(styles.divider)}>
+						<span className={compose(styles.dividerLine)} />
+						<EntypoTools style={{ width: '60px', height: '60px', margin: '0 2rem' }} />
+						<span className={compose(styles.dividerLine)} />
 					</div>
 					<Row small="1" medium="1/2" large="1/4">
 						<Col>
@@ -81,22 +82,29 @@ const styles = {
 	wrapper: {
 		backgroundColor: theme.color.blue,
 		color: 'white',
-		paddingBottom: '5em',
+		padding: '4rem 0',
 	},
 	intro: {
-		paddingBottom: rhythm(2),
-		paddingTop: rhythm(2),
 		textAlign: 'center',
 	},
 	heading: {
-		fontSize: '2.6em',
-		color: 'white',
+		fontSize: '2em',
+		color: 'inherit',
 	},
 	subheading: {
-		paddingTop: '1em',
-		fontSize: '1.8em',
-		lineHeight: '1.2em',
-		paddingBottom: '1em',
+		fontSize: '1.25em',
+		color: 'rgba(255,255,255,0.75)',
+	},
+	divider: {
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+		margin: '3rem 0',
+	},
+	dividerLine: {
+		flex: 1,
+		height: 1,
+		backgroundColor: 'rgba(255,255,255,0.1)',
 	},
 	base: {
 		display: 'flex',
@@ -109,11 +117,25 @@ const styles = {
 	},
 	title: {
 		color: 'inherit',
-		fontWeight: '400',
-		marginTop: '0.2em',
+		margin: 0,
 	},
 	text: {
-		paddingTop: '1em',
-		fontWeight: '300',
+		marginTop: '1rem',
+	},
+	cloud: {
+		width: '200px',
+		height: '170px',
+		color: theme.color.blue,
+		marginTop: '-170px',
+		position: 'absolute',
+		right: '8%',
+	},
+	rocket: {
+		width: '137px',
+		height: '140px',
+		color: theme.color.blue,
+		marginTop: '-220px',
+		position: 'absolute',
+		left: '8%',
 	},
 };
