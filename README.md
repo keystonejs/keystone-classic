@@ -1,4 +1,4 @@
-![KeystoneJS](http://keystonejs.com/images/logo.svg)
+![KeystoneJS](http://v3.keystonejs.com/images/logo.svg)
 ===================================
 
 [![Build Status](https://travis-ci.org/keystonejs/keystone.svg?branch=master)](https://travis-ci.org/keystonejs/keystone)
@@ -15,9 +15,9 @@
 
 ### Documentation
 
-For Keystone v4 documentation and guides, see [keystonejs.netlify.com](https://keystonejs.netlify.com).
+For Keystone v4 documentation and guides, see [keystonejs.com](https://keystonejs.com).
 
-For Keystone v0.3 documentation, see [keystonejs.com](http://keystonejs.com).
+For Keystone v0.3 documentation, see [v3.keystonejs.com](https://v3.keystonejs.com).
 
 ### Keystone 4.0 Release Candidate (RC)
 
@@ -39,13 +39,13 @@ Please try out Keystone 4 and let us know what you think:
 npm install --save keystone
 ```
 
-We'll be publishing a summary of the new features, changes, and improvements as we get closer to the final release. In the meantime, see the [v0.3 -> v4.0 Upgrade Guide](https://keystonejs.netlify.com/guides/v-0-3-to-v-4-0-upgrade-guide) for information on what's changed.
+We'll be publishing a summary of the new features, changes, and improvements as we get closer to the final release. In the meantime, see the [v0.3 -> v4.0 Upgrade Guide](https://keystonejs.com/guides/v-0-3-to-v-4-0-upgrade-guide) for information on what's changed.
 
 Also check out our [demo site](http://demo.keystonejs.com), which has been updated to the new version!
 
 ## Getting Started
 
-This section provides a short intro to Keystone. Check out the [Getting Started Guide](https://keystonejs.netlify.com/getting-started) in the Keystone documentation for a more comprehensive introduction.
+This section provides a short intro to Keystone. Check out the [Getting Started Guide](https://keystonejs.com/getting-started) in the Keystone documentation for a more comprehensive introduction.
 
 ### Installation
 
@@ -60,13 +60,13 @@ Answer the questions, and the generator will create a new project based on the o
 
 Alternatively, to include Keystone in an existing project or start from scratch (without Yeoman), specify `keystone: "4.0.0-rc.1"` in the `dependencies` array of your `package.json` file, and run `npm install` from your terminal.
 
-Then read through the [Documentation](https://keystonejs.netlify.com/documentation) and the [Example Projects](http://keystonejs.com/examples) to understand how to use it.
+Then read through the [Documentation](https://keystonejs.com/documentation) and the [Example Projects](http://v3.keystonejs.com/examples) to understand how to use it.
 
 ### Configuration
 
 Config variables can be passed in an object to the `keystone.init` method, or can be set any time before `keystone.start` is called using `keystone.set(key, value)`. This allows for a more flexible order of execution. For example, if you refer to Lists in your routes you can set the routes after configuring your Lists.
 
-See the [KeystoneJS configuration documentation](https://keystonejs.netlify.com/documentation/configuration) for details and examples of the available options.
+See the [KeystoneJS configuration documentation](https://keystonejs.com/documentation/configuration) for details and examples of the available options.
 
 ### Database field types
 
@@ -74,7 +74,7 @@ Keystone builds on the basic data types provided by MongoDB and allows you to ea
 
 You get helper methods on your models for dealing with each field type easily (such as formatting a date or number, resizing an image, getting an array of the available options for a select field, or using Google's Places API to improve addresses) as well as a beautiful, responsive admin UI to edit your data with.
 
-See the [KeystoneJS database documentation](https://keystonejs.netlify.com/documentation/database) for details and examples of the various field types, as well as how to set up and use database models in your application.
+See the [KeystoneJS database documentation](https://keystonejs.com/documentation/database) for details and examples of the various field types, as well as how to set up and use database models in your application.
 
 ### Running KeystoneJS in Production
 
