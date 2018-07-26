@@ -22,6 +22,8 @@ coverage
 coverage.html
 .cover*
 lib-cov
+website/.cache
+website/public
 
 docs/_dist
 admin/public/styles/auth.css
