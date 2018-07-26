@@ -9,7 +9,9 @@ module.exports = function bindBodyParser (keystone, app) {
 		bodyParserParams.limit = keystone.get('file limit');
 	}
 	app.use(bodyParser.json(bodyParserParams));
-	bodyParserParams.extended = true;
+	if (keystone.get('extend query params') !== false) {
+		bodyParserParams.extended = true;
+	}
 	app.use(bodyParser.urlencoded(bodyParserParams));
 	if (keystone.get('handle uploads')) {
 		uploads.configure(app, keystone.get('multer options'));

@@ -97,6 +97,10 @@ Optional config options that will be passed to the morgan middleware; see [githu
 
 Set this to enable processing of the HTTP request `X-Forwarded-For` header. Extracted IP addresses will be available as the array `req.ips` ([see docs here](http://expressjs.com/en/api.html)).
 
+<h4 data-primitive-type="Boolean"><code>extend query params</code></h4>
+
+Optional config option to disable extending request query parameters; see [docs here](https://www.npmjs.com/package/body-parser#extended) for more information. If this is set to `false`, the value in `req.query` for each request parameter will always be a string or an array of strings. Defaults to `true`, ie. a value for the parameter can also be an object depending on the input. 
+
 ### Exposes `onHttpServerCreated` event
 
 ```javascript
