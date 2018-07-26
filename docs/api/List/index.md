@@ -2,7 +2,7 @@
 
 ## `new keystone.List(key:String, options:Object)`
 
-List is the control point for constructing keystone's schema's, and related methods. It is used as a prototype in constructing new lists, before they are registered to keystone, which adds them to the schema.
+List is the control point for constructing Keystone's schema's, and related methods. It is used as a prototype in constructing new lists, before they are registered to Keystone, which adds them to the schema.
 
 See the [list options](/api/list/options) documentation for the full list of options.
 

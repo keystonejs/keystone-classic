@@ -2,7 +2,7 @@
 
 ## updateItem(item:Object, data:Object, options:Object, callback:Function)
 
-A method to update an item that will apply keystone's internal validators before attempting to update, to ensure data integrity.
+A method to update an item that will apply Keystone's internal validators before attempting to update, to ensure data integrity.
 
 - `item`: the mongo object that you want to save. Note that the `.save()` function from mongoose will be called on it, so only properly created objects will be properly persisted, otherwise an error will be thrown.
 - `data`: the data you want to update. The keys will be validated against the matching keys on the model, then the values will be updated. Providing a key with a value of `null` or an emptry string will clear that field. Fields that are undefined will be ignored.
@@ -25,4 +25,4 @@ A list of fields that must be included. Validation will fail and the data will n
 
 <h4 data-primitive-type="Mongoose Object"><code>user</code></h4>
 
-Allows passing in of a mongoose object of a keystone user. If the list has `tracking: true`, passing in a user will let `createdBy` or `updatedBy` to be set.
+Allows passing in of a mongoose object of a Keystone user. If the list has `tracking: true`, passing in a user will let `createdBy` or `updatedBy` to be set.

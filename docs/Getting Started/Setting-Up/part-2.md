@@ -35,7 +35,7 @@ Firstly, we are going to add a `name`. This is used as the site name, and defaul
 
 Next, we want to define what our `'user model'` will be. Let's call it `'User'` to keep it simple.
 
-We want to set `auth` to be `true` so accessing the keystone admin UI requires a person to log in.
+We want to set `auth` to be `true` so accessing the Keystone admin UI requires a person to log in.
 
 Finally we want to set `'auto update'` to be `true`. This is going to make it very easy to get our seed data in to our project.
 
@@ -59,7 +59,7 @@ Finally, we are going to add a new line to the file, which is going to import ou
 keystone.import('models');
 ```
 
-The `import` method allows us to pull in an entire folder, in this case the entire models folder, and will allow us to add as many models as we want without having to come back and let keystone know we've added something new. New models will be noticed each time keystone starts.
+The `import` method allows us to pull in an entire folder, in this case the entire models folder, and will allow us to add as many models as we want without having to come back and let Keystone know we've added something new. New models will be noticed each time Keystone starts.
 
 If you want to know more about `keystone.import()` the documentation is [here](/api/methods/import).
 
@@ -110,7 +110,7 @@ This is our most basic field here. Every field needs a `type` property defined, 
 password: { type: keystone.Field.Types.Password }
 ```
 
-Our email field is using a keystone-specific field type. This adds a defined shape to the data, as well as a collection of extra validation. For the password field, it will encrypt it for us. In addition, in the keystone admin UI, it will not display the contents of the password field, and will require a password to be entered twice to change it.
+Our email field is using a keystone-specific field type. This adds a defined shape to the data, as well as a collection of extra validation. For the password field, it will encrypt it for us. In addition, in the Keystone admin UI, it will not display the contents of the password field, and will require a password to be entered twice to change it.
 
 This takes care of a lot of our password security for us.
 
@@ -120,10 +120,9 @@ email: { type: keystone.Field.Types.Email, unique: true },
 
 Email is similar to password in that it is using a keystone-specific field type, in this case to ensure that when this field is filled, it has the shape of an email. In addition, we have passed a second option of `unique: true`, which forces the field to be unique within the database. No doubling up on email addresses for accounts.
 
-// The following para really needs more work. Needs lightness and timing
-If you want to know about all the field types keystone offers, you can find the information find the full list of options in the [field docs](/api/field) Also, for the options like `unique` which are available to all fields, you can read more [here](/api/field/options), for when you are making your own models.
+If you want to know about all the field types Keystone offers, you can find the full list of options in the [Field API documentation](/api/field) Also, for the options like `unique` which are available to all fields, you can read more about the [Field options API](/api/field/options), for when you are making your own models.
 
-There are three more parts we are going to need to get our user model working. The first is to register it to keystone. This will tell keystone to include it in its list of models. To do this, add the following line to the bottom of the file:
+There are three more parts we are going to need to get our user model working. The first is to register it to keystone. This will tell Keystone to include it in its list of models. To do this, add the following line to the bottom of the file:
 
 ```javascript
 User.register();
@@ -169,7 +168,7 @@ User.register();
 
 ### Adding an update script
 
-There's one more thing to do before we can launch our app. We need to have an initial user in our database. We can do this through an update script, which keystone will run on startup.
+There's one more thing to do before we can launch our app. We need to have an initial user in our database. We can do this through an update script, which Keystone will run on startup.
 
 Make a new directory called `updates` and make a file `0.0.1-first-user.js` in it. Next we can just drop in the following code:
 
@@ -186,7 +185,7 @@ exports.create = {
 
 ```
 
-This will create a user with these details (though the password will be hashed before saving) when keystone is started up. If you want to know more about update scripts, you can find the information [here](/documentation/configuration).
+This will create a user with these details (though the password will be hashed before saving) when Keystone is started up. If you want to know more about update scripts, you can find the information [here](/documentation/configuration).
 
 An important note is that you will likely end up committing your update scripts to your project, so you should not include sensitive information in here. Any passwords added in an update script should be manually changed afterwards.
 
@@ -232,13 +231,13 @@ Event.register();
 ```
 
 ## Next Steps
-Check out [part 3](/getting-started/setting-up/part-3) of our setting up keystone guide, which walks you through adding your own pages to your site, or if you want to read more about any of the parts we set up, you can check out these links:
+Check out [Part 3 : Routing](/getting-started/setting-up/part-3) of our setting up Keystone guide, which walks you through adding your own pages to your site, or if you want to read more about any of the parts we set up, you can check out these links:
 
-learn more about:
+## Learn more about:
 
 - [configuring keystone](/documentation/configuration)
 - [importing models](/api/methods/import)
-- [list of keystone fields](/api/field)
-- [keystone field options](/api/fields/options)
-- [update scripts](/documentation/application-updates)
+- [list of Keystone fields](/api/field)
+- [keystone field options](/api/field/options)
+- [update scripts](/documentation/database/application-updates)
 - [virtuals and schema methods](/api/list/schema)
