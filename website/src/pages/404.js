@@ -1,28 +1,23 @@
 import React, { Component } from 'react';
-import React from 'react';
-import Container from '../../../../components/Container';
+import Container from '../../components/Container';
 import { compose } from 'glamor';
 import Link from 'gatsby-link';
-import Header from '../../../../components/Header';
-import theme from '../../../../theme';
-
-/*
-import WhereNext from './components/home/WhereNext';
+import Header from '../../components/Header';
+import theme from '../../theme';
 import Footer from './components/home/Footer';
 
-const Intro = () => (
+const Body = () => (
 	<div className={compose(styles.content)}>
 		<h1 className={compose(styles.heading)}>Whoops</h1>
 		<p className={compose(styles.subHeading)}>
-			KeystoneJS is an open source framework for developing database-driven
-			websites, applications and APIs in Node.js. Built on Express and MongoDB.
+			Something should have been here, but apparently it's not. No worries, here is a couple of helpful links that will get you on your way!
 		</p>
 		<div className={compose(styles.buttons)}>
 			<Link
 				to="/getting-started"
 				className={compose(
 					styles.button,
-					styles.buttonPrimary
+					styles.buttonSecondary
 				)}>
 				Get started
 			</Link>
@@ -33,38 +28,25 @@ const Intro = () => (
 					styles.buttonSecondary
 				)}
 				target="_blank">
-				Try the demo
+				Documentation
 			</a>
 		</div>
 	</div>
 );
 
-class Hero extends Component {
-    render(){
-        return(
-            <div className={compose(styles.wrapper)}>
-                <Container>
-                    <Header />
-                    <Intro />
-                </Container>
-            </div>
-        )
-    }
-}
-*/
-
-export default class NotFound extends Component {
+export default class extends Component {
 	render () {
-		/*return (
+		return (
 			<div>
-				<Hero />
-				<WhereNext />
+				<div className={compose(styles.wrapper)}>
+					<Container>
+						<Header />
+						<Body />
+					</Container>
+				</div>
 				<Footer />
 			</div>
-        );*/
-        return (
-            <div>Not found</div>
-        )
+        );
 	}
 }
 
@@ -75,10 +57,11 @@ const styles = {
 		padding: '2rem 0 4em',
 		position: 'relative',
 		width: '100vw',
-		overflow: 'hidden',
+		height: '100vh',
+		overflow: 'hidden'
 	},
 	content: {
-		padding: '6em 0 0',
+		padding: '8em 0 0',
 		textAlign: 'center',
 		margin: 'auto',
 		display: 'flex',
