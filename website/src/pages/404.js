@@ -8,16 +8,16 @@ import Footer from './components/home/Footer';
 
 const Body = () => (
 	<div className={compose(styles.content)}>
-		<h1 className={compose(styles.heading)}>Whoops</h1>
+		<h1 className={compose(styles.heading)}>Whoops! Nothing to see here.</h1>
 		<p className={compose(styles.subHeading)}>
-			Something should have been here, but apparently it's not. No worries, here is a couple of helpful links that will get you on your way!
+			Something should have been here, but apparently it's not. No worries, here are a couple of helpful links that will get you on your way!
 		</p>
 		<div className={compose(styles.buttons)}>
 			<Link
 				to="/getting-started"
 				className={compose(
 					styles.button,
-					styles.buttonSecondary
+					styles.buttonPrimary
 				)}>
 				Get started
 			</Link>
