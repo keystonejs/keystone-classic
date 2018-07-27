@@ -10,6 +10,7 @@
     "gatsby": "^1.9.247",
     "gatsby-link": "^1.6.40",
     "gatsby-plugin-glamor": "^1.6.13",
+    "gatsby-plugin-netlify": "^1.0.21",
     "gatsby-plugin-react-helmet": "^2.0.10",
     "gatsby-plugin-twitter": "^1.0.20",
     "gatsby-plugin-typography": "^1.7.18",

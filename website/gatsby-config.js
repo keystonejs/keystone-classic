@@ -26,5 +26,6 @@ module.exports = {
 				pathToConfigModule: 'utils/typography',
 			},
 		},
+		'gatsby-plugin-netlify',
 	],
 };
