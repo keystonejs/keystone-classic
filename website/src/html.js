@@ -29,6 +29,18 @@ module.exports = class HTML extends React.Component {
 						name="viewport"
 						content="width=device-width, initial-scale=1, shrink-to-fit=no"
 					/>
+					<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+					<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+					<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+					<script async src="https://www.googletagmanager.com/gtag/js?id=UA-43970386-1"></script>
+					<script
+						dangerouslySetInnerHTML={{
+							__html: `window.dataLayer = window.dataLayer || [];
+							function gtag(){dataLayer.push(arguments);}
+							gtag('js', new Date());
+							gtag('config', 'UA-43970386-1');`,
+						}}
+					/>
 					{this.props.headComponents}
 					{css}
 				</head>
