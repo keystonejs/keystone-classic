@@ -7,7 +7,7 @@ The following options control the branding, navigation and default export settin
 
 The name of the KeystoneJS application
 
-<h4 data-primitive-type="String"><code>name</code></h4>
+<h4 data-primitive-type="String"><code>brand</code></h4>
 
 Displayed in the top left hand corner of the Admin UI
 
