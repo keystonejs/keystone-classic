@@ -1,10 +1,12 @@
-# Part 4 -  Adding data to the database from a form
+# Part 4: Adding data from a form
 
-For the final part of this guide, we're going to set up an api endpoint, bringing together our routing configuration and database configuration, so we can see both working together.
+For the final part of this guide, we're going to set up an API endpoint, bringing together our routing configuration and database configuration, so we can see both working together.
 
 ## Setup
 
-For part 4, we are going to use a second model, the Event model that was looked at briefly in part 2. Here it is again if you skipped it.
+For part 4, we are going to use a second model, the Event model that was looked at briefly in part 2.
+
+Here it is again if you skipped it:
 
 ```javascript
 var keystone = require('keystone');
