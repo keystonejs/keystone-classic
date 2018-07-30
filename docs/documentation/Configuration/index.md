@@ -15,9 +15,9 @@ If you want to keep secret keys and configuration out of your codebase (especial
 There are four main types of options, listed below:
 
 - [Project Options](/documentation/configuration/project-options)
-- [Web Server Options](/documentation/configuration/web-server-options)
+- [Web Server Options](/documentation/configuration/server-options)
 - [Admin UI Options](/documentation/configuration/admin-ui-options)
-- [Database and User Auth Options](/documentation/configuration/database-and-user-auth-options)
+- [Database and User Auth Options](/documentation/configuration/database-options)
 
 ## Most Important Project Options
 
