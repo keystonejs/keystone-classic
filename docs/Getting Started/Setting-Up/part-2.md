@@ -143,7 +143,7 @@ The final part of setting up our user model is to define the default columns to 
 Add this line just above `User.register`:
 
 ```javascript
-`User.defaultColumns = 'id, displayName, email';`
+User.defaultColumns = 'id, displayName, email';
 ```
 
 Alright, that's our user model complete. We should now have a file that looks like this:
@@ -163,6 +163,7 @@ User.schema.virtual('canAccessKeystone').get(function () {
   return true;
 });
 
+User.defaultColumns = 'id, displayName, email';
 User.register();
 ```
 
