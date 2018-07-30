@@ -1,6 +1,6 @@
 # Part 2 - Database Setup
 
-Keystone has an easy database integration with [mongodb](mongodb.com), and uses [mongoose](http://mongoosejs.com/) under the hood to help manage your data. In part 2, we are going to connect our app to mongo, and add a user model, so we can log in to and look at the admin UI.
+Keystone has an easy database integration with [mongodb](http://mongodb.com/), and uses [mongoose](http://mongoosejs.com/) under the hood to help manage your data. In part 2, we are going to connect our app to mongo, and add a user model, so we can log in to and look at the admin UI.
 
 ## Setup
 
