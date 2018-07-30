@@ -2,13 +2,13 @@ export const gettingStarted = {
 	section: 'Get started',
 	slug: '/getting-started',
 	items: [{
-		label: 'Getting Started',
+		label: 'What is Keystone?',
 		slug: '',
 	}, {
-		label: 'Keystone Yeoman Generator',
+		label: 'Quick Start (yo keystone)',
 		slug: '/yo-generator',
 	}, {
-		section: 'Setting Up',
+		section: 'Setting Up From Scratch',
 		slug: '/setting-up',
 		items: [{
 			label: 'Part 1: Initial Setup',
