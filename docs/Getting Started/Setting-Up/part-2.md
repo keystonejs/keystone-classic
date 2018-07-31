@@ -128,7 +128,7 @@ There are three more parts we are going to need to get our user model working. T
 User.register();
 ```
 
-Next, as we want this to be our User model for logging in to the admin UI, we needs to add the property for `canAccessKeystone` to the model. We are going have a User model that allows all users to access to keystone, but you will likely want to implement more fine-grained control for your own apps. Add this above `User.register`:
+Next, as we want this to be our User model for logging in to the admin UI, we need to add the property for `canAccessKeystone` to the model. We are going have a User model that allows all users to access to keystone, but you will likely want to implement more fine-grained control for your own apps. Add this above `User.register`:
 
 ```javascript
 User.schema.virtual('canAccessKeystone').get(function () {
