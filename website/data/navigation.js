@@ -14,7 +14,7 @@ export const gettingStarted = {
 			label: 'Part 1: Initial Setup',
 			slug: '/part-1',
 		}, {
-			label: 'Part 2: Database Setup',
+			label: 'Part 2: Data Model Setup',
 			slug: '/part-2',
 		}, {
 			label: 'Part 3: Routing',
