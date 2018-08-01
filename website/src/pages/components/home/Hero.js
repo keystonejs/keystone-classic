@@ -61,7 +61,7 @@ const LatestRelease = () => (
 		</span>
 		<span className={compose(styles.releaseSide)}>
 			<a
-				href="https://github.com/keystonejs/keystone/blob/master/HISTORY.md"
+				href="https://github.com/keystonejs/keystone/releases/"
 				style={{ color: 'white' }}
 				target="_blank">
 				See what's new

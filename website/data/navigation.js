@@ -2,25 +2,25 @@ export const gettingStarted = {
 	section: 'Get started',
 	slug: '/getting-started',
 	items: [{
-		label: 'Getting Started',
+		label: 'What is Keystone?',
 		slug: '',
 	}, {
-		label: 'Keystone Yeoman Generator',
+		label: 'Quick Start (yo keystone)',
 		slug: '/yo-generator',
 	}, {
-		section: 'Setting Up',
+		section: 'Setting Up From Scratch',
 		slug: '/setting-up',
 		items: [{
 			label: 'Part 1: Initial Setup',
 			slug: '/part-1',
 		}, {
-			label: 'Part 2 - Database Setup',
+			label: 'Part 2: Data Model Setup',
 			slug: '/part-2',
 		}, {
 			label: 'Part 3: Routing',
 			slug: '/part-3',
 		}, {
-			label: 'Part 4 -  Adding data to the database from a form',
+			label: 'Part 4: Adding data from a form',
 			slug: '/part-4',
 		}],
 	}],
