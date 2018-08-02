@@ -17,7 +17,7 @@ permalink: /docs/getting-started/
     <meta property="og:url" content="https://keystonejs.com^current_url^">
     <meta property="og:site_name" content="KeystoneJS">
     <meta property="og:type" content="article">
-    <link href="http://fonts.googleapis.com/css?family=Roboto:100,300,300italic,400,500,700" rel="stylesheet">
+    <link href="https//fonts.googleapis.com/css?family=Roboto:100,300,300italic,400,500,700" rel="stylesheet">
     <link href="/styles/site.min.css" rel="stylesheet">
     <link href="/styles/prism.css" rel="stylesheet">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
@@ -97,7 +97,7 @@ permalink: /docs/getting-started/
               <h2><a name="introduction"></a>Introduction</h2>
               <div class="alert alert-warning">This guide is currently being updated to match the new Yeoman Generator.</div>
               <p>KeystoneJS makes it easy to build database-driven websites, applications and APIs in node.js.</p>
-              <p>Under the hood, KeystoneJS uses the <a href="http://expressjs.com" target="_blank">express.js</a> web server framework, and a <a href="http://mongodb.com" target="_blank">MongoDB</a> database via the <a href="http://mongoosejs.com" target="_blank">mongoose</a> object modelling framework.</p>
+              <p>Under the hood, KeystoneJS uses the <a href="https//expressjs.com" target="_blank">express.js</a> web server framework, and a <a href="https//mongodb.com" target="_blank">MongoDB</a> database via the <a href="https//mongoosejs.com" target="_blank">mongoose</a> object modelling framework.</p>
               <div class="contextual-note">
                 <h4>Simple vs. Flexible</h4>
                 <p>Keystone is designed to make complicated things simple, without limiting the power or flexibility of node.js or the frameworks it is built on.</p>
@@ -106,9 +106,9 @@ permalink: /docs/getting-started/
               </div><a name="introduction-prerequisites"></a>
               <h3>Prerequisites</h3>
               <ol class="fancy-list">
-                <li>Before you begin, make sure you have <a href="http://nodejs.org/download" target="_blank">Node.js</a> and <a href="http://www.mongodb.org/downloads" target="_blank">MongoDB</a> installed.</li>
+                <li>Before you begin, make sure you have <a href="https//nodejs.org/download" target="_blank">Node.js</a> and <a href="https//www.mongodb.org/downloads" target="_blank">MongoDB</a> installed.</li>
                 <li>You'll need a reasonable working knowledge of Javascript to use KeystoneJS, as well as familiarity with basics such as database concepts, and using node / npm etc.</li>
-                <li>In the guide we'll also be using <a href="http://jade-lang.com" target="_blank">Jade</a> for our view templates and <a href="http://lesscss.org" target="_blank">LESS</a> for our CSS templates. In your own project you can use any template language you like; see <a href="#templates_other">using other template languages</a> (below) for more information.</li>
+                <li>In the guide we'll also be using <a href="https//jade-lang.com" target="_blank">Jade</a> for our view templates and <a href="https//lesscss.org" target="_blank">LESS</a> for our CSS templates. In your own project you can use any template language you like; see <a href="#templates_other">using other template languages</a> (below) for more information.</li>
               </ol><a name="introduction-productionvsdevelopment"></a>
               <h3>Production vs. Development</h3>
               <p>Keystone applies different settings in production and development modes. The environment will default to <code>development</code>, so you should set the <code>NODE_ENV</code> environment variable to <code>production</code> on your production servers for better performance.</p>
@@ -140,7 +140,7 @@ permalink: /docs/getting-started/
     "start": "web.js"
   }
 }</code></pre>
-              <p class="note">Note we're also requiring the <a href="http://underscorejs.org">underscore library</a>, because we'll use some of its functionality later. You can use any other packages you like from <a href="https://npmjs.org">npm</a> in your Keystone application by adding them to your <code>package.json</code>.</p>
+              <p class="note">Note we're also requiring the <a href="https//underscorejs.org">underscore library</a>, because we'll use some of its functionality later. You can use any other packages you like from <a href="https://npmjs.org">npm</a> in your Keystone application by adding them to your <code>package.json</code>.</p>
               <div class="code-header">
                 <h4>web.js</h4>
                 <p>This is the script that will run our keystone website.</p>
@@ -259,7 +259,7 @@ User.register();</code></pre><a name="models-authentication"></a>
                 <li>If you want your application to support session management, set the <code>session</code> option to <strong>true</strong>. Loading sessions incurs a small overhead, so if your application doesn't need sessions you can turn this off.</li>
                 <li>Keystone has built-in views for signing in and out. To enable them, set the <code>auth</code> option to <strong>true</strong>. You can also implement custom signin and signout screens in your applications' views.</li>
                 <li>Sessions are persisted using an encrypted cookie storing the user's ID. Make sure you set the <code>cookie secret</code> option to a long, random string.</li>
-                <li>The user model must have a <code>canAccessKeystone</code> property (which can be a virtual method or a stored boolean) that says whether a user can access Keystone's Admin UI or not. *Note* If you choose to use a virtual method setting the value in mongodb directly will not authenticate correctly. A virtual method is useful when the criteria for access is more complex. See <a href="http://mongoosejs.com/docs/guide.html#virtuals">Mongoose virtuals</a></li>
+                <li>The user model must have a <code>canAccessKeystone</code> property (which can be a virtual method or a stored boolean) that says whether a user can access Keystone's Admin UI or not. *Note* If you choose to use a virtual method setting the value in mongodb directly will not authenticate correctly. A virtual method is useful when the criteria for access is more complex. See <a href="https//mongoosejs.com/docs/guide.html#virtuals">Mongoose virtuals</a></li>
               </ul>
               <h4>More on Data Models</h4>
               <p>For more information on how to set up your application's models, and the full documentation for lists and fields, see the <a href="/docs/database">database guide</a>.</p><a name="routesviews"></a>
@@ -438,7 +438,7 @@ exports = module.exports = function(req, res) {
 }</code></pre><a name="routesviews-templates"></a>
               <h3>Templates</h3>
               <p>Now, for the template our route will render. The <code>render</code> method looks in the <code>views</code> directory specified in our <code>web.js</code>, which we set to <code>/templates/views</code>.</p>
-              <p>In this guide, we're going to use <strong>Jade</strong> for our templates. To learn more about Jade, visit <a href="http://jade-lang.com" target="_blank">jade-lang.org</a>, or check out the great <a href="http://naltatis.github.io/jade-syntax-docs/" target="_blank">live syntax documentation</a> to learn by example.</p>
+              <p>In this guide, we're going to use <strong>Jade</strong> for our templates. To learn more about Jade, visit <a href="https//jade-lang.com" target="_blank">jade-lang.org</a>, or check out the great <a href="https//naltatis.github.io/jade-syntax-docs/" target="_blank">live syntax documentation</a> to learn by example.</p>
               <p>First up, create <code>templates/views/index.jade</code>:</p>
               <div class="code-header">
                 <h4>templates/views/index.jade</h4>
@@ -518,7 +518,7 @@ mixin flash-message(message, type)
                 <h4>Using other template languages</h4>
                 <p>KeystoneJS supports <a href='http://expressjs.com/api.html#app.engine', target='_blank'>any template language supported by express</a>.</p>
                 <p>Use the <code>view engine</code> option to specify the template language you want to use (it will default to <code class="data-type">jade</code>).</p>
-                <p>If you want to use a custom template engine, set the <code>custom engine</code> option as well. For instance, <a href="http://embeddedjs.com/">ejs</a> is supported by express by default, but you might want to use <a href="https://github.com/RandomEtc/ejs-locals">ejs.locals</a> as a template engine in order to benefit from get extensions.</p>
+                <p>If you want to use a custom template engine, set the <code>custom engine</code> option as well. For instance, <a href="https//embeddedjs.com/">ejs</a> is supported by express by default, but you might want to use <a href="https://github.com/RandomEtc/ejs-locals">ejs.locals</a> as a template engine in order to benefit from get extensions.</p>
                 <pre><code class="language-javascript">// Modified web.js to use the ejs-locals custom template engine.
 var keystone = require('keystone');
 var engine   = require('ejs-locals');
@@ -532,7 +532,7 @@ keystone.init({
               <h3>Public Assets</h3>
               <p>You'll want to add your own css, javascript, images and other files to your project. In the examples above, we're including <code>/styles/site.min.css</code> and <code>/js/lib/jquery-1.10.2.min.js</code>.</p>
               <p>Keystone will serve any static assets you place in the <code>public</code> directory. This path is specified in <code>web.js</code> by the <code>static</code> option.</p>
-              <p>It will also automatically generate <code>.css</code> or compressed <code>.min.css</code> files when a corresponding <code>.less</code> file is found in the <code>public</code> folder, as specified in <code>web.js</code> by the <code>less</code> option. For more information on LESS, see <a href="http://lesscss.org" target="_blank">lesscss.org</a>.</p><a name="runningyourapp"></a>
+              <p>It will also automatically generate <code>.css</code> or compressed <code>.min.css</code> files when a corresponding <code>.less</code> file is found in the <code>public</code> folder, as specified in <code>web.js</code> by the <code>less</code> option. For more information on LESS, see <a href="https//lesscss.org" target="_blank">lesscss.org</a>.</p><a name="runningyourapp"></a>
               <h2>Running your app</h2>
               <p>You're now (almost) ready to run your app! Before we do, though, we should add a <strong>User</strong> so you can sign in to Keystone's Admin UI.</p><a name="runningyourapp-writingupdates"></a>
               <h3>Writing Updates</h3>
@@ -542,7 +542,7 @@ keystone.init({
               <ul>
                 <li><code>next</code> - the method to call when the update has finished running (including any internal callbacks)</li>
               </ul>
-              <p>Updates are ordered using <a href="http://semver.org" target="_blank">Semantic Versioning</a>, and Keystone will only run them once (successfully executed updates are stored in your database, in a collection called <code>app_updates</code>).</p>
+              <p>Updates are ordered using <a href="https//semver.org" target="_blank">Semantic Versioning</a>, and Keystone will only run them once (successfully executed updates are stored in your database, in a collection called <code>app_updates</code>).</p>
               <p>Update file names should match the pattern <code>x.x.x-description.js</code> - anything after the first hyphen is ignored, so you can describe the update in the filename.</p>
               <p>So to automatically add a new Admin User when your app first launches, create a <code>updates/0.0.1-admin.js</code> file:</p>
               <div class="code-header">
@@ -567,8 +567,8 @@ exports = module.exports = function(done) {
               <p>Now you're ready to run your application, so execute the following in your project's main folder:</p>
               <p><code>node web</code></p>
               <p>Keystone will automatically apply the update, and then start a web server on the default port, 3000.</p>
-              <p>To see your home page, point your browser at <a href="http://localhost:3000" target="_blank">localhost:3000</a>. You should see our <strong>Hello World!</strong> message.</p>
-              <p>To sign in to Keystone's Admin UI, go to <a href="http://localhost:3000/keystone" target="_blank">localhost:3000/keystone</a>. Use the email and password you put in the update script above to sign in, and you'll be redirected to Keystone's home page.</p><a name="runningyourapp-nextstep"></a>
+              <p>To see your home page, point your browser at <a href="https//localhost:3000" target="_blank">localhost:3000</a>. You should see our <strong>Hello World!</strong> message.</p>
+              <p>To sign in to Keystone's Admin UI, go to <a href="https//localhost:3000/keystone" target="_blank">localhost:3000/keystone</a>. Use the email and password you put in the update script above to sign in, and you'll be redirected to Keystone's home page.</p><a name="runningyourapp-nextstep"></a>
               <h3>Next Steps</h3>
               <p>... you're done! Well, not really. It's time to start building your app now. For more information on list options and the field types Keystone supports, browse the <a href="/docs/database">database guide</a>.</p>
               <p>You should also <a href="https://twitter.com/keystonejs" target="_blank">Follow @KeystoneJS on Twitter</a> for news and updates, <a href="https://github.com/keystonejs/keystone/" target="_blank">Star KeystoneJS on GitHub</a>, and discuss this guide (or anything KeystoneJS related) on the <a href="https://groups.google.com/d/forum/keystonejs" target="_blank">KeystoneJS Google Group</a>.</p>
@@ -581,13 +581,13 @@ exports = module.exports = function(done) {
     </div>
     <div class="docs-footer">
       <div class="container">
-        <p>Created by <a href="http://twitter.com/jedwatson" target="_blank">@jedwatson</a>, <a href="http://twitter.com/bladey" target="_blank">@bladey</a> and <a href="http://twitter.com/jossmackison" target="_blank">@jossmackison</a> at <a href="http://www.thinkmill.com.au" target="_blank">Thinkmill</a>, and other <a href="https://github.com/keystonejs/keystone/contributors" target="_blank">contributors</a> under the <a href="http://opensource.org/licenses/MIT" target="_blank">MIT License</a></p>
+        <p>Created by <a href="https//twitter.com/jedwatson" target="_blank">@jedwatson</a>, <a href="https//twitter.com/bladey" target="_blank">@bladey</a> and <a href="https//twitter.com/jossmackison" target="_blank">@jossmackison</a> at <a href="https//www.thinkmill.com.au" target="_blank">Thinkmill</a>, and other <a href="https://github.com/keystonejs/keystone/contributors" target="_blank">contributors</a> under the <a href="https//opensource.org/licenses/MIT" target="_blank">MIT License</a></p>
         <ul class="list-inline">
           <li><a href="/getting-started" title="KeystoneJS Getting Started">Getting Started</a></li>
           <li><a href="/docs" title="KeystoneJS Documentation">Documentation</a></li>
           <li><a href="https://groups.google.com/forum/#!forum/keystonejs" target="_blank" title="KeystoneJS Google Group">Google Group</a></li>
           <li><a href="https://github.com/keystonejs/keystone" target="_blank" title="Github Project (new window)">Github Project</a></li>
-          <li><a href="http://demo.keystonejs.com" target="_blank" title="Demo Website (new window)">Demo Website</a></li>
+          <li><a href="https//demo.keystonejs.com" target="_blank" title="Demo Website (new window)">Demo Website</a></li>
           <li><a href="/examples" title="KeystoneJS Database">Examples</a></li>
         </ul>
       </div>
@@ -597,7 +597,7 @@ exports = module.exports = function(done) {
         <div class="social-buttons">
           <div class="social-button social-button__twitter"><a href="https://twitter.com/keystonejs" data-show-count="true" class="twitter-follow-button">Follow @keystonejs</a></div>
           <div class="social-button social-button__github">
-            <iframe src="http://ghbtns.com/github-btn.html?user=keystonejs&amp;repo=keystone&amp;type=watch&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="86" height="20"></iframe>
+            <iframe src="https//ghbtns.com/github-btn.html?user=keystonejs&amp;repo=keystone&amp;type=watch&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="86" height="20"></iframe>
           </div>
         </div>
       </div>
