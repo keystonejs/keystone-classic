@@ -17,7 +17,7 @@ permalink: /docs/database/
     <meta property="og:url" content="https://keystonejs.com^current_url^">
     <meta property="og:site_name" content="KeystoneJS">
     <meta property="og:type" content="article">
-    <link href="http://fonts.googleapis.com/css?family=Roboto:100,300,300italic,400,500,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,300italic,400,500,700" rel="stylesheet">
     <link href="/styles/site.min.css" rel="stylesheet">
     <link href="/styles/prism.css" rel="stylesheet">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
@@ -54,17 +54,17 @@ permalink: /docs/database/
           <div class="col-sm-3">
             <div class="visible-xs">
               <ul class="nav-toggle">
-                <li><a href="/docs/getting-started" class="nav-heading">Starting</a></li>
-                <li><a href="/docs/configuration" class="nav-heading">Config</a></li>
-                <li class="active"><a href="/docs/database" class="nav-heading">Data</a></li>
+                <li><a href="/docs_getting-started" class="nav-heading">Starting</a></li>
+                <li><a href="/docs_configuration" class="nav-heading">Config</a></li>
+                <li class="active"><a href="/docs_database" class="nav-heading">Data</a></li>
               </ul>
             </div>
             <nav class="docs-sidebar hidden-xs">
               <ul class="sidebar-nav">
                 <li><a href="/docs" class="nav-heading">Welcome</a></li>
-                <li><a href="/docs/getting-started" class="nav-heading">Getting Started</a></li>
-                <li><a href="/docs/configuration" class="nav-heading">Configuration</a></li>
-                <li class="active"><a href="/docs/database" class="nav-heading">Database</a></li>
+                <li><a href="/docs_getting-started" class="nav-heading">Getting Started</a></li>
+                <li><a href="/docs_configuration" class="nav-heading">Configuration</a></li>
+                <li class="active"><a href="/docs_database" class="nav-heading">Database</a></li>
               </ul>
               <hr/>
               <ul class="sidebar-nav">
@@ -126,11 +126,11 @@ permalink: /docs/database/
               </div>
               <p>In KeystoneJS, your data schema and models are controlled by <strong>Lists</strong>, and documents in your database are often called <strong>Items</strong>.</p>
               <p>To define a data model, you create a <code>new keystone.List</code>, and pass it <a href="#lists-options">list options</a>. </p>
-              <p>You then <code>add</code> fields to the list. Behind the scenes, a Keystone List will create a <a href="http://mongoosejs.com/docs/guide.html" target="_blank">mongoose schema</a>, and add the appropriate paths to it for the fields you define.</p>
+              <p>You then <code>add</code> fields to the list. Behind the scenes, a Keystone List will create a <a href="https://mongoosejs.com/docs/guide.html" target="_blank">mongoose schema</a>, and add the appropriate paths to it for the fields you define.</p>
               <p>The <code>schema</code> is accessible, allowing you to plug in other mongoose functionality like virtuals, methods and pre / post hooks.</p>
               <p>When you have finished setting up your List, call <code>list.register()</code> to initialise it and register it with Keystone.</p>
-              <p>To query your data, you use the <code>list.model</code> (which is a <a href="http://mongoosejs.com/docs/models.html" target="_blank">mongoose model</a>).</p>
-              <p>List Items are <a href="http://mongoosejs.com/docs/documents.html" target"_blank">mongoose documents</a>. To create new items, use <code>new list.model()</code> and when you're ready to save it (or to save changes to an existing Item), call <code>item.save()</code>.</p><a name="lists"></a>
+              <p>To query your data, you use the <code>list.model</code> (which is a <a href="https://mongoosejs.com/docs/models.html" target="_blank">mongoose model</a>).</p>
+              <p>List Items are <a href="https://mongoosejs.com/docs/documents.html" target"_blank">mongoose documents</a>. To create new items, use <code>new list.model()</code> and when you're ready to save it (or to save changes to an existing Item), call <code>item.save()</code>.</p><a name="lists"></a>
               <h2>Lists</h2><a name="lists-usage"></a>
               <h3>Usage</h3>
               <h4><code>new keystone.List(key[, options]);</code></h4>
@@ -194,7 +194,7 @@ Post.register();</code></pre>
                 <tr>
                   <td><code>schema</code> <code class="data-type">String</code></td>
                   <td>
-                    <p>Options for the Mongoose Schema for the List. Among other things, this option lets you specify a custom name for the <strong>collection</strong>. See the <a href="http://mongoosejs.com/docs/guide.html#options" target="_blank">mongoose schema docs</a> for a list of available options.</p>
+                    <p>Options for the Mongoose Schema for the List. Among other things, this option lets you specify a custom name for the <strong>collection</strong>. See the <a href="https://mongoosejs.com/docs/guide.html#options" target="_blank">mongoose schema docs</a> for a list of available options.</p>
                     <p><em>Warning: do not modify the <code>id</code> or <code>_id</code> schema options; the default behaviour is required by Keystone</em></p>
                   </td>
                 </tr>
@@ -284,7 +284,7 @@ item.save();</code></pre>
                   <td>Hides the list in the Keystone Admin UI</td>
                 </tr>
               </table>
-              <p class="note">If you're wondering how to control which navigation area Lists are categorised under in the Admin UI, check out the <code>nav</code> option in the <a href="http://keystonejs.com/docs/configuration/#options-project">KeystoneJS Configuration</a> docs.</p>
+              <p class="note">If you're wondering how to control which navigation area Lists are categorised under in the Admin UI, check out the <code>nav</code> option in the <a href="https://keystonejs.com/docs/configuration/#options-project">KeystoneJS Configuration</a> docs.</p>
               <h4>Drilldown example</h4>
               <p>The drilldown option is a nice way to improve the usability of the Admin UI by providing context to the item a user is currently editing.</p>
               <p>By default, the drilldown will just show the list that the item belongs to.</p>
@@ -300,7 +300,7 @@ item.save();</code></pre>
     drilldown: 'author' // author is defined as a Relationship field in the example above
 });</code></pre>
               <h4>Inheritance example</h4>
-              <p>The inheritance option can be used to allow a list to inherit its fields from another list using Mongoose <a href="http://mongoosejs.com/docs/3.7.x/docs/api.html#model_Model.discriminator">model discriminators</a></p>
+              <p>The inheritance option can be used to allow a list to inherit its fields from another list using Mongoose <a href="https://mongoosejs.com/docs/3.7.x/docs/api.html#model_Model.discriminator">model discriminators</a></p>
               <p>Parent lists may not themselves inherit from other lists.</p>
               <div class="code-header">
                 <h4>Example: Inheriting List fields from other lists</h4>
@@ -323,7 +323,7 @@ var ChildPage = new keystone.List('ChildPage', { inherits: BasePage });
 ChildPage.add({ child_content: { type: String, readonly: true } });
 ChildPage.register();</code></pre><a name="lists-plugins"></a>
               <h3>Schema Plugins</h3>
-              <p>You can specify <a href="http://mongoosejs.com/docs/guide.html" target="_blank"><strong>virtuals</strong>, <strong>methods</strong>, <strong>statics</strong></a> as well as <a href="http://mongoosejs.com/docs/middleware.html" target="_blank"><strong>pre</strong> and <strong>post</strong> hooks</a> for your <strong>Lists</strong> using the <code>schema</code>. You can also use <a href="http://mongoosejs.com/docs/plugins.html" target="_blank">mongoose plugins</a> from the <a href="http://plugins.mongoosejs.com" target="_blank">plugins website</a>.</p>
+              <p>You can specify <a href="https://mongoosejs.com/docs/guide.html" target="_blank"><strong>virtuals</strong>, <strong>methods</strong>, <strong>statics</strong></a> as well as <a href="https://mongoosejs.com/docs/middleware.html" target="_blank"><strong>pre</strong> and <strong>post</strong> hooks</a> for your <strong>Lists</strong> using the <code>schema</code>. You can also use <a href="https://mongoosejs.com/docs/plugins.html" target="_blank">mongoose plugins</a> from the <a href="https://plugins.mongoosejs.com" target="_blank">plugins website</a>.</p>
               <p>For example, in our <strong>Post</strong> list above, we might want to automatically set the <code>publishedAt</code> value when the <code>state</code> is changed to <code>published</code> (but only if it hasn't already been set).</p>
               <p>We might also want to add a method to check whether the post is published, rather than checking the <code>state</code> field value directly.</p>
               <p>Before calling <code>Post.register()</code>, we would add the following code:</p>
@@ -338,7 +338,7 @@ Post.schema.pre('save', function(next) {
     next();
 });</code></pre><a name="lists-querying"></a>
               <h3>Querying Data</h3>
-              <p>To query data, you can use any of the <a href="http://mongoosejs.com/docs/queries.html" target="_blank">mongoose query</a> methods on the <code>list.model</code>.</p>
+              <p>To query data, you can use any of the <a href="https://mongoosejs.com/docs/queries.html" target="_blank">mongoose query</a> methods on the <code>list.model</code>.</p>
               <p><strong>For example:</strong> to load the last 5 <code>posts</code> with the state <code>published</code>, populating the linked <code>author</code>, sorted by reverse published date:</p>
               <div class="code-header">
                 <h4>Loading Posts</h4>
@@ -355,7 +355,7 @@ Post.model.find()
         // do something with posts
     });</code></pre>
               <p><strong>Promises</strong></p>
-              <p>There exists another way to work with events in Javascript that is included in mongoose query methods. Instead of passing a <a href="http://javascriptissexy.com/understand-javascript-callback-functions-and-use-them/" target="_blank">callback</a> to the  <a href="http://mongoosejs.com/docs/api.html#query_Query-exec" target="_blank">exec</a> method, we can use what it returns: a <a href="http://www.html5rocks.com/en/tutorials/es6/promises/" target="_blank">Promise</a>. Promises are very useful for clean chaining of events with propagation of error.</p>
+              <p>There exists another way to work with events in Javascript that is included in mongoose query methods. Instead of passing a <a href="https://javascriptissexy.com/understand-javascript-callback-functions-and-use-them/" target="_blank">callback</a> to the  <a href="https://mongoosejs.com/docs/api.html#query_Query-exec" target="_blank">exec</a> method, we can use what it returns: a <a href="https://www.html5rocks.com/en/tutorials/es6/promises/" target="_blank">Promise</a>. Promises are very useful for clean chaining of events with propagation of error.</p>
               <p><strong>For example:</strong> load 100 <code>posts</code>, then do something asynchronous, then do something with result:</p>
               <div class="code-header">
                 <h4>Loading Posts, doing something asynchronous, doing something</h4>
@@ -415,7 +415,7 @@ Post.model.find()
                 <li><code>last</code>: index of the last result included</li>
               </ul><a name="lists-creating"></a>
               <h3>Creating Items</h3>
-              <p>To create new items, again use the <a href="http://mongoosejs.com/docs/models.html" target"_blank">mongoose model</a>:</p>
+              <p>To create new items, again use the <a href="https://mongoosejs.com/docs/models.html" target"_blank">mongoose model</a>:</p>
               <div class="code-header">
                 <h4>Creating Posts</h4>
               </div>
@@ -511,7 +511,7 @@ Post.model.findById(postId)
               <h3>Field Options</h3>
               <p>All field types support several common options, which can specify database settings (such as <code>index</code> and <code>default</code>), or can provide information for Keystone's Admin UI (such as <code>label</code>).</p>
               <p class="note">Fields can be nested inside objects, as in mongoose schemas.</p>
-              <p class="note">All <a href="http://mongoosejs.com/docs/schematypes.html" target="_blank">mongoose schema type options</a> are passed to the <a href="http://mongoosejs.com/docs/guide.html" target="_blank">mongoose schema</a>, so you can also use any options mongoose supports.</p>
+              <p class="note">All <a href="https://mongoosejs.com/docs/schematypes.html" target="_blank">mongoose schema type options</a> are passed to the <a href="https://mongoosejs.com/docs/guide.html" target="_blank">mongoose schema</a>, so you can also use any options mongoose supports.</p>
               <p>Common field options include:</p>
               <table class="table">
                 <col width="210">
@@ -654,7 +654,7 @@ Post.model.findById(postId).exec(function(err, post) {
 });</code></pre>
               <p class="note">You can only set filters on one-many relationships (i.e. when the <code>many</code> option is NOT set to <code class="default-value">true</code>).</p>
               <h5>Populating related data in queries</h5>
-              <p>You can populate related data for relationship fields thanks to <a href="http://mongoosejs.com/docs/populate.html" target="_blank">Mongoose's populate functionality</a>. To populate the author and category documents when loading a Post from the example above, you would do this:</p>
+              <p>You can populate related data for relationship fields thanks to <a href="https://mongoosejs.com/docs/populate.html" target="_blank">Mongoose's populate functionality</a>. To populate the author and category documents when loading a Post from the example above, you would do this:</p>
               <pre><code class="language-javascript">Post.model.findOne().populate('author categories').exec(function(err, post) {
     // the author is a fully populated User document
     console.log(post.author.name);
@@ -705,12 +705,12 @@ Post.model.findById(postId).exec(function(err, post) {
                 <h5>Options</h5>
                 <p><code>format</code> <code class="data-type">string</code> - the default format pattern to use, defaults to <code class="default-value">Do MMM YYYY</code></p>
                 <p><code>yearRange</code> <code class="data-type">Array</code> <code class="default-value">minYear, maxYear</code> - the default range of years to be displayed.</p>
-                <p>See the <a href="http://momentjs.com/docs/#/displaying/format/" target="_blank">momentjs format docs</a> for information on the supported formats and options.</p>
+                <p>See the <a href="https://momentjs.com/docs/#/displaying/format/" target="_blank">momentjs format docs</a> for information on the supported formats and options.</p>
                 <h5>Underscore methods</h5>
-                <p><code>format(string)</code> - formats the stored value using <a href="http://momentjs.com" target="_blank">momentjs</a></p>
-                <p><code>moment()</code> - returns a <a href="http://momentjs.com" target="_blank">momentjs</a> object initialised with the value of the field</p>
-                <p><code>parse(input, format, ...)</code> - parses input using <a href="http://momentjs.com" target="_blank">momentjs</a>, sets the field value and returns the moment object</p>
-                <p>See the <a href="http://momentjs.com/docs/#/parsing/" target="_blank">momentjs parse docs</a> for information on the supported formats and options for the <code>parse</code> method.</p>
+                <p><code>format(string)</code> - formats the stored value using <a href="https://momentjs.com" target="_blank">momentjs</a></p>
+                <p><code>moment()</code> - returns a <a href="https://momentjs.com" target="_blank">momentjs</a> object initialised with the value of the field</p>
+                <p><code>parse(input, format, ...)</code> - parses input using <a href="https://momentjs.com" target="_blank">momentjs</a>, sets the field value and returns the moment object</p>
+                <p>See the <a href="https://momentjs.com/docs/#/parsing/" target="_blank">momentjs parse docs</a> for information on the supported formats and options for the <code>parse</code> method.</p>
                 <pre><code class="language-javascript">item.createdDate = Date.now();
 item._.createdDate.format(); // returns today's date using the default format string
 item._.createdDate.parse('2013-12-04'); // returns a moment object with the parsed date
@@ -724,12 +724,12 @@ item._.createdDate.format('YYYY-MM-DD'); // returns '2013-12-04'</code></pre>
               <div class="options">
                 <h5>Options:</h5>
                 <p><code>format</code> <code class="data-type">string</code> - the default format pattern to use, defaults to <code class="default-value">Do MMM YYYY hh:mm:ss a</code></p>
-                <p>See the <a href="http://momentjs.com/docs/#/displaying/format/" target="_blank">momentjs format docs</a> for information on the supported formats and options.</p>
+                <p>See the <a href="https://momentjs.com/docs/#/displaying/format/" target="_blank">momentjs format docs</a> for information on the supported formats and options.</p>
                 <h5>Underscore methods:</h5>
-                <p><code>format(string)</code> - formats the stored value using <a href="http://momentjs.com" target="_blank">momentjs</a></p>
-                <p><code>moment()</code> - returns a <a href="http://momentjs.com" target="_blank">momentjs</a> object initialised with the value of the field</p>
-                <p><code>parse(input, format, ...)</code> - parses input using <a href="http://momentjs.com" target="_blank">momentjs</a>, sets the field value and returns the moment object</p>
-                <p>See the <a href="http://momentjs.com/docs/#/parsing/" target="_blank">momentjs parse docs</a> for information on the supported formats and options for the <code>parse</code> method.</p>
+                <p><code>format(string)</code> - formats the stored value using <a href="https://momentjs.com" target="_blank">momentjs</a></p>
+                <p><code>moment()</code> - returns a <a href="https://momentjs.com" target="_blank">momentjs</a> object initialised with the value of the field</p>
+                <p><code>parse(input, format, ...)</code> - parses input using <a href="https://momentjs.com" target="_blank">momentjs</a>, sets the field value and returns the moment object</p>
+                <p>See the <a href="https://momentjs.com/docs/#/parsing/" target="_blank">momentjs parse docs</a> for information on the supported formats and options for the <code>parse</code> method.</p>
               </div><a name="fieldtypes-email"></a>
               <h3><code>Email</code></h3>
               <h4><code class="data-type">String</code> &mdash; Displayed as a text field in the Admin UI</h4>
@@ -824,12 +824,12 @@ page.fields.content.format(page) == "&lt;ul&gt;&lt;li&gt;list item&lt;/ul&gt;&lt
               <pre><code class="language-javascript">{ type: Types.Money }</code></pre>
               <div class="options">
                 <h5>Options</h5>
-                <p><code>format</code> <code class="data-type">String</code>, formats the stored value using <a href="http://numeraljs.com" target="_blank">numeraljs</a>.</p>
+                <p><code>format</code> <code class="data-type">String</code>, formats the stored value using <a href="https://numeraljs.com" target="_blank">numeraljs</a>.</p>
                 <pre><code class="language-javascript">{ type: Types.Money, format: '$0,0.00' }</code></pre>
                 <p><code>currency</code> <code class="data-type">String</code>, loads a predefined object of settings for a specific language, the language must exist as a .js in numeral/languages folder.</p>
                 <pre><code class="language-javascript">{ type: Types.Money, currency: 'en-gb' }</code></pre>
                 <h5>Underscore methods</h5>
-                <p><code>format(string)</code> - formats the stored value using <a href="http://numeraljs.com" target="_blank">numeraljs</a>. Set to <code class="default-value">false</code> to disable automatic formatting.</p>
+                <p><code>format(string)</code> - formats the stored value using <a href="https://numeraljs.com" target="_blank">numeraljs</a>. Set to <code class="default-value">false</code> to disable automatic formatting.</p>
                 <p>Format string defaults to <code class="default-value">$0,0.00</code></p>
               </div><a name="fieldtypes-name"></a>
               <h3><code>Name</code></h3>
@@ -850,7 +850,7 @@ page.fields.content.format(page) == "&lt;ul&gt;&lt;li&gt;list item&lt;/ul&gt;&lt
               <pre><code class="language-javascript">{ type: Types.Number }</code></pre>
               <div class="options">
                 <h5>Underscore methods</h5>
-                <p><code>format(string)</code> - formats the stored value using <a href="http://numeraljs.com" target="_blank">numeraljs</a>. Set to <code class="default-value">false</code> to disable automatic formatting.</p>
+                <p><code>format(string)</code> - formats the stored value using <a href="https://numeraljs.com" target="_blank">numeraljs</a>. Set to <code class="default-value">false</code> to disable automatic formatting.</p>
                 <p>Format string defaults to <code class="default-value">0,0[.][000000000000]</code></p>
               </div><a name="fieldtypes-password"></a>
               <h3><code>Password</code></h3>
@@ -947,13 +947,13 @@ item.stateOptionsMap == MyList.fields.state.map;</code></pre>
                 <p><code>format</code> <code class="data-type">Function</code> - process URL before its printed in the href/text of Admin UI cell. Defaults to <code class="default-value">removeProtocolPrefix</code></p>
                 <h5>Underscore methods:</h5>
                 <p><code>format()</code> - formats the stored value by stripping the leading protocol (if any)</p>
-                <pre><code class="language-javascript">item.url = "http://keystonejs.com";
+                <pre><code class="language-javascript">item.url = "https://keystonejs.com";
 item._.url.format(); // "keystonejs.com"</code></pre>
               </div>
               <h3>Storage	</h3><a name="fieldtypes-azurefile"></a>
               <h3><code>AzureFile</code></h3>
               <h4><code class="data-type">Object</code> &mdash; Displayed as an file upload field in the Admin UI</h4>
-              <p>Automatically manages files stored in <a href="http://www.windowsazure.com/" target="_blank">Windows Azure Storage</a>, including uploading and deleting.</p>
+              <p>Automatically manages files stored in <a href="https://www.windowsazure.com/" target="_blank">Windows Azure Storage</a>, including uploading and deleting.</p>
               <pre><code class="language-javascript">{ type: Types.AzureFile }</code></pre>
               <div class="options">
                 <h5>Options</h5>
@@ -982,7 +982,7 @@ item._.url.format(); // "keystonejs.com"</code></pre>
               </div><a name="fieldtypes-cloudinaryimage"></a>
               <h3><code>CloudinaryImage</code></h3>
               <h4><code class="data-type">Object</code> &mdash; Displayed as an image upload field in the Admin UI</h4>
-              <p>Automatically manages images stored in <a href="http://cloudinary.com" target="_blank">Cloudinary</a>, including uploading, resizing and deleting.</p>
+              <p>Automatically manages images stored in <a href="https://cloudinary.com" target="_blank">Cloudinary</a>, including uploading, resizing and deleting.</p>
               <p>See the <a href="/docs/configuration#services-cloudinary">Cloudinary configuration documentation</a> for details on how to set up Cloudinary in KeystoneJS.</p>
               <pre><code class="language-javascript">{ type: Types.CloudinaryImage }</code></pre>
               <div class="options">
@@ -1023,7 +1023,7 @@ item._.url.format(); // "keystonejs.com"</code></pre>
                 <p><code>pad(width, height, options)</code> <code class="data-type">String</code> - pads the image to fill the specified width and height</p>
                 <p><code>lpad(width, height, options)</code> <code class="data-type">String</code> - pads the image to fill the specified width and height (without exceeding the original dimensions)</p>
                 <p><code>thumbnail(width, height, options)</code> <code class="data-type">String</code> - crops the image to fill the specified width and height</p>
-                <p>In all methods, <code class="default-value">options</code> is an optional <code class="data-type">Object</code>. See <a href="http://cloudinary.com/documentation/image_transformations" target="_blank">Cloudinary's Transformation Documentation</a> for more information on the supported options and transformations.</p>
+                <p>In all methods, <code class="default-value">options</code> is an optional <code class="data-type">Object</code>. See <a href="https://cloudinary.com/documentation/image_transformations" target="_blank">Cloudinary's Transformation Documentation</a> for more information on the supported options and transformations.</p>
               </div>
               <p class="note">Remember that if you are uploading images to a <code>CloudinaryImage</code> field using an HTML form, you need to specify <code>enctype="multipart/form-data"</code> in your <code>form</code> tag.</p><a name="fieldtypes-cloudinaryimages"></a>
               <h3><code>CloudinaryImages</code></h3>
@@ -1038,7 +1038,7 @@ item._.url.format(); // "keystonejs.com"</code></pre>
               </div><a name="fieldtypes-embedly"></a>
               <h3><code>Embedly</code></h3>
               <h4><code class="data-type">Object</code> &mdash; Displayed as read-only data in the Admin UI</h4>
-              <p>Automatically retrieves data from the <a href="http://embed.ly" target="_blank">Embedly</a> API about the value of another field (specified with the <code>from</code> option).</p>
+              <p>Automatically retrieves data from the <a href="https://embed.ly" target="_blank">Embedly</a> API about the value of another field (specified with the <code>from</code> option).</p>
               <p>It stores the retrieved data (which includes the provider, media type, full URL, HTML embed code, width, height, thumbnail picture and more).</p>
               <p>The api call to retrieve the data is implemented as a pre-save hook, and is only triggered if the <strong>from path</strong> value has changed.</p>
               <p>See the <a href="/docs/configuration#services-embedly">Embed.ly configuration documentation</a> for details on how to set up Embed.ly in KeystoneJS.</p>
@@ -1047,7 +1047,7 @@ item._.url.format(); // "keystonejs.com"</code></pre>
                 <h5>Options</h5>
                 <p><code>from</code> <code class="data-type">String</code> - the path of another field in the Schema that will be passed to the Embedly API. The other field must contain a <code class="data-type">String</code> value.</p>
                 <p><code>options</code> <code class="data-type">Object</code> (optional) - passed as arguments to the embedly API along with the <code>from</code> field value</p>
-                <p>See <a href="http://embed.ly/docs/embed/api/endpoints/1/oembed" target="_blank">Embedly's oEmbed API documentation</a> for more information on options and returned data.</p>
+                <p>See <a href="https://embed.ly/docs/embed/api/endpoints/1/oembed" target="_blank">Embedly's oEmbed API documentation</a> for more information on options and returned data.</p>
                 <h5>Schema</h5>
                 <p><code>exists</code> <code class="data-type">Boolean</code></p>
                 <p><code>type</code> <code class="data-type">String</code></p>
@@ -1075,7 +1075,7 @@ item._.url.format(); // "keystonejs.com"</code></pre>
                 <h5>Options</h5>
                 <p><code>dest</code> <code class="data-type">String</code> - required, the path to store uploaded file</p>
                 <p><code>prefix</code> <code class="data-type">String</code> - the path prefix in browser, if it different with <code>dest</code></p>
-                <p><code>datePrefix</code> <code class="data-type">String</code> - if set, prefixes the file name with the current date in this format (see <a href="http://momentjs.com" target="_blank">moment.js</a> for format options)</p>
+                <p><code>datePrefix</code> <code class="data-type">String</code> - if set, prefixes the file name with the current date in this format (see <a href="https://momentjs.com" target="_blank">moment.js</a> for format options)</p>
                 <p><code>allowedTypes</code> <code class="data-type">Array</code> of <code class="data-type">String</code> - optional white-list of allowed mime types for uploaded file</p>
                 <p><code>filename</code> <code class="data-type">Function</code> - function with two arguments: current model and file object to return the new filename to upload.
                   <pre><code class="language-javascript">{
@@ -1114,12 +1114,12 @@ item._.url.format(); // "keystonejs.com"</code></pre>
               </div><a name="fieldtypes-s3file"></a>
               <h3><code>S3 File</code></h3>
               <h4><code class="data-type">Object</code> &mdash; Displayed as an file upload field in the Admin UI</h4>
-              <p>Automatically manages files stored in <a href="http://aws.amazon.com/s3" target="_blank">Amazon S3</a>, including uploading and deleting.</p>
+              <p>Automatically manages files stored in <a href="https://aws.amazon.com/s3" target="_blank">Amazon S3</a>, including uploading and deleting.</p>
               <pre><code class="language-javascript">{ type: Types.S3File }</code></pre>
               <div class="options">
                 <h5>Options</h5>
                 <p><code>s3path</code> <code class="data-type">String</code> - the path to store uploaded files under in the S3 bucket</p>
-                <p><code>datePrefix</code> <code class="data-type">String</code> - if set, prefixes the file name with the current date in this format (see <a href="http://momentjs.com" target="_blank">moment.js</a> for format options)</p>
+                <p><code>datePrefix</code> <code class="data-type">String</code> - if set, prefixes the file name with the current date in this format (see <a href="https://momentjs.com" target="_blank">moment.js</a> for format options)</p>
                 <p><code>allowedTypes</code> <code class="data-type">Array</code> of <code class="data-type">String</code> - optional white-list of allowed mime types for uploaded files</p>
                 <p><code>filename</code> <code class="data-type">Function</code> - function with arguments current model and client file name to return the new filename to upload.
                   <pre><code class="language-javascript">{
@@ -1205,13 +1205,13 @@ item._.url.format(); // "keystonejs.com"</code></pre>
     </div>
     <div class="docs-footer">
       <div class="container">
-        <p>Created by <a href="http://twitter.com/jedwatson" target="_blank">@jedwatson</a>, <a href="http://twitter.com/bladey" target="_blank">@bladey</a> and <a href="http://twitter.com/jossmackison" target="_blank">@jossmackison</a> at <a href="http://www.thinkmill.com.au" target="_blank">Thinkmill</a>, and other <a href="https://github.com/keystonejs/keystone/contributors" target="_blank">contributors</a> under the <a href="http://opensource.org/licenses/MIT" target="_blank">MIT License</a></p>
+        <p>Created by <a href="https://twitter.com/jedwatson" target="_blank">@jedwatson</a>, <a href="https://twitter.com/bladey" target="_blank">@bladey</a> and <a href="https://twitter.com/jossmackison" target="_blank">@jossmackison</a> at <a href="https://www.thinkmill.com.au" target="_blank">Thinkmill</a>, and other <a href="https://github.com/keystonejs/keystone/contributors" target="_blank">contributors</a> under the <a href="https://opensource.org/licenses/MIT" target="_blank">MIT License</a></p>
         <ul class="list-inline">
           <li><a href="/getting-started" title="KeystoneJS Getting Started">Getting Started</a></li>
           <li><a href="/docs" title="KeystoneJS Documentation">Documentation</a></li>
           <li><a href="https://groups.google.com/forum/#!forum/keystonejs" target="_blank" title="KeystoneJS Google Group">Google Group</a></li>
           <li><a href="https://github.com/keystonejs/keystone" target="_blank" title="Github Project (new window)">Github Project</a></li>
-          <li><a href="http://demo.keystonejs.com" target="_blank" title="Demo Website (new window)">Demo Website</a></li>
+          <li><a href="https://demo.keystonejs.com" target="_blank" title="Demo Website (new window)">Demo Website</a></li>
           <li><a href="/examples" title="KeystoneJS Database">Examples</a></li>
         </ul>
       </div>
@@ -1221,7 +1221,7 @@ item._.url.format(); // "keystonejs.com"</code></pre>
         <div class="social-buttons">
           <div class="social-button social-button__twitter"><a href="https://twitter.com/keystonejs" data-show-count="true" class="twitter-follow-button">Follow @keystonejs</a></div>
           <div class="social-button social-button__github">
-            <iframe src="http://ghbtns.com/github-btn.html?user=keystonejs&amp;repo=keystone&amp;type=watch&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="86" height="20"></iframe>
+            <iframe src="https://ghbtns.com/github-btn.html?user=keystonejs&amp;repo=keystone&amp;type=watch&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="86" height="20"></iframe>
           </div>
         </div>
       </div>

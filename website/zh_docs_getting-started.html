@@ -17,7 +17,7 @@ permalink: /zh/docs/getting-started/
     <meta property="og:url" content="https://keystonejs.com^current_url^">
     <meta property="og:site_name" content="KeystoneJS">
     <meta property="og:type" content="article">
-    <link href="http://fonts.googleapis.com/css?family=Roboto:100,300,300italic,400,500,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,300italic,400,500,700" rel="stylesheet">
     <link href="/styles/site.min.css" rel="stylesheet">
     <link href="/styles/prism.css" rel="stylesheet">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
@@ -97,7 +97,7 @@ permalink: /zh/docs/getting-started/
               <h2><a name="introduction"></a>简介</h2>
               <div class="alert alert-warning">这个指南目前正在更新中，以体现新的Yeoman生成器。</div>
               <p>KeystoneJS使得在node.js中搭建数据库驱动的网站、应用程序和API变得容易了。</p>
-              <p>KeystoneJS在底层使用了<a href="http://expressjs.com" target="_blank">express.js</a> web服务器框架，并通过对象建模框架<a href="mongoosejs.com" target="_blank">mongoose</a>使用<a href="http://mongodb.com" target="_blank">MongoDB</a>数据库。</p>
+              <p>KeystoneJS在底层使用了<a href="https://expressjs.com" target="_blank">express.js</a> web服务器框架，并通过对象建模框架<a href="mongoosejs.com" target="_blank">mongoose</a>使用<a href="https://mongodb.com" target="_blank">MongoDB</a>数据库。</p>
               <div class="contextual-note">
                 <h4>简单 vs. 灵活</h4>
                 <p>设计Keystone的目的是要把复杂的事情变简单，不会限制node.js或以其为基础的框架的能量或灵活性。</p>
@@ -106,9 +106,9 @@ permalink: /zh/docs/getting-started/
               </div><a name="introduction-prerequisites"></a>
               <h3>前提条件</h3>
               <ol class="fancy-list">
-                <li>开始之前，先确保你装了<a href="http://nodejs.org/download" target="_blank">Node.js</a>和<a href="http://www.mongodb.org/downloads" target="_blank">MongoDB</a>。</li>
+                <li>开始之前，先确保你装了<a href="https://nodejs.org/download" target="_blank">Node.js</a>和<a href="https://www.mongodb.org/downloads" target="_blank">MongoDB</a>。</li>
                 <li>要使用KeystoneJS，你需要掌握合理的Javascript知识，并熟悉数据库概念之类的基础知识，会用 node / npm 等。</li>
-                <li>这个指南中还会用<a href="http://jade-lang.com" target="_blank">Jade</a>作为视图模板，<a href="http://lesscss.org" target="_blank">LESS</a>作CSS模板。你可以在自己的项目中使用任何模板语言；参阅<a href="#templates_other">使用其它模板语言</a> (下面)了解详情。</li>
+                <li>这个指南中还会用<a href="https://jade-lang.com" target="_blank">Jade</a>作为视图模板，<a href="https://lesscss.org" target="_blank">LESS</a>作CSS模板。你可以在自己的项目中使用任何模板语言；参阅<a href="#templates_other">使用其它模板语言</a> (下面)了解详情。</li>
               </ol><a name="introduction-productionvsdevelopment"></a>
               <h3>生产 vs. 开发</h3>
               <p>Keystone在生产和开发模式下会使用不同的设定。默认环境为<code>development</code>，为了提升性能，你应该在生产服务器上将环境变量<code>NODE_ENV</code>设为<code>production</code>。</p>
@@ -140,7 +140,7 @@ permalink: /zh/docs/getting-started/
     "start": "web.js"
   }
 }</code></pre>
-              <p class="note">注意，我们还引入了<a href="http://underscorejs.org">underscore库</a>，因为稍后会用到它的一些功能。你可以将<a href="https://npmjs.org">npm</a>中的任何包添加到<code>package.json</code>中使用它们。</p>
+              <p class="note">注意，我们还引入了<a href="https://underscorejs.org">underscore库</a>，因为稍后会用到它的一些功能。你可以将<a href="https://npmjs.org">npm</a>中的任何包添加到<code>package.json</code>中使用它们。</p>
               <div class="code-header">
                 <h4>web.js</h4>
                 <p>这是运行我们的keystone网站的脚本。</p>
@@ -438,7 +438,7 @@ exports = module.exports = function(req, res) {
 }</code></pre><a name="routesviews-templates"></a>
               <h3>模板</h3>
               <p>现在做路由要渲染的模板。<code>render</code>方法会在<code>web.js</code>中指定的<code>views</code>目录下找寻模板，我们将其设为了<code>/templates/views</code>。</p>
-              <p>在这个指南中，我们准备用<strong>Jade</strong> 作为模板引擎。要了解Jade，请访问<a href="http://jade-lang.com" target="_blank">jade-lang.org</a>，或者检出优秀的<a href="http://naltatis.github.io/jade-syntax-docs/" target="_blank">活的语法文档</a>通过例子学习。</p>
+              <p>在这个指南中，我们准备用<strong>Jade</strong> 作为模板引擎。要了解Jade，请访问<a href="https://jade-lang.com" target="_blank">jade-lang.org</a>，或者检出优秀的<a href="https://naltatis.github.io/jade-syntax-docs/" target="_blank">活的语法文档</a>通过例子学习。</p>
               <p>先来创建<code>templates/views/index.jade</code>：</p>
               <div class="code-header">
                 <h4>templates/views/index.jade</h4>
@@ -518,7 +518,7 @@ mixin flash-message(message, type)
                 <h4>使用其它模板语言</h4>
                 <p>KeystoneJS支持<a href='http://expressjs.com/api.html#app.engine', target='_blank'>express支持的所有模板语言</a>。</p>
                 <p>用参数<code>view engine</code>指明你要用的模板语言(默认为 <code class="data-type">jade</code>)。</p>
-                <p>如果你想用定制的模板引擎，也要设定<code>custom engine</code> 参数。比如说，express是支持<a href="http://embeddedjs.com/">ejs</a>的， 但你可能想用<a href="https://github.com/RandomEtc/ejs-locals">ejs.locals</a> 作为模板引擎，以利用其扩展的功能。</p>
+                <p>如果你想用定制的模板引擎，也要设定<code>custom engine</code> 参数。比如说，express是支持<a href="https://embeddedjs.com/">ejs</a>的， 但你可能想用<a href="https://github.com/RandomEtc/ejs-locals">ejs.locals</a> 作为模板引擎，以利用其扩展的功能。</p>
                 <pre><code class="language-javascript">// 修改 web.js 使用定制的模板引擎ejs-locals。
 var keystone = require('keystone');
 var engine   = require('ejs-locals');
@@ -532,7 +532,7 @@ keystone.init({
               <h3>公共资产</h3>
               <p>你想添加自己的css、javascript、图片和其它文件到项目中。在上面的例子中，我们引入了<code>/styles/site.min.css</code>和<code>/js/lib/jquery-1.10.2.min.js</code>。</p>
               <p>Keystone可以对外提供所有放在<code>public</code>目录下的静态资源。这个路径是在<code>web.js</code>中由<code>static</code>参数指定的。</p>
-              <p>如果在<code>public</code>文件夹下有<code>.less</code>文件，它还会自动生成相应的<code>.css</code>或缩小化的<code>.min.css</code>文件， 这个在<code>web.js</code>中由<code>less</code>参数指定。要深入了解LESS，请参见<a href="http://lesscss.org" target="_blank">lesscss.org</a>。</p><a name="runningyourapp"></a>
+              <p>如果在<code>public</code>文件夹下有<code>.less</code>文件，它还会自动生成相应的<code>.css</code>或缩小化的<code>.min.css</code>文件， 这个在<code>web.js</code>中由<code>less</code>参数指定。要深入了解LESS，请参见<a href="https://lesscss.org" target="_blank">lesscss.org</a>。</p><a name="runningyourapp"></a>
               <h2>运行程序</h2>
               <p>现在(几乎)已经准备好运行你的程序了！然而在运行之前，我们应该添加一个<strong>User</strong>，以便可以登录到Keystone的管理界面中。</p><a name="runningyourapp-writingupdates"></a>
               <h3>编写更新</h3>
@@ -542,7 +542,7 @@ keystone.init({
               <ul>
                 <li><code>next</code> - 更新结束后调用的方法 (包括所有内部调用)</li>
               </ul>
-              <p>更新是用<a href="http://semver.org" target="_blank">语义版本</a>排序的，并且Keystone只会运行它们一次 (成功执行的更新会存在你的数据库里，一个名为<code>app_updates</code>的集合中)。</p>
+              <p>更新是用<a href="https://semver.org" target="_blank">语义版本</a>排序的，并且Keystone只会运行它们一次 (成功执行的更新会存在你的数据库里，一个名为<code>app_updates</code>的集合中)。</p>
               <p>更新文件名应该符合<code>x.x.x-description.js</code>的模式 - 所有跟在第一个连字符之后的字符串都会被忽略，所以你可以在那里描述这个更新。</p>
               <p>所以，为了在程序第一次启用时自动添加一个新的管理员用户，我们要创建一个<code>updates/0.0.1-admin.js</code>文件：</p>
               <div class="code-header">
@@ -567,8 +567,8 @@ exports = module.exports = function(done) {
               <p>现在已经准备好了，在项目主文件夹下执行这个命令运行你的程序吧：</p>
               <p><code>node web</code></p>
               <p>Keystone会自动应用这些更新，然后在默认端口3000上启动web服务器。</p>
-              <p>打开浏览器访问你的首页<a href="http://localhost:3000" target="_blank">localhost:3000</a>。你应该能看到我们的<strong>Hello World!</strong>消息。</p>
-              <p>要登录Keystone的管理界面，请访问<a href="http://localhost:3000/keystone" target="_blank">localhost:3000/keystone</a>。用你放在上面的更新脚本里的email和密码登录，你就能进入Keystone管理界面的首页了。</p><a name="runningyourapp-nextstep"></a>
+              <p>打开浏览器访问你的首页<a href="https://localhost:3000" target="_blank">localhost:3000</a>。你应该能看到我们的<strong>Hello World!</strong>消息。</p>
+              <p>要登录Keystone的管理界面，请访问<a href="https://localhost:3000/keystone" target="_blank">localhost:3000/keystone</a>。用你放在上面的更新脚本里的email和密码登录，你就能进入Keystone管理界面的首页了。</p><a name="runningyourapp-nextstep"></a>
               <h3>下一步</h3>
               <p>... 搞定了！好吧，实际上还没有。现在该开始搭建你的程序了。要了解Keystone支持的列表参数和域类型，请访问<a href="/zh/docs/database">数据库指南</a>。</p>
               <p>你还应该<a href="https://twitter.com/keystonejs" target="_blank">在Twitter上关注@KeystoneJS</a>，以便及时了解相关新闻和更新，<a href="https://github.com/keystonejs/keystone/" target="_blank">在GitHub标记 KeystoneJS</a>，并在<a href="https://groups.google.com/d/forum/keystonejs" target="_blank">KeystoneJS谷歌群组</a>讨论这个指南(或者与KeystoneJS有关的一切)。</p>
@@ -581,13 +581,13 @@ exports = module.exports = function(done) {
     </div>
     <div class="docs-footer">
       <div class="container">
-        <p>Created by <a href="http://twitter.com/jedwatson" target="_blank">@jedwatson</a>, <a href="http://twitter.com/bladey" target="_blank">@bladey</a> and <a href="http://twitter.com/jossmackison" target="_blank">@jossmackison</a> at <a href="http://www.thinkmill.com.au" target="_blank">Thinkmill</a>, and other <a href="https://github.com/keystonejs/keystone/contributors" target="_blank">contributors</a> under the <a href="http://opensource.org/licenses/MIT" target="_blank">MIT License</a></p>
+        <p>Created by <a href="https://twitter.com/jedwatson" target="_blank">@jedwatson</a>, <a href="https://twitter.com/bladey" target="_blank">@bladey</a> and <a href="https://twitter.com/jossmackison" target="_blank">@jossmackison</a> at <a href="https://www.thinkmill.com.au" target="_blank">Thinkmill</a>, and other <a href="https://github.com/keystonejs/keystone/contributors" target="_blank">contributors</a> under the <a href="https://opensource.org/licenses/MIT" target="_blank">MIT License</a></p>
         <ul class="list-inline">
           <li><a href="/zh/getting-started" title="KeystoneJS Getting Started">Getting Started</a></li>
           <li><a href="/zh/docs" title="KeystoneJS Documentation">Documentation</a></li>
           <li><a href="https://groups.google.com/forum/#!forum/keystonejs" target="_blank" title="KeystoneJS Google Group">Google Group</a></li>
           <li><a href="https://github.com/keystonejs/keystone" target="_blank" title="Github Project (new window)">Github Project</a></li>
-          <li><a href="http://demo.keystonejs.com" target="_blank" title="Demo Website (new window)">Demo Website</a></li>
+          <li><a href="https://demo.keystonejs.com" target="_blank" title="Demo Website (new window)">Demo Website</a></li>
           <li><a href="/zh/examples" title="KeystoneJS Database">Examples</a></li>
         </ul>
       </div>
@@ -597,7 +597,7 @@ exports = module.exports = function(done) {
         <div class="social-buttons">
           <div class="social-button social-button__twitter"><a href="https://twitter.com/keystonejs" data-show-count="true" class="twitter-follow-button">Follow @keystonejs</a></div>
           <div class="social-button social-button__github">
-            <iframe src="http://ghbtns.com/github-btn.html?user=keystonejs&amp;repo=keystone&amp;type=watch&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="86" height="20"></iframe>
+            <iframe src="https://ghbtns.com/github-btn.html?user=keystonejs&amp;repo=keystone&amp;type=watch&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="86" height="20"></iframe>
           </div>
         </div>
       </div>

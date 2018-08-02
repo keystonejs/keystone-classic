@@ -17,7 +17,7 @@ permalink: /docs/configuration/
     <meta property="og:url" content="https://keystonejs.com^current_url^">
     <meta property="og:site_name" content="KeystoneJS">
     <meta property="og:type" content="article">
-    <link href="http://fonts.googleapis.com/css?family=Roboto:100,300,300italic,400,500,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,300italic,400,500,700" rel="stylesheet">
     <link href="/styles/site.min.css" rel="stylesheet">
     <link href="/styles/prism.css" rel="stylesheet">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
@@ -54,17 +54,17 @@ permalink: /docs/configuration/
           <div class="col-sm-3">
             <div class="visible-xs">
               <ul class="nav-toggle">
-                <li><a href="/docs/getting-started" class="nav-heading">Starting</a></li>
-                <li class="active"><a href="/docs/configuration" class="nav-heading">Config</a></li>
-                <li><a href="/docs/database" class="nav-heading">Data</a></li>
+                <li><a href="/docs_getting-started" class="nav-heading">Starting</a></li>
+                <li class="active"><a href="/docs_configuration" class="nav-heading">Config</a></li>
+                <li><a href="/docs_database" class="nav-heading">Data</a></li>
               </ul>
             </div>
             <nav class="docs-sidebar hidden-xs">
               <ul class="sidebar-nav">
                 <li><a href="/docs" class="nav-heading">Welcome</a></li>
-                <li><a href="/docs/getting-started" class="nav-heading">Getting Started</a></li>
-                <li class="active"><a href="/docs/configuration" class="nav-heading">Configuration</a></li>
-                <li><a href="/docs/database" class="nav-heading">Database</a></li>
+                <li><a href="/docs_getting-started" class="nav-heading">Getting Started</a></li>
+                <li class="active"><a href="/docs_configuration" class="nav-heading">Configuration</a></li>
+                <li><a href="/docs_database" class="nav-heading">Database</a></li>
               </ul>
               <hr/>
               <ul class="sidebar-nav">
@@ -205,14 +205,14 @@ permalink: /docs/configuration/
                   <td><code>view engine</code> <code class="data-type">String</code></td>
                   <td>
                     <p>The template engine to use by default. Any engine with express support should work. <strong>Jade</strong> is included with Keystone, but you will have to add any alternate engine to your project's dependencies in your <code>package.json</code>.</p>
-                    <p>This option is set on the express app (<a href="http://expressjs.com/api.html#app.engine" target="_blank">see docs here</a>).</p>
+                    <p>This option is set on the express app (<a href="https://expressjs.com/api.html#app.engine" target="_blank">see docs here</a>).</p>
                   </td>
                 </tr>
                 <tr>
                   <td><code>custom engine</code> <code class="data-type">Function</code></td>
                   <td>
                     <p>If you want to use a custom template engine, set this option to the function that should be used to process your templates.</p>
-                    <p>See below for an example of how to use the <a href="http://paularmstrong.github.io/swig/" target="_blank">Swig</a> template engine.</p>
+                    <p>See below for an example of how to use the <a href="https://paularmstrong.github.io/swig/" target="_blank">Swig</a> template engine.</p>
                   </td>
                 </tr>
                 <tr>
@@ -292,7 +292,7 @@ permalink: /docs/configuration/
                 </tr>
                 <tr>
                   <td><code>trust proxy</code> <code class="data-type">Boolean</code></td>
-                  <td>Set this to enable processing of the HTTP request <code>X-Forwarded-For</code> header. Extracted IP addresses will be available as the array <code>req.ips</code> (<a href="http://expressjs.com/api.html#req.ips">see docs here</a>).</td>
+                  <td>Set this to enable processing of the HTTP request <code>X-Forwarded-For</code> header. Extracted IP addresses will be available as the array <code>req.ips</code> (<a href="https://expressjs.com/api.html#req.ips">see docs here</a>).</td>
                 </tr>
               </table>
               <div class="code-header">
@@ -311,7 +311,7 @@ keystone.set('custom engine', swig.renderFile);</code></pre>
     }
 });</code></pre><a name="options-ssl"></a>
               <h3>HTTPS Web Server Options</h3>
-              <p>There are two ways to implement HTTPS for your KeystoneJS application: either use a web server (e.g. <a href="http://nginx.com" target="_blank">NGINX</a>) or PAAS (e.g. <a href="https://www.heroku.com" target="_blank">Heroku</a>) that handles it for you, or set the following options to use the <a href="http://nodejs.org/api/https.html" target="_blank">https server provided by node.js</a>.</p>
+              <p>There are two ways to implement HTTPS for your KeystoneJS application: either use a web server (e.g. <a href="https://nginx.com" target="_blank">NGINX</a>) or PAAS (e.g. <a href="https://www.heroku.com" target="_blank">Heroku</a>) that handles it for you, or set the following options to use the <a href="https://nodejs.org/api/https.html" target="_blank">https server provided by node.js</a>.</p>
               <table class="table">
                 <col width="210">
                 <col>
@@ -359,7 +359,7 @@ keystone.set('custom engine', swig.renderFile);</code></pre>
                   </td>
                 </tr>
               </table>
-              <p class="note"><strong>WARNING:</strong> If you intend to enable SSL on your KeystoneJS app, make sure you're using Node.js <code class="default-value">0.10.33</code> or newer. Node versions prior to <code class="default-value">0.10.33</code> are susceptible to the POODLE (Padding Oracle On Downgraded Legacy Encryption) vulnerability, a man-in-the-middle attack that targets <code class="default-value">SSLv3</code> (see <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-3566">CVE-2014-3566</a>). As of Node version <code class="default-value">0.10.33</code>, the <code class="default-value">SSLv2</code>and <code class="default-value">SSLv3</code> protocols are disabled by default. For more information see the release notes for <a href="http://blog.nodejs.org/2014/10/23/node-v0-10-33-stable/">Node v0.10.33 (Stable)</a>.</p><a name="options-unix-socket"></a>
+              <p class="note"><strong>WARNING:</strong> If you intend to enable SSL on your KeystoneJS app, make sure you're using Node.js <code class="default-value">0.10.33</code> or newer. Node versions prior to <code class="default-value">0.10.33</code> are susceptible to the POODLE (Padding Oracle On Downgraded Legacy Encryption) vulnerability, a man-in-the-middle attack that targets <code class="default-value">SSLv3</code> (see <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-3566">CVE-2014-3566</a>). As of Node version <code class="default-value">0.10.33</code>, the <code class="default-value">SSLv2</code>and <code class="default-value">SSLv3</code> protocols are disabled by default. For more information see the release notes for <a href="https://blog.nodejs.org/2014/10/23/node-v0-10-33-stable/">Node v0.10.33 (Stable)</a>.</p><a name="options-unix-socket"></a>
               <h3>Unix Socket Web Server Option</h3>
               <p>Express will listen to a unix socket for connections.   </p>
               <table class="table">
@@ -541,13 +541,13 @@ keystone.init({
                   <td><code>wysiwyg additional buttons</code> <code class="data-type">String</code></td>
                   <td>
                     <p>Allows to add additional extra functionality buttons such as <code>blockquote</code>.</p>
-                    <p>A complete list of available buttons can be found at: <a href="http://www.tinymce.com/wiki.php/Controls">http://www.tinymce.com/wiki.php/Controls</a></p>
+                    <p>A complete list of available buttons can be found at: <a href="https://www.tinymce.com/wiki.php/Controls">http://www.tinymce.com/wiki.php/Controls</a></p>
                   </td>
                 </tr>
                 <tr>
                   <td><code>wysiwyg additional plugins</code> <code class="data-type">String</code></td>
                   <td>
-                    <p>Allows for additional plugins to be activated which can be found at: <a href="http://www.tinymce.com/wiki.php/Plugins">http://www.tinymce.com/wiki.php/Plugins</a></p>
+                    <p>Allows for additional plugins to be activated which can be found at: <a href="https://www.tinymce.com/wiki.php/Plugins">http://www.tinymce.com/wiki.php/Plugins</a></p>
                   </td>
                 </tr>
                 <tr>
@@ -566,21 +566,21 @@ keystone.init({
                   <td><code>wysiwyg menubar</code> <code class="data-type">Boolean</code></td>
                   <td>
                     <p>Show the menubar for wysiwyg editor. Defaults to <code class="data-type">false</code>.</p>
-                    <p>See <a href="http://www.tinymce.com/wiki.php/Configuration:menubar">http://www.tinymce.com/wiki.php/Configuration:menubar</a> for more details.</p>
+                    <p>See <a href="https://www.tinymce.com/wiki.php/Configuration:menubar">http://www.tinymce.com/wiki.php/Configuration:menubar</a> for more details.</p>
                   </td>
                 </tr>
                 <tr>
                   <td><code>wysiwyg importcss</code> <code class="data-type">String</code></td>
                   <td>
                     <p>Sets the <code class="data-type">content_css</code> and configures the <code class="data-type">importcss</code> plugin for TinyMCE.</p>
-                    <p>See <a href="http://www.tinymce.com/wiki.php/Configuration:content_css">http://www.tinymce.com/wiki.php/Configuration:content_css</a> for more details.</p>
+                    <p>See <a href="https://www.tinymce.com/wiki.php/Configuration:content_css">http://www.tinymce.com/wiki.php/Configuration:content_css</a> for more details.</p>
                   </td>
                 </tr>
                 <tr>
                   <td><code>wysiwyg skin</code> <code class="data-type">String</code></td>
                   <td>
                     <p>Allow you to change the TinyMCE skin. Defaults to <code class="data-type">keystone</code>.</p>
-                    <p>See <a href="http://www.tinymce.com/wiki.php/Configuration:skin">http://www.tinymce.com/wiki.php/Configuration:skin</a> for more details.
+                    <p>See <a href="https://www.tinymce.com/wiki.php/Configuration:skin">http://www.tinymce.com/wiki.php/Configuration:skin</a> for more details.
                       <div class="code-header">
                         <h4>Example using wysiwyg options</h4>
                       </div>
@@ -624,7 +624,7 @@ keystone.init({
               </table>
               <p class="note">Note if you only want to include Google Analytics tracking in the front-end of your project, you should use different variable names from those above.</p><a name="services-google-maps"></a>
               <h3>Google Maps</h3>
-              <p>Keystone's <a href="/docs/database#field_location">Location field type</a> supports integration with the <a href="http://www.morethanamap.com" target="_blank">Google Maps API</a> to auto-improve values (including discovering latitude and longitude) via the <a href="https://developers.google.com/places/documentation/autocomplete" target="_blank"> Places Autocomplete API</a>.</p>
+              <p>Keystone's <a href="/docs/database#field_location">Location field type</a> supports integration with the <a href="https://www.morethanamap.com" target="_blank">Google Maps API</a> to auto-improve values (including discovering latitude and longitude) via the <a href="https://developers.google.com/places/documentation/autocomplete" target="_blank"> Places Autocomplete API</a>.</p>
               <p>To enable these features, <a href="https://code.google.com/apis/console/" target"_blank">obtain an API Key from Google</a> and enable the Google Maps v3 and Google Places APIs for it, then set the following options:</p>
               <table class="table">
                 <col width="270">
@@ -647,7 +647,7 @@ keystone.init({
                   <td><code>default region</code> <code class="data-type">String</code></td>
                   <td>
                     <p><strong>Optional</strong> setting to limit autocomplete results to a specific region.</p>
-                    <p>This option takes a region code, specified as a <a href="http://www.iana.org/assignments/language-subtag-registry/language-subtag-registry" target="_blank">IANA language region</a> subtag.</p>
+                    <p>This option takes a region code, specified as a <a href="https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry" target="_blank">IANA language region</a> subtag.</p>
                     <p>Can be specified on a per-field basis by setting the <code>region</code> option on any <code>Location</code> field.</p>
                   </td>
                 </tr>
@@ -658,7 +658,7 @@ keystone.set('default region', 'au'); // optional, will limit autocomplete resul
               <p class="note">Note that the use of the Places Geocoding API is subject to a query limit of 2,500 geolocation requests per day, except with an enterprise license.</p>
               <p class="note">The Places Geocoding API may only be used in conjunction with a Google map; geocoding results without displaying them on a map is prohibited. Please make sure your Keystone app complies with the Google Maps API License.</p><a name="services-amazons3"></a>
               <h3>Amazon S3</h3>
-              <p>KeystoneJS supports <a href="http://aws.amazon.com/s3/" target="_blank">Amazon S3</a> for file upload and hosting, with the <a href="/docs/database#field_s3file">S3File</a> field type.</p>
+              <p>KeystoneJS supports <a href="https://aws.amazon.com/s3/" target="_blank">Amazon S3</a> for file upload and hosting, with the <a href="/docs/database#field_s3file">S3File</a> field type.</p>
               <p>To use the S3File field in your app, <a href="https://portal.aws.amazon.com/gp/aws/developer/subscription/index.html?productCode=AmazonS3" target="_blank">sign up for an account</a>, create an <strong>S3 bucket</strong>, and get your <strong>key</strong> and <strong>secret</strong>.</p>
               <p>Then set the <code>s3 config</code> option to an object containing your configuration (see example below).</p>
               <p>Alternatively, set the <code class="default-value">S3_BUCKET</code>, <code class="default-value">S3_KEY</code> and <code class="default-value">S3_SECRET</code> environment variables.</p>
@@ -675,14 +675,14 @@ keystone.set('default region', 'au'); // optional, will limit autocomplete resul
 
 </code></pre><a name="services-azure"></a>
               <h3>Windows Azure Storage</h3>
-              <p>KeystoneJS supports <a href="http://www.windowsazure.com/" target="_blank">Windows Azure Storage</a> for file upload and hosting, with the <a href="/docs/database#field_azurefile">AzureFile</a> field type.</p>
-              <p>To use the AzureFile field in your app, <a href="http://www.windowsazure.com/pricing/free-trial/" target="_blank">sign up for an account</a>, enter into <a href="https://manage.windowsazure.com/">Azure Management Portal</a>. Create a storage account with new(button), data services, storage. In storage account page get the access (account name, key (valid primary or secondary key)) with the button "manage access key".</p>
+              <p>KeystoneJS supports <a href="https://www.windowsazure.com/" target="_blank">Windows Azure Storage</a> for file upload and hosting, with the <a href="/docs/database#field_azurefile">AzureFile</a> field type.</p>
+              <p>To use the AzureFile field in your app, <a href="https://www.windowsazure.com/pricing/free-trial/" target="_blank">sign up for an account</a>, enter into <a href="https://manage.windowsazure.com/">Azure Management Portal</a>. Create a storage account with new(button), data services, storage. In storage account page get the access (account name, key (valid primary or secondary key)) with the button "manage access key".</p>
               <p>Then set the <code>azurefile config</code> option to an object containing your configuration (see example below).</p>
               <p>Alternatively, set the <code class="default-value">AZURE_STORAGE_ACCOUNT</code> and <code class="default-value">AZURE_STORAGE_ACCESS_KEY</code> environment variables.</p>
               <p>Note that the <strong>account</strong> property should be set to your <strong>storage account</strong>, <em>not your user account</em>.</p>
               <pre><code class="language-javascript">keystone.set('azurefile config', { account: 'my storage account', key: 'secret api key' });</code></pre><a name="services-cloudinary"></a>
               <h3>Cloudinary</h3>
-              <p><a href="http://cloudinary.com" target="_blank">Cloudinary</a> is an image upload / resizing / hosting service that makes it easy to implement image management in your KeystoneJS app using the <a href="/docs/database#field_cloudinaryimage">CloudinaryImage</a> and <a href="/docs/database#field_cloudinaryimages">CloudinaryImages</a> field types.</p>
+              <p><a href="https://cloudinary.com" target="_blank">Cloudinary</a> is an image upload / resizing / hosting service that makes it easy to implement image management in your KeystoneJS app using the <a href="/docs/database#field_cloudinaryimage">CloudinaryImage</a> and <a href="/docs/database#field_cloudinaryimages">CloudinaryImages</a> field types.</p>
               <p>To use the Cloudinary Image fields in your app, <a href="https://cloudinary.com/users/register/free" target="_blank">sign up for an account</a> (Cloudinary offers a free tier with up to 500MB storage, 50,000 images and 1GB data transfer) and get your <strong>cloud name</strong>, <strong>api key</strong> and <strong>api secret</strong>.</p>
               <p>Then set the <code>cloudinary config</code> option to
                 <ul>
@@ -724,13 +724,13 @@ keystone.set('cloudinary folders', true);
 // optional, will force cloudinary to serve images over https
 keystone.set('cloudinary secure', true);</code></pre><a name="services-embedly"></a>
               <h3>Embed.ly</h3>
-              <p><a href="http://embed.ly" target="_blank">Embed.ly</a> is a service that will parse a url (e.g. Youtube embed link) and return a whole lot of useful information, like the provider name, summary metadata, width and height of videos, as well as a clean link to use for embedding media in your views. They offer a free plan for up to 5,000 urls per month.</p>
+              <p><a href="https://embed.ly" target="_blank">Embed.ly</a> is a service that will parse a url (e.g. Youtube embed link) and return a whole lot of useful information, like the provider name, summary metadata, width and height of videos, as well as a clean link to use for embedding media in your views. They offer a free plan for up to 5,000 urls per month.</p>
               <p>The <a href="/docs/database#field_embedly">Embedly field type</a> is an easy way to integrate their API with your KeystoneJS app.</p>
               <p>To configure KeystoneJS to support the Embed.ly API, simply <a href="https://app.embed.ly/signup">sign up for an account</a>, get your api key, and set the <code>embedly api key</code> option.</p>
               <p>This option will default to the <code class="default-value">EMBEDLY_API_KEY</code> environment variable if it is set.</p>
               <pre><code class="language-javascript">keystone.set('embedly api key', 'your-key');</code></pre><a name="services-mandrill"></a>
               <h3>Mandrill</h3>
-              <p><a href="http://mandrill.com" target="_blank">Mandrill</a> is a scalable and affordable email infrastructure service that allows you to send emails easily. They offer a free plan for up to 12,000 emails per month.</p>
+              <p><a href="https://mandrill.com" target="_blank">Mandrill</a> is a scalable and affordable email infrastructure service that allows you to send emails easily. They offer a free plan for up to 12,000 emails per month.</p>
               <p>To configure KeystoneJS to support the Mandrill API, simply <a href="https://mandrill.com/signup/">sign up for an account</a>, get your api key, and set both the <code>mandrill api key</code> and <code>mandrill username</code> options.</p>
               <p>These options will default to the <code class="default-value">MANDRILL_API_KEY &amp; MANDRILL_USERNAME</code> environment variable's if set.</p>
               <pre><code class="language-javascript">keystone.set('mandrill api key', 'your-key');
@@ -768,13 +768,13 @@ exports = module.exports = function(done) {
     </div>
     <div class="docs-footer">
       <div class="container">
-        <p>Created by <a href="http://twitter.com/jedwatson" target="_blank">@jedwatson</a>, <a href="http://twitter.com/bladey" target="_blank">@bladey</a> and <a href="http://twitter.com/jossmackison" target="_blank">@jossmackison</a> at <a href="http://www.thinkmill.com.au" target="_blank">Thinkmill</a>, and other <a href="https://github.com/keystonejs/keystone/contributors" target="_blank">contributors</a> under the <a href="http://opensource.org/licenses/MIT" target="_blank">MIT License</a></p>
+        <p>Created by <a href="https://twitter.com/jedwatson" target="_blank">@jedwatson</a>, <a href="https://twitter.com/bladey" target="_blank">@bladey</a> and <a href="https://twitter.com/jossmackison" target="_blank">@jossmackison</a> at <a href="https://www.thinkmill.com.au" target="_blank">Thinkmill</a>, and other <a href="https://github.com/keystonejs/keystone/contributors" target="_blank">contributors</a> under the <a href="https://opensource.org/licenses/MIT" target="_blank">MIT License</a></p>
         <ul class="list-inline">
           <li><a href="/getting-started" title="KeystoneJS Getting Started">Getting Started</a></li>
           <li><a href="/docs" title="KeystoneJS Documentation">Documentation</a></li>
           <li><a href="https://groups.google.com/forum/#!forum/keystonejs" target="_blank" title="KeystoneJS Google Group">Google Group</a></li>
           <li><a href="https://github.com/keystonejs/keystone" target="_blank" title="Github Project (new window)">Github Project</a></li>
-          <li><a href="http://demo.keystonejs.com" target="_blank" title="Demo Website (new window)">Demo Website</a></li>
+          <li><a href="https://demo.keystonejs.com" target="_blank" title="Demo Website (new window)">Demo Website</a></li>
           <li><a href="/examples" title="KeystoneJS Database">Examples</a></li>
         </ul>
       </div>
@@ -784,7 +784,7 @@ exports = module.exports = function(done) {
         <div class="social-buttons">
           <div class="social-button social-button__twitter"><a href="https://twitter.com/keystonejs" data-show-count="true" class="twitter-follow-button">Follow @keystonejs</a></div>
           <div class="social-button social-button__github">
-            <iframe src="http://ghbtns.com/github-btn.html?user=keystonejs&amp;repo=keystone&amp;type=watch&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="86" height="20"></iframe>
+            <iframe src="https://ghbtns.com/github-btn.html?user=keystonejs&amp;repo=keystone&amp;type=watch&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="86" height="20"></iframe>
           </div>
         </div>
       </div>

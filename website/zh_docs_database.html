@@ -17,7 +17,7 @@ permalink: /zh/docs/database/
     <meta property="og:url" content="https://keystonejs.com^current_url^">
     <meta property="og:site_name" content="KeystoneJS">
     <meta property="og:type" content="article">
-    <link href="http://fonts.googleapis.com/css?family=Roboto:100,300,300italic,400,500,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,300italic,400,500,700" rel="stylesheet">
     <link href="/styles/site.min.css" rel="stylesheet">
     <link href="/styles/prism.css" rel="stylesheet">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
@@ -126,11 +126,11 @@ permalink: /zh/docs/database/
               </div>
               <p>在KeystoneJS中，数据模式和模型是由<strong>列表</strong>控制的，并且数据库中的文档经常被称为<strong>条目</strong>。</p>
               <p>要定义数据模型，你要创建一个<code>new keystone.List</code>，然后传给它<a href="#lists-options">列表参数</a>。</p>
-              <p>然后向列表中<code>add</code>域。在底层，Keystone List会创建一个<a href="http://mongoosejs.com/docs/guide.html" target="_blank">mongoose模式</a>，并为你添加的域给它定义恰当的路径。</p>
+              <p>然后向列表中<code>add</code>域。在底层，Keystone List会创建一个<a href="https://mongoosejs.com/docs/guide.html" target="_blank">mongoose模式</a>，并为你添加的域给它定义恰当的路径。</p>
               <p>你可以访问<code>schema</code>，插入其它mongoose功能，比如虚拟域、方法和前置/后置钩子。</p>
               <p>完成列表的设置后，调用<code>list.register()</code>初始化它，并用Keystone注册。</p>
-              <p>查询数据用<code>list.model</code> (这是一个<a href="http://mongoosejs.com/docs/models.html" target="_blank">mongoose 模型</a>)。</p>
-              <p>列表条目是<a href="http://mongoosejs.com/docs/documents.html" target"_blank">mongoose 文档</a>。用<code>new list.model()</code>创建新条目，当准备好保存它时(或者将修改保存到已有条目上)调用<code>item.save()</code>。</p><a name="lists"></a>
+              <p>查询数据用<code>list.model</code> (这是一个<a href="https://mongoosejs.com/docs/models.html" target="_blank">mongoose 模型</a>)。</p>
+              <p>列表条目是<a href="https://mongoosejs.com/docs/documents.html" target"_blank">mongoose 文档</a>。用<code>new list.model()</code>创建新条目，当准备好保存它时(或者将修改保存到已有条目上)调用<code>item.save()</code>。</p><a name="lists"></a>
               <h2>列表</h2><a name="lists-usage"></a>
               <h3>用法</h3>
               <h4><code>new keystone.List(key[, options]);</code></h4>
@@ -194,7 +194,7 @@ Post.register();</code></pre>
                 <tr>
                   <td><code>schema</code> <code class="data-type">String</code></td>
                   <td>
-                    <p>列表的Mongoose模式的参数。 除了其他方面外，这个参数可以给<strong>集合</strong>指定一个定制的名称。参见<a href="http://mongoosejs.com/docs/guide.html#options" target="_blank">mongoose模式的文档</a>查看可用参数的清单。</p>
+                    <p>列表的Mongoose模式的参数。 除了其他方面外，这个参数可以给<strong>集合</strong>指定一个定制的名称。参见<a href="https://mongoosejs.com/docs/guide.html#options" target="_blank">mongoose模式的文档</a>查看可用参数的清单。</p>
                     <p><em>警告: 不要修改模式参数<code>id</code>或<code>_id</code>；这是Keystone要求的默认行为。</em></p>
                   </td>
                 </tr>
@@ -296,7 +296,7 @@ item.save();</code></pre>
     drilldown: 'author' // 在上面的例子中，author被定义为一个Relationship域
 });</code></pre><a name="lists-plugins"></a>
               <h3>模式插件</h3>
-              <p>你可以用<code>schema</code>指定<strong>列表</strong>的<a href="http://mongoosejs.com/docs/guide.html" target="_blank"><strong>虚拟域</strong>、<strong>方法</strong>、<strong>静态域</strong></a>和<a href="http://mongoosejs.com/docs/middleware.html" target="_blank"><strong>前置</strong>和<strong>后置</strong>钩子</a>。你也可以用<a href="http://plugins.mongoosejs.com" target="_blank">插件网站</a>上的<a href="http://mongoosejs.com/docs/plugins.html" target="_blank">mongoose插件</a>。</p>
+              <p>你可以用<code>schema</code>指定<strong>列表</strong>的<a href="https://mongoosejs.com/docs/guide.html" target="_blank"><strong>虚拟域</strong>、<strong>方法</strong>、<strong>静态域</strong></a>和<a href="https://mongoosejs.com/docs/middleware.html" target="_blank"><strong>前置</strong>和<strong>后置</strong>钩子</a>。你也可以用<a href="https://plugins.mongoosejs.com" target="_blank">插件网站</a>上的<a href="https://mongoosejs.com/docs/plugins.html" target="_blank">mongoose插件</a>。</p>
               <p>比如说，在上面的<strong>Post</strong>列表中，我们可能想在<code>state</code>被改成<code>published</code>后自动设定<code>publishedAt</code>的值(但仅在它还没被设定过时)。</p>
               <p>我们可能还想添加个方法用来检查Post是否发布了，而不是直接检查<code>state</code>域的值。</p>
               <p>在调用<code>Post.register()</code>之前，我们先加上下面这段代码：</p>
@@ -311,7 +311,7 @@ Post.schema.pre('save', function(next) {
     next();
 });</code></pre><a name="lists-querying"></a>
               <h3>查询数据</h3>
-              <p>要查询数据，你可以在<code>list.model</code>上使用任何<a href="http://mongoosejs.com/docs/queries.html" target="_blank">mongoose查询</a>方法。</p>
+              <p>要查询数据，你可以在<code>list.model</code>上使用任何<a href="https://mongoosejs.com/docs/queries.html" target="_blank">mongoose查询</a>方法。</p>
               <p><strong>比如说：</strong>要加载最新5条状态为<code>published</code>的<code>posts</code>，并组装可链接的<code>author</code>，按发布日期的降序排列：</p>
               <div class="code-header">
                 <h4>加载Posts</h4>
@@ -328,7 +328,7 @@ Post.model.find()
         // 对帖子做些处理
     });</code></pre>
               <p><strong>Promises</strong></p>
-              <p>还有一种处理mongoose查询中的事件的方法。除了传给<a href="http://mongoosejs.com/docs/api.html#query_Query-exec" target="_blank">exec</a>方法一个<a href="http://javascriptissexy.com/understand-javascript-callback-functions-and-use-them/" target="_blank">回调函数</a>，我们还可以用它的返回结果：<a href="http://www.html5rocks.com/en/tutorials/es6/promises/" target="_blank">Promise</a>。对于带有错误传播的整洁事件链，Promise非常实用。</p>
+              <p>还有一种处理mongoose查询中的事件的方法。除了传给<a href="https://mongoosejs.com/docs/api.html#query_Query-exec" target="_blank">exec</a>方法一个<a href="https://javascriptissexy.com/understand-javascript-callback-functions-and-use-them/" target="_blank">回调函数</a>，我们还可以用它的返回结果：<a href="https://www.html5rocks.com/en/tutorials/es6/promises/" target="_blank">Promise</a>。对于带有错误传播的整洁事件链，Promise非常实用。</p>
               <p><strong>比如说：</strong>加载100条 <code>posts</code>，然后异步做些处理，然后再对其结果做些处理：</p>
               <div class="code-header">
                 <h4>加载Posts，异步做些处理，然后再做些处理：</h4>
@@ -388,7 +388,7 @@ Post.model.find()
                 <li><code>last</code>: 包含最后一条结果的页码</li>
               </ul><a name="lists-creating"></a>
               <h3>创建条目</h3>
-              <p>要创建新条目，还是用<a href="http://mongoosejs.com/docs/models.html" target"_blank">mongoose模型</a>：</p>
+              <p>要创建新条目，还是用<a href="https://mongoosejs.com/docs/models.html" target"_blank">mongoose模型</a>：</p>
               <div class="code-header">
                 <h4>创建Post</h4>
               </div>
@@ -484,7 +484,7 @@ Post.model.findById(postId)
               <h3>域参数</h3>
               <p>所有域类型都支持几个通用的参数，可以指定数据库设置(比如<code>index</code>和<code>default</code>)，或者为Keystone的管理界面提供信息(比如 <code>label</code>)。</p>
               <p class="note">域在对象内部可以嵌入，就像在mongoose模式中一样。</p>
-              <p class="note">所有的<a href="http://mongoosejs.com/docs/schematypes.html" target="_blank">mongoose模式类型参数</a> 都是传给<a href="http://mongoosejs.com/docs/guide.html" target="_blank">mongoose模式</a>的，所以你也可以用mongoose支持的任何参数。</p>
+              <p class="note">所有的<a href="https://mongoosejs.com/docs/schematypes.html" target="_blank">mongoose模式类型参数</a> 都是传给<a href="https://mongoosejs.com/docs/guide.html" target="_blank">mongoose模式</a>的，所以你也可以用mongoose支持的任何参数。</p>
               <p>常用的域参数有：</p>
               <table class="table">
                 <col width="210">
@@ -617,7 +617,7 @@ Post.model.findById(postId).exec(function(err, post) {
 });</code></pre>
               <p class="note">你只能在一对多关系(即当<code>many</code>参数不为<code class="default-value">true</code>时)中设置过滤器。</p>
               <h5>在查询中组装相关数据</h5>
-              <p>感谢<a href="http://mongoosejs.com/docs/populate.html" target="_blank">Mongoose的组装功能</a>，你可以为关系域组装相关数据。想在加载上面例子中的Post时组装author和category文档，应该这样做：</p>
+              <p>感谢<a href="https://mongoosejs.com/docs/populate.html" target="_blank">Mongoose的组装功能</a>，你可以为关系域组装相关数据。想在加载上面例子中的Post时组装author和category文档，应该这样做：</p>
               <pre><code class="language-javascript">Post.model.findOne().populate('author categories').exec(function(err, post) {
     // author是组装完整的User文档
     console.log(post.author.name);
@@ -677,7 +677,7 @@ item._.email.gravatarUrl(200,'mm','r'); // "//www.gravatar.com/avatar/74a0071e5f
               <div class="options">
                 <h5>Underscore方法：</h5>
                 <p><code>format()</code> - 去掉存储的值前面的协议(如果有的话)</p>
-                <pre><code class="language-javascript">item.url = "http://keystonejs.com";
+                <pre><code class="language-javascript">item.url = "https://keystonejs.com";
 item._.url.format(); // "keystonejs.com"</code></pre>
               </div><a name="fieldtypes-html"></a>
               <h3><code>Html</code></h3>
@@ -700,12 +700,12 @@ item._.url.format(); // "keystonejs.com"</code></pre>
               <div class="options">
                 <h5>参数</h5>
                 <p><code>format</code> <code class="data-type">string</code> - 默认的格式模式，默认为<code class="default-value">Do MMM YYYY</code></p>
-                <p>参见<a href="http://momentjs.com/docs/#/displaying/format/" target="_blank">momentjs格式文档</a>了解所支持的格式和参数。</p>
+                <p>参见<a href="https://momentjs.com/docs/#/displaying/format/" target="_blank">momentjs格式文档</a>了解所支持的格式和参数。</p>
                 <h5>Underscore方法</h5>
-                <p><code>format(string)</code> - 用<a href="http://momentjs.com" target="_blank">momentjs</a>格式化存储的值</p>
-                <p><code>moment()</code> - 返回一个用该域的值初始化的<a href="http://momentjs.com" target="_blank">momentjs</a>对象</p>
-                <p><code>parse(input, format, ...)</code> - 用<a href="http://momentjs.com" target="_blank">momentjs</a>解析input，将该域的值设为返回的moment对象</p>
-                <p>参见<a href="http://momentjs.com/docs/#/parsing/" target="_blank">momentjs解析文档</a>了解所支持的格式和<code>parse</code>方法的参数。</p>
+                <p><code>format(string)</code> - 用<a href="https://momentjs.com" target="_blank">momentjs</a>格式化存储的值</p>
+                <p><code>moment()</code> - 返回一个用该域的值初始化的<a href="https://momentjs.com" target="_blank">momentjs</a>对象</p>
+                <p><code>parse(input, format, ...)</code> - 用<a href="https://momentjs.com" target="_blank">momentjs</a>解析input，将该域的值设为返回的moment对象</p>
+                <p>参见<a href="https://momentjs.com/docs/#/parsing/" target="_blank">momentjs解析文档</a>了解所支持的格式和<code>parse</code>方法的参数。</p>
                 <pre><code class="language-javascript">item.createdDate = Date.now();
 item._.createdDate.format(); // 用默认的格式字符串返回当天的date
 item._.createdDate.parse('2013-12-04'); // 用被解析的日期返回一个moment对象
@@ -719,12 +719,12 @@ item._.createdDate.format('YYYY-MM-DD'); // 返回'2013-12-04'</code></pre>
               <div class="options">
                 <h5>参数：</h5>
                 <p><code>format</code> <code class="data-type">string</code> - 默认的格式模式，默认为<code class="default-value">Do MMM YYYY hh:mm:ss a</code></p>
-                <p>参见<a href="http://momentjs.com/docs/#/displaying/format/" target="_blank">momentjs格式文档</a>了解所支持的格式和参数。</p>
+                <p>参见<a href="https://momentjs.com/docs/#/displaying/format/" target="_blank">momentjs格式文档</a>了解所支持的格式和参数。</p>
                 <h5>Underscore方法：</h5>
-                <p><code>format(string)</code> -  用<a href="http://momentjs.com" target="_blank">momentjs</a>格式化存储的值</p>
-                <p><code>moment()</code> - 返回一个用该域的值初始化的<a href="http://momentjs.com" target="_blank">momentjs</a>对象</p>
-                <p><code>parse(input, format, ...)</code> - 用<a href="http://momentjs.com" target="_blank">momentjs</a>解析input，将该域的值设为返回的moment对象</p>
-                <p>参见<a href="http://momentjs.com/docs/#/parsing/" target="_blank">momentjs解析文档</a>了解所支持的格式和<code>parse</code>方法的参数。</p>
+                <p><code>format(string)</code> -  用<a href="https://momentjs.com" target="_blank">momentjs</a>格式化存储的值</p>
+                <p><code>moment()</code> - 返回一个用该域的值初始化的<a href="https://momentjs.com" target="_blank">momentjs</a>对象</p>
+                <p><code>parse(input, format, ...)</code> - 用<a href="https://momentjs.com" target="_blank">momentjs</a>解析input，将该域的值设为返回的moment对象</p>
+                <p>参见<a href="https://momentjs.com/docs/#/parsing/" target="_blank">momentjs解析文档</a>了解所支持的格式和<code>parse</code>方法的参数。</p>
               </div><a name="fieldtypes-key"></a>
               <h3><code>Key</code></h3>
               <h4><code class="data-type">String</code> &mdash; 在管理界面中显示为一个文本输入域</h4>
@@ -740,7 +740,7 @@ item._.createdDate.format('YYYY-MM-DD'); // 返回'2013-12-04'</code></pre>
               <pre><code class="language-javascript">{ type: Types.Number }</code></pre>
               <div class="options">
                 <h5>Underscore方法：</h5>
-                <p><code>format(string)</code> - 用<a href="http://numeraljs.com" target="_blank">numeraljs</a>格式化存储的值。设为<code class="default-value">false</code>可以禁用自动格式化。</p>
+                <p><code>format(string)</code> - 用<a href="https://numeraljs.com" target="_blank">numeraljs</a>格式化存储的值。设为<code class="default-value">false</code>可以禁用自动格式化。</p>
                 <p>格式化字符串默认为<code class="default-value">0,0[.][000000000000]</code></p>
               </div><a name="fieldtypes-money"></a>
               <h3><code>Money</code></h3>
@@ -749,7 +749,7 @@ item._.createdDate.format('YYYY-MM-DD'); // 返回'2013-12-04'</code></pre>
               <pre><code class="language-javascript">{ type: Types.Money }</code></pre>
               <div class="options">
                 <h5>Underscore方法：</h5>
-                <p><code>format(string)</code> - 用<a href="http://numeraljs.com" target="_blank">numeraljs</a>格式化存储的值。设为<code class="default-value">false</code>可以禁用自动格式化。</p>
+                <p><code>format(string)</code> - 用<a href="https://numeraljs.com" target="_blank">numeraljs</a>格式化存储的值。设为<code class="default-value">false</code>可以禁用自动格式化。</p>
                 <p>格式化字符串默认为<code class="default-value">$0,0.00</code></p>
               </div><a name="fieldtypes-select"></a>
               <h3><code>Select</code></h3>
@@ -897,7 +897,7 @@ page.fields.content.format(page) == "&lt;ul&gt;&lt;li&gt;list item&lt;/ul&gt;&lt
               </div><a name="fieldtypes-cloudinaryimage"></a>
               <h3><code>CloudinaryImage</code></h3>
               <h4><code class="data-type">Object</code> &mdash; 在管理界面中显示为一个图片上传控件。</h4>
-              <p>自动管理存在<a href="http://cloudinary.com" target="_blank">Cloudinary</a>中的图片，包括上传、缩放和删除。</p>
+              <p>自动管理存在<a href="https://cloudinary.com" target="_blank">Cloudinary</a>中的图片，包括上传、缩放和删除。</p>
               <p>参见<a href="/zh/docs/configuration#services-cloudinary">Cloudinary配置文档</a>了解如何在KeystoneJS中设置Cloudinary的细节。</p>
               <pre><code class="language-javascript">{ type: Types.CloudinaryImage }</code></pre>
               <div class="options">
@@ -938,7 +938,7 @@ page.fields.content.format(page) == "&lt;ul&gt;&lt;li&gt;list item&lt;/ul&gt;&lt
                 <p><code>pad(width, height, options)</code> <code class="data-type">String</code> - 补白图片以填充指定的宽度和高度</p>
                 <p><code>lpad(width, height, options)</code> <code class="data-type">String</code> - 补白图片以填充指定的宽度和高度(不超出原始维度)</p>
                 <p><code>thumbnail(width, height, options)</code> <code class="data-type">String</code> - 裁剪图片以填充指定的宽度和高度</p>
-                <p>所有方法中的<code class="default-value">options</code>都是可选的<code class="data-type">Object</code>。 参见<a href="http://cloudinary.com/documentation/image_transformations" target="_blank">Cloudinary的转换文档</a>了解所支持的参数和转换。 </p>
+                <p>所有方法中的<code class="default-value">options</code>都是可选的<code class="data-type">Object</code>。 参见<a href="https://cloudinary.com/documentation/image_transformations" target="_blank">Cloudinary的转换文档</a>了解所支持的参数和转换。 </p>
               </div>
               <p class="note">记住，如果用HTML表单上传图片到<code>CloudinaryImage</code>域，需要在<code>form</code>标签中指定<code>enctype="multipart/form-data"</code>。</p><a name="fieldtypes-cloudinaryimages"></a>
               <h3><code>CloudinaryImages</code></h3>
@@ -960,7 +960,7 @@ page.fields.content.format(page) == "&lt;ul&gt;&lt;li&gt;list item&lt;/ul&gt;&lt
                 <h5>参数</h5>
                 <p><code>dest</code> <code class="data-type">String</code> - 必填项，存放上传文件的路径。</p>
                 <p><code>prefix</code> <code class="data-type">String</code> - 浏览器中的路径前缀，如果跟<code>dest</code>不同的话</p>
-                <p><code>datePrefix</code> <code class="data-type">String</code> - 如果设了，以这种格式的当前日期作为文件名的前缀(参见 <a href="http://momentjs.com" target="_blank">moment.js</a>了解格式参数)</p>
+                <p><code>datePrefix</code> <code class="data-type">String</code> - 如果设了，以这种格式的当前日期作为文件名的前缀(参见 <a href="https://momentjs.com" target="_blank">moment.js</a>了解格式参数)</p>
                 <p><code>allowedTypes</code> 包含<code class="data-type">String</code>的<code class="data-type">Array</code>  - 可以上传的文件mime类型白名单</p>
                 <p><code>filename</code> <code class="data-type">Function</code> - 以当前模型和客户端文件名为参数的函数，返回要上传文件的新文件名。</p>
                 <p><code>format</code> <code class="data-type">Function</code> - 带两个参数的函数：当前模型和文件对象，返回这个文件在管理界面中的表示。
@@ -990,12 +990,12 @@ page.fields.content.format(page) == "&lt;ul&gt;&lt;li&gt;list item&lt;/ul&gt;&lt
               </div><a name="fieldtypes-s3file"></a>
               <h3><code>S3 File</code></h3>
               <h4><code class="data-type">Object</code> &mdash; 在管理界面中显示为一个文件上传控件。</h4>
-              <p> 自动管理存在<a href="http://aws.amazon.com/s3" target="_blank">亚马逊S3</a>上的文件，包括上传和删除。</p>
+              <p> 自动管理存在<a href="https://aws.amazon.com/s3" target="_blank">亚马逊S3</a>上的文件，包括上传和删除。</p>
               <pre><code class="language-javascript">{ type: Types.S3File }</code></pre>
               <div class="options">
                 <h5>参数</h5>
                 <p><code>s3path</code> <code class="data-type">String</code> - 在S3的桶中存放上传文件的路径。</p>
-                <p><code>datePrefix</code> <code class="data-type">String</code> - 如果设了，以这种格式的当前日期作为文件名的前缀(参见 <a href="http://momentjs.com" target="_blank">moment.js</a>了解格式参数)</p>
+                <p><code>datePrefix</code> <code class="data-type">String</code> - 如果设了，以这种格式的当前日期作为文件名的前缀(参见 <a href="https://momentjs.com" target="_blank">moment.js</a>了解格式参数)</p>
                 <p><code>allowedTypes</code> 包含<code class="data-type">String</code>的<code class="data-type">Array</code>  - 可以上传的文件mime类型白名单</p>
                 <p><code>filename</code> <code class="data-type">Function</code> - 以当前模型和客户端文件名为参数的函数，返回要上传文件的新文件名。
                   <pre><code class="language-javascript">{
@@ -1074,7 +1074,7 @@ page.fields.content.format(page) == "&lt;ul&gt;&lt;li&gt;list item&lt;/ul&gt;&lt
               </div><a name="fieldtypes-azurefile"></a>
               <h3><code>AzureFile</code></h3>
               <h4><code class="data-type">Object</code> &mdash; 在管理界面中显示为一个文件上传控件。</h4>
-              <p>自动管理存在<a href="http://www.windowsazure.com/" target="_blank">Windows Azure Storage</a>中的文件，包括上传和删除。</p>
+              <p>自动管理存在<a href="https://www.windowsazure.com/" target="_blank">Windows Azure Storage</a>中的文件，包括上传和删除。</p>
               <pre><code class="language-javascript">{ type: Types.AzureFile }</code></pre>
               <div class="options">
                 <h5>参数</h5>
@@ -1103,7 +1103,7 @@ page.fields.content.format(page) == "&lt;ul&gt;&lt;li&gt;list item&lt;/ul&gt;&lt
               </div><a name="fieldtypes-embedly"></a>
               <h3><code>Embedly</code></h3>
               <h4><code class="data-type">Object</code> &mdash; 在管理界面中显示为只读数据。</h4>
-              <p>自动从<a href="http://embed.ly" target="_blank">Embedly</a> API获取跟另一个域的值相关的信息(由<code>from</code> 参数指定)。</p>
+              <p>自动从<a href="https://embed.ly" target="_blank">Embedly</a> API获取跟另一个域的值相关的信息(由<code>from</code> 参数指定)。</p>
               <p>它存储获取的数据(包括提供者、媒体类型、完整的URL、HTML嵌入代码、宽度、高度、缩略图及更多信息)。</p>
               <p>获取数据的api调用是作为保存前置钩子实现的，并且只在<strong>from路径</strong>的值发生变化时才会触发。</p>
               <p>参见<a href="/zh/docs/configuration#services-embedly">Embed.ly配置文档</a>了解如何在KeystoneJS中设置Embed.ly的详细介绍。 </p>
@@ -1112,7 +1112,7 @@ page.fields.content.format(page) == "&lt;ul&gt;&lt;li&gt;list item&lt;/ul&gt;&lt
                 <h5>参数</h5>
                 <p><code>from</code> <code class="data-type">String</code> - 模式中传给Embedly API的另一个域的路径。另一个域中必须包含一个<code class="data-type">String</code>值。</p>
                 <p><code>options</code> <code class="data-type">Object</code> (optional) - 跟<code>from</code>域的值一起作为参数传给embedly API。</p>
-                <p>参见<a href="http://embed.ly/docs/embed/api/endpoints/1/oembed" target="_blank">Embedly的oEmbed API 文档</a>了解参数及返回数据的更多信息。</p>
+                <p>参见<a href="https://embed.ly/docs/embed/api/endpoints/1/oembed" target="_blank">Embedly的oEmbed API 文档</a>了解参数及返回数据的更多信息。</p>
                 <h5>模式</h5>
                 <p><code>exists</code> <code class="data-type">Boolean</code></p>
                 <p><code>type</code> <code class="data-type">String</code></p>
@@ -1140,13 +1140,13 @@ page.fields.content.format(page) == "&lt;ul&gt;&lt;li&gt;list item&lt;/ul&gt;&lt
     </div>
     <div class="docs-footer">
       <div class="container">
-        <p>Created by <a href="http://twitter.com/jedwatson" target="_blank">@jedwatson</a>, <a href="http://twitter.com/bladey" target="_blank">@bladey</a> and <a href="http://twitter.com/jossmackison" target="_blank">@jossmackison</a> at <a href="http://www.thinkmill.com.au" target="_blank">Thinkmill</a>, and other <a href="https://github.com/keystonejs/keystone/contributors" target="_blank">contributors</a> under the <a href="http://opensource.org/licenses/MIT" target="_blank">MIT License</a></p>
+        <p>Created by <a href="https://twitter.com/jedwatson" target="_blank">@jedwatson</a>, <a href="https://twitter.com/bladey" target="_blank">@bladey</a> and <a href="https://twitter.com/jossmackison" target="_blank">@jossmackison</a> at <a href="https://www.thinkmill.com.au" target="_blank">Thinkmill</a>, and other <a href="https://github.com/keystonejs/keystone/contributors" target="_blank">contributors</a> under the <a href="https://opensource.org/licenses/MIT" target="_blank">MIT License</a></p>
         <ul class="list-inline">
           <li><a href="/zh/getting-started" title="KeystoneJS Getting Started">Getting Started</a></li>
           <li><a href="/zh/docs" title="KeystoneJS Documentation">Documentation</a></li>
           <li><a href="https://groups.google.com/forum/#!forum/keystonejs" target="_blank" title="KeystoneJS Google Group">Google Group</a></li>
           <li><a href="https://github.com/keystonejs/keystone" target="_blank" title="Github Project (new window)">Github Project</a></li>
-          <li><a href="http://demo.keystonejs.com" target="_blank" title="Demo Website (new window)">Demo Website</a></li>
+          <li><a href="https://demo.keystonejs.com" target="_blank" title="Demo Website (new window)">Demo Website</a></li>
           <li><a href="/zh/examples" title="KeystoneJS Database">Examples</a></li>
         </ul>
       </div>
@@ -1156,7 +1156,7 @@ page.fields.content.format(page) == "&lt;ul&gt;&lt;li&gt;list item&lt;/ul&gt;&lt
         <div class="social-buttons">
           <div class="social-button social-button__twitter"><a href="https://twitter.com/keystonejs" data-show-count="true" class="twitter-follow-button">Follow @keystonejs</a></div>
           <div class="social-button social-button__github">
-            <iframe src="http://ghbtns.com/github-btn.html?user=keystonejs&amp;repo=keystone&amp;type=watch&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="86" height="20"></iframe>
+            <iframe src="https://ghbtns.com/github-btn.html?user=keystonejs&amp;repo=keystone&amp;type=watch&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="86" height="20"></iframe>
           </div>
         </div>
       </div>

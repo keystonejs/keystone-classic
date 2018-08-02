@@ -17,7 +17,7 @@ permalink: /zh/docs/configuration/
     <meta property="og:url" content="https://keystonejs.com^current_url^">
     <meta property="og:site_name" content="KeystoneJS">
     <meta property="og:type" content="article">
-    <link href="http://fonts.googleapis.com/css?family=Roboto:100,300,300italic,400,500,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,300italic,400,500,700" rel="stylesheet">
     <link href="/styles/site.min.css" rel="stylesheet">
     <link href="/styles/prism.css" rel="stylesheet">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
@@ -205,14 +205,14 @@ permalink: /zh/docs/configuration/
                   <td><code>view engine</code> <code class="data-type">String</code></td>
                   <td>
                     <p>默认使用的模板引擎。express支持的任何引擎应该都可以。Keystone中包含<strong>Jade</strong>，但用其它引擎都必须添加到<code>package.json</code>里的项目依赖项部分。</p>
-                    <p>这个参数是设定在express app 上的(<a href="http://expressjs.com/api.html#app.engine" target="_blank">参见相关文档</a>)。</p>
+                    <p>这个参数是设定在express app 上的(<a href="https://expressjs.com/api.html#app.engine" target="_blank">参见相关文档</a>)。</p>
                   </td>
                 </tr>
                 <tr>
                   <td><code>custom engine</code> <code class="data-type">Function</code></td>
                   <td>
                     <p>如果你要用定制的模板引擎，要将这个参数设为用来处理模板的函数。</p>
-                    <p>参见下面的例子，了解如何使用<a href="http://paularmstrong.github.io/swig/" target="_blank">Swig</a> 模板引擎。</p>
+                    <p>参见下面的例子，了解如何使用<a href="https://paularmstrong.github.io/swig/" target="_blank">Swig</a> 模板引擎。</p>
                   </td>
                 </tr>
                 <tr>
@@ -278,15 +278,15 @@ permalink: /zh/docs/configuration/
                 </tr>
                 <tr>
                   <td><code>compress</code> <code class="data-type">Boolean</code></td>
-                  <td>将这个参数设为<code class="default-value">true</code>以启用HTTP压缩。这会引入<code>express.compress</code>中间件(<a href="http://expressjs.com/api.html#compress" target="_blank">相关文档</a>).</td>
+                  <td>将这个参数设为<code class="default-value">true</code>以启用HTTP压缩。这会引入<code>express.compress</code>中间件(<a href="https://expressjs.com/api.html#compress" target="_blank">相关文档</a>).</td>
                 </tr>
                 <tr>
                   <td><code>logger</code> <code class="data-type">String</code></td>
-                  <td>设定这个会引入<code>express.logger</code>中间件。它的值会传给中间件去做初始化(<a href="http://www.senchalabs.org/connect/logger.html" target="_blank">相关文档</a>)。 设为<code class="default-value">false</code>可以一并禁用日志。</td>
+                  <td>设定这个会引入<code>express.logger</code>中间件。它的值会传给中间件去做初始化(<a href="https://www.senchalabs.org/connect/logger.html" target="_blank">相关文档</a>)。 设为<code class="default-value">false</code>可以一并禁用日志。</td>
                 </tr>
                 <tr>
                   <td><code>trust proxy</code> <code class="data-type">Boolean</code></td>
-                  <td>设定这个启用HTTP请求头<code>X-Forwarded-For</code>。提取出来的IP地址会放在数组<code>req.ips</code> (<a href="http://expressjs.com/api.html#req.ips">相关文档</a>)。</td>
+                  <td>设定这个启用HTTP请求头<code>X-Forwarded-For</code>。提取出来的IP地址会放在数组<code>req.ips</code> (<a href="https://expressjs.com/api.html#req.ips">相关文档</a>)。</td>
                 </tr>
               </table>
               <div class="code-header">
@@ -305,7 +305,7 @@ keystone.set('custom engine', swig.renderFile);</code></pre>
     }
 });</code></pre><a name="options-ssl"></a>
               <h3>HTTPS Web服务器参数</h3>
-              <p>KeystoneJS程序实现HTTPS主要有两种方式：或者使用一个web服务器 (比如 <a href="http://nginx.com" target="_blank">NGINX</a>)或PAAS (e.g. <a href="https://www.heroku.com" target="_blank">Heroku</a>)实现，或者用<a href="http://nodejs.org/api/https.html" target="_blank">node.js提供的https服务器</a>设定下面的参数。</p>
+              <p>KeystoneJS程序实现HTTPS主要有两种方式：或者使用一个web服务器 (比如 <a href="https://nginx.com" target="_blank">NGINX</a>)或PAAS (e.g. <a href="https://www.heroku.com" target="_blank">Heroku</a>)实现，或者用<a href="https://nodejs.org/api/https.html" target="_blank">node.js提供的https服务器</a>设定下面的参数。</p>
               <table class="table">
                 <col width="210">
                 <col>
@@ -353,7 +353,7 @@ keystone.set('custom engine', swig.renderFile);</code></pre>
                   </td>
                 </tr>
               </table>
-              <p class="note"><strong>警告：</strong> 如果你计划在 KeystoneJS 应用中启用 SSL，确保使用中的 Node.js 版本为 <code class="default-value">0.10.33</code> 或者更高。 低于<code class="default-value">0.10.33</code> 版本的 Node 容易引发 POODLE (Padding Oracle On Downgraded Legacy Encryption) 漏洞，一种“中间人”攻击目标 <code class="default-value">SSLv3</code> (see <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-3566">CVE-2014-3566</a>)。<code class="default-value">0.10.33</code>版本的 Node，<code class="default-value">SSLv2</code>和 <code class="default-value">SSLv3</code> 协议默认关闭。更多信息参见 <a href="http://blog.nodejs.org/2014/10/23/node-v0-10-33-stable/">Node v0.10.33 (Stable)</a> 的release notes。</p><a name="options-unix-socket"></a>
+              <p class="note"><strong>警告：</strong> 如果你计划在 KeystoneJS 应用中启用 SSL，确保使用中的 Node.js 版本为 <code class="default-value">0.10.33</code> 或者更高。 低于<code class="default-value">0.10.33</code> 版本的 Node 容易引发 POODLE (Padding Oracle On Downgraded Legacy Encryption) 漏洞，一种“中间人”攻击目标 <code class="default-value">SSLv3</code> (see <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-3566">CVE-2014-3566</a>)。<code class="default-value">0.10.33</code>版本的 Node，<code class="default-value">SSLv2</code>和 <code class="default-value">SSLv3</code> 协议默认关闭。更多信息参见 <a href="https://blog.nodejs.org/2014/10/23/node-v0-10-33-stable/">Node v0.10.33 (Stable)</a> 的release notes。</p><a name="options-unix-socket"></a>
               <h3>Unix Socket Web 服务器参数</h3>
               <p>Express会监听一个unix socket的连接。   </p>
               <table class="table">
@@ -518,13 +518,13 @@ keystone.set('custom engine', swig.renderFile);</code></pre>
                   <td><code>wysiwyg additional buttons</code> <code class="data-type">String</code></td>
                   <td>
                     <p>允许添加额外功能按钮，比如<code>blockquote</code>。</p>
-                    <p>可以添加的按钮完整清单请见： <a href="http://www.tinymce.com/wiki.php/Controls">http://www.tinymce.com/wiki.php/Controls</a></p>
+                    <p>可以添加的按钮完整清单请见： <a href="https://www.tinymce.com/wiki.php/Controls">http://www.tinymce.com/wiki.php/Controls</a></p>
                   </td>
                 </tr>
                 <tr>
                   <td><code>wysiwyg additional plugins</code> <code class="data-type">String</code></td>
                   <td>
-                    <p>可以激活额外插件，插件清单请见： <a href="http://www.tinymce.com/wiki.php/Plugins">http://www.tinymce.com/wiki.php/Plugins</a></p>
+                    <p>可以激活额外插件，插件清单请见： <a href="https://www.tinymce.com/wiki.php/Plugins">http://www.tinymce.com/wiki.php/Plugins</a></p>
                   </td>
                 </tr>
                 <tr>
@@ -543,14 +543,14 @@ keystone.set('custom engine', swig.renderFile);</code></pre>
                   <td><code>wysiwyg menubar</code> <code class="data-type">Boolean</code></td>
                   <td>
                     <p>显示wysiwyg编辑器的菜单栏。默认为<code class="data-type">false</code>.</p>
-                    <p>参见<a href="http://www.tinymce.com/wiki.php/Configuration:menubar">http://www.tinymce.com/wiki.php/Configuration:menubar</a>了解详情。</p>
+                    <p>参见<a href="https://www.tinymce.com/wiki.php/Configuration:menubar">http://www.tinymce.com/wiki.php/Configuration:menubar</a>了解详情。</p>
                   </td>
                 </tr>
                 <tr>
                   <td><code>wysiwyg skin</code> <code class="data-type">String</code></td>
                   <td>
                     <p>可以修改皮肤。默认为<code class="data-type">keystone</code>。</p>
-                    <p>参见<a href="http://www.tinymce.com/wiki.php/Configuration:skin">http://www.tinymce.com/wiki.php/Configuration:skin</a>了解详情。
+                    <p>参见<a href="https://www.tinymce.com/wiki.php/Configuration:skin">http://www.tinymce.com/wiki.php/Configuration:skin</a>了解详情。
                       <div class="code-header">
                         <h4>wysiwyg参数范例</h4>
                       </div>
@@ -594,7 +594,7 @@ keystone.set('custom engine', swig.renderFile);</code></pre>
               </table>
               <p class="note">注意，如果你只想在项目前端引入谷歌分析追踪，应该使用跟上面那些参数名称不同的名称。</p><a name="services-google-maps"></a>
               <h3>谷歌地图</h3>
-              <p>Keystone的<a href="/zh/docs/database#field_location">Location域类型</a>可以集成<a href="http://www.morethanamap.com" target="_blank">谷歌地图API</a>，通过<a href="https://developers.google.com/places/documentation/autocomplete" target="_blank"> Places Autocomplete API</a>自动改进取值(包括发现经纬度)。</p>
+              <p>Keystone的<a href="/zh/docs/database#field_location">Location域类型</a>可以集成<a href="https://www.morethanamap.com" target="_blank">谷歌地图API</a>，通过<a href="https://developers.google.com/places/documentation/autocomplete" target="_blank"> Places Autocomplete API</a>自动改进取值(包括发现经纬度)。</p>
               <p>要启用这些功能，需要<a href="https://code.google.com/apis/console/" target"_blank">从谷歌获取一个API秘钥</a> ，并为它启用Google Maps v3和Google Places API，然后设置下面这些参数：</p>
               <table class="table">
                 <col width="270">
@@ -617,7 +617,7 @@ keystone.set('custom engine', swig.renderFile);</code></pre>
                   <td><code>default region</code> <code class="data-type">String</code></td>
                   <td>
                     <p>为了将自动完成结果限制在指定区域的<strong>可选</strong>设置。</p>
-                    <p>这个参数是一个区域码，指定为<a href="http://www.iana.org/assignments/language-subtag-registry/language-subtag-registry" target="_blank">IANA语言区域</a>子标签。</p>
+                    <p>这个参数是一个区域码，指定为<a href="https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry" target="_blank">IANA语言区域</a>子标签。</p>
                     <p>每个<code>Location</code>输入域都可以在设定不同的<code>region</code>参数。 </p>
                   </td>
                 </tr>
@@ -628,7 +628,7 @@ keystone.set('default region', 'au'); // 可选，会将自动完成的结果限
               <p class="note">注意，Places Geocoding API的使用有每天2,500次geolocation请求的查询限制，除非你有企业版许可。</p>
               <p class="note">Places Geocoding API只能跟谷歌地图一起用；禁止不在地图上显示的地理编码结果。请确保你的Keystone程序符合谷歌地图API的许可。</p><a name="services-amazons3"></a>
               <h3>亚马逊S3</h3>
-              <p>KeystoneJS的域类型<a href="/zh/docs/database#field_s3file">S3File</a>支持<a href="http://aws.amazon.com/s3/" target="_blank">亚马逊S3</a>的文件上传和托管。</p>
+              <p>KeystoneJS的域类型<a href="/zh/docs/database#field_s3file">S3File</a>支持<a href="https://aws.amazon.com/s3/" target="_blank">亚马逊S3</a>的文件上传和托管。</p>
               <p>要在你的程序中使用S3File域，需要<a href="https://portal.aws.amazon.com/gp/aws/developer/subscription/index.html?productCode=AmazonS3" target="_blank">注册一个账号</a>，创建一个<strong>S3桶</strong>，获取你的<strong>键</strong>和<strong>密码</strong>。</p>
               <p>然后设定<code>s3 config</code>参数为包含你的配置的对象(见下文示例)。</p>
               <p>另外还要设置环境变量<code class="default-value">S3_BUCKET</code>、<code class="default-value">S3_KEY</code>和<code class="default-value">S3_SECRET</code></p>
@@ -643,14 +643,14 @@ keystone.set('default region', 'au'); // 可选，会将自动完成的结果限
 	 }
 });</code></pre><a name="services-azure"></a>
               <h3>Windows Azure存储</h3>
-              <p>KeystoneJS的<a href="/zh/docs/database#field_azurefile">AzureFile</a>域类型支持<a href="http://www.windowsazure.com/" target="_blank">Windows Azure存储</a>的文件上传和托管。</p>
-              <p>要在程序中使用AzureFile域，需要<a href="http://www.windowsazure.com/pricing/free-trial/" target="_blank">注册一个账号</a>，进入<a href="https://manage.windowsazure.com/">Azure管理门户</a>。用新建(按钮)创建一个存储账号，数据服务，存储。在存储账号页面中用按钮“管理访问键”获取访问信息（账号名、键（有效的主键或二级键））。</p>
+              <p>KeystoneJS的<a href="/zh/docs/database#field_azurefile">AzureFile</a>域类型支持<a href="https://www.windowsazure.com/" target="_blank">Windows Azure存储</a>的文件上传和托管。</p>
+              <p>要在程序中使用AzureFile域，需要<a href="https://www.windowsazure.com/pricing/free-trial/" target="_blank">注册一个账号</a>，进入<a href="https://manage.windowsazure.com/">Azure管理门户</a>。用新建(按钮)创建一个存储账号，数据服务，存储。在存储账号页面中用按钮“管理访问键”获取访问信息（账号名、键（有效的主键或二级键））。</p>
               <p>然后将<code>azurefile config</code>参数设为包含你的配置的对象(见下文示例)。</p>
               <p>另外还要设置环境变量<code class="default-value">AZURE_STORAGE_ACCOUNT</code>和<code class="default-value">AZURE_STORAGE_ACCESS_KEY</code>。</p>
               <p>注意，<strong>account</strong>属性应该设成你的<strong>存储账号</strong>，<em>不是用户账号</em>。</p>
               <pre><code class="language-javascript">keystone.set('azurefile config', { account: 'my storage account', key: 'secret api key' });</code></pre><a name="services-cloudinary"></a>
               <h3>Cloudinary</h3>
-              <p><a href="http://cloudinary.com" target="_blank">Cloudinary</a>是一个图片上传/缩放/托管服务，让你在KeystoneJS程序中用<a href="/zh/docs/database#field_cloudinaryimage">CloudinaryImage</a>和<a href="/zh/docs/database#field_cloudinaryimages">CloudinaryImages</a>域类型轻松实现图片管理。</p>
+              <p><a href="https://cloudinary.com" target="_blank">Cloudinary</a>是一个图片上传/缩放/托管服务，让你在KeystoneJS程序中用<a href="/zh/docs/database#field_cloudinaryimage">CloudinaryImage</a>和<a href="/zh/docs/database#field_cloudinaryimages">CloudinaryImages</a>域类型轻松实现图片管理。</p>
               <p>要在程序中使用Cloudinary Image域，需要<a href="https://cloudinary.com/users/register/free" target="_blank">注册一个账号</a> (Cloudinary提供的免费服务中包括500MB存储、50,000张图片和1GB数据传输)并获取你的<strong>云名称</strong>、<strong>api键</strong>和<strong>api密码</strong>。</p>
               <p>然后将<code>cloudinary config</code>参数设为
                 <ul>
@@ -689,13 +689,13 @@ keystone.set('cloudinary folders', true);
 // 可选, 将强制cloudinary服务通过HTTPS传输
 keystone.set('cloudinary secure', true);</code></pre><a name="services-embedly"></a>
               <h3>Embed.ly</h3>
-              <p><a href="http://embed.ly" target="_blank">Embed.ly</a>是一个解析url (比如Youtube的嵌入链接)的服务，并且会返回很多有价值的信息，比如提供者名称，汇总元数据，视频的高度和宽度，以及可以潜在你的视图中的清爽链接。他们提供了每月不超过5,000个url的免费方案。</p>
+              <p><a href="https://embed.ly" target="_blank">Embed.ly</a>是一个解析url (比如Youtube的嵌入链接)的服务，并且会返回很多有价值的信息，比如提供者名称，汇总元数据，视频的高度和宽度，以及可以潜在你的视图中的清爽链接。他们提供了每月不超过5,000个url的免费方案。</p>
               <p><a href="/zh/docs/database#field_embedly">Embedly域类型</a>在你的KeystoneJS程序中集成它们的API的便利方式。</p>
               <p>配置KeystoneJS支持Embed.ly API，只需要<a href="https://app.embed.ly/signup">注册一个账号</a>，获取你的API键，并设置<code>embedly api key</code>参数。</p>
               <p>这个参数默认为环境变量<code class="default-value">EMBEDLY_API_KEY</code>，如果设了的话。</p>
               <pre><code class="language-javascript">keystone.set('embedly api key', 'your-key');</code></pre><a name="services-mandrill"></a>
               <h3>Mandrill</h3>
-              <p><a href="http://mandrill.com" target="_blank">Mandrill</a>是一个可扩展又实惠的email基础设施服务，让你可以轻松地发送邮件。他们提供了每月不超过12,000封email的免费方案。</p>
+              <p><a href="https://mandrill.com" target="_blank">Mandrill</a>是一个可扩展又实惠的email基础设施服务，让你可以轻松地发送邮件。他们提供了每月不超过12,000封email的免费方案。</p>
               <p>配置KeystoneJS支持Mandrill API，只需<a href="https://mandrill.com/signup/">注册一个账号</a>，获取你的API键，并设置<code>mandrill api key</code>和<code>mandrill username</code>两个参数。</p>
               <p>这些参数默认为环境变量<code class="default-value">MANDRILL_API_KEY &amp; MANDRILL_USERNAME</code>，如果设了的话。</p>
               <pre><code class="language-javascript">keystone.set('mandrill api key', 'your-key');
@@ -733,13 +733,13 @@ exports = module.exports = function(done) {
     </div>
     <div class="docs-footer">
       <div class="container">
-        <p>Created by <a href="http://twitter.com/jedwatson" target="_blank">@jedwatson</a>, <a href="http://twitter.com/bladey" target="_blank">@bladey</a> and <a href="http://twitter.com/jossmackison" target="_blank">@jossmackison</a> at <a href="http://www.thinkmill.com.au" target="_blank">Thinkmill</a>, and other <a href="https://github.com/keystonejs/keystone/contributors" target="_blank">contributors</a> under the <a href="http://opensource.org/licenses/MIT" target="_blank">MIT License</a></p>
+        <p>Created by <a href="https://twitter.com/jedwatson" target="_blank">@jedwatson</a>, <a href="https://twitter.com/bladey" target="_blank">@bladey</a> and <a href="https://twitter.com/jossmackison" target="_blank">@jossmackison</a> at <a href="https://www.thinkmill.com.au" target="_blank">Thinkmill</a>, and other <a href="https://github.com/keystonejs/keystone/contributors" target="_blank">contributors</a> under the <a href="https://opensource.org/licenses/MIT" target="_blank">MIT License</a></p>
         <ul class="list-inline">
           <li><a href="/zh/getting-started" title="KeystoneJS Getting Started">Getting Started</a></li>
           <li><a href="/zh/docs" title="KeystoneJS Documentation">Documentation</a></li>
           <li><a href="https://groups.google.com/forum/#!forum/keystonejs" target="_blank" title="KeystoneJS Google Group">Google Group</a></li>
           <li><a href="https://github.com/keystonejs/keystone" target="_blank" title="Github Project (new window)">Github Project</a></li>
-          <li><a href="http://demo.keystonejs.com" target="_blank" title="Demo Website (new window)">Demo Website</a></li>
+          <li><a href="https://demo.keystonejs.com" target="_blank" title="Demo Website (new window)">Demo Website</a></li>
           <li><a href="/zh/examples" title="KeystoneJS Database">Examples</a></li>
         </ul>
       </div>
@@ -749,7 +749,7 @@ exports = module.exports = function(done) {
         <div class="social-buttons">
           <div class="social-button social-button__twitter"><a href="https://twitter.com/keystonejs" data-show-count="true" class="twitter-follow-button">Follow @keystonejs</a></div>
           <div class="social-button social-button__github">
-            <iframe src="http://ghbtns.com/github-btn.html?user=keystonejs&amp;repo=keystone&amp;type=watch&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="86" height="20"></iframe>
+            <iframe src="https://ghbtns.com/github-btn.html?user=keystonejs&amp;repo=keystone&amp;type=watch&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="86" height="20"></iframe>
           </div>
         </div>
       </div>
