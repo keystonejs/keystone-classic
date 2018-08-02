@@ -34,12 +34,14 @@ export default class Header extends Component {
 						styles.navBarSide,
 						styles.navBarSideLeft
 					)}>
-					<img
-						src={logo}
-						className={compose(styles.logo)}
-						alt="KeystoneJS"
-						title="KeystoneJS"
-					/>
+					<Link to="/">
+						<img
+							src={logo}
+							className={compose(styles.logo)}
+							alt="KeystoneJS"
+							title="KeystoneJS"
+						/>
+					</Link>
 					<span className={compose(styles.logoText)}>KeystoneJS</span>
 				</div>
 				<ul className={compose(styles.navBarCenter)}>
