@@ -14,8 +14,8 @@ name | call time
 `pre:logger` |
 `pre:bodyparser` |
 `pre:session` |
-`pre:admin` |
-`pre:routes` | Installs Express middleware which is called before each route is executed.
+`pre:admin` |	Installs Express middleware which is called before each Keystone admin UI route is executed. (i.e. routes starting with `/keystone`)
+`pre:routes` | Installs Express middleware which is called before each developer defined route is executed. (i.e. the routes you define besides the `/keystone` generated ones)
 `pre:render` | Called before a Keystone [view](/api/view) is rendered.
 `updates` |
 `signin` | Called before a user signs in to the Keystone admin UI and the user is returned a view.
