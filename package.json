@@ -172,6 +172,7 @@
     "test-e2e-saucelabs": "if [ -n \"$SAUCE_ACCESS_KEY\" ]; then node test/e2e/server.js --env saucelabs-travis; fi",
     "test-e2e-saucelabs-group": "if [ -n \"$SAUCE_ACCESS_KEY\" ]; then node test/e2e/server.js --env saucelabs-travis --group ./test/e2e/adminUI/tests/$GROUP; fi",
     "e2etest": "testcafe puppeteer:no_sandbox node test/e2e/server.js --reporter html",
+    "lighthouse:ci": "lighthouse --output-path=report/lighthouse-report.html --quiet --chrome-flags='--headless --no-sandbox=true' // your website URL//",
     "runner": "node server/server.js",
     "lint": "eslint .",
     "lint-fix": "eslint . --fix",
