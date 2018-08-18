@@ -171,6 +171,7 @@
     "test-e2e-bg": "cross-env KNE_SELENIUM_START_PROCESS=false && node test/e2e/server.js --env default",
     "test-e2e-saucelabs": "if [ -n \"$SAUCE_ACCESS_KEY\" ]; then node test/e2e/server.js --env saucelabs-travis; fi",
     "test-e2e-saucelabs-group": "if [ -n \"$SAUCE_ACCESS_KEY\" ]; then node test/e2e/server.js --env saucelabs-travis --group ./test/e2e/adminUI/tests/$GROUP; fi",
+    "e2etest": "testcafe puppeteer:no_sandbox node test/e2e/server.js --reporter html",
     "lint": "eslint .",
     "lint-fix": "eslint . --fix",
     "watch": "watch 'clear && npm run lint' lib admin server test",
