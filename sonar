@@ -1,0 +1,6 @@
+sonar-scanner \
+  -Dsonar.projectKey=madhu31 \
+  -Dsonar.organization=madhuresan-github \
+  -Dsonar.sources=. \
+  -Dsonar.host.url=https://sonarcloud.io \
+  -Dsonar.login=301ece69008832ba2c790de3893724dd8e08cfc7
