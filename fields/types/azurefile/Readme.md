@@ -1,6 +1,6 @@
 # AzureFile Field
 
-> Warning: the AzureFile Field has been deprecated. Please use the [File](/field/File) and a storage adapter going forward.
+> Warning: the AzureFile Field has been deprecated. Please use the [File](/api/field/File) and a storage adapter going forward.
 
 Stores as an `Object` in the model.
 Displayed as a file upload field in the Admin UI.
