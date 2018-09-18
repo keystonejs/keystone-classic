@@ -1,6 +1,6 @@
 {
   "plugins": [
-    "@babel/plugin-transform-object-assign",
+    "@babel/plugin-transform-object-assign"
   ],
   "presets": [
     "@babel/preset-react",
