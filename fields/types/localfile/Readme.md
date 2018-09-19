@@ -1,6 +1,6 @@
 # LocalFile Field
 
-> Warning: the LocalFile Field has been deprecated. Please use the [File](/field/File) and a storage adapter going forward.
+> Warning: the LocalFile Field has been deprecated. Please use the [File](/api/field/File) and a storage adapter going forward.
 
 `Object` — Displayed as a file upload field in the Admin UI
 

@@ -1,6 +1,6 @@
 # List Construction Options
 
-The following is a list of all options for the keystone List [constructor](/api/list), and their effects on the created list. Note that many of these can also be set by the constructor when the list is created.
+The following is a list of all options for the Keystone List [constructor](/api/list), and their effects on the created list. Note that many of these can also be set by the constructor when the list is created.
 
 <h4 data-primitive-type="String"><code>label</code></h4>
 
@@ -31,15 +31,15 @@ Disable the item from being edited in the admin UI or by [updateItem](/api/list/
 
 <h4 data-primitive-type="Boolean"><code>nocreate</code></h4>
 
-Disable creation of new items in the admin UI. Items may still be created by the keystone server.
+Disable creation of new items in the admin UI. Items may still be created by the Keystone server.
 
 <h4 data-primitive-type="Boolean"><code>nodelete</code></h4>
 
-Disable deleting items in the admin UI. Items may still be deleted by the keystone server.
+Disable deleting items in the admin UI. Items may still be deleted by the Keystone server.
 
 <h4 data-primitive-type="Boolean"><code>hidden</code></h4>
 
-If true, the list is hidden from the keystone admin UI.
+If true, the list is hidden from the Keystone admin UI.
 
 <h4 data-primitive-type="Mixed"><code>track</code></h4>
 
@@ -48,7 +48,7 @@ Sets up 4 fields that will be attached to the list; `createdAt`, `createdBy`, `u
 * createdAt adds a pre-save hook, and is set to `new Date()` if the item is new.
 * updatedAt adds a pre-save hook, and is set to `new Date()` if the item is new or modified.
 * createdBy is a relationship field to your [user model](/documentation/configuration/user-model/#user-model), which will be automatically set by the admin UI if the item is new.
-* udpatedBy is a relationship field to your [user model](/documentation/configuration/user-model/#user-model), which will be automatically set by the admin UI if the item is new or modified.
+* updatedBy is a relationship field to your [user model](/documentation/configuration/user-model/#user-model), which will be automatically set by the admin UI if the item is new or modified.
 
 If you want to update `createdBy` and `updatedBy` on server side saves, you can use [updateItem](/api/list/update-item) to pass in a user.
 
@@ -70,7 +70,7 @@ A `List:relationship` pair to control when drag and drop sorting is available in
 
 <h4 data-primitive-type="Number"><code>perPage</code></h4>
 
-Sets the number of items to be loaded per page on the keystone admin UI.
+Sets the number of items to be loaded per page on the Keystone admin UI.
 
 <h4 data-primitive-type="String"><code>searchFields</code></h4>
 
@@ -96,7 +96,7 @@ Defaults to `false`.
 
 <h4 data-primitive-type="Mixed"><code>defaultColumns</code></h4>
 
-Defines the default columns to be displayed in the keystone admin UI list view. If nothing is provided, default columns will be set to just the name field.
+Defines the default columns to be displayed in the Keystone admin UI list view. If nothing is provided, default columns will be set to just the name field.
 
 Set up default columns before registering the list.
 
@@ -129,7 +129,7 @@ This will sort by the `createdAt` field, with the earliest created items first.
 
 <h4 data-primitive-type="List Schema"><code>inherits</code></h4>
 
-You can make a list that inherits from another registered keystone list. This can add new fields to a schema, as well as adding a `__t` property to the schema with the value of the sublist name. In mongo, only one collection is created.
+You can make a list that inherits from another registered Keystone list. This can add new fields to a schema, as well as adding a `__t` property to the schema with the value of the sublist name. In mongo, only one collection is created.
 
 An example of inheritance would be:
 
@@ -147,6 +147,6 @@ ReferencedArticle.register()
 
 You can now make queries just against the `Article` collections, which will filter only articles, or against all Posts, which are stored in a single collection.
 
-In the keystone admin UI, both the list and the sub-list will be visible.
+In the Keystone admin UI, both the list and the sub-list will be visible.
 
 Inheritance can only occur one level deep, so a list that inherits cannot also be inherited from.
