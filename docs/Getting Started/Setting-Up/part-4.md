@@ -72,7 +72,7 @@ html(lang="en")
   head
     title= "Add Event"
   body
-    if enquirySumbitted
+    if enquirySubmitted
       h3 Your Event has been added to the database
     else
       .container
