@@ -176,7 +176,7 @@ We will require a few packages before we come back to our route function:
 
 ```javascript
 var keystone = require('keystone');
-var Event = keystone.list('Event');
+var Event = keystone.List('Event');
 ```
 
 With these set up, we can start looking at how to save the data.
