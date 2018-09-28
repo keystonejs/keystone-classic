@@ -70,6 +70,7 @@ module.exports = function createStaticRouter (keystone) {
 	var elementalPath = path.join(path.dirname(require.resolve('elemental')), '..');
 	var reactSelectPath = path.join(path.dirname(require.resolve('react-select')), '..');
 	var customStylesPath = keystone.getPath('adminui custom styles') || '';
+	var grapesPath = path.resolve(path.dirname(require.resolve('grapesjs')), '..');
 
 	var lessOptions = {
 		render: {
@@ -77,6 +78,7 @@ module.exports = function createStaticRouter (keystone) {
 				elementalPath: JSON.stringify(elementalPath),
 				reactSelectPath: JSON.stringify(reactSelectPath),
 				customStylesPath: JSON.stringify(customStylesPath),
+				grapesPath: JSON.stringify(grapesPath),
 				adminPath: JSON.stringify(keystone.get('admin path')),
 			},
 		},
@@ -89,6 +91,7 @@ module.exports = function createStaticRouter (keystone) {
 	router.get('/js/signin.js', bundles.signin.serve);
 	router.get('/js/admin.js', bundles.admin.serve);
 	router.use(express.static(path.resolve(__dirname + '/../../public')));
+	router.use(express.static(path.resolve(grapesPath, './dist')));
 
 	return router;
 };
