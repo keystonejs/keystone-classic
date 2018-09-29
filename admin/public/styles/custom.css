@@ -1,0 +1,48 @@
+/*
+* @Author: django-wong
+* @Date:   2018-09-29 09:56:38
+* @Last Modified by:   django-wong
+* @Last Modified time: 2018-09-29 09:59:16
+*/
+
+/* Override GrapesJs */
+.gjs-pn-views-container {
+	height: 100%;
+	padding: 42px 0 0;
+	right: 0;
+	width: 250px;
+	overflow: auto;
+	box-shadow: 0 0 5px rgba(0,0,0,0.2);
+}
+
+.gjs-pn-views {
+	border-bottom: 2px solid rgba(0,0,0,0.2);
+	right: 0;
+	width: 250px;
+	z-index: 4;
+}
+
+.gjs-pn-options {
+	right: 250px;
+	top: 0;
+}
+
+.gjs-pn-commands {
+	width: calc(100% - 250px);
+	left: 0;
+	top: 0;
+	box-shadow: 0 0 5px rgba(0,0,0,0.2);
+}
+
+.gjs-cv-canvas {
+	background-color: rgba(0,0,0,0.15);
+	box-sizing: border-box;
+	width: calc(100% - 250px);
+	height: calc(100% - 40px);
+	bottom: 0;
+	overflow: hidden;
+	z-index: 1;
+	position: absolute;
+	left: 0;
+	top: 40px;
+}
