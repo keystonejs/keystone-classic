@@ -25,7 +25,7 @@ We've been working on a major update to KeystoneJS. Keystone 4 is a complete reb
 
 Improvements include:
 
-* The Admin UI has been re-written as a single page app using React.js, Redux, and Elemental UI
+* The Admin UI has been re-written as a single page app using [React.js](https://reactjs.org), [Redux](https://redux.js.org/), and [Elemental UI](http://elemental-ui.com/)
 * An updated API for Lists and Fields
 * Better support for using Keystone without Express, or with your own express instance
 * Core functionality has been refactored and we're breaking Keystone up into separate npm packages
