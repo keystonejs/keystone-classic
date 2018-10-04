@@ -201,7 +201,7 @@ This leaves us with a file looking like:
 
 ```javascript
 var keystone = require('keystone');
-var Event = keystone.list('Event');
+var Event = keystone.List('Event');
 
 module.exports = function (req, res) {
   if (!req.body.name || !req.body.startTime || !req.body.endTime) {
