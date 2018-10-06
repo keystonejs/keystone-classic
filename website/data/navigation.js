@@ -276,7 +276,7 @@ export const api = {
 				label: 'Textarea',
 				slug: '/textarea',
 			}, {
-				label: 'Textarray',
+				label: 'TextArray',
 				slug: '/textarray',
 			}, {
 				label: 'URL',
