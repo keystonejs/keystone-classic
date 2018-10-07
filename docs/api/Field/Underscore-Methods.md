@@ -10,4 +10,4 @@ Once you have retrieved a user from the database you can find the method at:
 user._.password.compare()
 ```
 
-> NOTE: Underscore Methods in keystone have no relation to the javascript undercore library.
+> NOTE: Underscore Methods in Keystone have no relation to the javascript undercore library.
