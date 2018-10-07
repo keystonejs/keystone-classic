@@ -320,8 +320,8 @@ location.prototype.updateItem = function (item, data, callback) {
 	if (doGoogleLookup) {
 		var googleUpdateMode = this.getValueFromData(data, '_improve_overwrite') ? 'overwrite' : true;
 		this.googleLookup(item, false, googleUpdateMode, function (err, location, result) {
-			// TODO: we are currently discarding the error; it should probably be
-			// sent back in the response, needs consideration
+			// TODO: we are currently log the error but otherwise discard it; should probably be returned.. needs consideration
+			if (err) console.error(err);
 			callback();
 		});
 		return;
@@ -431,7 +431,8 @@ location.prototype.googleLookup = function (item, region, update, callback) {
 
 		_.forEach(result.address_components, function (val) {
 			if (_.indexOf(val.types, 'street_number') >= 0) {
-				location.street1 = [val.long_name];
+				location.street1 = location.street1 || [];
+				location.street1.unshift(val.long_name);
 			}
 			if (_.indexOf(val.types, 'route') >= 0) {
 				location.street1 = location.street1 || [];
@@ -449,6 +450,23 @@ location.prototype.googleLookup = function (item, region, update, callback) {
 			}
 			if (_.indexOf(val.types, 'postal_code') >= 0) {
 				location.postcode = val.short_name;
+			}
+
+			// These address_components could arguable all map to our 'number' field
+			// .. https://developers.google.com/maps/documentation/geocoding/intro#GeocodingResponses
+
+			// `subpremise` - "Indicates a first-order entity below a named location, usually a singular building within a collection of buildings with a common name"
+			// In practice this is often the unit/apartment number or level and is not always included
+			if (_.indexOf(val.types, 'subpremise') >= 0) {
+				location.number = val.short_name;
+			}
+
+			// These are all optional (rarely used?) and probably shouldn't replace the number if already set (due to subpremise)
+			// `floor` - Indicates the floor of a building address.
+			// `post_box` - Indicates a specific postal box.
+			// `room` - Indicates the room of a building address.
+			if (_.indexOf(val.types, 'floor') >= 0 || _.indexOf(val.types, 'post_box') >= 0 || _.indexOf(val.types, 'room') >= 0) {
+				location.number = location.number || val.short_name;
 			}
 		});
 

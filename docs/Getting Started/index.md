@@ -2,7 +2,7 @@
 
 ## What is Keystone?
 
-Keystone is a powerful Node.js content management system and web app framework built on the [Express web framework](http://expressjs.com) and [Mongoose ODM](http://mongoosejs.com/). Mongoose is an Object-Document Mapper (ODM) which provides a schema-based solution for modelling data and relationships for documents stored in the [MongoDB database server](https://www.mongodb.com). Keystone extends Mongoose's schema-based models with the concept of a [Keystone List](/api/list/) that helps you build beautiful Admin UIs with intelligent field types.
+Keystone is a powerful [Node.js](https://nodejs.org) content management system and web app framework built on the [Express web framework](http://expressjs.com) and [Mongoose ODM](http://mongoosejs.com/). Mongoose is an Object-Document Mapper (ODM) which provides a schema-based solution for modelling data and relationships for documents stored in the [MongoDB database server](https://www.mongodb.com). Keystone extends Mongoose's schema-based models with the concept of a [Keystone List](/api/list/) that helps you build beautiful Admin UIs with intelligent field types.
 
 Keystone aims to make it easy for you to create sophisticated web sites and applications, but without restricting how much you can customise your projects. You can bring your own view engine, structure your routes however you want, and modify your data structures to suit your requirements.
 

@@ -6,12 +6,13 @@ const styles = {
 		boxSizing: 'border-box',
 		marginLeft: 'auto',
 		marginRight: 'auto',
-		paddingLeft: '1em',
-		paddingRight: '1em',
+		paddingLeft: '2rem',
+		paddingRight: '2rem',
+		position: 'relative',
 
 		[theme.breakpoint.mediumUp]: {
-			paddingLeft: '2em',
-			paddingRight: '2em',
+			paddingLeft: '2rem',
+			paddingRight: '2rem',
 		},
 	},
 };
