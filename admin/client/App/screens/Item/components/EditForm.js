@@ -389,7 +389,7 @@ var EditForm = React.createClass({
 			<form ref="editForm" className="EditForm-container">
 				{(this.state.alerts) ? <AlertMessages alerts={this.state.alerts} /> : null}
 				<Grid.Row>
-					<Grid.Col large="three-quarters">
+					<Grid.Col large="100%">
 						<Form layout="horizontal" component="div">
 							{this.renderNameField()}
 							{this.renderKeyOrId()}

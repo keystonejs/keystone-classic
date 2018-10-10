@@ -119,6 +119,7 @@ Keystone.prototype.initDatabaseConfig = require('./lib/core/initDatabaseConfig')
 Keystone.prototype.initExpressApp = require('./lib/core/initExpressApp');
 Keystone.prototype.initExpressSession = require('./lib/core/initExpressSession');
 Keystone.prototype.initNav = require('./lib/core/initNav');
+Keystone.prototype.initModel = require('./lib/core/initModel');
 Keystone.prototype.list = require('./lib/core/list');
 Keystone.prototype.openDatabaseConnection = require('./lib/core/openDatabaseConnection');
 Keystone.prototype.closeDatabaseConnection = require('./lib/core/closeDatabaseConnection');
@@ -157,6 +158,21 @@ keystone.Field.Types = require('./lib/fieldTypes');
 keystone.Keystone = Keystone;
 keystone.List = require('./lib/list')(keystone);
 keystone.Storage = require('./lib/storage');
+keystone.Storage.DefaultStorage = new keystone.Storage({
+	adapter: keystone.Storage.Adapters.FS,
+	fs: {
+		path: path.resolve(keystone.get('module root'), './uploads'),
+		publicPath: '/blob/',
+	},
+	schema: {
+		size: true,
+		mimetype: true,
+		path: true,
+		originalname: true,
+		url: true,
+	},
+});
+
 keystone.View = require('./lib/view');
 
 keystone.content = require('./lib/content');
