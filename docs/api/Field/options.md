@@ -46,7 +46,7 @@ Displays an **+ add** link in the admin UI when the field has no value. Will com
 
 <h4 data-primitive-type="Object|Array"><code>dependsOn</code></h4>
 
-The field or header will only be displayed when the paths specified in the object match the current data for the item. You can target multiple values per path using an Array. The contents of dependsOn are passed to [expression match](npmjs.com/package/expression-match), if you want to form more complex queries.
+The field or header will only be displayed when the paths specified in the object match the current data for the item. You can target multiple values per path using an Array. The contents of dependsOn are passed to [expression match](http://npmjs.com/package/expression-match), if you want to form more complex queries.
 
 **Example**
 
