@@ -45,11 +45,7 @@ module.exports = function (req, res) {
 				next();
 			});
 		}, function (err) {
-			if (err) {
-				return res.apiError({
-					error: err.message,
-				});
-			}
+			if (err) return res.apiError(err);
 			return res.json({
 				success: true,
 				ids: deletedIds,
