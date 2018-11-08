@@ -36,7 +36,7 @@ Event.schema.pre('save', function (next) {
   return next();
 });
 
-Event.defaultColumns = 'displayName, email';
+Event.defaultColumns = 'name, description';
 Event.register();
 ```
 

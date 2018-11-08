@@ -34,7 +34,7 @@ As mentioned in Part 1, `keystone.init` defines initial options for Keystone's s
  1. `name`: This is used as the site name and defaults to `KeystoneJS`. This will also be the name of your database in MongoDB.
 
  2. `'user model'`: The name of your user model. Let's use `'User'` to keep things simple.
- 
+
  3. `auth`: Set this to `true` so accessing the Keystone admin UI requires a user to log in.
 
  4. `'auto update'`:  Set this to `true` to enable Keystone's application update feature. This is will make it very easy to get seed data into your project.
@@ -183,7 +183,7 @@ User.register();
 
 There's one more thing to do before you can launch your app. You need to have an initial user in your database. You can do this through an update script, which Keystone will run on startup.
 
-Make a new directory called `updates` and make a file `0.0.1-first-user.js` in it. 
+Make a new directory called `updates` and make a file `0.0.1-first-user.js` in it.
 
 Add the following code to `0.0.1-first-user.js`:
 
@@ -245,7 +245,7 @@ Event.schema.pre('save', function (next) {
   return next();
 });
 
-Event.defaultColumns = 'displayName, email';
+Event.defaultColumns = 'name, description';
 Event.register();
 ```
 
