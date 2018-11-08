@@ -80,7 +80,8 @@ module.exports = Field.create({
 	},
 	isImage () {
 		const href = this.props.value ? this.props.value.url : undefined;
-		return href && href.match(/\.(jpeg|jpg|gif|png|svg)$/i) != null;
+		return (href && href.match(/\.(jpeg|jpg|gif|png|svg)$/i) != null) || 
+			(this.props.value.mimetype && this.props.value.mimetype.indexOf('image/') >=0 );
 	},
 
 	// ==============================
