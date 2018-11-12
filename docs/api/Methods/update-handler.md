@@ -2,11 +2,11 @@
 
 ## `var updateHandler = new updateHandler(list:KeystoneList, item:MongooseObject, req:RequestObject, options:Object)`
 
-Update Handler is a constructor from a collection of complex objects, to allow you to update an item, and return flash errors to the user. It is mostly used internally by keystone, however if you wish to use flash errors, it is accessible. behind the scenes its process method uses the [updateItem](/api/list/update-item) property on the passed in list. Its arguments are:
+Update Handler is a constructor from a collection of complex objects, to allow you to update an item, and return flash errors to the user. It is mostly used internally by Keystone, however if you wish to use flash errors, it is accessible. behind the scenes its process method uses the [updateItem](/api/list/update-item) property on the passed in list. Its arguments are:
 
 argument | description
 --- | ---
-list | A keystone list, retrieved with [keystone.list](/api/methods/list). This is the list of the item you want to update.
+list | A Keystone list, retrieved with [keystone.list](/api/methods/list). This is the list of the item you want to update.
 item | A mongoose object retrieved from the database.
 req | A request object provided to us by express. If there is a user on the request object, this will be added to the options when the data is processed. If there are files on the request object, they will be added to the options object.
 options | The options object has two purposes. It will be passed in to the `updateItem` call, and also supports several options of its own, detailed below.

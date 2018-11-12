@@ -1,7 +1,5 @@
 # CloudinaryImages Field
 
-> Warning: the CloudinaryImages Field has been deprecated. Please use the [File](/field/File) and a storage adapter going forward.
-
 `Array` — Displayed as a series of images, and an upload field in the Admin UI.
 
 Stores multiple images in a array as a nested `Schema`, each of which expose the same methods as the `cloudinaryimage` field.

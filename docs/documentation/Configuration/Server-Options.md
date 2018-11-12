@@ -119,6 +119,8 @@ When set to `true`, both http and https servers will be started. If `ssl key` or
 
 When set to "only", only the https server will be started. If `ssl key` or `ssl cert` are invalid, KeystoneJS will not start.
 
+When set to `'force'`, there will be the same result as if `'true'` was given except all requests to http will be redirected to https
+
 <h4 data-primitive-type="String"><code>ssl key</code></h4>
 
 The path to your SSL Key. Should be either absolute or relative to `process.cwd()` (which is usually your project root).
@@ -135,9 +137,37 @@ The path to your SSL CA Bundle. Should be either absolute or relative to `proces
 
 The port to start the SSL Server on. Defaults to `3001`.
 
+<h4 data-primitive-type="Number"><code>ssl public port</code></h4> 
+
+The public-facing port to send https requests to (Eg: for https redirects from http). Defaults to the value of the `ssl port` option.
+
 <h4 data-primitive-type="String"><code>ssl host</code></h4>
 
 The ip address to listen for request on. Defaults to `process.env.SSL_IP` or the value of the `host` option.
+
+<h4 data-primitive-type="Object"><code>letsencrypt</code></h4>
+
+A configuration object used with `letsencrypt-express` to configure automatic SSL certificate registration (properties of this object can be found below).
+
+<h4 data-primitive-type="String"><code>letsencrypt.email</code></h4>
+
+The email address to register as an admin email with letsencrypt. (Corresponds to the letsencrypt-express `email` property).
+
+<h4 data-primitive-type="String|Array"><code>letsencrypt.domains</code></h4>
+
+The domain(s) to register under the letsencrypt certificate. (Corresponds to the letsencrypt-express `approveDomains` property).
+
+<h4 data-primitive-type="Boolean"><code>letsencrypt.register</code></h4>
+
+Whether to automatically register/ renew the letsencrypt certificate.
+
+<h4 data-primitive-type="Boolean"><code>letsencrypt.tos</code></h4>
+
+Whether or not you agree to the [Terms of Service](https://letsencrypt.org/repository/). (Corresponds to the letsencrypt-express `agreeTos` attribute).
+
+<h4 data-primitive-type="Boolean"><code>letsencrypt.production</code></h4>
+
+Whether or not to use the letsencrypt production server to issue the certificate (versus using the staging server). To avoid hitting rate limits, set the value to `false` during setup to use the staging server.		
 
 Exposes `onHttpsServerCreated` event during `keystone.start()`
 

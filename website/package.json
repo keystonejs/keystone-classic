@@ -1,0 +1,49 @@
+{
+  "name": "gatsby-starter-default",
+  "description": "Gatsby default starter",
+  "version": "1.0.0",
+  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "dependencies": {
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "gatsby": "^1.9.247",
+    "gatsby-link": "^1.6.40",
+    "gatsby-plugin-glamor": "^1.6.13",
+    "gatsby-plugin-netlify": "^1.0.21",
+    "gatsby-plugin-react-helmet": "^2.0.10",
+    "gatsby-plugin-twitter": "^1.0.20",
+    "gatsby-plugin-typography": "^1.7.18",
+    "gatsby-source-filesystem": "^1.5.31",
+    "gatsby-transformer-remark": "^1.7.40",
+    "lodash.kebabcase": "^4.1.1",
+    "react-document-title": "^2.0.3",
+    "react-entypo": "^1.3.0",
+    "react-helmet": "^5.2.0",
+    "react-icons": "^2.2.7",
+    "react-tweet-embed": "^1.1.0",
+    "react-twitter-widgets": "^1.7.1",
+    "typeface-roboto": "^0.0.54",
+    "typography": "^0.16.17",
+    "typography-breakpoint-constants": "^0.15.10",
+    "typography-plugin-code": "^0.16.11",
+    "unfetch": "^3.0.0"
+  },
+  "keywords": [
+    "gatsby"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "build": "gatsby build",
+    "develop": "gatsby develop",
+    "format": "prettier --write 'src/**/*.js'",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "babel-eslint": "^8.2.3",
+    "eslint": "^4.19.1",
+    "eslint-plugin-jest": "^21.17.0",
+    "eslint-plugin-react": "^7.9.1",
+    "prettier": "^1.13.4"
+  }
+}

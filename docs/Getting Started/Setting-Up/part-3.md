@@ -1,25 +1,23 @@
 # Part 3: Routing
 
-Keystone is designed to do much of the setup of running an [express](expressjs.com) application out of your hands as well as allowing an easy configuration of the options.
+Keystone is designed to streamline running an [ExpressJS](https://expressjs.com) application including configuration of common options.
 
-Here we are going to add a router to our keystone application, and set up a basic webpage. This will not rely on what was done in part 2.
+In this tutorial section we are going to add *routing* to your Keystone application. Routing is the process of directing client requests (from web browsers or API calls) to corresponding handling functions in your application.
 
-After that, we are going to set up an API endpoint to retrieve information about the events model, which will be relying on setup we did in [Part 2](/getting-started/setting-up/part-2).
-
-For our routing, we are going to be using [pug](pugjs.org) to render our views, however the principles will remain the same for other view engines.
+By the end of this tutorial section you will have created a basic web page rendered using the [Pug](https://pugjs.org) view engine. Pug is used as an example, but the principles of routing and rendering are the same for other view engines.
 
 ## Setup
 
-From [part 1](/getting-started/setting-up/part-1), we should have the following files:
+From [Part 1: Initial Setup](/getting-started/setting-up/part-1) you should have the following files:
 
 ```sh
-| our Project folder
+| MyProject
 |--node_modules/
 |--package.json
 |--keystone.js
 ```
 
-We should have installed keystone. We need at least the following in our `keystone.js` folder:
+Keystone should already be installed and at a minimum your `keystone.js` file should include the following:
 
 ```javascript
 var keystone = require('keystone');
@@ -31,24 +29,19 @@ keystone.init({
 keystone.start();
 ```
 
-If you did [part 2](/getting-started/setting-up/part-2), you will have more than this, however we will leave off that until we get to looking at our api route.
+If you completed [Part 2: Data Model Setup](/getting-started/setting-up/part-2) your `keystone.js` will have additional database configuration options. The database configuration options aren't required for the basic routing and web page set up in this tutorial section, but you'll need to keep those details for the subsequent tutorial section ([Part 4: Adding data from a form](/getting-started/setting-up/part-4)).
 
 ## Adding a new page view
 
-### Modifying our `keystone.js` file
+### Modifying the `keystone.js` file
 
-As we mentioned in part one, keystone.init allows us to define our initial options for keystone's startup. For configuring our database connection, we are going to add 2 new properties to our `keystone.init`, and then add a line that will import our routes.
+As mentioned in Part 1, `keystone.init` defines initial options for Keystone's startup. For rendering application views we are going to add two new properties to  `keystone.init`, and then add a line that will import our routes.
 
-Our two properties are `views` and `view engine`. The first allows us to set a folder location relative to `keystone.js` to load our view files from. The second sets an engine for keystone to try and render the files with.
+The two properties to add are:
+ 1. `views`: A folder location relative to `keystone.js` to load view files from. We're going to use `'templates/views'`.
+ 2. `view engine`: A template engine for Keystone to use to render view files. This will be `pug`.
 
-We are going to want to set them as:
-
-```javascript
-  views: 'templates/views',
-  'view engine': 'pug',
-```
-
-which will give us an init looking something like:
+Your `keystone.init` should now have at least the following properties:
 
 ```javascript
 keystone.init({
@@ -58,26 +51,28 @@ keystone.init({
 });
 ```
 
-Keystone will look for an installed npm package with the same name as the view engine, so we are going to have to install `pug` to get this working.
+Keystone will look for an installed `npm` package with the same name as the view engine, so you are going to have to install `pug` to get this working.
 
 ```sh
 $ npm install --save pug
 ```
 
-Finally, we need to add a line to tell keystone where we plan to write our routes.
+Finally, add a line to tell Keystone where you plan to define your routes:
 
 ```javascript
 keystone.set('routes', require('./routes'));
 ```
 
-### Adding our routes file
+### Adding routes
 
-Next, we need to add our `routes` files. We are going to construct them along keystone's [recommended file format](), however you can structure them differently.
+Next, we need to add `routes` files. We are going to construct them using Keystone's recommended file and directory layout, however you can structure  differently if you prefer.
 
-First we are going to add a routes folder, and make an `index.js` file in it. Within our `routes` folder, add a `views` folder and then give that its own `index.js`. After this we should have a folder structure that looks like:
+First we are going to add a `routes` folder, and make an `index.js` file in it. Within the `routes` folder, add a `views` folder and then give that its own `index.js`.
+
+After this you should have a folder structure that looks like:
 
 ```sh
-| Our Project
+| MyProject
 |--node_modules/
 |--routes
 |	|--index.js
@@ -90,11 +85,11 @@ The reason for this structure is that it is best to keep the individual routes i
 
 #### `routes/index.js`
 
-Let's fill out our central file, our `routes/index.js`.
+Let's start with the central routing file, `routes/index.js`.
 
-This file is going to export a function, takes in the express app keystone has built for us, and adds on our individual routes.
+This file is going to export a function, take in the Express app Keystone has built for us, and add on our individual routes.
 
-The most basic form of it would look like:
+The most basic form would look like:
 
 ```javascript
 exports = module.exports = function (app) {
@@ -102,9 +97,9 @@ exports = module.exports = function (app) {
 };
 ```
 
-For each route we want, we add a new item. Each takes in its own function that it runs when a particular endpoint is hit, in this case `'/'`, the homepage.
+For each route we want, we add a new path and route function. In the example above, the path `'/'` (the default homepage) will be handled by `routeFunction()`.
 
-What we are going to add is going to be slightly more complicated.
+What we are going to add will be slightly more complicated:
 
 ```javascript
 var keystone = require('keystone');
@@ -119,15 +114,17 @@ exports = module.exports = function (app) {
 };
 ```
 
-The keystone importer gives us a function that allows us to reduce a folder and its contents to an object with the same nesting.
+The Keystone importer gives us a function that allows us to reduce a folder and its contents to an object with the same nesting.
 
 We then call `importRoutes` with the directory we want to import, and attach it to an object at `routes.views`. Finally, we can now provide `routes.views.index` as the second argument for our `app.get` function call.
 
-This is a bit heavyweight for a single route, but makes it easy to add new routes, without requiring a litany of requirements of every file as you go along. We're going to need some content in `routes/views/index/js` for this to run now.
+This is a bit heavyweight for a single route, but makes it easy to add new routes, without requiring a litany of requirements of every file as you go along. We're going to need some content in `routes/views/index.js` for this to run now.
 
 #### `routes/views/index.js`
 
-This is our first endpoint file, and is an important point for a lot of common patterns in setting up new routes. Let us jump right in to the code for this one.
+This is our first endpoint file, and is an important point for a lot of common patterns in setting up new routes.
+
+Let us jump right in to the code for this one:
 
 ```javascript
 module.exports = function (req, res) {
@@ -135,7 +132,7 @@ module.exports = function (req, res) {
 };
 ```
 
-This is using express routing, which you can find out more about [at their website](http://expressjs.com/en/starter/basic-routing.html).
+This is using Express routing, which you can learn more about in the Express documentation: [Basic routing](http://expressjs.com/en/starter/basic-routing.html).
 
 What we are going to want in this instance is to render our first view. For that, we want our file to read:
 
@@ -145,14 +142,14 @@ module.exports = function (req, res) {
 };
 ```
 
-### Adding our view
+### Adding a view
 
-Our final step to having a view rendered is the view file itself, which we can use to write the text to be rendered.
+The final step to having a view rendered is the view file itself, which includes   templated text contents.
 
-First we will need a new templates folder at the top level, and a views folder within that. In this views folder create a file `index.pug`. After this, our file structure should look like:
+First you will need a new templates folder at the top level, and a `views` folder within that. In this `views` folder create a file `index.pug`. After this, your file structure should look like:
 
 ```sh
-| Our Project
+| MyProject
 |--node_modules/
 |--routes
 |	|--index.js
@@ -164,9 +161,9 @@ First we will need a new templates folder at the top level, and a views folder w
 |--keystone.js
 ```
 
-Note that the routes/views and templates/views are mirroring each other. It is a good idea to keep this as you add more routes, so the relationship between them is easy to determine.
+Note that the routes/views and templates/views are mirroring each other. It is a good idea to follow this pattern as you add more routes so the relationship between them is easy to determine.
 
-Our pug folder just needs a bit of content:
+The `index.pug` file just needs a bit of content:
 
 ```jade
 doctype html
@@ -177,21 +174,19 @@ html(lang="en")
     h1 Welcome to Keystone!
     #container.col
       p.
-          Hope you're enjoying learning about keystone. We're close to some very dynamic cool things
+          Hope you're enjoying learning about KeystoneJS. We're close to some very dynamic cool things.
 ```
 
-Check out [pugjs.org](pugjs.org) if you want to know more about pug.
-
-Now, if we start our keystone app using `node keystone`, we should be able to visit the homepage and see it rendered!
-
-[Part 4](/getting-started/setting-up/part-4)
+Now, if you start your Keystone app using `node keystone` you should be able to visit the homepage and see it rendered!
 
 ## Next Steps
 
-Learn more about:
+Continue this tutorial with [Part 4: Adding data from a form](/getting-started/setting-up/part-4), which walks you through setting up an API endpoint to save data from a form to a database.
 
-- [keystone.set](/methods/set)
-- [init options](/configuration)
-- [pug](pugjs.org)
-- [express](expressjs.com)
-- [keystone.importer](/methods/importer)
+## Learn more about:
+
+- [keystone.set](/api/methods/set)
+- [init options](/documentation/configuration)
+- [keystone.importer](/api/methods/importer)
+- [Express](https://expressjs.com)
+- [Pug](https://pugjs.org)

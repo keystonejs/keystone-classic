@@ -5,7 +5,7 @@ TODO: Needs Review and Spec
 module.exports = {
 
 	upload: function (req, res) {
-		var knox = require('knox');
+		var knox = require('knox-s3');
 		var keystone = req.keystone;
 		var Types = keystone.Field.Types;
 
@@ -34,11 +34,15 @@ module.exports = {
 						if (s3Response.statusCode !== 200) {
 							return res.send({ error: { message: 'Amazon returned Http Code: ' + s3Response.statusCode } });
 						} else {
-							var region = 's3';
-							if (s3Config.region && s3Config.region !== 'us-east-1') {
-								region = 's3-' + s3Config.region;
+							if (s3Config.root) {
+								return res.send({ image: { url: s3Config.root + '/' + file.name } });
+							} else {
+								var region = 's3';
+								if (s3Config.region && s3Config.region !== 'us-east-1') {
+									region = 's3-' + s3Config.region;
+								}
+								return res.send({ image: { url: 'https://' + region + '.amazonaws.com/' + s3Config.bucket + '/' + file.name } });
 							}
-							return res.send({ image: { url: 'https://' + region + '.amazonaws.com/' + s3Config.bucket + '/' + file.name } });
 						}
 					}
 				};
