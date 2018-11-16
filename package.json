@@ -8,7 +8,7 @@
     "url": "https://github.com/keystonejs/keystone.git"
   },
   "dependencies": {
-    "async": "^2.5.0",
+    "async": "^2.6.1",
     "asyncdi": "^1.1.0",
     "babel-core": "^6.26.3",
     "babel-plugin-transform-object-assign": "^6.22.0",
@@ -55,7 +55,7 @@
     "less-middleware": "^2.2.1",
     "letsencrypt-express": "^2.0.7",
     "list-to-array": "^1.1.0",
-    "lodash": "^4.17.10",
+    "lodash": "^4.17.11",
     "marked": "^0.3.9",
     "method-override": "^2.3.10",
     "mime-types": "^2.1.15",
