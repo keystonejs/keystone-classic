@@ -13,12 +13,13 @@ function date (list, path, options) {
 	this._nativeType = Date;
 	this._underscoreMethods = ['format', 'moment', 'parse'];
 	this._fixedSize = 'medium';
-	this._properties = ['formatString', 'yearRange', 'isUTC', 'inputFormat'];
+	this._properties = ['formatString', 'yearRange', 'isUTC', 'inputFormat', 'todayButton'];
 	this.parseFormatString = options.inputFormat || 'YYYY-MM-DD';
 	this.formatString = (options.format === false) ? false : (options.format || 'Do MMM YYYY');
 
 	this.yearRange = options.yearRange;
 	this.isUTC = options.utc || false;
+	this.todayButton = typeof options.todayButton !== 'undefined' ? options.todayButton : true;
 
 	/*
 	 * This offset is used to determine whether or not a stored date is probably corrupted or not.
