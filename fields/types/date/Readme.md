@@ -30,6 +30,12 @@ Defaults to 'Do MMM YYYY'
 
 See the [momentjs format docs](http://momentjs.com/docs/#/displaying/format/) for information on the supported formats and options.
 
+* `todayButton` `Boolean`
+
+Determines if the Today button will be displayed.
+
+Defaults to 'true'
+
 ## Methods
 
 ### `format(formatString)`
