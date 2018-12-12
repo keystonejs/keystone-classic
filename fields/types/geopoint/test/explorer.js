@@ -1,6 +1,6 @@
 module.exports = {
-	Field: require('../GeopointField'),
-	Filter: require('../GeopointFilter'),
+	Field: require('../GeoPointField'),
+	Filter: require('../GeoPointFilter'),
 	section: 'Miscellaneous',
 	spec: {
 		label: 'Geopoint',
