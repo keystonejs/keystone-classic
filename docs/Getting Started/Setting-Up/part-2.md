@@ -1,19 +1,19 @@
-# Part 2 - Database Setup
+# Part 2: Data Model Setup
 
-Keystone has an easy database integration with [mongodb](mongodb.com), and uses [mongoose](http://mongoosejs.com/) under the hood to help manage your data. In part 2, we are going to connect our app to mongo, and add a user model, so we can log in to and look at the admin UI.
+Keystone has an easy database integration with [MongoDB](https://mongodb.com), and uses the [Mongoose ODM](http://mongoosejs.com/) under the hood to help manage your data. In this section of the tutorial you are going to connect your app to MongoDB and add a user model so you can log into the admin UI.
 
 ## Setup
 
-From [Part 1](/getting-started/setting-up/part-1), we should have the following files:
+From [Part 1: Initial Setup](/getting-started/setting-up/part-1), you should have the following files:
 
 ```sh
-| our Project folder
+| MyProject
 |--node_modules/
 |--package.json
 |--keystone.js
 ```
 
-We should have installed keystone. We need at least the following in our `keystone.js` folder:
+You should have installed Keystone with at least the following in your `keystone.js` file:
 
 ```javascript
 var keystone = require('keystone');
@@ -25,54 +25,54 @@ keystone.init({
 keystone.start();
 ```
 
-## Adding a `User` model
+## Adding a User model
 
-### Modifying our `keystone.js` file
+### Modifying the `keystone.js` file
 
-As we mentioned in part one, keystone.init allows us to define our initial options for keystone's startup. For configuring our database connection, we are going to add 4 new properties to our `keystone.init`.
+As mentioned in Part 1, `keystone.init` defines initial options for Keystone's startup. For configuring a database connection, you are going to add four new properties to your `keystone.init`:
 
-Firstly, we are going to add a `name`. This is used as the site name, and defaults to `KeystoneJS`. This will also be the name of our database in mongo.
+ 1. `name`: This is used as the site name and defaults to `KeystoneJS`. This will also be the name of your database in MongoDB.
 
-Next, we want to define what our `'user model'` will be. Let's call it `'User'` to keep it simple.
+ 2. `'user model'`: The name of your user model. Let's use `'User'` to keep things simple.
+ 
+ 3. `auth`: Set this to `true` so accessing the Keystone admin UI requires a user to log in.
 
-We want to set `auth` to be `true` so accessing the keystone admin UI requires a person to log in.
+ 4. `'auto update'`:  Set this to `true` to enable Keystone's application update feature. This is will make it very easy to get seed data into your project.
 
-Finally we want to set `'auto update'` to be `true`. This is going to make it very easy to get our seed data in to our project.
-
-Our init should now have at least the following properties:
+Your `keystone.init` should now have at least the following properties:
 
 ```javascript
 keystone.init({
   'cookie secret': 'secure string goes here',
-  'name': 'our-project',
+  'name': 'my-project',
   'user model': 'User',
   'auto update': true,
   'auth': true,
 });
 ```
 
-If you want to read more about these options, you can find the documentation [here](/documentation/configuration).
+> NOTE: If you want to read more about available configuration options, see [Keystone Setup Options](/documentation/configuration).
 
-Finally, we are going to add a new line to the file, which is going to import our models. This should be placed after `keystone.init` but before `keystone.start`
+Finally, add a new line to import your models. This should be placed after `keystone.init` but before `keystone.start`:
 
 ```javascript
 keystone.import('models');
 ```
 
-The `import` method allows us to pull in an entire folder, in this case the entire models folder, and will allow us to add as many models as we want without having to come back and let keystone know we've added something new. New models will be noticed each time keystone starts.
+The `import` method pulls in an entire folder (in this case the `models` folder) and allows you to add as many models as you want without having to come back and let Keystone know you've added something new. New models will be noticed each time Keystone starts.
 
-If you want to know more about `keystone.import()` the documentation is [here](/api/methods/import).
+> NOTE: If you want to learn more, see [`keystone.import()`](/api/methods/import).
 
-### Adding our model file
+### Adding a model file
 
-Next up, we're going to add a file to hold the code which will define our `User` model for us.
+Next up, you're going to add a file to hold the code which will define your `User` model.
 
-First we need to create a directory called `models` and make a new file `User.js` in it.
+First you need to create a directory called `models` and make a new file `User.js` in it.
 
-Our folder should now look like:
+Your project folder should now look like:
 
 ```sh
-| our Project folder
+| MyProject
 |--node_modules/
 |--models
 |	|--User.js
@@ -80,7 +80,7 @@ Our folder should now look like:
 |--keystone.js
 ```
 
-In User.js, we are going to start by creating a new list. We'll need the following code:
+In `User.js` you are going to start by creating a new list. You'll need the following code:
 
 ```javascript
 var keystone = require('keystone');
@@ -88,29 +88,29 @@ var keystone = require('keystone');
 var User = new keystone.List('User');
 ```
 
-We now have a User model from our constructor. This list doesn't have any properties yet, so isn't going to be very useful to us, so let's add some data fields below this code.
+This constructor will create a User model which is a `keystone.List`. This list doesn't have any properties yet, so isn't going to be very useful. Let's add some data fields below this code:
 
 ```javascript
 User.add({
   displayName: { type: String },
-  email: { type: keystone.Field.Types.Email, unique: true },
   password: { type: keystone.Field.Types.Password },
+  email: { type: keystone.Field.Types.Email, unique: true },
 });
 ```
 
-This adds new fields to our model. Here we are adding a display name, as well as an email field and a password field. Let's break down the structure of these.
+This adds three fields to your model: a display name, a password field, and an email field. Let's break down the structure of these.
 
 ```javascript
 displayName: { type: String }
 ```
 
-This is our most basic field here. Every field needs a `type` property defined, and here we are using one of the base types in javascript to define what our field is.
+This demonstrates the most basic field definition. Every field needs a `type` property defined: `displayName` uses JavaScript's default `String` type.
 
 ```javascript
 password: { type: keystone.Field.Types.Password }
 ```
 
-Our email field is using a keystone-specific field type. This adds a defined shape to the data, as well as a collection of extra validation. For the password field, it will encrypt it for us. In addition, in the keystone admin UI, it will not display the contents of the password field, and will require a password to be entered twice to change it.
+The `password` field is using a Keystone-specific field type. This adds a defined shape to the data and some extra UI and data layer validation. Keystone's Password field types are automatically encrypted when saved. In addition, the Keystone admin UI will not display the contents of the `password` field and will require a password to be entered twice to change it.
 
 This takes care of a lot of our password security for us.
 
@@ -118,18 +118,23 @@ This takes care of a lot of our password security for us.
 email: { type: keystone.Field.Types.Email, unique: true },
 ```
 
-Email is similar to password in that it is using a keystone-specific field type, in this case to ensure that when this field is filled, it has the shape of an email. In addition, we have passed a second option of `unique: true`, which forces the field to be unique within the database. No doubling up on email addresses for accounts.
+The `email` field is similar to `password` in that it is using another Keystone-specific field type. Keystone's Email type validates that field entries look like valid email addresses. In addition, we have passed a second option of `unique: true` which forces the field to be unique within the database. No doubling up on email addresses for accounts.
 
-// The following para really needs more work. Needs lightness and timing
-If you want to know about all the field types keystone offers, you can find the information find the full list of options in the [field docs](/api/field) Also, for the options like `unique` which are available to all fields, you can read more [here](/api/field/options), for when you are making your own models.
+If you want to know about all the field types Keystone offers, you can find the full list of options in the [Field API documentation](/api/field). Also, for options like `unique` which are available to all fields, you can read more about the [Field options API](/api/field/options). Understanding available field types and options will be very useful when you are making your own data models.
 
-There are three more parts we are going to need to get our user model working. The first is to register it to keystone. This will tell keystone to include it in its list of models. To do this, add the following line to the bottom of the file:
+There are three more steps remaining to get your user model working. The first is to register the model so Keystone knows to include User in its list of models.
+
+To do this, add the following line to the bottom of the `User.js` file:
 
 ```javascript
 User.register();
 ```
 
-Next, as we want this to be our User model for logging in to the admin UI, we needs to add the property for `canAccessKeystone` to the model. We are going have a User model that allows all users to access to keystone, but you will likely want to implement more fine-grained control for your own apps. Add this above `User.register`:
+### canAccessKeystone
+
+Next, since this User model will be used for logging into the admin UI you need to add the property `canAccessKeystone`. We are going have a User model that allows all users to access to Keystone, but you will likely want to implement more fine-grained control for your own apps.
+
+Add this above `User.register`:
 
 ```javascript
 User.schema.virtual('canAccessKeystone').get(function () {
@@ -137,17 +142,23 @@ User.schema.virtual('canAccessKeystone').get(function () {
 });
 ```
 
-If you want to know more about virtuals and other schema methods, you can find the [schema documentation](/api/list/schema).
+> NOTE: If you want to know more about virtuals and other schema methods, you can find the [schema documentation](/api/list/schema).
 
-The final part of setting up our user model is to define the default columns to be displayed in the admin UI.
+#### Default columns to display
+
+The final part of setting up your user model is to define the default columns to be displayed in the admin UI.
 
 Add this line just above `User.register`:
 
 ```javascript
-`User.defaultColumns = 'id, displayName, email';`
+User.defaultColumns = 'id, displayName, email';
 ```
 
-Alright, that's our user model complete. We should now have a file that looks like this:
+#### A working User model
+
+Alright, that's your User model complete!
+
+You should now have a file that looks like this:
 
 ```javascript
 var keystone = require('keystone');
@@ -164,14 +175,17 @@ User.schema.virtual('canAccessKeystone').get(function () {
   return true;
 });
 
+User.defaultColumns = 'id, displayName, email';
 User.register();
 ```
 
 ### Adding an update script
 
-There's one more thing to do before we can launch our app. We need to have an initial user in our database. We can do this through an update script, which keystone will run on startup.
+There's one more thing to do before you can launch your app. You need to have an initial user in your database. You can do this through an update script, which Keystone will run on startup.
 
-Make a new directory called `updates` and make a file `0.0.1-first-user.js` in it. Next we can just drop in the following code:
+Make a new directory called `updates` and make a file `0.0.1-first-user.js` in it. 
+
+Add the following code to `0.0.1-first-user.js`:
 
 ```javascript
 exports.create = {
@@ -186,15 +200,19 @@ exports.create = {
 
 ```
 
-This will create a user with these details (though the password will be hashed before saving) when keystone is started up. If you want to know more about update scripts, you can find the information [here](/documentation/configuration).
+This will create a user with these details (though the password will be hashed before saving) when Keystone is started up. If you want to know more about update scripts, see [Application Updates](/documentation/database/application-updates).
 
-An important note is that you will likely end up committing your update scripts to your project, so you should not include sensitive information in here. Any passwords added in an update script should be manually changed afterwards.
+> NOTE: You will likely end up committing your update scripts to your project, so you should not include sensitive information. Any passwords added in an update script should be manually changed afterwards.
 
 ## Exploring the Admin UI
 
-And now we're ready! We can run `node keystone.js` to start up our app.
+Now you're ready! You should be able to run `node keystone.js` to start up your app.
 
-We can now navigate to `localhost:3000/keystone` and be presented with a login page. Log in using the email address and password you just added, and have a bit of a play around. In fact, here are two more models to make this easier. Add these in and then restart your app.
+If you point your favourite web browser at `http://localhost:3000/keystone` you should now be presented with a login page. Log in using the email address and password you just added, and have a bit of a play around.
+
+### Event model
+
+Below is a more interesting model to play with. Add this in and then restart your Keystone application.
 
 `models/Event.js`
 
@@ -232,13 +250,14 @@ Event.register();
 ```
 
 ## Next Steps
-Check out [part 3](/getting-started/setting-up/part-3) of our setting up keystone guide, which walks you through adding your own pages to your site, or if you want to read more about any of the parts we set up, you can check out these links:
 
-learn more about:
+This tutorial continues in [Part 3: Routing](/getting-started/setting-up/part-3), which walks you through adding static pages to your site.
 
-- [configuring keystone](/documentation/configuration)
-- [importing models](/api/methods/import)
-- [list of keystone fields](/api/field)
-- [keystone field options](/api/fields/options)
-- [update scripts](/documentation/application-updates)
-- [virtuals and schema methods](/api/list/schema)
+## Learn more about:
+
+- [Keystone Setup Options](/documentation/configuration)
+- [Importing models](/api/methods/import)
+- [Keystone Field Types](/api/field)
+- [Keystone Field Options](/api/field/options)
+- [Application Updates](/documentation/database/application-updates)
+- [Virtuals and schema methods](/api/list/schema)

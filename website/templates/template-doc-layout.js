@@ -53,14 +53,13 @@ export default class DocumentLayout extends React.Component {
 		const title = markdownRemark.headings.sort((a, b) => a.value.localeCompare(b.value)).map(h => h.value).join(', ');
 
 		// TODO add file path to Markdown schema
-		// NOTE pointing to `docs` until ready for `master`
 		const editPath = `
-			https://github.com/keystonejs/keystone/blob/docs/docs/${path}
+			https://github.com/keystonejs/keystone/blob/master/docs/${path}
 		`;
 
 		return (
 			<div>
-				<Navbar items={this.getNavItems()} />
+				<Navbar items={this.getNavItems()} pathname={this.props.location.pathname} />
 				<Page
 					body={body}
 					editPath={editPath}

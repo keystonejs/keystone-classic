@@ -1,6 +1,6 @@
 module.exports = {
-	Field: require('../TextarrayField'),
-	Filter: require('../TextarrayFilter'),
+	Field: require('../TextArrayField'),
+	Filter: require('../TextArrayFilter'),
 	section: 'Text',
 	spec: {
 		label: 'Textarray',

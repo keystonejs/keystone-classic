@@ -122,4 +122,54 @@ module.exports = {
 			],
 		});
 	},
+	'NumberArray field can save negative values': function (browser) {
+		browser.adminUIItemScreen.fillFieldInputs({
+			fields: [
+				{ name: 'fieldA', input: { number1: '1', number2: '-2' }, },
+			],
+		});
+		browser.adminUIItemScreen.fillFieldInputs({
+			fields: [
+				{ name: 'fieldB', input: { number1: '3', number2: '-4' }, },
+			],
+		});
+
+		browser.adminUIItemScreen.save();
+		browser.adminUIApp.waitForItemScreen();
+
+		browser.adminUIItemScreen.assertElementTextEquals({ element: '@flashMessage', text: 'Your changes have been saved successfully' });
+
+		browser.adminUIItemScreen.assertFieldInputs({
+			fields: [
+				{ name: 'name', input: { value: 'NumberArray Field Test 1' }, },
+				{ name: 'fieldA', input: { number1: '1', number2: '-2' }, },
+				{ name: 'fieldB', input: { number1: '3', number2: '-4' }, },
+			],
+		});
+	},
+	'NumberArray field can save decimal values': function (browser) {
+		browser.adminUIItemScreen.fillFieldInputs({
+			fields: [
+				{ name: 'fieldA', input: { number1: '1', number2: '2.5' }, },
+			],
+		});
+		browser.adminUIItemScreen.fillFieldInputs({
+			fields: [
+				{ name: 'fieldB', input: { number1: '3', number2: '4.5' }, },
+			],
+		});
+
+		browser.adminUIItemScreen.save();
+		browser.adminUIApp.waitForItemScreen();
+
+		browser.adminUIItemScreen.assertElementTextEquals({ element: '@flashMessage', text: 'Your changes have been saved successfully' });
+
+		browser.adminUIItemScreen.assertFieldInputs({
+			fields: [
+				{ name: 'name', input: { value: 'NumberArray Field Test 1' }, },
+				{ name: 'fieldA', input: { number1: '1', number2: '2.5' }, },
+				{ name: 'fieldB', input: { number1: '3', number2: '4.5' }, },
+			],
+		});
+	}
 };

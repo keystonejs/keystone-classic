@@ -81,4 +81,42 @@ module.exports = {
 			],
 		})
 	},
+	'Number field should save negative values': function (browser) {
+		browser.adminUIItemScreen.fillFieldInputs({
+			fields: [
+				{ name: 'fieldB', input: { value: '-5' }, },
+			],
+		});
+		browser.adminUIItemScreen.save();
+		browser.adminUIApp.waitForItemScreen();
+
+		browser.adminUIItemScreen.assertElementTextEquals({ element: '@flashMessage', text: 'Your changes have been saved successfully' });
+
+		browser.adminUIItemScreen.assertFieldInputs({
+			fields: [
+				{ name: 'name', input: { value: 'Number Field Test 1' }, },
+				{ name: 'fieldA', input: { value: '1' }, },
+				{ name: 'fieldB', input: { value: '-5' }, },
+			],
+		});
+	},
+	'Number field should save decimal values': function (browser) {
+		browser.adminUIItemScreen.fillFieldInputs({
+			fields: [
+				{ name: 'fieldB', input: { value: '4.5' }, },
+			],
+		});
+		browser.adminUIItemScreen.save();
+		browser.adminUIApp.waitForItemScreen();
+
+		browser.adminUIItemScreen.assertElementTextEquals({ element: '@flashMessage', text: 'Your changes have been saved successfully' });
+
+		browser.adminUIItemScreen.assertFieldInputs({
+			fields: [
+				{ name: 'name', input: { value: 'Number Field Test 1' }, },
+				{ name: 'fieldA', input: { value: '1' }, },
+				{ name: 'fieldB', input: { value: '4.5' }, },
+			],
+		});
+	}
 };
