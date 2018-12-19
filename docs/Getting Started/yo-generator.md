@@ -417,7 +417,7 @@ Keystone will also automatically generate `.css` or compressed `.min.css` files 
 
 Keystone includes an [Application Updates](/documentation/database/application-updates/) framework which can be used to apply one-off data changes against your database. Application update scripts can be convenient for seeding your database, transitioning existing data when models change, or running transformation scripts against your database. Since update scripts only run once per database, they are also very useful to ensure consistency across multiple deployments or environments.
 
-Keystone's automatic update functionality is enabled in `keystone.js` by the auto `update option`.
+Keystone's automatic update functionality is enabled in `keystone.js` by the `auto update` option.
 
 When the option is set to `true`, Keystone will scan the `updates` directory for `.js` files, each of which should export a method accepting a single argument:
 
