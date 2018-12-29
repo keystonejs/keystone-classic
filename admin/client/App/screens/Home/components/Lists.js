@@ -18,6 +18,7 @@ export class Lists extends React.Component {
 					const isNoCreate = listData ? listData.nocreate : false;
 					return (
 						<ListTile
+							list={listData}
 							key={list.path}
 							path={list.path}
 							label={list.label}
