@@ -85,6 +85,7 @@ module.exports = function createDynamicRouter (keystone) {
 	router.post('/api/:list/create', initList, require('../api/list/create'));
 	router.post('/api/:list/update', initList, require('../api/list/update'));
 	router.post('/api/:list/delete', initList, require('../api/list/delete'));
+    router.all('/api', initList, require('../api/list/all'));
 	// items
 	router.get('/api/:list/:id', initList, require('../api/item/get'));
 	router.post('/api/:list/:id', initList, require('../api/item/update'));
