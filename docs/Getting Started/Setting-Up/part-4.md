@@ -77,7 +77,7 @@ html(lang="en")
     else
       .container
         .row: .col-sm-8.col-md-6
-          form(method='post')
+          form(method='post' action="/api/event")
             input(type='hidden', name='action')
             .form-group
               label Event Name
@@ -201,7 +201,7 @@ This leaves us with a file looking like:
 
 ```javascript
 var keystone = require('keystone');
-var Event = keystone.List('Event');
+var Event = keystone.list('Event');
 
 module.exports = function (req, res) {
   if (!req.body.name || !req.body.startTime || !req.body.endTime) {
