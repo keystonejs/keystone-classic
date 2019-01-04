@@ -7,6 +7,7 @@ import {
 
 const NAME_SHAPE = {
 	first: PropTypes.string,
+	middle: PropTypes.string,
 	last: PropTypes.string,
 };
 
@@ -16,6 +17,7 @@ module.exports = Field.create({
 		type: 'Name',
 		getDefaultValue: () => ({
 			first: '',
+			middle: '',
 			last: '',
 		}),
 	},
@@ -42,10 +44,13 @@ module.exports = Field.create({
 	changeLast: function (event) {
 		return this.valueChanged('last', event);
 	},
+	changeMiddle: function (event) {
+		return this.valueChanged('middle', event);
+	},
 	renderValue () {
 		const inputStyle = { width: '100%' };
 		const { value = {} } = this.props;
-
+		if (typeof this.props.middleName === 'undefined' || this.props.middleName === false)
 		return (
 			<Grid.Row small="one-half" gutter={10}>
 				<Grid.Col>
@@ -60,11 +65,54 @@ module.exports = Field.create({
 				</Grid.Col>
 			</Grid.Row>
 		);
+		else 	return (
+			<Grid.Row small="one-third" gutter={10}>
+				<Grid.Col>
+					<FormInput noedit style={inputStyle}>
+						{value.first}
+					</FormInput>
+				</Grid.Col>
+				<Grid.Col>
+					<FormInput noedit style={inputStyle}>
+						{value.middle}
+					</FormInput>
+				</Grid.Col>
+				<Grid.Col>
+					<FormInput noedit style={inputStyle}>
+						{value.last}
+					</FormInput>
+				</Grid.Col>
+			</Grid.Row>
+		);
 	},
 	renderField () {
 		const { value = {}, paths, autoFocus } = this.props;
-		return (
-			<Grid.Row small="one-half" gutter={10}>
+		if (typeof this.props.middleName === 'undefined' || this.props.middleName === false)
+			return (
+				<Grid.Row small="one-half" gutter={10}>
+					<Grid.Col>
+						<FormInput
+							autoFocus={autoFocus}
+							autoComplete="off"
+							name={this.getInputName(paths.first)}
+							onChange={this.changeFirst}
+							placeholder="First name"
+							value={value.first}
+						/>
+					</Grid.Col>
+					<Grid.Col>
+						<FormInput
+							autoComplete="off"
+							name={this.getInputName(paths.last)}
+							onChange={this.changeLast}
+							placeholder="Last name"
+							value={value.last}
+						/>
+					</Grid.Col>
+				</Grid.Row>
+			);
+		else return (
+			<Grid.Row small="one-third" gutter={10}>
 				<Grid.Col>
 					<FormInput
 						autoFocus={autoFocus}
@@ -73,6 +121,15 @@ module.exports = Field.create({
 						onChange={this.changeFirst}
 						placeholder="First name"
 						value={value.first}
+					/>
+				</Grid.Col>
+				<Grid.Col>
+					<FormInput
+						autoComplete="off"
+						name={this.getInputName(paths.middle)}
+						onChange={this.changeMiddle}
+						placeholder="Middle name"
+						value={value.middle}
 					/>
 				</Grid.Col>
 				<Grid.Col>

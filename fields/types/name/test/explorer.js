@@ -7,11 +7,13 @@ module.exports = {
 		path: 'name',
 		paths: {
 			first: 'name.first',
+			middle: 'name.middle',
 			last: 'name.last',
 		},
 		value: {
-			first: 'Jed',
-			last: 'Watson',
+			first: 'Michael',
+			middle: 'Andrew',
+			last: 'Fox',
 		},
 	},
 };
