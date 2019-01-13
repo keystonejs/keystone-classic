@@ -23,7 +23,7 @@ Running `yo keystone` will create most of the parts described below, depending o
 
 If you want more information about the generator, see the [Keystone Yeoman Generator](https://github.com/keystonejs/generator-keystone) project.
 
-In the guide we'll be using the default options of [Pug](https://pugjs.org) for our view templates and [LESS](http://lesscss.org) for our CSS templates. In your own project you can use any template language you like; see [using other template languages](#using-other-template-languages) (below) for more information.
+In the guide, we'll be using the default options of [Pug](https://pugjs.org) for our view templates and [LESS](http://lesscss.org) for our CSS templates. In your own project you can use any template language you like; see [using other template languages](#using-other-template-languages) (below) for more information.
 
 
 ## Our Setup:
