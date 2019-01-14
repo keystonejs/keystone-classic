@@ -329,7 +329,7 @@ module.exports = Field.create({
 			<FormField label={label} className="field-type-cloudinaryimage" htmlFor={path}>
 				{imageContainer}
 				{toolbar}
-				{!!note && <FormNote note={note} />}
+				{!!note && <FormNote html={note} />}
 				{this.renderLightbox()}
 				{this.renderFileInput()}
 				{this.renderActionInput()}

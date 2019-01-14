@@ -300,7 +300,7 @@ module.exports = Field.create({
 				{this.renderValueInput()}
 				{this.renderFileInput()}
 				{this.renderToolbar()}
-				{!!note && <FormNote note={note} />}
+				{!!note && <FormNote html={note} />}
 				{this.renderLightbox()}
 			</FormField>
 		);
