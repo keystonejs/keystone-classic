@@ -53,7 +53,7 @@ module.exports = Field.create({
 		};
 
 		this._currentValue = this.props.value;
-		tinymce.init(opts);
+		tinymce.init({ ...opts, branding: false });
 		if (evalDependsOn(this.props.dependsOn, this.props.values)) {
 			this.setState({ wysiwygActive: true });
 		}
