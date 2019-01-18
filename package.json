@@ -93,7 +93,7 @@
     "semver": "^5.4.1",
     "serve-favicon": "^2.4.5",
     "string-to-stream": "^1.1.0",
-    "tinymce": "^4.8.1",
+    "tinymce": "^4.9.2",
     "vkey": "^1.0.1",
     "watchify": "^3.9.0",
     "xhr": "^2.4.0"
