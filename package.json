@@ -50,7 +50,7 @@
     "i": "^0.3.5",
     "kerberos": "^0.0.23",
     "keystone-storage-namefunctions": "^1.1.1",
-    "keystone-tinymce": "file:../keystone-tinymce",
+    "keystone-tinymce": "^0.1.0",
     "keystone-utils": "^0.4.0",
     "knox-s3": "^0.9.5",
     "less-middleware": "^2.2.1",
