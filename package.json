@@ -48,7 +48,6 @@
     "glamor": "^2.20.25",
     "grappling-hook": "^3.0.0",
     "i": "^0.3.5",
-    "kerberos": "^1.0.0",
     "keystone-storage-namefunctions": "^1.1.1",
     "keystone-utils": "^0.4.0",
     "knox-s3": "^0.9.5",
