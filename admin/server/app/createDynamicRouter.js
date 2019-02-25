@@ -26,6 +26,14 @@ module.exports = function createDynamicRouter (keystone) {
 		next();
 	});
 
+	// Pre adminroutes middleware
+	if (typeof keystone.get('pre:adminroutes') === 'function') {
+		keystone.get('pre:adminroutes')(router);
+	}
+	router.use(function (req, res, next) {
+		keystone.callHook('pre:adminroutes', req, res, next);
+	});
+
 	if (keystone.get('healthchecks')) {
 		router.use('/server-health', require('./createHealthchecksHandler')(keystone));
 	}
