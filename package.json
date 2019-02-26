@@ -49,6 +49,7 @@
     "grappling-hook": "^3.0.0",
     "i": "^0.3.5",
     "keystone-storage-namefunctions": "^1.1.1",
+    "keystone-tinymce": "^0.1.0",
     "keystone-utils": "^0.4.0",
     "knox-s3": "^0.9.5",
     "less-middleware": "^2.2.1",
@@ -91,6 +92,7 @@
     "semver": "^5.4.1",
     "serve-favicon": "^2.4.5",
     "string-to-stream": "^1.1.0",
+    "tinymce": "^4.9.2",
     "vkey": "^1.0.1",
     "watchify": "^3.9.0",
     "xhr": "^2.4.0"
