@@ -53,7 +53,7 @@ module.exports = Field.create({
 		};
 
 		this._currentValue = this.props.value;
-		tinymce.init({ ...opts, branding: false });
+		tinymce.init(opts);
 		if (evalDependsOn(this.props.dependsOn, this.props.values)) {
 			this.setState({ wysiwygActive: true });
 		}
@@ -164,6 +164,7 @@ module.exports = Field.create({
 			plugins: plugins,
 			menubar: options.menubar || false,
 			skin: options.skin || 'keystone',
+			branding: false,
 		};
 
 		if (this.shouldRenderField()) {
