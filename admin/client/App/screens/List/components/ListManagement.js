@@ -35,7 +35,8 @@ function ListManagement ({
 				glyph="trashcan"
 				onClick={handleDelete}
 				position="left"
-				variant="link">
+				variant="link"
+				alt="delete">
 				Delete
 			</GlyphButton>
 		</Section>
