@@ -20,6 +20,14 @@ module.exports = {
 			var file = req.files.file;
 			var path = s3Config.s3path ? s3Config.s3path + '/' : '';
 
+			if (!file.name) {
+				var extension;
+				if (file.originalname) {
+					extension = file.originalname.match(/.*(\..*)/);
+				}
+				file.name = file.filename + (extension ? extension[1] : '');
+			}
+
 			var headers = Types.S3File.prototype.generateHeaders.call({ s3config: s3Config, options: {} }, null, file);
 
 			var s3Client = knox.createClient(s3Config);
