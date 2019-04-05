@@ -88,6 +88,10 @@ module.exports = function createStaticRouter (keystone) {
 	router.get('/js/fields.js', bundles.fields.serve);
 	router.get('/js/signin.js', bundles.signin.serve);
 	router.get('/js/admin.js', bundles.admin.serve);
+	var keystone_tinymce = path.dirname(require.resolve('keystone-tinymce'));
+	router.use('/js/lib/tinymce/skins/keystone', express.static(`${keystone_tinymce}/skin`));
+	router.use('/js/lib/tinymce/plugins/uploadimage', express.static(`${keystone_tinymce}/plugins/uploadimage`));
+	router.use('/js/lib/tinymce', express.static(path.dirname(require.resolve('tinymce'))));
 	router.use(express.static(path.resolve(__dirname + '/../../public')));
 
 	return router;

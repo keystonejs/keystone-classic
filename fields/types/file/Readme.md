@@ -88,7 +88,7 @@ The `path` option is the only required option when you're uploading, and it must
 
 ### Remove the file
 
-To delete the stored file and reset the field value, provide the strong `"remove"`:
+To delete the stored file and reset the field value, provide the string `"remove"`:
 
 ```js
 {
