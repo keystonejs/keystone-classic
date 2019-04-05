@@ -25,7 +25,7 @@ We've been working on a major update to KeystoneJS. Keystone 4 is a complete reb
 
 Improvements include:
 
-* The Admin UI has been re-written as a single page app using React.js, Redux, and Elemental UI
+* The Admin UI has been re-written as a single page app using [React.js](https://reactjs.org), [Redux](https://redux.js.org/), and [Elemental UI](http://elemental-ui.com/)
 * An updated API for Lists and Fields
 * Better support for using Keystone without Express, or with your own express instance
 * Core functionality has been refactored and we're breaking Keystone up into separate npm packages
@@ -58,7 +58,7 @@ $ yo keystone
 
 Answer the questions, and the generator will create a new project based on the options you select, and install the required packages from **npm**.
 
-Alternatively, to include Keystone in an existing project or start from scratch (without Yeoman), specify `keystone: "4.0.0-rc.1"` in the `dependencies` array of your `package.json` file, and run `npm install` from your terminal.
+Alternatively, to include Keystone in an existing project or start from scratch (without Yeoman), specify `keystone: "4.0.0"` in the `dependencies` array of your `package.json` file, and run `npm install` from your terminal.
 
 Then read through the [Documentation](https://keystonejs.com/documentation) and the [Example Projects](http://v3.keystonejs.com/examples) to understand how to use it.
 

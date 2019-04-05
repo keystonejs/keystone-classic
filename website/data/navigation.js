@@ -121,7 +121,7 @@ export const api = {
 			section: 'Methods',
 			slug: '/methods',
 			items: [{
-				label: 'openDatabaseConnection()',
+				label: 'closeDatabaseConnection()',
 				slug: '/close-database-connection',
 			}, {
 				label: 'createItems()',
@@ -276,7 +276,7 @@ export const api = {
 				label: 'Textarea',
 				slug: '/textarea',
 			}, {
-				label: 'Textarray',
+				label: 'TextArray',
 				slug: '/textarray',
 			}, {
 				label: 'URL',
