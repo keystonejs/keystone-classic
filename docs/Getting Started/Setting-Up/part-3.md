@@ -92,10 +92,12 @@ This file is going to export a function, take in the Express app Keystone has bu
 The most basic form would look like:
 
 ```javascript
+function routeFunction(req, res) {
+  res.render('index');
+}
+
 module.exports = function (app) {
-  app.get('/', function(req, res) {
-    res.render('index');
-  });
+  app.get('/', routeFunction);
 };```
 
 For each route we want, we add a new path and route function. In the example above, the path `'/'` (the default homepage) will be handled by `routeFunction()`.
