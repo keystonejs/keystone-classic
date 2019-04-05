@@ -1,7 +1,7 @@
-# `DateTime` Field
+# DateTime Field
 
 Stores a `String` of both date and time in the model.
-Displayed as a date and time picker in the Admin UI.  
+Displayed as a date and time picker in the Admin UI.
 
 Internally uses [moment.js](http://momentjs.com/) to manage date parsing, formatting and comparison.
 
@@ -17,11 +17,22 @@ String parsing with moment will be done using the `parseFormat` option, which de
 
 ## Options
 
+* `parseFormat` `string`
+
+The default pattern to read in values with. Defaults to an array of values to try:
+
+`['YYYY-MM-DD', 'YYYY-MM-DD h:m:s a', 'YYYY-MM-DD h:m a', 'YYYY-MM-DD H:m:s', 'YYYY-MM-DD H:m', 'YYYY-MM-DD h:mm:s a Z', moment.ISO_8601]`
+
+
 * `format` `string`
 
-The default format pattern to use, defaults to `Do MMM YYYY hh:mm:ss a`
+The default format pattern to use when display the information. Defaults to `Do MMM YYYY hh:mm:ss a`
 
 See the [momentjs format docs](http://momentjs.com/docs/#/displaying/format/) for information on the supported formats and options.
+
+`utc` `boolean`
+
+Sets whether the string should be displayed in the admin UI in UTC time or local time. Defaults to `false`.
 
 ## Methods
 

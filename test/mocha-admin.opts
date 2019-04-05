@@ -1,5 +1,4 @@
 admin/**/*.test.js
---growl
 --require babel-polyfill
 --reporter spec
 --compilers js:babel-core/register

@@ -33,4 +33,9 @@ reports
 
 test/e2e/drivers/*
 
+package-lock.json
 yarn.lock
+
+# Website dependencies
+website/.cache
+website/public

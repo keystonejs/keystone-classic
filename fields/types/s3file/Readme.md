@@ -1,5 +1,8 @@
 # S3 File Field
 
+> Warning: the S3 File Field has been deprecated. Please use the [File](/api/field/File) and a storage adapter going forward.
+
+
 `Object` — Displayed as an file upload field in the Admin UI.
 
 Automatically manages files stored in [Amazon S3](http://aws.amazon.com/s3), including uploading and deleting.

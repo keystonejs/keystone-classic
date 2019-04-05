@@ -4,7 +4,7 @@ import React, { cloneElement, Children, PropTypes } from 'react';
 // NOTE: only accepts InlineGroupSection as a single child
 
 function InlineGroup ({
-	aphroditeStyles,
+	cssStyles,
 	block,
 	children,
 	className,
@@ -16,7 +16,7 @@ function InlineGroup ({
 	props.className = css(
 		classes.group,
 		!!block && classes.block,
-		aphroditeStyles
+		cssStyles
 	);
 	if (className) {
 		props.className += (' ' + className);
@@ -28,7 +28,7 @@ function InlineGroup ({
 	// normalize the count
 	const count = buttons.length - 1;
 
-	// clone children and apply classNames that aphrodite can target
+	// clone children and apply classNames that glamor can target
 	props.children = buttons.map((c, idx) => {
 		if (!c) return null;
 
@@ -53,16 +53,16 @@ function InlineGroup ({
 };
 
 InlineGroup.propTypes = {
-	aphroditeStyles: PropTypes.shape({
-		_definition: PropTypes.object,
-		_name: PropTypes.string,
-	}),
 	block: PropTypes.bool,
 	component: PropTypes.oneOfType([
 		PropTypes.func,
 		PropTypes.string,
 	]),
 	contiguous: PropTypes.bool,
+	cssStyles: PropTypes.shape({
+		_definition: PropTypes.object,
+		_name: PropTypes.string,
+	}),
 };
 InlineGroup.defaultProps = {
 	component: 'div',

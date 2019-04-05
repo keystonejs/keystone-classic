@@ -10,7 +10,7 @@ import classes from './styles';
 // font and CSS; inflating the project size
 
 function Glyph ({
-	aphroditeStyles,
+	cssStyles,
 	className,
 	color,
 	component: Component,
@@ -24,7 +24,7 @@ function Glyph ({
 		classes.glyph,
 		colorIsValidType && classes['color__' + color],
 		classes['size__' + size],
-		aphroditeStyles
+		cssStyles
 	) + ` ${octicons[name]}`;
 	if (className) {
 		props.className += (' ' + className);
@@ -40,14 +40,14 @@ function Glyph ({
 };
 
 Glyph.propTypes = {
-	aphroditeStyles: PropTypes.shape({
-		_definition: PropTypes.object,
-		_name: PropTypes.string,
-	}),
 	color: PropTypes.oneOfType([
 		PropTypes.oneOf(Object.keys(colors)),
 		PropTypes.string, // support random color strings
 	]),
+	cssStyles: PropTypes.shape({
+		_definition: PropTypes.object,
+		_name: PropTypes.string,
+	}),
 	name: PropTypes.oneOf(Object.keys(octicons)).isRequired,
 	size: PropTypes.oneOf(Object.keys(sizes)),
 };

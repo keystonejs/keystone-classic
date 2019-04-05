@@ -16,16 +16,25 @@ String parsing with moment will be done using the `inputFormat` option, which de
 ```
 
 ## Options
+* `inputFormat` `String`
+
+How the field interpret string input. See moment documentation for more information on available options.
+
+Defaults to 'YYYY-MM-DD'
 
 * `format` `String`
 
-The default format pattern to use, defaults to Do MMM YYYY
+The default format pattern data will be returned in from the database.
 
-* `yearRange` `Array` `minYear, maxYear`
-
-The default range of years to be displayed.
+Defaults to 'Do MMM YYYY'
 
 See the [momentjs format docs](http://momentjs.com/docs/#/displaying/format/) for information on the supported formats and options.
+
+* `todayButton` `Boolean`
+
+Determines if the Today button will be displayed.
+
+Defaults to 'true'
 
 ## Methods
 

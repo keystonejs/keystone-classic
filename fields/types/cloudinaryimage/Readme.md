@@ -31,12 +31,12 @@ Method to generate a public_id in Cloudinary for the uploaded file. Gets passed 
 }
 ```
 
-`whenExists` `string; default: 'retry'`
+`whenExists` `string; default: 'overwrite'`
 
 Specifies what to do when the file exists already. Can be one of `'retry'`, `'error'` or `'overwrite'`.
 
 ```js
-{ type: Types.CloudinaryImage, whenExists: 'overwrite' }
+{ type: Types.CloudinaryImage, whenExists: 'retry' }
 ```
 
 `retryAttempts` `number; default: 3`
@@ -59,7 +59,7 @@ Specifies a custom folder/prefix for the Cloudinary image `public_id` when `clou
 
 `autoCleanup` `Boolean`
 
-When `true`, changes Keystone's default behavior from `remove` (which only removes the Cloudinary image from the database) to `delete` (which removes the image from both the database and Cloudinary storage). Additionally, this option replaces an existing image (if one already exists) during upload.
+When `true`, changes Keystone's default behavior from `remove` (which only removes the Cloudinary image from the database) to `delete` (which removes the image from both the database and Cloudinary storage). Additionally, this option replaces an existing image (if one already exists) during upload. This only occurs on calls to [updateItem](/api/list/update-item)
 
 ```js
 { type: Types.CloudinaryImage, autoCleanup : true }

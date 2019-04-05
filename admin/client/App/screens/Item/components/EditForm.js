@@ -15,7 +15,7 @@ import theme from '../../../../theme';
 
 import { Button, LoadingButton } from '../../../elemental';
 import AlertMessages from '../../../shared/AlertMessages';
-import ConfirmationDialog from './../../../shared/ConfirmationDialog';
+import ConfirmationDialog from '../../../shared/ConfirmationDialog';
 
 import FormHeading from './FormHeading';
 import AltText from './AltText';
@@ -38,11 +38,16 @@ function getNameFromData (data) {
 }
 
 function smoothScrollTop () {
-	if (document.body.scrollTop || document.documentElement.scrollTop) {
-		window.scrollBy(0, -50);
-		var timeOut = setTimeout(smoothScrollTop, 20);
-	}	else {
-		clearTimeout(timeOut);
+	var position = window.scrollY || window.pageYOffset;
+	var speed = position / 10;
+
+	if (position > 1) {
+		var newPosition = position - speed;
+
+		window.scrollTo(0, newPosition);
+		window.requestAnimationFrame(smoothScrollTop);
+	} else {
+		window.scrollTo(0, 0);
 	}
 }
 
@@ -79,7 +84,7 @@ var EditForm = React.createClass({
 				props.isValid = false;
 			}
 		}
-		props.value = this.state.values[field.path];
+		props.value = this.state.values[field.path] || field.defaultValue;
 		props.values = this.state.values;
 		props.onChange = this.handleChange;
 		props.mode = 'edit';
@@ -124,7 +129,18 @@ var EditForm = React.createClass({
 	updateItem () {
 		const { data, list } = this.props;
 		const editForm = this.refs.editForm;
+
+		// Fix for Safari where XHR form submission fails when input[type=file] is empty
+		// https://stackoverflow.com/questions/49614091/safari-11-1-ajax-xhr-form-submission-fails-when-inputtype-file-is-empty
+		$(editForm).find("input[type='file']").each(function () {
+			if ($(this).get(0).files.length === 0) { $(this).prop('disabled', true); }
+		});
+
 		const formData = new FormData(editForm);
+
+		$(editForm).find("input[type='file']").each(function () {
+			if ($(this).get(0).files.length === 0) { $(this).prop('disabled', false); }
+		});
 
 		// Show loading indicator
 		this.setState({

@@ -142,22 +142,22 @@ exports.testFieldType = function (List) {
 	});
 
 	describe('validateInput', function () {
-		it('should validate a matching password- and confirm value', function (done) {
+		it('should validate a matching password and confirm value', function (done) {
 			List.fields.password.validateInput({
-				password: 'asdf',
-				password_confirm: 'asdf',
+				password: 'vasjdhb273r8ywbfeuygr2834ryfhwubsudfih',
+				password_confirm: 'vasjdhb273r8ywbfeuygr2834ryfhwubsudfih',
 			}, function (result) {
 				demand(result).be.true();
 				done();
 			});
 		});
 
-		it('should validate emtpy string input', function (done) {
+		it('should invalidate empty string input', function (done) {
 			List.fields.password.validateInput({
 				password: '',
 				password_confirm: '',
 			}, function (result) {
-				demand(result).be.true();
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -179,12 +179,12 @@ exports.testFieldType = function (List) {
 			});
 		});
 
-		it('should validate undefined confirmation value', function (done) {
+		it('should invalidate undefined confirmation value', function (done) {
 			List.fields.password.validateInput({
 				password: 'something',
 				password_confirm: undefined,
 			}, function (result) {
-				demand(result).be.true();
+				demand(result).be.false();
 				done();
 			});
 		});
@@ -346,7 +346,7 @@ exports.testFieldType = function (List) {
 				digitChar: 'nodigits',
 			}, function (result, detail) {
 				demand(result).be.false();
-				demand(detail).be('enter at least one digit\n');
+				demand(detail).be('enter at least one digit');
 				done();
 			});
 		});
@@ -356,7 +356,7 @@ exports.testFieldType = function (List) {
 				spChar: 'nospecialchars',
 			}, function (result, detail) {
 				demand(result).be.false();
-				demand(detail).be('enter at least one special character\n');
+				demand(detail).be('enter at least one special character');
 				done();
 			});
 		});
@@ -366,7 +366,7 @@ exports.testFieldType = function (List) {
 				asciiChar: 'םגפשבך',
 			}, function (result, detail) {
 				demand(result).be.false();
-				demand(detail).be('only ASCII characters are allowed\n');
+				demand(detail).be('Password must be longer than 8 characters. \nonly ASCII characters are allowed');
 				done();
 			});
 		});
@@ -376,7 +376,7 @@ exports.testFieldType = function (List) {
 				lowChar: 'NOLOWERCASE',
 			}, function (result, detail) {
 				demand(result).be.false();
-				demand(detail).be('use at least one lower case character\n');
+				demand(detail).be('use at least one lower case character');
 				done();
 			});
 		});
@@ -386,7 +386,7 @@ exports.testFieldType = function (List) {
 				upperChar: 'nouppercase',
 			}, function (result, detail) {
 				demand(result).be.false();
-				demand(detail).be('use at least one upper case character\n');
+				demand(detail).be('use at least one upper case character');
 				done();
 			});
 		});
@@ -587,7 +587,7 @@ exports.testFieldType = function (List) {
 					},
 				});
 			} catch (err) {
-				demand(err.message).eql('FieldType.Password: options - min must be set at a lower value than max.');
+				demand(err.message).eql('FieldType.Password: options - maximum password length cannot be less than the minimum length.');
 				done();
 			}
 		});

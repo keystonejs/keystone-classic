@@ -1,0 +1,10 @@
+# Netlify redirects for Keystone v0.3 docs urls
+# See: https://www.netlify.com/docs/redirects/
+
+# V3 urls that have V4 equivalents
+/docs/*          /documentation/:splat
+/guide           /getting-started
+/guide/config    /documentation/configuration/
+
+# V3 urls that don't have V4 equivalents yet
+/examples  https://v3.keystonejs.com/examples  302

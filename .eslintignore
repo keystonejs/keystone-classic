@@ -7,3 +7,4 @@ docs/*
 fields/types/**/lib/*
 node_modules/*
 test/*
+website/*

@@ -69,7 +69,7 @@ describe('language', function () {
 		});
 		var expected = 'zh-CN';
 		var req = mockRequest({
-			acceptLanguage: 'zh-CN;1,en-US;q=0.8'
+			acceptLanguage: 'zh-CN;q=1,en-US;q=0.8'
 		});
 		var res = mockResponse();
 		var middleware = language(keystone);
