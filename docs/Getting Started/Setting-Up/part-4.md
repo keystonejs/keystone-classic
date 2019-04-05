@@ -77,7 +77,7 @@ html(lang="en")
     else
       .container
         .row: .col-sm-8.col-md-6
-          form(method='post')
+          form(method='post' action="/api/event")
             input(type='hidden', name='action')
             .form-group
               label Event Name
