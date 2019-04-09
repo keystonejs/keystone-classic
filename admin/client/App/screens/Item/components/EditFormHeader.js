@@ -17,6 +17,9 @@ export const EditFormHeader = React.createClass({
 		list: React.PropTypes.object,
 		toggleCreate: React.PropTypes.func,
 	},
+	contextTypes: {
+		router: React.PropTypes.object.isRequired,
+	},
 	getInitialState () {
 		return {
 			searchString: '',
@@ -130,17 +133,33 @@ export const EditFormHeader = React.createClass({
 			</ToolbarSection>
 		);
 	},
+	// directly copied from admin/client/App/screens/List/index.js
+	createAutocreate () {
+		const list = this.props.list;
+		list.createItem(null, (err, data) => {
+			if (err) {
+				// TODO Proper error handling
+				alert('Something went wrong, please try again!');
+				console.log(err);
+			} else {
+				this.context.router.push(`${Keystone.adminPath}/${list.path}/${data.id}`);
+			}
+		});
+	},
 	renderCreateButton () {
 		const { nocreate, autocreate, singular } = this.props.list;
 
 		if (nocreate) return null;
 
 		let props = {};
+
 		if (autocreate) {
-			props.href = '?new' + Keystone.csrf.query;
+			props.onClick = () => { this.createAutocreate() };
+			//props.href = '?new' + Keystone.csrf.query;
 		} else {
 			props.onClick = () => { this.toggleCreate(true); };
 		}
+
 		return (
 			<GlyphButton data-e2e-item-create-button="true" color="success" glyph="plus" position="left" {...props}>
 				<ResponsiveText hiddenXS={`New ${singular}`} visibleXS="Create" />
