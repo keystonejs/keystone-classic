@@ -1,4 +1,4 @@
-This is a fork of KeystoneJS meant for a Mindwave private project.
+This is a fork of KeystoneJS meant for a private project.
 It might work for you. It might not.
 
 Here's the changes implemented:
@@ -9,7 +9,7 @@ Here's the changes implemented:
 
 ... I think that's it for now.
 
-~
+~~~
 
 ---
 title: KeystoneJS
