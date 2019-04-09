@@ -28,6 +28,7 @@ text.prototype.validateInput = function (data, callback) {
 	if (min && typeof value === 'string') {
 		result = value.length > min;
 	}
+	if (this.options.required && !value.length) result = false;
 	utils.defer(callback, result);
 };
 

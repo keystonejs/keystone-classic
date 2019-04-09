@@ -1,11 +1,11 @@
 {
   "name": "keystone",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Web Application Framework and Admin GUI / Content Management System built on Express.js and Mongoose",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/keystonejs/keystone.git"
+    "url": "https://github.com/semeano/keystone.git"
   },
   "dependencies": {
     "async": "^2.5.0",
@@ -156,7 +156,7 @@
   "readmeFilename": "README.md",
   "gitHead": "ef3fd612285315ea8e12f68da4c8d6031e2c7fe7",
   "bugs": {
-    "url": "https://github.com/keystonejs/keystone/issues"
+    "url": "https://github.com/semeano/keystone/issues"
   },
   "scripts": {
     "build": "cross-env NODE_ENV=production node build.js | uglifyjs -mc warnings=false,screw_ie8=true -b beautify=false,semicolons=true > ./admin/public/js/packages.js",

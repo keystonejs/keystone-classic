@@ -57,7 +57,7 @@ module.exports = Field.create({
 	componentWillUpdate (nextProps) {
 		// Reset the action state when the value changes
 		// TODO: We should add a check for a new item ID in the store
-		if (this.props.value.public_id !== nextProps.value.public_id) {
+		if (!!this.props.value && this.props.value.public_id !== nextProps.value.public_id) {
 			this.setState({
 				removeExisting: false,
 				userSelectedFile: null,
@@ -79,7 +79,7 @@ module.exports = Field.create({
 		return this.hasExisting() || this.hasLocal();
 	},
 	getFilename () {
-		const { format, height, public_id, width } = this.props.value;
+		const { format, height, public_id, width } = this.props.value || {};
 
 		return this.state.userSelectedFile
 			? this.state.userSelectedFile.name
@@ -195,7 +195,7 @@ module.exports = Field.create({
 		);
 	},
 	renderImagePreview () {
-		const { value } = this.props;
+		const { value } = this.props || {};
 
 		// render icon feedback for intent
 		let mask;
@@ -203,7 +203,7 @@ module.exports = Field.create({
 		else if (this.state.removeExisting) mask = 'remove';
 		else if (this.state.loading) mask = 'loading';
 
-		const shouldOpenLightbox = value.format !== 'pdf';
+		const shouldOpenLightbox = !!value && value.format !== 'pdf';
 
 		return (
 			<ImageThumbnail
