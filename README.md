@@ -19,7 +19,7 @@ For Keystone v4 documentation and guides, see [keystonejs.com](https://keystonej
 
 For Keystone v0.3 documentation, see [v3.keystonejs.com](https://v3.keystonejs.com).
 
-### Keystone 4.0 Release Candidate (RC)
+### Keystone 4
 
 We've been working on a major update to KeystoneJS. Keystone 4 is a complete rebuild of Keystone's Admin UI and internal architecture.
 
@@ -33,13 +33,7 @@ Improvements include:
 * LocalFile, S3File, and AzureFile have been replaced by a new generic `keystone.Storage` engine and File field
 * We have much higher unit and end-to-end test coverage
 
-Please try out Keystone 4 and let us know what you think:
-
-```
-npm install --save keystone
-```
-
-We'll be publishing a summary of the new features, changes, and improvements as we get closer to the final release. In the meantime, see the [v0.3 -> v4.0 Upgrade Guide](https://keystonejs.com/guides/v-0-3-to-v-4-0-upgrade-guide) for information on what's changed.
+See the [v0.3 -> v4.0 Upgrade Guide](https://keystonejs.com/guides/v-0-3-to-v-4-0-upgrade-guide) for information on what's changed.
 
 Also check out our [demo site](http://demo.keystonejs.com), which has been updated to the new version!
 
