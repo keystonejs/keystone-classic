@@ -181,7 +181,7 @@ module.exports = Field.create({
 	},
 	renderSelect (noedit) {
 		const inputName = this.getInputName(this.props.path);
-		const emptyValueInput = (this.props.many && (!this.state.value || !this.state.value.length))
+		const emptyValueInput = (this.props.many && (!this.state.value || !this.state.value.length) || (!this.props.many && !this.state.value))
 			? <input type="hidden" name={inputName} value="" /> : null;
 		return (
 			<div>
