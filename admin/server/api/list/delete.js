@@ -38,13 +38,15 @@ module.exports = function (req, res) {
 			return res.apiError('database error', err);
 		}
 		async.forEachLimit(results, 10, function (item, next) {
+			item._req_user = req.user;
 			item.remove(function (err) {
 				if (err) return next(err);
 				deletedCount++;
 				deletedIds.push(item.id);
 				next();
 			});
-		}, function () {
+		}, function (err) {
+			if (err) return res.apiError(err);
 			return res.json({
 				success: true,
 				ids: deletedIds,

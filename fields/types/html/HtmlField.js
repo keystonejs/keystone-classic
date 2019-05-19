@@ -164,6 +164,7 @@ module.exports = Field.create({
 			plugins: plugins,
 			menubar: options.menubar || false,
 			skin: options.skin || 'keystone',
+			branding: false,
 		};
 
 		if (this.shouldRenderField()) {

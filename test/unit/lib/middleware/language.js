@@ -116,6 +116,28 @@ describe('language', function () {
 			});
 
 		});
+
+		describe('with custom cookie options', function () {
+			it('must create a custom language cookie', function (done) {
+				var keystone = keystoneOptions({
+					'language options': {
+						'language cookie options': {
+							maxAge: 24*3600*1000,
+							secure: true
+						}
+					}
+				});
+				var res = mockResponse();
+				var expected = true;
+
+				language(keystone)(mockRequest(), res, function (err) {
+					demand(err).be(undefined);
+					demand(res.cookie.secure).eql(expected);
+					done();
+				});
+			});
+
+		});
 	});
 
 	describe('must create language route', function () {

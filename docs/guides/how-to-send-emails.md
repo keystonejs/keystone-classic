@@ -198,8 +198,8 @@ doctype html
 html(lang="en")
   head
   body
-    h1 Hi %recipient.firstName% this is your second email sent with Keystone!
-    p This is your full name: %recipient.firstName% %recipient.name%
+    h1 Hi #{ recipient.firstName } this is your second email sent with Keystone!
+    p This is your full name: #{ recipient.firstName } #{ recipient.name }
 ```
 
 As you can see above, we need to pass `firstName` and `name` to our
@@ -215,8 +215,10 @@ name in there like so:
 
 ```javascript
 new Email(/* ... */).send({
-  firstName: 'Max',
-  name: 'Stoiber',
+	recipient: {
+  		firstName: 'Max',
+		name: 'Stoiber',
+	}
 }, {/* ... */}, function (err, result) {/* ... */});
 ```
 

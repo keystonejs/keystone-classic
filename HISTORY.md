@@ -2,9 +2,9 @@
 
 KeystoneJS is maintained by [@JedWatson](https://github.com/JedWatson) and an amazing team of contributors. All contributions are given credit here except for Jed's.
 
-Release notes for Keystone 4 beta & release candidates can be found on the [GitHub releases]( https://github.com/keystonejs/keystone/releases) page.
+As of version 4 we have moved our changelog to the [GitHub releases]( https://github.com/keystonejs/keystone/releases) page. See there for the latest release notes.
 
-Changes for production releases are included below.
+Changes for 3.x releases are included below.
 
 ## v0.3.22 / 2016-07-22
 
