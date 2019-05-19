@@ -4,7 +4,7 @@
  */
 
 // Needed for ES6 generators (redux-saga) to work
-import 'babel-polyfill';
+import '@babel/polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, browserHistory, IndexRoute } from 'react-router';
