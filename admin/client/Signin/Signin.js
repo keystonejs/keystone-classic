@@ -28,6 +28,10 @@ var SigninView = React.createClass({
 		if (this.refs.email) {
 			this.refs.email.select();
 		}
+		this.__isMounted = true;
+	},
+	componentWillUnmount () {
+		this.__isMounted = false;
 	},
 	handleInputChange (e) {
 		// Set the new state when the input changes
@@ -80,8 +84,7 @@ var SigninView = React.createClass({
 	},
 	// Finish the animation and select the email field
 	finishAnimation () {
-		// TODO isMounted was deprecated, find out if we need this guard
-		if (!this.isMounted()) return;
+		if (!this.__isMounted) return;
 		if (this.refs.email) {
 			this.refs.email.select();
 		}
