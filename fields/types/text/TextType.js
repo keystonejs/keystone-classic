@@ -21,14 +21,18 @@ text.prototype.validateInput = function (data, callback) {
 	var max = this.options.max;
 	var min = this.options.min;
 	var value = this.getValueFromData(data);
-	var result = value === undefined || value === null || typeof value === 'string';
-	if (max && typeof value === 'string') {
-		result = value.length < max;
+
+	if (value !== undefined && value !== null && !(typeof value === 'string')) return utils.defer(callback, false);
+
+	if (max && typeof value === 'string' && value.length > max) {
+		return utils.defer(callback, false);
 	}
-	if (min && typeof value === 'string') {
-		result = value.length > min;
+
+	if (min && typeof value === 'string' && value.length < min) {
+		return utils.defer(callback, false);
 	}
-	utils.defer(callback, result);
+
+	utils.defer(callback, true);
 };
 
 text.prototype.validateRequiredInput = function (item, data, callback) {

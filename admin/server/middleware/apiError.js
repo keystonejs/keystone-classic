@@ -33,7 +33,8 @@ module.exports = function (req, res, next) {
 			error = error.error;
 		}
 		// turn Errors into useful output
-		if (error instanceof Error) {
+		if (error instanceof Error && error.error !== 'field errors') {
+			if (!detail && error.detail) detail = error.detail;
 			error = error.name !== 'Error' ? error.name + ': ' + error.message : error.message;
 		}
 		if (detail instanceof Error) {

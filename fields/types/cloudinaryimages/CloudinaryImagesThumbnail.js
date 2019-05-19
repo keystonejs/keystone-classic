@@ -26,13 +26,48 @@ function CloudinaryImagesThumbnail ({
 		</Button>
 	) : null;
 
-	const input = (!isQueued && !isDeleted && value) ? (
-		<input type="hidden" name={inputName} value={JSON.stringify(value)} />
-	) : null;
+	const isVideo = value && value.resource_type === 'video' || /^data:video/.test(imageSourceSmall);
+
+	function renderInput () {
+		if (!isQueued && value) {
+			if (isDeleted) value.remove = true;
+			return (
+				<input type="hidden" name={inputName} value={JSON.stringify(value)} />
+			);
+		} else {
+			return null;
+		}
+	}
+
+	function renderIcons () {
+		const glyphStyles = {
+			position: 'absolute',
+			top: 10,
+			left: 10,
+			padding: 4,
+			color: '#FFF',
+			backgroundColor: 'rgba(0,0,0,0.5)',
+			pointerEvents: 'none',
+		};
+
+		if (isVideo) {
+			return <i style={glyphStyles} className="octicon octicon-device-camera-video" />;
+		}
+	}
+
+	function renderPreview () {
+		if (isVideo && isQueued) {
+			return <video src={imageSourceSmall} height={90}>NO PREVIEW</video>;
+		} else {
+			// Force JPG thumbnail for videos, else would return the actual video
+			return <img src={imageSourceSmall + (isVideo ? '.jpg' : '')} style={{ height: 90 }}/>;
+		}
+	}
 
 	// provide gutter for the images
 	const imageStyles = {
 		float: 'left',
+		position: 'relative',
 		marginBottom: 10,
 		marginRight: 10,
 	};
@@ -46,10 +81,11 @@ function CloudinaryImagesThumbnail ({
 				mask={mask}
 				target={!!imageSourceLarge && '__blank'}
 			>
-				<img src={imageSourceSmall} style={{ height: 90 }} />
+				{renderPreview()}
 			</ImageThumbnail>
+			{renderIcons()}
 			{actionButton}
-			{input}
+			{renderInput()}
 		</div>
 	);
 
