@@ -31,6 +31,18 @@ exports.testFieldType = function (List) {
 			});
 		});
 
+		it('should update the middle name', function (done) {
+			var testItem = new List.model();
+			List.fields.name.updateItem(testItem, {
+				name: {
+					middle: 'Max',
+				},
+			}, function () {
+				demand(testItem.name.middle).be('Max');
+				done();
+			});
+		});
+
 		it('should update the last name', function (done) {
 			var testItem = new List.model();
 			List.fields.name.updateItem(testItem, {
@@ -139,6 +151,125 @@ exports.testFieldType = function (List) {
 			}, function (result) {
 				demand(result).be.false();
 				done();
+			});
+		});
+
+		describe('middle name', function () {
+			it('should validate string input', function (done) {
+				List.fields.name.validateInput({
+					name_middle: 'Max',
+				}, function (result) {
+					demand(result).be.true();
+					done();
+				});
+			});
+
+			it('should validate dot notation', function (done) {
+				List.fields.name.validateInput({
+					'name.middle': 'Max',
+				}, function (result) {
+					demand(result).be.true();
+					done();
+				});
+			});
+
+			it('should validate nested object', function (done) {
+				List.fields.name.validateInput({
+					name: {
+						middle: 'Max',
+					},
+				}, function (result) {
+					demand(result).be.true();
+					done();
+				});
+			});
+
+			it('should validate empty string input', function (done) {
+				List.fields.name.validateInput({
+					name_middle: '',
+				}, function (result) {
+					demand(result).be.true();
+					done();
+				});
+			});
+
+			it('should validate undefined input', function (done) {
+				List.fields.name.validateInput({}, function (result) {
+					demand(result).be.true();
+					done();
+				});
+			});
+
+			it('should validate null input', function (done) {
+				List.fields.name.validateInput({
+					name_middle: null,
+				}, function (result) {
+					demand(result).be.true();
+					done();
+				});
+			});
+
+			it('should invalidate numeric input', function (done) {
+				List.fields.name.validateInput({
+					name_middle 1,
+				}, function (result) {
+					demand(result).be.false();
+					done();
+				});
+			});
+
+			it('should invalidate object input', function (done) {
+				List.fields.name.validateInput({
+					name_middle: { things: 'stuff' },
+				}, function (result) {
+					demand(result).be.false();
+					done();
+				});
+			});
+
+			it('should invalidate array input', function (done) {
+				List.fields.name.validateInput({
+					name_middle: [1, 2, 3],
+				}, function (result) {
+					demand(result).be.false();
+					done();
+				});
+			});
+
+			it('should invalidate Boolean input', function (done) {
+				List.fields.name.validateInput({
+					name_middle: true,
+				}, function (result) {
+					demand(result).be.false();
+					done();
+				});
+			});
+
+			it('should invalidate function input', function (done) {
+				List.fields.name.validateInput({
+					name_middle: function () {},
+				}, function (result) {
+					demand(result).be.false();
+					done();
+				});
+			});
+
+			it('should invalidate regexp input', function (done) {
+				List.fields.name.validateInput({
+					name_middle: /foo/,
+				}, function (result) {
+					demand(result).be.false();
+					done();
+				});
+			});
+
+			it('should invalidate date input', function (done) {
+				List.fields.name.validateInput({
+					name_middle: Date.now(),
+				}, function (result) {
+					demand(result).be.false();
+					done();
+				});
 			});
 		});
 
@@ -553,6 +684,9 @@ exports.testFieldType = function (List) {
 				'name.first': /abc/i,
 			});
 			demand(result.$or[1]).eql({
+				'name.middle': /abc/i,
+			});
+			demand(result.$or[2]).eql({
 				'name.last': /abc/i,
 			});
 		});
@@ -567,6 +701,9 @@ exports.testFieldType = function (List) {
 				'name.first': /abc/,
 			});
 			demand(result.$or[1]).eql({
+				'name.middle': /abc/,
+			});
+			demand(result.$or[2]).eql({
 				'name.last': /abc/,
 			});
 		});
@@ -577,6 +714,9 @@ exports.testFieldType = function (List) {
 				inverted: true,
 			});
 			demand(result['name.first']).eql({
+				$not: /abc/i,
+			});
+			demand(result['name.middle']).eql({
 				$not: /abc/i,
 			});
 			demand(result['name.last']).eql({
@@ -593,6 +733,9 @@ exports.testFieldType = function (List) {
 				'name.first': /^abc$/i,
 			});
 			demand(result.$or[1]).eql({
+				'name.middle': /^abc$/i,
+			});
+			demand(result.$or[2]).eql({
 				'name.last': /^abc$/i,
 			});
 		});
@@ -606,6 +749,9 @@ exports.testFieldType = function (List) {
 				'name.first': /abc$/i,
 			});
 			demand(result.$or[1]).eql({
+				'name.middle': /abc$/i,
+			});
+			demand(result.$or[2]).eql({
 				'name.last': /abc$/i,
 			});
 		});
@@ -619,6 +765,9 @@ exports.testFieldType = function (List) {
 				'name.first': /^abc/i,
 			});
 			demand(result.$or[1]).eql({
+				'name.middle': /^abc/i,
+			});
+			demand(result.$or[2]).eql({
 				'name.last': /^abc/i,
 			});
 		});
@@ -628,6 +777,9 @@ exports.testFieldType = function (List) {
 				mode: 'exactly',
 			});
 			demand(result['name.first']).eql({
+				$in: ['', null],
+			});
+			demand(result['name.middle']).eql({
 				$in: ['', null],
 			});
 			demand(result['name.last']).eql({
@@ -641,6 +793,9 @@ exports.testFieldType = function (List) {
 				inverted: true,
 			});
 			demand(result['name.first']).eql({
+				$nin: ['', null],
+			});
+			demand(result['name.middle']).eql({
 				$nin: ['', null],
 			});
 			demand(result['name.last']).eql({

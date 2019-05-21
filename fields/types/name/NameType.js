@@ -11,7 +11,9 @@ var displayName = require('display-name');
  */
 function name (list, path, options) {
 	this._fixedSize = 'full';
-	options.default = { first: '', last: '' };
+	this.middleName = (options.middleName) ? true : false;
+	this._properties = ['middleName'];
+	options.default = { first: '', middle: '', last: '' };
 	name.super_.call(this, list, path, options);
 }
 name.properName = 'Name';
@@ -28,6 +30,7 @@ util.inherits(name, FieldType);
 name.prototype.addToSchema = function (schema) {
 	var paths = this.paths = {
 		first: this.path + '.first',
+		middle: this.path + '.middle',
 		last: this.path + '.last',
 		full: this.path + '.full',
 	};
@@ -35,21 +38,24 @@ name.prototype.addToSchema = function (schema) {
 	schema.nested[this.path] = true;
 	schema.add({
 		first: String,
+		middle: String,
 		last: String,
 	}, this.path + '.');
 
 	schema.virtual(paths.full).get(function () {
-		return displayName(this.get(paths.first), this.get(paths.last));
+		return displayName(this.get(paths.first),this.get(paths.middle), this.get(paths.last));
 	});
 
 	schema.virtual(paths.full).set(function (value) {
 		if (typeof value !== 'string') {
 			this.set(paths.first, undefined);
+			this.set(paths.middle, undefined);
 			this.set(paths.last, undefined);
 			return;
 		}
 		var split = value.split(' ');
 		this.set(paths.first, split.shift());
+		this.set(paths.middle, split.shift() || undefined);
 		this.set(paths.last, split.join(' ') || undefined);
 	});
 
@@ -61,9 +67,9 @@ name.prototype.addToSchema = function (schema) {
  */
 name.prototype.getSortString = function (options) {
 	if (options.invert) {
-		return '-' + this.paths.first + ' -' + this.paths.last;
+		return '-' + this.paths.first +' -' + this.paths.middle+' -' + this.paths.last;
 	}
-	return this.paths.first + ' ' + this.paths.last;
+	return this.paths.first + ' ' + this.paths.middle + ' ' + this.paths.last;
 };
 
 /**
@@ -72,7 +78,7 @@ name.prototype.getSortString = function (options) {
 name.prototype.addFilterToQuery = function (filter) {
 	var query = {};
 	if (filter.mode === 'exactly' && !filter.value) {
-		query[this.paths.first] = query[this.paths.last] = filter.inverted ? { $nin: ['', null] } : { $in: ['', null] };
+		query[this.paths.first] = query[this.paths.middle] = query[this.paths.last] = filter.inverted ? { $nin: ['', null] } : { $in: ['', null] };
 		return query;
 	}
 	var value = utils.escapeRegExp(filter.value);
@@ -85,11 +91,12 @@ name.prototype.addFilterToQuery = function (filter) {
 	}
 	value = new RegExp(value, filter.caseSensitive ? '' : 'i');
 	if (filter.inverted) {
-		query[this.paths.first] = query[this.paths.last] = { $not: value };
+		query[this.paths.first] = query[this.paths.middle] = query[this.paths.last] = { $not: value };
 	} else {
 		var first = {}; first[this.paths.first] = value;
+		var middle = {}; middle[this.paths.middle] = value;
 		var last = {}; last[this.paths.last] = value;
-		query.$or = [first, last];
+		query.$or = [first, middle, last];
 	}
 	return query;
 };
@@ -112,11 +119,14 @@ name.prototype.getInputFromData = function (data) {
 	}
 	var first = this.getValueFromData(data, '_first');
 	if (first === undefined) first = this.getValueFromData(data, '.first');
+	var middle = this.getValueFromData(data, '_middle');
+	if (middle === undefined) middle = this.getValueFromData(data, '.middle');
 	var last = this.getValueFromData(data, '_last');
 	if (last === undefined) last = this.getValueFromData(data, '.last');
-	if (first !== undefined || last !== undefined) {
+	if (first !== undefined || middle !== undefined || last !== undefined) {
 		return {
 			first: first,
+			middle: middle,
 			last: last,
 		};
 	}
@@ -134,6 +144,8 @@ name.prototype.validateInput = function (data, callback) {
 		|| (typeof value === 'object' && (
 			typeof value.first === 'string'
 			|| value.first === null
+			|| typeof value.middle === 'string'
+			|| value.middle === null
 			|| typeof value.last === 'string'
 			|| value.last === null)
 		);
@@ -153,12 +165,15 @@ name.prototype.validateRequiredInput = function (item, data, callback) {
 			typeof value === 'string' && value.length
 			|| typeof value === 'object' && (
 				typeof value.first === 'string' && value.first.length
+				|| typeof value.middle === 'string' && value.middle.length
 				|| typeof value.last === 'string' && value.last.length)
 			|| (item.get(this.paths.full)
 				|| item.get(this.paths.first)
+				|| item.get(this.paths.middle)
 				|| item.get(this.paths.last)) && (
 					value === undefined
 					|| (value.first === undefined
+						&& value.middle === undefined
 						&& value.last === undefined))
 			) ? true : false;
 	}
@@ -172,15 +187,15 @@ name.prototype.validateRequiredInput = function (item, data, callback) {
  */
 name.prototype.inputIsValid = function (data, required, item) {
 	// Input is valid if none was provided, but the item has data
-	if (!(this.path in data || this.paths.first in data || this.paths.last in data || this.paths.full in data) && item && item.get(this.paths.full)) return true;
+	if (!(this.path in data || this.paths.first in data || this.paths.middle in data || this.paths.last in data || this.paths.full in data) && item && item.get(this.paths.full)) return true;
 	// Input is valid if the field is not required
 	if (!required) return true;
 	// Otherwise check for valid strings in the provided data,
 	// which may be nested or use flattened paths.
 	if (_.isObject(data[this.path])) {
-		return (data[this.path].full || data[this.path].first || data[this.path].last) ? true : false;
+		return (data[this.path].full || data[this.path].first || data[this.path].middle || data[this.path].last) ? true : false;
 	} else {
-		return (data[this.paths.full] || data[this.paths.first] || data[this.paths.last]) ? true : false;
+		return (data[this.paths.full] || data[this.paths.first] || data[this.paths.middle] || data[this.paths.last]) ? true : false;
 	}
 };
 
@@ -190,7 +205,7 @@ name.prototype.inputIsValid = function (data, required, item) {
  * @api public
  */
 name.prototype.isModified = function (item) {
-	return item.isModified(this.paths.first) || item.isModified(this.paths.last);
+	return item.isModified(this.paths.first) || item.isModified(this.paths.middle) || item.isModified(this.paths.last);
 };
 
 /**
@@ -206,6 +221,9 @@ name.prototype.updateItem = function (item, data, callback) {
 	} else if (typeof value === 'object') {
 		if (typeof value.first === 'string' || value.first === null) {
 			item.set(paths.first, value.first);
+		}
+		if (typeof value.middle === 'string' || value.middle === null) {
+			item.set(paths.middle, value.middle);
 		}
 		if (typeof value.last === 'string' || value.last === null) {
 			item.set(paths.last, value.last);

@@ -15,12 +15,14 @@ function getTestItems () {
 		{
 			name: {
 				first: '',
+				middle: '',
 				last: '',
 			},
 		},
 		{
 			name: {
 				first: ' ',
+				middle: ' ',
 				last: ' ',
 			},
 		},
@@ -33,24 +35,28 @@ function getTestItems () {
 		{
 			name: {
 				first: 'ABCD',
+				middle: 'ZXCV',
 				last: 'EFGH',
 			},
 		},
 		{
 			name: {
 				first: 'abcd',
+				middle: 'zxcv',
 				last: 'efgh',
 			},
 		},
 		{
 			name: {
 				first: 'Ab Cd',
+				middle: 'Zx Cv',
 				last: 'Ef Gh',
 			},
 		},
 		{
 			name: {
 				first: 'a/b\c@d',
+				middle: 'z/x\c@v',
 				last: 'e/f\g@h',
 			},
 		},
@@ -69,6 +75,22 @@ exports.testFilters = function (List, filter) {
 		}, 'name', function (results) {
 			demand(results.length).be(1);
 			demand(results[0].first).eql('abc');
+			demand(results[0].middle).eql('zxc');
+			demand(results[0].last).eql('def');
+			done();
+		});
+	});
+
+	it('should find the middle name', function (done) {
+		filter({
+			name: {
+				mode: 'exactly',
+				value: 'zxc',
+			},
+		}, 'name', function (results) {
+			demand(results.length).be(1);
+			demand(results[0].first).eql('abc');
+			demand(results[0].middle).eql('zxc');
 			demand(results[0].last).eql('def');
 			done();
 		});
@@ -83,6 +105,7 @@ exports.testFilters = function (List, filter) {
 		}, 'name', function (results) {
 			demand(results.length).be(1);
 			demand(results[0].first).eql('abc');
+			demand(results[0].middle).eql('zxc');
 			demand(results[0].last).eql('def');
 			done();
 		});
@@ -110,12 +133,16 @@ exports.testFilters = function (List, filter) {
 		}, 'name', function (results) {
 			demand(results.length).be(4);
 			demand(results[0].first).eql('abc');
+			demand(results[0].middle).eql('zxc');
 			demand(results[0].last).eql('def');
 			demand(results[1].first).eql('ABCD');
+			demand(results[1].middle).eql('ZXCV');
 			demand(results[1].last).eql('EFGH');
 			demand(results[2].first).eql('abcd');
+			demand(results[2].middle).eql('zxcv');
 			demand(results[2].last).eql('efgh');
 			demand(results[3].first).eql('Ab Cd');
+			demand(results[3].middle).eql('Zx Cv');
 			demand(results[3].last).eql('Ef Gh');
 			done();
 		});
@@ -131,8 +158,10 @@ exports.testFilters = function (List, filter) {
 		}, 'name', function (results) {
 			demand(results.length).be(2);
 			demand(results[0].first).eql('abc');
+			demand(results[0].middle).eql('zxc');
 			demand(results[0].last).eql('def');
 			demand(results[1].first).eql('abcd');
+			demand(results[1].middle).eql('zxcv');
 			demand(results[1].last).eql('efgh');
 			done();
 		});
@@ -147,6 +176,7 @@ exports.testFilters = function (List, filter) {
 		}, 'name', function (results) {
 			demand(results.length).be(1);
 			demand(results[0].first).eql('abc');
+			demand(results[0].middle).eql('zxc');
 			demand(results[0].last).eql('def');
 			done();
 		});
