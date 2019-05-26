@@ -156,11 +156,11 @@ name.prototype.validateRequiredInput = function (item, data, callback) {
 				|| typeof value.last === 'string' && value.last.length)
 			|| (item.get(this.paths.full)
 				|| item.get(this.paths.first)
-				|| item.get(this.paths.last)) && (
-					value === undefined
+				|| item.get(this.paths.last))
+					&& (value === undefined
 					|| (value.first === undefined
 						&& value.last === undefined))
-			) ? true : false;
+		) ? true : false;
 	}
 	utils.defer(callback, result);
 };

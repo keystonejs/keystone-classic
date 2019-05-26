@@ -22,7 +22,7 @@ function DrilldownItem ({ className, href, label, separate, separator, style, ..
 				style={styles}
 				to={href}
 				variant="link"
-				>
+			>
 				{label}
 			</Button>
 			{separate && (

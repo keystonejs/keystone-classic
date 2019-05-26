@@ -363,28 +363,30 @@ function doGoogleGeocodeRequest (address, region, callback) {
 
 	https.get(endpoint, function (res) {
 		var data = [];
-		res.on('data', function (chunk) {
-			data.push(chunk);
-		})
-		.on('end', function () {
-			var dataBuff = data.join('').trim();
-			var result;
-			try {
-				result = JSON.parse(dataBuff);
-			}
-			catch (exp) {
-				result = {
-					status_code: 500,
-					status_text: 'JSON Parse Failed',
-					status: 'UNKNOWN_ERROR',
-				};
-			}
-			callback(null, result);
-		});
+
+		res
+			.on('data', function (chunk) {
+				data.push(chunk);
+			})
+			.on('end', function () {
+				var dataBuff = data.join('').trim();
+				var result;
+				try {
+					result = JSON.parse(dataBuff);
+				}
+				catch (exp) {
+					result = {
+						status_code: 500,
+						status_text: 'JSON Parse Failed',
+						status: 'UNKNOWN_ERROR',
+					};
+				}
+				callback(null, result);
+			});
 	})
-	.on('error', function (err) {
-		callback(err);
-	});
+		.on('error', function (err) {
+			callback(err);
+		});
 }
 
 /**

@@ -131,7 +131,7 @@ module.exports = React.createClass({
 					ref="popout"
 					relativeToID={this.state.id}
 					width={260}
-					>
+				>
 					<DayPicker
 						modifiers={modifiers}
 						onDayClick={this.handleDaySelect}
