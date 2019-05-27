@@ -153,8 +153,8 @@ module.exports = Field.create({
 			this.props.value !== undefined
 			&& this.props.value.md !== undefined
 		)
-		? this.props.value.md
-		: '';
+			? this.props.value.md
+			: '';
 
 		return (
 			<textarea

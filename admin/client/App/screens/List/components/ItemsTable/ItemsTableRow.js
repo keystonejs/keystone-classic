@@ -22,9 +22,9 @@ const ItemsRow = React.createClass({
 		items: React.PropTypes.object,
 		list: React.PropTypes.object,
 		// Injected by React DnD:
-		isDragging: React.PropTypes.bool,         // eslint-disable-line react/sort-prop-types
-		connectDragSource: React.PropTypes.func,  // eslint-disable-line react/sort-prop-types
-		connectDropTarget: React.PropTypes.func,  // eslint-disable-line react/sort-prop-types
+		isDragging: React.PropTypes.bool, // eslint-disable-line react/sort-prop-types
+		connectDragSource: React.PropTypes.func, // eslint-disable-line react/sort-prop-types
+		connectDropTarget: React.PropTypes.func, // eslint-disable-line react/sort-prop-types
 		connectDragPreview: React.PropTypes.func, // eslint-disable-line react/sort-prop-types
 	},
 	renderRow (item) {

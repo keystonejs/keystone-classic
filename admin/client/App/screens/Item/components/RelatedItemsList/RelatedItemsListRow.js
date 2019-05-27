@@ -44,9 +44,9 @@ RelatedItemsListRow.propTypes = {
 	relatedItemId: PropTypes.string.isRequired,
 	relationship: PropTypes.object.isRequired,
 	// Injected by React DnD:
-	isDragging: PropTypes.bool,         // eslint-disable-line react/sort-prop-types
-	connectDragSource: PropTypes.func,  // eslint-disable-line react/sort-prop-types
-	connectDropTarget: PropTypes.func,  // eslint-disable-line react/sort-prop-types
+	isDragging: PropTypes.bool, // eslint-disable-line react/sort-prop-types
+	connectDragSource: PropTypes.func, // eslint-disable-line react/sort-prop-types
+	connectDropTarget: PropTypes.func, // eslint-disable-line react/sort-prop-types
 	connectDragPreview: PropTypes.func, // eslint-disable-line react/sort-prop-types
 };
 
@@ -96,9 +96,9 @@ const dropItem = {
 	hover (props, monitor, component) {
 		// reset row alerts
 		// if (props.rowAlert.success || props.rowAlert.fail) {
-			// props.dispatch(setRowAlert({
-			// 	reset: true,
-			// }));
+		// 	props.dispatch(setRowAlert({
+		// 		reset: true,
+		// 	}));
 		// }
 
 		const dragged = monitor.getItem().index;
