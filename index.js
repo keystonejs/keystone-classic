@@ -4,6 +4,7 @@ var grappling = require('grappling-hook');
 var path = require('path');
 var utils = require('keystone-utils');
 var importer = require('./lib/core/importer');
+var fileImporter = require('./lib/core/fileImporter');
 
 /**
  * Don't use process.cwd() as it breaks module encapsulation
@@ -114,6 +115,7 @@ Keystone.prototype.createItems = require('./lib/core/createItems');
 Keystone.prototype.createRouter = require('./lib/core/createRouter');
 Keystone.prototype.getOrphanedLists = require('./lib/core/getOrphanedLists');
 Keystone.prototype.importer = importer;
+Keystone.prototype.fileImporter = fileImporter;
 Keystone.prototype.init = require('./lib/core/init');
 Keystone.prototype.initDatabaseConfig = require('./lib/core/initDatabaseConfig');
 Keystone.prototype.initExpressApp = require('./lib/core/initExpressApp');
@@ -166,6 +168,17 @@ keystone.security = {
 keystone.utils = utils;
 
 /**
+ * returns a single .js module at the path specified, relative
+ * to the module root (where the keystone project is being consumed from).
+ *
+ * ####Example:
+ *     var myModel = keystone.import('myModel');
+ */
+Keystone.prototype.importFile = function (fileName) {
+	return fileImporter(this.get('module root'))(fileName);
+};
+
+/**
  * returns all .js modules (recursively) in the path specified, relative
  * to the module root (where the keystone project is being consumed from).
  *
@@ -176,7 +189,6 @@ keystone.utils = utils;
 Keystone.prototype.import = function (dirname) {
 	return importer(this.get('module root'))(dirname);
 };
-
 
 /**
  * Applies Application updates
