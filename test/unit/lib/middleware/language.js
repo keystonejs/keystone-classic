@@ -61,6 +61,10 @@ function getCookieLanguage (res) {
 	return res.cookie.getCall(0).args[COOKIE_LANGUAGE_ARG];
 }
 
+function getCookieOptions (res, option) {
+	return res.cookie.getCall(0).args[COOKIE_OPTIONS_ARG][option];
+}
+
 describe('language', function () {
 	it('must allow Accept-Language selection', function () {
 		var keystone = keystoneOptions({
@@ -134,8 +138,8 @@ describe('language', function () {
 
 				language(keystone)(mockRequest(), res, function (err) {
 					demand(err).be(undefined);
-					demand(res.cookie.getCall(0).args[COOKIE_OPTIONS_ARG].secure).eql(expectedSecure);
-					demand(res.cookie.getCall(0).args[COOKIE_OPTIONS_ARG].maxAge).eql(expectedMaxAge);
+					demand(getCookieOptions(res, 'secure')).eql(expectedSecure);
+					demand(getCookieOptions(res, 'maxAge')).eql(expectedMaxAge);
 					done();
 				});
 			});
