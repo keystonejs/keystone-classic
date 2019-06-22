@@ -43,6 +43,11 @@ matrix:
       script:
         - npm run test-admin
       env:
+        - JOB=admin_tests_node_8
+    - node_js: '8'
+      script:
+        - npm run test-unit
+      env:
         - JOB=unit_tests_node_8
 
 
