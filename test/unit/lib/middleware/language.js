@@ -5,6 +5,7 @@ var language = require('../../../../lib/middleware/language');
 
 var COOKIE_NAME_ARG = 0;
 var COOKIE_LANGUAGE_ARG = 1;
+var COOKIE_OPTIONS_ARG = 2;
 
 function getNoop () { return function noop () {} }
 
@@ -58,6 +59,10 @@ function getCookieName (res) {
 
 function getCookieLanguage (res) {
 	return res.cookie.getCall(0).args[COOKIE_LANGUAGE_ARG];
+}
+
+function getCookieOptions (res, option) {
+	return res.cookie.getCall(0).args[COOKIE_OPTIONS_ARG][option];
 }
 
 describe('language', function () {
@@ -128,11 +133,13 @@ describe('language', function () {
 					}
 				});
 				var res = mockResponse();
-				var expected = true;
+				var expectedSecure = true;
+				var expectedMaxAge = 86400000
 
 				language(keystone)(mockRequest(), res, function (err) {
 					demand(err).be(undefined);
-					demand(res.cookie.secure).eql(expected);
+					demand(getCookieOptions(res, 'secure')).eql(expectedSecure);
+					demand(getCookieOptions(res, 'maxAge')).eql(expectedMaxAge);
 					done();
 				});
 			});
