@@ -69,13 +69,16 @@ module.exports = function createStaticRouter (keystone) {
 	/* Prepare LESS options */
 	var elementalPath = path.join(path.dirname(require.resolve('elemental')), '..');
 	var reactSelectPath = path.join(path.dirname(require.resolve('react-select')), '..');
+	var keystoneTinymcePath = path.dirname(require.resolve('keystone-tinymce'));
 	var customStylesPath = keystone.getPath('adminui custom styles') || '';
 
 	var lessOptions = {
 		render: {
+			javascriptEnabled: true,
 			modifyVars: {
 				elementalPath: JSON.stringify(elementalPath),
 				reactSelectPath: JSON.stringify(reactSelectPath),
+				keystoneTinymcePath: JSON.stringify(keystoneTinymcePath),
 				customStylesPath: JSON.stringify(customStylesPath),
 				adminPath: JSON.stringify(keystone.get('admin path')),
 			},
@@ -84,13 +87,12 @@ module.exports = function createStaticRouter (keystone) {
 
 	/* Configure router */
 	router.use('/styles', less(path.resolve(__dirname + '/../../public/styles'), lessOptions));
-	router.use('/styles/fonts', express.static(path.resolve(__dirname + '/../../public/js/lib/tinymce/skins/keystone/fonts')));
+	router.use('/styles/fonts', express.static(`${keystoneTinymcePath}/skin/fonts`));
 	router.get('/js/fields.js', bundles.fields.serve);
 	router.get('/js/signin.js', bundles.signin.serve);
 	router.get('/js/admin.js', bundles.admin.serve);
-	var keystone_tinymce = path.dirname(require.resolve('keystone-tinymce'));
-	router.use('/js/lib/tinymce/skins/keystone', express.static(`${keystone_tinymce}/skin`));
-	router.use('/js/lib/tinymce/plugins/uploadimage', express.static(`${keystone_tinymce}/plugins/uploadimage`));
+	router.use('/js/lib/tinymce/skins/keystone', express.static(`${keystoneTinymcePath}/skin`));
+	router.use('/js/lib/tinymce/plugins/uploadimage', express.static(`${keystoneTinymcePath}/plugins/uploadimage`));
 	router.use('/js/lib/tinymce', express.static(path.dirname(require.resolve('tinymce'))));
 	router.use(express.static(path.resolve(__dirname + '/../../public')));
 
