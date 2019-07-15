@@ -35,11 +35,9 @@ module.exports = Field.create({
 		const { value } = this.props;
 		return (
 			<div>
-				<FormInput
-					noedit
-					onClick={value && this.openValue}
-					value={value}
-				/>
+				<FormInput noedit onClick={value && this.openValue}>
+					{value}
+				</FormInput>
 				{ this.renderThumb() }
 			</div>
 		);
