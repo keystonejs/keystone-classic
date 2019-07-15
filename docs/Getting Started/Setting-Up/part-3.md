@@ -98,7 +98,8 @@ function routeFunction(req, res) {
 
 module.exports = function (app) {
   app.get('/', routeFunction);
-};```
+};
+```
 
 For each route we want, we add a new path and route function. In the example above, the path `'/'` (the default homepage) will be handled by `routeFunction()`.
 

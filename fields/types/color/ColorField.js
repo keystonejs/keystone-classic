@@ -73,6 +73,7 @@ const ColorField = Field.create({
 		);
 	},
 	renderField () {
+
 		const { displayColorPicker } = this.state;
 
 		return (
@@ -88,7 +89,7 @@ const ColorField = Field.create({
 						/>
 					</Section>
 					<Section>
-						<Button onClick={this.handleClick} cssStyles={classes.button} data-e2e-type-color__button>
+						<Button onClick={this.handleClick} style={classes.button} data-e2e-type-color__button>
 							{this.renderSwatch()}
 						</Button>
 					</Section>
@@ -117,13 +118,13 @@ const ColorField = Field.create({
 /* eslint quote-props: ["error", "as-needed"] */
 const classes = {
 	button: {
-		background: 'white',
+		background: 'white !important',
 		padding: 4,
 		width: theme.component.height,
 
-		':hover': {
-			background: 'white',
-		},
+		// ':hover': {
+		// 	background: 'white',
+		// },
 	},
 	blockout: {
 		bottom: 0,

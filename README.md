@@ -1,47 +1,24 @@
-![KeystoneJS](http://v3.keystonejs.com/images/logo.svg)
-===================================
+# ![KeystoneJS](http://v3.keystonejs.com/images/logo.svg)
 
 [![Build Status](https://travis-ci.org/keystonejs/keystone.svg?branch=master)](https://travis-ci.org/keystonejs/keystone)
 
- - [About Keystone](#about)
- - [Getting Started](#getting-started)
- - [Community](#community)
- - [Contributing](#contributing)
- - [License](#license)
+- [About Keystone](#about)
+- [Getting Started](#getting-started)
+- [Community](#community)
+- [Contributing](#contributing)
+- [License](#license)
 
 ## About Keystone
 
 [KeystoneJS](http://keystonejs.com) is a powerful Node.js content management system and web app framework built on the [Express](https://expressjs.com/) web framework and [Mongoose ODM](http://mongoosejs.com). Keystone makes it easy to create sophisticated web sites and apps, and comes with a beautiful auto-generated Admin UI.
+
+Check out our [demo site](http://demo.keystonejs.com) to see it in action.
 
 ### Documentation
 
 For Keystone v4 documentation and guides, see [keystonejs.com](https://keystonejs.com).
 
 For Keystone v0.3 documentation, see [v3.keystonejs.com](https://v3.keystonejs.com).
-
-### Keystone 4.0 Release Candidate (RC)
-
-We've been working on a major update to KeystoneJS. Keystone 4 is a complete rebuild of Keystone's Admin UI and internal architecture.
-
-Improvements include:
-
-* The Admin UI has been re-written as a single page app using [React.js](https://reactjs.org), [Redux](https://redux.js.org/), and [Elemental UI](http://elemental-ui.com/)
-* An updated API for Lists and Fields
-* Better support for using Keystone without Express, or with your own express instance
-* Core functionality has been refactored and we're breaking Keystone up into separate npm packages
-* Startup time has been significantly reduced
-* LocalFile, S3File, and AzureFile have been replaced by a new generic `keystone.Storage` engine and File field
-* We have much higher unit and end-to-end test coverage
-
-Please try out Keystone 4 and let us know what you think:
-
-```
-npm install --save keystone
-```
-
-We'll be publishing a summary of the new features, changes, and improvements as we get closer to the final release. In the meantime, see the [v0.3 -> v4.0 Upgrade Guide](https://keystonejs.com/guides/v-0-3-to-v-4-0-upgrade-guide) for information on what's changed.
-
-Also check out our [demo site](http://demo.keystonejs.com), which has been updated to the new version!
 
 ## Getting Started
 
@@ -88,10 +65,10 @@ Setting your environment enables certain features (including template caching, s
 
 We have a friendly, growing community and welcome everyone to get involved:
 
-* Follow [@KeystoneJS](https://twitter.com/KeystoneJS) on twitter for news and announcements.
-* Ask technical questions on [Stack Overflow](http://stackoverflow.com/questions/tagged/keystone.js) and tag them `keystonejs.`
-* Report bugs and feature suggestions on our GitHub [issue tracker](https://github.com/keystonejs/keystone/issues).
-* Join the [KeystoneJS Slack](https://launchpass.com/keystonejs) for general discussion with the Keystone community and contributors.
+- Follow [@KeystoneJS](https://twitter.com/KeystoneJS) on twitter for news and announcements.
+- Ask technical questions on [Stack Overflow](http://stackoverflow.com/questions/tagged/keystone.js) and tag them `keystonejs.`
+- Report bugs and feature suggestions on our GitHub [issue tracker](https://github.com/keystonejs/keystone/issues).
+- Join the [KeystoneJS Slack](https://launchpass.com/keystonejs) for general discussion with the Keystone community and contributors.
 
 We love to hear feedback about Keystone and the projects you're using it for. Ping us at [@KeystoneJS](https://twitter.com/KeystoneJS) on Twitter.
 
@@ -102,6 +79,7 @@ If you can, please contribute by reporting issues, discussing ideas, helping ans
 If you're going to contribute code, please follow our [coding standards](https://github.com/keystonejs/keystone/wiki/Coding-Standards) and read our [Contributing Guide](https://github.com/keystonejs/keystone/blob/master/CONTRIBUTING.md).
 
 ### Related Projects
+
 If you are using KeystoneJS in any projects we encourage you to add to our [Related Projects Page](https://github.com/keystonejs/keystone/wiki/Related-Projects). This is also the place to find generators and other projects that bundle KeystoneJS.
 
 ### Thanks
@@ -114,7 +92,7 @@ Keystone's development has been led by key contributors including [Jed Watson](h
 
 (The MIT License)
 
-Copyright (c) 2016-2018 Jed Watson
+Copyright (c) 2016-2019 Jed Watson
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

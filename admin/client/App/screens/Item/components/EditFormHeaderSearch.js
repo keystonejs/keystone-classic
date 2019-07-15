@@ -59,7 +59,7 @@ class EditFormHeaderSearch extends Component {
 				variant="link"
 				style={{ paddingLeft: '0.7em' }}
 				data-e2e-search-icon
-				>
+			>
 				Search
 			</GlyphButton>
 		);

@@ -222,8 +222,8 @@ embedly.prototype.updateItem = function (item, data, callback) {
 	// TODO: This could be more granular and check for actual changes to values,
 	// see the Location field for an example
 
- // This field type is never editable, so to ensure that we don't inadvertently reset the fields on this item with a null value
- // A conditional has been added to negate updating this item should the fromPath on the passed in data object be the same as that on the item.
+	// This field type is never editable, so to ensure that we don't inadvertently reset the fields on this item with a null value
+	// A conditional has been added to negate updating this item should the fromPath on the passed in data object be the same as that on the item.
 	if (data[this.fromPath] !== item[this.fromPath]) {
 		item.set(item.set(this.path, {
 			exists: data[this.paths.exists],

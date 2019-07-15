@@ -75,7 +75,7 @@ var ListFiltersAdd = React.createClass({
 			filteredFilters = filteredFilters
 				.filter(filter => filter.type !== 'heading')
 				.filter(filter => new RegExp(searchString)
-				.test(filter.field.label.toLowerCase()));
+					.test(filter.field.label.toLowerCase()));
 		}
 
 		const popoutList = filteredFilters.map((el, i) => {
@@ -169,7 +169,7 @@ var ListFiltersAdd = React.createClass({
 						transitionName={selectedField ? 'Popout__pane-next' : 'Popout__pane-prev'}
 						transitionEnterTimeout={360}
 						transitionLeaveTimeout={360}
-						>
+					>
 						{selectedField ? this.renderForm() : this.renderList()}
 					</Transition>
 				</Popout>

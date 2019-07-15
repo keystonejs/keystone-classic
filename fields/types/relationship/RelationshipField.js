@@ -23,29 +23,28 @@ function compareValues (current, next) {
 }
 
 module.exports = Field.create({
-
 	displayName: 'RelationshipField',
 	statics: {
 		type: 'Relationship',
 	},
-
 	getInitialState () {
 		return {
 			value: null,
 			createIsOpen: false,
 		};
 	},
-
 	componentDidMount () {
 		this._itemsCache = {};
 		this.loadValue(this.props.value);
+		this.__isMounted = true;
 	},
-
+	componentWillUnmount () {
+		this.__isMounted = false;
+	},
 	componentWillReceiveProps (nextProps) {
 		if (nextProps.value === this.props.value || nextProps.many && compareValues(this.props.value, nextProps.value)) return;
 		this.loadValue(nextProps.value);
 	},
-
 	shouldCollapse () {
 		if (this.props.many) {
 			// many:true relationships have an Array for a value
@@ -53,7 +52,6 @@ module.exports = Field.create({
 		}
 		return this.props.collapse && !this.props.value;
 	},
-
 	buildFilters () {
 		var filters = {};
 
@@ -85,12 +83,10 @@ module.exports = Field.create({
 
 		return parts.join('&');
 	},
-
 	cacheItem (item) {
 		item.href = Keystone.adminPath + '/' + this.props.refList.path + '/' + item.id;
 		this._itemsCache[item.id] = item;
 	},
-
 	loadValue (values) {
 		if (!values) {
 			return this.setState({
@@ -121,14 +117,13 @@ module.exports = Field.create({
 				done(err, data);
 			});
 		}, (err, expanded) => {
-			if (!this.isMounted()) return;
+			if (!this.__isMounted) return;
 			this.setState({
 				loading: false,
 				value: this.props.many ? expanded : expanded[0],
 			});
 		});
 	},
-
 	// NOTE: this seems like the wrong way to add options to the Select
 	loadOptionsCallback: {},
 	loadOptions (input, callback) {
@@ -150,26 +145,22 @@ module.exports = Field.create({
 			});
 		});
 	},
-
 	valueChanged (value) {
 		this.props.onChange({
 			path: this.props.path,
 			value: value,
 		});
 	},
-
 	openCreate () {
 		this.setState({
 			createIsOpen: true,
 		});
 	},
-
 	closeCreate () {
 		this.setState({
 			createIsOpen: false,
 		});
 	},
-
 	onCreate (item) {
 		this.cacheItem(item);
 		if (Array.isArray(this.state.value)) {
@@ -188,10 +179,9 @@ module.exports = Field.create({
 		});
 		this.closeCreate();
 	},
-
 	renderSelect (noedit) {
 		const inputName = this.getInputName(this.props.path);
-		const emptyValueInput = (this.props.many && (!this.state.value || !this.state.value.length))
+		const emptyValueInput = (this.props.many && (!this.state.value || !this.state.value.length) || (!this.props.many && !this.state.value))
 			? <input type="hidden" name={inputName} value="" /> : null;
 		return (
 			<div>
@@ -213,7 +203,6 @@ module.exports = Field.create({
 			</div>
 		);
 	},
-
 	renderInputGroup () {
 		// TODO: find better solution
 		//   when importing the CreateForm using: import CreateForm from '../../../admin/client/App/shared/CreateForm';
@@ -237,7 +226,6 @@ module.exports = Field.create({
 			</Group>
 		);
 	},
-
 	renderValue () {
 		const { many } = this.props;
 		const { value } = this.state;
@@ -250,7 +238,6 @@ module.exports = Field.create({
 
 		return many ? this.renderSelect(true) : <FormInput {...props} />;
 	},
-
 	renderField () {
 		if (this.props.createInline) {
 			return this.renderInputGroup();

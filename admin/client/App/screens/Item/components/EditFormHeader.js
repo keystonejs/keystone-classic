@@ -67,7 +67,7 @@ export const EditFormHeader = React.createClass({
 					style={backStyles}
 					to={backPath}
 					variant="link"
-					>
+				>
 					{list.plural}
 				</GlyphButton>
 			);
