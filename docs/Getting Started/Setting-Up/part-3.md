@@ -57,9 +57,10 @@ Keystone will look for an installed `npm` package with the same name as the view
 $ npm install --save pug
 ```
 
-Finally, add a line after your model imports to tell Keystone where you plan to define your routes. :
+Finally, add a line after your model imports to tell Keystone where you plan to define your routes. It should look like this :
 
 ```javascript
+keystone.import('models');
 keystone.set('routes', require('./routes'));
 ```
 
