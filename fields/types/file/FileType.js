@@ -47,12 +47,22 @@ file.prototype.upload = function (item, file, callback) {
 	var field = this;
 	// TODO; Validate there is actuall a file to upload
 	debug('[%s.%s] Uploading file for item %s:', this.list.key, this.path, item.id, file);
-	this.storage.uploadFile(file, function (err, result) {
-		if (err) return callback(err);
-		debug('[%s.%s] Uploaded file for item %s with result:', field.list.key, field.path, item.id, result);
-		item.set(field.path, result);
-		callback(null, result);
-	});
+	var upload = function (item, file, callback) {
+		field.storage.uploadFile(file, function (err, result) {
+			if (err) return callback(err);
+			debug('[%s.%s] Uploaded file for item %s with result:', field.list.key, field.path, item.id, result);
+			item.set(field.path, result);
+			callback(null, result);
+		});
+	};
+	if (item[field.path] && item[field.path].filename) {
+		field.remove(item, function (err, result) {
+			if (err) return callback(err);
+			upload(item, file, callback);
+		});
+	} else {
+		upload(item, file, callback);
+	}
 };
 
 /**
@@ -69,10 +79,8 @@ file.prototype.reset = function (item) {
 /**
  * Deletes the stored file and resets the field value
  */
-// TODO: Should we accept a callback here? Seems like a good idea.
-file.prototype.remove = function (item) {
-	this.storage.removeFile(item.get(this.path));
-	this.reset();
+file.prototype.remove = function (item, callback) {
+	this.storage.removeFile(item.get(this.path), callback);
 };
 
 /**
@@ -155,10 +163,9 @@ file.prototype.updateItem = function (item, data, files, callback) {
 	var value = this.getValueFromData(data);
 	var uploadedFile;
 
-	// Providing the string "remove" removes the file and resets the field
-	if (value === 'remove') {
-		this.remove(item);
-		utils.defer(callback);
+	// Providing empty string to removes the file and resets the field
+	if (value === '') {
+		this.remove(item, function () {});
 	}
 
 	// Find an uploaded file in the files argument, either referenced in the
