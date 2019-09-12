@@ -13,7 +13,7 @@ export default class ValueProps extends Component {
 					<ul className={compose(styles.list_links)}>
 						<li className={compose(styles.list_links_item)}><Link to="/getting-started" className={compose(styles.list_links_anchor)}>Getting Started</Link></li>
 						<li className={compose(styles.list_links_item)}><Link to="/documentation" className={compose(styles.list_links_anchor)}>Documentation</Link></li>
-						<li className={compose(styles.list_links_item)}><a className={compose(styles.list_links_anchor)} href="https://github.com/keystonejs/keystone">Github Project</a></li>
+						<li className={compose(styles.list_links_item)}><a className={compose(styles.list_links_anchor)} href="https://github.com/keystonejs/keystone">GitHub Project</a></li>
 						<li className={compose(styles.list_links_item)}><a className={compose(styles.list_links_anchor)} href="https://groups.google.com/forum/#!forum/keystonejs">Google Group</a></li>
 						<li className={compose(styles.list_links_item)}><a className={compose(styles.list_links_anchor)} href="http://demo.keystonejs.com/">Demo Website</a></li>
 					</ul>
