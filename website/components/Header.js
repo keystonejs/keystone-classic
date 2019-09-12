@@ -68,7 +68,7 @@ export default class Header extends Component {
 							href="https://github.com/keystonejs/keystone"
 							target="_blank"
 							className={compose(styles.navItemLink)}>
-							Github
+							GitHub
 						</a>
 					</li>
 					<li className={compose(styles.navItem)}>
