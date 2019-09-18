@@ -16,7 +16,7 @@ Check out our [demo site](http://demo.keystonejs.com) to see it in action.
 
 ### Keystone 5
 
-We've been working on a new version of Keystone. If you're starting a new project you might be interested trying out [Keystone 5](https://github.com/keystonejs/keystone-5/). 
+We've been working on a new version of Keystone. If you're starting a new project you might be interested in trying out [Keystone 5](https://github.com/keystonejs/keystone-5/). 
 
 ### Documentation
 
