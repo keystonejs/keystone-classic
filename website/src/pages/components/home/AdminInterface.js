@@ -26,7 +26,7 @@ const styles = {
 		backgroundColor: theme.color.lightBlue,
 		textAlign: 'center',
 		padding: '4rem 0',
-		width: '100vw',
+		width: '100%',
 		overflow: 'hidden',
 	},
 	heading: {
