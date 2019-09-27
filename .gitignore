@@ -39,3 +39,6 @@ yarn.lock
 # Website dependencies
 website/.cache
 website/public
+
+.vscode
+
