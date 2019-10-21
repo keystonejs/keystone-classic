@@ -43,7 +43,7 @@ function azurefile (list, path, options) {
 	if (!this.azurefileconfig) {
 		throw new Error('Invalid Configuration\n\n'
 			+ 'AzureFile fields (' + list.key + '.' + path + ') require the "azurefile config" option to be set.\n\n'
-			+ 'See http://keystonejs.com/docs/configuration/#services-azure for more information.\n');
+			+ 'See http://v4.keystonejs.com/docs/configuration/#services-azure for more information.\n');
 	}
 
 	// TODO; this is really bad, we shouldn't be overwriting global env!
