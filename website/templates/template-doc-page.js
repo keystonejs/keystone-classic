@@ -1,13 +1,14 @@
-import React, { Component } from 'react';
-import DocumentTitle from 'react-document-title';
-import EditIcon from 'react-icons/lib/go/pencil';
+import React, { Component } from "react";
+import DocumentTitle from "react-document-title";
+import EditIcon from "react-icons/lib/go/pencil";
 
-import { rhythm } from '../utils/typography';
-import theme from '../theme';
-import Container from '../components/Container';
+import { rhythm } from "../utils/typography";
+import theme from "../theme";
+import Container from "../components/Container";
+import Version5 from "../components/Version5";
 
 class DocumentPage extends Component {
-	render () {
+	render() {
 		const { body, editPath, siteTitle, title } = this.props;
 
 		return (
@@ -33,11 +34,11 @@ const styles = {
 	content: {
 		[theme.breakpoint.largeUp]: {
 			marginLeft: theme.navbar.widthSmall,
-			minHeight: '100vh',
+			minHeight: "100vh"
 		},
 		[theme.breakpoint.xlargeUp]: {
-			marginLeft: theme.navbar.widthLarge,
-		},
+			marginLeft: theme.navbar.widthLarge
+		}
 	},
 	article: {
 		paddingBottom: rhythm(1),
@@ -45,34 +46,34 @@ const styles = {
 
 		[theme.breakpoint.largeUp]: {
 			paddingBottom: rhythm(2),
-			paddingTop: rhythm(2),
-		},
+			paddingTop: rhythm(2)
+		}
 	},
 	edit: {
-		alignItems: 'center',
-		borderRadius: '0.3rem',
+		alignItems: "center",
+		borderRadius: "0.3rem",
 		color: theme.color.gray40,
-		display: 'none',
-		float: 'right',
-		fontSize: '0.9em',
-		marginTop: '0.2rem',
-		padding: '0.4rem 0.8rem',
-		textDecoration: 'none',
-		textTransform: 'uppercase',
-		transition: 'color 100ms',
+		display: "none",
+		float: "right",
+		fontSize: "0.9em",
+		marginTop: "0.2rem",
+		padding: "0.4rem 0.8rem",
+		textDecoration: "none",
+		textTransform: "uppercase",
+		transition: "color 100ms",
 
-		':hover': {
+		":hover": {
 			backgroundColor: theme.color.gray05,
-			color: theme.color.gray60,
+			color: theme.color.gray60
 		},
 
 		[theme.breakpoint.xlargeUp]: {
-			display: 'inline-flex',
-		},
+			display: "inline-flex"
+		}
 	},
 	editIcon: {
-		marginRight: '0.5em',
-	},
+		marginRight: "0.5em"
+	}
 };
 
 export default DocumentPage;
