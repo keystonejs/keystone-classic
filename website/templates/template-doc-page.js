@@ -5,7 +5,6 @@ import EditIcon from "react-icons/lib/go/pencil";
 import { rhythm } from "../utils/typography";
 import theme from "../theme";
 import Container from "../components/Container";
-import Version5 from "../components/Version5";
 
 class DocumentPage extends Component {
 	render() {
