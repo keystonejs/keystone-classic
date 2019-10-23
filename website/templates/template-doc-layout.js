@@ -5,7 +5,6 @@ require("typeface-roboto");
 
 import Page from "./template-doc-page";
 import Navbar from "../components/Navbar";
-import Version5 from "../components/Version5";
 
 export default class DocumentLayout extends React.Component {
 	constructor(props) {
@@ -63,8 +62,6 @@ export default class DocumentLayout extends React.Component {
 
 		return (
 			<div>
-				<Version5 />
-
 				<Navbar
 					items={this.getNavItems()}
 					pathname={this.props.location.pathname}
