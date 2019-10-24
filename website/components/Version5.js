@@ -1,12 +1,12 @@
 import React from "react";
 import { compose } from "glamor";
-import Link from "gatsby-link";
+
 export default () => (
 	<div className={compose(styles.wrapper)}>
 		<div>
 			<p className={compose(styles.p)}>
 				If you're looking for the latest version of Keystone checkout{" "}
-				<Link to="https://keystonejs.com/">Keystone 5</Link>. Version 4 will
+				<a href="https://keystonejs.com/">Keystone 5</a>. Version 4 will
 				continue to receive critical updates but new users should choose version
 				5.
 			</p>
