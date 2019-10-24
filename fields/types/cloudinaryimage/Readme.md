@@ -6,7 +6,7 @@ Displayed as an image upload field in the Admin UI.
 
 Automatically manages images stored in [Cloudinary](http://cloudinary.com/), including uploading, resizing and deleting.
 
-See the [Cloudinary configuration documentation](http://keystonejs.com/docs/configuration#services-cloudinary) for details on how to set up Cloudinary in KeystoneJS.
+See the [Cloudinary configuration documentation](http://v4.keystonejs.com/docs/configuration#services-cloudinary) for details on how to set up Cloudinary in KeystoneJS.
 
 ## Example
 

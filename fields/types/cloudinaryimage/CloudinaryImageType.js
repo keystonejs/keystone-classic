@@ -59,7 +59,7 @@ function cloudinaryimage (list, path, options) {
 		throw new Error(
 			'Invalid Configuration\n\n'
 			+ 'CloudinaryImage fields (' + list.key + '.' + this.path + ') require the "cloudinary config" option to be set.\n\n'
-			+ 'See http://keystonejs.com/docs/configuration/#services-cloudinary for more information.\n'
+			+ 'See http://v4.keystonejs.com/docs/configuration/#services-cloudinary for more information.\n'
 		);
 	}
 }

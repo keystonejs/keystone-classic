@@ -52,7 +52,6 @@ const Intro = () => (
 			</a>
 		</div>
 		<LatestRelease />
-		<KeystoneAlpha />
 	</div>
 );
 
@@ -69,27 +68,6 @@ const LatestRelease = () => (
 				target="_blank"
 			>
 				See what's new
-			</a>
-		</span>
-	</div>
-);
-
-const KeystoneAlpha = () => (
-	<div className={compose(styles.alpha)}>
-		<span className={compose(styles.dotYellow)} />
-		<span className={compose(styles.releaseMain)}>
-			Keystone <strong>{"5"}</strong>
-		</span>
-		<span className={compose(styles.releaseSide)}>
-			We're building a completely new Keystone
-		</span>
-		<span className={compose(styles.releaseSide)}>
-			<a
-				href="https://v5.keystonejs.com/"
-				style={{ color: "white" }}
-				target="_blank"
-			>
-				Try it now
 			</a>
 		</span>
 	</div>
@@ -190,18 +168,6 @@ const styles = {
 		margin: "3rem auto 0"
 	},
 
-	alpha: {
-		fontSize: "1rem",
-		padding: "0.625rem 1rem",
-		display: "flex",
-		alignItems: "center",
-		justifyContent: "center",
-		backgroundColor: "rgba(0,0,0,0.1)",
-
-		borderRadius: 6,
-		margin: "1rem auto 0"
-	},
-
 	dot: {
 		width: 10,
 		height: 10,
@@ -210,13 +176,6 @@ const styles = {
 		backgroundColor: theme.color.green
 	},
 
-	dotYellow: {
-		width: 10,
-		height: 10,
-		borderRadius: "50%",
-		marginRight: "0.625rem",
-		backgroundColor: theme.color.yellow
-	},
 	releaseSide: {
 		marginLeft: "1.25rem"
 	},

@@ -11,23 +11,23 @@ Displayed as a text field or WYSIWYG Editor in the Admin UI.
 
 ## Options
 
-* `wysiwyg` `Boolean`
+- `wysiwyg` `Boolean`
 
-Whether to display a WYSIWYG editor in the Admin UI - for customizations of the editor see the [Admin UI Options](http://keystonejs.com/docs/configuration/#options-ui).
+Whether to display a WYSIWYG editor in the Admin UI - for customizations of the editor see the [Admin UI Options](http://v4.keystonejs.com/docs/configuration/#options-ui).
 
-* `height` `Number`
+- `height` `Number`
 
 The height of the field (in pixels).
 
-See the [Admin UI Options](http://keystonejs.com/docs/configuration#options-ui) for global configuration options that can be used to customise the WYSIWYG editor.
+See the [Admin UI Options](http://v4.keystonejs.com/docs/configuration#options-ui) for global configuration options that can be used to customise the WYSIWYG editor.
 
 ## Methods
 
 ### Inherits from [`Text`](../text)
 
-* `addFilterToQuery`
-* `validateInput`
-* `validateRequiredInput`
+- `addFilterToQuery`
+- `validateInput`
+- `validateRequiredInput`
 
 ## Filtering
 

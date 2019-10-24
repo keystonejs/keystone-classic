@@ -346,7 +346,7 @@ html
 
       block content
 
-    #footer Powered by <a href='http://keystonejs.com', target='_blank'>KeystoneJS</a>.
+    #footer Powered by <a href='http://v4.keystonejs.com', target='_blank'>KeystoneJS</a>.
 
   block js
 ```
