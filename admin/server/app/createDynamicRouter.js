@@ -3,7 +3,7 @@ var express = require('express');
 
 var uploads = require('../../../lib/uploads');
 
-module.exports = function createDynamicRouter(keystone) {
+module.exports = function createDynamicRouter (keystone) {
 	// ensure keystone nav has been initialised
 	// TODO: move this elsewhere (on demand generation, or client-side?)
 	if (!keystone.nav) {
