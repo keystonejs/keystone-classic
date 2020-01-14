@@ -118,6 +118,9 @@ module.exports = Field.create({
 			});
 		}, (err, expanded) => {
 			if (!this.__isMounted) return;
+			if (this.props.onValuesLoaded && typeof this.props.onValuesLoaded === 'function') {
+				this.props.onValuesLoaded(this.props.path);
+			}
 			this.setState({
 				loading: false,
 				value: this.props.many ? expanded : expanded[0],
