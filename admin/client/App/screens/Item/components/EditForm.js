@@ -60,9 +60,14 @@ var EditForm = React.createClass({
 		list: React.PropTypes.object,
 	},
 	getInitialState () {
-		var hasAsyncFields = this.props.list.columns
-			.filter(col => col.field && col.field.type === 'relationship')
-			.length > 0;
+		var hasAsyncFields = !!this.props.list.columns.find(col => {
+			if (col.field && col.field.type === 'relationship') {
+				var fieldData = this.props.data.fields[col.field.path];
+				return col.field.many ? fieldData.length > 0 : fieldData;
+			} else {
+				return false;
+			}
+		});
 		return {
 			values: assign({}, this.props.data.fields),
 			confirmationDialog: null,
@@ -105,12 +110,12 @@ var EditForm = React.createClass({
 		return props;
 	},
 
-	registerAsyncField(fieldName) {
+	registerAsyncField (fieldName) {
 		this.__asyncFields = this.__asyncFields || {};
 		this.__asyncFields[fieldName] = this.__asyncFields[fieldName] || ASYNC_FIELD_LOADING;
 	},
 
-	onAsyncFieldValuesLoaded(fieldName) {
+	onAsyncFieldValuesLoaded (fieldName) {
 		this.__asyncFields[fieldName] = ASYNC_FIELD_LOADED;
 		var isLoadingComplete = Object.values(this.__asyncFields).filter(asyncStatus => asyncStatus !== ASYNC_FIELD_LOADED).length === 0;
 		this.setState({
