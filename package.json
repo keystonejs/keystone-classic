@@ -5,7 +5,7 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/keystonejs/keystone.git"
+    "url": "https://github.com/joephuz/keystone-classic.git"
   },
   "dependencies": {
     "@babel/core": "^7.4.4",
