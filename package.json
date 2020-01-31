@@ -1,11 +1,11 @@
 {
-  "name": "keystone",
+  "name": "@joephuz/keystone",
   "version": "4.2.1",
   "description": "Web Application Framework and Admin GUI / Content Management System built on Express.js and Mongoose",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/joephuz/keystone-classic.git"
+    "url": "git://github.com/joephuz/keystone-classic.git"
   },
   "dependencies": {
     "@babel/core": "^7.4.4",
@@ -189,5 +189,6 @@
     "posttest-cov": "if [ -n \"$CODECLIMATE_REPO_TOKEN\" ]; then codeclimate-test-reporter < coverage/lcov.info; fi",
     "clean": "rimraf ./coverage",
     "fields-explorer": "node ./fields/explorer/server.js"
-  }
+  },
+  "publishConfig": { "registry": "https://npm.pkg.github.com/" }
 }
