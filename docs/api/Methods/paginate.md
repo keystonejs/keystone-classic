@@ -1,6 +1,6 @@
 # Paginate (Deprecated)
 
-**This feature of keystone is now deprecated and you are encouraged to role your own pagination**
+**This feature of Keystone is now deprecated and you are encouraged to roll your own pagination**
 
 This is a keystone-specific way of retrieving items from `mongo`. It returns a query object, just as `List.model.find()` would. It supports the options
 

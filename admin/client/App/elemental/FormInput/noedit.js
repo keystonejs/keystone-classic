@@ -56,7 +56,6 @@ const classes = {
 		borderWidth: theme.input.border.width,
 		color: theme.color.gray80,
 		display: 'inline-block',
-		height: theme.input.height,
 		lineHeight: theme.input.lineHeight,
 		padding: `0 ${theme.input.paddingHorizontal}`,
 		transition: 'border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s',

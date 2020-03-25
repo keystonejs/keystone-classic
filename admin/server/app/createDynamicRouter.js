@@ -1,6 +1,7 @@
 var bodyParser = require('body-parser');
 var express = require('express');
-var multer = require('multer');
+
+var uploads = require('../../../lib/uploads');
 
 module.exports = function createDynamicRouter (keystone) {
 	// ensure keystone nav has been initialised
@@ -17,12 +18,20 @@ module.exports = function createDynamicRouter (keystone) {
 	// Use bodyParser and multer to parse request bodies and file uploads
 	router.use(bodyParser.json({}));
 	router.use(bodyParser.urlencoded({ extended: true }));
-	router.use(multer({ includeEmptyFields: true }));
+	uploads.configure(router);
 
 	// Bind the request to the keystone instance
 	router.use(function (req, res, next) {
 		req.keystone = keystone;
 		next();
+	});
+
+	// Pre adminroutes middleware
+	if (typeof keystone.get('pre:adminroutes') === 'function') {
+		keystone.get('pre:adminroutes')(router);
+	}
+	router.use(function (req, res, next) {
+		keystone.callHook('pre:adminroutes', req, res, next);
 	});
 
 	if (keystone.get('healthchecks')) {

@@ -6,7 +6,7 @@ Keystone's `createItems` function is a simple but powerful way to populate your 
 
 It can be used to create [test fixtures](http://en.wikipedia.org/wiki/Test_fixture) or initialise your database with default content / users / etc.
 
-There's also a shorthand syntax that can be used within update files; if you are using the [auto updates](/documentation/application-updates) feature, any file that exports a `data` object will automatically be wrapped and the data will be created.
+There's also a shorthand syntax that can be used within update files; if you are using the [auto updates](/documentation/database/application-updates) feature, any file that exports a `data` object will automatically be wrapped and the data will be created.
 
 `createItems` takes two passes at the data it is passed, first creating the items and retaining references by key (if provided) that can be used to populate relationships in the second pass. This makes it easy to create related data without asynchronous nesting (which for data creation sometimes ends up in knots).
 

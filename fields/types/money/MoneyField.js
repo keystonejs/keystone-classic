@@ -7,7 +7,10 @@ module.exports = Field.create({
 	propTypes: {
 		onChange: PropTypes.func.isRequired,
 		path: PropTypes.string.isRequired,
-		value: PropTypes.number,
+		value: PropTypes.oneOfType([
+			PropTypes.string,
+			PropTypes.number,
+		]),
 	},
 	statics: {
 		type: 'Money',

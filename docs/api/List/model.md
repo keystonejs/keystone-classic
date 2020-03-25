@@ -1,11 +1,11 @@
 # Model
 
-Once you retrieve a list from keystone, the [mongoose](http://mongoosejs.com/) methods can be accessed from.
+Once you retrieve a list from Keystone, the [mongoose](http://mongoosejs.com/) methods can be accessed from `.model`.
 
 Example:
 
 ```javascript
-var User = require('keystone').List('User');
+var User = require('keystone').list('User');
 
 User.model.find({});
 ```

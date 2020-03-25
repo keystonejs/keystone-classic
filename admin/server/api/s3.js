@@ -20,6 +20,14 @@ module.exports = {
 			var file = req.files.file;
 			var path = s3Config.s3path ? s3Config.s3path + '/' : '';
 
+			if (!file.name) {
+				var extension;
+				if (file.originalname) {
+					extension = file.originalname.match(/.*(\..*)/);
+				}
+				file.name = file.filename + (extension ? extension[1] : '');
+			}
+
 			var headers = Types.S3File.prototype.generateHeaders.call({ s3config: s3Config, options: {} }, null, file);
 
 			var s3Client = knox.createClient(s3Config);
@@ -34,11 +42,15 @@ module.exports = {
 						if (s3Response.statusCode !== 200) {
 							return res.send({ error: { message: 'Amazon returned Http Code: ' + s3Response.statusCode } });
 						} else {
-							var region = 's3';
-							if (s3Config.region && s3Config.region !== 'us-east-1') {
-								region = 's3-' + s3Config.region;
+							if (s3Config.root) {
+								return res.send({ image: { url: s3Config.root + '/' + file.name } });
+							} else {
+								var region = 's3';
+								if (s3Config.region && s3Config.region !== 'us-east-1') {
+									region = 's3-' + s3Config.region;
+								}
+								return res.send({ image: { url: 'https://' + region + '.amazonaws.com/' + s3Config.bucket + '/' + file.name } });
 							}
-							return res.send({ image: { url: 'https://' + region + '.amazonaws.com/' + s3Config.bucket + '/' + file.name } });
 						}
 					}
 				};

@@ -18,14 +18,14 @@ module.exports = function (keystone, app, callback) {
 	var forceSsl = (keystone.get('ssl') === 'force');
 
 	keystone.httpServer = http
-	.createServer(app)
-	.listen(port, host, function ready (err) {
-		if (err) { return callback(err); }
+		.createServer(app)
+		.listen(port, host, function ready (err) {
+			if (err) { return callback(err); }
 
-		var message = keystone.get('name') + ' is ready on '
-		+ 'http://' + host + ':' + port
-		+ (forceSsl ? ' (SSL redirect)' : '');
-		callback(null, message);
-	});
+			var message = keystone.get('name') + ' is ready on '
+				+ 'http://' + host + ':' + port
+				+ (forceSsl ? ' (SSL redirect)' : '');
+			callback(null, message);
+		});
 
 };

@@ -122,4 +122,4 @@ A `href` for the signout link in the top right of the UI. Defaults to `/keystone
 A `href` to bounce visitors to after they successfully sign out via the built-in sign out route. Defaults to `/keystone`
 
 
-For more information about setting up and using database models with Keystone, see the [database guide](/database/).
+For more information about setting up and using database models with Keystone, see the [database guide](/documentation/database/).

@@ -59,7 +59,7 @@ function cloudinaryimages (list, path, options) {
 	if (!keystone.get('cloudinary config')) {
 		throw new Error('Invalid Configuration\n\n'
 			+ 'CloudinaryImages fields (' + list.key + '.' + this.path + ') require the "cloudinary config" option to be set.\n\n'
-			+ 'See http://keystonejs.com/docs/configuration/#services-cloudinary for more information.\n');
+			+ 'See http://v4.keystonejs.com/docs/configuration/#services-cloudinary for more information.\n');
 	}
 }
 cloudinaryimages.properName = 'CloudinaryImages';

@@ -39,7 +39,7 @@ function SegmentedControl ({
 						type="button"
 						title={cropText ? opt.label : null}
 						tabIndex={opt.disabled ? '-1' : ''}
-						>
+					>
 						{opt.label}
 					</button>
 				);
