@@ -38,6 +38,8 @@ Bool.add({
 		initial: true,
 		dependsOn: { fieldC: true }
 	},
+	// TODO: we should add a test for booleans with a default value of `true`
+	// that are visible in the Admin UI (see #4927)
 });
 
 Bool.defaultColumns = 'name, fieldA, fieldB';

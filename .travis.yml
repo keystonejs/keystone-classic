@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-- '6'
+- '8'
 env:
   global:
     - SAUCE_USERNAME=jstockwin1
@@ -9,41 +9,46 @@ env:
     - JOB=lint-and-test-cov
 matrix:
   include:
-    - node_js: '6'
+    - node_js: '8'
       script:
         - travis_retry npm run test-e2e-saucelabs-group
       env:
         - JOB=e2e GROUP=group006Fields
-    - node_js: '6'
+    - node_js: '8'
       script:
         - travis_retry npm run test-e2e-saucelabs-group
       env:
         - JOB=e2e GROUP=group005Item
-    - node_js: '6'
+    - node_js: '8'
       script:
         - travis_retry npm run test-e2e-saucelabs-group
       env:
         - JOB=e2e GROUP=group004List
-    - node_js: '6'
+    - node_js: '8'
       script:
         - travis_retry npm run test-e2e-saucelabs-group
       env:
         - JOB=e2e GROUP=group003Home
-    - node_js: '6'
+    - node_js: '8'
       script:
         - travis_retry npm run test-e2e-saucelabs-group
       env:
         - JOB=e2e GROUP=group002App
-    - node_js: '6'
+    - node_js: '8'
       script:
         - travis_retry npm run test-e2e-saucelabs-group
       env:
         - JOB=e2e GROUP=group001Login
-    - node_js: '6'
+    - node_js: '8'
       script:
         - npm run test-admin
       env:
-        - JOB=unit_tests_node_6
+        - JOB=admin_tests_node_8
+    - node_js: '8'
+      script:
+        - npm run test-unit
+      env:
+        - JOB=unit_tests_node_8
 
 
 before_script:

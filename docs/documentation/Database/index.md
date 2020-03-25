@@ -125,7 +125,7 @@ ChildPage.register();
 
 ## Schema Plugins
 
-You can specify [virtuals, methods, statics](http://mongoosejs.com/docs/guide.html) as well as [pre and post hooks](http://mongoosejs.com/docs/middleware.html) for your **Lists** using the schema. You can also use [mongoose plugins](http://mongoosejs.com/docs/plugins.html) from the [plugins website](http://plugins.mongoosejs.com/).
+You can specify [virtuals, methods, statics](http://mongoosejs.com/docs/guide.html) as well as [pre and post hooks](http://mongoosejs.com/docs/middleware.html) for your **Lists** using the schema. You can also use [mongoose plugins](http://mongoosejs.com/docs/plugins.html) from the [plugins website](http://plugins.mongoosejs.io/).
 
 For example, in our **Post** list above, we might want to automatically set the `publishedAt` value when the `state` is changed to `published` (but only if it hasn't already been set).
 

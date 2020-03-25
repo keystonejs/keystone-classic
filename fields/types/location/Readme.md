@@ -6,7 +6,7 @@ Contains a standard set of strings for storing an address, and a longitude / lat
 
 Also provides autocomplete functionality using Google's Places API (requires a Google Maps API Key to be provided, must only be used in accordance with Google's terms of service).
 
-Google Places integration requires the `google api key` option to be set for Keystone. See the [Google configuration documentation](http://keystonejs.com/docs/configuration/#services-google) for details.
+Google Places integration requires the `google api key` option to be set for Keystone. See the [Google configuration documentation](http://v4.keystonejs.com/docs/configuration/#services-google) for details.
 
 ```
 { type: Types.Location, defaults: { country: 'Australia' } }

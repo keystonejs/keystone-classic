@@ -6,7 +6,7 @@
  * @api private
  */
 
-var letsencrypt = require('letsencrypt-express');
+var letsencrypt = require('greenlock-express');
 
 module.exports = function (keystone, app) {
 

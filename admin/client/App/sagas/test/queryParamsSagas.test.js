@@ -1,4 +1,4 @@
-require('babel-polyfill');
+require('@babel/polyfill');
 
 import demand from 'must';
 import { evalQueryParams, updateParams, parseQueryParams, urlUpdate } from '../queryParamsSagas';

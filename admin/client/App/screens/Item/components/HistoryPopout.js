@@ -38,11 +38,11 @@ export default React.createClass({
 		}
 
 		return revisions.map((r, i) => {
-			let selected = selectedRev == null 
+			let selected = selectedRev == null
 				? i === 0
 				: selectedRev._id === r._id;
 
-            const name = `${r.u.name.first} ${r.u.name.last}`.trim();
+            const name = r.u ? `${r.u.name.first} ${r.u.name.last}`.trim() : "n/a";
             const label = `${moment(r.t).format('LLL')} (${name})`;
 
 			return (<PopoutList.Item
@@ -61,7 +61,7 @@ export default React.createClass({
         if (revisions == null || revisions.length === 0) {
             return;
         }
-        
+
         if (this.state.selectedRev) {
             return (
                 <Popout.Footer

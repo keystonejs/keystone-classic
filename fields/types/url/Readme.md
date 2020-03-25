@@ -5,7 +5,9 @@ Displayed as a text field in the Admin UI.
 This field does not validate input before saving, and will not reject data that is not a url.
 
 ```js
-  { type: Types.Url }
+{
+	type: Types.Url;
+}
 ```
 
 ## Methods
@@ -21,15 +23,15 @@ Defaults to `removeProtocolPrefix`. Strips any protocol from the value using the
 You can override the default formatter by providing a method as the `format` option on the field, or disable it by setting the format option to `false`.
 
 ```js
-  item.url = "http://keystonejs.com";
-  item._.url.format(); // "keystonejs.com"
+item.url = "http://keystonejs.com";
+item._.url.format();
 ```
 
 ## Inherits from [`Text`](../text)
 
-* `addFilterToQuery`
-* `validateInput`
-* `validateRequiredInput`
+- `addFilterToQuery`
+- `validateInput`
+- `validateRequiredInput`
 
 ## Filtering
 

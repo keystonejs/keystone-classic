@@ -92,7 +92,11 @@ This file is going to export a function, take in the Express app Keystone has bu
 The most basic form would look like:
 
 ```javascript
-exports = module.exports = function (app) {
+function routeFunction(req, res) {
+  res.render('index');
+}
+
+module.exports = function (app) {
   app.get('/', routeFunction);
 };
 ```
