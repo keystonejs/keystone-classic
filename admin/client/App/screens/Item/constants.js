@@ -5,3 +5,5 @@ export const DATA_LOADING_ERROR = 'app/Item/DATA_LOADING_ERROR';
 export const DRAG_MOVE_ITEM = 'app/Item/DRAG_MOVE_ITEM';
 export const DRAG_RESET_ITEMS = 'app/Item/DRAG_RESET_ITEMS';
 export const LOAD_RELATIONSHIP_DATA = 'app/Item/LOAD_RELATIONSHIP_DATA';
+export const ASYNC_FIELD_LOADING = 'loading';
+export const ASYNC_FIELD_LOADED = 'loaded';
