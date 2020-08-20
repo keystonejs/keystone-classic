@@ -93,7 +93,7 @@ const styles = {
 			left: 0,
 			overflowY: "auto",
 			paddingBottom: "3em",
-			position: "fixed",
+			position: "absolute",
 			top: 0,
 			width: theme.navbar.widthSmall
 		},
