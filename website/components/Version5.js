@@ -5,10 +5,8 @@ export default () => (
 	<div className={compose(styles.wrapper)}>
 		<div>
 			<p className={compose(styles.p)}>
-				If you're looking for the latest version of Keystone checkout{" "}
-				<a href="https://keystonejs.com/">Keystone 5</a>. Version 4 will
-				continue to receive critical updates but new users should choose version
-				5.
+				These are the version 4 docs. Looking for the{" "}
+				<a href="https://keystonejs.com/">latest version of Keystone</a>?
 			</p>
 		</div>
 	</div>
@@ -21,11 +19,11 @@ const styles = {
 		padding: "1rem",
 		display: "flex",
 		justifyContent: "center",
-		alignItems: "center"
+		alignItems: "center",
 	},
 	p: {
 		color: "#856404",
 		padding: 0,
-		margin: 0
-	}
+		margin: 0,
+	},
 };
