@@ -47,6 +47,8 @@ module.exports = Field.create({
 
 		opts.setup = function (editor) {
 			self.editor = editor;
+			self.setupCustomButtons();
+
 			editor.on('change', self.valueChanged);
 			editor.on('focus', self.focusChanged.bind(self, true));
 			editor.on('blur', self.focusChanged.bind(self, false));
@@ -59,12 +61,28 @@ module.exports = Field.create({
 		}
 	},
 
-	removeWysiwyg (state) {
+	removeWysiwyg(state) {
 		removeTinyMCEInstance(tinymce.get(state.id));
 		this.setState({ wysiwygActive: false });
 	},
 
-	componentDidUpdate (prevProps, prevState) {
+	setupCustomButtons() {
+		const buttons = Keystone.options.wysiwyg.customButtons || [];
+
+		for (const button of buttons) {
+			self.editor.addButton(button.name, {
+				icon: button.icon,
+				tooltip: button.tooltip,
+				onclick: function () {
+					if (button.insertContent) {
+						self.editor.insertContent(button.insertContent)
+					}
+				}
+			});
+		}
+	},
+
+	componentDidUpdate(prevProps, prevState) {
 		if (prevState.isCollapsed && !this.state.isCollapsed) {
 			this.initWysiwyg();
 		}
