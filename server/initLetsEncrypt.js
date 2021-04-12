@@ -37,7 +37,7 @@ module.exports = function (keystone, app) {
 	}
 	// TODO maybe we should use le-store-mongo
 	var lex = letsencrypt.create({
-		version: version;
+		version: version,
 		server: server,
 		approveDomains: approveDomains,
 		agreeTos: agreeTos,
