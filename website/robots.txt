@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://v3.keystonejs.com
+
+# Sitemaps
+Sitemap: https://v3.keystonejs.com/sitemap.xml
