@@ -1,6 +1,6 @@
 # *
 User-agent: *
-Allow: /
+Disallow: /
 
 # Host
 Host: https://v4.keystonejs.com
