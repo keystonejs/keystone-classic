@@ -1,3 +1,12 @@
+<div align="center">
+  <h1>:warning: Maintenance Mode</h1>
+  <p>Keystone classic is in maintenance mode! and no longer receiving support</p>
+	<p>The current version of keystone is <a href="https://github.com/keystonejs/keystone" target="_blank">keystone 6</a>, which we recommend using for any new projects.</p>
+  <br>
+</div>
+<br>
+
+
 # ![KeystoneJS](http://v3.keystonejs.com/images/logo.svg)
 
 [![Build Status](https://travis-ci.org/keystonejs/keystone.svg?branch=master)](https://travis-ci.org/keystonejs/keystone)
@@ -13,10 +22,6 @@
 [KeystoneJS](http://v4.keystonejs.com) is a powerful Node.js content management system and web app framework built on the [Express](https://expressjs.com/) web framework and [Mongoose ODM](http://mongoosejs.com). Keystone makes it easy to create sophisticated web sites and apps, and comes with a beautiful auto-generated Admin UI.
 
 Check out our [demo site](http://demo.keystonejs.com) to see it in action.
-
-### Keystone 5
-
-We've been working on a new version of Keystone. If you're starting a new project you might be interested in trying out [Keystone 5](https://github.com/keystonejs/keystone/). 
 
 ### Documentation
 
