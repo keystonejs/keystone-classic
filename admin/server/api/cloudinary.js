@@ -10,6 +10,10 @@ module.exports = {
 		if (req.files && req.files.file) {
 			var options = {};
 
+			if (keystone.get('wysiwyg cloudinary images folder')) {
+      	options.folder = keystone.get('wysiwyg cloudinary images folder');
+      }
+			
 			if (keystone.get('wysiwyg cloudinary images filenameAsPublicID')) {
 				options.public_id = req.files.file.originalname.substring(0, req.files.file.originalname.lastIndexOf('.'));
 			}
