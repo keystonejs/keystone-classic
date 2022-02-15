@@ -11,6 +11,7 @@ DependsOn.add({
 	title: { type: String, required: true, default: '' },
 	state: { type: Types.Select, options: 'draft, published, archived', default: 'draft' },
 	publishedDate: { type: Types.Date, dependsOn: {state: 'published'}, required: true, initial: false },
+	relativeDependsOn: { type: Types.Relationship, ref: 'DependsOn', dependsOn: {state: 'published'}, required: true, initial: false },
 });
 
 DependsOn.register();
