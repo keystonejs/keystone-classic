@@ -44,9 +44,11 @@ module.exports = function createDynamicRouter (keystone) {
 
 	// #1: Session API
 	// TODO: this should respect keystone auth options
+	var SignIn = typeof keystone.get('signin') === 'function' ? keystone.get('signin') : require('../api/session/signin');
+	var SignOut = typeof keystone.get('signout') === 'function' ? keystone.get('signout') : require('../api/session/signout');
 	router.get('/api/session', require('../api/session/get'));
-	router.post('/api/session/signin', require('../api/session/signin'));
-	router.post('/api/session/signout', require('../api/session/signout'));
+	router.post('/api/session/signin', SignIn);
+	router.post('/api/session/signout', SignOut);
 
 	// #2: Session Routes
 	// Bind auth middleware (generic or custom) to * routes, allowing
