@@ -136,8 +136,8 @@ cloudinaryimages.prototype.addToSchema = function (schema) {
 	});
 
 	var src = function (img, options) {
+		options = options || {};
 		if (keystone.get('cloudinary secure')) {
-			options = options || {};
 			options.secure = true;
 		}
 		options.format = options.format || img.format;
