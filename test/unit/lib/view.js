@@ -83,6 +83,32 @@ describe('Keystone.View', function () {
 				.expect('OK', done);
 		});
 
+		it('must return control to the next middleware on method errors', function(done){
+			var app = getApp();
+			app.get('/', function(req, res, next) {
+				var view = new keystone.View(req, res, next);
+				view.on('init', function(next){
+					var err = new Error('Not Found');
+					err.status = 404;
+					next(err);
+				});
+				view.render(function() {
+					var err = new Error('must not call render');
+					done(err);
+				});
+			});
+			app.use(function(err,req,res,next){
+				if(err && err.status === 404){
+					res.status(404).send('Not Found');
+				} else {
+					done('error should be handled');
+				}
+			});
+			request(app)
+				.get('/')
+				.expect(404, done)
+		});
+
 		function getApp_getAndPost() {
 			var app = getApp();
 			app.all('/', function (req, res) {
