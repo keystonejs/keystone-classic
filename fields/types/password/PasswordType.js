@@ -1,5 +1,5 @@
 var _ = require('lodash');
-var bcrypt = require('bcrypt-nodejs');
+var bcrypt = require('bcrypt');
 var FieldType = require('../Type');
 var util = require('util');
 var utils = require('keystone-utils');
