@@ -22,9 +22,10 @@ module.exports = function (keystone, app) {
 		console.error('To use Let\'s Encrypt you need to have a regular HTTP listener as well. Please set ssl to either `true` or `"force"`.');
 	}
 
+	var version = options.version ? options.version : 'draft-12'
 	var email = options.email;
 	var approveDomains = options.domains;
-	var server = options.production ? 'production' : 'staging';
+	var server = options.production ? 'https://acme-v02.api.letsencrypt.org/directory' : 'https://acme-staging-v02.api.letsencrypt.org/directory';
 	var agreeTos = options.tos;
 
 	if (!Array.isArray(approveDomains)) {
@@ -36,6 +37,7 @@ module.exports = function (keystone, app) {
 	}
 	// TODO maybe we should use le-store-mongo
 	var lex = letsencrypt.create({
+		version: version,
 		server: server,
 		approveDomains: approveDomains,
 		agreeTos: agreeTos,
