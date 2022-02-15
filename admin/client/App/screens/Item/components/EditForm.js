@@ -130,7 +130,12 @@ var EditForm = React.createClass({
 		values[event.path] = event.value;
 		this.setState({ values });
 	},
-
+	handleKeyPress (event) {
+		if (event.ctrlKey && event.key === 's') {
+			event.preventDefault();
+			this.updateItem();
+		}
+	},
 	toggleDeleteDialog () {
 		this.setState({
 			deleteDialogIsOpen: !this.state.deleteDialogIsOpen,
@@ -424,7 +429,10 @@ var EditForm = React.createClass({
 	},
 	render () {
 		return (
-			<form ref="editForm" className="EditForm-container">
+			<form
+				ref="editForm"
+				className="EditForm-container"
+				onKeyPress={this.handleKeyPress}>
 				{(this.state.alerts) ? <AlertMessages alerts={this.state.alerts} /> : null}
 				<Grid.Row>
 					<Grid.Col large="three-quarters">
