@@ -35,6 +35,7 @@ var Keystone = function () {
 		'logger': ':method :url :status :response-time ms',
 		'auto update': false,
 		'model prefix': null,
+		'db opt': null,
 		'module root': moduleRoot,
 		'frame guard': 'sameorigin',
 		'cache admin bundles': true,
@@ -73,11 +74,19 @@ var Keystone = function () {
 	this.set('allowed ip ranges', process.env.ALLOWED_IP_RANGES);
 
 	if (process.env.S3_BUCKET && process.env.S3_KEY && process.env.S3_SECRET) {
-		this.set('s3 config', { bucket: process.env.S3_BUCKET, key: process.env.S3_KEY, secret: process.env.S3_SECRET, region: process.env.S3_REGION });
+		this.set('s3 config', {
+			bucket: process.env.S3_BUCKET,
+			key: process.env.S3_KEY,
+			secret: process.env.S3_SECRET,
+			region: process.env.S3_REGION
+		});
 	}
 
 	if (process.env.AZURE_STORAGE_ACCOUNT && process.env.AZURE_STORAGE_ACCESS_KEY) {
-		this.set('azurefile config', { account: process.env.AZURE_STORAGE_ACCOUNT, key: process.env.AZURE_STORAGE_ACCESS_KEY });
+		this.set('azurefile config', {
+			account: process.env.AZURE_STORAGE_ACCOUNT,
+			key: process.env.AZURE_STORAGE_ACCESS_KEY
+		});
 	}
 
 	if (process.env.CLOUDINARY_URL) {
@@ -105,8 +114,11 @@ Keystone.prototype.prefixModel = function (key) {
 	if (modelPrefix) {
 		key = modelPrefix + '_' + key;
 	}
-
-	return require('mongoose/lib/utils').toCollectionName(key);
+	if (_.isObject(this.get('db opt'))) {
+		return require('mongoose/lib/utils').toCollectionName(key, this.get('db opt'));
+	} else {
+		return require('mongoose/lib/utils').toCollectionName(key);
+	}
 };
 
 /* Attach core functionality to Keystone.prototype */
@@ -140,12 +152,12 @@ Keystone.prototype.routes = function () {
 var keystone = module.exports = new Keystone();
 
 /*
-	Note: until #1777 is complete, the order of execution here with the requires
-	(specifically, they happen _after_ the module.exports above) is really
-	important. As soon as the circular dependencies are sorted out to get their
-	keystone instance from a closure or reference on {this} we can move these
-	bindings into the Keystone constructor.
-*/
+ Note: until #1777 is complete, the order of execution here with the requires
+ (specifically, they happen _after_ the module.exports above) is really
+ important. As soon as the circular dependencies are sorted out to get their
+ keystone instance from a closure or reference on {this} we can move these
+ bindings into the Keystone constructor.
+ */
 
 // Expose modules and Classes
 keystone.Admin = {
