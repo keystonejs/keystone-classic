@@ -13,7 +13,7 @@ var storage = new keystone.Storage({
 	}
 });
 MyList.add({
-	file: { type: Types.File, storage: storage }
+	file: { type: Types.File, storage: storage, autoCleanup: false }
 });
 ```
 
