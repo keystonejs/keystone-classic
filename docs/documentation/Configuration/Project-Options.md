@@ -53,6 +53,16 @@ keystone.set('nav', {
 });
 ```
 
+If you want to specify the icon, use an object (you will find the icon name [here](https://octicons.github.com)):
+
+```javascript
+keystone.set('nav', {
+  posts: ['posts', 'post-categories'],
+  galleries: {icon: 'rocket', paths: ['galleries', 'enquiries']},
+  users: 'users'
+};
+```
+
 <h4 data-primitive-type="String"><code>csv field delimiter</code></h4>
 
 Allow you to choose a custom field delimiter to be used for CSV export instead of the default comma.
