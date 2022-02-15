@@ -76,6 +76,7 @@ const ExplorerFieldType = React.createClass({
 										FieldComponent={FieldComponent}
 										FilterComponent={FilterComponent}
 										spec={spec}
+										value={this.state.value}
 										readmeIsVisible={readmeIsVisible}
 									/>
 								))}
