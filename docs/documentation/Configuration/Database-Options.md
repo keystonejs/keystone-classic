@@ -109,17 +109,21 @@ A `href` string to use for the 'back to (site name)' link in the header of the A
 
 A `href` to bounce visitors to when they fail the default auth check (e.g. not signed in). Defaults to `/keystone/signin`, only used when `auth` is set to `true`/
 
-<h4 data-primitive-type="String"><code>signin redirect</code></h4>
+<h4 data-primitive-type="String|Function"><code>signin redirect</code></h4>
 
 A `href` to bounce visitors to after they successfully sign in via the built-in signin route. Defaults to `/keystone`.
+
+If it's a function, it will be invoked with parameters `user`, `req` and `res` and should handle the redirect autonomously.
 
 <h4 data-primitive-type="String"><code>signout url</code></h4>
 
 A `href` for the signout link in the top right of the UI. Defaults to `/keystone/signout` if `auth` is set to `true`
 
-<h4 data-primitive-type="String"><code>signout redirect</code></h4>
+<h4 data-primitive-type="String|Function"><code>signout redirect</code></h4>
 
 A `href` to bounce visitors to after they successfully sign out via the built-in sign out route. Defaults to `/keystone`
+
+If it's a function, it will be invoked with parameters `req` and `res` and should handle the redirect autonomously.
 
 
 For more information about setting up and using database models with Keystone, see the [database guide](/documentation/database/).
