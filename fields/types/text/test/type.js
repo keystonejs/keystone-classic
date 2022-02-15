@@ -14,6 +14,11 @@ exports.initList = function (List) {
 			type: String,
 			min: 10,
 		},
+		minMaxChar: {
+			type: String,
+			min: 10,
+			max: 20,
+		},
 	});
 };
 
@@ -146,6 +151,20 @@ exports.testFieldType = function (List) {
 
 		it('should invalidate string shorter than min characters', function (done) {
 			List.fields.minChar.validateInput({ minChar: 'Short' }, function (result) {
+				demand(result).be.false();
+				done();
+			});
+		});
+
+		it('should invalidate string shorter than min characters when both min and max are specified', function (done) {
+			List.fields.minMaxChar.validateInput({ minMaxChar: 'Short' }, function (result) {
+				demand(result).be.false();
+				done();
+			});
+		});
+
+		it('should invalidate string longer than max characters when both min and max are specified', function (done) {
+			List.fields.minMaxChar.validateInput({ minMaxChar: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit' }, function (result) {
 				demand(result).be.false();
 				done();
 			});
