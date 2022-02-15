@@ -207,10 +207,12 @@ module.exports = Field.create({
 	},
 
 	renderValue () {
+		const htmlValue = {
+			__html: this.props.value,
+		};
+
 		return (
-			<FormInput multiline noedit>
-				{this.props.value}
-			</FormInput>
+			<FormInput multiline noedit dangerouslySetInnerHTML={htmlValue} />
 		);
 	},
 
