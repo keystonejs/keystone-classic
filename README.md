@@ -1,7 +1,7 @@
 <div align="center">
-  <h1>:warning: Maintenance Mode</h1>
-  <p>Keystone classic is in maintenance mode! and no longer receiving support</p>
-	<p>The current version of keystone is <a href="https://github.com/keystonejs/keystone" target="_blank">keystone 6</a>, which we recommend using for any new projects.</p>
+  <h1>:warning: Archived :warning:</h1>
+  <p>Keystone classic is not receiving any new updates.</p>
+    <p>We recommend using <a href="https://github.com/keystonejs/keystone" target="_blank">Keystone 6</a> for new projects.</p>
   <br>
 </div>
 <br>
