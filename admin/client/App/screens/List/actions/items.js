@@ -113,6 +113,9 @@ export function deleteItems (ids) {
 		const list = getState().lists.currentList;
 		list.deleteItems(ids, (err, data) => {
 			// TODO ERROR HANDLING
+			if(err){
+				alert('Error deleting item, please try again!');
+			}
 			dispatch(loadItems());
 		});
 	};

@@ -317,7 +317,12 @@ List.prototype.deleteItems = function (itemIds, callback) {
 		if (err) return callback(err);
 		// Pass the body as result or error, depending on the statusCode
 		if (resp.statusCode === 200) {
-			callback(null, body);
+			if(this.json.ids.length > resp.body.count){
+				callback(Error('Error deleting item, please try again!'));
+			}
+			else{
+			   callback(null, body);
+			}
 		} else {
 			callback(body);
 		}
