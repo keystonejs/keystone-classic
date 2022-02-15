@@ -20,25 +20,33 @@ module.exports = Field.create({
 
 	focusTargetRef: 'dateInput',
 
-	// default input formats
-	dateInputFormat: 'YYYY-MM-DD',
-	timeInputFormat: 'h:mm:ss a',
-	tzOffsetInputFormat: 'Z',
-
 	// parse formats (duplicated from lib/fieldTypes/datetime.js)
 	parseFormats: ['YYYY-MM-DD', 'YYYY-MM-DD h:m:s a', 'YYYY-MM-DD h:m a', 'YYYY-MM-DD H:m:s', 'YYYY-MM-DD H:m'],
 
 	getInitialState () {
 		return {
-			dateValue: this.props.value && this.moment(this.props.value).format(this.dateInputFormat),
-			timeValue: this.props.value && this.moment(this.props.value).format(this.timeInputFormat),
-			tzOffsetValue: this.props.value ? this.moment(this.props.value).format(this.tzOffsetInputFormat) : this.moment().format(this.tzOffsetInputFormat),
+			dateValue: this.props.value && this.moment(this.props.value).format(this.getDateInputFormat()),
+			timeValue: this.props.value && this.moment(this.props.value).format(this.getTimeInputFormat()),
+			tzOffsetValue: this.props.value ? this.moment(this.props.value).format(this.getTzInputFormat()) : this.moment().format(this.getTzInputFormat()),
 		};
+	},
+
+	getDateInputFormat () {
+		return this.props.formatDateString;
+	},
+
+	getTimeInputFormat () {
+		return this.props.formatTimeString;
+	},
+
+	getTzInputFormat () {
+		return this.props.formatTzString;
 	},
 
 	getDefaultProps () {
 		return {
-			formatString: 'Do MMM YYYY, h:mm:ss a',
+			formatDateString: 'YYYY-MM-DD',
+			formatTimeString: 'h:mm:ss a',
 		};
 	},
 
@@ -54,22 +62,22 @@ module.exports = Field.create({
 
 	// TODO: Move format() so we can share with server-side code
 	format (value, format) {
-		format = format || this.dateInputFormat + ' ' + this.timeInputFormat;
+		format = format || this.getDateInputFormat() + ' ' + this.getTimeInputFormat();
 		return value ? this.moment(value).format(format) : '';
 	},
 
 	handleChange (dateValue, timeValue, tzOffsetValue) {
 		var value = dateValue + ' ' + timeValue;
-		var datetimeFormat = this.dateInputFormat + ' ' + this.timeInputFormat;
+		var datetimeFormat = this.getDateInputFormat() + ' ' + this.getTimeInputFormat();
 
 		// if the change included a timezone offset, include that in the calculation (so NOW works correctly during DST changes)
 		if (typeof tzOffsetValue !== 'undefined') {
 			value += ' ' + tzOffsetValue;
-			datetimeFormat += ' ' + this.tzOffsetInputFormat;
+			datetimeFormat += ' ' + this.getTzInputFormat();
 		}
 		// if not, calculate the timezone offset based on the date (respect different DST values)
 		else {
-			this.setState({ tzOffsetValue: this.moment(value, datetimeFormat).format(this.tzOffsetInputFormat) });
+			this.setState({ tzOffsetValue: this.moment(value, datetimeFormat).format(this.getTzInputFormat()) });
 		}
 
 		this.props.onChange({
@@ -89,9 +97,9 @@ module.exports = Field.create({
 	},
 
 	setNow () {
-		var dateValue = this.moment().format(this.dateInputFormat);
-		var timeValue = this.moment().format(this.timeInputFormat);
-		var tzOffsetValue = this.moment().format(this.tzOffsetInputFormat);
+		var dateValue = this.moment().format(this.getDateInputFormat());
+		var timeValue = this.moment().format(this.getTimeInputFormat());
+		var tzOffsetValue = this.moment().format(this.getTzInputFormat());
 		this.setState({
 			dateValue: dateValue,
 			timeValue: timeValue,
@@ -113,7 +121,7 @@ module.exports = Field.create({
 					<Group>
 						<Section grow>
 							<DateInput
-								format={this.dateInputFormat}
+								format={this.getDateInputFormat()}
 								name={this.getInputName(this.props.paths.date)}
 								onChange={this.dateChanged}
 								ref="dateInput"
@@ -125,7 +133,7 @@ module.exports = Field.create({
 								autoComplete="off"
 								name={this.getInputName(this.props.paths.time)}
 								onChange={this.timeChanged}
-								placeholder="HH:MM:SS am/pm"
+								placeholder={this.getTimeInputFormat()}
 								value={this.state.timeValue}
 							/>
 						</Section>

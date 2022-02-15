@@ -6,6 +6,11 @@ var DatetimeType = require('../DatetimeType');
 exports.initList = function (List) {
 	List.add({
 		datetime: DatetimeType,
+		customDisplayFormat: {
+			type: DatetimeType,
+			dateFormat: 'D MMM YYYY',
+			timeFormat: 'HH:mm',
+		},
 		customFormat: {
 			type: DatetimeType,
 			parseFormat: 'DD.MM.YY h:m a',
@@ -18,13 +23,47 @@ exports.initList = function (List) {
 
 exports.testFieldType = function (List) {
 	describe('invalid options', function () {
-		it('should throw when format is not a string', function (done) {
+		it('should throw when dateFormat is not a string', function (done) {
 			try {
 				List.add({
-					invalidFormatOption: { type: DatetimeType, format: /aregexp/ },
+					invalidFormatOption: { type: DatetimeType, dateFormat: /aregexp/ },
 				});
+
+				// If control reaches here, exception has not been thrown. Test failed.
+				demand(true).not.eql(true);
+				done();
 			} catch (err) {
-				demand(err.message).eql('FieldType.DateTime: options.format must be a string.');
+				demand(err.message).eql('FieldType.DateTime: options.dateFormat must be a string.');
+				done();
+			}
+		});
+
+		it('should throw when timeFormat is not a string', function (done) {
+			try {
+				List.add({
+					invalidFormatOption: { type: DatetimeType, timeFormat: /aregexp/ },
+				});
+
+				// If control reaches here, exception has not been thrown. Test failed.
+				demand(true).not.eql(true);
+				done();
+			} catch (err) {
+				demand(err.message).eql('FieldType.DateTime: options.timeFormat must be a string.');
+				done();
+			}
+		});
+
+		it('should throw when tzFormat is not a string', function (done) {
+			try {
+				List.add({
+					invalidFormatOption: { type: DatetimeType, tzFormat: /aregexp/ },
+				});
+
+				// If control reaches here, exception has not been thrown. Test failed.
+				demand(true).not.eql(true);
+				done();
+			} catch (err) {
+				demand(err.message).eql('FieldType.DateTime: options.tzFormat must be a string.');
 				done();
 			}
 		});
@@ -169,6 +208,15 @@ exports.testFieldType = function (List) {
 			});
 		});
 
+		it('should validate a date time string in a custom format when a custom display format is specified', function (done) {
+			List.fields.customDisplayFormat.validateInput({
+				customDisplayFormat: '20 Jan 2018 14:00 +00:00',
+			}, function (result) {
+				demand(result).be.true();
+				done();
+			});
+		});
+
 		it('should validate a date time string in a custom format when specified', function (done) {
 			List.fields.customFormat.validateInput({
 				customFormat: '25.02.16 04:45 am',
@@ -187,11 +235,11 @@ exports.testFieldType = function (List) {
 			});
 		});
 
-		it('should invalidate a date time string in the default format when a custom one is specified', function (done) {
+		it('should validate a date time string in the default format when a custom one is specified', function (done) {
 			List.fields.customFormat.validateInput({
 				customFormat: '2016-02-25 04:45:00 am',
 			}, function (result) {
-				demand(result).be.false();
+				demand(result).be.true();
 				done();
 			});
 		});
