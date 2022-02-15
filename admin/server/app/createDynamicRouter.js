@@ -18,7 +18,7 @@ module.exports = function createDynamicRouter (keystone) {
 	// Use bodyParser and multer to parse request bodies and file uploads
 	router.use(bodyParser.json({}));
 	router.use(bodyParser.urlencoded({ extended: true }));
-	uploads.configure(router);
+	uploads.configure(router, keystone.get('multer options'));
 
 	// Bind the request to the keystone instance
 	router.use(function (req, res, next) {
