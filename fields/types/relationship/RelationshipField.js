@@ -94,7 +94,15 @@ module.exports = Field.create({
 				value: null,
 			});
 		};
-		values = Array.isArray(values) ? values : values.split(',');
+
+        if (Array.isArray(values)) {
+            values = values;
+        } else if (typeof values === 'string') {
+            values = values.split(',');
+        } else {
+            values = [];
+        }
+
 		const cachedValues = values.map(i => this._itemsCache[i]).filter(i => i);
 		if (cachedValues.length === values.length) {
 			this.setState({
