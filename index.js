@@ -42,6 +42,8 @@ var Keystone = function () {
 	};
 	this._redirects = {};
 
+	this.__deprecationsWarned = {};
+
 	// expose express
 	this.express = express;
 
@@ -127,6 +129,7 @@ Keystone.prototype.redirect = require('./lib/core/redirect');
 Keystone.prototype.start = require('./lib/core/start');
 Keystone.prototype.wrapHTMLError = require('./lib/core/wrapHTMLError');
 Keystone.prototype.createKeystoneHash = require('./lib/core/createKeystoneHash');
+Keystone.prototype.showDeprecationWarning = require('./lib/core/showDeprecationWarning');
 
 /* Deprecation / Change warnings for 0.4 */
 Keystone.prototype.routes = function () {
