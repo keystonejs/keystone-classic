@@ -62,7 +62,7 @@ var HomeView = React.createClass({
 							{/* Render nav with sections */}
 							{Keystone.nav.sections.map((navSection) => {
 								return (
-									<Section key={navSection.key} id={navSection.key} label={navSection.label}>
+									<Section key={navSection.key} id={navSection.key} label={navSection.label} icon={navSection.icon}>
 										<Lists
 											counts={this.props.counts}
 											lists={navSection.lists}
