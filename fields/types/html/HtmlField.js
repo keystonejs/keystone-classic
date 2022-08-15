@@ -1,6 +1,6 @@
 import Field from '../Field';
 import React from 'react';
-import tinymce from 'tinymce';
+import tinymce from 'tinymce/tinymce';
 import { FormInput } from '../../../admin/client/App/elemental';
 import evalDependsOn from '../../utils/evalDependsOn';
 
@@ -163,7 +163,7 @@ module.exports = Field.create({
 			toolbar: toolbar,
 			plugins: plugins,
 			menubar: options.menubar || false,
-			skin: options.skin || 'keystone',
+			skin: options.skin || 'oxide',
 			branding: false,
 		};
 

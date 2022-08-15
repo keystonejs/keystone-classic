@@ -37,9 +37,6 @@ const lessOptions = {
 	},
 };
 app.use('/styles', less(path.resolve('./admin/public/styles'), lessOptions));
-app.use('/styles/fonts', express.static(
-	path.resolve('./admin/public/js/lib/tinymce/skins/keystone/fonts')
-));
 app.use(express.static('./admin/public'));
 
 // Stub API for Relationships

@@ -49,7 +49,7 @@ module.exports = function IndexRoute (req, res) {
 			additionalPlugins: keystone.get('wysiwyg additional plugins') || '',
 			additionalOptions: keystone.get('wysiwyg additional options') || {},
 			overrideToolbar: keystone.get('wysiwyg override toolbar'),
-			skin: keystone.get('wysiwyg skin') || 'keystone',
+			skin: keystone.get('wysiwyg skin') || 'oxide',
 			menubar: keystone.get('wysiwyg menubar'),
 			importcss: keystone.get('wysiwyg importcss') || '',
 		} },
