@@ -17,7 +17,8 @@
       var Keystone = <%- JSON.stringify(keystone) %>;
     </script>
 <%# Old jQuery, editor and Cloudinary scripts %>
-    <script src="<%= adminPath %>/js/lib/jquery/jquery-1.10.2.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/jquery-migrate-3.4.0.js"></script>
 <% if (fieldTypes.wysiwyg) { -%>
     <script src="<%= adminPath %>/js/lib/tinymce/tinymce.min.js"></script>
 <% if (cloudinaryScript) { -%>
