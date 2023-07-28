@@ -30,6 +30,7 @@ module.exports = function (req, res) {
 		assign(where, req.list.addSearchToQuery(req.query.search));
 	}
 	var query = req.list.model.find(where);
+	var countQuery = req.list.model.countDocuments(where);
 	if (req.query.populate) {
 		query.populate(req.query.populate);
 	}
@@ -44,13 +45,12 @@ module.exports = function (req, res) {
 			if (!includeCount) {
 				return next(null, 0);
 			}
-			query.count(next);
+			countQuery.count(next)
 		},
 		function (count, next) {
 			if (!includeResults) {
 				return next(null, count, []);
 			}
-			query.find();
 			query.limit(Number(req.query.limit) || 100);
 			query.skip(Number(req.query.skip) || 0);
 			if (sort.string) {
