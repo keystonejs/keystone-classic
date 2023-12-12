@@ -20,7 +20,7 @@ var mongoUri = 'mongodb://' + (process.env.KEYSTONEJS_HOST || 'localhost') + dbN
 function dropTestDatabase(done) {
 	console.log([moment().format('HH:mm:ss:SSS')] + ' e2e: dropping test database: ' + mongoUri);
 
-	mongoose.connect(mongoUri,function(err){
+	mongoose.connect(mongoUri, function(err){
 		if (!err) {
 			mongoose.connection.db.dropDatabase(function (err) {
 				if (!err) {

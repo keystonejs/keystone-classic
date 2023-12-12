@@ -35,7 +35,7 @@ module.exports = {
 		browser.adminUIInitialFormScreen.fillFieldInputs({
 			fields: [
 				{ name: 'name', input: { value: 'Relationship Field Test 1' }, },
-				{ name: 'fieldA', input: { option: 'option1' }, },
+				{ name: 'fieldA', input: { option: 'option2' }, },
 			],
 		});
 		browser.adminUIInitialFormScreen.assertFieldInputs({
@@ -65,7 +65,7 @@ module.exports = {
 	'Relationship field can be filled via the edit form': function (browser) {
 		browser.adminUIItemScreen.fillFieldInputs({
 			fields: [
-				{ name: 'fieldB', input: { option: 'option2' }, },
+				{ name: 'fieldB', input: { option: 'option1' }, },
 			],
 		});
 
@@ -78,7 +78,9 @@ module.exports = {
 			fields: [
 				{ name: 'name', input: { value: 'Relationship Field Test 1' }, },
 				{ name: 'fieldA', input: { value: 'e2e member' }, },
-				{ name: 'fieldB', input: { value: 'e2e user' }, },
+				// { name: 'fieldB', input: { value: 'e2e user' }, },
+				// run test-e2e, the username will changed to 'First 2 Last 2' in before test case
+				{ name: 'fieldB', input: { value: 'First 2 Last 2' }, },
 			],
 		})
 	},

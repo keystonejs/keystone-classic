@@ -15,7 +15,7 @@ function relationship (list, path, options) {
 	this.filters = options.filters;
 	this.createInline = (options.createInline) ? true : false;
 	this._defaultSize = 'full';
-	this._nativeType = keystone.mongoose.Schema.Types.ObjectId;
+	this._nativeType = require('mongoose').Schema.Types.ObjectId;
 	this._underscoreMethods = ['format', 'getExpandedData'];
 	this._properties = ['isValid', 'many', 'filters', 'createInline'];
 	relationship.super_.call(this, list, path, options);
