@@ -91,7 +91,7 @@ This is a hotfix release to allow for adding headers when sending emails.
 
 ## v0.3.11 / 2015-06-12
 
-* fixed; issues with file field types not working correclty with getters, thanks [Alexander Shemetovsky](https://github.com/AlexKVal)
+* fixed; issues with file field types not working correctly with getters, thanks [Alexander Shemetovsky](https://github.com/AlexKVal)
 * fixed; bug saving lat / lng in location fields, thanks [Al Connelly](https://github.com/WingedToaster)
 * fixed; issue saving blank values in money fields, thanks [Harry Moreno](https://github.com/morenoh149)
 * fixed; Admin UI issues caused by custom toJSON / toObject transforms configured for models
@@ -155,7 +155,7 @@ Also in this release: Keystone is completely free of ESLint warnings thanks to t
 * added; List history feature for tracking document revisions
 * added; Schema inheritance for lists, thanks [Robert Clark](https://github.com/lojack)
 * added; yearRange option for Date fields, thanks [Robert Clark](https://github.com/lojack)
-* fixed; intermittend ordering issues with Relationship fields, thanks [Robert Clark](https://github.com/lojack)
+* fixed; intermittent ordering issues with Relationship fields, thanks [Robert Clark](https://github.com/lojack)
 * added; `format` option for Url fields to prevent stripping http/https, thanks [Daniel Zurawski](https://github.com/danielzurawski)
 * added; color preview in list view, thanks [Teemu Sirkiä](https://github.com/ttsirkia)
 * added; ability to add mandrill template content, thanks [Brett Newman](https://github.com/snowkeeper)
@@ -610,7 +610,7 @@ This version also contains the new docs and website developed by @jossmackison a
 * fixed; location field auto-improve error
 * fixed; relationship fields display old ID when related item is missing, thanks [Mark Bayfield](https://github.com/mbayfield)
 * added; `autocreate` option for Lists (see issue #21)
-* improved; signin page looks better when you're alredy signed in
+* improved; signin page looks better when you're already signed in
 * improved; `location.requiredPaths` field option supports comma-delimited values
 * improved; `UpdateHandler` now updates `noedit` fields when they are explicitly provided (issue #194)
 * added; ability to specify custom validation / required messages in the UpdateHandler (issue #195)
@@ -649,7 +649,7 @@ This version also contains the new docs and website developed by @jossmackison a
 * added; ability to define attachments to emails via Mandrill, thanks [Tom Walker](https://github.com/bladey)
 * improved; log formatting and error output
 * fixed; default 404 handling, thanks [Lepi](https://github.com/lepilepi)
-* added; new `keystone.import(path)` method for recusrively requiring all `.js` / `.coffee` files in a path relative to the project root, e.g. `keystone.import('models')`. Similar to but simpler than `keystone.importer()`.
+* added; new `keystone.import(path)` method for recursively requiring all `.js` / `.coffee` files in a path relative to the project root, e.g. `keystone.import('models')`. Similar to but simpler than `keystone.importer()`.
 * improved; the default 404 and 500 error handlers have been cleaned up, and have a simple HTML template
 * added; filtering now implemented for location fields
 * improved; the list download > csv feature in the Admin UI now respects the current filters
@@ -704,7 +704,7 @@ One of the other big changes in this release is the work done by [Iulian Meghea]
 ## v0.1.55 / 2013-12-30
 
 * fixed; incompatibility with mongoose 3.8.2+ for location fields has been resolved, thanks [jbalde](https://github.com/jbalde)
-* fixed; compatibibility issues with Jade 1.0.0, preparing for update
+* fixed; compatibility issues with Jade 1.0.0, preparing for update
 * improved; nicer default .env keys for mandrill and embedly api key config, falls back to legacy / heroku default key names
 
 ## v0.1.54 / 2013-12-23
@@ -837,7 +837,7 @@ Note: To run the docs website locally, go to `/docs` and run `node web`. It will
 * improved; default format settings for uneditable date fields
 * fixed; incorrect path in public underscore.map file
 * site; minor updates
-* changed; switched to bcrypt-nodejs module becase of build issues on windows, thanks [sullivanpt](https://github.com/sullivanpt)
+* changed; switched to bcrypt-nodejs module because of build issues on windows, thanks [sullivanpt](https://github.com/sullivanpt)
 * improved; added intelliJ project files to .gitignore, thanks [sullivanpt](https://github.com/sullivanpt)
 
 ## v0.1.34 / 2013-10-24
